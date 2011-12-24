@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.content.project;
@@ -24,9 +28,9 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -43,7 +47,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
-	private static final String TAG = "ProjectManagerTest";
 	String projectNameOne = "Ulumulu";
 	String scriptNameOne = "Ulukai";
 	String scriptNameTwo = "Ulukai2";
@@ -57,77 +60,72 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		TestUtils.clearProject("newProject");
 	}
 
-	public void testBasicFunctions() throws NameNotFoundException {
-
-		ProjectManager manager = ProjectManager.getInstance();
-		assertNull("there is a current sprite set", manager.getCurrentSprite());
-		assertNull("there is a current script set", manager.getCurrentScript());
-
+	public void testBasicFunctions() throws NameNotFoundException, IOException {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
+		assertNull("there is a current script set", projectManager.getCurrentScript());
 		Context context = getInstrumentation().getContext().createPackageContext("at.tugraz.ist.catroid",
 				Context.CONTEXT_IGNORE_SECURITY);
-		manager.initializeNewProject(projectNameOne, context);
-		assertNotNull("no current project set", manager.getCurrentProject());
-		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, manager.getCurrentProject().getName());
 
+		// initializeNewProject
+		projectManager.initializeNewProject(projectNameOne, context);
+		assertNotNull("no current project set", projectManager.getCurrentProject());
+		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
+				.getName());
+
+		// verify that new project is default project (see StorageHandler.createDefaultProject)
+		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
+		assertEquals("New project has wrong number of sprites", 2, spriteCount);
+		Sprite catroid = projectManager.getCurrentProject().getSpriteList().get(1);
+		assertEquals("Catroid sprite has wrong number of scripts", 2, catroid.getNumberOfScripts());
+
+		// add sprite
 		Sprite sprite = new Sprite(spriteNameOne);
-		manager.addSprite(sprite);
-		manager.setCurrentSprite(sprite);
+		projectManager.addSprite(sprite);
+		projectManager.setCurrentSprite(sprite);
 
-		assertNotNull("no current sprite set", manager.getCurrentSprite());
-		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, manager.getCurrentSprite().getName());
+		assertNotNull("No current sprite set", projectManager.getCurrentSprite());
+		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, projectManager.getCurrentSprite()
+				.getName());
 
-		Script script = new StartScript(scriptNameOne, sprite);
-		manager.addScript(script);
-		manager.setCurrentScript(script);
+		// add script
+		Script startScript = new StartScript(scriptNameOne, sprite);
+		projectManager.addScript(startScript);
+		projectManager.setCurrentScript(startScript);
 
-		assertNotNull("no current script set", manager.getCurrentScript());
-		assertEquals("The Spritename is not " + scriptNameOne, scriptNameOne, manager.getCurrentScript().getName());
+		assertNotNull("no current script set", projectManager.getCurrentScript());
+		assertEquals("The Spritename is not " + scriptNameOne, scriptNameOne, projectManager.getCurrentScript()
+				.getName());
 
-		//loadProject ----------------------------------------
+		// loadProject
+		projectManager.loadProject(projectNameOne, context, false);
+		assertNotNull("no current project set", projectManager.getCurrentProject());
+		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
+				.getName());
+		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
+		assertNull("there is a current script set", projectManager.getCurrentScript());
 
-		manager.loadProject(projectNameOne, context, false);
-		assertNotNull("no current project set", manager.getCurrentProject());
-		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, manager.getCurrentProject().getName());
-		assertNull("there is a current sprite set", manager.getCurrentSprite());
-		assertNull("there is a current script set", manager.getCurrentScript());
-
-		//resetProject ---------------------------------------
-
-		manager.addSprite(sprite);
-		manager.setCurrentSprite(sprite);
-		manager.addScript(script);
-		manager.setCurrentScript(script);
-
-		manager.resetProject(context);
-
-		assertNull("there is a current sprite set", manager.getCurrentSprite());
-		assertNull("there is a current script set", manager.getCurrentScript());
-
-		//addSprite
-
+		// addSprite
 		Sprite sprite2 = new Sprite(spriteNameTwo);
-		manager.addSprite(sprite2);
-		assertTrue("Sprite not in current Project", manager.getCurrentProject().getSpriteList().contains(sprite2));
+		projectManager.addSprite(sprite2);
+		assertTrue("Sprite not in current Project", projectManager.getCurrentProject().getSpriteList()
+				.contains(sprite2));
 
-		//addScript
-
-		manager.setCurrentSprite(sprite2);
+		// addScript
+		projectManager.setCurrentSprite(sprite2);
 		Script script2 = new StartScript(scriptNameTwo, sprite2);
-		manager.addScript(script2);
-		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptIndex(script2) != -1);
+		projectManager.addScript(script2);
+		assertTrue("Script not in current Sprite", projectManager.getCurrentSprite().getScriptIndex(script2) != -1);
 
-		//addBrick
-
-		manager.setCurrentScript(script2);
-		SetCostumeBrick brick = new SetCostumeBrick(sprite2);
-		manager.getCurrentScript().addBrick(brick);
-		assertTrue("Brick not in current Script", manager.getCurrentScript().getBrickList().contains(brick));
-
-		//move brick already tested
-
+		// addBrick
+		projectManager.setCurrentScript(script2);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite2);
+		projectManager.getCurrentScript().addBrick(setCostumeBrick);
+		assertTrue("Brick not in current Script",
+				projectManager.getCurrentScript().getBrickList().contains(setCostumeBrick));
 	}
 
-	public void testRenameProject() throws NameNotFoundException, IOException {
+	public void testRenameProject() throws IOException {
 		String oldProjectName = "oldProject";
 		String newProjectName = "newProject";
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -136,7 +134,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
 			fail("could not rename Project");
 		}
-		projectManager.saveProject(getInstrumentation().getContext());
+		projectManager.saveProject();
 
 		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName + "/" + oldProjectName
@@ -155,12 +153,10 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertTrue("New project file is not existing", newProjectFile.exists());
 
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
-		Log.v(TAG, projectFileAsString);
 		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
-
 	}
 
-	public Project createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public Project createTestProject(String projectName) throws IOException {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		int xPosition = 457;
@@ -181,7 +177,10 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
 		File image = TestUtils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
-		costumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image.getName());
+		costumeData.setCostumeName("name");
+		costumeBrick.setCostume(costumeData);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);

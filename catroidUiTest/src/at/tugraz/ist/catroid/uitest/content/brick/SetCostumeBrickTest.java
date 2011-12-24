@@ -1,75 +1,100 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.uitest.content.brick;
 
-import java.util.List;
+import java.io.File;
+import java.util.ArrayList;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
-	private ImageView setCostumeImageView;
+	private String costumeName = "testCostume1";
+	private String costumeName2 = "testCostume2";
+	private File costumeFile;
+	private File costumeFile2;
+	private ArrayList<CostumeData> costumeDataList;
+	private final int RESOURCE_COSTUME = at.tugraz.ist.catroid.uitest.R.raw.icon;
+	private final int RESOURCE_COSTUME2 = at.tugraz.ist.catroid.uitest.R.raw.icon2;
 
 	public SetCostumeBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		List<Brick> brickList = UiTestUtils.createTestProject();
+		UiTestUtils.clearAllUtilTestProjects();
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript("testscript", firstSprite);
+
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		testScript.addBrick(setCostumeBrick);
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
+
+		costumeFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image.png",
+				RESOURCE_COSTUME, getInstrumentation().getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(costumeFile.getName());
+		costumeData.setCostumeName(costumeName);
+
+		costumeFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image2.png",
+				RESOURCE_COSTUME2, getInstrumentation().getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		CostumeData costumeData2 = new CostumeData();
+		costumeData2.setCostumeFilename(costumeFile2.getName());
+		costumeData2.setCostumeName(costumeName2);
+
+		costumeDataList.add(costumeData);
+		costumeDataList.add(costumeData2);
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
+				costumeData.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData2.getChecksum(),
+				costumeData2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
-
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
-		final int setCostumeBrickIndex = brickList.size();
-		setCostumeImageView = (ImageView) solo.getView(R.id.costume_image_view);
-		setCostumeImageView.setDrawingCacheEnabled(true);
-
-		// Override OnClickListener to launch MockGalleryActivity
-		OnClickListener listener = new OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(getInstrumentation().getContext(),
-						at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
-				//				Intent intent = new Intent();
-				//				intent.setAction(Intent.ACTION_PICK);
-				//				intent.setPackage("at.tugraz.ist.catroid.uitest");
-				//				intent.setComponent(new ComponentName("at.tugraz.ist.catroid.uitest",
-				//										"at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity"));
-				getActivity().startActivityForResult(intent, setCostumeBrickIndex);
-			}
-		};
-
-		assertNotNull("ImageView of change costume brick was not found", setCostumeImageView);
-		setCostumeImageView.setOnClickListener(listener);
 	}
 
 	@Override
@@ -79,33 +104,121 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
+		if (costumeFile.exists()) {
+			costumeFile.delete();
+		}
+		if (costumeFile2.exists()) {
+			costumeFile2.delete();
+		}
 		super.tearDown();
 	}
 
-	public void testChangeCostume() {
-		solo.sleep(1000);
-		solo.clickOnView(setCostumeImageView);
-		solo.sleep(2000);
+	public void testSelectCostumeAndPlay() {
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
+		solo.clickOnText(costumeName);
+		solo.sleep(100);
+		assertTrue(costumeName + " is not selected in Spinner", solo.searchText(costumeName));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(7000);
+		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
+		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(0).getAbsolutePath());
+		solo.goBack();
+		solo.goBack();
+		solo.sleep(200);
 
-		Bitmap bitmapToTest = setCostumeImageView.getDrawingCache();
-		assertNotNull("Bitmap of costume ImageView is null", bitmapToTest);
+		//changing le costume
+		solo.clickOnText(costumeName);
+		solo.sleep(100);
+		solo.clickOnText(costumeName2);
+		solo.sleep(100);
+		assertTrue(costumeName2 + " is not selected in Spinner", solo.searchText(costumeName2));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(7000);
+		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
+		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(1).getAbsolutePath());
+	}
 
-		Bitmap originalBitmap = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(),
-				at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses);
-		assertNotNull("Decoding the costume resource failed", originalBitmap);
+	public void testSpinnerUpdates() {
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
+		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
+		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(300);
+		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		assertFalse(costumeName + " is still in Spinner", solo.searchText(costumeName));
+		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
+	}
 
-		//		assertEquals("Wrong width in Bitmap.", originalBitmap.getWidth(), bitmapToTest.getWidth());
-		//		assertEquals("Wrong height in Bitmap.", originalBitmap.getHeight(), bitmapToTest.getHeight());
-		//		for (int y = 0; y < originalBitmap.getHeight(); ++y) {
-		//			for (int x = 0; x < originalBitmap.getWidth(); ++x) {
-		//				assertEquals("Wrong Pixel at Position " + x + "," + y, originalBitmap.getPixel(x, y), bitmapToTest
-		//								.getPixel(x, y));
-		//			}
-		//		}
+	public void testSpinnerUpdatesRename() {
+		String newName = "nameRenamed";
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
+		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
+		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(300);
+		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.sleep(100);
+		solo.clearEditText(0);
+		solo.enterText(0, newName);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
+		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
+	}
 
-		solo.sleep(1000);
+	public void testAdapterUpdateInScriptActivity() {
+		String costume1ImagePath = costumeDataList.get(0).getAbsolutePath();
+		String costume2ImagePath = costumeDataList.get(1).getAbsolutePath();
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
+		solo.clickOnText(costumeName);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		String costumePath = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList().get(0)
+				.getAbsolutePath();
+		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costume1ImagePath,
+				costumePath);
+		solo.goBack();
+		solo.goBack();
+		solo.sleep(300);
+		for (int i = 0; i < 5; i++) {
+			selectCostume(costumeName2, costumeName, costume2ImagePath);
+			selectCostume(costumeName, costumeName2, costume1ImagePath);
+		}
 
+	}
+
+	public void selectCostume(String newCostume, String oldName, String costumeImagePath) {
+		solo.sleep(100);
+		solo.clickOnText(oldName);
+		solo.sleep(100);
+		solo.clickOnText(newCostume);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		String costumePath = ProjectManager.getInstance().getCurrentSprite().costume.getImagePath();
+		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costumeImagePath,
+				costumePath);
+		solo.goBack();
+		solo.goBack();
+		solo.sleep(300);
 	}
 }

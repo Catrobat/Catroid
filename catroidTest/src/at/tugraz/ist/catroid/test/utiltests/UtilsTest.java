@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.utiltests;
@@ -101,40 +105,6 @@ public class UtilsTest extends TestCase {
 		assertFalse("File still exists after delete", mTestFile.exists());
 	}
 
-	public void testConcatPath() {
-		String first = "/abc/abc";
-		String second = "/def/def/";
-		String result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc";
-		second = "def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc/";
-		second = "/def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc/";
-		second = "def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-	}
-
-	public void testAddDefaultFileEnding() {
-		String filename = "test";
-		assertEquals("File extension was not added correctly", Utils.addDefaultFileEnding(filename), "test"
-				+ Consts.PROJECT_EXTENTION);
-	}
-
-	public void testChangeFileEndingToPng() {
-		String imageName = "blablabla.jpg";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName), "blablabla.png");
-		String imageName1 = "blablabla.png";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName1), "blablabla.png");
-		String imageName2 = "blablabla.jpeg";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName2), "blablabla.png");
-	}
-
 	public void testMD5CheckSumOfFile() {
 
 		PrintWriter printWriter = null;
@@ -142,7 +112,7 @@ public class UtilsTest extends TestCase {
 		File tempDir = new File(Consts.TMP_PATH);
 		tempDir.mkdirs();
 
-		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
+		File md5TestFile = new File(Utils.buildPath(Consts.TMP_PATH, "catroid.txt"));
 
 		if (md5TestFile.exists()) {
 			md5TestFile.delete();
@@ -200,5 +170,37 @@ public class UtilsTest extends TestCase {
 		secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), true);
 		Log.v(TAG, secretFloat.toString());
 		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
+	}
+	
+	public void testBuildPath() {
+		String first = "/abc/abc";
+		String second = "/def/def/";
+		String result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc";
+		second = "def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc/";
+		second = "/def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc/";
+		second = "def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+	}
+	
+
+	public void testUniqueName() {
+		String first = Utils.getUniqueName();
+		String second = Utils.getUniqueName();
+		String third = Utils.getUniqueName();
+		assertFalse("Same unique name!", first.equals(second));
+		assertFalse("Same unique name!", first.equals(third));
+		assertFalse("Same unique name!", second.equals(third));
 	}
 }

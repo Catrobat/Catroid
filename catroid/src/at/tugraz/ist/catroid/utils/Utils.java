@@ -1,22 +1,31 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+/**
+ * Copyright for original "String buildPath" held by:
+ * 	Copyright (C) 2008 Rob Manning
+ * 	manningr@users.sourceforge.net
+ * Source: http://www.java2s.com/Code/Java/File-Input-Output/Autilityclassformanipulatingpaths.htm
+ */
 package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
@@ -28,6 +37,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,19 +46,33 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
+import android.content.DialogInterface.OnShowListener;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 
 public class Utils {
 
-	private static final String TAG = "Utils";
+	private static final String TAG = Utils.class.getSimpleName();
+	private static long uniqueLong = 0;
+	private static Semaphore uniqueNameLock = new Semaphore(1);
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -87,6 +111,13 @@ public class Utils {
 			return false;
 		}
 		return true;
+	}
+
+	public static boolean isNetworkAvailable(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		return activeNetworkInfo != null;
 	}
 
 	/**
@@ -145,7 +176,7 @@ public class Utils {
 	 * @return whether the project exists
 	 */
 	public static boolean projectExists(String projectName) {
-		File projectFolder = new File(concatPaths(Consts.DEFAULT_ROOT, projectName));
+		File projectFolder = new File(buildPath(Consts.DEFAULT_ROOT, projectName));
 		return projectFolder.exists();
 	}
 
@@ -193,34 +224,28 @@ public class Utils {
 		return true;
 	}
 
-	public static String concatPaths(String first, String second) {
-		if (first == null && second == null) {
-			return null;
-		}
-		if (first == null) {
-			return second;
-		}
-		if (second == null) {
-			return first;
-		}
-		if (first.endsWith("/")) {
-			if (second.startsWith("/")) {
-				return first + second.replaceFirst("/", "");
-			} else {
-				return first + second;
-			}
-		} else if (second.startsWith("/")) {
-			return first + second;
-		} else {
-			return first + "/" + second;
-		}
-	}
+	/**
+	 * Constructs a path out of the pathElements.
+	 * 
+	 * @param pathElements
+	 *            the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
+	 * @return
+	 *         the path that was constructed.
+	 */
+	static public String buildPath(String... pathElements) {
+		StringBuilder result = new StringBuilder("/");
 
-	public static String addDefaultFileEnding(String filename) {
-		if (!filename.endsWith(Consts.PROJECT_EXTENTION)) {
-			return filename + Consts.PROJECT_EXTENTION;
+		for (String pathElement : pathElements) {
+			result.append(pathElement).append("/");
 		}
-		return filename;
+
+		String returnValue = result.toString().replaceAll("/+", "/");
+
+		if (returnValue.endsWith("/")) {
+			returnValue = returnValue.substring(0, returnValue.length() - 1);
+		}
+
+		return returnValue;
 	}
 
 	/**
@@ -250,28 +275,6 @@ public class Utils {
 		}
 	}
 
-	public static String changeFileEndingToPng(String filename) {
-		String newFileName;
-
-		int beginOfFileEnding = filename.lastIndexOf(".");
-		newFileName = filename.replace(filename.substring(beginOfFileEnding), "");
-
-		newFileName = newFileName + ".png";
-		return newFileName;
-	}
-
-	/**
-	 * Displays a website with the given URI using an Intent
-	 * 
-	 * @param context
-	 * @param uri
-	 */
-	public static void displayWebsite(Context context, Uri uri) {
-		Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
-		websiteIntent.setData(uri);
-		context.startActivity(websiteIntent);
-	}
-
 	/**
 	 * Displays an AlertDialog with the given error message and just a close
 	 * button
@@ -289,6 +292,21 @@ public class Utils {
 			}
 		});
 		builder.show();
+	}
+
+	public static void displayToast(Activity activity, String message/* , int duration */) {
+		LayoutInflater inflater = activity.getLayoutInflater();
+		View layout = inflater.inflate(R.layout.toast_settings,
+				(ViewGroup) activity.findViewById(R.id.toast_layout_root));
+
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setText(message);
+
+		Toast toast = new Toast(activity.getApplicationContext());
+		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setView(layout);
+		toast.show();
 	}
 
 	public static String md5Checksum(File file) {
@@ -331,6 +349,13 @@ public class Utils {
 		return toHex(messageDigest.digest());
 	}
 
+	public static String getUniqueName() {
+		uniqueNameLock.acquireUninterruptibly();
+		String uniqueName = String.valueOf(uniqueLong++);
+		uniqueNameLock.release();
+		return uniqueName;
+	}
+
 	private static String toHex(byte[] messageDigest) {
 		StringBuilder md5StringBuilder = new StringBuilder(2 * messageDigest.length);
 
@@ -338,8 +363,6 @@ public class Utils {
 			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
 			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
 		}
-
-		Log.v(TAG, md5StringBuilder.toString());
 
 		return md5StringBuilder.toString();
 	}
@@ -354,5 +377,39 @@ public class Utils {
 		}
 
 		return messageDigest;
+	}
+
+	public static int getVersionCode(Context context) {
+		int versionCode = -1;
+		try {
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
+					PackageManager.GET_META_DATA);
+			versionCode = packageInfo.versionCode;
+		} catch (NameNotFoundException nameNotFoundException) {
+			Log.e(TAG, "Name not found", nameNotFoundException);
+		}
+		return versionCode;
+	}
+
+	public static String getVersionName(Context context) {
+		String versionName = "unknown";
+		try {
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
+					PackageManager.GET_META_DATA);
+			versionName = packageInfo.versionName;
+		} catch (NameNotFoundException nameNotFoundException) {
+			Log.e(TAG, "Name not found", nameNotFoundException);
+		}
+		return versionName;
+	}
+
+	public static OnShowListener getBrickDialogOnClickListener(final Context context, final EditText input) {
+		return new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+			}
+		};
 	}
 }

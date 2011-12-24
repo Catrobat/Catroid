@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.utils;
 
 import android.graphics.Bitmap;
@@ -142,11 +145,17 @@ public class ImageEditing {
 	}
 
 	public static Bitmap adjustBrightness(Bitmap source, double value) {
+		if (value == 0.0) {
+			return source;
+		}
+
 		// image size
 		int width = source.getWidth();
 		int height = source.getHeight();
-		// create output bitmap
-		Bitmap bitmap = Bitmap.createBitmap(width, height, source.getConfig());
+
+		// create output bitmap if necessary
+		Bitmap bitmap = source.isMutable() ? source : source.copy(source.getConfig(), true);
+
 		// color information
 		int A, R, G, B;
 		int pixel;
@@ -155,7 +164,7 @@ public class ImageEditing {
 		for (int x = 0; x < width; ++x) {
 			for (int y = 0; y < height; ++y) {
 				// get pixel color
-				pixel = source.getPixel(x, y);
+				pixel = bitmap.getPixel(x, y);
 				A = Color.alpha(pixel);
 				R = Color.red(pixel);
 				G = Color.green(pixel);
