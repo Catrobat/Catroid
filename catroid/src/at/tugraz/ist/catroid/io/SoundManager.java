@@ -1,33 +1,40 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.io;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
 
-	public static final int MAX_MEDIA_PLAYERS = 10;
+	private transient double volume = 70.0;
+
+	public static final int MAX_MEDIA_PLAYERS = 7;
 	private static SoundManager soundManager = null;
 
 	private SoundManager() {
@@ -61,15 +68,32 @@ public class SoundManager {
 		MediaPlayer mediaPlayer = getMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
-				mediaPlayer.setDataSource(pathToSoundfile);
+				if (!NativeAppActivity.isRunning()) {
+					mediaPlayer.setDataSource(pathToSoundfile);
+				} else {
+					AssetFileDescriptor afd = NativeAppActivity.getContext().getAssets().openFd(pathToSoundfile);
+					mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+				}
 				mediaPlayer.prepare();
 				mediaPlayer.start();
 			} catch (IOException e) {
 				throw new IllegalArgumentException("IO error", e);
-
 			}
 		}
 		return mediaPlayer;
+	}
+
+	public synchronized void setVolume(double volume) {
+		this.volume = volume;
+		float vol;
+		vol = (float) (volume * 0.01);
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			mediaPlayer.setVolume(vol, vol);
+		}
+	}
+
+	public double getVolume() {
+		return this.volume;
 	}
 
 	public synchronized void clear() {
@@ -85,8 +109,6 @@ public class SoundManager {
 				mediaPlayer.pause();
 			} else {
 				mediaPlayer.reset();
-				//				mediaPlayers.remove(mediaPlayer);
-				//				mediaPlayer.release();
 			}
 		}
 	}
@@ -95,6 +117,14 @@ public class SoundManager {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
 				mediaPlayer.start();
+			}
+		}
+	}
+
+	public synchronized void stopAllSounds() {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
+				mediaPlayer.stop();
 			}
 		}
 	}
