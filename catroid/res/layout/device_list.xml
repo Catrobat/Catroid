@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/linLayout_nxt_bluetooth"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/solid_black"
+    >
+    <TextView android:id="@+id/title_paired_devices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_paired_devices"
+        android:visibility="gone"
+        android:background="@android:color/background_dark"
+        android:textColor="@android:color/primary_text_dark"
+        android:textSize="15sp"
+        android:paddingLeft="6dp"
+    />
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="1sp"
+        android:text=""
+        android:background="#505050"
+        android:textColor="@android:color/primary_text_dark"
+        android:textSize="1px"
+    />
+    <ListView android:id="@+id/paired_devices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stackFromBottom="true"
+        android:layout_weight="1"
+        android:background="@android:color/background_dark"
+    />
+    <TextView android:id="@+id/title_new_devices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_other_devices"
+        android:visibility="gone"
+        android:background="@android:color/background_dark"
+        android:textColor="@android:color/primary_text_dark"
+        android:textSize="15sp"
+        android:paddingLeft="6dp"
+    /> 
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="1sp"
+        android:text=""
+        android:background="#505050"
+        android:textColor="@android:color/primary_text_dark"
+        android:textSize="1px"
+    />
+    <ListView android:id="@+id/new_devices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stackFromBottom="true"
+        android:layout_weight="2"
+        android:background="@android:color/background_dark"
+    />
+    <Button android:id="@+id/button_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_scan"
+    	android:layout_gravity="center" 
+    	android:layout_marginTop="4sp"/>
+</LinearLayout>

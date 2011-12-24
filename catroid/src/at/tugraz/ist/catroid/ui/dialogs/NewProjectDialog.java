@@ -1,22 +1,28 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.dialogs;
+
+import java.io.IOException;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -43,6 +49,33 @@ public class NewProjectDialog extends Dialog {
 		this.context = context;
 	}
 
+	private void createNewProject() {
+		String projectName = ((EditText) findViewById(R.id.new_project_edit_text)).getText().toString().trim();
+
+		if (projectName.length() == 0) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+			return;
+		}
+
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+			return;
+		}
+
+		try {
+			ProjectManager.getInstance().initializeNewProject(projectName, context);
+		} catch (IOException e) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_new_project));
+			dismiss();
+			e.printStackTrace();
+		}
+
+		Intent intent = new Intent(context, ProjectActivity.class);
+		context.startActivity(intent);
+		dismiss();
+		((EditText) findViewById(R.id.new_project_edit_text)).setText(null);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,23 +95,7 @@ public class NewProjectDialog extends Dialog {
 		Button createNewProjectButton = (Button) findViewById(R.id.new_project_dialog_create_button);
 		createNewProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				String projectName = ((EditText) findViewById(R.id.new_project_edit_text)).getText().toString().trim();
-
-				if (projectName.length() == 0) {
-					Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
-					return;
-				}
-
-				if (StorageHandler.getInstance().projectExists(projectName)) {
-					Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-					return;
-				}
-
-				ProjectManager.getInstance().initializeNewProject(projectName, context);
-				Intent intent = new Intent(context, ProjectActivity.class);
-				context.startActivity(intent);
-				dismiss();
-				((EditText) findViewById(R.id.new_project_edit_text)).setText(null);
+				createNewProject();
 			}
 		});
 
@@ -87,26 +104,7 @@ public class NewProjectDialog extends Dialog {
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
 					switch (keyCode) {
 						case KeyEvent.KEYCODE_ENTER: {
-							String projectName = ((EditText) findViewById(R.id.new_project_edit_text)).getText()
-									.toString();
-
-							if (projectName.length() == 0) {
-								Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
-								return true;
-							}
-
-							if (StorageHandler.getInstance().projectExists(projectName)) {
-								Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-								return true;
-							}
-
-							ProjectManager.getInstance().initializeNewProject(projectName, context);
-							Intent intent = new Intent(context, ProjectActivity.class);
-							context.startActivity(intent);
-
-							dismiss();
-							((EditText) findViewById(R.id.new_project_edit_text)).setText(null);
-
+							createNewProject();
 							return true;
 						}
 						default: {
