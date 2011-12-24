@@ -1,36 +1,40 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.transfers;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilZip;
+import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
@@ -42,6 +46,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	private String url;
 	private ProgressDialog progressDialog;
 	private boolean result;
+	private static final String DOWNLOAD_FILE_NAME = "down" + Consts.CATROID_EXTENTION;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
@@ -51,7 +56,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	public ProjectDownloadTask(Activity activity, String url, String projectName) {
 		this.activity = activity;
 		this.projectName = projectName;
-		this.zipFileString = Consts.TMP_PATH + "/down" + Consts.CATROID_EXTENTION;
+		this.zipFileString = Utils.buildPath(Consts.TMP_PATH, DOWNLOAD_FILE_NAME);
 		this.url = url;
 	}
 
@@ -71,7 +76,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString);
 
-			result = UtilZip.unZipFile(zipFileString, Consts.DEFAULT_ROOT + "/" + projectName + "/");
+			result = UtilZip.unZipFile(zipFileString, Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
 			return result;
 		} catch (WebconnectionException e) {
 			e.printStackTrace();

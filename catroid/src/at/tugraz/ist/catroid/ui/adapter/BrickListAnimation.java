@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.adapter;
@@ -25,16 +29,18 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 
 public class BrickListAnimation {
 
-	private DragNDropListView listView;
-	private BrickAdapter adapter;
+	private DragAndDropListView listView;
+	//private BrickAdapter adapter;
+	private static final int ANIMATION_DURATION_BRICK_SWITCHING = 500;
+	private static final int ANIMATION_DURATION_EXPAND = 500;
+	private static final int ANIMATION_EXPAND_DELAY = 50;
 
-	public BrickListAnimation(BrickAdapter adapter, DragNDropListView listView) {
-		this.adapter = adapter;
+	public BrickListAnimation(BrickAdapter adapter, DragAndDropListView listView) {
+		//this.adapter = adapter;
 		this.listView = listView;
 	}
 
@@ -59,18 +65,17 @@ public class BrickListAnimation {
 
 			public void onAnimationEnd(Animation animation) {
 				// set this, otherwise the animation starts always if the view is redrawn ie. on scrolling
-				adapter.setAnimateChildren(false);
+				//				adapter.setAnimateChildren(false);
 			}
 		});
 
 		animationSet.addAnimation(currentAnimation);
 		Animation alpha = new AlphaAnimation(0.0f, 1.0f);
 		animationSet.addAnimation(alpha);
-		animationSet.setDuration(Consts.ANIMATION_DURATION_EXPAND);
+		animationSet.setDuration(ANIMATION_DURATION_EXPAND);
 		animationSet.setFillBefore(true);
 		animationSet.setFillAfter(true);
-		animationSet.setStartTime(AnimationUtils.currentAnimationTimeMillis() + childPosition
-				* Consts.ANIMATION_EXPAND_DELAY);
+		animationSet.setStartTime(AnimationUtils.currentAnimationTimeMillis() + childPosition * ANIMATION_EXPAND_DELAY);
 		currentListView.setAnimation(animationSet);
 	}
 
@@ -78,15 +83,18 @@ public class BrickListAnimation {
 		Animation upAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
 				0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -(float) (groupCount
 						- groupPosition - 1));
-		upAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
+		upAnimation.setDuration(ANIMATION_DURATION_BRICK_SWITCHING);
 		upAnimation.setFillAfter(true);
-		getChildFromAbsolutePosition(groupCount - 1).startAnimation(upAnimation);
+		View groupToCollapse = getChildFromAbsolutePosition(groupCount - 1);
+		if (groupToCollapse != null) {
+			groupToCollapse.startAnimation(upAnimation);
+		}
 	}
 
 	private void doDownAnimation(int groupCount, final int groupPosition) {
 		Animation downAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
 				0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, (groupCount - groupPosition - 1));
-		downAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
+		downAnimation.setDuration(ANIMATION_DURATION_BRICK_SWITCHING);
 		downAnimation.setFillAfter(true);
 
 		downAnimation.setAnimationListener(new AnimationListener() {
@@ -98,7 +106,7 @@ public class BrickListAnimation {
 
 			public void onAnimationEnd(Animation animation) {
 				// the expand animation starts if the new child Views are rendered the first time
-				adapter.doReordering(listView, groupPosition);
+				//				adapter.doReordering(listView, groupPosition);
 			}
 		});
 		getChildFromAbsolutePosition(groupPosition).startAnimation(downAnimation);
@@ -109,7 +117,7 @@ public class BrickListAnimation {
 		int visibleChilds = listView.getChildCount() - visibleGroups;
 
 		Animation currentAnimation = new AlphaAnimation(1.0f, 0.0f);
-		currentAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
+		currentAnimation.setDuration(ANIMATION_DURATION_BRICK_SWITCHING);
 		currentAnimation.setFillAfter(true);
 		for (int i = 0; i < visibleChilds; ++i) {
 			getChildFromAbsolutePosition(groupCount + i).startAnimation(currentAnimation);

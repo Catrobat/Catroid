@@ -1,27 +1,31 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.web;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -95,7 +99,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeField(String name, boolean value) throws java.io.IOException {
+	public void writeField(String name, boolean value) throws IOException {
 		writeField(name, new Boolean(value).toString());
 	}
 
@@ -109,7 +113,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeField(String name, double value) throws java.io.IOException {
+	public void writeField(String name, double value) throws IOException {
 		writeField(name, Double.toString(value));
 	}
 
@@ -123,7 +127,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeField(String name, float value) throws java.io.IOException {
+	public void writeField(String name, float value) throws IOException {
 		writeField(name, Float.toString(value));
 	}
 
@@ -137,7 +141,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeField(String name, long value) throws java.io.IOException {
+	public void writeField(String name, long value) throws IOException {
 		writeField(name, Long.toString(value));
 	}
 
@@ -151,7 +155,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeField(String name, int value) throws java.io.IOException {
+	public void writeField(String name, int value) throws IOException {
 		writeField(name, Integer.toString(value));
 	}
 
@@ -165,7 +169,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeField(String name, short value) throws java.io.IOException {
+	public void writeField(String name, short value) throws IOException {
 		writeField(name, Short.toString(value));
 	}
 
@@ -179,7 +183,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeField(String name, char value) throws java.io.IOException {
+	public void writeField(String name, char value) throws IOException {
 		writeField(name, new Character(value).toString());
 	}
 
@@ -194,7 +198,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeField(String name, String value) throws java.io.IOException {
+	public void writeField(String name, String value) throws IOException {
 		if (name == null) {
 			throw new IllegalArgumentException("Name cannot be null or empty.");
 		}
@@ -234,7 +238,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeFile(String name, String mimeType, File file) throws java.io.IOException {
+	public void writeFile(String name, String mimeType, File file) throws IOException {
 		if (file == null) {
 			throw new IllegalArgumentException("File cannot be null.");
 		}
@@ -262,7 +266,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeFile(String name, String mimeType, String fileName, InputStream is) throws java.io.IOException {
+	public void writeFile(String name, String mimeType, String fileName, InputStream is) throws IOException {
 		if (is == null) {
 			throw new IllegalArgumentException("Input stream cannot be null.");
 		}
@@ -319,7 +323,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void writeFile(String name, String mimeType, String fileName, byte[] data) throws java.io.IOException {
+	public void writeFile(String name, String mimeType, String fileName, byte[] data) throws IOException {
 		if (data == null) {
 			throw new IllegalArgumentException("Data cannot be null.");
 		}
@@ -358,7 +362,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void flush() throws java.io.IOException {
+	public void flush() throws IOException {
 		// out.flush();
 	}
 
@@ -371,7 +375,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public void close() throws java.io.IOException {
+	public void close() throws IOException {
 		// write final boundary
 		out.writeBytes(PREFIX);
 		out.writeBytes(boundary);
@@ -401,7 +405,7 @@ public class MultiPartFormOutputStream {
 	 * @throws java.io.IOException
 	 *             on input/output errors
 	 */
-	public static URLConnection createConnection(URL url) throws java.io.IOException {
+	public static URLConnection createConnection(URL url) throws IOException {
 		URLConnection urlConn = url.openConnection();
 		if (urlConn instanceof HttpURLConnection) {
 			HttpURLConnection httpConn = (HttpURLConnection) urlConn;

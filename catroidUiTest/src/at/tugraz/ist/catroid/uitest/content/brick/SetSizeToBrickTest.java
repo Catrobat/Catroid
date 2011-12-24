@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.uitest.content.brick;
@@ -31,6 +35,7 @@ import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -41,21 +46,25 @@ import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private static final String TAG = SetSizeToBrickTest.class.getSimpleName();
 	private String projectName = "SetSizeToBrickTestProject";
 	private Solo solo;
 	private Project project;
 	private SetSizeToBrick setSizeToBrick;
 	private SetCostumeBrick setCostumeBrick;
-	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
+	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.red_quad;
+	private final int screenWidth = 480;
+	private final int screenHeight = 800;
 
 	public SetSizeToBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
@@ -73,21 +82,28 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		}
 
 		getActivity().finish();
+
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
 		super.tearDown();
 	}
 
 	@Smoke
 	public void testSetSizeToBrick() {
-		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		int groupCount = getActivity().getAdapter().getGroupCount();
+		int childrenCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter()
+				.getChildCountFromLastGroup();
+		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 3, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
+				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_set_size_to)));
 
 		double newSize = 200;
@@ -113,10 +129,14 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.sleep(1500);
 
-		solo.clickOnScreen(Values.SCREEN_WIDTH, 0);
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.stagemenu_screenshot));
+		solo.sleep(50);
 
 		assertTrue("Successful screenshot Toast not found!",
 				solo.searchText(getActivity().getString(R.string.notification_screenshot_ok)));
+
+		solo.clickOnText(getActivity().getString(R.string.resume_current_project));
 
 		// -------------------------------------------------------------------------------------------------------------
 		Bitmap screenshot = BitmapFactory.decodeFile(Consts.DEFAULT_ROOT + "/" + projectName + "/"
@@ -138,12 +158,16 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		int colorOutsideSizedQuad = screenshot.getPixel(Values.SCREEN_WIDTH / 2 + blackQuadWidth + 10,
 				Values.SCREEN_HEIGHT / 2 + blackQuadHeight + 10);
 
-		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.BLACK,
+		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
 				colorInsideSizedQuad);
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
 	}
 
 	private void createProject() {
+
+		Values.SCREEN_HEIGHT = screenHeight;
+		Values.SCREEN_WIDTH = screenWidth;
+
 		project = new Project(null, projectName);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
@@ -159,11 +183,19 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.getInstance().saveProject();
 
 		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		Log.v(TAG, image.getName());
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image.getName());
+		costumeData.setCostumeName("image");
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
+				image.getAbsolutePath());
+		ProjectManager.getInstance().saveProject();
 	}
 
 }

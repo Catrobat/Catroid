@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.content.brick;
@@ -63,15 +67,15 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 
 		double volume = SoundManager.getInstance().getVolume();
 		volume += louder;
-		ChangeVolumeByBrick brick1 = new ChangeVolumeByBrick(sprite, louder);
-		brick1.execute();
+		ChangeVolumeByBrick changeVolumeByBrick1 = new ChangeVolumeByBrick(sprite, louder);
+		changeVolumeByBrick1.execute();
 		assertEquals("Incorrect sprite volume after ChangeVolumeByBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 
 		volume = SoundManager.getInstance().getVolume();
 		volume += softer;
-		ChangeVolumeByBrick brick2 = new ChangeVolumeByBrick(sprite, softer);
-		brick2.execute();
+		ChangeVolumeByBrick changeVolumeByBrick2 = new ChangeVolumeByBrick(sprite, softer);
+		changeVolumeByBrick2.execute();
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 	}
@@ -88,6 +92,5 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 
 		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
-
 	}
 }
