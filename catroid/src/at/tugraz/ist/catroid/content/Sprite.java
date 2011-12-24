@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content;
@@ -23,63 +27,65 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import android.graphics.Color;
-import android.util.Pair;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
-public class Sprite implements Serializable, Comparable<Sprite> {
+public class Sprite implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private transient int xPosition;
-	private transient int yPosition;
-	private transient int zPosition;
-	private transient double size;
-	private transient boolean isVisible;
-	private transient boolean toDraw;
 	private List<Script> scriptList;
-	private transient Costume costume;
-	private transient int ghostEffectValue;
-	private transient int brightnessValue;
-	private transient int volume;
+	private ArrayList<CostumeData> costumeDataList;
+	private ArrayList<SoundInfo> soundList;
+	public transient Costume costume;
 
-	public transient volatile boolean isPaused;
-	public transient volatile boolean isFinished;
-
-	private transient Sprite selectedPointToSprite;
+	public transient boolean isPaused;
+	public transient boolean isFinished;
 
 	private Object readResolve() {
+		//filling FileChecksumContainer:
+		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+			if (container == null) {
+				ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+			}
+			for (SoundInfo soundInfo : soundList) {
+				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+			}
+			for (CostumeData costumeData : costumeDataList) {
+				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			}
+		}
 		init();
 		return this;
 	}
 
 	private void init() {
-		zPosition = 0;
-		size = 100.0;
-		isVisible = true;
-		costume = new Costume(this, null);
-		xPosition = 0;
-		yPosition = 0;
-		toDraw = false;
-		ghostEffectValue = 0;
-		brightnessValue = 0;
+		costume = new Costume(this);
 		isPaused = false;
 		isFinished = false;
-		volume = 0;
+		if (soundList == null) {
+			soundList = new ArrayList<SoundInfo>();
+		}
+		if (costumeDataList == null) {
+			costumeDataList = new ArrayList<CostumeData>();
+		}
 	}
 
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
+		costumeDataList = new ArrayList<CostumeData>();
+		soundList = new ArrayList<SoundInfo>();
 		init();
 	}
 
-	public void startWhenScripts(String act) {
+	public void startWhenScripts(String action) {
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
-				if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
-					s.setPaused(true);
-				} else if (((WhenScript) s).getAction().equalsIgnoreCase(act)
-						&& !act.equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
 					startScript(s);
 				}
 			}
@@ -92,19 +98,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				if (!s.isFinished()) {
 					startScript(s);
 				}
-			}
-			if (s instanceof WhenScript) {
-				if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
-					startScript(s);
-				}
-			}
-		}
-	}
-
-	public void startTapScripts() {
-		for (Script s : scriptList) {
-			if (s instanceof TapScript) {
-				startScript(s);
 			}
 		}
 	}
@@ -177,175 +170,20 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		this.name = name;
 	}
 
-	public int getXPosition() {
-		return xPosition;
-	}
-
-	public int getYPosition() {
-		return yPosition;
-	}
-
-	public int getZPosition() {
-		return zPosition;
-	}
-
-	public double getSize() {
-		return size;
-	}
-
-	public int getGhostEffectValue() {
-		return ghostEffectValue;
-	}
-
-	public int getBrightnessValue() {
-		return this.brightnessValue;
-	}
-
-	public int getVolume() {
-		return this.volume;
-	}
-
-	public boolean isVisible() {
-		return isVisible;
-	}
-
-	public synchronized void setXYPosition(int xPosition, int yPosition) {
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		costume.setDrawPosition();
-		toDraw = true;
-	}
-
-	public synchronized void setZPosition(int zPosition) {
-		this.zPosition = zPosition;
-		toDraw = true;
-	}
-
-	public synchronized void setVolume(double volume) {
-		int vol;
-		if (volume < 0) {
-			throw new IllegalArgumentException("Sprite brightness must be greater than or equal to zero!");
-		}
-
-		if (volume > 100) {
-			vol = 100;
-		} else {
-			vol = (int) Math.floor(volume);
-		}
-		this.volume = vol;
-		toDraw = true;
-	}
-
-	public synchronized void clearGraphicEffect() {
-		costume.clearGraphicEffect();
-		ghostEffectValue = 0;
-		brightnessValue = 0;
-		toDraw = true;
-	}
-
-	public synchronized void setBrightnessValue(int brightnessValue) {
-		this.brightnessValue = brightnessValue;
-		int brightness;
-		if (brightnessValue < 0) {
-			throw new IllegalArgumentException("Sprite brightness must be greater than or equal to zero!");
-		}
-
-		if (brightnessValue > 100) {
-			brightness = 100;
-		} else {
-			brightness = brightnessValue;
-		}
-
-		costume.setBrightness(brightness);
-		toDraw = true;
-	}
-
-	public synchronized void setGhostEffectValue(int ghostEffectValue) {
-		this.ghostEffectValue = ghostEffectValue;
-		int calculation;
-		int opacityValue = 0;
-		if (ghostEffectValue < 0) {
-			throw new IllegalArgumentException("Sprite ghost effect must be greater than or equal to zero!");
-		}
-
-		calculation = (int) Math.floor(255 - (ghostEffectValue * 2.55));
-		// calculation: a value between 0 (completely transparent) and 255 (completely opaque).
-		if (calculation > 0) {
-			if (calculation >= 12) {
-				opacityValue = calculation;
-			} else {
-				opacityValue = 12;
-			}
-		} else if (calculation <= 0) {
-			opacityValue = 0;
-		}
-
-		costume.setGhostEffect(opacityValue);
-		toDraw = true;
-	}
-
-	public synchronized void setSize(double size) {
-		if (size <= 0.0) {
-			throw new IllegalArgumentException("Sprite size must be greater than zero!");
-		}
-
-		int width = costume.getImageWidthHeight().first;
-		int height = costume.getImageWidthHeight().second;
-
-		if (width == 0 || height == 0) {
-			this.size = size;
-			return;
-		}
-
-		this.size = size;
-
-		if (width * this.size / 100. < 1) {
-			this.size = 1. / width * 100.;
-		}
-		if (height * this.size / 100. < 1) {
-			this.size = 1. / height * 100.;
-		}
-
-		if (width * this.size / 100. > Consts.MAX_COSTUME_WIDTH) {
-			this.size = (double) Consts.MAX_COSTUME_WIDTH / width * 100.;
-		}
-
-		if (height * this.size / 100. > Consts.MAX_COSTUME_HEIGHT) {
-			this.size = (double) Consts.MAX_COSTUME_HEIGHT / height * 100.;
-		}
-
-		costume.setSizeTo(this.size);
-		toDraw = true;
-	}
-
-	public synchronized void show() {
-		isVisible = true;
-		toDraw = true;
-	}
-
-	public synchronized void hide() {
-		isVisible = false;
-		toDraw = true;
-	}
-
-	public synchronized Costume getCostume() {
-		return costume;
-	}
-
 	public void addScript(Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(script);
 		}
 	}
 
-	public void addScript(int location, Script script) {
+	public void addScript(int index, Script script) {
 		if (script != null && !scriptList.contains(script)) {
-			scriptList.add(location, script);
+			scriptList.add(index, script);
 		}
 	}
 
-	public Script getScript(int location) {
-		return scriptList.get(location);
+	public Script getScript(int index) {
+		return scriptList.get(index);
 	}
 
 	public int getNumberOfScripts() {
@@ -364,64 +202,29 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList.remove(script);
 	}
 
-	public boolean getToDraw() {
-		return toDraw;
+	public ArrayList<CostumeData> getCostumeDataList() {
+		return costumeDataList;
 	}
 
-	public void setToDraw(boolean value) {
-		toDraw = value;
+	public ArrayList<SoundInfo> getSoundList() {
+		return soundList;
 	}
 
-	public Sprite getSelectedPointToSprite() {
-		return selectedPointToSprite;
-	}
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
 
-	public void setSelectedPointToSprite(Sprite message) {
-		selectedPointToSprite = message;
-	}
-
-	public int compareTo(Sprite sprite) {
-		long thisZValue = getZPosition();
-		long otherZValue = sprite.getZPosition();
-		long difference = thisZValue - otherZValue;
-		if (difference > Integer.MAX_VALUE) {
-			return Integer.MAX_VALUE;
+		for (Script script : scriptList) {
+			ressources |= script.getRequiredResources();
 		}
-		return (int) difference;
-	}
-
-	public boolean processOnTouch(int coordX, int coordY) {
-		if (costume.getBitmap() == null || isVisible == false) {
-			return false;
-		}
-
-		int inSpriteCoordX = coordX - costume.getDrawPositionX();
-		int inSpriteCoordY = coordY - costume.getDrawPositionY();
-
-		Pair<Integer, Integer> tempPair = costume.getImageWidthHeight();
-		int width = tempPair.first;
-		int height = tempPair.second;
-
-		if (inSpriteCoordX < 0 || inSpriteCoordX > width) {
-			return false;
-		}
-		if (inSpriteCoordY < 0 || inSpriteCoordY > height) {
-			return false;
-		}
-
-		try {
-			if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
-				return false;
-			}
-		} catch (Exception ex) {
-			return false;
-		}
-
-		return true;
+		return ressources;
 	}
 
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public int getScriptCount() {
+		return scriptList.size();
 	}
 }

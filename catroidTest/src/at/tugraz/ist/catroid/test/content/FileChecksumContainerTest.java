@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.test.content;
 
 import java.io.BufferedOutputStream;
@@ -54,6 +57,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		TestUtils.clearProject(currentProjectName);
 		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
+		testCopyFile.VIRTUAL_SCREEN_HEIGHT = 1000;
+		testCopyFile.VIRTUAL_SCREEN_WIDTH = 1000;
 		projectManager = ProjectManager.getInstance();
 		storageHandler.saveProject(testCopyFile);
 		projectManager.setProject(testCopyFile);
@@ -107,17 +112,17 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	public void testContainer() throws IOException, InterruptedException {
 
-		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
 
 		String checksumImage = Utils.md5Checksum(testImage);
 
-		FileChecksumContainer container = projectManager.fileChecksumContainer;
-		assertTrue("Checksum isn't in container", container.containsChecksum(checksumImage));
+		FileChecksumContainer fileChecksumContainer = projectManager.fileChecksumContainer;
+		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumImage));
 
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 
-		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
 		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY + "/");
 		File[] filesImage = imageDirectory.listFiles();
 
@@ -126,23 +131,23 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		String checksumSound = Utils.md5Checksum(testSound);
-		assertTrue("Checksum isn't in container", container.containsChecksum(checksumSound));
+		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumSound));
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
 
 		//nomedia file is also in sounds folder
 		assertEquals("Wrong amount of files in folder", 2, filesSound.length);
 
-		container.decrementUsage(newTestImage.getAbsolutePath());
-		assertTrue("Checksum was deleted", container.containsChecksum(checksumImage));
-		container.decrementUsage(newTestImage.getAbsolutePath());
-		assertFalse("Checksum wasn't deleted", container.containsChecksum(checksumImage));
-		container.decrementUsage(newTestSound.getAbsolutePath());
-		assertFalse("Checksum wasn't deleted", container.containsChecksum(checksumSound));
+		fileChecksumContainer.decrementUsage(newTestImage.getAbsolutePath());
+		assertTrue("Checksum was deleted", fileChecksumContainer.containsChecksum(checksumImage));
+		fileChecksumContainer.decrementUsage(newTestImage.getAbsolutePath());
+		assertFalse("Checksum wasn't deleted", fileChecksumContainer.containsChecksum(checksumImage));
+		fileChecksumContainer.decrementUsage(newTestSound.getAbsolutePath());
+		assertFalse("Checksum wasn't deleted", fileChecksumContainer.containsChecksum(checksumSound));
 	}
 
 	public void testDeleteFile() throws IOException, InterruptedException {
-		File newTestImage1 = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		File newTestImage1 = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 
