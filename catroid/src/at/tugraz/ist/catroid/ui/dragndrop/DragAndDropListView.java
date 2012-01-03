@@ -94,6 +94,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
+
 		if (dragAndDropListener != null && dragView != null) {
 			onTouchEvent(event);
 		}
@@ -295,4 +296,5 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	public int getTouchedListPosition() {
 		return touchedListPosition;
 	}
+
 }

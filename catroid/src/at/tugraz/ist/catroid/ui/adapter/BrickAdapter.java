@@ -57,6 +57,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
 	private View insertionView;
+	private View insertedBrickView;
 	private int currentScriptPosition;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
@@ -210,6 +211,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			Brick brick = (Brick) getItem(position);
 			View currentBrickView = brick.getView(context, position, this);
 
+			if (insertedBrickView != null) {
+				Log.d("TESTING", "FUCK YEAH...^^");
+			}
+
 			if (draggedBrick != null && dragTargetPosition == position) {
 				return insertionView;
 			}
@@ -330,5 +335,29 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		return (Brick) getItem(getScriptId(groupPosition) + (childPosition + 1));
 	}
+
+	public void setInsertedBrick(int pos) {
+
+		Log.d("TESTING", "Position: " + pos);
+
+	}
+	// ---------------------------Temp for Hovering Bricks--------------------
+
+	//		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
+	//		view.setDrawingCacheEnabled(true);
+	//
+	//		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+	//		view.setDrawingCacheEnabled(drawingCacheEnabled);
+	//
+	//		ImageView imageView = new ImageView(getContext());
+	//		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
+	//		imageView.setImageBitmap(bitmap);
+	//
+	//		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
+	//		dragViewParameters.y = y - bitmap.getHeight() / 2;
+	//
+	//		WindowManager windowManager = getWindowManager();
+	//		windowManager.addView(imageView, dragViewParameters);
+	//		dragView = imageView;
 
 }

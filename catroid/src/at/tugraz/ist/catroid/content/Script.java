@@ -76,15 +76,6 @@ public abstract class Script implements Serializable {
 		}
 	}
 
-	public void addNewBrick(Brick brick) {
-		if (brick != null) {
-
-			//TODO hover yeah baby
-
-			brickList.add(brick);
-		}
-	}
-
 	public void addBrick(int position, Brick brick) {
 		if (brick != null) {
 			brickList.add(position, brick);
