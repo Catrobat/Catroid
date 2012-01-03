@@ -57,8 +57,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
 	private View insertionView;
-	private View insertedBrickView;
 	private int currentScriptPosition;
+	private boolean insertedBrick;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -66,7 +66,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		//brickListAnimation = new BrickListAnimation(this, listView);
 		longClickListener = listView;
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
-
+		insertedBrick = false;
 	}
 
 	public void drag(int from, int to) {
@@ -211,10 +211,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			Brick brick = (Brick) getItem(position);
 			View currentBrickView = brick.getView(context, position, this);
 
-			if (insertedBrickView != null) {
-				Log.d("TESTING", "FUCK YEAH...^^");
-			}
-
 			if (draggedBrick != null && dragTargetPosition == position) {
 				return insertionView;
 			}
@@ -336,18 +332,34 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		return (Brick) getItem(getScriptId(groupPosition) + (childPosition + 1));
 	}
 
-	public void setInsertedBrick(int pos) {
+	//	public void setInsertedBrick(int pos) {
+	//		Log.d("TESTING", "Position: " + pos);
+	//
+	//		Script script = ProjectManager.getInstance().getCurrentScript();
+	//		Brick brick = script.getBrick(script.getBrickList().size() - 1);
+	//		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
+	//
+	//		script.addBrick(0, brick);
+	//		View view = brick.getView(context, 1, this);
+	//
+	//		drag(1, 1);
+	//	}
 
-		Log.d("TESTING", "Position: " + pos);
-
-	}
-	// ---------------------------Temp for Hovering Bricks--------------------
-
+	//		int itemPosition = pointToPosition(view.getLeft(), view.getTop());
 	//		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
+	//
 	//		view.setDrawingCacheEnabled(true);
 	//
+	//		if (view.getDrawingCache() == null) {
+	//			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
+	//		}
+	//		
 	//		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 	//		view.setDrawingCacheEnabled(drawingCacheEnabled);
+	//		
+	//		if (bitmap.getHeight() > maximumDragViewHeight) {
+	//			bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), maximumDragViewHeight);
+	//		}
 	//
 	//		ImageView imageView = new ImageView(getContext());
 	//		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
