@@ -128,7 +128,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 		//		listView.getTouchables().get(listView.getLastTouchPosition());
 
-		adapter.setInsertedBrick(visibleF + pos);
+		listView.setInsertedBrick(visibleF + pos);
 		adapter.notifyDataSetChanged();
 	}
 

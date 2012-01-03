@@ -33,6 +33,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,7 +44,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
@@ -295,6 +299,48 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	public int getTouchedListPosition() {
 		return touchedListPosition;
+	}
+
+	public void setInsertedBrick(int pos) {
+		Log.d("TESTING", "Position: " + pos);
+
+		Script script = ProjectManager.getInstance().getCurrentScript();
+		Brick brick = script.getBrick(script.getBrickList().size() - 1);
+		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
+
+		script.addBrick(0, brick);
+
+		if (brick != null) {
+			Log.d("TESTING", "Should do some");
+		}
+
+		View view = brick.getView(getContext(), R.string.brick_wait, null);
+		//		View view = View.inflate(getContext(), R.layout.brick_insert, null);
+
+		if (view != null) {
+			Log.d("TESTING", "Should do just fine");
+		}
+
+		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
+		view.setDrawingCacheEnabled(true);
+
+		if (view.getDrawingCache() == null) {
+			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
+		}
+		view.buildDrawingCache(true);
+
+		//		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+		view.setDrawingCacheEnabled(drawingCacheEnabled);
+
+		//		startDragging(bitmap, touchPointY);
+		//		//		dragAndDropListener.drag(itemPosition, itemPosition);
+		//
+		//		trashView.setVisibility(View.VISIBLE);
+		//		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
+		//		trashView.startAnimation(animation);
+		//
+
+		//		dragAndDropListener.drag(1, 1);
 	}
 
 }
