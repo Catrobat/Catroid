@@ -28,6 +28,8 @@
  */
 package at.tugraz.ist.catroid.ui.dragndrop;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -44,10 +46,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Script;
-import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
@@ -204,6 +203,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	public boolean onLongClick(View view) {
 
 		int itemPosition = pointToPosition(view.getLeft(), view.getTop());
+		Log.d("TESTING", "ItemPosition: " + itemPosition);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
@@ -302,45 +302,40 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	public void setInsertedBrick(int pos) {
-		Log.d("TESTING", "Position: " + pos);
+		//---------------Useful Methods---------------------
+		//		getAdapter();
+		//		findViewById(0);
+		//		getFocusables(0);
+		//		getItemAtPosition(0);
+		//		getTouchables();
+		//		isLongClickable();
 
-		Script script = ProjectManager.getInstance().getCurrentScript();
-		Brick brick = script.getBrick(script.getBrickList().size() - 1);
-		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
+		ArrayList<View> v = this.getTouchables();
 
-		script.addBrick(0, brick);
+		//		int count = 0;
+		View view = null;
+		for (View t : v) {
+			//			if (t.isLongClickable()) {
+			//				Log.d("TESTING", "Long Clickable: " + count);
+			//			}
+			//			count++;
 
-		if (brick != null) {
-			Log.d("TESTING", "Should do some");
+			int itemPosition = pointToPosition(t.getLeft(), t.getTop());
+			if (itemPosition == 3) {
+				view = t;
+				break;
+			}
+			//			Log.d("TESTING", "Count: " + count);
+
 		}
+		Log.d("TESTING", "Size: " + v.size());
 
-		View view = brick.getView(getContext(), R.string.brick_wait, null);
-		//		View view = View.inflate(getContext(), R.layout.brick_insert, null);
+		//TODO: find out which view to get
+		//		View view = v.get(0);
+		//		View view = (View) (getItemAtPosition(1));
 
-		if (view != null) {
-			Log.d("TESTING", "Should do just fine");
-		}
+		onLongClick(view);
 
-		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
-		view.setDrawingCacheEnabled(true);
-
-		if (view.getDrawingCache() == null) {
-			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
-		}
-		view.buildDrawingCache(true);
-
-		//		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-		view.setDrawingCacheEnabled(drawingCacheEnabled);
-
-		//		startDragging(bitmap, touchPointY);
-		//		//		dragAndDropListener.drag(itemPosition, itemPosition);
-		//
-		//		trashView.setVisibility(View.VISIBLE);
-		//		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
-		//		trashView.startAnimation(animation);
-		//
-
-		//		dragAndDropListener.drag(1, 1);
+		Log.d("TESTING", "Returned from OnLongClick");
 	}
-
 }
