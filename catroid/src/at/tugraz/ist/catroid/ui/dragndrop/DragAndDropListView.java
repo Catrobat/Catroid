@@ -321,7 +321,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			//			count++;
 
 			int itemPosition = pointToPosition(t.getLeft(), t.getTop());
-			if (itemPosition == 3) {
+			if (itemPosition == pos) {
 				view = t;
 				break;
 			}

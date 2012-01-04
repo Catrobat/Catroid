@@ -332,8 +332,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		return (Brick) getItem(getScriptId(groupPosition) + (childPosition + 1));
 	}
 
-	public void rearangeBricks(int pos) {
-
+	public int rearangeBricks(int pos) {
+		int orig = pos;
 		Script script = ProjectManager.getInstance().getCurrentScript();
 		Brick brick = script.getBrick(script.getBrickList().size() - 1);
 		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
@@ -344,7 +344,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			pos -= (sprite.getScript(i).getBrickList().size() + 1);
 		}
 
+		if (!isBrick(pos)) {
+			orig++;
+		}
 		sprite.getScript(sId).addBrick(pos, brick);
 		notifyDataSetChanged();
+
+		return orig;
 	}
 }
