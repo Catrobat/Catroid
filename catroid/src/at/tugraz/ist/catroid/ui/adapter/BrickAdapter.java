@@ -332,44 +332,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		return (Brick) getItem(getScriptId(groupPosition) + (childPosition + 1));
 	}
 
-	//	public void setInsertedBrick(int pos) {
-	//		Log.d("TESTING", "Position: " + pos);
-	//
-	//		Script script = ProjectManager.getInstance().getCurrentScript();
-	//		Brick brick = script.getBrick(script.getBrickList().size() - 1);
-	//		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
-	//
-	//		script.addBrick(0, brick);
-	//		View view = brick.getView(context, 1, this);
-	//
-	//		drag(1, 1);
-	//	}
+	public void rearangeBricks(int pos) {
 
-	//		int itemPosition = pointToPosition(view.getLeft(), view.getTop());
-	//		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
-	//
-	//		view.setDrawingCacheEnabled(true);
-	//
-	//		if (view.getDrawingCache() == null) {
-	//			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
-	//		}
-	//		
-	//		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-	//		view.setDrawingCacheEnabled(drawingCacheEnabled);
-	//		
-	//		if (bitmap.getHeight() > maximumDragViewHeight) {
-	//			bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), maximumDragViewHeight);
-	//		}
-	//
-	//		ImageView imageView = new ImageView(getContext());
-	//		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
-	//		imageView.setImageBitmap(bitmap);
-	//
-	//		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
-	//		dragViewParameters.y = y - bitmap.getHeight() / 2;
-	//
-	//		WindowManager windowManager = getWindowManager();
-	//		windowManager.addView(imageView, dragViewParameters);
-	//		dragView = imageView;
+		Script script = ProjectManager.getInstance().getCurrentScript();
+		Brick brick = script.getBrick(script.getBrickList().size() - 1);
+		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
 
+		int sId = getScriptId(pos);
+
+		for (int i = 0; i < sId; i++) {
+			pos -= (sprite.getScript(i).getBrickList().size() + 1);
+		}
+
+		sprite.getScript(sId).addBrick(pos, brick);
+		notifyDataSetChanged();
+	}
 }
