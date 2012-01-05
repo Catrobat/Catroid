@@ -328,11 +328,12 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			//			Log.d("TESTING", "Count: " + count);
 
 		}
-		Log.d("TESTING", "Size: " + v.size());
 
 		//TODO: find out which view to get
 		//		View view = v.get(0);
 		//		View view = (View) (getItemAtPosition(1));
+
+		//		brick.getView(context, position, this);
 
 		onLongClick(view);
 
