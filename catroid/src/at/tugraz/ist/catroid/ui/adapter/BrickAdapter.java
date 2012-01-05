@@ -344,9 +344,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			pos -= (sprite.getScript(i).getBrickList().size() + 1);
 		}
 
-		if (!isBrick(pos)) {
+		if (!isBrick(orig)) {
 			orig++;
 		}
+
 		sprite.getScript(sId).addBrick(pos, brick);
 		notifyDataSetChanged();
 
