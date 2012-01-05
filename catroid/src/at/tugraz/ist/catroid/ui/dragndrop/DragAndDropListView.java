@@ -335,6 +335,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		//		brick.getView(context, position, this);
 
+		destroyDrawingCache();
+		setVisibility(ListView.INVISIBLE);
+		setVisibility(ListView.VISIBLE);
+		smoothScrollBy(10, 50);
+
 		onLongClick(view);
 
 		Log.d("TESTING", "Returned from OnLongClick");
