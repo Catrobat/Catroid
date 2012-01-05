@@ -124,15 +124,8 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 		int visibleF = listView.getFirstVisiblePosition();
 		int visibleL = listView.getLastVisiblePosition();
-		//		listView.getAdapter();
-		//		listView.findViewById(0);
-		//		listView.getFocusables(0);
-		//		listView.getItemAtPosition(0);
-		//		listView.getTouchables();
-		//		listView.isLongClickable();
 		int pos = ((visibleL - visibleF) / 2);
 		pos += visibleF;
-
 		pos = adapter.rearangeBricks(pos);
 		listView.setInsertedBrick(pos);
 		adapter.notifyDataSetChanged();

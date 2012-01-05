@@ -56,6 +56,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private int dragTargetPosition;
 	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
+	private DragAndDropListView listView;
 	private View insertionView;
 	private int currentScriptPosition;
 	private boolean insertedBrick;
@@ -207,6 +208,20 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 
+		//		if (insertedBrick) {
+		//			listView = (DragAndDropListView) ((ScriptActivity) context).findViewById(R.id.brick_list_view);
+		//			int visibleF = listView.getFirstVisiblePosition();
+		//			int visibleL = listView.getLastVisiblePosition();
+		//			int pos = ((visibleL - visibleF) / 2);
+		//			Log.d("TESTING", "First: " + visibleF + " Last: " + visibleL + " Pos: " + pos);
+		//			pos += visibleF;
+		//			pos = rearangeBricks(pos);
+		//			notifyDataSetChanged();
+		//			listView.setInsertedBrick(pos);
+		//			insertedBrick = false;
+		//		}
+
+		Log.d("TESTING", "Called GetView");
 		if (getItem(position) instanceof Brick) {
 			Brick brick = (Brick) getItem(position);
 			View currentBrickView = brick.getView(context, position, this);
@@ -333,12 +348,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public int rearangeBricks(int pos) {
+
 		int orig = pos;
 		Script script = ProjectManager.getInstance().getCurrentScript();
 		Brick brick = script.getBrick(script.getBrickList().size() - 1);
 		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
 
 		int sId = getScriptId(pos);
+
+		Log.d("TESTING", "Pos: " + pos + " ID: " + sId);
 
 		for (int i = 0; i < sId; i++) {
 			pos -= (sprite.getScript(i).getBrickList().size() + 1);
@@ -347,10 +365,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		if (!isBrick(orig)) {
 			orig++;
 		}
+		if (sId == 0) {
+			orig++;
+		}
 
 		sprite.getScript(sId).addBrick(pos, brick);
 		notifyDataSetChanged();
 
 		return orig;
+	}
+
+	public void setInsertedBrick() {
+		insertedBrick = true;
 	}
 }
