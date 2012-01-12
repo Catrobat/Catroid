@@ -277,21 +277,21 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Script whenScript = new WhenScript(firstSprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
-		NXTMotorActionBrick nxt = new NXTMotorActionBrick(firstSprite, 3, 100);
+		NXTMotorActionBrick nxt = new NXTMotorActionBrick(firstSprite, NXTMotorActionBrick.Motor.MOTOR_A_C, 100);
 		commands.add(new int[] { MOTOR_ACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
 		commands.add(new int[] { MOTOR_ACTION, 2, 100 });
 		WaitBrick wait = new WaitBrick(firstSprite, 500);
 
-		NXTMotorStopBrick nxtStop = new NXTMotorStopBrick(firstSprite, 3);
+		NXTMotorStopBrick nxtStop = new NXTMotorStopBrick(firstSprite, NXTMotorStopBrick.Motor.MOTOR_A_C);
 		commands.add(new int[] { MOTOR_STOP, 0 });
 		commands.add(new int[] { MOTOR_STOP, 2 });
 		WaitBrick wait2 = new WaitBrick(firstSprite, 500);
 
-		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 515);
+		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, NXTMotorTurnAngleBrick.Motor.MOTOR_C, 515);
 		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
 		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
-		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 50, 1);
+		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 5000, 1000);
 		//Tone does not return a command
 
 		whenScript.addBrick(nxt);

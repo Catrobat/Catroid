@@ -304,9 +304,9 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testMaximizeStretch() throws NameNotFoundException, IOException {
 		Project project = createTestProject(testProject);
-		project.VIRTUAL_SCREEN_WIDTH = 480;
-		project.VIRTUAL_SCREEN_HEIGHT = 700;
-		project.setDeviceData();
+		project.virtualScreenWidth = 480;
+		project.virtualScreenHeight = 700;
+		project.setDeviceData(getActivity());
 		storageHandler.saveProject(project);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject);
