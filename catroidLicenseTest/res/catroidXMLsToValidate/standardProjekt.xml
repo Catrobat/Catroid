@@ -22,16 +22,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Content.Project>
-  <deviceAndroidVersion>10</deviceAndroidVersion>
+  <androidVersion>10</androidVersion>
+  <catroidVersionCode>10</catroidVersionCode>
+  <catroidVersionName>0.5.6a</catroidVersionName>
   <deviceName>GT-I9100</deviceName>
-  <name>standardProjekt</name>
+  <projectName>standardProjekt</projectName>
   <screenResolution>480/800</screenResolution>
   <spriteList>
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>B978398F6E8D16B857AA81618F3EF879_background</costumeFileName>
-          <costumeName>background</costumeName>
+          <fileName>B978398F6E8D16B857AA81618F3EF879_background</fileName>
+          <name>background</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>Hintergrund</name>
@@ -51,16 +53,16 @@
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>143780EBC24495149123CCAF3A1CDC35_normalCat</costumeFileName>
-          <costumeName>normalCat</costumeName>
+          <fileName>143780EBC24495149123CCAF3A1CDC35_normalCat</fileName>
+          <name>normalCat</name>
         </Common.CostumeData>
         <Common.CostumeData>
-          <costumeFileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</costumeFileName>
-          <costumeName>banzaiCat</costumeName>
+          <fileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</fileName>
+          <name>banzaiCat</name>
         </Common.CostumeData>
         <Common.CostumeData>
-          <costumeFileName>3673EC84679EE425A215B86B085EC292_cheshireCat</costumeFileName>
-          <costumeName>cheshireCat</costumeName>
+          <fileName>3673EC84679EE425A215B86B085EC292_cheshireCat</fileName>
+          <name>cheshireCat</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>Catroid</name>
@@ -116,6 +118,4 @@
       <soundList/>
     </Content.Sprite>
   </spriteList>  
-  <versionCode>10</versionCode>
-  <versionName>0.5.6a</versionName>
 </Content.Project>
