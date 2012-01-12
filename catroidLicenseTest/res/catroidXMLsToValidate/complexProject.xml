@@ -298,7 +298,7 @@
               <sprite reference="../../../../.."/>
             </Bricks.SetSizeToBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>fruit3 start</selectedMessage>
+              <broadcastMessage>fruit3 start</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
             <Bricks.SetXBrick>
@@ -315,11 +315,11 @@
               <sprite reference="../../../../.."/>
             </Bricks.HideBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>gameover minus</selectedMessage>
+              <broadcastMessage>gameover minus</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>fruit4 start</selectedMessage>
+              <broadcastMessage>fruit4 start</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
@@ -356,7 +356,7 @@
             </Bricks.ChangeYByBrick>
             <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
             <Bricks.BroadcastBrick>
-              <selectedMessage>gameover plus</selectedMessage>
+              <broadcastMessage>gameover plus</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
@@ -404,11 +404,11 @@
               <sprite reference="../../../../.."/>
             </Bricks.HideBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>gameover minus</selectedMessage>
+              <broadcastMessage>gameover minus</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>fruit3 start</selectedMessage>
+              <broadcastMessage>fruit3 start</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
@@ -445,7 +445,7 @@
             </Bricks.ChangeYByBrick>
             <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
             <Bricks.BroadcastBrick>
-              <selectedMessage>gameover plus</selectedMessage>
+              <broadcastMessage>gameover plus</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
@@ -480,8 +480,8 @@
               <sprite reference="../../../../.."/>
             </Bricks.SetSizeToBrick>
             <Bricks.SetGhostEffectBrick>
-              <ghostEffectValue>40.0</ghostEffectValue>
               <sprite reference="../../../../.."/>
+              <transparency>40.0</transparency>
             </Bricks.SetGhostEffectBrick>
             <Bricks.ComeToFrontBrick>
               <sprite reference="../../../../.."/>
@@ -499,7 +499,6 @@
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>gameover plus</receivedMessage>
-          
         </Content.BroadcastScript>
       </scriptList>
       <soundList/>
