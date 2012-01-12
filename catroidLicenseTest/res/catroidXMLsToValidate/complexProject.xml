@@ -22,16 +22,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Content.Project>
-  <deviceAndroidVersion>10</deviceAndroidVersion>
+  <androidVersion>10</androidVersion>
+  <catroidVersionCode>308</catroidVersionCode>
+  <catroidVersionName>0.5.308</catroidVersionName>
   <deviceName>HTC Sensation Z710e</deviceName>
-  <name>fruit catcher 2</name>
+  <projectName>fruit catcher 2</projectName>
   <screenResolution>480/800</screenResolution>
   <spriteList>
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>82A2FD67A3E7449BD9E9D2A9757119FA_woods.gif</costumeFileName>
-          <costumeName>woods.gif</costumeName>
+          <fileName>82A2FD67A3E7449BD9E9D2A9757119FA_woods.gif</fileName>
+          <name>woods.gif</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>Background</name>
@@ -55,8 +57,8 @@
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>64A00549DB3F1C67EB53FC858027181B_orange-1600.jpeg</costumeFileName>
-          <costumeName>orange-1600.jpeg</costumeName>
+          <fileName>64A00549DB3F1C67EB53FC858027181B_orange-1600.jpeg</fileName>
+          <name>orange-1600.jpeg</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>fruit1</name>
@@ -72,7 +74,7 @@
               <sprite reference="../../../../.."/>
             </Bricks.SetSizeToBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>fruit1 start</selectedMessage>
+              <broadcastMessage>fruit1 start</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
@@ -84,11 +86,11 @@
               <sprite reference="../../../../.."/>
             </Bricks.HideBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>gameover minus</selectedMessage>
+              <broadcastMessage>gameover minus</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>fruit2 start</selectedMessage>
+              <broadcastMessage>fruit2 start</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
@@ -125,12 +127,12 @@
             </Bricks.ChangeYByBrick>
             <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
             <Bricks.BroadcastBrick>
-              <selectedMessage>gameover plus</selectedMessage>
+              <broadcastMessage>gameover plus</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
           <sprite reference="../../.."/>
-          <selectedMessage>fruit1 start</selectedMessage>
+          <receivedMessage>fruit1 start</receivedMessage>
         </Content.BroadcastScript>
       </scriptList>
       <soundList/>
@@ -138,8 +140,8 @@
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>A727EF6261AB8C16CF80EEEA1810C761_green-apple.jpeg</costumeFileName>
-          <costumeName>green-apple.jpeg</costumeName>
+          <fileName>A727EF6261AB8C16CF80EEEA1810C761_green-apple.jpeg</fileName>
+          <name>green-apple.jpeg</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>fruit2</name>
@@ -170,11 +172,11 @@
               <sprite reference="../../../../.."/>
             </Bricks.HideBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>gameover minus</selectedMessage>
+              <broadcastMessage>gameover minus</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
             <Bricks.BroadcastBrick>
-              <selectedMessage>fruit1 start</selectedMessage>
+              <broadcastMessage>fruit1 start</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
@@ -211,12 +213,12 @@
             </Bricks.ChangeYByBrick>
             <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
             <Bricks.BroadcastBrick>
-              <selectedMessage>gameover plus</selectedMessage>
+              <broadcastMessage>gameover plus</broadcastMessage>
               <sprite reference="../../../../.."/>
             </Bricks.BroadcastBrick>
           </brickList>
           <sprite reference="../../.."/>
-          <selectedMessage>fruit2 start</selectedMessage>
+          <receivedMessage>fruit2 start</receivedMessage>
         </Content.BroadcastScript>
       </scriptList>
       <soundList/>
@@ -224,12 +226,12 @@
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>3F09ED48A63445318C25C7D80D5A7E87_gameover.png</costumeFileName>
-          <costumeName>gameover.png</costumeName>
+          <fileName>3F09ED48A63445318C25C7D80D5A7E87_gameover.png</fileName>
+          <name>gameover.png</name>
         </Common.CostumeData>
         <Common.CostumeData>
-          <costumeFileName>E193A01BD80D8D5804E6F70BEC03DF75_game over.png</costumeFileName>
-          <costumeName>game over.png</costumeName>
+          <fileName>E193A01BD80D8D5804E6F70BEC03DF75_game over.png</fileName>
+          <name>game over.png</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>gameover</name>
@@ -257,7 +259,7 @@
           </brickList>
           <sprite reference="../../.."/>
           
-          <selectedMessage>gameover minus</selectedMessage>
+          <receivedMessage>gameover minus</receivedMessage>
         </Content.BroadcastScript>
         <Content.BroadcastScript>
           <brickList>
@@ -271,7 +273,7 @@
           </brickList>
           <sprite reference="../../.."/>
           
-          <selectedMessage>gameover plus</selectedMessage>
+          <receivedMessage>gameover plus</receivedMessage>
         </Content.BroadcastScript>
       </scriptList>
       <soundList/>
@@ -279,8 +281,8 @@
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>B2775167F0E51534543130A5ADF0A549_ananas-frucht-wallpapers_13079_1600x1200.jpeg</costumeFileName>
-          <costumeName>ananas-frucht-wallpapers_13079_1600x1200.jpeg</costumeName>
+          <fileName>B2775167F0E51534543130A5ADF0A549_ananas-frucht-wallpapers_13079_1600x1200.jpeg</fileName>
+          <name>ananas-frucht-wallpapers_13079_1600x1200.jpeg</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>fruit3</name>
@@ -360,7 +362,7 @@
           </brickList>
           <sprite reference="../../.."/>
           
-          <selectedMessage>fruit3 start</selectedMessage>
+          <receivedMessage>fruit3 start</receivedMessage>
         </Content.BroadcastScript>
       </scriptList>
       <soundList/>
@@ -369,8 +371,8 @@
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>4D75A182A0FC5D34148B9EC526F30D7A_banana.png</costumeFileName>
-          <costumeName>banana.png</costumeName>
+          <fileName>4D75A182A0FC5D34148B9EC526F30D7A_banana.png</fileName>
+          <name>banana.png</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>fruit4</name>
@@ -449,7 +451,7 @@
           </brickList>
           <sprite reference="../../.."/>
           
-          <selectedMessage>fruit4 start</selectedMessage>
+          <receivedMessage>fruit4 start</receivedMessage>
         </Content.BroadcastScript>
       </scriptList>
       <soundList/>
@@ -457,8 +459,8 @@
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>552E05774979B3EC52FD1251E01EB032_stars.gif</costumeFileName>
-          <costumeName>stars.gif</costumeName>
+          <fileName>552E05774979B3EC52FD1251E01EB032_stars.gif</fileName>
+          <name>stars.gif</name>
         </Common.CostumeData>
       </costumeDataList>
       <name>no click</name>
@@ -496,7 +498,7 @@
             </Bricks.ChangeSizeByNBrick>
           </brickList>
           <sprite reference="../../.."/>
-          <selectedMessage>gameover plus</selectedMessage>
+          <receivedMessage>gameover plus</receivedMessage>
           
         </Content.BroadcastScript>
       </scriptList>
@@ -504,6 +506,4 @@
       
     </Content.Sprite>
   </spriteList>
-  <versionCode>308</versionCode>
-  <versionName>0.5.308</versionName>
 </Content.Project>

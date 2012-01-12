@@ -35,17 +35,17 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	private String name;
+	private String projectName;
 
 	// Only used for Catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
-	private int deviceAndroidVersion;
+	private int androidVersion;
 	@SuppressWarnings("unused")
-	private String versionName;
+	private String catroidVersionName;
 	@SuppressWarnings("unused")
-	private int versionCode;
+	private int catroidVersionCode;
 
 	private String screenResolution;
 	public transient int virtualScreenWidth = 0;
@@ -61,7 +61,7 @@ public class Project implements Serializable {
 	}
 
 	public Project(Context context, String name) {
-		this.name = name;
+		this.projectName = name;
 
 		ifLandscapeSwitchWidthAndHeight();
 		virtualScreenWidth = Values.SCREEN_WIDTH;
@@ -101,25 +101,25 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.projectName = name;
 	}
 
 	public String getName() {
-		return name;
+		return projectName;
 	}
 
 	public void setDeviceData(Context context) {
 		deviceName = Build.MODEL;
-		deviceAndroidVersion = Build.VERSION.SDK_INT;
+		androidVersion = Build.VERSION.SDK_INT;
 
 		screenResolution = virtualScreenWidth + "/" + virtualScreenHeight;
 
 		if (context == null) {
-			versionName = "unknown";
-			versionCode = 0;
+			catroidVersionName = "unknown";
+			catroidVersionCode = 0;
 		} else {
-			versionName = Utils.getVersionName(context);
-			versionCode = Utils.getVersionCode(context);
+			catroidVersionName = Utils.getVersionName(context);
+			catroidVersionCode = Utils.getVersionCode(context);
 		}
 	}
 }
