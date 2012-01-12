@@ -22,7 +22,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Content.Project>
-  <versionName>0.5.6a</versionName>
+  <deviceAndroidVersion>10</deviceAndroidVersion>
+  <deviceName>GT-I9100</deviceName>
+  <name>standardProjekt</name>
+  <screenResolution>480/800</screenResolution>
   <spriteList>
     <Content.Sprite>
       <costumeDataList>
@@ -31,7 +34,7 @@
           <costumeName>background</costumeName>
         </Common.CostumeData>
       </costumeDataList>
-      <soundList/>
+      <name>Hintergrund</name>
       <scriptList>
         <Content.StartScript>
           <brickList>
@@ -43,7 +46,7 @@
           <sprite reference="../../.."/>
         </Content.StartScript>
       </scriptList>
-      <name>Hintergrund</name>
+      <soundList/>
     </Content.Sprite>
     <Content.Sprite>
       <costumeDataList>
@@ -60,7 +63,7 @@
           <costumeName>cheshireCat</costumeName>
         </Common.CostumeData>
       </costumeDataList>
-      <soundList/>
+      <name>Catroid</name>
       <scriptList>
         <Content.StartScript>
           <brickList>
@@ -69,11 +72,11 @@
               <sprite reference="../../../../.."/>
             </Bricks.SetCostumeBrick>
             <Bricks.RepeatBrick>
-              <sprite reference="../../../../.."/>
               <loopEndBrick>
                 <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
+              <sprite reference="../../../../.."/>
               <timesToRepeat>3</timesToRepeat>
             </Bricks.RepeatBrick>
             <Bricks.ShowBrick>
@@ -108,14 +111,11 @@
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-          <position>0</position>
         </Content.WhenScript>
       </scriptList>
-      <name>Catroid</name>
+      <soundList/>
     </Content.Sprite>
-  </spriteList>
-  <deviceName>GT-I9100</deviceName>
-  <name>standardProjekt</name>
-  <screenResolution>480/800</screenResolution>
+  </spriteList>  
   <versionCode>10</versionCode>
+  <versionName>0.5.6a</versionName>
 </Content.Project>

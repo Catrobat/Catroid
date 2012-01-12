@@ -129,7 +129,6 @@ public class AddBrickDialog extends Dialog {
 			motionBrickList.add(new GoNStepsBackBrick(sprite, 1));
 			motionBrickList.add(new ComeToFrontBrick(sprite));
 		}
-
 		brickMap.put(context.getString(R.string.category_motion), motionBrickList);
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();
@@ -168,10 +167,10 @@ public class AddBrickDialog extends Dialog {
 		brickMap.put(context.getString(R.string.category_control), controlBrickList);
 
 		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
-		legoNXTBrickList.add(new NXTMotorTurnAngleBrick(sprite, 0, 180));
-		legoNXTBrickList.add(new NXTMotorStopBrick(sprite, 0));
-		legoNXTBrickList.add(new NXTMotorActionBrick(sprite, 0, 100));
-		legoNXTBrickList.add(new NXTPlayToneBrick(sprite, 2000, 1));
+		legoNXTBrickList.add(new NXTMotorTurnAngleBrick(sprite, NXTMotorTurnAngleBrick.Motor.MOTOR_A, 180));
+		legoNXTBrickList.add(new NXTMotorStopBrick(sprite, NXTMotorStopBrick.Motor.MOTOR_A));
+		legoNXTBrickList.add(new NXTMotorActionBrick(sprite, NXTMotorActionBrick.Motor.MOTOR_A, 100));
+		legoNXTBrickList.add(new NXTPlayToneBrick(sprite, 200, 1000));
 		brickMap.put(context.getString(R.string.category_lego_nxt), legoNXTBrickList);
 
 		return brickMap;
