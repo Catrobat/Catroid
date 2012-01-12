@@ -169,6 +169,9 @@
 	<string name="brick_set_y">Set Y to:</string>
     <string name="brick_change_x_by">Change X by:</string>
 	<string name="brick_change_y_by">Change Y by:</string>
+	<string name="brick_go_back">Go back</string>
+    <string name="brick_go_back_layers">layers</string>
+    <string name="brick_come_to_front">Go to front</string>
 	<string name="brick_if_on_edge_bounce">If on edge, bounce</string>
 	<string name="brick_move">Move</string>
 	<string name="brick_move_n_steps">steps</string>
@@ -198,9 +201,6 @@
 	<string name="brick_say">Say</string>
 	<string name="brick_think">Think</string>
 	<string name="brick_next_costume">Next Costume</string>
-	<string name="brick_go_back">Go back</string>
-    <string name="brick_go_back_layers">layers</string>
-    <string name="brick_come_to_front">Go to front</string>
 	
 	<!-- Sound bricks -->
     <string name="brick_play_sound">Play sound</string>
