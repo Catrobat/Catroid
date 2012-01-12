@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
 
 public class XMLValidatingTest extends TestCase {
 
-	private static final String XMLSCHEMA_URL = "http://catroidtestserver.ist.tugraz.at/tests/catroid/catroidXmlSchema.xsd";
+	private static final String XMLSCHEMA_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/catroidXmlSchema.xsd";
 
 	public void testXmlWithSchemaValidator() throws IOException, SAXException {
 
