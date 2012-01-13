@@ -38,8 +38,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -135,22 +135,20 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 						if (packageList.size() <= 0) {
 
 							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-							builder.setMessage(activity.getString(R.string.paintroid_not_installed))
-									.setCancelable(false)
-									.setPositiveButton(activity.getString(R.string.yes),
-											new DialogInterface.OnClickListener() {
-												public void onClick(DialogInterface dialog, int id) {
-													Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
-															.parse(Consts.PAINTROID_DOWNLOAD_LINK));
-													activity.startActivity(downloadPaintroidIntent);
-												}
-											})
-									.setNegativeButton(activity.getString(R.string.no),
-											new DialogInterface.OnClickListener() {
-												public void onClick(DialogInterface dialog, int id) {
-													dialog.cancel();
-												}
-											});
+							builder.setMessage(activity.getString(R.string.paintroid_not_installed)).setCancelable(
+									false).setPositiveButton(activity.getString(R.string.yes),
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int id) {
+											Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
+													.parse(Consts.PAINTROID_DOWNLOAD_LINK));
+											activity.startActivity(downloadPaintroidIntent);
+										}
+									}).setNegativeButton(activity.getString(R.string.no),
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int id) {
+											dialog.cancel();
+										}
+									});
 							AlertDialog alert = builder.create();
 							alert.show();
 							return;
@@ -160,8 +158,8 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					scriptTabActivity.selectedCostumeData = costumeData;
 
 					Bundle bundleForPaintroid = new Bundle();
-					bundleForPaintroid.putString(activity.getString(R.string.extra_picture_path_paintroid),
-							costumeData.getAbsolutePath());
+					bundleForPaintroid.putString(activity.getString(R.string.extra_picture_path_paintroid), costumeData
+							.getAbsolutePath());
 					bundleForPaintroid.putInt(activity.getString(R.string.extra_x_value_paintroid), 0);
 					bundleForPaintroid.putInt(activity.getString(R.string.extra_x_value_paintroid), 0);
 					intent.putExtras(bundleForPaintroid);

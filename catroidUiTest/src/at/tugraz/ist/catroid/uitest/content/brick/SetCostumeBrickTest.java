@@ -76,23 +76,23 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 
 		costumeFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image.png",
-				RESOURCE_COSTUME, getInstrumentation().getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+				RESOURCE_COSTUME, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(costumeFile.getName());
 		costumeData.setCostumeName(costumeName);
 
 		costumeFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image2.png",
-				RESOURCE_COSTUME2, getInstrumentation().getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+				RESOURCE_COSTUME2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		CostumeData costumeData2 = new CostumeData();
 		costumeData2.setCostumeFilename(costumeFile2.getName());
 		costumeData2.setCostumeName(costumeName2);
 
 		costumeDataList.add(costumeData);
 		costumeDataList.add(costumeData2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
-				costumeData.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData2.getChecksum(),
-				costumeData2.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData
+				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData2.getChecksum(), costumeData2
+				.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}

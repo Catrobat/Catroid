@@ -21,8 +21,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Content.Project>
+  <androidVersion>10</androidVersion>
+  <catroidVersionCode>8</catroidVersionCode>
+  <catroidVersionName>0.5.6a</catroidVersionName>
   <deviceName>HTC Desire</deviceName>
-  <name>testProject</name>
+  <projectName>testProject</projectName>
   <screenResolution>480/800</screenResolution>
   <spriteList>
     <Content.Sprite>
@@ -52,8 +55,6 @@
           <sprite reference="../../.."/>
         </Content.StartScript>
         <Content.WhenScript>
-        <action>Tapped</action>
-        <position>0</position>
           <brickList>
             <Bricks.WaitBrick>
               <sprite reference="../../../../.."/>
@@ -64,6 +65,7 @@
             </Bricks.PlaySoundBrick>
           </brickList>
           <sprite reference="../../.."/>
+          <action>Tapped</action>
         </Content.WhenScript>
       </scriptList>
     </Content.Sprite>
@@ -94,8 +96,8 @@
                 <yMovement>-100</yMovement>
               </Bricks.ChangeYByBrick>
               <Bricks.GlideToBrick>
-                <sprite reference="../../../../.."/>
                 <durationInMilliSeconds>3000</durationInMilliSeconds>
+                <sprite reference="../../../../.."/>
                 <xDestination>500</xDestination>
                 <yDestination>500</yDestination>
               </Bricks.GlideToBrick>
@@ -109,6 +111,4 @@
         </scriptList>
     </Content.Sprite>
   </spriteList>
-  <versionName>0.5.4a</versionName>
-  <versionCode>8</versionCode>
 </Content.Project>
