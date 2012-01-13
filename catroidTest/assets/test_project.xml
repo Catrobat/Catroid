@@ -23,7 +23,7 @@
 <Content.Project>
   <androidVersion>10</androidVersion>
   <catroidVersionCode>8</catroidVersionCode>
-  <catroidVersionName>0.5.4a</catroidVersionName>
+  <catroidVersionName>0.5.6a</catroidVersionName>
   <deviceName>HTC Desire</deviceName>
   <projectName>testProject</projectName>
   <screenResolution>480/800</screenResolution>
