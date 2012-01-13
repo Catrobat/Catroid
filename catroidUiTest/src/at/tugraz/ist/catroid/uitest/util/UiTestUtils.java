@@ -39,8 +39,6 @@ import java.util.List;
 import junit.framework.Assert;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
@@ -79,9 +77,10 @@ public class UiTestUtils {
 	public static final String PROJECTNAME1 = "testproject1";
 	public static final String PROJECTNAME2 = "testproject2";
 	public static final String PROJECTNAME3 = "testproject3";
-	public static final String PROJECTNAME4 = "testproject4";
-	public static final int TYPE_IMAGE_FILE = 0;
-	public static final int TYPE_SOUND_FILE = 1;
+
+	public static enum FileTypes {
+		IMAGE, SOUND
+	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
 		solo.sleep(50);
@@ -272,17 +271,17 @@ public class UiTestUtils {
 	 * @return the file
 	 * @throws IOException
 	 */
-	public static File saveFileToProject(String project, String name, int fileID, Context context, int type) {
+	public static File saveFileToProject(String project, String name, int fileID, Context context, FileTypes type) {
 
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
 			filePath = Consts.DEFAULT_ROOT + "/";
 		} else {
 			switch (type) {
-				case TYPE_IMAGE_FILE:
+				case IMAGE:
 					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.IMAGE_DIRECTORY + "/";
 					break;
-				case TYPE_SOUND_FILE:
+				case SOUND:
 					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.SOUND_DIRECTORY + "/";
 					break;
 				default:
@@ -358,11 +357,6 @@ public class UiTestUtils {
 			UtilFile.deleteDirectory(directory);
 		}
 
-		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME4);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
-
 		directory = new File(Consts.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
@@ -388,6 +382,32 @@ public class UiTestUtils {
 			Assert.fail(e.getClass().getName() + " when accessing " + fieldName);
 		}
 		return null;
+	}
+
+	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {
+
+		Field field = null;
+
+		try {
+			Class<?> c = object.getClass();
+			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
+		}
+
+		if (field != null) {
+			field.setAccessible(true);
+
+			try {
+				field.set(object, value);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
@@ -421,32 +441,6 @@ public class UiTestUtils {
 		return testImage;
 	}
 
-	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {
-
-		Field field = null;
-
-		try {
-			Class<?> c = object.getClass();
-			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
-		}
-
-		if (field != null) {
-			field.setAccessible(true);
-
-			try {
-				field.set(object, value);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public static void createValidUser(Context context) {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -459,8 +453,8 @@ public class UiTestUtils {
 
 			assert (userRegistered);
 
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			prefs.edit().putString(Consts.TOKEN, token).commit();
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			sharedPreferences.edit().putString(Consts.TOKEN, token).commit();
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
@@ -469,22 +463,6 @@ public class UiTestUtils {
 	}
 
 	// Stage methods
-	public static void compareResWithArray(int fileId, byte[] screenArray, Context context) {
-		Bitmap file = BitmapFactory.decodeResource(context.getResources(), fileId);
-		byte[] fileByteArray = new byte[file.getWidth() * file.getHeight() * 4];
-		int counter = 0;
-		for (int y = 0; y < file.getHeight(); y++) {
-			for (int x = 0; x < file.getWidth(); x++) {
-				int pixel = file.getPixel(x, y);
-				fileByteArray[counter++] = (byte) ((pixel >> 24) & 0xff);
-				fileByteArray[counter++] = (byte) ((pixel >> 16) & 0xff);
-				fileByteArray[counter++] = (byte) ((pixel >> 8) & 0xff);
-				fileByteArray[counter++] = (byte) (pixel & 0xff);
-			}
-		}
-		compareByteArrays(fileByteArray, screenArray);
-	}
-
 	public static void compareByteArrays(byte[] firstArray, byte[] secondArray) {
 		assertEquals("Length of byte arrays not equal", firstArray.length, secondArray.length);
 		assertEquals("Arrays don't have same content.", firstArray[0], secondArray[0], 10);

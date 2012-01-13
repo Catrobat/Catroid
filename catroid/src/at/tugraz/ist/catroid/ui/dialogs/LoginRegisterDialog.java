@@ -36,12 +36,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.RegistrationTask;
 import at.tugraz.ist.catroid.web.ServerCalls;
 
 public class LoginRegisterDialog extends Dialog implements OnClickListener {
 	private final Activity activity;
+	private static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
@@ -100,8 +100,8 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 			case R.id.password_forgotten_button:
 				username = usernameEditText.getText().toString();
 				String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST : ServerCalls.BASE_URL;
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl
-						+ Consts.PASSWORD_FORGOTTEN_PATH + username));
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH
+						+ username));
 				activity.startActivity(browserIntent);
 				break;
 		}

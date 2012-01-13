@@ -88,7 +88,7 @@ public class StageDialog extends Dialog {
 		if (stageActivity.getResizePossible()) {
 			maximizeButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					stageActivity.changeScreenSize();
+					stageListener.changeScreenSize();
 				}
 			});
 		} else {

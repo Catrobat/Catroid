@@ -49,6 +49,9 @@ public class ServerCalls {
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
 
+	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
+	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
+
 	public static final String BASE_URL = "http://www.catroid.org/";
 	//public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
 	private static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
@@ -156,7 +159,7 @@ public class ServerCalls {
 			statusCode = jsonObject.getInt("statusCode");
 			String serverAnswer = jsonObject.optString("answer");
 
-			if (statusCode == Consts.SERVER_RESPONSE_TOKEN_OK) {
+			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
 				return true;
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
@@ -204,9 +207,9 @@ public class ServerCalls {
 			String serverAnswer = jsonObject.optString("answer");
 
 			boolean registered;
-			if (statusCode == Consts.SERVER_RESPONSE_TOKEN_OK) {
+			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
 				registered = false;
-			} else if (statusCode == Consts.SERVER_RESPONSE_REGISTER_OK) {
+			} else if (statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				registered = true;
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);

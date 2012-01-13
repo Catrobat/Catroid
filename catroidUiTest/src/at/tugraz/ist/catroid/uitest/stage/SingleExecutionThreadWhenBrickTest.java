@@ -207,15 +207,15 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 
 		File yellowImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), yellowImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
-				UiTestUtils.TYPE_IMAGE_FILE);
+				UiTestUtils.FileTypes.IMAGE);
 
 		File blueImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), blueImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.blue_image, getInstrumentation().getContext(),
-				UiTestUtils.TYPE_IMAGE_FILE);
+				UiTestUtils.FileTypes.IMAGE);
 
 		File greenImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), greenImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.green_image, getInstrumentation().getContext(),
-				UiTestUtils.TYPE_IMAGE_FILE);
+				UiTestUtils.FileTypes.IMAGE);
 
 		yellowCostumeData.setCostumeFilename(yellowImageFile.getName());
 

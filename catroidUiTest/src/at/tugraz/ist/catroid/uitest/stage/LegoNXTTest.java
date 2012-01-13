@@ -287,7 +287,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		commands.add(new int[] { MOTOR_STOP, 2 });
 		WaitBrick wait2 = new WaitBrick(firstSprite, 500);
 
-		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, NXTMotorTurnAngleBrick.Motor.MOTOR_C, 515);
+		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, NXTMotorTurnAngleBrick.Motor.MOTOR_C,
+				515);
 		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
 		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
@@ -311,7 +312,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
 		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+				.getContext(), UiTestUtils.FileTypes.IMAGE);
 		BitmapFactory.Options o = new BitmapFactory.Options();
 		o.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(image1.getAbsolutePath(), o);
