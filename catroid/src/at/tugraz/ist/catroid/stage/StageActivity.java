@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
 
@@ -81,17 +80,6 @@ public class StageActivity extends AndroidApplication {
 		stagePlaying = false;
 
 		finish();
-	}
-
-	public void changeScreenSize() {
-		switch (stageListener.screenMode) {
-			case Consts.MAXIMIZE:
-				stageListener.screenMode = Consts.STRETCH;
-				break;
-			case Consts.STRETCH:
-				stageListener.screenMode = Consts.MAXIMIZE;
-				break;
-		}
 	}
 
 	public void toggleAxes() {

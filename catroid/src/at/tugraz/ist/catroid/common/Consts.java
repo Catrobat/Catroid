@@ -39,17 +39,7 @@ public final class Consts {
 	//Web:
 	public static final String TOKEN = "token";
 
-	public static final int SERVER_RESPONSE_TOKEN_OK = 200;
-	public static final int SERVER_RESPONSE_REGISTER_OK = 201;
-
-	//Stage:
-	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
-	public static final int STRETCH = 0;
-	public static final int MAXIMIZE = 1;
-
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PAINTROID_DOWNLOAD_LINK = "https://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.6.4b.apk&can=2&q=";
-	public static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
-
 }
