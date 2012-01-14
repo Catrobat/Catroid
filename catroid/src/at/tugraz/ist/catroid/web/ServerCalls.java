@@ -36,11 +36,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class ServerCalls {
 	private final static String TAG = "ServerCalls";
 
-	public static final String REG_USER_NAME = "registrationUsername";
-	public static final String REG_USER_PASSWORD = "registrationPassword";
-	public static final String REG_USER_COUNTRY = "registrationCountry";
-	public static final String REG_USER_LANGUAGE = "registrationLanguage";
-	public static final String REG_USER_EMAIL = "registrationEmail";
+	private static final String REG_USER_NAME = "registrationUsername";
+	private static final String REG_USER_PASSWORD = "registrationPassword";
+	private static final String REG_USER_COUNTRY = "registrationCountry";
+	private static final String REG_USER_LANGUAGE = "registrationLanguage";
+	private static final String REG_USER_EMAIL = "registrationEmail";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -49,21 +49,23 @@ public class ServerCalls {
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
 
+	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
+	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
+
 	public static final String BASE_URL = "http://www.catroid.org/";
 	//public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
-	public static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
-	public static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
+	private static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
+	private static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
 	public static final String REGISTRATION_URL = BASE_URL + "api/checkTokenOrRegister/check.json";
 
 	public static final String BASE_URL_TEST = "http://catroidtest.ist.tugraz.at/";
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST + "api/upload/upload.json";
-	public static final String TEST_FILE_DOWNLOAD_URL = BASE_URL_TEST + "catroid/download/";
-	public static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";
-	public static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/checkTokenOrRegister/check.json";
+	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";
+	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/checkTokenOrRegister/check.json";
 
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
-	protected String resultString;
+	private String resultString;
 	private ConnectionWrapper connection;
 	private String emailForUiTests;
 
@@ -157,7 +159,7 @@ public class ServerCalls {
 			statusCode = jsonObject.getInt("statusCode");
 			String serverAnswer = jsonObject.optString("answer");
 
-			if (statusCode == Consts.SERVER_RESPONCE_TOKEN_OK) {
+			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
 				return true;
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
@@ -192,7 +194,7 @@ public class ServerCalls {
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
-			Log.v(TAG, "url to upload: " + serverUrl);
+			Log.v(TAG, "url to use: " + serverUrl);
 			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
@@ -205,9 +207,9 @@ public class ServerCalls {
 			String serverAnswer = jsonObject.optString("answer");
 
 			boolean registered;
-			if (statusCode == Consts.SERVER_RESPONCE_TOKEN_OK) {
+			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
 				registered = false;
-			} else if (statusCode == Consts.SERVER_RESPONCE_REGISTER_OK) {
+			} else if (statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				registered = true;
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);

@@ -117,7 +117,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		DeviceListActivity dla = new DeviceListActivity();
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 
 		solo.sleep(2000);
 
@@ -206,7 +206,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		DeviceListActivity dla = new DeviceListActivity();
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(6500);// increase this sleep if probs!
 
 		solo.goBack();
@@ -216,7 +216,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(1000);
 		//Device is still connected (until visiting main menu or exiting program)!
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("BT connection was not there anymore!!!", StageActivity.class);
 
@@ -232,11 +232,11 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
-		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
-				solo.searchText(KITTYROID_MAC_ADDRESS));
+		assertTrue("I should be on the bluetooth device choosing screen, but am not!", solo
+				.searchText(KITTYROID_MAC_ADDRESS));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
@@ -259,12 +259,12 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			solo.sleep(5000);
 		}
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 		solo.goBack();
 		solo.sleep(1000);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 
@@ -273,25 +273,26 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	public void createTestproject(String projectName) {
 
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new StartScript("startScript", firstSprite);
-		Script whenScript = new WhenScript("whenScript", firstSprite);
+		Script startScript = new StartScript(firstSprite);
+		Script whenScript = new WhenScript(firstSprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
-		NXTMotorActionBrick nxt = new NXTMotorActionBrick(firstSprite, 3, 100);
+		NXTMotorActionBrick nxt = new NXTMotorActionBrick(firstSprite, NXTMotorActionBrick.Motor.MOTOR_A_C, 100);
 		commands.add(new int[] { MOTOR_ACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
 		commands.add(new int[] { MOTOR_ACTION, 2, 100 });
 		WaitBrick wait = new WaitBrick(firstSprite, 500);
 
-		NXTMotorStopBrick nxtStop = new NXTMotorStopBrick(firstSprite, 3);
+		NXTMotorStopBrick nxtStop = new NXTMotorStopBrick(firstSprite, NXTMotorStopBrick.Motor.MOTOR_A_C);
 		commands.add(new int[] { MOTOR_STOP, 0 });
 		commands.add(new int[] { MOTOR_STOP, 2 });
 		WaitBrick wait2 = new WaitBrick(firstSprite, 500);
 
-		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 515);
+		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, NXTMotorTurnAngleBrick.Motor.MOTOR_C,
+				515);
 		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
 		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
-		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 50, 1);
+		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 5000, 1000);
 		//Tone does not return a command
 
 		whenScript.addBrick(nxt);
@@ -311,7 +312,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
 		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+				.getContext(), UiTestUtils.FileTypes.IMAGE);
 		BitmapFactory.Options o = new BitmapFactory.Options();
 		o.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(image1.getAbsolutePath(), o);

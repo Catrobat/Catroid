@@ -35,26 +35,38 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	private String name;
+	private String projectName;
 
 	// Only used for Catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
-	private String versionName;
+	private int androidVersion;
 	@SuppressWarnings("unused")
-	private int versionCode;
+	private String catroidVersionName;
+	@SuppressWarnings("unused")
+	private int catroidVersionCode;
 
 	private String screenResolution;
-	public transient int VIRTUAL_SCREEN_WIDTH = 0;
-	public transient int VIRTUAL_SCREEN_HEIGHT = 0;
+	public transient int virtualScreenWidth = 0;
+	public transient int virtualScreenHeight = 0;
+
+	protected Object readResolve() {
+		if (screenResolution != null) {
+			String[] resolutions = screenResolution.split("/");
+			virtualScreenWidth = Integer.valueOf(resolutions[0]);
+			virtualScreenHeight = Integer.valueOf(resolutions[1]);
+		}
+		return this;
+	}
 
 	public Project(Context context, String name) {
-		this.name = name;
-		deviceName = Build.MODEL;
-		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
-		VIRTUAL_SCREEN_WIDTH = Values.SCREEN_WIDTH;
-		VIRTUAL_SCREEN_HEIGHT = Values.SCREEN_HEIGHT;
+		this.projectName = name;
+
+		ifLandscapeSwitchWidthAndHeight();
+		virtualScreenWidth = Values.SCREEN_WIDTH;
+		virtualScreenHeight = Values.SCREEN_HEIGHT;
+		setDeviceData(context);
 
 		if (context == null) {
 			return;
@@ -63,19 +75,14 @@ public class Project implements Serializable {
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.costume.zPosition = Integer.MIN_VALUE;
 		addSprite(background);
-
-		versionName = Utils.getVersionName(context);
-		versionCode = Utils.getVersionCode(context);
-
 	}
 
-	protected Object readResolve() {
-		if (screenResolution != null) {
-			String[] resolutions = screenResolution.split("/");
-			VIRTUAL_SCREEN_WIDTH = Integer.valueOf(resolutions[0]);
-			VIRTUAL_SCREEN_HEIGHT = Integer.valueOf(resolutions[1]);
+	private void ifLandscapeSwitchWidthAndHeight() {
+		if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
+			int tmp = Values.SCREEN_HEIGHT;
+			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
+			Values.SCREEN_WIDTH = tmp;
 		}
-		return this;
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -94,15 +101,25 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.projectName = name;
 	}
 
 	public String getName() {
-		return name;
+		return projectName;
 	}
 
-	public void setDeviceData() {
+	public void setDeviceData(Context context) {
 		deviceName = Build.MODEL;
-		screenResolution = VIRTUAL_SCREEN_WIDTH + "/" + VIRTUAL_SCREEN_HEIGHT;
+		androidVersion = Build.VERSION.SDK_INT;
+
+		screenResolution = virtualScreenWidth + "/" + virtualScreenHeight;
+
+		if (context == null) {
+			catroidVersionName = "unknown";
+			catroidVersionCode = 0;
+		} else {
+			catroidVersionName = Utils.getVersionName(context);
+			catroidVersionCode = Utils.getVersionCode(context);
+		}
 	}
 }

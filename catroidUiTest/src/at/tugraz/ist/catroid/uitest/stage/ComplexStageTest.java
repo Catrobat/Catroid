@@ -252,16 +252,16 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		File yellowImageFile = UiTestUtils.saveFileToProject(project.getName(), yellowImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
-				UiTestUtils.TYPE_IMAGE_FILE);
+				UiTestUtils.FileTypes.IMAGE);
 		File greenImageFile = UiTestUtils.saveFileToProject(project.getName(), greenImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.green_image, getInstrumentation().getContext(),
-				UiTestUtils.TYPE_IMAGE_FILE);
+				UiTestUtils.FileTypes.IMAGE);
 		File blueImageFile = UiTestUtils.saveFileToProject(project.getName(), blueImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.blue_image, getInstrumentation().getContext(),
-				UiTestUtils.TYPE_IMAGE_FILE);
+				UiTestUtils.FileTypes.IMAGE);
 		File redImageFile = UiTestUtils.saveFileToProject(project.getName(), redImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.red_image, getInstrumentation().getContext(),
-				UiTestUtils.TYPE_IMAGE_FILE);
+				UiTestUtils.FileTypes.IMAGE);
 		yellowCostumeData.setCostumeFilename(yellowImageFile.getName());
 		greenCostumeData.setCostumeFilename(greenImageFile.getName());
 		blueCostumeData.setCostumeFilename(blueImageFile.getName());

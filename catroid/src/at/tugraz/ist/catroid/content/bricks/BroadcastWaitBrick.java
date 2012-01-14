@@ -50,7 +50,7 @@ public class BroadcastWaitBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private transient ProjectManager projectManager;
 	private Sprite sprite;
-	private String selectedMessage = "";
+	private String broadcastMessage = "";
 
 	@XStreamOmitField
 	private transient View view;
@@ -65,7 +65,7 @@ public class BroadcastWaitBrick implements Brick {
 	}
 
 	public void execute() {
-		Vector<BroadcastScript> receiver = projectManager.messageContainer.getReceiverOfMessage(selectedMessage);
+		Vector<BroadcastScript> receiver = projectManager.messageContainer.getReceiverOfMessage(broadcastMessage);
 		if (receiver == null) {
 			return;
 		}
@@ -91,14 +91,14 @@ public class BroadcastWaitBrick implements Brick {
 	}
 
 	public void setSelectedMessage(String selectedMessage) {
-		this.selectedMessage = selectedMessage;
-		projectManager.messageContainer.addMessage(this.selectedMessage);
+		this.broadcastMessage = selectedMessage;
+		projectManager.messageContainer.addMessage(this.broadcastMessage);
 	}
 
 	private Object readResolve() {
 		projectManager = ProjectManager.getInstance();
-		if (selectedMessage != null && projectManager.getCurrentProject() != null) {
-			projectManager.messageContainer.addMessage(selectedMessage);
+		if (broadcastMessage != null && projectManager.getCurrentProject() != null) {
+			projectManager.messageContainer.addMessage(broadcastMessage);
 		}
 		return this;
 	}
@@ -120,9 +120,9 @@ public class BroadcastWaitBrick implements Brick {
 					start = false;
 					return;
 				}
-				selectedMessage = ((String) parent.getItemAtPosition(pos)).trim();
-				if (selectedMessage == context.getString(R.string.broadcast_nothing_selected)) {
-					selectedMessage = "";
+				broadcastMessage = ((String) parent.getItemAtPosition(pos)).trim();
+				if (broadcastMessage == context.getString(R.string.broadcast_nothing_selected)) {
+					broadcastMessage = "";
 				}
 			}
 
@@ -130,7 +130,7 @@ public class BroadcastWaitBrick implements Brick {
 			}
 		});
 
-		int position = projectManager.messageContainer.getPositionOfMessageInAdapter(selectedMessage);
+		int position = projectManager.messageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 		if (position > 0) {
 			broadcastSpinner.setSelection(position);
 		}
@@ -153,9 +153,9 @@ public class BroadcastWaitBrick implements Brick {
 							dialog.cancel();
 							return;
 						}
-						selectedMessage = newMessage;
-						projectManager.messageContainer.addMessage(selectedMessage);
-						int position = projectManager.messageContainer.getPositionOfMessageInAdapter(selectedMessage);
+						broadcastMessage = newMessage;
+						projectManager.messageContainer.addMessage(broadcastMessage);
+						int position = projectManager.messageContainer.getPositionOfMessageInAdapter(broadcastMessage);
 
 						broadcastSpinner.setSelection(position);
 					}

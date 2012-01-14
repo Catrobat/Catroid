@@ -58,23 +58,23 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
-				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.TYPE_SOUND_FILE);
+				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundName);
 
 		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
-				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.TYPE_SOUND_FILE);
+				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile2.getName());
 		soundInfo2.setTitle(soundName2);
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(),
-				soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(),
-				soundInfo2.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(), soundInfo
+				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(), soundInfo2
+				.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
