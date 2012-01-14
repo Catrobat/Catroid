@@ -25,89 +25,87 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
-import at.tugraz.ist.catroid.content.bricks.SetXBrick;
-import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ForeverBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private StartScript testScript;
-	private int brickSleepTime = 1000;
-	private int positionOfFirstWaitBrick;
-	private int positionOfSecondWaitBrick;
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick foreverBrick;
 
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		testScript = new StartScript("testScript", testSprite);
-
-		ShowBrick showBrick = new ShowBrick(testSprite);
-		foreverBrick = new ForeverBrick(testSprite);
-		WaitBrick firstWaitBrick = new WaitBrick(testSprite, brickSleepTime);
-		SetXBrick firstSetXBrick = new SetXBrick(testSprite, 100);
-		WaitBrick secondWaitBrick = new WaitBrick(testSprite, brickSleepTime);
-		SetXBrick secondSetXBrick = new SetXBrick(testSprite, 200);
-		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
-
-		testScript.addBrick(showBrick);
-		testScript.addBrick(foreverBrick);
-		testScript.addBrick(firstWaitBrick);
-		testScript.addBrick(firstSetXBrick);
-		testScript.addBrick(secondWaitBrick);
-		testScript.addBrick(secondSetXBrick);
-		testScript.addBrick(loopEndBrick);
-		foreverBrick.setLoopEndBrick(loopEndBrick);
-
-		testSprite.addScript(testScript);
-
-		positionOfFirstWaitBrick = testScript.getBrickList().indexOf(firstWaitBrick);
-		positionOfSecondWaitBrick = testScript.getBrickList().indexOf(secondWaitBrick);
 	}
 
 	public void testForeverBrick() throws InterruptedException {
+		final int twentyIsAlmostForever = 20;
+
+		testSprite.removeAllScripts();
+		testScript = new StartScript(testSprite);
+
+		foreverBrick = new ForeverBrick(testSprite);
+		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		foreverBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(foreverBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
 		testSprite.startStartScripts();
 
-		Thread.sleep(brickSleepTime / 2);
+		Thread.sleep(expectedDelay * twentyIsAlmostForever);
 
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(brickSleepTime);
-		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(brickSleepTime);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
+		assertEquals("Executed the wrong number of times!", twentyIsAlmostForever * deltaY, (int) testSprite.costume
+				.getYPosition());
 
-		Thread.sleep(brickSleepTime * 6);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(brickSleepTime);
-		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(brickSleepTime);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
+		final int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
+		final int forever = (Integer) TestUtils.getPrivateField("FOREVER", loopEndBrick, false);
 
-		int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
-
-		assertEquals("Wrong number of times to repeat", LoopEndBrick.FOREVER, timesToRepeat);
+		assertEquals("Wrong number of times to repeat", forever, timesToRepeat);
 	}
 
 	public void testLoopDelay() throws InterruptedException {
+		final int deltaY = -10;
+		final int repeatTimes = 15;
 
-		long expectedDelay = LoopEndBrick.LOOP_DELAY;
-		foreverBrick.execute();
-		long startTime = foreverBrick.getBeginLoopTime() / 1000000;
-		loopEndBrick.execute();
-		long endTime = System.nanoTime() / 1000000;
-		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
-		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
+		testSprite.removeAllScripts();
+		testScript = new StartScript(testSprite);
 
-		startTime = foreverBrick.getBeginLoopTime() / 1000000;
-		loopEndBrick.execute();
-		endTime = System.nanoTime() / 1000000;
-		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
-		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
+		foreverBrick = new ForeverBrick(testSprite);
+		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		foreverBrick.setLoopEndBrick(loopEndBrick);
+
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(foreverBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		final long startTime = System.currentTimeMillis();
+		testSprite.startStartScripts();
+
+		Thread.sleep(expectedDelay * repeatTimes);
+
+		final long endTime = System.currentTimeMillis();
+
+		assertEquals("Loop delay did not work!", repeatTimes * deltaY, (int) testSprite.costume.getYPosition());
+
+		/*
+		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
+		 * http://code.google.com/p/catroid/issues/detail?id=28
+		 */
+		final long delayByContract = 20;
+		assertEquals("Loop delay was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
 	}
 }

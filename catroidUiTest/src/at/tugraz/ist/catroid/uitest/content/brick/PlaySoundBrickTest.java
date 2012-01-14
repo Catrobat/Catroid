@@ -75,13 +75,13 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
-				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.TYPE_SOUND_FILE);
+				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundName);
 
 		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
-				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.TYPE_SOUND_FILE);
+				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile2.getName());
 		soundInfo2.setTitle(soundName2);

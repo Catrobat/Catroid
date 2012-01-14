@@ -233,7 +233,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		File soundFile = UiTestUtils.saveFileToProject(projectName, "soundfile.mp3",
 				at.tugraz.ist.catroid.uitest.R.raw.longsound, getInstrumentation().getContext(),
-				UiTestUtils.TYPE_SOUND_FILE);
+				UiTestUtils.FileTypes.SOUND);
 
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());

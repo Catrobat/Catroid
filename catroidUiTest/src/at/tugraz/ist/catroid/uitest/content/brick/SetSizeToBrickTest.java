@@ -45,6 +45,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.stage.StageListener;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -140,7 +141,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		// -------------------------------------------------------------------------------------------------------------
 		Bitmap screenshot = BitmapFactory.decodeFile(Consts.DEFAULT_ROOT + "/" + projectName + "/"
-				+ Consts.SCREENSHOT_FILE_NAME);
+				+ StageListener.SCREENSHOT_FILE_NAME);
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
@@ -186,7 +187,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		ProjectManager.getInstance().saveProject();
 
 		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
-				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+				.getContext(), UiTestUtils.FileTypes.IMAGE);
 		Log.v(TAG, image.getName());
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image.getName());
