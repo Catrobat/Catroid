@@ -47,25 +47,15 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private int catroidVersionCode;
 
-	private String screenResolution;
-	public transient int virtualScreenWidth = 0;
-	public transient int virtualScreenHeight = 0;
-
-	protected Object readResolve() {
-		if (screenResolution != null) {
-			String[] resolutions = screenResolution.split("/");
-			virtualScreenWidth = Integer.valueOf(resolutions[0]);
-			virtualScreenHeight = Integer.valueOf(resolutions[1]);
-		}
-		return this;
-	}
+	public int screenWidth = 0;
+	public int screenHeight = 0;
 
 	public Project(Context context, String name) {
 		this.projectName = name;
 
 		ifLandscapeSwitchWidthAndHeight();
-		virtualScreenWidth = Values.SCREEN_WIDTH;
-		virtualScreenHeight = Values.SCREEN_HEIGHT;
+		screenWidth = Values.SCREEN_WIDTH;
+		screenHeight = Values.SCREEN_HEIGHT;
 		setDeviceData(context);
 
 		if (context == null) {
@@ -111,8 +101,6 @@ public class Project implements Serializable {
 	public void setDeviceData(Context context) {
 		deviceName = Build.MODEL;
 		androidVersion = Build.VERSION.SDK_INT;
-
-		screenResolution = virtualScreenWidth + "/" + virtualScreenHeight;
 
 		if (context == null) {
 			catroidVersionName = "unknown";

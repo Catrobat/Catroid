@@ -75,8 +75,8 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		BOUNCE_UP_POS = Values.SCREEN_HEIGHT + 50;
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		project.virtualScreenHeight = Values.SCREEN_HEIGHT;
-		project.virtualScreenWidth = Values.SCREEN_WIDTH;
+		project.screenHeight = Values.SCREEN_HEIGHT;
+		project.screenWidth = Values.SCREEN_WIDTH;
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 

@@ -209,7 +209,7 @@ public class StorageHandler {
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().fileChecksumContainer;
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		if ((imageDimensions[0] <= project.virtualScreenWidth) && (imageDimensions[1] <= project.virtualScreenHeight)) {
+		if ((imageDimensions[0] <= project.screenWidth) && (imageDimensions[1] <= project.screenHeight)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			if (newName != null) {
@@ -232,8 +232,8 @@ public class StorageHandler {
 
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(), project.virtualScreenWidth,
-				project.virtualScreenHeight, true);
+		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(), project.screenWidth,
+				project.screenHeight, true);
 
 		saveBitmapToImageFile(outputFile, bitmap);
 
