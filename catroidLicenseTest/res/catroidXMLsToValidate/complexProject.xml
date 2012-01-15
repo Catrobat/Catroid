@@ -27,7 +27,8 @@
   <catroidVersionName>0.5.308</catroidVersionName>
   <deviceName>HTC Sensation Z710e</deviceName>
   <projectName>fruit catcher 2</projectName>
-  <screenResolution>480/800</screenResolution>
+  <screenHeight>800</screenHeight>
+  <screenWidth>480</screenWidth>
   <spriteList>
     <Content.Sprite>
       <costumeDataList>
