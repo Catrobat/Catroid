@@ -108,6 +108,10 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 			assertTrue("Wrong width",
 					editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
 		}
+
+		solo.sleep(200);
+		enterNumberInEditText(123456);
+		assertFalse("Number too large - should not be resized and fully visible", solo.searchText(setX + ""));
 	}
 
 	private void enterNumberInEditText(int xValue) {
