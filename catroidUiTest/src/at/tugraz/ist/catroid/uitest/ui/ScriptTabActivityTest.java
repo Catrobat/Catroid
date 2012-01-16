@@ -22,7 +22,10 @@
  */
 package at.tugraz.ist.catroid.uitest.ui;
 
+import java.util.ArrayList;
+
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -87,11 +90,23 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 				solo.getCurrentActivity() instanceof SoundActivity);
 	}
 
-	public void testTabLabelCostumesOrBackground() {
+	public void testTabLabel() {
+		String spriteDog = "dog";
+		String spriteBear = "bear";
+		String spriteFrog = "frog";
+		String spriteToTest = "";
+
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo.sleep(200);
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
-		solo.clickOnText(getActivity().getString(R.string.background));
+		addNewSprite(spriteDog);
+		addNewSprite(spriteBear);
+		addNewSprite(spriteFrog);
+
+		ArrayList<ListView> listViews = solo.getCurrentListViews();
+		ListView spriteList = listViews.get(0);
+		spriteToTest = spriteList.getItemAtPosition(0).toString();
+		solo.clickOnText(spriteToTest);
 		solo.sleep(100);
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"",
 				solo.searchText(getActivity().getString(R.string.backgrounds)));
@@ -99,11 +114,25 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.sleep(100);
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"",
 				solo.searchText(getActivity().getString(R.string.backgrounds)));
-		solo.goBack();
 
-		solo.clickInList(2);
+		for (int i = 1; i < 3; i++) {
+			solo.goBack();
+			solo.sleep(100);
+			spriteToTest = spriteList.getItemAtPosition(i).toString();
+			solo.clickOnText(spriteToTest);
+			solo.sleep(100);
+			assertTrue("Wrong label - Tab should be named \"Costumes\"",
+					solo.searchText(getActivity().getString(R.string.costumes)));
+		}
+	}
+
+	private void addNewSprite(String spriteName) {
+		solo.sleep(300);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		solo.sleep(200);
+		solo.enterText(0, spriteName);
+		solo.goBack();
+		solo.clickOnButton(0);
 		solo.sleep(100);
-		assertTrue("Wrong label - Tab should be named \"Costumes\"",
-				solo.searchText(getActivity().getString(R.string.costumes)));
 	}
 }
