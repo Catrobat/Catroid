@@ -102,8 +102,8 @@ public class StageActivity extends AndroidApplication {
 
 	private void calculateScreenSizes() {
 		ifLandscapeSwitchWidthAndHeight();
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().screenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().screenHeight;
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight;
 		if (virtualScreenWidth == Values.SCREEN_WIDTH && virtualScreenHeight == Values.SCREEN_HEIGHT) {
 			resizePossible = false;
 			return;
