@@ -90,7 +90,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 				solo.getCurrentActivity() instanceof SoundActivity);
 	}
 
-	public void testTabLabel() {
+	public void testTabCostumeOrBackgroundLabel() {
 		String spriteDog = "dog";
 		String spriteBear = "bear";
 		String spriteFrog = "frog";
