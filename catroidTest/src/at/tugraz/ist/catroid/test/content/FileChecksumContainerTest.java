@@ -57,8 +57,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		TestUtils.clearProject(currentProjectName);
 		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
-		testCopyFile.screenHeight = 1000;
-		testCopyFile.screenWidth = 1000;
+		testCopyFile.virtualScreenHeight = 1000;
+		testCopyFile.virtualScreenWidth = 1000;
 		projectManager = ProjectManager.getInstance();
 		storageHandler.saveProject(testCopyFile);
 		projectManager.setProject(testCopyFile);
