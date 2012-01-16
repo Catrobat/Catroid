@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -78,8 +79,8 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_set_x)));
 
 		solo.clickOnEditText(0);
@@ -92,6 +93,31 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		int xPosition = (Integer) UiTestUtils.getPrivateField("xPosition", setXBrick);
 		assertEquals("Wrong text in field.", setX, xPosition);
 		assertEquals("Value in Brick is not updated.", setX + "", solo.getEditText(0).getText().toString());
+	}
+
+	public void testResizeInputField() {
+		int[] xTestValues = new int[] { 1, 123, 1234, 12345, -1, -12, -100, -1000, -999 };
+		int currentXValue = 0;
+		int editTextWidth = 0;
+		for (int i = 0; i < xTestValues.length; i++) {
+			currentXValue = xTestValues[i];
+			solo.sleep(200);
+			enterNumberInEditText(currentXValue);
+			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(setX + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Wrong width",
+					editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
+		}
+	}
+
+	private void enterNumberInEditText(int xValue) {
+		setX = xValue;
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, setX + "");
+		solo.goBack();
+		solo.clickOnButton(0);
+		solo.sleep(300);
 	}
 
 	private void createProject() {
