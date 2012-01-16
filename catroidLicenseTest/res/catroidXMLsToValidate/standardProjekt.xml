@@ -27,8 +27,7 @@
   <catroidVersionName>0.5.6a</catroidVersionName>
   <deviceName>GT-I9100</deviceName>
   <projectName>standardProjekt</projectName>
-  <screenHeight>800</screenHeight>
-  <screenWidth>480</screenWidth>
+  <screenResolution>480/800</screenResolution>
   <spriteList>
     <Content.Sprite>
       <costumeDataList>
