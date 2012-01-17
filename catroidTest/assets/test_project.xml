@@ -26,7 +26,8 @@
   <catroidVersionName>0.5.6a</catroidVersionName>
   <deviceName>HTC Desire</deviceName>
   <projectName>testProject</projectName>
-  <screenResolution>480/800</screenResolution>
+  <screenHeight>800</screenHeight>
+  <screenWidth>480</screenWidth>
   <spriteList>
     <Content.Sprite>
       <name>Stage</name>
