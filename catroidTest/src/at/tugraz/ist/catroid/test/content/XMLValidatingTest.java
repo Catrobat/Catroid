@@ -22,9 +22,7 @@
  */
 package at.tugraz.ist.catroid.test.content;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -46,13 +43,11 @@ import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.test.utils.XMLValidationUtil;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.utils.UtilFile;
-import at.tugraz.ist.catroid.utils.Utils;
-import at.tugraz.ist.catroid.web.ConnectionWrapper;
 
 public class XMLValidatingTest extends AndroidTestCase {
-	private static final String XML_VALIDATING_URL = "http://catroidtestserver.ist.tugraz.at/tests/catroid/validateXml.php";
 	private String testProjectName = "xmlTestProjectName";
 
 	public XMLValidatingTest() throws IOException {
@@ -107,45 +102,10 @@ public class XMLValidatingTest extends AndroidTestCase {
 			}
 		}
 
+		assertTrue("no bricks added to the start script", startScript.getBrickList().size() > 0);
 		StorageHandler.getInstance().saveProject(project);
 
-		sendCreatedXMLToServerForValidating(project);
-	}
-
-	private void sendCreatedXMLToServerForValidating(Project project) throws IOException, JSONException {
-		String projectXMLPath = Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), project.getName()
-				+ Consts.PROJECT_EXTENTION);
-
-		String xmlContent = readTextFile(projectXMLPath);
-
-		HashMap<String, String> postValues = new HashMap<String, String>();
-		postValues.put("xmlToValidate", xmlContent);
-
-		ConnectionWrapper connection = new ConnectionWrapper();
-		String responce = connection.doHttpPost(XML_VALIDATING_URL, postValues);
-
-		JSONObject jsonResponce = new JSONObject(responce);
-		boolean valid = jsonResponce.getBoolean("valid");
-		String message = jsonResponce.optString("message");
-
-		assertTrue(message + " For error information, copy the xml to the res directory "
-				+ "in the catroidFileTest Project and run the file tests", valid);
-	}
-
-	private String readTextFile(String fullPathFilename) throws IOException {
-		StringBuffer contents = new StringBuffer();
-		BufferedReader reader = null;
-
-		reader = new BufferedReader(new FileReader(fullPathFilename));
-		String text = null;
-
-		while ((text = reader.readLine()) != null) {
-			contents.append(text).append(System.getProperty("line.separator"));
-		}
-		reader.close();
-
-		return contents.toString();
-
+		XMLValidationUtil.sendProjectXMLToServerForValidating(project);
 	}
 
 }

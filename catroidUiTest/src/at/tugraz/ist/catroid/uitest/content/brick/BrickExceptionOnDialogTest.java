@@ -46,6 +46,7 @@ import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -236,7 +237,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	}
 
 	public void testPointInDirectionBrick() {
-		PointInDirectionBrick directionBrick = new PointInDirectionBrick(sprite, 0);
+		PointInDirectionBrick directionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
 		script.addBrick(directionBrick);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));

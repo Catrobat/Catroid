@@ -35,11 +35,12 @@ public class WhenScript extends Script {
 	private static final String[] actions = { TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
 			SWIPERIGHT };
 	private String action;
-	private int position;
+	private transient int position;
 
 	public WhenScript(Sprite sprite) {
 		super(sprite);
 		super.isFinished = true;
+		this.position = 0;
 		this.action = TAPPED;
 	}
 

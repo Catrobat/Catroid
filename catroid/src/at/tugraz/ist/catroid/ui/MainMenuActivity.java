@@ -59,7 +59,7 @@ public class MainMenuActivity extends Activity {
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private static final String PROJECTNAME_TAG = "fname=";
 	private ProjectManager projectManager;
-	private ActivityHelper activityHelper = new ActivityHelper(this);
+	private ActivityHelper activityHelper;
 	private TextView titleText;
 	private static final int DIALOG_NEW_PROJECT = 0;
 	private static final int DIALOG_LOAD_PROJECT = 1;
@@ -76,6 +76,7 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		activityHelper = new ActivityHelper(this);
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
