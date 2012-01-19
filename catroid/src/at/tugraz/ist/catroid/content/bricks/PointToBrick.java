@@ -28,10 +28,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -41,8 +41,6 @@ public class PointToBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
-	private double rotationDegrees = 0.0;
-	private int spinnerPosition = 0;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
@@ -81,11 +79,10 @@ public class PointToBrick implements Brick {
 		pointedSpriteYPosition = (int) pointedSprite.costume.getYPosition();
 		pointedSprite.costume.releaseXYWidthHeightLock();
 
+		double rotationDegrees;
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
 			rotationDegrees = 90;
-		}
-
-		else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
+		} else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
 			if (spriteXPosition == pointedSpriteXPosition) {
 				if (spriteYPosition > pointedSpriteYPosition) {
 					rotationDegrees = 180;
@@ -161,7 +158,6 @@ public class PointToBrick implements Brick {
 					String spriteName = sprite.getName();
 					if (spriteName.equals(itemSelected)) {
 						pointedSprite = sprite;
-						spinnerPosition = position;
 					}
 				}
 			}
@@ -171,7 +167,8 @@ public class PointToBrick implements Brick {
 		});
 
 		if (spriteList.contains(pointedSprite)) {
-			spinner.setSelection(spinnerPosition);
+			int pointedSpriteIndex = spinnerAdapter.getPosition(pointedSprite.getName());
+			spinner.setSelection(pointedSpriteIndex);
 		} else {
 			spinner.setSelection(0);
 		}

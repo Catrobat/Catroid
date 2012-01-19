@@ -49,10 +49,12 @@ public class ActivityHelper {
 	private int buttonHeight;
 	private int logoWidth;
 	private int tvMaxWidth;
+	private int padding;
 	private TextView titleText;
 
 	public ActivityHelper(Activity activity) {
 		this.activity = activity;
+		this.padding = Utils.getPhysicalPixels(5, activity);
 
 		tvMaxWidth = 0;
 	}
@@ -66,6 +68,7 @@ public class ActivityHelper {
 		Utils.updateScreenWidthAndHeight(activity);
 		buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
 		buttonHeight = buttonWidth;
+
 		logoWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_catroid_logo);
 		if (actionBar == null) {
 			return;
@@ -85,7 +88,6 @@ public class ActivityHelper {
 			imageButton.setScaleType(ImageView.ScaleType.CENTER);
 			imageButton.setClickable(false);
 		} else {
-
 			linearLayout.setId(R.id.btn_action_home);
 			linearLayout.setBackgroundResource(R.drawable.btn_actionbar_selector);
 			linearLayout.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
@@ -94,7 +96,7 @@ public class ActivityHelper {
 
 			ImageView image = new ImageView(activity);
 			image.setImageResource(R.drawable.ic_home_black);
-			image.setPadding(0, 5, 0, 0);
+			image.setPadding(0, padding, 0, 0);
 
 			TextView text = new TextView(activity);
 			text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
@@ -126,7 +128,7 @@ public class ActivityHelper {
 		LinearLayout.LayoutParams textViewLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.FILL_PARENT);
 
-		int paddingRight = 10;
+		int paddingRight = 2 * padding;
 		if (isMainMenu) {
 			tvMaxWidth = Values.SCREEN_WIDTH - logoWidth - paddingRight;
 		} else {
@@ -144,7 +146,7 @@ public class ActivityHelper {
 		titleText.setEllipsize(TextUtils.TruncateAt.MARQUEE);
 		titleText.setMarqueeRepeatLimit(-1);
 		titleText.setSelected(true);
-		titleText.setPadding(5, 0, 0, 0);
+		titleText.setPadding(padding, 0, 0, 0);
 		titleText.setMaxWidth(tvMaxWidth);
 
 		titleText.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +188,7 @@ public class ActivityHelper {
 
 		ImageView image = new ImageView(activity);
 		image.setImageResource(imageResourceId);
-		image.setPadding(0, 5, 0, 0);
+		image.setPadding(0, padding, 0, 0);
 
 		TextView text = new TextView(activity);
 		text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);

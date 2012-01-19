@@ -41,6 +41,9 @@
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
+    <string name="add">Add</string>
+    <string name="home">Home</string>
+    <string name="start">Start</string>
 
     <!-- Construction site context menu -->
     <string name="new_project">New Project</string>
@@ -55,22 +58,23 @@
     <string name="my_projects">My Projects</string>
 	<string name="tutorial">Tutorial</string>
 	<string name="settings">Settings</string>
-	<string name="web_resources">Web resources</string>
+	<string name="web_resources">Web Resources</string>
 	
 	<!-- Settings activity -->
-	<string name="pref_category_mindstorm">Mindstorm settings</string>
-	<string name="pref_enable_ms_bricks">Enable Mindstorm bricks</string>
-	<string name="pref_descr_ms_bricks">These bricks are used to control Mindstorm robots.</string>
+	<string name="pref_category_mindstorm">Lego Mindstorms settings</string>
+	<string name="pref_enable_ms_bricks">Enable Lego Mindstorms bricks</string>
+	<string name="pref_descr_ms_bricks">These bricks are used to control Lego Mindstorms robots.</string>
 	
 		
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
     <string name="about_text">
-        Catroid is a graphical programming language for Android,
-        inspired by the Scratch project of the MIT.\n
-        Catroid is developed at the Institute for Software Technology at
-        Graz University of Technology in Austria.\n\n
-        This program is licensed under the GNU GPL v3 License.\n\n
+        Catroid is an on-device visual programming language for 
+        Android devices that is inspired by the Scratch programming 
+        language developed by the Lifelong Kindergarten Group at 
+        the Media Lab of the Massachusetts Institute of Technology.\n\n
+        Catroid is mainly licensed under the GNU AGPL v3 License. 
+        For the precise details of the license see the link below.\n
     </string>
     <string name="about_link_text">About Catroid</string>
 
@@ -84,22 +88,23 @@
     <string name="scripts">Scripts</string>
     <string name="costumes">Costumes</string>
     <string name="sounds">Sounds</string>
+    <string name="backgrounds">Backgrounds</string>
     
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Rename costume</string>
     <string name="edit_costume">edit</string>
     <string name="edit_costume_paintroid">Paintroid</string>
     <string name="copy_costume">copy</string>
-    <string name="costumename_invalid">This costumename is invalid</string>
+    <string name="costumename_invalid">This costume\'s name is invalid</string>
     <string name="copy_costume_addition">copy</string>
     <string name="select_image">Select Image</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
     
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
-    <string name="soundname_invalid">This soundname is invalid</string>
+    <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
-    <string name="sound_pause">pause </string>
+    <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
     <string name="sound_rename">rename</string>
 
@@ -164,7 +169,7 @@
 	<string name="brick_set_y">Set Y to:</string>
     <string name="brick_change_x_by">Change X by:</string>
 	<string name="brick_change_y_by">Change Y by:</string>
-    <string name="brick_go_back">Go back</string>
+	<string name="brick_go_back">Go back</string>
     <string name="brick_go_back_layers">layers</string>
     <string name="brick_come_to_front">Go to front</string>
 	<string name="brick_if_on_edge_bounce">If on edge, bounce</string>
@@ -180,16 +185,16 @@
 	<string name="brick_glide_to">to</string>
 	
 	<!-- Looks bricks -->
-    <string name="brick_set_costume">Switch to Costume</string>
-    <string name="brick_set_background">Set Background</string>
+    <string name="brick_set_costume">Switch to costume</string>
+    <string name="brick_set_background">Set background</string>
     <string name="brick_set_size_to">Set size to</string>
 	<string name="brick_change_size_by">Change size by</string>
     <string name="brick_hide">Hide</string>
     <string name="brick_show">Show</string>
-	<string name="brick_set_ghost_effect">Set Ghost Effect</string>
-	<string name="brick_change_ghost_effect">Change Ghost Effect</string>
-	<string name="brick_set_brightness">Set Brightness</string>
-	<string name="brick_change_brightness">Change Brightness</string>
+	<string name="brick_set_ghost_effect">Set ghost effect</string>
+	<string name="brick_change_ghost_effect">Change ghost effect</string>
+	<string name="brick_set_brightness">Set brightness</string>
+	<string name="brick_change_brightness">Change brightness</string>
 	<string name="by_label">by</string>
 	<string name="to_label">to</string>
 	<string name="brick_clear_graphic_effect">Clear graphic effects</string>
@@ -198,17 +203,17 @@
 	<string name="brick_next_costume">Next Costume</string>
 	
 	<!-- Sound bricks -->
-    <string name="brick_play_sound">Play Sound</string>
+    <string name="brick_play_sound">Play sound</string>
 	<string name="brick_stop_all_sounds">Stop all sounds</string>
 	<string name="brick_set_volume_to">Set volume to</string>
 	<string name="brick_change_volume_by">Change volume by</string>
 	<string name="brick_speak">Speak</string>
 	
 	<!-- Control bricks -->
-    <string name="brick_when_started">When Project Starts</string>
+    <string name="brick_when_started">When project starts</string>
 	<string name="brick_when">When</string>
     <string name="brick_wait">Wait</string>
-    <string name="seconds">Seconds</string>
+    <string name="seconds">seconds</string>
 	<string name="brick_broadcast_receive">When I receive</string>
 	<string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
@@ -219,13 +224,13 @@
 	<string name="brick_loop_end">End of loop</string>
 	
 	<!-- Actions -->
-    <string name="action_tapped">Tapped</string>
-    <string name="action_doubleTapped">Double Tapped</string>
-    <string name="action_longPressed">Long Pressed</string>
-    <string name="action_swipeLeft">Swipe Left</string> 
-    <string name="action_swipeRight">Swipe Right</string>
-    <string name="action_swipeUp">Swipe Up</string>
-    <string name="action_swipeDown">Swipe Down</string>
+    <string name="action_tapped">tapped</string>
+    <string name="action_doubleTapped">double tapped</string>
+    <string name="action_longPressed">long pressed</string>
+    <string name="action_swipeLeft">swipe left</string> 
+    <string name="action_swipeRight">swipe right</string>
+    <string name="action_swipeUp">swipe up</string>
+    <string name="action_swipeDown">swipe down</string>
 	
     <!-- defaultValues -->
     <string name="default_project_name">defaultProject</string>
@@ -280,7 +285,7 @@
 	<!-- Notifications -->
 	<string name="success_project_upload">Upload successful.</string>
 	<string name="success_project_download">Download successful.</string>
-	<string name="load_project">Load Project</string>
+	<string name="load_project">Load project</string>
 	<string name="upload_button">Upload</string>
 	<string name="upload_project_dialog_title">Upload project</string>
 	<string name="upload_description">Description:</string>
@@ -294,8 +299,8 @@
 	</string>
 	<string name="title_paired_devices">Paired devices</string>
 	<string name="title_other_devices">New devices</string>
-	<string name="button_scan">Search bluetooth devices</string>
-	<string name="select_device">Select your Mindstorms NXT</string>
+	<string name="button_scan">Search Bluetooth devices</string>
+	<string name="select_device">Select your Lego Mindstorms NXT</string>
 	<string name="scanning">Scanning</string>
 	<string name="connecting_please_wait">Connecting to your device.\nPlease wait...</string>
 	<string name="pairing_message">After pairing, connect.</string>

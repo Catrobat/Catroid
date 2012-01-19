@@ -37,7 +37,7 @@ public class LoopEndBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
-	private int timesToRepeat;
+	private transient int timesToRepeat;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;

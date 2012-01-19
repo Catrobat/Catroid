@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 public class BroadcastScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	private String selectedMessage = "";
+	private String receivedMessage = "";
 
 	public BroadcastScript(Sprite sprite) {
 		super(sprite);
@@ -39,21 +39,21 @@ public class BroadcastScript extends Script {
 	@Override
 	protected Object readResolve() {
 		isFinished = true;
-		if (selectedMessage != null && selectedMessage.length() != 0) {
-			ProjectManager.getInstance().messageContainer.addMessage(selectedMessage, this);
+		if (receivedMessage != null && receivedMessage.length() != 0) {
+			ProjectManager.getInstance().messageContainer.addMessage(receivedMessage, this);
 		}
 		super.readResolve();
 		return this;
 	}
 
 	public void setBroadcastMessage(String selectedMessage) {
-		ProjectManager.getInstance().messageContainer.deleteReceiverScript(this.selectedMessage, this);
-		this.selectedMessage = selectedMessage;
-		ProjectManager.getInstance().messageContainer.addMessage(this.selectedMessage, this);
+		ProjectManager.getInstance().messageContainer.deleteReceiverScript(this.receivedMessage, this);
+		this.receivedMessage = selectedMessage;
+		ProjectManager.getInstance().messageContainer.addMessage(this.receivedMessage, this);
 	}
 
 	public String getBroadcastMessage() {
-		return this.selectedMessage;
+		return this.receivedMessage;
 	}
 
 	public void executeBroadcast(CountDownLatch simultaneousStart) {
