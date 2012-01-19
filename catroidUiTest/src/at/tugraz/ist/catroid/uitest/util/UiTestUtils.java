@@ -44,7 +44,7 @@ import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -139,6 +139,8 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_set_y, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_change_x_by, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_change_y_by, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_go_back, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_come_to_front, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_if_on_edge_bounce, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_move_n_steps, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_turn_left, R.string.category_motion);
@@ -156,8 +158,6 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_set_brightness, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_change_brightness, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_clear_graphic_effect, R.string.category_looks);
-		brickCategoryMap.put(R.string.brick_go_back, R.string.category_looks);
-		brickCategoryMap.put(R.string.brick_come_to_front, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_say, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_think, R.string.category_looks);
 
@@ -199,7 +199,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int categoryStringId, int brickStringId) {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
@@ -390,10 +390,10 @@ public class UiTestUtils {
 		return null;
 	}
 
-	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
-		solo.waitForView(LinearLayout.class);
-		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
-		solo.clickOnView(linearLayout);
+	public static void clickOnImageButton(Solo solo, int imageButtonId) {
+		solo.waitForView(ImageButton.class);
+		ImageButton imageButton = (ImageButton) solo.getView(imageButtonId);
+		solo.clickOnView(imageButton);
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
