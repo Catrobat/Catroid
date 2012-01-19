@@ -122,7 +122,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(costumeName);
 		solo.sleep(100);
 		assertTrue(costumeName + " is not selected in Spinner", solo.searchText(costumeName));
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(7000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(0).getAbsolutePath());
@@ -136,7 +136,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(costumeName2);
 		solo.sleep(100);
 		assertTrue(costumeName2 + " is not selected in Spinner", solo.searchText(costumeName2));
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(7000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(1).getAbsolutePath());
@@ -191,7 +191,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
 		solo.sleep(100);
 		solo.clickOnText(costumeName);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(5000);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList().get(0)
 				.getAbsolutePath();
@@ -212,7 +212,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(oldName);
 		solo.sleep(100);
 		solo.clickOnText(newCostume);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(5000);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().costume.getImagePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costumeImagePath,

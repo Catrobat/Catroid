@@ -22,11 +22,8 @@
  */
 package at.tugraz.ist.catroid.uitest.ui;
 
-import java.util.List;
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -68,7 +65,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 
 		solo.sleep(200);
 		solo.enterText(0, spriteName);
@@ -177,7 +174,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
@@ -229,7 +226,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		int expectedLineCount = 2;
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		addNewSprite(spriteName);
-		TextView textView = solo.getText(2);
+		TextView textView = solo.getText(5);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
 		solo.clickLongOnText(spriteName);
 		TextView textView2 = solo.getText(0);
@@ -373,13 +370,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_add_sprite) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.sleep(50);
 	}
 

@@ -253,4 +253,5 @@ public class StorageHandlerTest extends AndroidTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 	}
+
 }

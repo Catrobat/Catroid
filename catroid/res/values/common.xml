@@ -30,7 +30,7 @@
     <!-- Website URLs -->
     <!-- TODO: set proper URLs -->
     <string name="catroid_website">http://www.catroid.org</string>
-    <string name="wiki_url">http://catroweb.ist.tugraz.at</string>
-    <string name="about_catroid_url">http://groups.google.com/group/catroid/</string>
+    <string name="wiki_url">http://wiki.catroid.org/</string>
+    <string name="about_catroid_url">http://code.google.com/p/catroid/</string>
     <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
 </resources>
