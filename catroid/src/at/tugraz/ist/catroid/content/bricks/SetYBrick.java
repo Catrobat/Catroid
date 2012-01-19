@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,10 +67,20 @@ public class SetYBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		int maxLength = 3;
+		InputFilter maxLengthFilter;
 
 		view = View.inflate(context, R.layout.toolbox_brick_set_y, null);
 
 		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_set_y_edit_text);
+
+		if ((yPosition > 9999) || (yPosition < -999)) {
+			maxLength = 5;
+		} else if ((yPosition > 999) || (yPosition < -99)) {
+			maxLength = 4;
+		}
+		maxLengthFilter = new InputFilter.LengthFilter(maxLength);
+		editY.setFilters(new InputFilter[] { maxLengthFilter });
 		editY.setText(String.valueOf(yPosition));
 
 		editY.setOnClickListener(this);
