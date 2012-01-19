@@ -125,7 +125,8 @@
 					android:drawableTop="@drawable/settings_selector"
 					android:paddingTop="25dip"
 				></Button>
-					<Button
+					<!-- 
+				<Button
 					android:id="@+id/tutorial_button"
 					android:text="@string/tutorial"
 					android:onClick="handleTutorialButton"
@@ -134,6 +135,18 @@
 					android:layout_weight=".5"
 					android:background="@null"
 					android:drawableTop="@drawable/tutorial_selector"
+					android:paddingTop="25dip"
+				></Button>
+				-->
+				 <Button
+					android:id="@+id/forum_button"
+					android:text="@string/forum"
+					android:onClick="handleForumButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/forum_selector"
 					android:paddingTop="25dip"
 				></Button>
 				<Button
