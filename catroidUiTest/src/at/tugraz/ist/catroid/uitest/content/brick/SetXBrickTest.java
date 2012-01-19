@@ -96,32 +96,28 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	public void testResizeInputField() {
-		int[] xTestValues = new int[] { 1, 123, 1234, 12345, -1, -12, -100, -1000, -999 };
+		int[] xTestValues = new int[] { 1, 123, 12345, -1, -12, -1000, -999 };
 		int currentXValue = 0;
 		int editTextWidth = 0;
 		for (int i = 0; i < xTestValues.length; i++) {
 			currentXValue = xTestValues[i];
-			solo.sleep(200);
-			enterNumberInEditText(currentXValue);
-			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(setX + ""));
-			editTextWidth = solo.getEditText(0).getWidth();
-			assertTrue("Wrong width",
-					editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
+			UiTestUtils.insertIntegerIntoEditText(solo, 0, currentXValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentXValue + ""));
+			if ((currentXValue == 1) || (currentXValue == -1)) {
+				editTextWidth = solo.getEditText(0).getWidth();
+				assertTrue("Minwidth of EditText should be 50 dpi",
+						editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
+			}
 		}
 
 		solo.sleep(200);
-		enterNumberInEditText(123456);
-		assertFalse("Number too large - should not be resized and fully visible", solo.searchText(setX + ""));
-	}
-
-	private void enterNumberInEditText(int xValue) {
-		setX = xValue;
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, setX + "");
-		solo.goBack();
+		currentXValue = 123456;
+		UiTestUtils.insertIntegerIntoEditText(solo, 0, currentXValue);
 		solo.clickOnButton(0);
-		solo.sleep(300);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible", solo.searchText(currentXValue + ""));
 	}
 
 	private void createProject() {
