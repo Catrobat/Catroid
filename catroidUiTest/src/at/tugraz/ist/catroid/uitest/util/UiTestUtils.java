@@ -44,7 +44,7 @@ import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -199,7 +199,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int categoryStringId, int brickStringId) {
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
@@ -390,10 +390,10 @@ public class UiTestUtils {
 		return null;
 	}
 
-	public static void clickOnImageButton(Solo solo, int imageButtonId) {
-		solo.waitForView(ImageButton.class);
-		ImageButton imageButton = (ImageButton) solo.getView(imageButtonId);
-		solo.clickOnView(imageButton);
+	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
+		solo.waitForView(LinearLayout.class);
+		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
+		solo.clickOnView(linearLayout);
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
