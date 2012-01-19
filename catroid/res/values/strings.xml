@@ -325,5 +325,6 @@
 	
 	<string name="number_to_small">Value is too small!</string>
 	<string name="number_to_big">Value is too big!</string>
+	<string name="forum">Forum</string>
 		
 </resources>
