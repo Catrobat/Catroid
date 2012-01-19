@@ -289,6 +289,11 @@ public class MainMenuActivity extends Activity {
 		Utils.displayToast(this, "Tutorial not yet implemented!");
 	}
 
+	public void handleForumButton(View v) {
+		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_forum).toString()));
+		startActivity(browerIntent);
+	}
+
 	public void handleAboutCatroidButton(View v) {
 		showDialog(DIALOG_ABOUT);
 	}
