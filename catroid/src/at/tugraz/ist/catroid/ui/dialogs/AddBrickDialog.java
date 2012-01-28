@@ -133,6 +133,7 @@ public class AddBrickDialog extends Dialog {
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();
 		looksBrickList.add(new SetCostumeBrick(sprite));
+		looksBrickList.add(new NextCostumeBrick(sprite));
 		looksBrickList.add(new SetSizeToBrick(sprite, 100));
 		looksBrickList.add(new ChangeSizeByNBrick(sprite, 20));
 		looksBrickList.add(new HideBrick(sprite));
@@ -142,7 +143,6 @@ public class AddBrickDialog extends Dialog {
 		looksBrickList.add(new SetBrightnessBrick(sprite, 0));
 		looksBrickList.add(new ChangeBrightnessBrick(sprite, 25));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
-		looksBrickList.add(new NextCostumeBrick(sprite));
 
 		brickMap.put(context.getString(R.string.category_looks), looksBrickList);
 
