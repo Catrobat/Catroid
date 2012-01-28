@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -159,7 +159,7 @@
     <string name="category_control">Steuerung</string>
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">Gehe zu</string>
+    <string name="brick_place_at">Setze Position</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Setze X auf:</string>
