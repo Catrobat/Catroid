@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
- <!-- 
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -21,20 +20,23 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 
 <!-- Strings that need no translation -->
 <resources>
+
     <!-- Brick categories -->
     <string name="category_lego_nxt">LegoNXT</string>
-    
+
     <!-- Lego Mindstorms -->
     <string name="minus_symbol">-</string>
     <string name="plus_symbol">+</string>
     <string name="just_a_v">v</string>
-        
+    <string name="degree">°</string>
+
     <!-- Extras -->
     <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
     <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
     <string name="extra_y_value_paintroid">at.tugraz.ist.extra.PAINTROID_Y</string>
+
 </resources>
