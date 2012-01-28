@@ -62,7 +62,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new StartScript("testscript", firstSprite);
+		Script testScript = new StartScript(firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		testScript.addBrick(setCostumeBrick);
@@ -89,10 +89,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		costumeDataList.add(costumeData);
 		costumeDataList.add(costumeData2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
-				costumeData.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData2.getChecksum(),
-				costumeData2.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData
+				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData2.getChecksum(), costumeData2
+				.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -122,7 +122,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(costumeName);
 		solo.sleep(100);
 		assertTrue(costumeName + " is not selected in Spinner", solo.searchText(costumeName));
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(7000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(0).getAbsolutePath());
@@ -136,7 +136,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(costumeName2);
 		solo.sleep(100);
 		assertTrue(costumeName2 + " is not selected in Spinner", solo.searchText(costumeName2));
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(7000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(1).getAbsolutePath());
@@ -149,7 +149,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(300);
@@ -168,7 +168,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		solo.sleep(100);
@@ -191,7 +191,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
 		solo.sleep(100);
 		solo.clickOnText(costumeName);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(5000);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList().get(0)
 				.getAbsolutePath();
@@ -212,7 +212,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(oldName);
 		solo.sleep(100);
 		solo.clickOnText(newCostume);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(5000);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().costume.getImagePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costumeImagePath,

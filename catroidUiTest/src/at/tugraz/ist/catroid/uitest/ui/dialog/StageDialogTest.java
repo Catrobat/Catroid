@@ -82,7 +82,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testBackButtonPressedTwice() {
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(1000);
 		solo.goBack();
 
@@ -98,7 +98,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		Activity previousActivity = getActivity();
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.back));
@@ -112,7 +112,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		Project project = new Project(getActivity(), testProject);
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
 		SetSizeToBrick scaleCostumeBrick = new SetSizeToBrick(sprite, scale);
 
@@ -124,7 +124,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 
 		//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
 		//		solo.goBack();
@@ -142,7 +142,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		Activity currentActivity = solo.getCurrentActivity();
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 
 		solo.sleep(1000);
 		solo.goBack();
@@ -166,7 +166,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		scriptPositionsStart.clear();
 		scriptPositionsRestart.clear();
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 
 		solo.sleep(2000);
 
@@ -219,7 +219,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		String projectName = UiTestUtils.PROJECTNAME1;
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new StartScript("startscript", firstSprite);
+		Script startScript = new StartScript(firstSprite);
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
 
@@ -245,7 +245,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		storageHandler.saveProject(project);
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(3000);
 		assertTrue("Sound not playing.", mediaPlayer.isPlaying());
 		int positionBeforeRestart = mediaPlayer.getCurrentPosition();
@@ -266,7 +266,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		createTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity("StageActivity");
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.stagemenu_axes_on));
@@ -304,13 +304,13 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testMaximizeStretch() throws NameNotFoundException, IOException {
 		Project project = createTestProject(testProject);
-		project.VIRTUAL_SCREEN_WIDTH = 480;
-		project.VIRTUAL_SCREEN_HEIGHT = 700;
-		project.setDeviceData();
+		project.virtualScreenWidth = 480;
+		project.virtualScreenHeight = 700;
+		project.setDeviceData(getActivity());
 		storageHandler.saveProject(project);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity("StageActivity");
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 		byte[] screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);

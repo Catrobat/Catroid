@@ -41,7 +41,7 @@ public class MessageContainerTest extends InstrumentationTestCase {
 		assertEquals("Wrong amount of messages", 1, messages.size());
 		assertTrue("Doesn't contain message", messages.contains(testMessage1));
 
-		BroadcastScript script = new BroadcastScript("test", null);
+		BroadcastScript script = new BroadcastScript(null);
 		testContainer.addMessage(testMessage2, script);
 		testContainer.addMessage(testMessage2);
 		assertEquals("Wrong amount of messages", 2, messages.size());

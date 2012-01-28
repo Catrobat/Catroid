@@ -24,10 +24,12 @@ package at.tugraz.ist.catroid.test.utiltests;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DecimalFormat;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilFileTest extends InstrumentationTestCase {
 	private File testDirectory;
@@ -74,24 +76,40 @@ public class UtilFileTest extends InstrumentationTestCase {
 	}
 
 	public void testFileSize() throws IOException {
-
 		for (int i = 0; i < 2; i++) {
 			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		assertEquals("the byte count is not correct", 86188, UtilFile.getSizeOfDirectoryInByte(testDirectory));
-		assertEquals("not the expected string", "84 KB", UtilFile.getSizeAsString(testDirectory));
+		assertEquals("not the expected string", "84.2 KB", UtilFile.getSizeAsString(testDirectory));
 
 		for (int i = 2; i < 48; i++) {
 			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		assertEquals("the byte count is not correct", 2068512, UtilFile.getSizeOfDirectoryInByte(testDirectory));
-		DecimalFormat decimalFormat = new DecimalFormat("#.00");
-		String expected = decimalFormat.format(1.97) + " MB";
+		DecimalFormat decimalFormat = new DecimalFormat("#.0");
+		String expected = decimalFormat.format(2.0) + " MB";
 		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
+
+		PrintWriter printWriter = null;
+
+		File testFile = new File(Utils.buildPath(testDirectory.getAbsolutePath(), "catroid.txt"));
+
+		try {
+			testFile.createNewFile();
+
+			printWriter = new PrintWriter(testFile);
+			printWriter.print("catroid");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (printWriter != null) {
+				printWriter.close();
+			}
+		}
+
+		assertEquals("Unexpected Filesize!", "7 Byte", UtilFile.getSizeAsString(testFile));
 
 		UtilFile.deleteDirectory(testDirectory);
 	}

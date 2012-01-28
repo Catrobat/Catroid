@@ -85,7 +85,7 @@ public class CostumeActivity extends ListActivity {
 			if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
 				addButtonIcon = R.drawable.ic_background;
 			} else {
-				addButtonIcon = R.drawable.ic_shirt;
+				addButtonIcon = R.drawable.ic_actionbar_shirt;
 			}
 			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, addButtonIcon);
 		}
@@ -190,10 +190,14 @@ public class CostumeActivity extends ListActivity {
 					throw new IOException();
 				}
 				String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-				File imageFile;
 				String imageName;
-				imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
-				imageName = oldFile.getName().substring(0, oldFile.getName().length() - 4);
+				File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
+				int extensionDotIndex = oldFile.getName().lastIndexOf('.');
+				if (extensionDotIndex <= 0) {
+					imageName = oldFile.getName().substring(0, extensionDotIndex - 1);
+				} else {
+					imageName = oldFile.getName();
+				}
 
 				String imageFileName = imageFile.getName();
 				//reloadAdapter();

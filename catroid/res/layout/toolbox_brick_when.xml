@@ -40,6 +40,18 @@
 	>
 	</TextView>
 	
+	<TextView
+	    android:id="@+id/WhenBrickActionTapped"
+		android:text="@string/action_tapped"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
+	/>    
+	
+	<!-- inactive - to be revived when there are more actions for the spinner 
 	<Spinner
 		android:id="@+id/toolbox_brick_when_spinner"
 		android:layout_height="wrap_content"
@@ -50,5 +62,6 @@
 		android:focusable="false"
 		
 	/>
+	 -->
 	
 </LinearLayout>

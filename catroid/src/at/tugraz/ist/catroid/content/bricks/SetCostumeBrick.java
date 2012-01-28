@@ -25,11 +25,11 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -56,9 +56,9 @@ public class SetCostumeBrick implements Brick {
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			if (!NativeAppActivity.isRunning()) {
-				sprite.costume.setImagePath(costumeData.getAbsolutePath());
+				sprite.costume.setCostumeData(costumeData);
 			} else {
-				sprite.costume.setImagePathInternal("images/" + costumeData.getCostumeFileName());
+				sprite.costume.setCostumeDataInternal(costumeData);
 			}
 		}
 	}
@@ -82,7 +82,11 @@ public class SetCostumeBrick implements Brick {
 
 		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				costumeData = (CostumeData) parent.getItemAtPosition(position);
+				if (position == 0) {
+					costumeData = null;
+				} else {
+					costumeData = (CostumeData) parent.getItemAtPosition(position);
+				}
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {

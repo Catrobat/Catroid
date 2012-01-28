@@ -35,7 +35,6 @@ public abstract class Script implements Serializable {
 	private transient volatile boolean paused;
 	private transient volatile boolean finish;
 	private transient int executingBrickIndex;
-	private String name;
 	protected Sprite sprite;
 
 	protected Object readResolve() {
@@ -43,8 +42,7 @@ public abstract class Script implements Serializable {
 		return this;
 	}
 
-	public Script(String name, Sprite sprite) {
-		this.name = name;
+	public Script(Sprite sprite) {
 		brickList = new ArrayList<Brick>();
 		this.sprite = sprite;
 		init();
@@ -58,6 +56,9 @@ public abstract class Script implements Serializable {
 	public void run() {
 		isFinished = false;
 		for (int i = 0; i < brickList.size(); i++) {
+			if (!sprite.isAlive(Thread.currentThread())) {
+				break;
+			}
 			while (paused) {
 				if (finish) {
 					isFinished = true;
@@ -70,6 +71,7 @@ public abstract class Script implements Serializable {
 			i = executingBrickIndex;
 		}
 		isFinished = true;
+		sprite.setInactive(Thread.currentThread());
 	}
 
 	public void addBrick(Brick brick) {
@@ -106,10 +108,6 @@ public abstract class Script implements Serializable {
 
 	public boolean isFinished() {
 		return isFinished;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public int getExecutingBrickIndex() {
@@ -153,4 +151,5 @@ public abstract class Script implements Serializable {
 	public Brick getBrick(int index) {
 		return brickList.get(index);
 	}
+
 }

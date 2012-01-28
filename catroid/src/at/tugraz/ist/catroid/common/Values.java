@@ -24,8 +24,6 @@ package at.tugraz.ist.catroid.common;
 
 public class Values {
 
-	public static boolean NATIVE_DESKTOP_PLAYER = false;
-
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;
 }

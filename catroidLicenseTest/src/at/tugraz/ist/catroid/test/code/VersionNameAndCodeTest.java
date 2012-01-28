@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.ist.tugraz.catroid.test.code;
+package at.tugraz.ist.catroid.test.code;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +37,7 @@ public class VersionNameAndCodeTest extends TestCase {
 
 	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidUiTest" };
 	private static final String VERSION_CODE_REGEX = ".*android:versionCode=\"(\\d+)\".*";
-	private static final String VERSION_NAME_REGEX = ".*android:versionName=\"(\\d+\\.\\d+\\.\\d+[a-z]?)\".*";
+	private static final String VERSION_NAME_REGEX = ".*android:versionName=\"(\\d+\\.\\d+[a-z]?)\".*";
 
 	public void testVersionCodeAndNameAreTheSameAcrossProjects() throws IOException {
 		Pattern versionCodePattern = Pattern.compile(VERSION_CODE_REGEX);

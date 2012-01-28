@@ -81,8 +81,8 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
 				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist",
-				solo.getText(getActivity().getString(R.string.brick_change_ghost_effect)));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(
+				R.string.brick_change_ghost_effect)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
@@ -100,7 +100,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		effectToChange = 11.2;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		ChangeGhostEffectBrick = new ChangeGhostEffectBrick(sprite, 30.5);
 		script.addBrick(ChangeGhostEffectBrick);
 

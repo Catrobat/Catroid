@@ -47,11 +47,12 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
-	String projectNameOne = "Ulumulu";
-	String scriptNameOne = "Ulukai";
-	String scriptNameTwo = "Ulukai2";
-	String spriteNameOne = "Zuul";
-	String spriteNameTwo = "Zuuul";
+	private String projectNameOne = "Ulumulu";
+	private String spriteNameOne = "Zuul";
+	private String spriteNameTwo = "Zuuul";
+
+	private Script testScript;
+	private Script otherScript;
 
 	@Override
 	public void tearDown() {
@@ -89,13 +90,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				.getName());
 
 		// add script
-		Script startScript = new StartScript(scriptNameOne, sprite);
+		Script startScript = new StartScript(sprite);
 		projectManager.addScript(startScript);
 		projectManager.setCurrentScript(startScript);
 
 		assertNotNull("no current script set", projectManager.getCurrentScript());
-		assertEquals("The Spritename is not " + scriptNameOne, scriptNameOne, projectManager.getCurrentScript()
-				.getName());
 
 		// loadProject
 		projectManager.loadProject(projectNameOne, context, false);
@@ -113,7 +112,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		// addScript
 		projectManager.setCurrentSprite(sprite2);
-		Script script2 = new StartScript(scriptNameTwo, sprite2);
+		Script script2 = new StartScript(sprite2);
 		projectManager.addScript(script2);
 		assertTrue("Script not in current Sprite", projectManager.getCurrentSprite().getScriptIndex(script2) != -1);
 
@@ -121,8 +120,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		projectManager.setCurrentScript(script2);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite2);
 		projectManager.getCurrentScript().addBrick(setCostumeBrick);
-		assertTrue("Brick not in current Script",
-				projectManager.getCurrentScript().getBrickList().contains(setCostumeBrick));
+		assertTrue("Brick not in current Script", projectManager.getCurrentScript().getBrickList().contains(
+				setCostumeBrick));
 	}
 
 	public void testRenameProject() throws IOException {
@@ -170,8 +169,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-		Script testScript = new StartScript("testScript", firstSprite);
-		Script otherScript = new StartScript("otherScript", secondSprite);
+		testScript = new StartScript(firstSprite);
+		otherScript = new StartScript(secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
@@ -203,8 +202,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image),
-				image.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image), image
+				.getAbsolutePath());
 
 		storageHandler.saveProject(project);
 		return project;

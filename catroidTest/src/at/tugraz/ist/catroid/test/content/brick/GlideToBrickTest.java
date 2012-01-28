@@ -47,10 +47,10 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 		Thread.sleep(1100);
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) xPosition,
-				sprite.costume.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) yPosition,
-				sprite.costume.getYPosition());
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) xPosition, sprite.costume
+				.getXPosition());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) yPosition, sprite.costume
+				.getYPosition());
 	}
 
 	public void testNullSprite() {
@@ -70,22 +70,22 @@ public class GlideToBrickTest extends AndroidTestCase {
 		brick.execute();
 
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x float value", (float) Integer.MAX_VALUE,
-				 sprite.costume.getXPosition());
+				sprite.costume.getXPosition());
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y float value", (float) Integer.MAX_VALUE,
-				 sprite.costume.getYPosition());
+				sprite.costume.getYPosition());
 
 		brick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
 		brick.execute();
 
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum x float value", (float) Integer.MIN_VALUE,
-				 sprite.costume.getXPosition());
+				sprite.costume.getXPosition());
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum y float value", (float) Integer.MIN_VALUE,
-				 sprite.costume.getYPosition());
+				sprite.costume.getYPosition());
 	}
 
 	public void testTime() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript("testScript", sprite);
+		Script script = new StartScript(sprite);
 		HideBrick hideBrick = new HideBrick(sprite);
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, 0, 0, 1000);
 		ShowBrick showBrick = new ShowBrick(sprite);
@@ -109,7 +109,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 	public void testPauseResume() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript("testScript", sprite);
+		Script script = new StartScript(sprite);
 		HideBrick hideBrick = new HideBrick(sprite);
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, 0, 0, 3000);
 		ShowBrick showBrick = new ShowBrick(sprite);

@@ -120,13 +120,10 @@ public class ConnectionWrapper {
 		out.close();
 
 		InputStream resultStream = null;
-		//try {
 
-		Log.e("bla", "http code: " + urlConnection.getResponseCode());
+		Log.i(TAG, "http response code: " + urlConnection.getResponseCode());
 		resultStream = urlConnection.getInputStream();
-		//		} catch (FileNotFoundException e) {
-		//			Log.e("bla", "error string: " + getString(urlConnection.getErrorStream()));
-		//		}
+
 		return getString(resultStream);
 	}
 

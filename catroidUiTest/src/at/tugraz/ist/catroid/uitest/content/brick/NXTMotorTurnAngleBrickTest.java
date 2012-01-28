@@ -81,10 +81,10 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.",
-				solo.getText(getActivity().getString(R.string.brick_motor_turn_angle)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
+		assertNotNull("TextView does not exist.", solo
+				.getText(getActivity().getString(R.string.brick_motor_turn_angle)));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_angle)));
 
 		//		solo.clickOnEditText(0);
@@ -120,7 +120,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		solo.clickOnButton(0);
 		solo.sleep(500);
 
-		int angle = (Integer) UiTestUtils.getPrivateField("angle", motorBrick);
+		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
 		assertEquals("Wrong text in field.", setAngle, angle);
 		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
 
@@ -152,12 +152,12 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		//		setX = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 
 		setAngleInitially = 90;
 		setAngle = 135;
 
-		motorBrick = new NXTMotorTurnAngleBrick(sprite, 0, setAngleInitially);
+		motorBrick = new NXTMotorTurnAngleBrick(sprite, NXTMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
 
 		script.addBrick(motorBrick);
 

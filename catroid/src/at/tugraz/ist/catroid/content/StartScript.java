@@ -26,8 +26,8 @@ public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 
-	public StartScript(String name, Sprite sprite) {
-		super(name, sprite);
+	public StartScript(Sprite sprite) {
+		super(sprite);
 		super.isFinished = false;
 	}
 

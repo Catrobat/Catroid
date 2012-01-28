@@ -24,7 +24,11 @@ package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import at.tugraz.ist.catroid.ProjectManager;
@@ -43,6 +47,9 @@ public class Sprite implements Serializable {
 
 	public transient boolean isPaused;
 	public transient boolean isFinished;
+
+	private transient Map<Thread, Boolean> activeThreads;
+	private transient Map<Script, List<Thread>> activeScripts;
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
@@ -72,6 +79,8 @@ public class Sprite implements Serializable {
 		if (costumeDataList == null) {
 			costumeDataList = new ArrayList<CostumeData>();
 		}
+		activeThreads = new HashMap<Thread, Boolean>();
+		activeScripts = new HashMap<Script, List<Thread>>();
 	}
 
 	public Sprite(String name) {
@@ -102,17 +111,33 @@ public class Sprite implements Serializable {
 		}
 	}
 
-	private void startScript(Script s) {
+	private synchronized void startScript(Script s) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				script.run();
 			}
 		});
+		if (script instanceof WhenScript) {
+			if (!activeScripts.containsKey(script)) {
+				activeScripts.put(script, new LinkedList<Thread>());
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			} else {
+				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
+				while (currentScriptThreads.hasNext()) {
+					Thread currentThread = currentScriptThreads.next();
+					activeThreads.put(currentThread, false);
+				}
+				activeScripts.get(script).clear();
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			}
+		}
 		t.start();
 	}
 
-	public void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
+	public synchronized void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
@@ -123,10 +148,27 @@ public class Sprite implements Serializable {
 				script.run();
 			}
 		});
+		if (script instanceof BroadcastScript) {
+			if (!activeScripts.containsKey(script)) {
+				activeScripts.put(script, new LinkedList<Thread>());
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			} else {
+				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
+				while (currentScriptThreads.hasNext()) {
+					Thread currentThread = currentScriptThreads.next();
+					activeThreads.put(currentThread, false);
+				}
+				activeScripts.get(script).clear();
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			}
+		}
 		t.start();
 	}
 
-	public void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart, final CountDownLatch wait) {
+	public synchronized void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart,
+			final CountDownLatch wait) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
@@ -138,6 +180,23 @@ public class Sprite implements Serializable {
 				wait.countDown();
 			}
 		});
+		if (script instanceof BroadcastScript) {
+
+			if (!activeScripts.containsKey(script)) {
+				activeScripts.put(script, new LinkedList<Thread>());
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			} else {
+				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
+				while (currentScriptThreads.hasNext()) {
+					Thread currentThread = currentScriptThreads.next();
+					activeThreads.put(currentThread, false);
+				}
+				activeScripts.get(script).clear();
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			}
+		}
 		t.start();
 	}
 
@@ -226,5 +285,20 @@ public class Sprite implements Serializable {
 
 	public int getScriptCount() {
 		return scriptList.size();
+	}
+
+	public synchronized boolean isAlive(Thread thread) {
+		if (activeThreads.containsKey(thread)) {
+			return activeThreads.get(thread);
+		} else {
+			return true;
+		}
+
+	}
+
+	public synchronized void setInactive(Thread thread) {
+		if (activeThreads.containsKey(thread)) {
+			activeThreads.remove(thread);
+		}
 	}
 }

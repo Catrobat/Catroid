@@ -83,8 +83,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		projectManager.getCurrentProject().VIRTUAL_SCREEN_HEIGHT = display.getHeight();
-		projectManager.getCurrentProject().VIRTUAL_SCREEN_WIDTH = display.getWidth();
+		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
+		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -102,7 +102,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testCopyCostume() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(2000);
 		solo.clickOnButton(2);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition))) {
@@ -114,7 +114,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testDeleteCostume() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(700);
 		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
@@ -128,7 +128,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testRenameCostume() {
 		String newName = "newName";
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		solo.setActivityOrientation(Solo.PORTRAIT);
@@ -149,26 +149,10 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	//	public void testToStageButton() {
-	//		solo.clickOnText(getActivity().getString(R.string.costumes));
-	//		solo.sleep(500);
-	//		//fu!?
-	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
-	//
-	//		solo.sleep(5000);
-	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
-	//		solo.goBack();
-	//		solo.sleep(3000);
-	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-	//		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-	//		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
-	//				costumeDataList.size());
-	//	}
-
 	public void testMainMenuButton() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo = new Solo(getInstrumentation(), getActivity());
 
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
@@ -177,7 +161,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testDialogsOnChangeOrientation() {
 		String newName = "newTestName";
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
@@ -198,7 +182,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testGetImageFromPaintroid() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
 
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
@@ -229,7 +213,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testEditImageWithPaintroid() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(800);
 
 		CostumeData costumeData = costumeDataList.get(0);
@@ -265,7 +249,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testEditImageWithPaintroidNoChanges() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(800);
 
 		int numberOfCostumeDatas = costumeDataList.size();
@@ -291,7 +275,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testEditImageWithPaintroidNoPath() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(800);
 
 		int numberOfCostumeDatas = costumeDataList.size();
@@ -315,7 +299,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testGetImageFromPaintroidNoPath() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(800);
 
 		CostumeData costumeData = costumeDataList.get(0);
@@ -336,7 +320,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testGetImageFromGallery() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(800);
 
 		Bundle bundleForGallery = new Bundle();
@@ -365,7 +349,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(900);
 
 		int numberOfCostumeDatas = costumeDataList.size();
@@ -407,7 +391,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				.getAbsolutePath());
 
 		solo.sleep(900);
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(900);
 
 		CostumeData costumeData = costumeDataList.get(0);
