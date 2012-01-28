@@ -78,8 +78,8 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_note)));
 
 		solo.clickOnEditText(0);
@@ -117,7 +117,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		noteBrick = new NoteBrick(sprite);
 		script.addBrick(noteBrick);
 

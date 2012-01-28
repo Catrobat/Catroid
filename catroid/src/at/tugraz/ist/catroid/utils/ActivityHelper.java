@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +49,12 @@ public class ActivityHelper {
 	private int buttonHeight;
 	private int logoWidth;
 	private int tvMaxWidth;
+	private int padding;
 	private TextView titleText;
 
 	public ActivityHelper(Activity activity) {
 		this.activity = activity;
+		this.padding = Utils.getPhysicalPixels(5, activity);
 
 		tvMaxWidth = 0;
 	}
@@ -65,6 +68,7 @@ public class ActivityHelper {
 		Utils.updateScreenWidthAndHeight(activity);
 		buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
 		buttonHeight = buttonWidth;
+
 		logoWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_catroid_logo);
 		if (actionBar == null) {
 			return;
@@ -72,6 +76,7 @@ public class ActivityHelper {
 		LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(0,
 				ViewGroup.LayoutParams.FILL_PARENT);
 		ImageButton imageButton = new ImageButton(activity);
+		LinearLayout linearLayout = new LinearLayout(activity);
 		if (isMainMenu) {
 			imageButton.setId(R.id.btn_home);
 			imageButton.setImageResource(R.drawable.catroid_logo);
@@ -83,21 +88,37 @@ public class ActivityHelper {
 			imageButton.setScaleType(ImageView.ScaleType.CENTER);
 			imageButton.setClickable(false);
 		} else {
-			imageButton.setId(R.id.btn_action_home);
-			imageButton.setImageResource(R.drawable.ic_home_black);
-			imageButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
+			linearLayout.setId(R.id.btn_action_home);
+			linearLayout.setBackgroundResource(R.drawable.btn_actionbar_selector);
+			linearLayout.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
+			linearLayout.setOrientation(LinearLayout.VERTICAL);
+			linearLayout.setGravity(Gravity.CENTER);
 
-			imageButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
-			imageButton.setScaleType(ImageView.ScaleType.CENTER);
-			imageButton.setOnClickListener(new View.OnClickListener() {
+			ImageView image = new ImageView(activity);
+			image.setImageResource(R.drawable.ic_home_black);
+			image.setPadding(0, padding, 0, 0);
+
+			TextView text = new TextView(activity);
+			text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+			text.setGravity(Gravity.CENTER);
+			text.setText(activity.getString(R.string.home));
+			text.setTypeface(null, Typeface.BOLD);
+
+			linearLayout.addView(image);
+			linearLayout.addView(text);
+			linearLayout.setClickable(true);
+			linearLayout.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
 					goToMainMenu();
 				}
 			});
+
 		}
-
-		actionBar.addView(imageButton);
-
+		if (isMainMenu) {
+			actionBar.addView(imageButton);
+		} else {
+			actionBar.addView(linearLayout);
+		}
 		ImageView separator = new ImageView(activity);
 		separator.setBackgroundResource(R.drawable.actionbar_separator);
 		separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
@@ -107,7 +128,7 @@ public class ActivityHelper {
 		LinearLayout.LayoutParams textViewLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.FILL_PARENT);
 
-		int paddingRight = 10;
+		int paddingRight = 2 * padding;
 		if (isMainMenu) {
 			tvMaxWidth = Values.SCREEN_WIDTH - logoWidth - paddingRight;
 		} else {
@@ -125,7 +146,7 @@ public class ActivityHelper {
 		titleText.setEllipsize(TextUtils.TruncateAt.MARQUEE);
 		titleText.setMarqueeRepeatLimit(-1);
 		titleText.setSelected(true);
-		titleText.setPadding(5, 0, 0, 0);
+		titleText.setPadding(padding, 0, 0, 0);
 		titleText.setMaxWidth(tvMaxWidth);
 
 		titleText.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +165,7 @@ public class ActivityHelper {
 		actionBar.addView(spring);
 	}
 
-	public boolean addActionButton(int buttonId, int imageResourceId, View.OnClickListener clickListener,
+	public boolean addActionButton(int buttonId, int imageResourceId, int textId, View.OnClickListener clickListener,
 			boolean separatorAfter) {
 		final ViewGroup actionBar = getActionBar();
 		if (actionBar == null) {
@@ -155,26 +176,32 @@ public class ActivityHelper {
 		separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
 		separator.setBackgroundResource(R.drawable.actionbar_separator);
 
-		ImageButton imageButton = new ImageButton(activity);
-		imageButton.setId(buttonId);
-		imageButton.setImageResource(imageResourceId);
-
-		//2 times actionbar_height, cause we want the button to be square
-		int buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
-		int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
-		imageButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
-
-		imageButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
-		imageButton.setScaleType(ImageView.ScaleType.CENTER);
-		if (clickListener != null) {
-			imageButton.setOnClickListener(clickListener);
-		}
-
 		if (!separatorAfter) {
 			actionBar.addView(separator);
 		}
+		LinearLayout linearLayout = new LinearLayout(activity);
+		linearLayout.setId(buttonId);
+		linearLayout.setBackgroundResource(R.drawable.btn_actionbar_selector);
+		linearLayout.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
+		linearLayout.setOrientation(LinearLayout.VERTICAL);
+		linearLayout.setGravity(Gravity.CENTER);
 
-		actionBar.addView(imageButton);
+		ImageView image = new ImageView(activity);
+		image.setImageResource(imageResourceId);
+		image.setPadding(0, padding, 0, 0);
+
+		TextView text = new TextView(activity);
+		text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+		text.setGravity(Gravity.CENTER);
+		text.setText(activity.getString(textId));
+		text.setTypeface(null, Typeface.BOLD);
+
+		linearLayout.addView(image);
+		linearLayout.addView(text);
+		linearLayout.setClickable(true);
+		linearLayout.setOnClickListener(clickListener);
+
+		actionBar.addView(linearLayout);
 
 		if (separatorAfter) {
 			actionBar.addView(separator);
@@ -201,10 +228,9 @@ public class ActivityHelper {
 		if (actionBar == null) {
 			return;
 		}
-
-		ImageButton imageButtonView = (ImageButton) actionBar.findViewById(resourceId);
-		if (imageButtonView != null) {
-			imageButtonView.setImageResource(imageRecourseId);
+		ImageView image = (ImageView) ((LinearLayout) (actionBar.findViewById(resourceId))).getChildAt(0);
+		if (image != null) {
+			image.setImageResource(imageRecourseId);
 		}
 	}
 

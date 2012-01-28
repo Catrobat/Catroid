@@ -33,8 +33,8 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testAddScript() {
 		Sprite sprite = new Sprite("new sprite");
-		Script firstScript = new StartScript("firstScript", sprite);
-		Script secondScript = new StartScript("secondScript", sprite);
+		Script firstScript = new StartScript(sprite);
+		Script secondScript = new StartScript(sprite);
 		sprite.addScript(firstScript);
 		assertEquals("Script list does not contain script after adding", 1, sprite.getNumberOfScripts());
 
@@ -50,8 +50,8 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testGetScript() {
 		Sprite sprite = new Sprite("new sprite");
-		Script firstScript = new StartScript("firstScript", sprite);
-		Script secondScript = new StartScript("secondScript", sprite);
+		Script firstScript = new StartScript(sprite);
+		Script secondScript = new StartScript(sprite);
 		sprite.addScript(firstScript);
 		sprite.addScript(secondScript);
 		assertEquals("Scripts do not match after retrieving", firstScript, sprite.getScript(0));
@@ -60,8 +60,8 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testRemoveAllScripts() {
 		Sprite sprite = new Sprite("new sprite");
-		Script firstScript = new StartScript("firstScript", sprite);
-		Script secondScript = new StartScript("secondScript", sprite);
+		Script firstScript = new StartScript(sprite);
+		Script secondScript = new StartScript(sprite);
 		sprite.addScript(firstScript);
 		sprite.addScript(secondScript);
 
@@ -72,8 +72,8 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testRemoveScript() {
 		Sprite sprite = new Sprite("new sprite");
-		Script firstScript = new StartScript("firstScript", sprite);
-		Script secondScript = new StartScript("secondScript", sprite);
+		Script firstScript = new StartScript(sprite);
+		Script secondScript = new StartScript(sprite);
 		sprite.addScript(firstScript);
 		sprite.addScript(secondScript);
 
@@ -86,8 +86,8 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testGetScriptIndex() {
 		Sprite sprite = new Sprite("new sprite");
-		Script firstScript = new StartScript("firstScript", sprite);
-		Script secondScript = new StartScript("secondScript", sprite);
+		Script firstScript = new StartScript(sprite);
+		Script secondScript = new StartScript(sprite);
 		sprite.addScript(firstScript);
 		sprite.addScript(secondScript);
 		assertEquals("Indexes do not match", 0, sprite.getScriptIndex(firstScript));
@@ -96,7 +96,7 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testPauseUnPause() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new StartScript("testScript", testSprite);
+		Script testScript = new StartScript(testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		ShowBrick showBrick = new ShowBrick(testSprite);
 

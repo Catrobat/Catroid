@@ -24,7 +24,6 @@ package at.tugraz.ist.catroid.test.web;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.web.ServerCalls;
@@ -35,6 +34,8 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
  */
 public class ServerCallsTest extends AndroidTestCase {
 	private static final String LOG_TAG = ServerCalls.class.getSimpleName();
+	public static final int SERVER_ERROR_TOKEN_INVALID = 601;
+	public static final int SERVER_ERROR_COMMON = 500;
 
 	public ServerCallsTest() {
 		super();
@@ -130,7 +131,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is wrong", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -162,7 +163,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email already exists on the server", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_COMMON, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -183,7 +184,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is too short", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_COMMON, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -203,7 +204,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email is not valid", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_COMMON, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -234,7 +235,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 		} catch (WebconnectionException e) {
 			assertTrue("exception is thrown if we pass a wrong token", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}

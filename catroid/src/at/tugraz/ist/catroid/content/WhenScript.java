@@ -25,21 +25,22 @@ package at.tugraz.ist.catroid.content;
 public class WhenScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	public static final String LONGPRESSED = "Long Pressed";
-	public static final String TAPPED = "Tapped";
-	public static final String DOUBLETAPPED = "Double Tapped";
-	public static final String SWIPELEFT = "Swipe Left";
-	public static final String SWIPERIGHT = "Swipe Right";
-	public static final String SWIPEUP = "Swipe Up";
-	public static final String SWIPEDOWN = "Swipe Down";
+	private static final String LONGPRESSED = "Long Pressed";
+	private static final String TAPPED = "Tapped";
+	private static final String DOUBLETAPPED = "Double Tapped";
+	private static final String SWIPELEFT = "Swipe Left";
+	private static final String SWIPERIGHT = "Swipe Right";
+	private static final String SWIPEUP = "Swipe Up";
+	private static final String SWIPEDOWN = "Swipe Down";
 	private static final String[] actions = { TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
 			SWIPERIGHT };
 	private String action;
-	private int position;
+	private transient int position;
 
-	public WhenScript(String name, Sprite sprite) {
-		super(name, sprite);
+	public WhenScript(Sprite sprite) {
+		super(sprite);
 		super.isFinished = true;
+		this.position = 0;
 		this.action = TAPPED;
 	}
 

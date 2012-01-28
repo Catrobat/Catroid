@@ -31,8 +31,8 @@ public class BroadcastScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private String receivedMessage = "";
 
-	public BroadcastScript(String name, Sprite sprite) {
-		super(name, sprite);
+	public BroadcastScript(Sprite sprite) {
+		super(sprite);
 		super.isFinished = true;
 	}
 

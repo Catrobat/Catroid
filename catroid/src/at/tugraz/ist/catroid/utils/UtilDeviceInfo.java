@@ -27,7 +27,6 @@ import java.util.Locale;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
-import android.os.Build;
 
 public class UtilDeviceInfo {
 	public static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "undef";
@@ -55,12 +54,4 @@ public class UtilDeviceInfo {
 		return country;
 	}
 
-	public static boolean runOnEmulator(Context context) {
-		System.out.println("model " + Build.MODEL);
-		if (Build.MODEL.equals("sdk")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 }

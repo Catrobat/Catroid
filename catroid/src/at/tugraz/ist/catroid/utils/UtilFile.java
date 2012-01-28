@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,36 +72,38 @@ public class UtilFile {
 		return filesFound;
 	}
 
-	static public long getSizeOfDirectoryInByte(File directory) {
-		if (!directory.isDirectory()) {
-			return directory.length();
+	static private long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
+		if (!fileOrDirectory.exists()) {
+			return 0;
 		}
-		File[] contents = directory.listFiles();
+		if (fileOrDirectory.isFile()) {
+			return fileOrDirectory.length();
+		}
+
+		File[] contents = fileOrDirectory.listFiles();
 		long size = 0;
 		for (File file : contents) {
-			if (file.isDirectory()) {
-				size += getSizeOfDirectoryInByte(file);
-			} else {
-				size += file.length();
-			}
+			size += file.isDirectory() ? getSizeOfFileOrDirectoryInByte(file) : file.length();
 		}
 		return size;
 	}
 
-	static public String getSizeAsString(File directory) {
-		float sizeInKB = UtilFile.getSizeOfDirectoryInByte(directory) / 1024;
+	static public String getSizeAsString(File fileOrDirectory) {
+		final int UNIT = 1024;
+		long bytes = UtilFile.getSizeOfFileOrDirectoryInByte(fileOrDirectory);
 
-		String fileSizeString;
-		DecimalFormat decimalFormat = new DecimalFormat("#.00");
-
-		if (sizeInKB > 1048576) {
-			fileSizeString = decimalFormat.format(sizeInKB / 1048576) + " GB";
-		} else if (sizeInKB > 1024) {
-			fileSizeString = decimalFormat.format(sizeInKB / 1024) + " MB";
-		} else {
-			fileSizeString = Long.toString((long) sizeInKB) + " KB";
+		if (bytes < UNIT) {
+			return bytes + " Byte";
 		}
-		return fileSizeString;
+
+		/*
+		 * Logarithm of "bytes" to base "unit"
+		 * log(a) / log(b) == logarithm of a to the base of b
+		 */
+		int exponent = (int) (Math.log(bytes) / Math.log(UNIT));
+		char prefix = ("KMGTPE").charAt(exponent - 1);
+
+		return String.format("%.1f %sB", bytes / Math.pow(UNIT, exponent), prefix);
 	}
 
 	static public boolean clearDirectory(File path) {

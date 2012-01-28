@@ -61,7 +61,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new StartScript("testscript", firstSprite);
+		Script testScript = new StartScript(firstSprite);
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
 		testScript.addBrick(playSoundBrick);
@@ -88,10 +88,10 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(),
-				soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(),
-				soundInfo2.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(), soundInfo
+				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(), soundInfo2
+				.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}

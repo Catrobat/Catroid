@@ -23,8 +23,8 @@
  -->
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="9"
-	android:versionName="0.5.5a"
+	android:versionCode="10"
+	android:versionName="0.5a"
 	package="at.tugraz.ist.catroid.test"
 >
 	<application
@@ -40,8 +40,8 @@
 	<uses-permission
 		android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-sdk
-		android:minSdkVersion="7"
-		android:targetSdkVersion="8" />
+		android:minSdkVersion="8"
+		android:targetSdkVersion="10" />
 	<instrumentation
 		android:targetPackage="at.tugraz.ist.catroid"
 		android:name="android.test.InstrumentationTestRunner" />

@@ -23,12 +23,16 @@
  -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+	android:layout_height="wrap_content"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
+	android:background="@drawable/brick_violet"
 >
 	<TextView
-		android:text="DOWNLOADER"
-		android:id="@+id/text01"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
+		android:text="@string/brick_next_costume"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold" />
 </LinearLayout>

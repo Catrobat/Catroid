@@ -11,6 +11,7 @@ build/*
 R.java
 testProject\
 revision
+.DS_Store
 
 syntax: regexp
 ^catroidUiTest/\.settings/org\.eclipse\.jdt\.ui\.prefs$

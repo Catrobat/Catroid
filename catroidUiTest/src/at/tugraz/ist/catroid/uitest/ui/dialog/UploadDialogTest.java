@@ -34,6 +34,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.web.ServerCalls;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -73,8 +74,16 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		super.tearDown();
 	}
 
-	public void testUploadDialog() {
-		// Okay looks like we are testing too much in one testcase?
+	private void setServerURLToTestURL() throws Throwable {
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				ServerCalls.useTestUrl = true;
+			}
+		});
+	}
+
+	public void testUploadDialog() throws Throwable {
+		setServerURLToTestURL();
 		createTestProject();
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
@@ -100,18 +109,11 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
-		//		solo.sleep(500);
-		//		solo.clickOnText(getActivity().getString(R.string.upload_project));
-		//		solo.waitForDialogToClose(5000);
-
-		//		renameView = solo.getText(getActivity().getString(R.string.project_rename));
-		//		assertNotNull("View for rename project could not be found", renameView);
-		//		assertEquals("rename View is visible.", View.GONE, renameView.getVisibility());
-		//assertNotNull("Project Name is not saved.", solo.getEditText(testProject));
 
 	}
 
-	public void testOrientationChange() {
+	public void testOrientationChange() throws Throwable {
+		setServerURLToTestURL();
 		createTestProject();
 		String testText1 = "testText1";
 		String testText2 = "testText2";
@@ -143,6 +145,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 	}
 }

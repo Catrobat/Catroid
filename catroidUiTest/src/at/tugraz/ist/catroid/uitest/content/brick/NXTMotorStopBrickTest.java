@@ -77,8 +77,8 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_stop)));
 
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_stop_motor_chooser);
@@ -102,9 +102,9 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		//		setX = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 
-		motorStopBrick = new NXTMotorStopBrick(sprite, 0);
+		motorStopBrick = new NXTMotorStopBrick(sprite, NXTMotorStopBrick.Motor.MOTOR_A);
 
 		script.addBrick(motorStopBrick);
 
