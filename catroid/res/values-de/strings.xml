@@ -60,6 +60,7 @@
     <string name="tutorial">Anleitung</string>
     <string name="settings">Einstellungen</string>
     <string name="web_resources">Internet-Ressourcen</string>
+    <string name="forum">Forum</string>
 
     <!-- Settings activity -->
     <string name="pref_category_mindstorm">Mindstorm Einstellungen</string>
@@ -290,6 +291,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Wert ist zu klein!</string>
     <string name="number_to_big">Wert ist zu groß!</string>
-    <string name="forum">Forum</string>
 
 </resources>
