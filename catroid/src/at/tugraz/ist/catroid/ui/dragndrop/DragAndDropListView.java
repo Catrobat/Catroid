@@ -45,8 +45,10 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
@@ -194,6 +196,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	@Override
 	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+		
 		super.onSizeChanged(width, height, oldWidth, oldHeight);
 		upperScrollBound = height / 6;
 		lowerScrollBound = height * 5 / 6;
@@ -206,12 +209,26 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		Log.d("TESTING", "ItemPosition: " + itemPosition);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
+
+		
 		view.setDrawingCacheEnabled(true);
 
-		if (view.getDrawingCache() == null) {
-			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
-		}
+//		if (view.getDrawingCache() == null) {
+//			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
+//		}
+		
+		view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), 
+	            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+		view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight()); 
 
+		view.buildDrawingCache(true);
+	
+		
+		
+		if(view.getDrawingCache() == null)
+			Log.d("TESTING", "Dei mudda");
+		
+		
 		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 		view.setDrawingCacheEnabled(drawingCacheEnabled);
 
@@ -302,6 +319,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	public void setInsertedBrick(int pos) {
+		Log.d("TESTING", "start set insertedBrick");
 		//---------------Useful Methods---------------------
 		//		getAdapter();
 		//		findViewById(0);
@@ -315,6 +333,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		//		int count = 0;
 		View view = null;
 		for (View t : v) {
+			Log.d("TESTING", "sup?");
 			//			if (t.isLongClickable()) {
 			//				Log.d("TESTING", "Long Clickable: " + count);
 			//			}
@@ -335,13 +354,20 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		//		brick.getView(context, position, this);
 
-		destroyDrawingCache();
+/*		destroyDrawingCache();
 		setVisibility(ListView.INVISIBLE);
 		setVisibility(ListView.VISIBLE);
 		smoothScrollBy(10, 50);
-
-		onLongClick(view);
-
+*/
+		if(view == null)
+		{
+			Log.d("TESTING", "View Null sucker");
+		}else{
+			onLongClick(view);	
+		}
+		
+		
 		Log.d("TESTING", "Returned from OnLongClick");
+		
 	}
 }

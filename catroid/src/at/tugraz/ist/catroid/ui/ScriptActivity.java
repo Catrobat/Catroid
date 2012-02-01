@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -122,13 +123,17 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 	public void updateAdapterAfterAddNewBrick(DialogInterface dialog) {
 
+		listView.postInvalidate();
+		
 		int visibleF = listView.getFirstVisiblePosition();
 		int visibleL = listView.getLastVisiblePosition();
 		int pos = ((visibleL - visibleF) / 2);
 		pos += visibleF;
 		pos = adapter.rearangeBricks(pos);
-		listView.setInsertedBrick(pos);
-		adapter.notifyDataSetChanged();
+		adapter.setInsertedBrick();
+		adapter.setInsertedBrickpos(pos);
+		//listView.setInsertedBrick(pos);
+		adapter.notifyDataSetChanged();		
 	}
 
 	public void onCancel(DialogInterface arg0) {
