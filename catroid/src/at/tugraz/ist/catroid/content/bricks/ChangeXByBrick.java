@@ -77,19 +77,17 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		int maxLength = 3;
+		int editInitialLength = 3;
+		int editMaxLength = 5;
+		int editLengthToSet = 0;
 		InputFilter maxLengthFilter;
 
 		view = View.inflate(context, R.layout.toolbox_brick_change_x, null);
 
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_change_x_edit_text);
 
-		if ((xMovement > 9999) || (xMovement < -999)) {
-			maxLength = 5;
-		} else if ((xMovement > 999) || (xMovement < -99)) {
-			maxLength = 4;
-		}
-		maxLengthFilter = new InputFilter.LengthFilter(maxLength);
+		editLengthToSet = Utils.getBrickInputFieldMaxlength(xMovement, editInitialLength, editMaxLength);
+		maxLengthFilter = new InputFilter.LengthFilter(editLengthToSet);
 		editX.setFilters(new InputFilter[] { maxLengthFilter });
 		editX.setText(String.valueOf(xMovement));
 
