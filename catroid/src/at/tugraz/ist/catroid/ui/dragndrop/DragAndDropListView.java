@@ -28,8 +28,6 @@
  */
 package at.tugraz.ist.catroid.ui.dragndrop;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -64,6 +62,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private int lowerDragBound;
 
 	private ImageView dragView;
+	private int position;
+	private boolean newView;
 
 	private ImageView trashView;
 	private int originalTrashWidth;
@@ -102,8 +102,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			onTouchEvent(event);
 		}
 		touchPointY = (int) event.getRawY();
-
-		//		if (event.getAction())
 
 		return super.onInterceptTouchEvent(event);
 	}
@@ -204,8 +202,13 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	public boolean onLongClick(View view) {
-
-		int itemPosition = pointToPosition(view.getLeft(), view.getTop());
+		int itemPosition = -1;
+		if (newView) {
+			itemPosition = this.position;
+			newView = false;
+		} else {
+			itemPosition = pointToPosition(view.getLeft(), view.getTop());
+		}
 		Log.d("TESTING", "ItemPosition: " + itemPosition);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
@@ -222,17 +225,13 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		view.buildDrawingCache(true);
 
 		if (view.getDrawingCache() == null) {
-			Log.d("TESTING", "Dei mudda");
+			return false;
 		}
 
 		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 		view.setDrawingCacheEnabled(drawingCacheEnabled);
 
-		Log.d("TESTING", "before Startdragging");
-
 		startDragging(bitmap, touchPointY);
-
-		Log.d("TESTING", "before drag");
 
 		dragAndDropListener.drag(itemPosition, itemPosition);
 
@@ -320,6 +319,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	public void setInsertedBrick(int pos) {
+
+		this.position = pos;
+		newView = true;
 		//---------------Useful Methods---------------------
 		//		getAdapter();
 		//		findViewById(0);
@@ -328,42 +330,42 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		//		getTouchables();
 		//		isLongClickable();
 
-		ArrayList<View> v = this.getTouchables();
-
-		//		int count = 0;
-		View view = null;
-		for (View t : v) {
-			//			if (t.isLongClickable()) {
-			//				Log.d("TESTING", "Long Clickable: " + count);
-			//			}
-			//			count++;
-
-			int itemPosition = pointToPosition(t.getLeft(), t.getTop());
-			if (itemPosition == pos) {
-				view = t;
-				break;
-			}
-			//			Log.d("TESTING", "Count: " + count);
-
-		}
-
-		//TODO: find out which view to get
-		//		View view = v.get(0);
-		//		View view = (View) (getItemAtPosition(1));
-
-		//		brick.getView(context, position, this);
-
-		/*
-		 * destroyDrawingCache();
-		 * setVisibility(ListView.INVISIBLE);
-		 * setVisibility(ListView.VISIBLE);
-		 * smoothScrollBy(10, 50);
-		 */
-		if (view == null) {
-			Log.d("TESTING", "View Null sucker");
-		} else {
-			onLongClick(view);
-		}
-		Log.d("TESTING", "Returned from OnLongClick");
+		//		ArrayList<View> v = this.getTouchables();
+		//
+		//		//		int count = 0;
+		//		View view = null;
+		//		for (View t : v) {
+		//			//			if (t.isLongClickable()) {
+		//			//				Log.d("TESTING", "Long Clickable: " + count);
+		//			//			}
+		//			//			count++;
+		//
+		//			int itemPosition = pointToPosition(t.getLeft(), t.getTop());
+		//			if (itemPosition == pos) {
+		//				view = t;
+		//				break;
+		//			}
+		//			//			Log.d("TESTING", "Count: " + count);
+		//
+		//		}
+		//
+		//		//TODO: find out which view to get
+		//		//		View view = v.get(0);
+		//		//		View view = (View) (getItemAtPosition(1));
+		//
+		//		//		brick.getView(context, position, this);
+		//
+		//		/*
+		//		 * destroyDrawingCache();
+		//		 * setVisibility(ListView.INVISIBLE);
+		//		 * setVisibility(ListView.VISIBLE);
+		//		 * smoothScrollBy(10, 50);
+		//		 */
+		//		if (view == null) {
+		//			Log.d("TESTING", "View Null sucker");
+		//		} else {
+		//			onLongClick(view);
+		//		}
+		//		Log.d("TESTING", "Returned from OnLongClick");
 	}
 }
