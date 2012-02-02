@@ -32,6 +32,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -102,6 +103,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			onTouchEvent(event);
 		}
 		touchPointY = (int) event.getRawY();
+		//		Log.d("TESTING", "Touchpoint: " + touchPointY);
 
 		return super.onInterceptTouchEvent(event);
 	}
@@ -209,7 +211,19 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		} else {
 			itemPosition = pointToPosition(view.getLeft(), view.getTop());
 		}
+
+		int[] location = new int[2];
+		//		view.getLocationOnScreen(location);
+
+		Rect rectf = new Rect();
+		//		getLocalVisibleRect(rectf);
+		//		touchPointY = rectf.centerY();
+
+		(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
+		touchPointY = location[1];
+
 		Log.d("TESTING", "ItemPosition: " + itemPosition);
+		//		Log.d("TESTING", "ItemPosition: " + itemPosition + ", Location x: " + location[0] + ", y: " + location[1]);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
