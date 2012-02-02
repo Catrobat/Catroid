@@ -28,6 +28,7 @@ import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,7 +51,7 @@ import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 
-public class ScriptTabActivity extends TabActivity implements OnDismissListener {
+public class ScriptTabActivity extends TabActivity implements OnDismissListener, OnCancelListener {
 	protected ActivityHelper activityHelper;
 
 	private TabHost tabHost;
@@ -178,6 +179,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 			case DIALOG_BRICK_CATEGORY:
 				dialog = new BrickCategoryDialog(this);
 				dialog.setOnDismissListener(this);
+				dialog.setOnCancelListener(this);
 				break;
 			case DIALOG_ADD_BRICK:
 				if (selectedCategory != null) {
