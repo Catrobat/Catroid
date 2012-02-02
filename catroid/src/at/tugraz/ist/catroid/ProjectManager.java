@@ -183,10 +183,6 @@ public class ProjectManager {
 		currentSprite.addScript(script);
 	}
 
-	public void addScript(Script script, int index) {
-		currentSprite.addScript(index, script);
-	}
-
 	public boolean spriteExists(String spriteName) {
 		for (Sprite tempSprite : project.getSpriteList()) {
 			if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
