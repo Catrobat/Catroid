@@ -35,6 +35,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -233,8 +234,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
 				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-		//view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-		view.layout(0, 0, view.getMeasuredWidth() + 20, view.getMeasuredHeight());
+		Display display = getWindowManager().getDefaultDisplay();
+		view.layout(0, 0, display.getWidth(), view.getMeasuredHeight());
 
 		view.buildDrawingCache(true);
 
