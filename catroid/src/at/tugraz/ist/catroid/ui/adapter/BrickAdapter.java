@@ -372,9 +372,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				view = new WhenBrick(sprite, (WhenScript) getItem(position)).getView(context, position, this);
 			}
 
-			if (position == currentScriptPosition) {
-				view.setBackgroundResource(R.drawable.brick_touched_current);
-			}
+			//			if (position == currentScriptPosition) {
+			//				view.setBackgroundResource(R.drawable.brick_touched_current);
+			//			}
 			return view;
 		}
 	}
