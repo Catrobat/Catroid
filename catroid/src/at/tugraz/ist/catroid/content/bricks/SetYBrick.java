@@ -67,19 +67,17 @@ public class SetYBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		int maxLength = 3;
+		int editYInitialLength = 3;
+		int editYMaxLength = 5;
+		int editYLengthToSet = 0;
 		InputFilter maxLengthFilter;
 
 		view = View.inflate(context, R.layout.toolbox_brick_set_y, null);
 
 		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_set_y_edit_text);
 
-		if ((yPosition > 9999) || (yPosition < -999)) {
-			maxLength = 5;
-		} else if ((yPosition > 999) || (yPosition < -99)) {
-			maxLength = 4;
-		}
-		maxLengthFilter = new InputFilter.LengthFilter(maxLength);
+		editYLengthToSet = Utils.getBrickInputFieldMaxlength(yPosition, editYInitialLength, editYMaxLength);
+		maxLengthFilter = new InputFilter.LengthFilter(editYLengthToSet);
 		editY.setFilters(new InputFilter[] { maxLengthFilter });
 		editY.setText(String.valueOf(yPosition));
 

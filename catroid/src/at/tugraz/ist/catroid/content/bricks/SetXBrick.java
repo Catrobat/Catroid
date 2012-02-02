@@ -67,19 +67,17 @@ public class SetXBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		int maxLength = 3;
+		int editXInitialLength = 3;
+		int editXMaxLength = 5;
+		int editXLengthToSet = 0;
 		InputFilter maxLengthFilter;
 
 		view = View.inflate(context, R.layout.toolbox_brick_set_x, null);
 
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_set_x_edit_text);
 
-		if ((xPosition > 9999) || (xPosition < -999)) {
-			maxLength = 5;
-		} else if ((xPosition > 999) || (xPosition < -99)) {
-			maxLength = 4;
-		}
-		maxLengthFilter = new InputFilter.LengthFilter(maxLength);
+		editXLengthToSet = Utils.getBrickInputFieldMaxlength(xPosition, editXInitialLength, editXMaxLength);
+		maxLengthFilter = new InputFilter.LengthFilter(editXLengthToSet);
 		editX.setFilters(new InputFilter[] { maxLengthFilter });
 		editX.setText(String.valueOf(xPosition));
 
