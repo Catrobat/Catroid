@@ -216,25 +216,37 @@ public class AddBrickDialog extends Dialog {
 				ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (addedBrick instanceof WhenStartedBrick) {
-					(getScriptTabActivity()).setNewScript();
-					Script newScript = new StartScript(projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
+						(getScriptTabActivity()).setNewScript();
+						Script newScript = new StartScript(projectManager.getCurrentSprite());
+						projectManager.addScript(newScript);
+
 						projectManager.setCurrentScript(newScript);
+					} else {
+						Brick brickClone = getBrickClone(addedBrick);
+						projectManager.getCurrentScript().addBrick(brickClone);
 					}
 				} else if (addedBrick instanceof WhenBrick) {
-					(getScriptTabActivity()).setNewScript();
-					Script newScript = new WhenScript(projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
+						(getScriptTabActivity()).setNewScript();
+						Script newScript = new WhenScript(projectManager.getCurrentSprite());
+						projectManager.addScript(newScript);
+
 						projectManager.setCurrentScript(newScript);
+					} else {
+						Brick brickClone = getBrickClone(addedBrick);
+						projectManager.getCurrentScript().addBrick(brickClone);
 					}
 				} else if (addedBrick instanceof BroadcastReceiverBrick) {
-					(getScriptTabActivity()).setNewScript();
-					Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
+						(getScriptTabActivity()).setNewScript();
+						Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
+						projectManager.addScript(newScript);
+
 						projectManager.setCurrentScript(newScript);
+					} else {
+						Brick brickClone = getBrickClone(addedBrick);
+						projectManager.getCurrentScript().addBrick(brickClone);
 					}
 				} else if (addedBrick instanceof LoopBeginBrick
 						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
