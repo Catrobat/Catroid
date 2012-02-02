@@ -235,15 +235,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 			if (position == pos) {
 				if (insertedBrick) {
-
-					Log.d("TESTING", "YO,Mom");
 					insertedBrick = false;
-
 					DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
 							.findViewById(R.id.brick_list_view);
 					listView.onLongClick(currentBrickView);
 					return insertionView;
-
 				}
 			}
 
@@ -359,31 +355,38 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		int sId = getScriptId(pos);
 
-		Log.d("TESTING", "Pos: " + pos + " ID: " + sId);
+		if (sId == 0 && pos > 0) {
+			pos--;
+		}
 
 		for (int i = 0; i < sId; i++) {
 			pos -= (sprite.getScript(i).getBrickList().size() + 1);
-			Log.d("TESTING", "Skript abgezogen Pos " + pos);
 		}
 
 		if (!isBrick(orig)) {
 			orig++;
-		}
-		if (sId == 0) {
-			orig++;
+			if (sId != getScriptId(orig)) {
+				sId = getScriptId(orig);
+				pos -= (sprite.getScript(sId - 1).getBrickList().size() + 1);
+			}
 		}
 
+		//		Log.d("TESTING", "Adding in Script: " + sId + ", pos: " + pos + ", orig: " + orig);
 		sprite.getScript(sId).addBrick(pos, brick);
+
+		int newPos = 0;
+		for (int i = 0; i < sId; i++) {
+			newPos += (sprite.getScript(i).getBrickList().size() + 1);
+		}
+		newPos += pos + 1;
+
 		notifyDataSetChanged();
 
-		return orig;
-	}
-
-	public void setInsertedBrick() {
-		insertedBrick = true;
+		return newPos;
 	}
 
 	public void setInsertedBrickpos(int Npos) {
+		insertedBrick = true;
 		pos = Npos;
 	}
 
