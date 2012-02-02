@@ -146,6 +146,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		if (draggedBrick instanceof WhenBrick) {
 
 			Log.d("TESTING", "to " + to);
+			Log.d("TESTING", "foo");
 
 			int sId = getScriptId(to);
 
@@ -153,19 +154,21 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			Script newScript = new WhenScript(projectManager.getCurrentSprite());
 
 			ArrayList<Brick> tmpList = projectManager.getCurrentSprite().getScript(sId).getBrickList();
-
+			Log.d("TESTING", "tmpList " + tmpList.size());
 			int brickToScript = 0;
 			for (Brick brick : tmpList) {
-				brickToScript++;
+
 				if (brick instanceof WhenBrick) {
+					projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
 					break;
 				}
+				brickToScript++;
 			}
 
 			projectManager.addScript(newScript, sId + 1);
 
 			for (int j = brickToScript; j < tmpList.size(); j++) {
-
+				Log.d("TESTING", "sup?");
 				Brick brickToCopy = projectManager.getCurrentSprite().getScript(sId).getBrick(j);
 				projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
 
