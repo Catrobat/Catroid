@@ -212,8 +212,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		//		Log.d("TESTING", "Called GetView");
 		if (getItem(position) instanceof Brick) {
-			Brick brick = (Brick) getItem(position);
-			View currentBrickView = brick.getView(context, position, this);
+			View currentBrickView;
+
+			if (getItem(position) instanceof WhenBrick) {
+				WhenBrick brick = (WhenBrick) getItem(position);
+				currentBrickView = brick.getPrototypeView(context);
+			} else if (getItem(position) instanceof BroadcastReceiverBrick) {
+				BroadcastReceiverBrick brick = (BroadcastReceiverBrick) getItem(position);
+				currentBrickView = brick.getPrototypeView(context);
+			} else {
+				Brick brick = (Brick) getItem(position);
+				currentBrickView = brick.getView(context, position, this);
+			}
 
 			if (draggedBrick != null && dragTargetPosition == position) {
 				return insertionView;
