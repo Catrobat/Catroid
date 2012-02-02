@@ -32,7 +32,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -211,11 +210,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 
 		int[] location = new int[2];
-		//		view.getLocationOnScreen(location);
-
-		Rect rectf = new Rect();
-		//		getLocalVisibleRect(rectf);
-		//		touchPointY = rectf.centerY();
 
 		(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
 
@@ -336,50 +330,5 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		this.position = pos;
 		newView = true;
-		//---------------Useful Methods---------------------
-		//		getAdapter();
-		//		findViewById(0);
-		//		getFocusables(0);
-		//		getItemAtPosition(0);
-		//		getTouchables();
-		//		isLongClickable();
-
-		//		ArrayList<View> v = this.getTouchables();
-		//
-		//		//		int count = 0;
-		//		View view = null;
-		//		for (View t : v) {
-		//			//			if (t.isLongClickable()) {
-		//			//				Log.d("TESTING", "Long Clickable: " + count);
-		//			//			}
-		//			//			count++;
-		//
-		//			int itemPosition = pointToPosition(t.getLeft(), t.getTop());
-		//			if (itemPosition == pos) {
-		//				view = t;
-		//				break;
-		//			}
-		//			//			Log.d("TESTING", "Count: " + count);
-		//
-		//		}
-		//
-		//		//TODO: find out which view to get
-		//		//		View view = v.get(0);
-		//		//		View view = (View) (getItemAtPosition(1));
-		//
-		//		//		brick.getView(context, position, this);
-		//
-		//		/*
-		//		 * destroyDrawingCache();
-		//		 * setVisibility(ListView.INVISIBLE);
-		//		 * setVisibility(ListView.VISIBLE);
-		//		 * smoothScrollBy(10, 50);
-		//		 */
-		//		if (view == null) {
-		//			Log.d("TESTING", "View Null sucker");
-		//		} else {
-		//			onLongClick(view);
-		//		}
-		//		Log.d("TESTING", "Returned from OnLongClick");
 	}
 }
