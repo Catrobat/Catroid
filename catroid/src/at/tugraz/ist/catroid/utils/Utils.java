@@ -292,15 +292,4 @@ public class Utils {
 		int physicalPixels = (int) (densityIndependentPixels * scale + 0.5f);
 		return physicalPixels;
 	}
-
-	public static int getBrickInputFieldMaxlength(int value, int initialLength, int maxLength) {
-		int valueLength = String.valueOf(value).length();
-
-		if (valueLength < initialLength) {
-			return initialLength;
-		} else if (valueLength > maxLength) {
-			return maxLength;
-		}
-		return valueLength;
-	}
 }
