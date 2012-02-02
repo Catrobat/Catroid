@@ -195,6 +195,10 @@ public class AddBrickDialog extends Dialog {
 		textView.setText(category);
 	}
 
+	public ScriptTabActivity getSciptTabActivity() {
+		return this.scriptTabActivity;
+	}
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -212,24 +216,21 @@ public class AddBrickDialog extends Dialog {
 				ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (addedBrick instanceof WhenStartedBrick) {
+					(getSciptTabActivity()).setNewScript();
 					Script newScript = new StartScript(projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
 						projectManager.setCurrentScript(newScript);
 					}
 				} else if (addedBrick instanceof WhenBrick) {
-					Script newScript = new WhenScript(projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
-					if (projectManager.getCurrentScriptPosition() < 0) {
-						projectManager.setCurrentScript(newScript);
-					}
-				} else if (addedBrick instanceof WhenBrick) {
+					(getSciptTabActivity()).setNewScript();
 					Script newScript = new WhenScript(projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
 						projectManager.setCurrentScript(newScript);
 					}
 				} else if (addedBrick instanceof BroadcastReceiverBrick) {
+					(getSciptTabActivity()).setNewScript();
 					Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {

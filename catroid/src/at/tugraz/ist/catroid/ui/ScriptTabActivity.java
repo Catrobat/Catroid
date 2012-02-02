@@ -28,11 +28,9 @@ import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -52,10 +50,12 @@ import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 
-public class ScriptTabActivity extends TabActivity implements OnDismissListener, OnCancelListener {
+public class ScriptTabActivity extends TabActivity implements OnDismissListener {
 	protected ActivityHelper activityHelper;
 
 	private TabHost tabHost;
+	private boolean addScript;
+	private boolean isCanceled;
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
 	public CostumeData selectedCostumeData;
@@ -65,7 +65,6 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	public static final int DIALOG_RENAME_SOUND = 1;
 	public static final int DIALOG_BRICK_CATEGORY = 2;
 	public static final int DIALOG_ADD_BRICK = 3;
-	private boolean isCanceled;
 
 	private void setupTabHost() {
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -74,8 +73,9 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		isCanceled = false;
 		super.onCreate(savedInstanceState);
+		addScript = false;
+		isCanceled = false;
 		setContentView(R.layout.activity_scripttab);
 
 		setupTabHost();
@@ -178,7 +178,6 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 			case DIALOG_BRICK_CATEGORY:
 				dialog = new BrickCategoryDialog(this);
 				dialog.setOnDismissListener(this);
-				dialog.setOnCancelListener(this);
 				break;
 			case DIALOG_ADD_BRICK:
 				if (selectedCategory != null) {
@@ -223,8 +222,11 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	}
 
 	public void onDismiss(DialogInterface dialogInterface) {
-		Log.d("TESTING", "onDismiss");
 		if (!isCanceled) {
+			if (addScript) {
+				((ScriptActivity) getCurrentActivity()).setAddNewScript();
+				addScript = false;
+			}
 			((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(dialogInterface);
 		}
 		isCanceled = false;
@@ -232,7 +234,10 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 	public void onCancel(DialogInterface dialog) {
 		isCanceled = true;
-		Log.d("TESTING", "onCancel");
+	}
+
+	public void setNewScript() {
+		addScript = true;
 	}
 
 }

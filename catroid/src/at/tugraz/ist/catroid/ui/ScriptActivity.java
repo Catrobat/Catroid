@@ -45,6 +45,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
+	private boolean addNewScript;
 	private static final int DIALOG_ADD_BRICK = 2;
 
 	private void initListeners() {
@@ -65,6 +66,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		listView.setAdapter(adapter);
 
 		registerForContextMenu(listView);
+		addNewScript = false;
 	}
 
 	@Override
@@ -120,24 +122,27 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		};
 	}
 
+	public void setAddNewScript() {
+		addNewScript = true;
+	}
+
 	public void updateAdapterAfterAddNewBrick(DialogInterface dialog) {
 
-		listView.postInvalidate();
-
-		int visibleF = listView.getFirstVisiblePosition();
-		int visibleL = listView.getLastVisiblePosition();
-		int pos = ((visibleL - visibleF) / 2);
-		pos += visibleF;
-		pos = adapter.rearangeBricks(pos);
-
-		adapter.setInsertedBrick();
-		adapter.setInsertedBrickpos(pos);
-		listView.setInsertedBrick(pos);
+		if (addNewScript) {
+			addNewScript = false;
+		} else {
+			int visibleF = listView.getFirstVisiblePosition();
+			int visibleL = listView.getLastVisiblePosition();
+			int pos = ((visibleL - visibleF) / 2);
+			pos += visibleF;
+			pos = adapter.rearangeBricks(pos);
+			adapter.setInsertedBrickpos(pos);
+			listView.setInsertedBrick(pos);
+		}
 		adapter.notifyDataSetChanged();
 	}
 
 	public void onCancel(DialogInterface arg0) {
-
 		adapter.notifyDataSetChanged();
 	}
 
