@@ -142,7 +142,41 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drop(int to) {
+		//*****************************************************************************
+		if (draggedBrick instanceof WhenBrick) {
 
+			Log.d("TESTING", "to " + to);
+
+			int sId = getScriptId(to);
+
+			ProjectManager projectManager = ProjectManager.getInstance();
+			Script newScript = new WhenScript(projectManager.getCurrentSprite());
+
+			ArrayList<Brick> tmpList = projectManager.getCurrentSprite().getScript(sId).getBrickList();
+
+			int brickToScript = 0;
+			for (Brick brick : tmpList) {
+				brickToScript++;
+				if (brick instanceof WhenBrick) {
+					break;
+				}
+			}
+
+			projectManager.addScript(newScript, sId + 1);
+
+			for (int j = brickToScript; j < tmpList.size(); j++) {
+
+				Brick brickToCopy = projectManager.getCurrentSprite().getScript(sId).getBrick(j);
+				projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
+
+				projectManager.getCurrentSprite().getScript(sId).removeBrick(brickToCopy);
+			}
+
+		} else if (draggedBrick instanceof WhenStartedBrick) {
+
+		} else if (draggedBrick instanceof BroadcastReceiverBrick) {
+
+		}
 		draggedBrick = null;
 		notifyDataSetChanged();
 	}
