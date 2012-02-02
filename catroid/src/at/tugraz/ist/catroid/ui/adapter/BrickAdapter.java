@@ -142,6 +142,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drop(int to) {
+
 		draggedBrick = null;
 		notifyDataSetChanged();
 	}
