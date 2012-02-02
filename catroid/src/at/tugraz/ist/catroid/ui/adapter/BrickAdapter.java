@@ -209,36 +209,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		// if(insertedBrick)
-		// {
-		//
-		// Log.d("TESTING", "YO,Mom");
-		// insertedBrick = false;
-		// // int visibleF = listView.getFirstVisiblePosition();
-		// // int visibleL = listView.getLastVisiblePosition();
-		// // int pos = ((visibleL - visibleF) / 2);
-		// DragAndDropListView foo = (DragAndDropListView) ((ScriptActivity)
-		// context).findViewById(R.id.brick_list_view);
-		// foo.setInsertedBrick(pos);
-		//
-		// }
-
-		// if (insertedBrick) {
-		// listView = (DragAndDropListView) ((ScriptActivity)
-		// context).findViewById(R.id.brick_list_view);
-		// int visibleF = listView.getFirstVisiblePosition();
-		// int visibleL = listView.getLastVisiblePosition();
-		// int pos = ((visibleL - visibleF) / 2);
-		// Log.d("TESTING", "First: " + visibleF + " Last: " + visibleL +
-		// " Pos: " + pos);
-		// pos += visibleF;
-		// pos = rearangeBricks(pos);
-		// notifyDataSetChanged();
-		// listView.setInsertedBrick(pos);
-		// insertedBrick = false;
-		// }
-
-		Log.d("TESTING", "Called GetView");
+		//		Log.d("TESTING", "Called GetView");
 		if (getItem(position) instanceof Brick) {
 			Brick brick = (Brick) getItem(position);
 			View currentBrickView = brick.getView(context, position, this);

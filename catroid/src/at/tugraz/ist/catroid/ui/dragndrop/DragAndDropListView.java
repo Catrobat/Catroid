@@ -102,8 +102,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		if (dragAndDropListener != null && dragView != null) {
 			onTouchEvent(event);
 		}
-		touchPointY = (int) event.getRawY();
-		//		Log.d("TESTING", "Touchpoint: " + touchPointY);
 
 		return super.onInterceptTouchEvent(event);
 	}
@@ -220,9 +218,10 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		//		touchPointY = rectf.centerY();
 
 		(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
-		touchPointY = location[1];
 
-		Log.d("TESTING", "ItemPosition: " + itemPosition);
+		touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
+
+		Log.d("TESTING", "ItemPosition: " + itemPosition + ", touchpos: " + touchPointY);
 		//		Log.d("TESTING", "ItemPosition: " + itemPosition + ", Location x: " + location[0] + ", y: " + location[1]);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
