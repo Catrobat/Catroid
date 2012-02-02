@@ -96,7 +96,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	public void testResizeInputField() {
-		int[] yTestValues = new int[] { 1, 123, 12345, -1, -12, -1000, -999 };
+		int[] yTestValues = new int[] { 1, 12345, -1, -1000, -999 };
 		int currentYValue = 0;
 		int editTextWidth = 0;
 		for (int i = 0; i < yTestValues.length; i++) {
