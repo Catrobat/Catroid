@@ -129,6 +129,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		int pos = ((visibleL - visibleF) / 2);
 		pos += visibleF;
 		pos = adapter.rearangeBricks(pos);
+
 		adapter.setInsertedBrick();
 		adapter.setInsertedBrickpos(pos);
 		listView.setInsertedBrick(pos);
@@ -136,6 +137,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	}
 
 	public void onCancel(DialogInterface arg0) {
+
 		adapter.notifyDataSetChanged();
 	}
 
