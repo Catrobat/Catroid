@@ -61,13 +61,14 @@
 			android:id="@+id/toolbox_brick_place_at_x_edit_text"
 			android:text="0"
 			android:layout_height="wrap_content"
-			android:layout_width="60dp"
+			android:layout_width="wrap_content"
+			android:minWidth="60dip"
 			android:clickable="false"
 			android:focusable="false"
 			android:focusableInTouchMode="false"
 			android:gravity="right"
 			android:inputType="number|numberDecimal|numberSigned"
-			android:maxLength="4"
+			android:maxLength="5"
 			android:maxLines="1"
 		>
 		</EditText>
@@ -87,13 +88,14 @@
 			android:id="@+id/toolbox_brick_place_at_y_edit_text"
 			android:text="0"
 			android:layout_height="wrap_content"
-			android:layout_width="60dp"
+			android:layout_width="wrap_content"
+			android:minWidth="60dip"
 			android:clickable="false"
 			android:focusable="false"
 			android:focusableInTouchMode="false"
 			android:gravity="right"
 			android:inputType="number|numberDecimal|numberSigned"
-			android:maxLength="4"
+			android:maxLength="5"
 			android:maxLines="1"
 		>
 		</EditText>
