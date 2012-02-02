@@ -130,6 +130,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 		if (addNewScript) {
 			addNewScript = false;
+			Script s = sprite.getScript(sprite.getScriptCount() - 1);
 
 		} else {
 			int visibleF = listView.getFirstVisiblePosition();
