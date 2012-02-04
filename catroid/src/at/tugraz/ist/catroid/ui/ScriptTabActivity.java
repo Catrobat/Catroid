@@ -80,22 +80,22 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 		Intent intent; // Reusable Intent for each tab
 
 		intent = new Intent().setClass(this, ScriptActivity.class);
-		setupTab(R.drawable.ic_tab_scripts, this.getString(R.string.scripts), intent);
+		setupTab(R.drawable.ic_tab_scripts_selector, this.getString(R.string.scripts), intent);
 		intent = new Intent().setClass(this, CostumeActivity.class);
 		int costumeIcon;
 		String costumeLabel;
 
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
-			costumeIcon = R.drawable.ic_tab_background;
+			costumeIcon = R.drawable.ic_tab_background_selector;
 			costumeLabel = this.getString(R.string.backgrounds);
 		} else {
-			costumeIcon = R.drawable.ic_tab_costumes;
+			costumeIcon = R.drawable.ic_tab_costumes_selector;
 			costumeLabel = this.getString(R.string.costumes);
 		}
 		setupTab(costumeIcon, costumeLabel, intent);
 		intent = new Intent().setClass(this, SoundActivity.class);
-		setupTab(R.drawable.ic_tab_sounds, this.getString(R.string.sounds), intent);
+		setupTab(R.drawable.ic_tab_sounds_selector, this.getString(R.string.sounds), intent);
 
 		setUpActionBar();
 		if (getLastNonConfigurationInstance() != null) {
