@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.web;
 
 import android.content.SharedPreferences;
@@ -73,8 +76,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		fillLoginDialog(true);
 
-		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -85,8 +88,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(5000);
 
-		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -100,15 +103,14 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(1000);
 		fillLoginDialog(true);
 
-		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.goBack();
 
-		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.waitForDialogToClose(10000);
 
-		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -120,11 +122,11 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		prefs.edit().putString(Consts.TOKEN, "wrong_token").commit();
 
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
-		solo.sleep(5000);
+		solo.sleep(4000);
 		fillLoginDialog(true);
 
-		assertNotNull("Login Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Login Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -140,8 +142,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertNotNull("no error dialog is shown", solo.getText(getActivity().getString(R.string.register_error)));
 		solo.clickOnButton(0);
-		assertNotNull("Login Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.login_register_dialog_title)));
+		assertNotNull("Login Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -176,15 +178,14 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	private void fillLoginDialog(boolean correct) {
 
-		assertNotNull("Login Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.login_register_dialog_title)));
+		assertNotNull("Login Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
 
 		// enter a username
 		String testUser = "testUser" + System.currentTimeMillis();
 		solo.clearEditText(0);
-		solo.clickOnEditText(0);
 		solo.enterText(0, testUser);
-
+		solo.goBack();
 		// enter a password
 		String testPassword;
 		if (correct) {
@@ -199,7 +200,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
-		solo.clickOnButton(getActivity().getString(R.string.login_or_register));
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
+		solo.sleep(1000);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+
+		solo.clickOnButton(0);
 
 		solo.waitForDialogToClose(10000);
 	}

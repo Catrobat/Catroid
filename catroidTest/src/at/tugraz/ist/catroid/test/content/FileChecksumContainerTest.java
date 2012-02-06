@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.test.content;
 
 import java.io.BufferedOutputStream;
@@ -54,6 +57,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		TestUtils.clearProject(currentProjectName);
 		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
+		testCopyFile.virtualScreenHeight = 1000;
+		testCopyFile.virtualScreenWidth = 1000;
 		projectManager = ProjectManager.getInstance();
 		storageHandler.saveProject(testCopyFile);
 		projectManager.setProject(testCopyFile);
@@ -118,7 +123,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		Thread.sleep(2000);
 
 		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY + "/");
+		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + "/" + Consts.IMAGE_DIRECTORY
+				+ "/");
 		File[] filesImage = imageDirectory.listFiles();
 
 		//nomedia file is also in images folder
@@ -127,7 +133,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		String checksumSound = Utils.md5Checksum(testSound);
 		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumSound));
-		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
+		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + "/" + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
 
 		//nomedia file is also in sounds folder
@@ -147,14 +153,14 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		Thread.sleep(2000);
 
 		storageHandler.deleteFile(newTestImage1.getAbsolutePath());
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
+		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + "/" + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = imageDirectory.listFiles();
 		assertEquals("Wrong amount of files in folder", 1, filesImage.length);
 
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		storageHandler.deleteFile(newTestSound.getAbsolutePath());
 
-		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
+		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + "/" + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
 
 		assertEquals("Wrong amount of files in folder", 1, filesSound.length);

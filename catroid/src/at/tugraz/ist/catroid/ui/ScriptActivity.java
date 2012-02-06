@@ -1,52 +1,51 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
-import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
+public class ScriptActivity extends Activity implements OnCancelListener {
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
-	private static final int DIALOG_ADD_BRICK = 0;
+	private static final int DIALOG_ADD_BRICK = 2;
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -55,16 +54,16 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
-		if (adapter.getGroupCount() > 0) {
-			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
+		if (adapter.getScriptCount() > 0) {
+			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
+			adapter.setCurrentScriptPosition(0);
 		}
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
-		listView.setGroupIndicator(null);
-		listView.setOnGroupClickListener(adapter);
+
 		registerForContextMenu(listView);
 	}
 
@@ -72,22 +71,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-
-		switch (id) {
-			case DIALOG_ADD_BRICK:
-				dialog = new BrickCategoryDialog(this);
-				dialog.setOnDismissListener(this);
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-		return dialog;
 	}
 
 	@Override
@@ -108,9 +91,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			return;
 		}
 		initListeners();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
 	}
 
 	@Override
@@ -121,9 +101,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 
 		initListeners();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
 
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		if (scriptTabActivity != null && scriptTabActivity.activityHelper != null) {
@@ -138,20 +115,13 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private View.OnClickListener createAddBrickClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
-				showDialog(DIALOG_ADD_BRICK);
+				getParent().showDialog(DIALOG_ADD_BRICK);
 			}
 		};
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		for (int i = 0; i < adapter.getGroupCount() - 1; ++i) {
-			listView.collapseGroup(i);
-		}
-
+	public void updateAdapterAfterAddNewBrick(DialogInterface dialog) {
 		adapter.notifyDataSetChanged();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
 	}
 
 	public void onCancel(DialogInterface arg0) {
@@ -164,15 +134,13 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+
 		if (view.getId() == R.id.brick_list_view) {
-			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
-			if (ExpandableListView.getPackedPositionType(info.packedPosition) != ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-
-				int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-				scriptToEdit = adapter.getGroup(position);
-
+			if (adapter.getItem(listView.getTouchedListPosition()) instanceof Script) {
+				scriptToEdit = (Script) adapter.getItem(listView.getTouchedListPosition());
 				MenuInflater inflater = getMenuInflater();
 				inflater.inflate(R.menu.script_menu, menu);
 			}
@@ -192,8 +160,8 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
 				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
+				adapter.setCurrentScriptPosition(lastScriptIndex);
 				adapter.notifyDataSetChanged();
-				listView.expandGroup(adapter.getGroupCount() - 1);
 			}
 		}
 		return true;

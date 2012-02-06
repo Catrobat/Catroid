@@ -1,0 +1,115 @@
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<Content.Project>
+  <androidVersion>10</androidVersion>
+  <catroidVersionCode>8</catroidVersionCode>
+  <catroidVersionName>0.5.6a</catroidVersionName>
+  <deviceName>HTC Desire</deviceName>
+  <projectName>testProject</projectName>
+  <screenHeight>800</screenHeight>
+  <screenWidth>480</screenWidth>
+  <spriteList>
+    <Content.Sprite>
+      <name>Stage</name>
+    </Content.Sprite>
+    <Content.Sprite>
+      <name>first</name>
+      <scriptList>
+        <Content.StartScript>
+          <brickList>
+            <Bricks.HideBrick>
+              <sprite reference="../../../../.."/>
+            </Bricks.HideBrick>
+            <Bricks.ShowBrick>
+              <sprite reference="../../../../.."/>
+            </Bricks.ShowBrick>
+            <Bricks.SetSizeToBrick>
+              <size>0.8</size>
+            </Bricks.SetSizeToBrick>
+            <Bricks.ComeToFrontBrick>
+              <sprite reference="../../../../.."/>
+            </Bricks.ComeToFrontBrick>
+            <Bricks.SetCostumeBrick>
+              <sprite reference="../../../../.."/>
+            </Bricks.SetCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+        </Content.StartScript>
+        <Content.WhenScript>
+          <brickList>
+            <Bricks.WaitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>1000</timeToWaitInMilliSeconds>
+            </Bricks.WaitBrick>
+            <Bricks.PlaySoundBrick>
+              <sprite reference="../../../../.."/>
+            </Bricks.PlaySoundBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <action>Tapped</action>
+        </Content.WhenScript>
+      </scriptList>
+    </Content.Sprite>
+    <Content.Sprite>
+        <name>second</name>
+        <scriptList>
+          <Content.StartScript>
+            <brickList>
+              <Bricks.PlaceAtBrick>
+                <sprite reference="../../../../.."/>
+                <xPosition>100</xPosition>
+                <yPosition>100</yPosition>
+              </Bricks.PlaceAtBrick>
+              <Bricks.SetXBrick>
+                <sprite reference="../../../../.."/>
+                <xPosition>100</xPosition>
+              </Bricks.SetXBrick>
+              <Bricks.SetYBrick>
+                <sprite reference="../../../../.."/>
+                <yPosition>100</yPosition>
+              </Bricks.SetYBrick>
+              <Bricks.ChangeXByBrick>
+                <sprite reference="../../../../.."/>
+                <xMovement>-100</xMovement>
+              </Bricks.ChangeXByBrick>
+              <Bricks.ChangeYByBrick>
+                <sprite reference="../../../../.."/>
+                <yMovement>-100</yMovement>
+              </Bricks.ChangeYByBrick>
+              <Bricks.GlideToBrick>
+                <durationInMilliSeconds>3000</durationInMilliSeconds>
+                <sprite reference="../../../../.."/>
+                <xDestination>500</xDestination>
+                <yDestination>500</yDestination>
+              </Bricks.GlideToBrick>
+              <Bricks.GoNStepsBackBrick>
+                <sprite reference="../../../../.."/>
+                <steps>1</steps>
+              </Bricks.GoNStepsBackBrick>
+            </brickList>
+            <sprite reference="../../.."/>
+          </Content.StartScript>
+        </scriptList>
+    </Content.Sprite>
+  </spriteList>
+</Content.Project>

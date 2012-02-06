@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.dialogs;
@@ -22,6 +26,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,12 +35,13 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.transfers.RegistrationTask;
+import at.tugraz.ist.catroid.web.ServerCalls;
 
 public class LoginRegisterDialog extends Dialog implements OnClickListener {
 	private final Activity activity;
+	private static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
@@ -81,17 +88,21 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 
 	public void onClick(View v) {
 
+		String username;
 		switch (v.getId()) {
 			case R.id.login_register_button:
-				String username = usernameEditText.getText().toString();
+				username = usernameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
 
 				new RegistrationTask(activity, username, password, this).execute();
 
 				break;
 			case R.id.password_forgotten_button:
-				Toast.makeText(activity, "not implemented", Toast.LENGTH_SHORT).show();
-				dismiss();
+				username = usernameEditText.getText().toString();
+				String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST : ServerCalls.BASE_URL;
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH
+						+ username));
+				activity.startActivity(browserIntent);
 				break;
 		}
 	}

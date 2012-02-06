@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -74,8 +77,8 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_stop)));
 
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_stop_motor_chooser);
@@ -83,15 +86,15 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 
 		solo.sleep(500);
 		solo.pressSpinnerItem(0, 5);
-		assertEquals(array[4], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[4], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals(array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals(array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals(array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals(array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 
@@ -99,9 +102,9 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		//		setX = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 
-		motorStopBrick = new NXTMotorStopBrick(sprite, 0);
+		motorStopBrick = new NXTMotorStopBrick(sprite, NXTMotorStopBrick.Motor.MOTOR_A);
 
 		script.addBrick(motorStopBrick);
 

@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
@@ -24,10 +28,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -37,8 +41,6 @@ public class PointToBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
-	private double rotationDegrees = 0.0;
-	private int spinnerPosition = 0;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
@@ -68,16 +70,19 @@ public class PointToBrick implements Brick {
 		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
 		double base = 0.0, height = 0.0, value = 0.0;
 
-		spriteXPosition = sprite.getXPosition();
-		spriteYPosition = sprite.getYPosition();
-		pointedSpriteXPosition = pointedSprite.getXPosition();
-		pointedSpriteYPosition = pointedSprite.getYPosition();
+		sprite.costume.aquireXYWidthHeightLock();
+		spriteXPosition = (int) sprite.costume.getXPosition();
+		spriteYPosition = (int) sprite.costume.getYPosition();
+		sprite.costume.releaseXYWidthHeightLock();
+		pointedSprite.costume.aquireXYWidthHeightLock();
+		pointedSpriteXPosition = (int) pointedSprite.costume.getXPosition();
+		pointedSpriteYPosition = (int) pointedSprite.costume.getYPosition();
+		pointedSprite.costume.releaseXYWidthHeightLock();
 
+		double rotationDegrees;
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
 			rotationDegrees = 90;
-		}
-
-		else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
+		} else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
 			if (spriteXPosition == pointedSpriteXPosition) {
 				if (spriteYPosition > pointedSpriteYPosition) {
 					rotationDegrees = 180;
@@ -111,10 +116,10 @@ public class PointToBrick implements Brick {
 				}
 			}
 		}
-		sprite.setDirection(rotationDegrees);
+		sprite.costume.rotation = (-(float) rotationDegrees) + 90f;
 	}
 
-	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_point_to, null);
@@ -153,7 +158,6 @@ public class PointToBrick implements Brick {
 					String spriteName = sprite.getName();
 					if (spriteName.equals(itemSelected)) {
 						pointedSprite = sprite;
-						spinnerPosition = position;
 					}
 				}
 			}
@@ -163,7 +167,8 @@ public class PointToBrick implements Brick {
 		});
 
 		if (spriteList.contains(pointedSprite)) {
-			spinner.setSelection(spinnerPosition);
+			int pointedSpriteIndex = spinnerAdapter.getPosition(pointedSprite.getName());
+			spinner.setSelection(pointedSpriteIndex);
 		} else {
 			spinner.setSelection(0);
 		}

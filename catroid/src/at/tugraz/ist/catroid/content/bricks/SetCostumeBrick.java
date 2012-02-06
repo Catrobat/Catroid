@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
@@ -21,11 +25,11 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -52,15 +56,9 @@ public class SetCostumeBrick implements Brick {
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			if (!NativeAppActivity.isRunning()) {
-				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
+				sprite.costume.setCostumeData(costumeData);
 			} else {
-				sprite.getCostume().setBitmapFromResource(
-						NativeAppActivity.getContext(),
-						NativeAppActivity
-								.getContext()
-								.getResources()
-								.getIdentifier(costumeData.getCostumeFileName(), "raw",
-										NativeAppActivity.getContext().getPackageName()));
+				sprite.costume.setCostumeDataInternal(costumeData);
 			}
 		}
 	}
@@ -73,7 +71,7 @@ public class SetCostumeBrick implements Brick {
 		return costumeData.getAbsolutePath();
 	}
 
-	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
 
@@ -84,7 +82,11 @@ public class SetCostumeBrick implements Brick {
 
 		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				costumeData = (CostumeData) parent.getItemAtPosition(position);
+				if (position == 0) {
+					costumeData = null;
+				} else {
+					costumeData = (CostumeData) parent.getItemAtPosition(position);
+				}
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -130,7 +132,7 @@ public class SetCostumeBrick implements Brick {
 	@Override
 	public Brick clone() {
 		SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
-		if (sprite.getCostume() != null) {
+		if (sprite.costume != null) {
 			clonedBrick.setCostume(null);
 		}
 

@@ -1,19 +1,24 @@
-/*    Catroid: An on-device graphical programming language for Android devices
- *    Copyright (C) 2010  Catroid development team
- *    (<http://code.google.com/p/catroid/wiki/Credits>)
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 3 of the License, or
- *    (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
  *
- *    You should have received a copy of the GNU General Public License
- *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *    
  *    This file incorporates work covered by the following copyright and  
  *    permission notice: 
@@ -23,16 +28,16 @@
  *		   	This file is part of MINDdroid.
  *
  * 		  	MINDdroid is free software: you can redistribute it and/or modify
- * 		  	it under the terms of the GNU General Public License as published by
- * 		  	the Free Software Foundation, either version 3 of the License, or
- *   		(at your option) any later version.
+ * 		  	it under the terms of the GNU Affero General Public License as
+ * 		  	published by the Free Software Foundation, either version 3 of the
+ *   		License, or (at your option) any later version.
  *
  *   		MINDdroid is distributed in the hope that it will be useful,
  *   		but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   		GNU General Public License for more details.
+ *   		GNU Affero General Public License for more details.
  *
- *   		You should have received a copy of the GNU General Public License
+ *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -45,6 +50,9 @@ import android.content.Intent;
 public class BluetoothManager {
 
 	private static final int REQUEST_ENABLE_BT = 2000;
+	public static final int BLUETOOTH_NOT_SUPPORTED = -1;
+	public static final int BLUETOOTH_ALREADY_ON = 1;
+	public static final int BLUETOOTH_ACTIVATING = 0;
 	private BluetoothAdapter bluetoothAdapter;
 
 	Activity activity;
@@ -57,16 +65,16 @@ public class BluetoothManager {
 
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (bluetoothAdapter == null) {
-			return -1;// Device does not support Bluetooth
+			return BLUETOOTH_NOT_SUPPORTED;// Device does not support Bluetooth
 		}
 		if (!bluetoothAdapter.isEnabled()) {
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-			return 0;
+			return BLUETOOTH_ACTIVATING;
 		} else {
 			//Log.d("TAG", "LOOP!!!!!");
 			//connectLegoNXT();
-			return 1;
+			return BLUETOOTH_ALREADY_ON;
 		}
 	}
 }

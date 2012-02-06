@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.content.brick;
@@ -25,28 +29,28 @@ import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
 
 public class ChangeBrightnessBrickTest extends AndroidTestCase {
 
-	private final double brighter = 50.5;
-	private final double dimmer = -20.8;
+	private final float brighter = 50.5f;
+	private final float dimmer = -20.8f;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite brightness value", 0.0, sprite.getBrightnessValue());
+		assertEquals("Unexpected initial sprite brightness value", 1f, sprite.costume.getBrightnessValue());
 
-		double brightness = sprite.getBrightnessValue();
-		brightness += brighter;
+		float brightness = sprite.costume.getBrightnessValue();
+		brightness += brighter / 100f;
 
-		ChangeBrightnessBrick changeBrightnessBrick1 = new ChangeBrightnessBrick(sprite, brighter);
-		changeBrightnessBrick1.execute();
+		ChangeBrightnessBrick brick1 = new ChangeBrightnessBrick(sprite, brighter);
+		brick1.execute();
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessBrick executed", brightness,
-				sprite.getBrightnessValue());
+				sprite.costume.getBrightnessValue());
 
-		brightness = sprite.getBrightnessValue();
-		brightness += dimmer;
+		brightness = sprite.costume.getBrightnessValue();
+		brightness += dimmer / 100f;
 
-		ChangeBrightnessBrick changeBrightnessBrick2 = new ChangeBrightnessBrick(sprite, dimmer);
-		changeBrightnessBrick2.execute();
+		ChangeBrightnessBrick brick2 = new ChangeBrightnessBrick(sprite, dimmer);
+		brick2.execute();
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessBrick executed", brightness,
-				sprite.getBrightnessValue());
+				sprite.costume.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
