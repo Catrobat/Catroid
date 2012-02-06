@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui;
@@ -26,6 +30,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,6 +39,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -75,11 +81,11 @@ public class CostumeActivity extends ListActivity {
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
 			int addButtonIcon;
-			if (ProjectManager.getInstance().getCurrentSprite().getName()
-					.equalsIgnoreCase(this.getString(R.string.background))) {
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
 				addButtonIcon = R.drawable.ic_background;
 			} else {
-				addButtonIcon = R.drawable.ic_shirt;
+				addButtonIcon = R.drawable.ic_actionbar_shirt;
 			}
 			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, addButtonIcon);
 		}
@@ -130,7 +136,7 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) { //TODO refactor this mess! (please)
 		super.onActivityResult(requestCode, resultCode, data);
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_IMAGE) {
@@ -150,7 +156,12 @@ public class CostumeActivity extends ListActivity {
 				} else {
 					int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
 					cursor.moveToFirst();
-					originalImagePath = cursor.getString(column_index);
+					try {
+						originalImagePath = cursor.getString(column_index);
+					} catch (CursorIndexOutOfBoundsException e) {
+						Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+						return;
+					}
 				}
 
 				if (cursor == null && originalImagePath.equalsIgnoreCase("")) {
@@ -179,10 +190,14 @@ public class CostumeActivity extends ListActivity {
 					throw new IOException();
 				}
 				String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-				File imageFile;
 				String imageName;
-				imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
-				imageName = oldFile.getName().substring(0, oldFile.getName().length() - 4);
+				File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
+				int extensionDotIndex = oldFile.getName().lastIndexOf('.');
+				if (extensionDotIndex <= 0) {
+					imageName = oldFile.getName().substring(0, extensionDotIndex - 1);
+				} else {
+					imageName = oldFile.getName();
+				}
 
 				String imageFileName = imageFile.getName();
 				//reloadAdapter();

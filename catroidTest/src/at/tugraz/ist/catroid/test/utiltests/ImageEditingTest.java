@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.test.utiltests;
 
 import java.io.BufferedOutputStream;
@@ -25,6 +28,7 @@ import java.io.FileOutputStream;
 
 import junit.framework.TestCase;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
 import at.tugraz.ist.catroid.common.Consts;
@@ -33,15 +37,9 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 public class ImageEditingTest extends TestCase {
 
 	public void testScaleImage() {
-		// create a 100x100 bitmap
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 
-		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 0.5f);
-
-		assertEquals("Wrong bitmap width after scaling", 50, scaledBitmap.getWidth());
-		assertEquals("Wrong bitmap height after scaling", 50, scaledBitmap.getHeight());
-
-		scaledBitmap = ImageEditing.scaleBitmap(bitmap, 60, 70);
+		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 60, 70);
 
 		assertEquals("Wrong bitmap width after scaling", 60, scaledBitmap.getWidth());
 		assertEquals("Wrong bitmap height after scaling", 70, scaledBitmap.getHeight());
@@ -96,8 +94,8 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth,
-				maxBitmapHeight);
+		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(sdImageMainDirectory.toString() + "/tmp.jpg",
+				maxBitmapWidth, maxBitmapHeight, true);
 
 		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
 		assertEquals("Loaded bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
@@ -127,8 +125,8 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth,
-				maxBitmapHeight);
+		loadedBitmap = ImageEditing.getScaledBitmapFromPath(sdImageMainDirectory.toString() + "/tmp.jpg",
+				maxBitmapWidth, maxBitmapHeight, true);
 		bitmap = ImageEditing.scaleBitmap(bitmap, newWidth, newHeight);
 
 		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
@@ -158,8 +156,8 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getScaledBitmap(sdImageMainDirectory.toString() + "/tmp.jpg",
-				targetBitmapWidth, targetBitmapHeight);
+		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(sdImageMainDirectory.toString() + "/tmp.jpg",
+				targetBitmapWidth, targetBitmapHeight, false);
 
 		double sampleSizeWidth = (bitmapWidth / (double) targetBitmapWidth);
 		double sampleSizeHeight = bitmapHeight / (double) targetBitmapHeight;
@@ -171,6 +169,24 @@ public class ImageEditingTest extends TestCase {
 
 		assertEquals("Loaded and scaled bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
 		assertEquals("Loaded and scaled bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
+	}
+
+	public void testCreateSingleColorBitmap() {
+		int expectedWidth = 100;
+		int expectedHeight = 200;
+		int expectedColor = Color.CYAN;
+
+		Bitmap testBitmap = ImageEditing.createSingleColorBitmap(expectedWidth, expectedHeight, expectedColor);
+
+		assertEquals("The Bitmap has the wrong width", expectedWidth, testBitmap.getWidth());
+		assertEquals("The Bitmap has the wrong height", expectedHeight, testBitmap.getHeight());
+
+		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(0, 0));
+		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(expectedWidth - 1,
+				expectedHeight - 1));
+		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(expectedWidth / 2,
+				expectedHeight / 2));
+
 	}
 
 }

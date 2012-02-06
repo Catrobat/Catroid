@@ -1,26 +1,29 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.web;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.web.ServerCalls;
@@ -31,6 +34,8 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
  */
 public class ServerCallsTest extends AndroidTestCase {
 	private static final String LOG_TAG = ServerCalls.class.getSimpleName();
+	public static final int SERVER_ERROR_TOKEN_INVALID = 601;
+	public static final int SERVER_ERROR_COMMON = 500;
 
 	public ServerCallsTest() {
 		super();
@@ -68,7 +73,8 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertTrue("token should be ok", tokenOk);
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-			assertFalse("an exception should not be thrown, the token should be valid", true);
+			assertFalse("WebconnectionException: the token should be valid \nstatus code:" + e.getStatusCode()
+					+ "\nmessage: " + e.getMessage(), true);
 		}
 
 	}
@@ -96,7 +102,8 @@ public class ServerCallsTest extends AndroidTestCase {
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-			assertFalse("an exception should not be thrown, ", true);
+			assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
+					true);
 		}
 
 	}
@@ -124,7 +131,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is wrong", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -156,7 +163,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email already exists on the server", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_COMMON, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -177,7 +184,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is too short", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_COMMON, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -197,7 +204,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email is not valid", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_COMMON, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -228,7 +235,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 		} catch (WebconnectionException e) {
 			assertTrue("exception is thrown if we pass a wrong token", true);
-			assertEquals("wrong status code from server", Consts.SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
+			assertEquals("wrong status code from server", SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
@@ -254,7 +261,8 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertTrue("token should be ok", tokenOk);
 
 		} catch (WebconnectionException e) {
-			assertFalse("an exception should not be thrown", true);
+			assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
+					true);
 			e.printStackTrace();
 		}
 

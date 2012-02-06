@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.uitest.content.brick;
@@ -77,26 +81,27 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
 				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist",
-				solo.getText(getActivity().getString(R.string.brick_change_brightness)));
+		assertNotNull("TextView does not exist", solo
+				.getText(getActivity().getString(R.string.brick_change_brightness)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, brightnessToChange + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(1000);
 
 		assertEquals("Wrong text in field", brightnessToChange, ChangeBrightnessBrick.getChangeBrightness());
-		assertEquals("Text not updated", brightnessToChange,
-				Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Text not updated", brightnessToChange, Double.parseDouble(solo.getEditText(0).getText()
+				.toString()));
 	}
 
 	private void createProject() {
 		brightnessToChange = 56.6;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		ChangeBrightnessBrick = new ChangeBrightnessBrick(sprite, 10.2);
 		script.addBrick(ChangeBrightnessBrick);
 

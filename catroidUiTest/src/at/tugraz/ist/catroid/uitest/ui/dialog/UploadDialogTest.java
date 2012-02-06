@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import java.io.File;
@@ -31,6 +34,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.web.ServerCalls;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -70,8 +74,16 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		super.tearDown();
 	}
 
-	public void testUploadDialog() {
+	private void setServerURLToTestURL() throws Throwable {
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				ServerCalls.useTestUrl = true;
+			}
+		});
+	}
 
+	public void testUploadDialog() throws Throwable {
+		setServerURLToTestURL();
 		createTestProject();
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
@@ -92,22 +104,16 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		// enter a new title
 		solo.clickOnEditText(0);
+		solo.clearEditText(0);
 		solo.enterText(0, newTestProject);
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
-		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.upload_project));
-		solo.waitForDialogToClose(5000);
-
-		renameView = solo.getText(getActivity().getString(R.string.project_rename));
-		assertNotNull("View for rename project could not be found", renameView);
-		assertEquals("rename View is visible.", View.GONE, renameView.getVisibility());
-		assertNotNull("Project Name is not saved.", solo.getEditText(testProject));
 
 	}
 
-	public void testOrientationChange() {
+	public void testOrientationChange() throws Throwable {
+		setServerURLToTestURL();
 		createTestProject();
 		String testText1 = "testText1";
 		String testText2 = "testText2";
@@ -118,10 +124,9 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.enterText(0, testText1);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
-		solo.clickOnEditText(1);
-		solo.clearEditText(1);
-		solo.enterText(1, testText2);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.enterText(1, testText2);
+
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
 	}
 
@@ -133,7 +138,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
@@ -141,6 +145,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 	}
 }

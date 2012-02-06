@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
@@ -23,10 +27,10 @@ import java.io.Serializable;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -35,7 +39,6 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
 
 	private SoundInfo soundInfo;
 	private Sprite sprite;
@@ -47,7 +50,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	}
 
 	public int getRequiredResources() {
-		return SOUND_MANAGER;
+		return NO_RESOURCES;
 	}
 
 	public void execute() {
@@ -55,7 +58,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 			if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
 				SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
 			} else {
-				SoundManager.getInstance().playSoundFile(soundInfo.getSoundFileName());
+				SoundManager.getInstance().playSoundFile("sounds/" + soundInfo.getSoundFileName());
 			}
 		}
 	}
@@ -64,7 +67,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 		return sprite;
 	}
 
-	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
 
@@ -111,7 +114,11 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	}
 
 	public void onItemSelected(AdapterView<?> parent, View arg1, int position, long arg3) {
-		soundInfo = (SoundInfo) parent.getItemAtPosition(position);
+		if (position == 0) {
+			soundInfo = null;
+		} else {
+			soundInfo = (SoundInfo) parent.getItemAtPosition(position);
+		}
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {

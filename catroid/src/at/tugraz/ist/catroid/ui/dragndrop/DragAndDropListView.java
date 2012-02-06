@@ -1,22 +1,29 @@
 /*
- * Copyright (C) 2010 Draggable and Droppable ListView Project
- *
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  
+ * 		This file incorporates work covered by the following copyright and  
+ * 		permission notice:  
+ *  
+ *  	Copyright (C) 2010 Draggable and Droppable ListView Project
  * 
  */
 package at.tugraz.ist.catroid.ui.dragndrop;
@@ -34,30 +41,31 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 
-public class DragAndDropListView extends ExpandableListView implements OnLongClickListener {
+public class DragAndDropListView extends ListView implements OnLongClickListener {
 
-	private static final int SCROLL_DURATION = 1;
-	private static final int SCROLL_SPEED = 10;
+	private static final int SCROLL_SPEED = 25;
 	private static final int DRAG_BACKGROUND_COLOR = Color.TRANSPARENT;
 
 	private int maximumDragViewHeight;
 
 	private int previousItemPosition;
-	private int firstItemPosition;
 	private int touchPointY;
 
 	private int upperScrollBound;
 	private int lowerScrollBound;
+	private int upperDragBound;
+	private int lowerDragBound;
 
 	private ImageView dragView;
 
 	private ImageView trashView;
 	private int originalTrashWidth;
 	private int originalTrashHeight;
+	private int touchedListPosition;
 
 	private DragAndDropListener dragAndDropListener;
 
@@ -86,12 +94,11 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
-
-		touchPointY = (int) event.getRawY();
-
 		if (dragAndDropListener != null && dragView != null) {
 			onTouchEvent(event);
 		}
+
+		touchPointY = (int) event.getRawY();
 
 		return super.onInterceptTouchEvent(event);
 	}
@@ -101,6 +108,23 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 		int x = (int) event.getX();
 		int y = (int) event.getY();
+
+		if (y < 0) {
+			y = 0;
+		}
+		if (y > getHeight()) {
+			y = getHeight();
+		}
+
+		int itemPosition = pointToPosition(x, y);
+
+		if (touchedListPosition != itemPosition) {
+			touchedListPosition = itemPosition;
+			if (dragAndDropListener != null) {
+				dragAndDropListener.setTouchedScript(touchedListPosition);
+			}
+
+		}
 
 		if (dragAndDropListener != null && dragView != null) {
 			int action = event.getAction();
@@ -117,28 +141,46 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 					trashView.setVisibility(View.GONE);
 
 					if (x > getWidth() * 3 / 4) {
-						dragAndDropListener.remove(previousItemPosition);
+						dragAndDropListener.remove(itemPosition);
 					} else {
-						dragAndDropListener.drop(firstItemPosition, previousItemPosition);
+						dragAndDropListener.drop(itemPosition);
 					}
 
 					break;
 
 				case MotionEvent.ACTION_MOVE:
 
-					int itemPosition = pointToPosition(x, y);
-
 					if (y > lowerScrollBound) {
-						smoothScrollBy(SCROLL_SPEED, SCROLL_DURATION);
+						smoothScrollBy(SCROLL_SPEED, 0);
 					} else if (y < upperScrollBound) {
-						smoothScrollBy(-SCROLL_SPEED, SCROLL_DURATION);
+						smoothScrollBy(-SCROLL_SPEED, 0);
 					}
 
 					dragView(x, (int) event.getRawY());
 
 					if (itemPosition != INVALID_POSITION) {
-						dragAndDropListener.drag(previousItemPosition, itemPosition);
-						previousItemPosition = itemPosition;
+
+						int index = previousItemPosition - getFirstVisiblePosition();
+
+						if (index > 0) {
+							View upperChild = getChildAt(index - 1);
+							upperDragBound = upperChild.getBottom() - upperChild.getHeight() / 2;
+						} else {
+							upperDragBound = 0;
+						}
+
+						if (index < getChildCount() - 1) {
+							View lowerChild = getChildAt(index + 1);
+							lowerDragBound = lowerChild.getTop() + lowerChild.getHeight() / 2;
+						} else {
+							lowerDragBound = getHeight();
+						}
+
+						if ((y > lowerDragBound || y < upperDragBound)) {
+							dragAndDropListener.drag(previousItemPosition, itemPosition);
+							previousItemPosition = itemPosition;
+
+						}
 					}
 
 					break;
@@ -151,8 +193,8 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 	@Override
 	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
 		super.onSizeChanged(width, height, oldWidth, oldHeight);
-		upperScrollBound = height / 3;
-		lowerScrollBound = height * 2 / 3;
+		upperScrollBound = height / 6;
+		lowerScrollBound = height * 5 / 6;
 		maximumDragViewHeight = height / 3;
 	}
 
@@ -178,7 +220,6 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 		trashView.startAnimation(animation);
 
 		previousItemPosition = itemPosition;
-		firstItemPosition = previousItemPosition;
 
 		return true;
 	}
@@ -251,5 +292,9 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 	private WindowManager getWindowManager() {
 		return (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+	}
+
+	public int getTouchedListPosition() {
+		return touchedListPosition;
 	}
 }

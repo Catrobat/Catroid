@@ -1,19 +1,24 @@
-/*    Catroid: An on-device graphical programming language for Android devices
- *    Copyright (C) 2010  Catroid development team
- *    (<http://code.google.com/p/catroid/wiki/Credits>)
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 3 of the License, or
- *    (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
  *
- *    You should have received a copy of the GNU General Public License
- *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *    
  *    This file incorporates work covered by the following copyright and  
  *    permission notice: 
@@ -23,16 +28,16 @@
  *		   	This file is part of MINDdroid.
  *
  * 		  	MINDdroid is free software: you can redistribute it and/or modify
- * 		  	it under the terms of the GNU General Public License as published by
- * 		  	the Free Software Foundation, either version 3 of the License, or
- *   		(at your option) any later version.
+ * 		  	it under the terms of the GNU Affero General Public License as
+ * 		  	published by the Free Software Foundation, either version 3 of the
+ *   		License, or (at your option) any later version.
  *
  *   		MINDdroid is distributed in the hope that it will be useful,
  *   		but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   		GNU General Public License for more details.
+ *   		GNU Affero General Public License for more details.
  *
- *   		You should have received a copy of the GNU General Public License
+ *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -196,6 +201,11 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	 */
 	@Override
 	public void destroyNXTconnection() throws IOException {
+
+		if (connected) {
+			stopAllNXTMovement();
+		}
+
 		try {
 			if (nxtBTsocket != null) {
 				connected = false;
@@ -213,6 +223,17 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 				sendToast(mResources.getString(R.string.problem_at_closing));
 			}
 		}
+	}
+
+	@Override
+	public void stopAllNXTMovement() {
+		myHandler.removeMessages(0);
+		myHandler.removeMessages(1);
+		myHandler.removeMessages(2);
+
+		moveMotor(0, 0, 0);
+		moveMotor(1, 0, 0);
+		moveMotor(2, 0, 0);
 	}
 
 	/**
@@ -233,6 +254,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 		nxtOutputStream.write(messageLength);
 		nxtOutputStream.write(messageLength >> 8);
 		nxtOutputStream.write(message, 0, message.length);
+		nxtOutputStream.flush();
 	}
 
 	/**

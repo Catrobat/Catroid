@@ -1,97 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01"
-	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_blue"
->
-	<TextView
-		android:id="@+id/ValueTextViewXY"
-		android:text="@string/brick_place_at"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-	<LinearLayout
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true"
-	>
-		<TextView
-			android:id="@+id/TextView01"
-			android:text="@string/x_label"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:paddingRight="10dip"
-			android:textColor="@color/white"
-			android:textSize="18dip"
-			android:textStyle="bold"
-		>
-		</TextView>
-		<EditText
-			android:id="@+id/toolbox_brick_place_at_x_edit_text"
-			android:text="0"
-			android:layout_height="wrap_content"
-			android:layout_width="50dp"
-			android:clickable="false"
-			android:focusable="false"
-			android:focusableInTouchMode="false"
-			android:gravity="right"
-			android:inputType="number|numberDecimal|numberSigned"
-			android:maxLength="3"
-			android:maxLines="1"
-		>
-		</EditText>
-		<TextView
-			android:id="@+id/TextView02"
-			android:text="@string/y_label"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:paddingLeft="10dip"
-			android:paddingRight="10dip"
-			android:textColor="@color/white"
-			android:textSize="18dip"
-			android:textStyle="bold"
-		>
-		</TextView>
-		<EditText
-			android:id="@+id/toolbox_brick_place_at_y_edit_text"
-			android:text="0"
-			android:layout_height="wrap_content"
-			android:layout_width="50dp"
-			android:clickable="false"
-			android:focusable="false"
-			android:focusableInTouchMode="false"
-			android:gravity="right"
-			android:inputType="number|numberDecimal|numberSigned"
-			android:maxLength="3"
-			android:maxLines="1"
-		>
-		</EditText>
-	</LinearLayout>
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_blue" >
+
+    <LinearLayout
+        android:id="@+id/toolbox_brick_place_at_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" >
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dip"
+            android:text="@string/x_label"
+            android:textColor="@color/white"
+            android:textSize="18dip"
+            android:textStyle="bold" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/toolbox_brick_place_at_x_edit_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="right"
+            android:inputType="number|numberDecimal|numberSigned"
+            android:maxLength="4"
+            android:maxLines="1"
+            android:text="0" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:text="@string/y_label"
+            android:textColor="@color/white"
+            android:textSize="18dip"
+            android:textStyle="bold" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/toolbox_brick_place_at_y_edit_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="right"
+            android:inputType="number|numberDecimal|numberSigned"
+            android:maxLength="4"
+            android:maxLines="1"
+            android:text="0" >
+        </EditText>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ValueTextViewXY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/toolbox_brick_place_at_linear_layout"
+        android:text="@string/brick_place_at"
+        android:textColor="@color/white"
+        android:textSize="18dip"
+        android:textStyle="bold" >
+    </TextView>
+
 </RelativeLayout>

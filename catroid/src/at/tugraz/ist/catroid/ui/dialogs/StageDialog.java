@@ -1,34 +1,36 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.stage.StageManager;
+import at.tugraz.ist.catroid.stage.StageListener;
+import at.tugraz.ist.catroid.utils.Utils;
 
 /**
  * @author
@@ -36,14 +38,12 @@ import at.tugraz.ist.catroid.stage.StageManager;
  */
 public class StageDialog extends Dialog {
 	private StageActivity stageActivity;
-	private StageManager stageManager;
+	private StageListener stageListener;
 
-	public static final String backToConstruction = "BACK_TO_CONSTRUCTION";
-
-	public StageDialog(StageActivity stageActivity, StageManager stageManager, int theme) {
+	public StageDialog(StageActivity stageActivity, StageListener stageListener, int theme) {
 		super(stageActivity, theme);
 		this.stageActivity = stageActivity;
-		this.stageManager = stageManager;
+		this.stageListener = stageListener;
 	}
 
 	@Override
@@ -55,16 +55,17 @@ public class StageDialog extends Dialog {
 
 		getWindow().setGravity(Gravity.LEFT);
 
-		Button backToConstructionSiteButton = (Button) findViewById(R.id.back_to_construction_site_button);
-		backToConstructionSiteButton.setOnClickListener(new View.OnClickListener() {
+		Button closeDialogButton = (Button) findViewById(R.id.back_to_construction_site_button);
+		closeDialogButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				backToConstruction();
+				backToConstructionSite();
 			}
 		});
 
 		Button resumeCurrentProjectButton = (Button) findViewById(R.id.resume_current_project_button);
 		resumeCurrentProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				dismiss();
 				stageActivity.pauseOrContinue();
 			}
 		});
@@ -76,39 +77,67 @@ public class StageDialog extends Dialog {
 			}
 		});
 
-		Button snapshotButton = (Button) findViewById(R.id.snapshot_button);
+		Button axesToggleButton = (Button) findViewById(R.id.axes_toggle_button);
+		axesToggleButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				toggleAxes();
+			}
+		});
+
+		Button maximizeButton = (Button) findViewById(R.id.maximize_button);
+		if (stageActivity.getResizePossible()) {
+			maximizeButton.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					stageListener.changeScreenSize();
+				}
+			});
+		} else {
+			maximizeButton.setVisibility(View.GONE);
+		}
+
+		Button snapshotButton = (Button) findViewById(R.id.screenshot_button);
 		snapshotButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
-				Vibrator vibr = (Vibrator) stageActivity.getSystemService(Context.VIBRATOR_SERVICE);
-				vibr.vibrate(100);
-				String text = null;
-				boolean success = stageManager.saveScreenshot();
-
-				if (success) {
-					text = stageActivity.getString(R.string.notification_screenshot_ok);
+				if (stageListener.makeScreenshot()) {
+					Utils.displayToast(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok));
 				} else {
-					text = stageActivity.getString(R.string.error_screenshot_failed);
+					Utils.displayToast(stageActivity, stageActivity.getString(R.string.error_screenshot_failed));
 				}
-
-				Toast toast = Toast.makeText(stageActivity, text, Toast.LENGTH_SHORT);
-				toast.show();
 			}
 		});
 	}
 
-	private void backToConstruction() {
+	private void backToConstructionSite() {
+		this.dismiss();
 		stageActivity.manageLoadAndFinish();
 	}
 
 	@Override
 	public void onBackPressed() {
-		stageActivity.pauseOrContinue();
+		backToConstructionSite();
 	}
 
 	private void restartProject() {
-		backToConstruction();
-		stageManager.resume();
-		stageActivity.startActivity(this.stageActivity.getIntent());
+		dismiss();
+		stageListener.reloadProject(stageActivity, this);
+		synchronized (this) {
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		stageActivity.pauseOrContinue();
+	}
+
+	private void toggleAxes() {
+		Button axesToggleButton = (Button) findViewById(R.id.axes_toggle_button);
+		if (stageListener.axesOn) {
+			stageListener.axesOn = false;
+			axesToggleButton.setText(R.string.stagemenu_axes_on);
+		} else {
+			stageListener.axesOn = true;
+			axesToggleButton.setText(R.string.stagemenu_axes_off);
+		}
 	}
 }

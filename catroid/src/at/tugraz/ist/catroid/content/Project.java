@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content;
@@ -28,36 +32,51 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.Utils;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	private String name;
+	private String projectName;
 
-	// Pnly used for Catroid website
+	// Only used for Catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
-	private String screenResolution;
+	private int androidVersion;
 	@SuppressWarnings("unused")
-	private String versionName;
+	private String catroidVersionName;
 	@SuppressWarnings("unused")
-	private int versionCode;
+	private int catroidVersionCode;
+
+	@XStreamAlias("screenWidth")
+	public int virtualScreenWidth = 0;
+	@XStreamAlias("screenHeight")
+	public int virtualScreenHeight = 0;
 
 	public Project(Context context, String name) {
-		this.name = name;
-		deviceName = Build.MODEL;
-		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
+		this.projectName = name;
+
+		ifLandscapeSwitchWidthAndHeight();
+		virtualScreenWidth = Values.SCREEN_WIDTH;
+		virtualScreenHeight = Values.SCREEN_HEIGHT;
+		setDeviceData(context);
 
 		if (context == null) {
 			return;
 		}
 
 		Sprite background = new Sprite(context.getString(R.string.background));
-		background.setZPosition(Integer.MIN_VALUE);
+		background.costume.zPosition = Integer.MIN_VALUE;
 		addSprite(background);
+	}
 
-		versionName = Utils.getVersionName(context);
-		versionCode = Utils.getVersionCode(context);
+	private void ifLandscapeSwitchWidthAndHeight() {
+		if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
+			int tmp = Values.SCREEN_HEIGHT;
+			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
+			Values.SCREEN_WIDTH = tmp;
+		}
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -71,28 +90,28 @@ public class Project implements Serializable {
 		return spriteList.remove(sprite);
 	}
 
-	public int getMaxZValue() {
-		int maxZValue = Integer.MIN_VALUE;
-		for (Sprite sprite : spriteList) {
-			maxZValue = Math.max(sprite.getZPosition(), maxZValue);
-		}
-		return maxZValue;
-	}
-
 	public List<Sprite> getSpriteList() {
 		return spriteList;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.projectName = name;
 	}
 
 	public String getName() {
-		return name;
+		return projectName;
 	}
 
-	public void setDeviceData() {
+	public void setDeviceData(Context context) {
 		deviceName = Build.MODEL;
-		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
+		androidVersion = Build.VERSION.SDK_INT;
+
+		if (context == null) {
+			catroidVersionName = "unknown";
+			catroidVersionCode = 0;
+		} else {
+			catroidVersionName = Utils.getVersionName(context);
+			catroidVersionCode = Utils.getVersionCode(context);
+		}
 	}
 }

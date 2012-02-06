@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -80,14 +84,15 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		solo.pressSpinnerItem(0, 1);
 		solo.sleep(300);
-		assertEquals("Wrong selection", "(-90) left", solo.getCurrentSpinners().get(0).getSelectedItem());
+		String[] directionStringArray = getActivity().getResources().getStringArray(R.array.point_in_direction_strings);
+		assertEquals("Wrong selection", directionStringArray[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
+		Script script = new StartScript(sprite);
+		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);

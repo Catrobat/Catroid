@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.web;
 
 import java.io.File;
@@ -32,7 +35,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.ui.DownloadActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -75,7 +77,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		super.tearDown();
 	}
 
-	private void startProjectUploadTask() throws Throwable {
+	private void setServerURLToTestUrl() throws Throwable {
 		runTestOnUiThread(new Runnable() {
 			public void run() {
 				ServerCalls.useTestUrl = true;
@@ -84,7 +86,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	public void testUploadProjectSuccess() throws Throwable {
-		startProjectUploadTask();
+		setServerURLToTestUrl();
 
 		createTestProject(testProject);
 		addABrickToProject();
@@ -106,7 +108,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.clickOnEditText(0);
 		solo.enterText(0, projectToCreate);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
@@ -120,7 +121,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void addABrickToProject() {
 		solo.clickInList(0);
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 	}
 
 	private void uploadProject() {
@@ -141,8 +142,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		try {
 			solo.waitForDialogToClose(10000);
-			assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
-					R.string.success_project_upload)));
+			assertTrue("Upload failed. Internet connection?",
+					solo.searchText(getActivity().getString(R.string.success_project_upload)));
 			String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
@@ -157,15 +158,17 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void downloadProject() {
 		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Consts.CATROID_EXTENTION;
 		downloadUrl += "?fname=" + newTestProject;
-		Intent intent = new Intent(getActivity(), DownloadActivity.class);
+
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
-		launchActivityWithIntent("at.tugraz.ist.catroid", DownloadActivity.class, intent);
+		launchActivityWithIntent("at.tugraz.ist.catroid", MainMenuActivity.class, intent);
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertNotNull("Download not successful.", solo.searchText(getActivity().getString(
-				R.string.success_project_download)));
+		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
+		assertNotNull("Download not successful.",
+				solo.searchText(getActivity().getString(R.string.success_project_download)));
 
 		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);

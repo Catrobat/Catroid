@@ -1,24 +1,27 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.io;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,39 +30,26 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.content.Script;
-import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.WhenScript;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 public class StorageHandler {
 
-	private static final String NORMAL_CAT = "normalCat";
-	private static final String BANZAI_CAT = "banzaiCat";
-	private static final String CHESHIRE_CAT = "cheshireCat";
-	private static final String BACKGROUND = "background";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
@@ -67,7 +57,9 @@ public class StorageHandler {
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
-		xstream = new XStream();
+
+		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream.processAnnotations(Project.class);
 		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
 		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
 		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
@@ -101,9 +93,7 @@ public class StorageHandler {
 		createCatroidRoot();
 		try {
 			if (NativeAppActivity.isRunning()) {
-				int resourceId = NativeAppActivity.getContext().getResources()
-						.getIdentifier(projectName, "raw", NativeAppActivity.getContext().getPackageName());
-				InputStream spfFileStream = NativeAppActivity.getContext().getResources().openRawResource(resourceId);
+				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
 				return (Project) xstream.fromXML(spfFileStream);
 			}
 
@@ -146,7 +136,7 @@ public class StorageHandler {
 						Consts.NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 
-				File soundDirectory = new File(projectDirectoryName + Consts.SOUND_DIRECTORY);
+				File soundDirectory = new File(projectDirectoryName + "/" + Consts.SOUND_DIRECTORY);
 				soundDirectory.mkdir();
 
 				noMediaFile = new File(Utils.buildPath(projectDirectoryName, Consts.SOUND_DIRECTORY,
@@ -218,7 +208,8 @@ public class StorageHandler {
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().fileChecksumContainer;
 
-		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if ((imageDimensions[0] <= project.virtualScreenWidth) && (imageDimensions[1] <= project.virtualScreenHeight)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			if (newName != null) {
@@ -240,21 +231,11 @@ public class StorageHandler {
 	}
 
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
-		FileOutputStream outputStream = new FileOutputStream(outputFile);
-		Bitmap bitmap = ImageEditing.getBitmap(inputFile.getAbsolutePath(), Consts.MAX_COSTUME_WIDTH,
-				Consts.MAX_COSTUME_HEIGHT);
-		try {
-			String name = inputFile.getName();
-			if (name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG")) {
-				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
-			} else {
-				bitmap.compress(CompressFormat.PNG, 0, outputStream);
-			}
-			outputStream.flush();
-			outputStream.close();
-		} catch (IOException e) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(), project.virtualScreenWidth,
+				project.virtualScreenHeight, true);
 
-		}
+		saveBitmapToImageFile(outputFile, bitmap);
 
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
@@ -271,6 +252,22 @@ public class StorageHandler {
 		outputFile.renameTo(compressedFile);
 
 		return compressedFile;
+	}
+
+	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
+		FileOutputStream outputStream = new FileOutputStream(outputFile);
+		try {
+			if (outputFile.getName().endsWith(".jpg") || outputFile.getName().endsWith(".jpeg")
+					|| outputFile.getName().endsWith(".JPG") || outputFile.getName().endsWith(".JPEG")) {
+				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
+			} else {
+				bitmap.compress(CompressFormat.PNG, 0, outputStream);
+			}
+			outputStream.flush();
+			outputStream.close();
+		} catch (IOException e) {
+
+		}
 	}
 
 	private File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
@@ -309,137 +306,4 @@ public class StorageHandler {
 		}
 	}
 
-	/**
-	 * Creates the default project and saves it to the filesystem
-	 * 
-	 * @return the default project object if successful, else null
-	 * @throws IOException
-	 */
-	public Project createDefaultProject(Context context) throws IOException {
-		String projectName = context.getString(R.string.default_project_name);
-		return createDefaultProject(projectName, context);
-	}
-
-	/**
-	 * Creates the default project and saves it to the file system
-	 * 
-	 * @return the default project object if successful, else null
-	 * @throws IOException
-	 */
-	public Project createDefaultProject(String projectName, Context context) throws IOException {
-		Project defaultProject = new Project(context, projectName);
-		saveProject(defaultProject);
-		ProjectManager.getInstance().setProject(defaultProject);
-		Sprite sprite = new Sprite("Catroid");
-		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
-
-		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
-		Script startScript = new StartScript("startScript", sprite);
-		Script whenScript = new WhenScript("whenScript", sprite);
-
-		File normalCatTemp = savePictureFromResourceInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
-		File banzaiCatTemp = savePictureFromResourceInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai,
-				context);
-		File cheshireCatTemp = savePictureFromResourceInProject(projectName, CHESHIRE_CAT, R.drawable.catroid_cheshire,
-				context);
-		File backgroundTemp = savePictureFromResourceInProject(projectName, BACKGROUND, R.drawable.background_blueish,
-				context);
-
-		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
-		File normalCat = new File(Utils.buildPath(directoryName,
-				Utils.md5Checksum(normalCatTemp) + "_" + normalCatTemp.getName()));
-		File banzaiCat = new File(Utils.buildPath(directoryName,
-				Utils.md5Checksum(banzaiCatTemp) + "_" + banzaiCatTemp.getName()));
-		File cheshireCat = new File(Utils.buildPath(directoryName, Utils.md5Checksum(cheshireCatTemp) + "_"
-				+ cheshireCatTemp.getName()));
-		File background = new File(Utils.buildPath(directoryName, Utils.md5Checksum(backgroundTemp) + "_"
-				+ backgroundTemp.getName()));
-
-		normalCatTemp.renameTo(normalCat);
-		banzaiCatTemp.renameTo(banzaiCat);
-		cheshireCatTemp.renameTo(cheshireCat);
-		backgroundTemp.renameTo(background);
-
-		CostumeData normalCatCostumeData = new CostumeData();
-		normalCatCostumeData.setCostumeName(NORMAL_CAT);
-		normalCatCostumeData.setCostumeFilename(normalCat.getName());
-
-		CostumeData banzaiCatCostumeData = new CostumeData();
-		banzaiCatCostumeData.setCostumeName(BANZAI_CAT);
-		banzaiCatCostumeData.setCostumeFilename(banzaiCat.getName());
-
-		CostumeData cheshireCatCostumeData = new CostumeData();
-		cheshireCatCostumeData.setCostumeName(CHESHIRE_CAT);
-		cheshireCatCostumeData.setCostumeFilename(cheshireCat.getName());
-
-		CostumeData backgroundCostumeData = new CostumeData();
-		backgroundCostumeData.setCostumeName(BACKGROUND);
-		backgroundCostumeData.setCostumeFilename(background.getName());
-
-		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
-		costumeDataList.add(normalCatCostumeData);
-		costumeDataList.add(banzaiCatCostumeData);
-		costumeDataList.add(cheshireCatCostumeData);
-		ArrayList<CostumeData> costumeDataList2 = backgroundSprite.getCostumeDataList();
-		costumeDataList2.add(backgroundCostumeData);
-
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(normalCatCostumeData);
-
-		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
-		setCostumeBrick1.setCostume(normalCatCostumeData);
-
-		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
-		setCostumeBrick2.setCostume(banzaiCatCostumeData);
-
-		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
-		setCostumeBrick3.setCostume(cheshireCatCostumeData);
-
-		SetCostumeBrick backgroundBrick = new SetCostumeBrick(backgroundSprite);
-		backgroundBrick.setCostume(backgroundCostumeData);
-
-		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
-		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
-
-		startScript.addBrick(setCostumeBrick);
-
-		whenScript.addBrick(setCostumeBrick2);
-		whenScript.addBrick(waitBrick1);
-		whenScript.addBrick(setCostumeBrick3);
-		whenScript.addBrick(waitBrick2);
-		whenScript.addBrick(setCostumeBrick1);
-		backgroundStartScript.addBrick(backgroundBrick);
-
-		defaultProject.addSprite(sprite);
-		sprite.addScript(startScript);
-		sprite.addScript(whenScript);
-		backgroundSprite.addScript(backgroundStartScript);
-
-		this.saveProject(defaultProject);
-
-		return defaultProject;
-	}
-
-	private File savePictureFromResourceInProject(String project, String name, int fileId, Context context)
-			throws IOException {
-
-		final String imagePath = Utils.buildPath(Consts.DEFAULT_ROOT, project, Consts.IMAGE_DIRECTORY, name);
-		File testImage = new File(imagePath);
-		if (!testImage.exists()) {
-			testImage.createNewFile();
-		}
-		InputStream in = context.getResources().openRawResource(fileId);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
-		byte[] buffer = new byte[Consts.BUFFER_8K];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		return testImage;
-	}
 }
