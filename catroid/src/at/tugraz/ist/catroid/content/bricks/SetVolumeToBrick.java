@@ -72,9 +72,9 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		view = View.inflate(context, R.layout.toolbox_brick_set_volume_to, null);
+		view = View.inflate(context, R.layout.brick_set_volume_to, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_set_volume_to_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		edit.setText(String.valueOf(volume));
 
 		edit.setOnClickListener(this);
@@ -83,7 +83,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_set_volume_to, null);
+		return View.inflate(context, R.layout.brick_set_volume_to, null);
 	}
 
 	@Override

@@ -77,9 +77,9 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_change_y, null);
+		view = View.inflate(context, R.layout.brick_change_y, null);
 
-		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_change_y_edit_text);
+		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
 		editY.setText(String.valueOf(yMovement));
 
 		editY.setOnClickListener(this);
@@ -88,7 +88,7 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_change_y, null);
+		return View.inflate(context, R.layout.brick_change_y, null);
 	}
 
 	@Override

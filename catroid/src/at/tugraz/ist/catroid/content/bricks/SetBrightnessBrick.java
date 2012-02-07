@@ -66,9 +66,9 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_set_brightness, null);
+		view = View.inflate(context, R.layout.brick_set_brightness, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_set_brightness_edit_text);
+		EditText editX = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
 		editX.setText(String.valueOf(brightness));
 
 		editX.setOnClickListener(this);
@@ -77,7 +77,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_set_brightness, null);
+		return View.inflate(context, R.layout.brick_set_brightness, null);
 	}
 
 	@Override

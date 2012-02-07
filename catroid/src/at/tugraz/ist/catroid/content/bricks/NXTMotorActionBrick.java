@@ -101,7 +101,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 	}
 
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.toolbox_brick_nxt_motor_action, null);
+		View view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarSpeedMotorAction);
 		noClick.setEnabled(false);
 		return view;
@@ -114,7 +114,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		View brickView = View.inflate(context, R.layout.toolbox_brick_nxt_motor_action, null);
+		View brickView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 
 		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
 		editSpeed.setText(String.valueOf(speed));

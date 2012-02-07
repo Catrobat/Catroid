@@ -29,8 +29,8 @@
 	android:background="@drawable/brick_blue"
 >
 	<TextView
-		android:id="@+id/ValueTextViewX"
-		android:text="@string/brick_set_x"
+		android:id="@+id/ValueTextViewY"
+		android:text="@string/brick_set_y"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
@@ -42,13 +42,13 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/toolbox_brick_set_x_edit_text"
+		android:id="@+id/brick_set_y_edit_text"
 		android:text="0"
 		android:layout_height="wrap_content"
 		android:layout_width="50dp"
 		android:layout_centerVertical="true"
 		android:layout_marginLeft="5dip"
-		android:layout_toRightOf="@id/ValueTextViewX"
+		android:layout_toRightOf="@id/ValueTextViewY"
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false"

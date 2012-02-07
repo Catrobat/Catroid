@@ -55,13 +55,13 @@ public class ShowBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_show, null);
+			view = View.inflate(context, R.layout.brick_show, null);
 		}
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_show, null);
+		return View.inflate(context, R.layout.brick_show, null);
 	}
 
 	@Override

@@ -71,7 +71,7 @@ public class BroadcastReceiverBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_broadcast_receive, null);
+		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
 		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
@@ -154,7 +154,7 @@ public class BroadcastReceiverBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_broadcast_receive, null);
+		return View.inflate(context, R.layout.brick_broadcast_receive, null);
 	}
 
 	@Override

@@ -26,65 +26,14 @@
 	android:id="@+id/RelativeLayout01"
 	android:layout_height="wrap_content"
 	android:layout_width="wrap_content"
+	android:background="@drawable/brick_violet"
 >
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:background="@drawable/brick_violet"
-	>
 	<TextView
-		android:id="@+id/SetBrightnessTextView"
-		android:text="@string/brick_set_brightness"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-		android:paddingRight="5dip"
-	>
-	</TextView>
-	<LinearLayout
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-	>
-	<TextView
-		android:id="@+id/SetBrightnessTextView"
-		android:text="@string/to_label"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-		android:paddingRight="5dip"
-	>
-	</TextView>
-	<EditText
-		android:id="@+id/toolbox_brick_set_brightness_edit_text"
-		android:text="0"
-		android:layout_height="wrap_content"
-		android:layout_width="60dp"
-		android:layout_toRightOf="@+id/SetBrightnessTextView"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:gravity="right"
-		android:maxLength="4"
-		android:maxLines="1"
-		android:inputType="number|numberDecimal"
-	>
-	</EditText>
-	<TextView
-		android:id="@+id/SetBrightnessTextView"
+		android:id="@+id/SetSizeToTextView"
 		android:text="@string/percent"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_toRightOf="@+id/construction_brick_set_brightness_edit_text"
+		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
 		android:paddingLeft="5dip"
 		android:paddingRight="10dip"
@@ -93,6 +42,32 @@
 		android:textStyle="bold"
 	>
 	</TextView>
-	</LinearLayout>
-</LinearLayout>
+	<EditText
+		android:id="@+id/brick_set_size_to_edit_text"
+		android:text="100"
+		android:layout_height="wrap_content"
+		android:layout_width="60dp"
+		android:layout_toLeftOf="@+id/SetSizeToTextView"
+		android:clickable="false"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:gravity="right"
+		android:inputType="number|numberDecimal"
+		android:maxLength="3"
+		android:maxLines="1"
+	>
+	</EditText>	
+	<TextView
+		android:id="@+id/ValueTextView"
+		android:text="@string/brick_set_size_to"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:layout_toLeftOf="@+id/SetSizeToEditText"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
+	>
+	</TextView>
 </RelativeLayout>
