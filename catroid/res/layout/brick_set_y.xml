@@ -25,49 +25,38 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/RelativeLayout01"
 	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_violet"
+	android:layout_width="match_parent"
+	android:background="@drawable/brick_blue"
 >
 	<TextView
-		android:id="@+id/SetSizeToTextView"
-		android:text="@string/percent"
+		android:id="@+id/ValueTextViewY"
+		android:text="@string/brick_set_y"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
+		android:layout_alignParentLeft="true"
 		android:layout_centerVertical="true"
-		android:paddingLeft="5dip"
-		android:paddingRight="10dip"
+		android:paddingRight="5dip"
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/toolbox_brick_set_size_to_edit_text"
-		android:text="100"
+		android:id="@+id/brick_set_y_edit_text"
+		android:text="0"
 		android:layout_height="wrap_content"
-		android:layout_width="60dp"
-		android:layout_toLeftOf="@+id/SetSizeToTextView"
+		android:layout_width="50dp"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="5dip"
+		android:layout_toRightOf="@id/ValueTextViewY"
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
 		android:gravity="right"
-		android:inputType="number|numberDecimal"
+		android:inputType="number|numberDecimal|numberSigned"
 		android:maxLength="3"
 		android:maxLines="1"
+		android:numeric="signed"
 	>
-	</EditText>	
-	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/brick_set_size_to"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/SetSizeToEditText"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
+	</EditText>
 </RelativeLayout>

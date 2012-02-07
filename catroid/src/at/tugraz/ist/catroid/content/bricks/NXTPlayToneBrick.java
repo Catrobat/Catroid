@@ -78,7 +78,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	}
 
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.toolbox_brick_nxt_play_tone, null);
+		View view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarNXTToneFrequency);
 		noClick.setEnabled(false);
 		return view;
@@ -90,7 +90,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View brickView = View.inflate(context, R.layout.toolbox_brick_nxt_play_tone, null);
+		View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
 		EditText editDuration = (EditText) brickView.findViewById(R.id.nxt_tone_duration_edit_text);
 		editDuration.setText(String.valueOf(durationInMs / 1000.0));

@@ -83,7 +83,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_nxt_motor_stop, null);
+		return View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View brickView = View.inflate(context, R.layout.toolbox_brick_nxt_motor_stop, null);
+		View brickView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);

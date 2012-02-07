@@ -26,13 +26,13 @@
 	android:id="@+id/RelativeLayout01"
 	android:layout_height="wrap_content"
 	android:layout_width="wrap_content"
-	android:background="@drawable/brick_yellow"
+	android:background="@drawable/brick_blue"
 	android:focusable="false"
 	android:focusableInTouchMode="false"
 >
 	<TextView
 		android:id="@+id/ValueTextView"
-		android:text="@string/brick_repeat"
+		android:text="@string/brick_turn_right"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
@@ -44,7 +44,7 @@
 	</TextView>
 	<TextView
 		android:id="@+id/LabelTextView"
-		android:text="@string/times_label"
+		android:text="@string/brick_turn_right_n_degrees"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"
@@ -57,8 +57,8 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/toolbox_brick_repeat_edit_text"
-		android:text="3"
+		android:id="@+id/brick_turn_right_edit_text"
+		android:text="15"
 		android:layout_height="wrap_content"
 		android:layout_width="75dp"
 		android:layout_centerVertical="true"

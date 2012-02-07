@@ -122,7 +122,7 @@ public class PointToBrick implements Brick {
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_point_to, null);
+		View brickView = inflater.inflate(R.layout.brick_point_to, null);
 
 		final Spinner spinner = (Spinner) brickView.findViewById(R.id.point_to_spinner);
 		spinner.setFocusableInTouchMode(false);
@@ -180,7 +180,7 @@ public class PointToBrick implements Brick {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_point_to, null);
+		View view = inflater.inflate(R.layout.brick_point_to, null);
 		return view;
 	}
 

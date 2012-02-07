@@ -66,9 +66,9 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_change_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_change_ghost_effect_edit_text);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		editX.setText(String.valueOf(changeGhostEffect));
 
 		editX.setOnClickListener(this);
@@ -77,7 +77,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_change_ghost_effect, null);
+		return View.inflate(context, R.layout.brick_change_ghost_effect, null);
 	}
 
 	@Override

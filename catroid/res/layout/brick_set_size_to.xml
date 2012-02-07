@@ -25,38 +25,49 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/RelativeLayout01"
 	android:layout_height="wrap_content"
-	android:layout_width="match_parent"
-	android:background="@drawable/brick_blue"
+	android:layout_width="wrap_content"
+	android:background="@drawable/brick_violet"
 >
 	<TextView
-		android:id="@+id/ValueTextViewX"
-		android:text="@string/brick_set_x"
+		android:id="@+id/SetSizeToTextView"
+		android:text="@string/percent"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
-		android:paddingRight="5dip"
+		android:paddingLeft="5dip"
+		android:paddingRight="10dip"
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/toolbox_brick_set_x_edit_text"
-		android:text="0"
+		android:id="@+id/brick_set_size_to_edit_text"
+		android:text="100"
 		android:layout_height="wrap_content"
-		android:layout_width="50dp"
-		android:layout_centerVertical="true"
-		android:layout_marginLeft="5dip"
-		android:layout_toRightOf="@id/ValueTextViewX"
+		android:layout_width="60dp"
+		android:layout_toLeftOf="@+id/SetSizeToTextView"
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
 		android:gravity="right"
-		android:inputType="number|numberDecimal|numberSigned"
+		android:inputType="number|numberDecimal"
 		android:maxLength="3"
 		android:maxLines="1"
-		android:numeric="signed"
 	>
-	</EditText>
+	</EditText>	
+	<TextView
+		android:id="@+id/ValueTextView"
+		android:text="@string/brick_set_size_to"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:layout_toLeftOf="@+id/SetSizeToEditText"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
+	>
+	</TextView>
 </RelativeLayout>

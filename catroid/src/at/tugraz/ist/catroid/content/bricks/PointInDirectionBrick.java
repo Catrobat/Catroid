@@ -87,7 +87,7 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		View view = View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);
+		View view = View.inflate(context, R.layout.brick_point_in_direction, null);
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
 				R.array.point_in_direction_strings, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -106,7 +106,7 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);
+		return View.inflate(context, R.layout.brick_point_in_direction, null);
 	}
 
 	@Override
