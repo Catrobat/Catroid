@@ -31,6 +31,7 @@ public class WebconnectionException extends Exception {
 	public static final int ERROR_UNKNOWN = 1003;
 
 	private int statusCode;
+	private String message;
 
 	public WebconnectionException(int statusCode) {
 		super();
@@ -40,6 +41,7 @@ public class WebconnectionException extends Exception {
 	public WebconnectionException(int statusCode, String message) {
 		super(message);
 		this.statusCode = statusCode;
+		this.message = message;
 	}
 
 	public int getStatusCode() {
@@ -48,12 +50,10 @@ public class WebconnectionException extends Exception {
 
 	@Override
 	public String getMessage() {
-		String message = super.getMessage();
-		if (message != null && message.length() == 0) {
-			message = null;
+		if (message == null) {
+			message = "Unknown Error, no exception message given.";
 		}
 		return message;
-
 	}
 
 }
