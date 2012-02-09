@@ -105,7 +105,13 @@
     <string name="sound_pause">pausieren</string>
     <string name="sound_delete">löschen</string>
     <string name="sound_rename">editieren</string>
-
+    
+    <!-- My Projects activity -->
+    <string name="last_changed">Zuletzt geändert:</string>
+    <string name="description">Beschreibung:</string>
+    <string name="set_description">Beschreibung</string>
+    <string name="rename_project">Projeckt umbenennen</string>
+        
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menü</string>
 
