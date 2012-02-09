@@ -28,18 +28,24 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 
 public class GoNStepsBackBrickTest extends AndroidTestCase {
 
-	private int steps = 17;
-	private int oldPosition;
+	private final int steps = 17;
 
 	public void testSteps() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite Z position", 0, sprite.costume.zPosition);
 
-		oldPosition = sprite.costume.zPosition;
+		int oldPosition = sprite.costume.zPosition;
 
 		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, steps);
 		goNStepsBackBrick.execute();
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps),
+				sprite.costume.zPosition);
+
+		oldPosition = sprite.costume.zPosition;
+
+		goNStepsBackBrick = new GoNStepsBackBrick(sprite, -steps);
+		goNStepsBackBrick.execute();
+		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition + steps),
 				sprite.costume.zPosition);
 	}
 
@@ -48,8 +54,7 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 
 		try {
 			goNStepsBackBrick.execute();
-			fail("Execution of GoNStepsBackBrick with null Sprite did not cause "
-					+ "a NullPointerException to be thrown");
+			fail("Execution of GoNStepsBackBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
 		}
@@ -58,27 +63,23 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 	public void testBoundarySteps() {
 		Sprite sprite = new Sprite("testSprite");
 
-		oldPosition = sprite.costume.zPosition;
+		int oldPosition = sprite.costume.zPosition;
 
 		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
 		goNStepsBackBrick.execute();
 		assertEquals("GoNStepsBackBrick execution failed. Wrong Z position.", (oldPosition - Integer.MAX_VALUE),
 				sprite.costume.zPosition);
 
-		goNStepsBackBrick = new GoNStepsBackBrick(sprite, -steps);
-
-		try {
-			goNStepsBackBrick.execute();
-			fail("Execution of GoNStepsBackBrick with negative steps value did not"
-					+ " cause a NumberFormatException to be thrown");
-		} catch (NumberFormatException expected) {
-			// expected behavior
-		}
-
 		goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
 		goNStepsBackBrick.execute();
 		goNStepsBackBrick.execute();
-		assertEquals("An Integer underflow occured during GoNStepsBackBrick execution.", Integer.MIN_VALUE,
+		assertEquals("An unwanted Integer underflow occured during GoNStepsBackBrick execution.", Integer.MIN_VALUE,
+				sprite.costume.zPosition);
+
+		goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MIN_VALUE);
+		goNStepsBackBrick.execute();
+		goNStepsBackBrick.execute();
+		assertEquals("An unwanted Integer overflow occured during GoNStepsBackBrick execution.", Integer.MAX_VALUE,
 				sprite.costume.zPosition);
 	}
 
