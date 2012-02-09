@@ -42,7 +42,7 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
 	private String projectName = "projectiName";
-	private double volume = 50.6;
+	private float volume = 50.6f;
 
 	@Override
 	protected void setUp() throws Exception {
