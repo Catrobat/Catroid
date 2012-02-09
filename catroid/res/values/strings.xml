@@ -199,8 +199,6 @@
 	<string name="by_label">by</string>
 	<string name="to_label">to</string>
 	<string name="brick_clear_graphic_effect">Clear graphic effects</string>
-	<string name="brick_say">Say</string>
-	<string name="brick_think">Think</string>
 	<string name="brick_next_costume">Next Costume</string>
 	
 	<!-- Sound bricks -->
@@ -314,7 +312,6 @@
 	<!-- Lego Mindstorms Strings -->
 	<string name="brick_motor_action">NXT move motor</string>
 	<string name="motor">motor</string>
-	<string name="motor_duration">Duration</string>
 	<string name="motor_speed">Speed</string>
 	<string name="brick_motor_turn_angle">NXT turn motor</string>
 	<string name="motor_angle">Angle</string>
