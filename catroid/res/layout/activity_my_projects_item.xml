@@ -56,7 +56,8 @@
                                         android:layout_width="wrap_content" 
                                         android:layout_height="wrap_content" 
                                         android:textSize="14sp"
-                                        android:paddingLeft="8dp"/>
+                                        android:paddingLeft="8dp"
+                                        android:textStyle="bold"/>
                                 <TextView 
                                         android:id="@+id/my_projects_activity_changed" 
                                         android:layout_width="wrap_content" 
@@ -73,7 +74,8 @@
                                         android:layout_width="wrap_content" 
                                         android:layout_height="wrap_content" 
                                         android:textSize="14sp"
-                                        android:paddingLeft="8dp"/>
+                                        android:paddingLeft="8dp"
+                                        android:textStyle="bold"/>
                                 <TextView 
                                         android:id="@+id/my_projects_activity_size_of_project" 
                                         android:layout_width="wrap_content" 
@@ -82,7 +84,7 @@
                                         android:layout_marginLeft="8dp"/>
                         </LinearLayout>
                         <LinearLayout
-                                android:orientation="horizontal"
+                                android:orientation="vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <TextView 
@@ -90,16 +92,16 @@
                                         android:layout_width="wrap_content" 
                                         android:layout_height="wrap_content" 
                                         android:textSize="14sp"
-                                        android:paddingLeft="8dp"/>
+                                        android:paddingLeft="8dp"
+                                        android:textStyle="bold"/>
                                 <TextView 
                                         android:id="@+id/my_projects_activity_description" 
                                         android:layout_width="wrap_content" 
                                         android:layout_height="wrap_content" 
                                         android:textSize="14sp"
                                         android:layout_marginLeft="8dp"
-                                        android:maxLines="3"
-                                        android:ellipsize="end"/>
-                        </LinearLayout>
+                                        android:maxLines="4"/>"
+                        </LinearLayout>+
                 </LinearLayout>
         </LinearLayout>
 
