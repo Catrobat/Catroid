@@ -181,6 +181,10 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 	}
 
 	public void onProgressChanged(SeekBar speedBar, int progress, boolean fromUser) {
+		if (!fromUser) {
+			return;
+		}
+
 		if (progress != (speed + 100)) {
 			seekbarValToSpeed();
 			if (dialogSpeed != null) {

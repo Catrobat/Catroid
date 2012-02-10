@@ -45,12 +45,6 @@
     <string name="home">Home</string>
     <string name="start">Start</string>
 
-    <!-- Construction site context menu -->
-    <string name="new_project">New Project</string>
-    <string name="load">Load</string>
-    <string name="about">About Catroid</string>
-    <string name="upload_project">Upload Project</string>
-
     <!-- Main menu activity -->
     <string name="resume">Resume</string>
     <string name="current_project">Current project:</string>
@@ -60,6 +54,10 @@
 	<string name="settings">Settings</string>
 	<string name="web_resources">Web Resources</string>
 	<string name="forum">Forum</string>
+	<string name="new_project">New Project</string>
+    <string name="load">Load</string>
+    <string name="about">About Catroid</string>
+    <string name="upload_project">Upload Project</string>
 	
 	<!-- Settings activity -->
 	<string name="pref_category_mindstorm">Lego Mindstorms settings</string>

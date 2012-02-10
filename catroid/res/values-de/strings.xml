@@ -46,12 +46,6 @@
     <string name="home">Menü</string>
     <string name="start">Starten</string>
 
-    <!-- Construction site context menu -->
-    <string name="new_project">Neues Projekt</string>
-    <string name="load">Laden</string>
-    <string name="about">Über Catroid</string>
-    <string name="upload_project">Projekt hochladen</string>
-
     <!-- Main menu activity -->
     <string name="resume">Fortsetzen</string>
     <string name="current_project">Aktuelles Projekt:</string>
@@ -61,6 +55,10 @@
     <string name="settings">Einstellungen</string>
     <string name="web_resources">Internet-Ressourcen</string>
     <string name="forum">Forum</string>
+    <string name="new_project">Neues Projekt</string>
+    <string name="load">Laden</string>
+    <string name="about">Über Catroid</string>
+    <string name="upload_project">Projekt hochladen</string>
 
     <!-- Settings activity -->
     <string name="pref_category_mindstorm">Mindstorm Einstellungen</string>
