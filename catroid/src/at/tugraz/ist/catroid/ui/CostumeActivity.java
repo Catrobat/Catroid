@@ -25,10 +25,16 @@ package at.tugraz.ist.catroid.ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
@@ -38,6 +44,7 @@ import android.view.View;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -247,5 +254,76 @@ public class CostumeActivity extends ListActivity {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
 		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
+	public void handleDeleteCostumeButton(View v) {
+		int position = (Integer) v.getTag();
+		StorageHandler.getInstance().deleteFile(costumeDataList.get(position).getAbsolutePath());
+		costumeDataList.remove(position);
+		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
+	public void handleRenameCostumeButton(View v) {
+		int position = (Integer) v.getTag();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		scriptTabActivity.selectedCostumeData = costumeDataList.get(position);
+		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
+	}
+
+	public void handleCopyCostumeButton(View v) {
+		int position = (Integer) v.getTag();
+		CostumeData costumeData = costumeDataList.get(position);
+		try {
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			StorageHandler.getInstance().copyImage(projectName, costumeData.getAbsolutePath(), null);
+			String imageName = costumeData.getCostumeName() + "_" + getString(R.string.copy_costume_addition);
+			String imageFileName = costumeData.getCostumeFileName();
+			updateCostumeAdapter(imageName, imageFileName);
+		} catch (IOException e) {
+			Utils.displayErrorMessage(this, getString(R.string.error_load_image));
+			e.printStackTrace();
+		}
+	}
+
+	public void handleEditCostumeButton(View v) {
+		Intent intent = new Intent("android.intent.action.MAIN");
+		intent.setComponent(new ComponentName("at.tugraz.ist.paintroid", "at.tugraz.ist.paintroid.MainActivity"));
+
+		// Confirm if paintroid is installed else start dialog --------------------------
+		List<ResolveInfo> packageList = getPackageManager().queryIntentActivities(intent,
+				PackageManager.MATCH_DEFAULT_ONLY);
+
+		if (packageList.size() <= 0) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(getString(R.string.paintroid_not_installed)).setCancelable(false)
+					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
+									.parse(Consts.PAINTROID_DOWNLOAD_LINK));
+							startActivity(downloadPaintroidIntent);
+						}
+					}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}
+					});
+			AlertDialog alert = builder.create();
+			alert.show();
+			return;
+		}
+		//-------------------------------------------------------------------------------
+
+		int position = (Integer) v.getTag();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		scriptTabActivity.selectedCostumeData = costumeDataList.get(position);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(getString(R.string.extra_picture_path_paintroid), costumeDataList.get(position)
+				.getAbsolutePath());
+		bundleForPaintroid.putInt(getString(R.string.extra_x_value_paintroid), 0);
+		bundleForPaintroid.putInt(getString(R.string.extra_x_value_paintroid), 0);
+		intent.putExtras(bundleForPaintroid);
+		intent.addCategory("android.intent.category.LAUNCHER");
+		startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
 	}
 }
