@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import android.content.Context;
 import android.util.Log;
@@ -166,5 +167,16 @@ public class TestUtils {
 		}
 
 		return field;
+	}
+
+	public static void invokeMethod(Object classObject, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
+		try {
+			Class<?> currentClass = classObject.getClass();
+			Method currentMethod = currentClass.getDeclaredMethod(methodName, methodParams);
+			currentMethod.setAccessible(true);
+			currentMethod.invoke(classObject, methodArgs);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
