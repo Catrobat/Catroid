@@ -25,8 +25,6 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -35,19 +33,15 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	protected ArrayList<CostumeData> costumeDataItems;
 	protected CostumeActivity activity;
-	protected ScriptTabActivity scriptTabActivity;
-	private CostumeData costumeData;
 
 	public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<CostumeData> items) {
 		super(activity, textViewResourceId, items);
 		this.activity = activity;
-		this.scriptTabActivity = (ScriptTabActivity) activity.getParent();
 		costumeDataItems = items;
 	}
 
@@ -55,8 +49,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.activity_costume_costumelist_item, null);
+			convertView = View.inflate(activity, R.layout.activity_costume_costumelist_item, null);
 		}
 
 		convertView.findViewById(R.id.btn_costume_copy).setTag(position);
@@ -64,7 +57,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 		convertView.findViewById(R.id.btn_costume_edit).setTag(position);
 		convertView.findViewById(R.id.btn_costume_rename).setTag(position);
 
-		costumeData = costumeDataItems.get(position);
+		CostumeData costumeData = costumeDataItems.get(position);
 
 		if (costumeData != null) {
 			final ImageView costumeImage = (ImageView) convertView.findViewById(R.id.costume_image);
