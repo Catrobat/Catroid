@@ -109,7 +109,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
-					volume = Double.parseDouble(input.getText().toString());
+					volume = Float.parseFloat(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
