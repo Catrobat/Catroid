@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -46,6 +47,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -124,6 +126,75 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 			assertTrue("Wrong label - Tab should be named \"Costumes\"",
 					solo.searchText(getActivity().getString(R.string.costumes)));
 		}
+	}
+
+	public void testTabImagesAndLabelColor() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.sleep(100);
+		addNewSprite("Sprite1");
+		solo.clickInList(0);
+		solo.sleep(100);
+
+		String scriptsLabel = getActivity().getString(R.string.scripts);
+		String backgroundsLabel = getActivity().getString(R.string.backgrounds);
+		String soundsLabel = getActivity().getString(R.string.sounds);
+		String costumesLabel = getActivity().getString(R.string.costumes);
+
+		TextView textViewToTest;
+		int textViewColor;
+		int colorSelected = getActivity().getResources().getColor(android.R.color.black);
+		int colorNotSelected = getActivity().getResources().getColor(android.R.color.white);
+
+		textViewToTest = solo.getText(scriptsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Scripts Tab Active - Script Text should be black", textViewColor == colorSelected);
+		textViewToTest = solo.getText(backgroundsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Scripts Tab Active - Backgrounds Text should be white", textViewColor == colorNotSelected);
+		textViewToTest = solo.getText(soundsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Scripts Tab Active - Sounds Text should be white", textViewColor == colorNotSelected);
+
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		textViewToTest = solo.getText(scriptsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Backgrounds Tab Active - Script Text should be white", textViewColor == colorNotSelected);
+		textViewToTest = solo.getText(backgroundsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Backgrounds Tab Active - Backgrounds Text should be black", textViewColor == colorSelected);
+		textViewToTest = solo.getText(soundsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Backgrounds Tab Active - Sounds Text should be white", textViewColor == colorNotSelected);
+
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		textViewToTest = solo.getText(scriptsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Sounds Tab Active - Script Text should be white", textViewColor == colorNotSelected);
+		textViewToTest = solo.getText(backgroundsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Sounds Tab Active - Backgrounds Text should be white", textViewColor == colorNotSelected);
+		textViewToTest = solo.getText(soundsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Sounds Tab Active - Sounds Text should be black", textViewColor == colorSelected);
+
+		solo.sleep(100);
+		solo.goBack();
+		solo.clickInList(2);
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		textViewToTest = solo.getText(scriptsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Costumes Tab Active - Script Text should be white", textViewColor == colorNotSelected);
+		textViewToTest = solo.getText(costumesLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Costumes Tab Active - Costumes Text should be black", textViewColor == colorSelected);
+		textViewToTest = solo.getText(soundsLabel);
+		textViewColor = textViewToTest.getCurrentTextColor();
+		assertTrue("Costumes Tab Active - Sounds Text should be white", textViewColor == colorNotSelected);
 	}
 
 	private void addNewSprite(String spriteName) {
