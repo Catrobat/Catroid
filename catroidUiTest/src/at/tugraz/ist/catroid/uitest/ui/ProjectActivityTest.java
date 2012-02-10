@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.uitest.ui;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -365,6 +366,36 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		solo.clickOnButton(0);
 		assertTrue("not in RenameSpriteDialog", solo.searchText(getActivity().getString(R.string.rename_sprite_dialog)));
+
+	}
+
+	public void testDivider() {
+		String spriteName = "Sprite1";
+		String spriteName2 = "Sprite2";
+		String spriteName3 = "Sprite3";
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		addNewSprite(spriteName);
+		addNewSprite(spriteName2);
+		addNewSprite(spriteName3);
+
+		assertTrue("ListView divider should be null", solo.getCurrentListViews().get(0).getDivider() == null);
+		assertTrue("Listview dividerheight should be 0", solo.getCurrentListViews().get(0).getDividerHeight() == 0);
+
+		int dividerID = R.id.sprite_divider;
+		int currentViewID;
+		boolean isBackground = true;
+
+		for (View viewToTest : solo.getCurrentViews()) {
+			currentViewID = viewToTest.getId();
+			if (dividerID == currentViewID) {
+				if (isBackground) {
+					assertTrue("Background divider should have 4px height", viewToTest.getHeight() == 4);
+					isBackground = false;
+				} else {
+					assertTrue("Normal Sprite divider should have 2px height", viewToTest.getHeight() == 2);
+				}
+			}
+		}
 
 	}
 
