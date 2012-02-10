@@ -28,6 +28,7 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -135,6 +136,8 @@ public class Costume extends Image {
 			if (internalPath) {
 				pixmap = new Pixmap(Gdx.files.internal(costumeData.getAbsolutePath()));
 			} else {
+				String test = costumeData.getAbsolutePath();
+				FileHandle file = Gdx.files.absolute(test);
 				pixmap = new Pixmap(Gdx.files.absolute(costumeData.getAbsolutePath()));
 			}
 
@@ -173,9 +176,9 @@ public class Costume extends Image {
 		for (int y = 0; y < currentPixmap.getHeight(); y++) {
 			for (int x = 0; x < currentPixmap.getWidth(); x++) {
 				int pixel = currentPixmap.getPixel(x, y);
-				int r = (int) (((pixel >> 24) & 0xff) * brightnessValue);
-				int g = (int) (((pixel >> 16) & 0xff) * brightnessValue);
-				int b = (int) (((pixel >> 8) & 0xff) * brightnessValue);
+				int r = (int) (((pixel >> 24) & 0xff) + (255 * (brightnessValue - 1)));
+				int g = (int) (((pixel >> 16) & 0xff) + (255 * (brightnessValue - 1)));
+				int b = (int) (((pixel >> 8) & 0xff) + (255 * (brightnessValue - 1)));
 				int a = pixel & 0xff;
 
 				if (r > 255) {
@@ -369,4 +372,5 @@ public class Costume extends Image {
 	public CostumeData getCostumeData() {
 		return costumeData;
 	}
+
 }
