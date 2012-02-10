@@ -33,7 +33,7 @@
 	<include layout="@layout/brick_dialog_top"/>
 		
 	<ListView
-		android:id="@+id/toolboxListView"
+		android:id="@+id/addBrickDialogListView"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:fadingEdge="vertical"

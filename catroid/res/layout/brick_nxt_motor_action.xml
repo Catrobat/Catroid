@@ -59,7 +59,7 @@
 				android:layout_width="wrap_content"
 				android:focusable="false"
     		android:clickable="false">
-    		<!-- android:entries=... will make brick not usable in toolbox -->
+    		<!-- do not add spinner items here!-->
 			</Spinner>
 		</LinearLayout>
 		
