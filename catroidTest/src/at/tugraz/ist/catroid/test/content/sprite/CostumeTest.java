@@ -22,6 +22,8 @@
  */
 package at.tugraz.ist.catroid.test.content.sprite;
 
+import java.io.File;
+
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
@@ -29,11 +31,20 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
 
 public class CostumeTest extends InstrumentationTestCase {
 	private Costume costume;
 	private Sprite sprite;
 	private Project project;
+	private final int RESOURCE_IMAGE = R.raw.icon;
 
 	@Override
 	protected void setUp() {
@@ -107,5 +118,32 @@ public class CostumeTest extends InstrumentationTestCase {
 		assertEquals("Wrong brightness value!", 0.42f, costume.getBrightnessValue());
 		costume.changeBrightnessValueBy(0.2f);
 		assertEquals("Wrong brightness value!", 0.62f, costume.getBrightnessValue());
+	}
+
+	public void testAdjustBrightness() throws Exception {
+		String projectName = "myProject";
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
+		}
+		project = new Project(getInstrumentation().getTargetContext(), projectName);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		File testImage = TestUtils.saveFileToProject(projectName, "testImage.png", RESOURCE_IMAGE, getInstrumentation()
+				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		String path = testImage.getAbsolutePath();
+		FileHandle file = Gdx.files.absolute(path);
+		Pixmap map = new Pixmap(file);
+
+		project.addSprite(sprite);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		sprite.costume.setCostumeData(costumeData);
+		sprite.costume.setBrightnessValue(1.25f);
+		String methodName = "checkImageChanged";
+		TestUtils.invokeMethod(sprite.costume, methodName, null, null);
 	}
 }
