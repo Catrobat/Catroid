@@ -30,6 +30,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
@@ -48,6 +50,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	public static class ViewHolder {
 		public TextView text;
 		public ImageView image;
+		public View divider;
 		//public TextView detail;
 	}
 
@@ -61,6 +64,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
 			//holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
+			holder.divider = spriteView.findViewById(R.id.sprite_divider);
 			spriteView.setTag(holder);
 		} else {
 			holder = (ViewHolder) spriteView.getTag();
@@ -79,6 +83,13 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.image.setImageBitmap(null);
 		} else {
 			holder.image.setImageBitmap(firstCostumeData.getThumbnailBitmap());
+		}
+		if (position == 0) {
+			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 4));
+			holder.divider.setBackgroundResource(R.color.divider_background);
+		} else {
+			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2));
+			holder.divider.setBackgroundResource(R.color.divider);
 		}
 		return spriteView;
 	}
