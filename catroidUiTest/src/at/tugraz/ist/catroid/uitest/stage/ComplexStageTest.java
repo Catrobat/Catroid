@@ -76,7 +76,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 	public void testShowTexture() {
 		byte[] redPixel = { (byte) 237, 28, 36, (byte) 255 };
-		byte[] redBrightnessPixel = { (byte) 118, 14, 18, (byte) 255 };
+		byte[] redBrightnessPixel = { (byte) 109, 0, 0, (byte) 255 };
 		byte[] greenPixel = { 34, (byte) 177, 76, (byte) 255 };
 		byte[] yellowPixel = { (byte) 255, (byte) 242, 0, (byte) 255 };
 		byte[] bluePixel = { 0, (byte) 162, (byte) 232, (byte) 255 };
