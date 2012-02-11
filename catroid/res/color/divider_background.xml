@@ -26,9 +26,9 @@
 	<item>
 		<shape>
 			<gradient
-				android:startColor="@color/dark_gray"
-				android:centerColor="@color/dark_gray"
-				android:endColor="@color/dark_gray"
+				android:startColor="@color/gray"
+				android:centerColor="@color/gray"
+				android:endColor="@color/gray"
 				android:angle="0" />
 		</shape>
 	</item>
