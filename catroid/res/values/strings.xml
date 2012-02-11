@@ -107,6 +107,9 @@
     <string name="sound_delete">delete</string>
     <string name="sound_rename">rename</string>
 
+    <!-- PreStage activity -->
+    <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+    
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
 

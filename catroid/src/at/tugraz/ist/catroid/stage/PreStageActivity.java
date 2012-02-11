@@ -27,7 +27,9 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -263,15 +265,30 @@ public class PreStageActivity extends Activity {
 					;
 				} else {
 					// missing data, install it
-					Intent installIntent = new Intent();
-					installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-					startActivity(installIntent);
-					resourceFailed();
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setMessage(getString(R.string.text_to_speech_engine_not_installed)).setCancelable(false)
+							.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int id) {
+									Intent installIntent = new Intent();
+									installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+									startActivity(installIntent);
+									resourceFailed();
+								}
+							}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.cancel();
+									resourceFailed();
+								}
+							});
+					AlertDialog alert = builder.create();
+					alert.show();
+
 				}
 				break;
 
 			default:
 				resourceFailed();
+				break;
 		}
 	}
 
