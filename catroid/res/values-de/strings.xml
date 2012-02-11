@@ -103,6 +103,9 @@
     <string name="sound_pause">pausieren</string>
     <string name="sound_delete">löschen</string>
     <string name="sound_rename">editieren</string>
+    
+    <!-- PreStage activity -->
+    <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
 
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menü</string>
