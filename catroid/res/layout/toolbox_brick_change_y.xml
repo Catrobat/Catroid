@@ -55,7 +55,7 @@
 		android:focusableInTouchMode="false"
 		android:gravity="right"
 		android:inputType="number|numberDecimal|numberSigned"
-		android:maxLength="5"
+		android:maxLength="6"
 		android:maxLines="1"
 		android:numeric="signed"
 	>
