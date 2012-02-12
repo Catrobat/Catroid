@@ -96,7 +96,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	public void testResizeInputField() {
-		int[] xTestValues = new int[] { 1, 12345, -1, -1000, -999 };
+		int[] xTestValues = new int[] { 1, 123456, -1 };
 		int currentXValue = 0;
 		int editTextWidth = 0;
 		for (int i = 0; i < xTestValues.length; i++) {
@@ -105,15 +105,13 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 			solo.clickOnButton(0);
 			solo.sleep(100);
 			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentXValue + ""));
-			if ((currentXValue == 1) || (currentXValue == -1)) {
-				editTextWidth = solo.getEditText(0).getWidth();
-				assertTrue("Minwidth of EditText should be 50 dpi",
-						editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
-			}
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 50 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
 		}
 
 		solo.sleep(200);
-		currentXValue = 123456;
+		currentXValue = 1234567;
 		UiTestUtils.insertIntegerIntoEditText(solo, 0, currentXValue);
 		solo.clickOnButton(0);
 		solo.sleep(100);
