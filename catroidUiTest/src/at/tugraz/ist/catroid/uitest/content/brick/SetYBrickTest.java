@@ -96,7 +96,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	public void testResizeInputField() {
-		int[] yTestValues = new int[] { 1, 12345, -1, -1000, -999 };
+		int[] yTestValues = new int[] { 1, 123456, -1 };
 		int currentYValue = 0;
 		int editTextWidth = 0;
 		for (int i = 0; i < yTestValues.length; i++) {
@@ -105,15 +105,13 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 			solo.clickOnButton(0);
 			solo.sleep(100);
 			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentYValue + ""));
-			if ((currentYValue == 1) || (currentYValue == -1)) {
-				editTextWidth = solo.getEditText(0).getWidth();
-				assertTrue("Minwidth of EditText should be 50 dpi",
-						editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
-			}
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 50 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
 		}
 
 		solo.sleep(200);
-		currentYValue = 123456;
+		currentYValue = 1234567;
 		UiTestUtils.insertIntegerIntoEditText(solo, 0, currentYValue);
 		solo.clickOnButton(0);
 		solo.sleep(100);
