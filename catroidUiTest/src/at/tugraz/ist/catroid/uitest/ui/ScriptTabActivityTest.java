@@ -142,59 +142,32 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String soundsLabel = getActivity().getString(R.string.sounds);
 		String costumesLabel = getActivity().getString(R.string.costumes);
 
-		TextView textViewToTest;
-		int textViewColor;
-		int colorSelected = getActivity().getResources().getColor(android.R.color.black);
-		int colorNotSelected = getActivity().getResources().getColor(android.R.color.white);
-
-		textViewToTest = solo.getText(scriptsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Scripts Tab Active - Script Text should be black", textViewColor == colorSelected);
-		textViewToTest = solo.getText(backgroundsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Scripts Tab Active - Backgrounds Text should be white", textViewColor == colorNotSelected);
-		textViewToTest = solo.getText(soundsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Scripts Tab Active - Sounds Text should be white", textViewColor == colorNotSelected);
+		String[] tabLabelsToTest = { scriptsLabel, backgroundsLabel, soundsLabel };
+		testTabText(tabLabelsToTest);
 
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		textViewToTest = solo.getText(scriptsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Backgrounds Tab Active - Script Text should be white", textViewColor == colorNotSelected);
-		textViewToTest = solo.getText(backgroundsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Backgrounds Tab Active - Backgrounds Text should be black", textViewColor == colorSelected);
-		textViewToTest = solo.getText(soundsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Backgrounds Tab Active - Sounds Text should be white", textViewColor == colorNotSelected);
+		tabLabelsToTest[0] = backgroundsLabel;
+		tabLabelsToTest[1] = scriptsLabel;
+		tabLabelsToTest[2] = soundsLabel;
+		testTabText(tabLabelsToTest);
 
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		textViewToTest = solo.getText(scriptsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Sounds Tab Active - Script Text should be white", textViewColor == colorNotSelected);
-		textViewToTest = solo.getText(backgroundsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Sounds Tab Active - Backgrounds Text should be white", textViewColor == colorNotSelected);
-		textViewToTest = solo.getText(soundsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Sounds Tab Active - Sounds Text should be black", textViewColor == colorSelected);
+		tabLabelsToTest[0] = soundsLabel;
+		tabLabelsToTest[1] = scriptsLabel;
+		tabLabelsToTest[2] = backgroundsLabel;
+		testTabText(tabLabelsToTest);
 
 		solo.sleep(100);
 		solo.goBack();
 		solo.clickInList(2);
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.costumes));
-		textViewToTest = solo.getText(scriptsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Costumes Tab Active - Script Text should be white", textViewColor == colorNotSelected);
-		textViewToTest = solo.getText(costumesLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Costumes Tab Active - Costumes Text should be black", textViewColor == colorSelected);
-		textViewToTest = solo.getText(soundsLabel);
-		textViewColor = textViewToTest.getCurrentTextColor();
-		assertTrue("Costumes Tab Active - Sounds Text should be white", textViewColor == colorNotSelected);
+		tabLabelsToTest[0] = costumesLabel;
+		tabLabelsToTest[1] = scriptsLabel;
+		tabLabelsToTest[2] = soundsLabel;
+		testTabText(tabLabelsToTest);
 	}
 
 	private void addNewSprite(String spriteName) {
@@ -205,5 +178,29 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
+	}
+
+	private void testTabText(String[] tabLabels) {
+		TextView textViewToTest;
+		String activeTextViewLabel;
+		String textViewLabel;
+		int textViewColor;
+		int colorSelected = getActivity().getResources().getColor(android.R.color.black);
+		int colorNotSelected = getActivity().getResources().getColor(android.R.color.white);
+
+		activeTextViewLabel = solo.getText(tabLabels[0]).getText().toString();
+
+		for (int i = 0; i < tabLabels.length; i++) {
+			textViewToTest = solo.getText(tabLabels[i]);
+			textViewColor = textViewToTest.getCurrentTextColor();
+			textViewLabel = textViewToTest.getText().toString();
+			if (activeTextViewLabel.equals(textViewLabel)) {
+				assertTrue(activeTextViewLabel + " Tab Active - " + textViewLabel + " Text should be black",
+						textViewColor == colorSelected);
+			} else {
+				assertTrue(activeTextViewLabel + " Tab Active - " + textViewLabel + " Text should be white",
+						textViewColor == colorNotSelected);
+			}
+		}
 	}
 }
