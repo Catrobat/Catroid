@@ -35,6 +35,8 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -77,10 +79,10 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo
-				.getText(getActivity().getString(R.string.brick_change_volume_by)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(R.string.brick_change_volume_by)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
@@ -90,6 +92,31 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		solo.sleep(300);
 		assertEquals("Text not updated", volumeToChange, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		double[] changeVolumeTestValues = new double[] { 1.0, 100.0, 12.5 };
+		double currentChangeVolumeValue = 0.0;
+		int editTextWidth = 0;
+		for (int i = 0; i < changeVolumeTestValues.length; i++) {
+			currentChangeVolumeValue = changeVolumeTestValues[i];
+			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentChangeVolumeValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible",
+					solo.searchText(currentChangeVolumeValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentChangeVolumeValue = 100.12;
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentChangeVolumeValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible",
+				solo.searchText(currentChangeVolumeValue + ""));
 	}
 
 	private void createProject() {

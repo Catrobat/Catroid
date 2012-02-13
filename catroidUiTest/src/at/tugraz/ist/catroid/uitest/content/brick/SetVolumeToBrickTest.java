@@ -35,6 +35,8 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -77,8 +79,8 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_set_volume_to)));
 
 		solo.clickOnEditText(0);
@@ -89,6 +91,30 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 		solo.sleep(300);
 		assertEquals("Value in Brick is not updated.", volume + "", solo.getEditText(0).getText().toString());
+	}
+
+	public void testResizeInputField() {
+		double[] setVolumeTestValues = new double[] { 1.0, 100.0, 12.5 };
+		double currentSetVolumeValue = 0.0;
+		int editTextWidth = 0;
+		for (int i = 0; i < setVolumeTestValues.length; i++) {
+			currentSetVolumeValue = setVolumeTestValues[i];
+			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentSetVolumeValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentSetVolumeValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentSetVolumeValue = 100.12;
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentSetVolumeValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible",
+				solo.searchText(currentSetVolumeValue + ""));
 	}
 
 	private void createProject() {

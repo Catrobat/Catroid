@@ -35,6 +35,8 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -74,9 +76,33 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptActi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_repeat)));
+	}
+
+	public void testResizeInputField() {
+		int[] repeatTestValues = new int[] { 1, 1234567891, 123 };
+		int currentRepeatValue = 0;
+		int editTextWidth = 0;
+		for (int i = 0; i < repeatTestValues.length; i++) {
+			currentRepeatValue = repeatTestValues[i];
+			UiTestUtils.insertIntegerIntoEditText(solo, 0, currentRepeatValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentRepeatValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 75 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(75, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentRepeatValue = -1234567891;
+		UiTestUtils.insertIntegerIntoEditText(solo, 0, currentRepeatValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible",
+				solo.searchText(currentRepeatValue + ""));
 	}
 
 	private void createProject() {
