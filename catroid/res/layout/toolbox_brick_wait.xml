@@ -70,7 +70,7 @@
 		android:focusableInTouchMode="false"
 		android:gravity="right"
 		android:inputType="number|numberDecimal"
-		android:maxLength="6"
+		android:maxLength="8"
 		android:maxLines="1"
 	>
 	</EditText>
