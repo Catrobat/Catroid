@@ -33,7 +33,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -145,6 +144,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 					if (x > getWidth() * 3 / 4) {
 						dragAndDropListener.remove(itemPosition);
 					} else {
+						//						if (itemPosition < 0) {
+						//							Log.d("TESTING", "Itemposition: " + itemPosition);
+						//							itemPosition = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() - 1;
+						//							Log.d("TESTING", "Itemposition: " + itemPosition);
+						//						}
 						dragAndDropListener.drop(itemPosition);
 					}
 
@@ -216,7 +220,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
 
-		Log.d("TESTING", "ItemPosition: " + itemPosition + ", touchpos: " + touchPointY);
+		//		Log.d("TESTING", "ItemPosition: " + itemPosition + ", touchpos: " + touchPointY);
 		//		Log.d("TESTING", "ItemPosition: " + itemPosition + ", Location x: " + location[0] + ", y: " + location[1]);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 

@@ -152,7 +152,6 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-
 		if (view.getId() == R.id.brick_list_view) {
 
 			menu.setHeaderTitle(R.string.script_context_menu_title);
