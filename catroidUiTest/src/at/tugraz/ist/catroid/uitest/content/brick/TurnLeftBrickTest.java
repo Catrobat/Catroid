@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -77,8 +78,8 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_turn_left)));
 
 		double turnDegrees = 25;
@@ -94,6 +95,30 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		double[] turnLeftTestValues = new double[] { 1.0, 1080.55, 0.75 };
+		double currentTurnLeftValue = 0.0;
+		int editTextWidth = 0;
+		for (int i = 0; i < turnLeftTestValues.length; i++) {
+			currentTurnLeftValue = turnLeftTestValues[i];
+			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentTurnLeftValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentTurnLeftValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 75 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(75, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentTurnLeftValue = 1080.555;
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentTurnLeftValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible",
+				solo.searchText(currentTurnLeftValue + ""));
 	}
 
 	private void createProject() {
