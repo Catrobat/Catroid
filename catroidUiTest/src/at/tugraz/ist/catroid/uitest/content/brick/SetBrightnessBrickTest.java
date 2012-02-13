@@ -35,6 +35,8 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -75,8 +77,8 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_set_brightness)));
 
 		double newBrightness = 65.5;
@@ -91,6 +93,31 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
 		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		double[] setBrightnessTestValues = new double[] { 1.0, 100.55, -0.1 };
+		double currentSetBrightnessValue = 0.0;
+		int editTextWidth = 0;
+		for (int i = 0; i < setBrightnessTestValues.length; i++) {
+			currentSetBrightnessValue = setBrightnessTestValues[i];
+			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentSetBrightnessValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible",
+					solo.searchText(currentSetBrightnessValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentSetBrightnessValue = 1000.55;
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentSetBrightnessValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible",
+				solo.searchText(currentSetBrightnessValue + ""));
 	}
 
 	private void createProject() {

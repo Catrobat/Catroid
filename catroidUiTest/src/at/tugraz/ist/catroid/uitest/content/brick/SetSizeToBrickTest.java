@@ -134,8 +134,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(getActivity().getString(R.string.stagemenu_screenshot));
 		solo.sleep(50);
 
-		assertTrue("Successful screenshot Toast not found!", solo.searchText(getActivity().getString(
-				R.string.notification_screenshot_ok)));
+		assertTrue("Successful screenshot Toast not found!",
+				solo.searchText(getActivity().getString(R.string.notification_screenshot_ok)));
 
 		solo.clickOnText(getActivity().getString(R.string.resume_current_project));
 
@@ -162,6 +162,10 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
 				colorInsideSizedQuad);
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
+	}
+
+	public void testBla() {
+		createProject1();
 	}
 
 	private void createProject() {
@@ -194,9 +198,24 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		costumeData.setCostumeName("image");
 		setCostumeBrick.setCostume(costumeData);
 		sprite.getCostumeDataList().add(costumeData);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(), image
-				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
+				image.getAbsolutePath());
 		ProjectManager.getInstance().saveProject();
+	}
+
+	private void createProject1() {
+		project = new Project(null, "testProject");
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript(sprite);
+		setSizeToBrick = new SetSizeToBrick(sprite, 0);
+		script.addBrick(setSizeToBrick);
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
 }
