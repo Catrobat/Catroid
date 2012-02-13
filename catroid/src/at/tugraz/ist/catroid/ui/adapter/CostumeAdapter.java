@@ -60,8 +60,8 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 		CostumeData costumeData = costumeDataItems.get(position);
 
 		if (costumeData != null) {
-			final ImageView costumeImage = (ImageView) convertView.findViewById(R.id.costume_image);
-			final TextView costumeNameTextField = (TextView) convertView.findViewById(R.id.costume_name);
+			ImageView costumeImage = (ImageView) convertView.findViewById(R.id.costume_image);
+			TextView costumeNameTextField = (TextView) convertView.findViewById(R.id.costume_name);
 			TextView costumeResolution = (TextView) convertView.findViewById(R.id.costume_res);
 			TextView costumeSize = (TextView) convertView.findViewById(R.id.costume_size);
 
