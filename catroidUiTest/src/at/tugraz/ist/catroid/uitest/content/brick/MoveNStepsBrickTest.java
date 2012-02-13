@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -94,8 +95,8 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_move)));
 
 		solo.clickOnEditText(0);
@@ -108,6 +109,30 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		assertEquals("Wrong text in field.", stepsToMove, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
 		assertEquals("Value in Brick is not updated.", stepsToMove + "", solo.getEditText(0).getText().toString());
+	}
+
+	public void testResizeInputField() {
+		double[] stepsTestValues = new double[] { 1.1, 12345.6789, -0.1 };
+		double currentStepsValue = 0.0;
+		int editTextWidth = 0;
+		for (int i = 0; i < stepsTestValues.length; i++) {
+			currentStepsValue = stepsTestValues[i];
+			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentStepsValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentStepsValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 50 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentStepsValue = -12345.6789;
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentStepsValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible",
+				solo.searchText(currentStepsValue + ""));
 	}
 
 }

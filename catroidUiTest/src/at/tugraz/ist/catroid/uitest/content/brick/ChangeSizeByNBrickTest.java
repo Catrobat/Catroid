@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -76,8 +77,8 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_change_size_by)));
 
 		double newSize = 25;
@@ -93,6 +94,30 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		assertEquals("Wrong text in field", newSize, actualSize);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		double[] changeSizeTestValues = new double[] { 1.0, 100.55, -0.1 };
+		double currentChangeSizeValue = 0.0;
+		int editTextWidth = 0;
+		for (int i = 0; i < changeSizeTestValues.length; i++) {
+			currentChangeSizeValue = changeSizeTestValues[i];
+			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentChangeSizeValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentChangeSizeValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentChangeSizeValue = 1000.55;
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentChangeSizeValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible",
+				solo.searchText(currentChangeSizeValue + ""));
 	}
 
 	private void createProject() {

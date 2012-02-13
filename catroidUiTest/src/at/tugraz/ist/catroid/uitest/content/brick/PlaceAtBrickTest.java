@@ -40,6 +40,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -86,17 +87,17 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(1), getActivity().getAdapter().getChild(
-				groupCount - 1, 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(1),
+				getActivity().getAdapter().getChild(groupCount - 1, 1));
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(2), getActivity().getAdapter().getChild(
-				groupCount - 1, 2));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(2),
+				getActivity().getAdapter().getChild(groupCount - 1, 2));
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(3), getActivity().getAdapter().getChild(
-				groupCount - 1, 3));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(3),
+				getActivity().getAdapter().getChild(groupCount - 1, 3));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_place_at)));
 
 		int xPosition = 987;
@@ -124,6 +125,42 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
 		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
+	}
+
+	public void testResizeInputFields() {
+		int[] testValues = new int[] { 1, 12345, -1 };
+		int currentValue = 0;
+		int editTextWidth = 0;
+		for (int i = 0; i < testValues.length; i++) {
+			currentValue = testValues[i];
+			UiTestUtils.insertIntegerIntoEditText(solo, 0, currentValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText for X not resized - value not (fully) visible", solo.searchText(currentValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText for X should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+			UiTestUtils.insertIntegerIntoEditText(solo, 1, currentValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText for Y not resized - value not (fully) visible", solo.searchText(currentValue + ""));
+			editTextWidth = solo.getEditText(1).getWidth();
+			assertTrue("Minwidth of EditText for Y should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentValue = 123456;
+		UiTestUtils.insertIntegerIntoEditText(solo, 0, currentValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - EditText X should not be resized and fully visible",
+				solo.searchText(currentValue + ""));
+		UiTestUtils.insertIntegerIntoEditText(solo, 1, currentValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - EditText Y should not be resized and fully visible",
+				solo.searchText(currentValue + ""));
 	}
 
 	private void createProject() {
