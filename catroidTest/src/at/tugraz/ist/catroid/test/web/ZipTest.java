@@ -54,7 +54,7 @@ public class ZipTest extends AndroidTestCase {
 		testfile.getParentFile().mkdirs();
 		testfile.createNewFile();
 
-		String[] pathes = { pathToTest };
+		String[] paths = { pathToTest };
 
 		String zipFileName = Consts.TMP_PATH + "/testzip" + Consts.CATROID_EXTENTION;
 		File zipFile = new File(zipFileName);
@@ -65,7 +65,7 @@ public class ZipTest extends AndroidTestCase {
 		zipFile.getParentFile().mkdirs();
 		zipFile.createNewFile();
 
-		if (!UtilZip.writeToZipFile(pathes, zipFileName)) {
+		if (!UtilZip.writeToZipFile(paths, zipFileName)) {
 			zipFile.delete();
 			assertFalse("zip failed", true);
 			return;
