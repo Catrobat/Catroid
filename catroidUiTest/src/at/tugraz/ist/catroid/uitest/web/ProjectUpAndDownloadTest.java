@@ -110,7 +110,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.enterText(0, projectToCreate);
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.clickOnButton(0);
 		solo.sleep(2000);
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + projectToCreate + "/" + projectToCreate

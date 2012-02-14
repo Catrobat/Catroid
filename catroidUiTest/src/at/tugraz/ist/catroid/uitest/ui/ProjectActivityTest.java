@@ -249,7 +249,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName1));
 		solo.sleep(300);
-		solo.goBack();
+		//solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
@@ -277,7 +277,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
+		//solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(800);
@@ -291,7 +291,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
+		//solo.goBack();
 		solo.clickOnButton(0);
 
 		assertTrue("ErrorMessage not visible",
@@ -336,7 +336,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
+		//solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(200);
