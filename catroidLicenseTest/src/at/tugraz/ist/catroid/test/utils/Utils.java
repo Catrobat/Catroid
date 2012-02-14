@@ -23,6 +23,9 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
+
+@Ignore
 public class Utils {
 
 	static public List<File> getFilesFromDirectoryByExtension(File directory, String extension) {
