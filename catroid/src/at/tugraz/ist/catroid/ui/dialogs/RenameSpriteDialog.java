@@ -35,7 +35,7 @@ public class RenameSpriteDialog extends TextDialog {
 
 	public RenameSpriteDialog(ProjectActivity projectActivity) {
 		super(projectActivity, projectActivity.getString(R.string.rename_sprite_dialog), projectActivity
-		        .getString(R.string.new_sprite_dialog_default_sprite_name));
+				.getString(R.string.new_sprite_dialog_default_sprite_name));
 		initKeyListener();
 	}
 
@@ -63,7 +63,6 @@ public class RenameSpriteDialog extends TextDialog {
 
 	private void initKeyListener() {
 		dialog.setOnKeyListener(new OnKeyListener() {
-			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					String newSpriteName = (input.getText().toString()).trim();
@@ -80,14 +79,12 @@ public class RenameSpriteDialog extends TextDialog {
 		});
 
 		buttonPositive.setOnClickListener(new OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				handleOkButton();
 			}
 		});
 
 		buttonNegative.setOnClickListener(new OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				activity.dismissDialog(ProjectActivity.DIALOG_RENAME_SPRITE);
 			}

@@ -37,7 +37,7 @@ public class NewSpriteDialog extends TextDialog {
 
 	public NewSpriteDialog(ProjectActivity projectActivity) {
 		super(projectActivity, projectActivity.getString(R.string.new_sprite_dialog_title), projectActivity
-		        .getString(R.string.new_sprite_dialog_default_sprite_name));
+				.getString(R.string.new_sprite_dialog_default_sprite_name));
 		initKeyAndClickListener();
 	}
 
@@ -64,7 +64,6 @@ public class NewSpriteDialog extends TextDialog {
 
 	private void initKeyAndClickListener() {
 		dialog.setOnKeyListener(new OnKeyListener() {
-			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					String newSpriteName = (input.getText().toString()).trim();
@@ -80,14 +79,12 @@ public class NewSpriteDialog extends TextDialog {
 		});
 
 		buttonPositive.setOnClickListener(new OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				handleOkButton();
 			}
 		});
 
 		buttonNegative.setOnClickListener(new OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				activity.dismissDialog(ProjectActivity.DIALOG_NEW_SPRITE);
 			}

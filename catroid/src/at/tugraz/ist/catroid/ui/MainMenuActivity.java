@@ -114,19 +114,18 @@ public class MainMenuActivity extends Activity {
 		PreStageActivity.shutdownPersistentResources();
 
 		String title = this.getResources().getString(R.string.project_name) + " "
-		        + projectManager.getCurrentProject().getName();
+				+ projectManager.getCurrentProject().getName();
 		activityHelper.setupActionBar(true, title);
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
-		        new View.OnClickListener() {
-			        @Override
-			        public void onClick(View v) {
-				        if (projectManager.getCurrentProject() != null) {
-					        Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-					        ignoreResume = true;
-					        startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				        }
-			        }
-		        }, false);
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						if (projectManager.getCurrentProject() != null) {
+							Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+							ignoreResume = true;
+							startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+						}
+					}
+				}, false);
 		this.titleText = (TextView) findViewById(R.id.tv_title);
 
 	}
@@ -143,29 +142,29 @@ public class MainMenuActivity extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 		if (projectManager.getCurrentProject() != null
-		        && StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
+				&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
 			projectManager.saveProject();
 		}
 
 		switch (id) {
-		case DIALOG_NEW_PROJECT:
-			dialog = new NewProjectDialog(this).dialog;
-			break;
-		case DIALOG_LOAD_PROJECT:
-			dialog = new LoadProjectDialog(this);
-			break;
-		case DIALOG_ABOUT:
-			dialog = new AboutDialog(this);
-			break;
-		case DIALOG_UPLOAD_PROJECT:
-			dialog = new UploadProjectDialog(this);
-			break;
-		case DIALOG_LOGIN_REGISTER:
-			dialog = new LoginRegisterDialog(this);
-			break;
-		default:
-			dialog = null;
-			break;
+			case DIALOG_NEW_PROJECT:
+				dialog = new NewProjectDialog(this).dialog;
+				break;
+			case DIALOG_LOAD_PROJECT:
+				dialog = new LoadProjectDialog(this);
+				break;
+			case DIALOG_ABOUT:
+				dialog = new AboutDialog(this);
+				break;
+			case DIALOG_UPLOAD_PROJECT:
+				dialog = new UploadProjectDialog(this);
+				break;
+			case DIALOG_LOGIN_REGISTER:
+				dialog = new LoginRegisterDialog(this);
+				break;
+			default:
+				dialog = null;
+				break;
 		}
 		return dialog;
 	}
@@ -174,27 +173,28 @@ public class MainMenuActivity extends Activity {
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		super.onPrepareDialog(id, dialog);
 		switch (id) {
-		case DIALOG_UPLOAD_PROJECT:
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
-			String currentProjectName = currentProject.getName();
-			TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
-			EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
-			EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
-			TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-			sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/" + currentProjectName)));
+			case DIALOG_UPLOAD_PROJECT:
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				String currentProjectName = currentProject.getName();
+				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
+				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
+				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
+				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
+				sizeOfProject.setText(UtilFile
+						.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/" + currentProjectName)));
 
-			projectRename.setVisibility(View.GONE);
-			projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
-			projectDescriptionField.setText("");
-			projectUploadName.requestFocus();
-			projectUploadName.selectAll();
-			break;
-		case DIALOG_LOGIN_REGISTER:
-			EditText usernameEditText = (EditText) dialog.findViewById(R.id.username);
-			EditText passwordEditText = (EditText) dialog.findViewById(R.id.password);
-			usernameEditText.setText("");
-			passwordEditText.setText("");
-			break;
+				projectRename.setVisibility(View.GONE);
+				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
+				projectDescriptionField.setText("");
+				projectUploadName.requestFocus();
+				projectUploadName.selectAll();
+				break;
+			case DIALOG_LOGIN_REGISTER:
+				EditText usernameEditText = (EditText) dialog.findViewById(R.id.username);
+				EditText passwordEditText = (EditText) dialog.findViewById(R.id.password);
+				usernameEditText.setText("");
+				passwordEditText.setText("");
+				break;
 		}
 	}
 
@@ -220,7 +220,7 @@ public class MainMenuActivity extends Activity {
 	public void writeProjectTitleInTextfield() {
 
 		String title = this.getResources().getString(R.string.project_name) + " "
-		        + projectManager.getCurrentProject().getName();
+				+ projectManager.getCurrentProject().getName();
 		titleText.setText(title);
 	}
 

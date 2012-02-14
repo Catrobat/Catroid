@@ -41,62 +41,58 @@ import at.tugraz.ist.catroid.R;
  * enter empty strings you have to implement the key listener in the subclass
  */
 public abstract class TextDialog {
-    protected Activity activity;
-    protected EditText input;
-    protected Button buttonPositive;
-    protected Button buttonNegative;
-    protected ProjectManager projectManager;
-    public Dialog dialog;
+	protected Activity activity;
+	protected EditText input;
+	protected Button buttonPositive;
+	protected Button buttonNegative;
+	protected ProjectManager projectManager;
+	public Dialog dialog;
 
-    public TextDialog(Activity activityFromChild, String title, String hint) {
-        this.activity = activityFromChild;
-        projectManager = ProjectManager.getInstance();
+	public TextDialog(Activity activityFromChild, String title, String hint) {
+		this.activity = activityFromChild;
+		projectManager = ProjectManager.getInstance();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(title);
+		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		builder.setTitle(title);
 
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.dialog_text_dialog, null);
+		LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.dialog_text_dialog, null);
 
-        input = (EditText) view.findViewById(R.id.dialog_text_EditText);
-        if (hint != null) {
-            input.setHint(hint);
-        }
+		input = (EditText) view.findViewById(R.id.dialog_text_EditText);
+		if (hint != null) {
+			input.setHint(hint);
+		}
 
-        buttonPositive = (Button) view.findViewById(R.id.dialog_text_ok);
-        buttonNegative = (Button) view.findViewById(R.id.dialog_text_cancel);
+		buttonPositive = (Button) view.findViewById(R.id.dialog_text_ok);
+		buttonNegative = (Button) view.findViewById(R.id.dialog_text_cancel);
 
-        builder.setView(view);
+		builder.setView(view);
 
-        dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(true);
+		dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(true);
 
-        input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            }
-        });
+		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
+			}
+		});
 
-        input.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-                    buttonPositive.setEnabled(false);
-                } else {
-                    buttonPositive.setEnabled(true);
-                }
-            }
+		input.addTextChangedListener(new TextWatcher() {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
+					buttonPositive.setEnabled(false);
+				} else {
+					buttonPositive.setEnabled(true);
+				}
+			}
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
 
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-    }
+			public void afterTextChanged(Editable s) {
+			}
+		});
+	}
 }

@@ -32,59 +32,56 @@ import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 
 public class SetDescriptionDialog extends TextDialog {
 
-    public SetDescriptionDialog(MyProjectsActivity myProjectActivity) {
-        super(myProjectActivity, myProjectActivity.getString(R.string.description), null);
-        initKeyAndClickListener();
-    }
+	public SetDescriptionDialog(MyProjectsActivity myProjectActivity) {
+		super(myProjectActivity, myProjectActivity.getString(R.string.description), null);
+		initKeyAndClickListener();
+	}
 
-    public void handleOkButton() {
-        String description = (input.getText().toString());
+	public void handleOkButton() {
+		String description = (input.getText().toString());
 
-        String currentProjectName = projectManager.getCurrentProject().getName();
-        String projectToChangeName = ((MyProjectsActivity) activity).projectToEdit;
+		String currentProjectName = projectManager.getCurrentProject().getName();
+		String projectToChangeName = ((MyProjectsActivity) activity).projectToEdit;
 
-        if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
-            setDescription(description);
-            activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
-            return;
-        }
+		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
+			setDescription(description);
+			activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
+			return;
+		}
 
-        projectManager.loadProject(projectToChangeName, activity, false);
-        setDescription(description);
-        projectManager.loadProject(currentProjectName, activity, false);
+		projectManager.loadProject(projectToChangeName, activity, false);
+		setDescription(description);
+		projectManager.loadProject(currentProjectName, activity, false);
 
-        activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
-    }
+		activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
+	}
 
-    private void setDescription(String description) {
-        projectManager.getCurrentProject().description = description;
-        projectManager.saveProject();
-    }
+	private void setDescription(String description) {
+		projectManager.getCurrentProject().description = description;
+		projectManager.saveProject();
+	}
 
-    private void initKeyAndClickListener() {
-        dialog.setOnKeyListener(new OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    handleOkButton();
-                    return true;
-                }
-                return false;
-            }
-        });
+	private void initKeyAndClickListener() {
+		dialog.setOnKeyListener(new OnKeyListener() {
+			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+					handleOkButton();
+					return true;
+				}
+				return false;
+			}
+		});
 
-        buttonPositive.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleOkButton();
-            }
-        });
+		buttonPositive.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				handleOkButton();
+			}
+		});
 
-        buttonNegative.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
-            }
-        });
-    }
+		buttonNegative.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
+			}
+		});
+	}
 }
