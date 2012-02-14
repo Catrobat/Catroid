@@ -58,9 +58,9 @@ public class ProjectActivity extends ListActivity {
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or
-	                                                       // R.id.project_menu_rename
+															// R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or
-	                                                       // R.id.project_menu_delete
+															// R.id.project_menu_delete
 	public static final int DIALOG_NEW_SPRITE = 0;
 	public static final int DIALOG_RENAME_SPRITE = 1;
 	private static final int DIALOG_CONTEXT_MENU = 2;
@@ -68,13 +68,12 @@ public class ProjectActivity extends ListActivity {
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		spriteAdapter = new SpriteAdapter(this, R.layout.activity_project_spritelist_item, R.id.sprite_title,
-		        spriteList);
+				spriteList);
 
 		setListAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
 
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
 				Intent intent = new Intent(ProjectActivity.this, ScriptTabActivity.class);
@@ -82,7 +81,6 @@ public class ProjectActivity extends ListActivity {
 			}
 		});
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				spriteToEdit = spriteList.get(position);
 
@@ -102,25 +100,24 @@ public class ProjectActivity extends ListActivity {
 		Resources resources = getResources();
 		iconContextMenu = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU);
 		iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
-		        CONTEXT_MENU_ITEM_RENAME);
+				CONTEXT_MENU_ITEM_RENAME);
 		iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
-		        CONTEXT_MENU_ITEM_DELETE);
+				CONTEXT_MENU_ITEM_DELETE);
 
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-			@Override
 			public void onClick(int menuId) {
 				switch (menuId) {
-				case CONTEXT_MENU_ITEM_RENAME:
-					showDialog(DIALOG_RENAME_SPRITE);
-					break;
-				case CONTEXT_MENU_ITEM_DELETE:
-					ProjectManager projectManager = ProjectManager.getInstance();
-					projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-					if (projectManager.getCurrentSprite() != null
-					        && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-						projectManager.setCurrentSprite(null);
-					}
-					break;
+					case CONTEXT_MENU_ITEM_RENAME:
+						showDialog(DIALOG_RENAME_SPRITE);
+						break;
+					case CONTEXT_MENU_ITEM_DELETE:
+						ProjectManager projectManager = ProjectManager.getInstance();
+						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+						if (projectManager.getCurrentSprite() != null
+								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
+							projectManager.setCurrentSprite(null);
+						}
+						break;
 				}
 			}
 		});
@@ -144,25 +141,23 @@ public class ProjectActivity extends ListActivity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		String title = this.getResources().getString(R.string.project_name) + " "
-		        + ProjectManager.getInstance().getCurrentProject().getName();
+				+ ProjectManager.getInstance().getCurrentProject().getName();
 		activityHelper.setupActionBar(false, title);
 
 		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black, R.string.add,
-		        new View.OnClickListener() {
-			        @Override
-			        public void onClick(View v) {
-				        showDialog(DIALOG_NEW_SPRITE);
-			        }
-		        }, false);
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						showDialog(DIALOG_NEW_SPRITE);
+					}
+				}, false);
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
-		        new View.OnClickListener() {
-			        @Override
-			        public void onClick(View v) {
-				        Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
-				        startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-			        }
-		        }, false);
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
+						startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+					}
+				}, false);
 	}
 
 	@Override
@@ -184,28 +179,28 @@ public class ProjectActivity extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
 		switch (id) {
-		case DIALOG_NEW_SPRITE:
-			newSpriteDialog = new NewSpriteDialog(this);
-			dialog = newSpriteDialog.dialog;
-			break;
-		case DIALOG_RENAME_SPRITE:
-			if (spriteToEdit == null) {
+			case DIALOG_NEW_SPRITE:
+				newSpriteDialog = new NewSpriteDialog(this);
+				dialog = newSpriteDialog.dialog;
+				break;
+			case DIALOG_RENAME_SPRITE:
+				if (spriteToEdit == null) {
+					dialog = null;
+				} else {
+					renameDialog = new RenameSpriteDialog(this);
+					dialog = renameDialog.dialog;
+				}
+				break;
+			case DIALOG_CONTEXT_MENU:
+				if (iconContextMenu == null || spriteToEdit == null) {
+					dialog = null;
+				} else {
+					dialog = iconContextMenu.createMenu(spriteToEdit.getName());
+				}
+				break;
+			default:
 				dialog = null;
-			} else {
-				renameDialog = new RenameSpriteDialog(this);
-				dialog = renameDialog.dialog;
-			}
-			break;
-		case DIALOG_CONTEXT_MENU:
-			if (iconContextMenu == null || spriteToEdit == null) {
-				dialog = null;
-			} else {
-				dialog = iconContextMenu.createMenu(spriteToEdit.getName());
-			}
-			break;
-		default:
-			dialog = null;
-			break;
+				break;
 		}
 
 		return dialog;
@@ -214,18 +209,18 @@ public class ProjectActivity extends ListActivity {
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		switch (id) {
-		case DIALOG_RENAME_SPRITE:
-			if (dialog != null && spriteToEdit != null) {
-				EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-				spriteTitleInput.setText(spriteToEdit.getName());
-			}
-			break;
-		case DIALOG_NEW_SPRITE:
-			if (dialog != null) {
-				Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_text_ok);
-				buttonPositive.setEnabled(false);
-			}
-			break;
+			case DIALOG_RENAME_SPRITE:
+				if (dialog != null && spriteToEdit != null) {
+					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
+					spriteTitleInput.setText(spriteToEdit.getName());
+				}
+				break;
+			case DIALOG_NEW_SPRITE:
+				if (dialog != null) {
+					Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_text_ok);
+					buttonPositive.setEnabled(false);
+				}
+				break;
 		}
 	}
 
@@ -266,7 +261,7 @@ public class ProjectActivity extends ListActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Utils.saveToPreferences(this, MainMenuActivity.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
-			        .getCurrentProject().getName());
+					.getCurrentProject().getName());
 			Intent intent = new Intent(this, MainMenuActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			this.startActivity(intent);
