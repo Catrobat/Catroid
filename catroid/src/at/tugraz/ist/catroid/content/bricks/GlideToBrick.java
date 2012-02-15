@@ -189,7 +189,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 						durationInMilliSeconds = (int) Math.round(Double.parseDouble(input.getText().toString()) * 1000);
 					}
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

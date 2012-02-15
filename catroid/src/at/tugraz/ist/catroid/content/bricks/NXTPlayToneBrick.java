@@ -230,7 +230,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 						hertz = newFrequency;
 					}
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

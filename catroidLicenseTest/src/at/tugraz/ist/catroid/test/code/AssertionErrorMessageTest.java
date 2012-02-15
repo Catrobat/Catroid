@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.test.utils.Utils;
 
 public class AssertionErrorMessageTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
@@ -208,7 +208,7 @@ public class AssertionErrorMessageTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, ".java");
+			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, ".java");
 			for (File file : filesToCheck) {
 				assertionErrorMessagesPresentInFile(file);
 			}
