@@ -100,7 +100,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

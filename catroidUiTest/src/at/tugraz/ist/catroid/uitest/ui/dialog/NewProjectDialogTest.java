@@ -48,7 +48,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	protected void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

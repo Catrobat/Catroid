@@ -77,7 +77,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

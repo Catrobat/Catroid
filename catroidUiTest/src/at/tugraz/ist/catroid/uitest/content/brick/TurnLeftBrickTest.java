@@ -58,7 +58,7 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

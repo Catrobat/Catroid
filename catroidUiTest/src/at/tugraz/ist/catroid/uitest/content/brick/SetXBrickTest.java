@@ -58,7 +58,7 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

@@ -60,7 +60,7 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

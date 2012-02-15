@@ -46,7 +46,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	@Override
 	protected void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

@@ -71,7 +71,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
