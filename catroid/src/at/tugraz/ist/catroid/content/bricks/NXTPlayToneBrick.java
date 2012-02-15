@@ -147,7 +147,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	}
 
 	public void onProgressChanged(SeekBar freqBar, int progress, boolean fromUser) {
-		if (!fromUser) {
+		if (!fromUser) { //Robotium fromUser=false
 			if (progress == 0) {
 				return;
 			}

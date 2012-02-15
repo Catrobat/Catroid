@@ -83,7 +83,7 @@
     <!-- ScriptTab activity -->
     <string name="scripts">Skripte</string>
     <string name="costumes">Kostüme</string>
-    <string name="sounds">Sounds</string>
+    <string name="sounds">Klänge</string>
     <string name="backgrounds">Hintergründe</string>
 
     <!-- Costume activity -->

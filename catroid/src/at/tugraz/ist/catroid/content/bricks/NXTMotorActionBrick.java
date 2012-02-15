@@ -182,7 +182,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 	public void onProgressChanged(SeekBar speedBar, int progress, boolean fromUser) {
 		if (!fromUser) {
-			if (progress == 0) {
+			if (progress == 0) {//Robotium fromUser=false
 				return;
 			}
 		}
