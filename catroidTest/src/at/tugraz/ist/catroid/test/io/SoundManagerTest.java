@@ -178,7 +178,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testSetVolume() {
-		double vol = 80.9;
+		float vol = 80.9f;
 		SoundManager.getInstance().setVolume(vol);
 		assertEquals("Volume loudness doesn't change", vol, SoundManager.getInstance().getVolume());
 	}

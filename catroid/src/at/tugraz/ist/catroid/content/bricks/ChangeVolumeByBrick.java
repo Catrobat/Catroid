@@ -55,12 +55,12 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		double currentVolume = SoundManager.getInstance().getVolume();
+		float currentVolume = SoundManager.getInstance().getVolume();
 		currentVolume += volume;
-		if (currentVolume < 0.0) {
-			currentVolume = 0.0;
-		} else if (currentVolume > 100.0) {
-			currentVolume = 100.0;
+		if (currentVolume < 0.0f) {
+			currentVolume = 0.0f;
+		} else if (currentVolume > 100.0f) {
+			currentVolume = 100.0f;
 		}
 		SoundManager.getInstance().setVolume(currentVolume);
 	}
@@ -109,9 +109,9 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
-					volume = Double.parseDouble(input.getText().toString());
+					volume = Float.parseFloat(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}
