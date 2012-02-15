@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
 
-	private transient double volume = 70.0;
+	private transient float volume = 70.0f;
 
 	public static final int MAX_MEDIA_PLAYERS = 7;
 	private static SoundManager soundManager = null;
@@ -52,12 +52,14 @@ public class SoundManager {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
 				mediaPlayer.reset();
+				setVolume(volume);
 				return mediaPlayer;
 			}
 		}
 		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
 			MediaPlayer mediaPlayer = new MediaPlayer();
 			mediaPlayers.add(mediaPlayer);
+			setVolume(volume);
 			return mediaPlayer;
 		} else {
 			return null;
@@ -83,16 +85,15 @@ public class SoundManager {
 		return mediaPlayer;
 	}
 
-	public synchronized void setVolume(double volume) {
+	public synchronized void setVolume(float volume) {
 		this.volume = volume;
-		float vol;
-		vol = (float) (volume * 0.01);
+		float volumeScalar = volume * 0.01f;
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			mediaPlayer.setVolume(vol, vol);
+			mediaPlayer.setVolume(volumeScalar, volumeScalar);
 		}
 	}
 
-	public double getVolume() {
+	public float getVolume() {
 		return this.volume;
 	}
 
