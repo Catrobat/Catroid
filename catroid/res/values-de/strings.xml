@@ -67,7 +67,7 @@
 
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>
-    <string name="about_text">        Catroid ist eine grafische Programmiersprache für Android, inspiriert vom
+    <string name="about_text">Catroid ist eine grafische Programmiersprache für Android, inspiriert vom
         Scratch Projekt des MIT.\n
         Es wird am Institut für Software Technologie an der
         Technischen Universität Graz in Österreich entwickelt.\n\n
@@ -230,25 +230,25 @@
     <string name="action_swipeDown">nach unten gewischt</string>
 
     <!-- defaultValues -->
-    <string name="default_project_name">standardProjekt</string>
+    <string name="default_project_name">Mein erstes Projekt</string>
 
     <!-- Notifications -->
-    <string name="notification_invalid_text_entered">    	Bitte einen Wert eingeben</string>
-    <string name="notification_screenshot_ok">        Screenshot erfolgreich gespeichert</string>
+    <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
+    <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
 
     <!-- Error messages -->
-    <string name="error_no_sd_card">        Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
-    <string name="error_no_name_entered">    	Bitte einen Namen eingeben.</string>
-    <string name="error_project_exists">        Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
-    <string name="error_project_upload">        Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_project_download">        Beim Download des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_new_project">    	Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_load_project">        Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_no_number_entered">        Bitte eine Zahl eingeben.</string>
-    <string name="error_screenshot_failed">        Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
-    <string name="error_load_image">    	Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
-    <string name="error_load_sound">    	Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
-    <string name="error_internet_connection">    	Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
+    <string name="error_no_sd_card">Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
+    <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
+    <string name="error_project_exists">Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
+    <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_project_download">Beim Download des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_new_project">Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_load_project">Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_no_number_entered">Bitte eine Zahl eingeben.</string>
+    <string name="error_screenshot_failed">Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
+    <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
+    <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
+    <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
