@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.junit.Ignore;
 
+// Ignored, so JUnit won't try to test this class.
 @Ignore
 public class Utils {
 
