@@ -55,7 +55,7 @@ public class NextCostumeBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

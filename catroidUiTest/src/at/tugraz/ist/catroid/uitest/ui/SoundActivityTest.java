@@ -83,7 +83,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 	public void tearDown() throws Exception {
 		solo.sleep(500);
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
