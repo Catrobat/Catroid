@@ -106,6 +106,12 @@
     <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
     <string name="sound_rename">rename</string>
+    
+    <!-- My Projects activity -->
+    <string name="last_changed">Last changed:  </string>
+    <string name="description">Description:     </string>
+    <string name="set_description">set Description</string>
+    <string name="rename_project">Rename Project</string>
 
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
