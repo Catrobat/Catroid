@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -46,12 +46,6 @@
     <string name="home">Menü</string>
     <string name="start">Starten</string>
 
-    <!-- Construction site context menu -->
-    <string name="new_project">Neues Projekt</string>
-    <string name="load">Laden</string>
-    <string name="about">Über Catroid</string>
-    <string name="upload_project">Projekt hochladen</string>
-
     <!-- Main menu activity -->
     <string name="resume">Fortsetzen</string>
     <string name="current_project">Aktuelles Projekt:</string>
@@ -61,6 +55,10 @@
     <string name="settings">Einstellungen</string>
     <string name="web_resources">Internet-Ressourcen</string>
     <string name="forum">Forum</string>
+    <string name="new_project">Neues Projekt</string>
+    <string name="load">Laden</string>
+    <string name="about">Über Catroid</string>
+    <string name="upload_project">Projekt hochladen</string>
 
     <!-- Settings activity -->
     <string name="pref_category_mindstorm">Mindstorm Einstellungen</string>
@@ -85,7 +83,7 @@
     <!-- ScriptTab activity -->
     <string name="scripts">Skripte</string>
     <string name="costumes">Kostüme</string>
-    <string name="sounds">Sounds</string>
+    <string name="sounds">Klänge</string>
     <string name="backgrounds">Hintergründe</string>
 
     <!-- Costume activity -->
@@ -105,6 +103,9 @@
     <string name="sound_pause">pausieren</string>
     <string name="sound_delete">löschen</string>
     <string name="sound_rename">editieren</string>
+    
+    <!-- PreStage activity -->
+    <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
 
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menü</string>
@@ -196,8 +197,6 @@
     <string name="by_label">um</string>
     <string name="to_label">auf</string>
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
-    <string name="brick_say">Sage</string>
-    <string name="brick_think">Denke</string>
     <string name="brick_next_costume">Nächstes Kostüm</string>
 
     <!-- Sound bricks -->
@@ -280,7 +279,6 @@
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT bewege Motor</string>
     <string name="motor">Motor</string>
-    <string name="motor_duration">Dauer</string>
     <string name="motor_speed">Geschwindigkeit</string>
     <string name="brick_motor_turn_angle">NXT rotiere Motor</string>
     <string name="motor_angle">Winkel</string>

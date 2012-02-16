@@ -54,12 +54,12 @@ public class WhenBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
-		view = View.inflate(context, R.layout.toolbox_brick_when, null);
+		view = View.inflate(context, R.layout.brick_when, null);
 		TextView spinnerActionText = (TextView) view.findViewById(R.id.WhenBrickActionTapped);
 		spinnerActionText.setText(" " + spinnerActionText.getText());
 
 		// inactive until spinner has more than one element
-		//		final Spinner spinner = (Spinner) view.findViewById(R.id.toolbox_brick_when_spinner);
+		//		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);
 		//		spinner.setFocusable(false);
 		//		spinner.setClickable(true);
 		//		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
@@ -102,7 +102,6 @@ public class WhenBrick implements Brick {
 
 	public View getPrototypeView(Context context) {
 		return getView(context, 0, null);
-		//return View.inflate(context, R.layout.toolbox_brick_when, null);
 	}
 
 	@Override

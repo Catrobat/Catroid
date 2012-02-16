@@ -57,13 +57,13 @@ public class ForeverBrick extends LoopBeginBrick {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_forever, null);
+			view = View.inflate(context, R.layout.brick_forever, null);
 		}
 
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_forever, null);
+		return View.inflate(context, R.layout.brick_forever, null);
 	}
 }

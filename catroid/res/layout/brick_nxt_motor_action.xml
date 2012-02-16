@@ -57,59 +57,13 @@
 				android:id="@+id/motor_spinner"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
-				android:entries="@array/nxt_motor_chooser">
+				android:focusable="false"
+    		android:clickable="false">
+    		<!-- do not add spinner items here!-->
 			</Spinner>
 		</LinearLayout>
 		
 		</RelativeLayout>
-
-		<!-- <RelativeLayout 
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent" 
-			android:layout_centerVertical="true">
-			<TextView 
-				android:text="@string/motor_duration"
-				android:layout_centerVertical="true" 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content" 
-				android:paddingRight="10dip"
-				android:textColor="@color/white" 
-				android:textSize="18dip"
-				android:textStyle="bold">
-			</TextView>
-			<LinearLayout 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content" 
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true">
-
-				<EditText 
-					android:id="@+id/motor_action_duration_edit_text"
-					android:text="0.0" 
-					android:layout_height="wrap_content"
-					android:layout_width="60dp" 
-					android:clickable="false"
-					android:focusable="false" 
-					android:focusableInTouchMode="false"
-					android:gravity="right" 
-					android:inputType="number|numberDecimal|numberSigned"
-					android:maxLength="4" 
-					android:maxLines="1">
-				</EditText>
-				
-				<TextView 
-					android:text="@string/seconds"
-					android:layout_centerVertical="true" 
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content" 
-					android:paddingRight="10dip"
-					android:textColor="@color/white" 
-					android:textSize="18dip"
-					android:textStyle="bold">
-				</TextView>
-
-			</LinearLayout>
-		</RelativeLayout> -->
 
 		<RelativeLayout 
 			android:layout_height="wrap_content"
@@ -171,18 +125,24 @@
 					android:layout_width="30dip" 
 					android:id="@+id/speed_down_btn" 
 					android:layout_height="35dip" 
-					android:text="@string/minus_symbol"/>
+					android:text="@string/minus_symbol"
+					android:focusable="false"
+    			android:clickable="false"/>
 			<SeekBar 
 				android:id="@+id/seekBarSpeedMotorAction"
 				android:layout_weight="1"
 				android:layout_height="wrap_content"
-				android:layout_width="wrap_content">
+				android:layout_width="wrap_content"
+				android:focusable="false"
+    		android:clickable="false">
 			</SeekBar>
 			<Button 
 					android:layout_width="30dip" 
 					android:id="@+id/speed_up_btn" 
 					android:layout_height="35dip" 
-					android:text="@string/plus_symbol" />
+					android:text="@string/plus_symbol"
+					android:focusable="false"
+    			android:clickable="false" />
 			</LinearLayout>
 		
 		</RelativeLayout>
@@ -191,5 +151,29 @@
 </LinearLayout>
 
 
-
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content" android:layout_width="match_parent"
+	android:orientation="vertical" android:background="@drawable/brick_red">
+	<RelativeLayout android:layout_height="wrap_content"
+	android:layout_width="fill_parent" 
+	android:layout_centerVertical="true">
+	<TextView android:text="@string/brick_motor_action"
+			android:layout_centerVertical="true" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:paddingRight="10dip"
+			android:textColor="@color/white" android:textSize="18dip"
+			android:textStyle="bold">
+		</TextView>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_alignParentRight="true"
+		android:layout_centerVertical="true">
+		<ImageView android:src="@drawable/legologo" 
+			android:id="@+id/imageView1" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content">
+		</ImageView>
+	</LinearLayout>
+</RelativeLayout>
+</LinearLayout>
+-->
 

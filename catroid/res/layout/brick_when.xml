@@ -53,7 +53,7 @@
 	
 	<!-- inactive - to be revived when there are more actions for the spinner 
 	<Spinner
-		android:id="@+id/toolbox_brick_when_spinner"
+		android:id="@+id/brick_when_spinner"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"

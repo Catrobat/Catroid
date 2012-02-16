@@ -27,7 +27,9 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,6 +53,7 @@ public class PreStageActivity extends Activity {
 	private static final int REQUEST_ENABLE_BT = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 0101;
+	public static final int MY_DATA_CHECK_CODE = 0;
 
 	public static StageListener stageListener;
 	private static LegoNXT legoNXT;
@@ -78,24 +81,9 @@ public class PreStageActivity extends Activity {
 			mask = mask << 1;
 		}
 		if ((required_resources & Brick.TEXT_TO_SPEECH) > 0) {
-			textToSpeech = new TextToSpeech(this.getApplicationContext(), new OnInitListener() {
-				public void onInit(int status) {
-					resourceInitialized();
-					if (status == TextToSpeech.ERROR) {
-						Toast.makeText(PreStageActivity.this,
-								"Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
-						resourceFailed();
-					}
-				}
-			});
-
-			if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
-				Intent installIntent = new Intent();
-				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-				startActivity(installIntent);
-				resourceFailed();
-			}
-			;
+			Intent checkIntent = new Intent();
+			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+			startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 		}
 		if ((required_resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
@@ -178,8 +166,8 @@ public class PreStageActivity extends Activity {
 	}
 
 	private void startBTComm(boolean autoConnect) {
-		connectingProgressDialog = ProgressDialog.show(this, "", getResources().getString(
-				R.string.connecting_please_wait), true);
+		connectingProgressDialog = ProgressDialog.show(this, "",
+				getResources().getString(R.string.connecting_please_wait), true);
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
 		serverIntent.putExtra(DeviceListActivity.AUTO_CONNECT, autoConnect);
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
@@ -235,8 +223,54 @@ public class PreStageActivity extends Activity {
 				}
 				break;
 
+			case MY_DATA_CHECK_CODE:
+				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+					// success, create the TTS instance
+					textToSpeech = new TextToSpeech(this.getApplicationContext(), new OnInitListener() {
+						public void onInit(int status) {
+							resourceInitialized();
+							if (status == TextToSpeech.ERROR) {
+								Toast.makeText(PreStageActivity.this,
+										"Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG)
+										.show();
+								resourceFailed();
+							}
+						}
+					});
+
+					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
+						Intent installIntent = new Intent();
+						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+						startActivity(installIntent);
+						resourceFailed();
+					}
+					;
+				} else {
+					// missing data, install it
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setMessage(getString(R.string.text_to_speech_engine_not_installed)).setCancelable(false)
+							.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int id) {
+									Intent installIntent = new Intent();
+									installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+									startActivity(installIntent);
+									resourceFailed();
+								}
+							}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.cancel();
+									resourceFailed();
+								}
+							});
+					AlertDialog alert = builder.create();
+					alert.show();
+
+				}
+				break;
+
 			default:
 				resourceFailed();
+				break;
 		}
 	}
 
