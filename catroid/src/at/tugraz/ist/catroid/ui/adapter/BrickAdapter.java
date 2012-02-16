@@ -143,12 +143,28 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drop(int to) {
-		//		if (to < 0) {
-		//			Log.d("TESTING", "Drop to: " + to);
-		//			//			to = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() - 1;
-		//			to = dragTargetPosition;
-		//			Log.d("TESTING", "Itemposition: " + to);
-		//		}
+
+		if (to < 0) {
+			Log.d("TESTING", "Drop to: " + to);
+			int nrScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+
+			int newTo = 0;
+			Log.d("TESTING", "nrScripts: " + nrScripts);
+
+			for (int i = 0; i < nrScripts; i++) {
+				int tmp = ProjectManager.getInstance().getCurrentSprite().getScript(i).getBrickList().size();
+
+				if (tmp == 0) {
+					tmp++;
+				}
+
+				newTo += tmp;
+				Log.d("TESTING", "foo: " + tmp);
+			}
+			to = newTo;
+			//to = dragTargetPosition;
+			Log.d("TESTING", "Itemposition: " + to);
+		}
 
 		if (draggedBrick instanceof WhenBrick) {
 
@@ -255,7 +271,41 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 		}
 		draggedBrick = null;
+		clearScriptBricks();
 		notifyDataSetChanged();
+
+	}
+
+	private int clearScriptBricks() {
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		int nrScripts = projectManager.getCurrentSprite().getNumberOfScripts();
+
+		for (int i = 0; i < nrScripts; i++) {
+
+			Script tmpScript = projectManager.getCurrentSprite().getScript(i);
+
+			if (tmpScript.containsBrickOfType(BroadcastReceiverBrick.class) == true) {
+
+				int brickIndex = tmpScript.containsBrickOfTypeReturnsFirstIndex(BroadcastReceiverBrick.class);
+				tmpScript.removeBrick(tmpScript.getBrick(brickIndex));
+			}
+
+			if (tmpScript.containsBrickOfType(WhenStartedBrick.class) == true) {
+
+				int brickIndex = tmpScript.containsBrickOfTypeReturnsFirstIndex(WhenStartedBrick.class);
+				tmpScript.removeBrick(tmpScript.getBrick(brickIndex));
+			}
+
+			if (tmpScript.containsBrickOfType(WhenBrick.class) == true) {
+
+				int brickIndex = tmpScript.containsBrickOfTypeReturnsFirstIndex(WhenBrick.class);
+				tmpScript.removeBrick(tmpScript.getBrick(brickIndex));
+			}
+
+		}
+
+		return 0;
 	}
 
 	public void remove(int index) {

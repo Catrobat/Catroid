@@ -133,6 +133,18 @@ public abstract class Script implements Serializable {
 		return false;
 	}
 
+	public int containsBrickOfTypeReturnsFirstIndex(Class<?> type) {
+		int i = 0;
+		for (Brick brick : brickList) {
+
+			if (brick.getClass() == type) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+
 	//
 	//	public boolean containsBluetoothBrick() {
 	//		for (Brick brick : brickList) {
