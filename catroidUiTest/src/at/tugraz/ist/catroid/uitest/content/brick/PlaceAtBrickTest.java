@@ -65,13 +65,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finishOpenedActivities();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -86,17 +80,17 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(1), getActivity().getAdapter().getChild(
-				groupCount - 1, 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(1),
+				getActivity().getAdapter().getChild(groupCount - 1, 1));
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(2), getActivity().getAdapter().getChild(
-				groupCount - 1, 2));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(2),
+				getActivity().getAdapter().getChild(groupCount - 1, 2));
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(3), getActivity().getAdapter().getChild(
-				groupCount - 1, 3));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(3),
+				getActivity().getAdapter().getChild(groupCount - 1, 3));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_place_at)));
 
 		int xPosition = 987;
@@ -106,10 +100,8 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clearEditText(0);
 		solo.enterText(0, xPosition + "");
 		solo.goBack();
-		solo.sleep(300);
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
 		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
 		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
@@ -120,7 +112,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
 		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
 		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);

@@ -43,7 +43,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	private Solo solo;
 	private Project project;
 	private ChangeBrightnessBrick ChangeBrightnessBrick;
-	private double brightnessToChange;
+	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
 
 	public ChangeBrightnessTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -57,13 +57,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finishOpenedActivities();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -81,24 +75,23 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
 				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo
-				.getText(getActivity().getString(R.string.brick_change_brightness)));
+		assertNotNull("TextView does not exist",
+				solo.getText(getActivity().getString(R.string.brick_change_brightness)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, brightnessToChange + "");
+		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", brightnessToChange, ChangeBrightnessBrick.getChangeBrightness());
-		assertEquals("Text not updated", brightnessToChange, Double.parseDouble(solo.getEditText(0).getText()
-				.toString()));
+		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, ChangeBrightnessBrick.getChangeBrightness());
+		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
+				Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	private void createProject() {
-		brightnessToChange = 56.6;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
