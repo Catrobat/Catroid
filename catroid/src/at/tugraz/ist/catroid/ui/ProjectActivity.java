@@ -29,6 +29,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -56,10 +57,12 @@ public class ProjectActivity extends ListActivity {
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
-	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
-	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
-	private static final int DIALOG_NEW_SPRITE = 0;
-	private static final int DIALOG_RENAME_SPRITE = 1;
+	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or
+															// R.id.project_menu_rename
+	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or
+															// R.id.project_menu_delete
+	public static final int DIALOG_NEW_SPRITE = 0;
+	public static final int DIALOG_RENAME_SPRITE = 1;
 	private static final int DIALOG_CONTEXT_MENU = 2;
 
 	private void initListeners() {
@@ -81,7 +84,8 @@ public class ProjectActivity extends ListActivity {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				spriteToEdit = spriteList.get(position);
 
-				//as long as background sprite is always the first one, we're fine
+				// as long as background sprite is always the first one, we're
+				// fine
 				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 					return true;
 				}
@@ -177,14 +181,14 @@ public class ProjectActivity extends ListActivity {
 		switch (id) {
 			case DIALOG_NEW_SPRITE:
 				newSpriteDialog = new NewSpriteDialog(this);
-				dialog = newSpriteDialog.createDialog();
+				dialog = newSpriteDialog.dialog;
 				break;
 			case DIALOG_RENAME_SPRITE:
 				if (spriteToEdit == null) {
 					dialog = null;
 				} else {
 					renameDialog = new RenameSpriteDialog(this);
-					dialog = renameDialog.createDialog(spriteToEdit.getName());
+					dialog = renameDialog.dialog;
 				}
 				break;
 			case DIALOG_CONTEXT_MENU:
@@ -207,13 +211,13 @@ public class ProjectActivity extends ListActivity {
 		switch (id) {
 			case DIALOG_RENAME_SPRITE:
 				if (dialog != null && spriteToEdit != null) {
-					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sprite_editText);
+					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
 					spriteTitleInput.setText(spriteToEdit.getName());
 				}
 				break;
 			case DIALOG_NEW_SPRITE:
 				if (dialog != null) {
-					Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_new_sprite_ok_button);
+					Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_text_ok);
 					buttonPositive.setEnabled(false);
 				}
 				break;
@@ -250,23 +254,19 @@ public class ProjectActivity extends ListActivity {
 		}
 	}
 
-	public void handlePositiveButtonRenameSprite(View v) {
-		renameDialog.handleOkButton();
-	}
-
-	public void handleNegativeButtonRenameSprite(View v) {
-		renameDialog.renameDialog.cancel();
-	}
-
-	public void handlePositiveButtonNewSprite(View v) {
-		newSpriteDialog.handleOkButton();
-	}
-
-	public void handleNegativeButtonNewSprite(View v) {
-		newSpriteDialog.newSpriteDialog.cancel();
-	}
-
 	public void handleProjectActivityItemLongClick(View view) {
-
 	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Utils.saveToPreferences(this, MainMenuActivity.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
+					.getCurrentProject().getName());
+			Intent intent = new Intent(this, MainMenuActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			this.startActivity(intent);
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
 }
