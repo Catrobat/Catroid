@@ -28,51 +28,45 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 
-public class RenameSpriteDialog extends TextDialog {
+public class SetDescriptionDialog extends TextDialog {
 
-	public RenameSpriteDialog(ProjectActivity projectActivity) {
-		super(projectActivity, projectActivity.getString(R.string.rename_sprite_dialog), projectActivity
-				.getString(R.string.new_sprite_dialog_default_sprite_name));
-		initKeyListener();
+	public SetDescriptionDialog(MyProjectsActivity myProjectActivity) {
+		super(myProjectActivity, myProjectActivity.getString(R.string.description), null);
+		initKeyAndClickListener();
 	}
 
 	public void handleOkButton() {
-		String newSpriteName = (input.getText().toString()).trim();
-		String oldSpriteName = ((ProjectActivity) activity).getSpriteToEdit().getName();
+		String description = (input.getText().toString());
 
-		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_already_exists));
+		String currentProjectName = projectManager.getCurrentProject().getName();
+		String projectToChangeName = ((MyProjectsActivity) activity).projectToEdit;
+
+		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
+			setDescription(description);
+			activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
 			return;
 		}
 
-		if (newSpriteName.equalsIgnoreCase(((ProjectActivity) activity).getSpriteToEdit().getName())) {
-			dialog.cancel();
-			return;
-		}
-		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
-			((ProjectActivity) activity).getSpriteToEdit().setName(newSpriteName);
-		} else {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_invalid));
-			return;
-		}
-		dialog.cancel();
+		projectManager.loadProject(projectToChangeName, activity, false);
+		setDescription(description);
+		projectManager.loadProject(currentProjectName, activity, false);
+
+		activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
 	}
 
-	private void initKeyListener() {
+	private void setDescription(String description) {
+		projectManager.getCurrentProject().description = description;
+		projectManager.saveProject();
+	}
+
+	private void initKeyAndClickListener() {
 		dialog.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					String newSpriteName = (input.getText().toString()).trim();
-					String oldSpriteName = ((ProjectActivity) activity).getSpriteToEdit().getName();
-					if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
-						Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_already_exists));
-					} else {
-						handleOkButton();
-						return true;
-					}
+					handleOkButton();
+					return true;
 				}
 				return false;
 			}
@@ -86,7 +80,7 @@ public class RenameSpriteDialog extends TextDialog {
 
 		buttonNegative.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				activity.dismissDialog(ProjectActivity.DIALOG_RENAME_SPRITE);
+				activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
 			}
 		});
 	}

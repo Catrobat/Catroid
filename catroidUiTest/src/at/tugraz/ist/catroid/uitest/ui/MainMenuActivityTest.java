@@ -91,7 +91,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
-		solo.goBack();
+		//solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(400);
 
@@ -113,11 +113,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(100);
 
-		assertTrue("No error message was displayed upon creating a project with an empty name.", solo
-				.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		assertTrue("No error message was displayed upon creating a project with an empty name.",
+				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
 		solo.clickOnButton(0);
 
@@ -139,8 +139,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
-		assertTrue("No error message was displayed upon creating a project with the same name twice.", solo
-				.searchText(getActivity().getString(R.string.error_project_exists)));
+		assertTrue("No error message was displayed upon creating a project with the same name twice.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
 	}
 
@@ -156,7 +156,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
+		//solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
