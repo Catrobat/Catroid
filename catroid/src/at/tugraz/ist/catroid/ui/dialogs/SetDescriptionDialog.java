@@ -45,6 +45,7 @@ public class SetDescriptionDialog extends TextDialog {
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
 			setDescription(description);
+			((MyProjectsActivity) activity).initAdapter();
 			activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
 			return;
 		}
@@ -53,6 +54,7 @@ public class SetDescriptionDialog extends TextDialog {
 		setDescription(description);
 		projectManager.loadProject(currentProjectName, activity, false);
 
+		((MyProjectsActivity) activity).initAdapter();
 		activity.dismissDialog(MyProjectsActivity.DIALOG_SET_DESCRIPTION);
 	}
 

@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.Dialog;
@@ -111,7 +112,11 @@ public class MyProjectsActivity extends ListActivity {
 	public void initAdapter() {
 		File rootDirectory = new File(Consts.DEFAULT_ROOT);
 		projectList = UtilFile.getProjectNames(rootDirectory);
-		Collections.sort(projectList);
+		Collections.sort(projectList, new Comparator<String>() {
+			public int compare(String s1, String s2) {
+				return s1.compareToIgnoreCase(s2);
+			}
+		});
 		adapter = new ProjectAdapter(this, R.layout.activity_my_projects_item, R.id.project_title, projectList);
 		setListAdapter(adapter);
 	}

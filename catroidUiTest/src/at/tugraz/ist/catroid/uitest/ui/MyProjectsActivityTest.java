@@ -210,7 +210,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added", solo.searchText(UiTestUtils.PROJECTNAME2));
 	}
 
-	public void testSetDescription() {
+	public void testSetDescriptionCurrentProject() {
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
@@ -222,7 +222,25 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(0);
 		solo.sleep(500);
 		ProjectManager projectManager = ProjectManager.getInstance();
-		//assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum")); //TODO this doesnt work - I don't know why
+		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
+		assertTrue("description is not set in project",
+				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
+	}
+
+	public void testSetDescription() {
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, lorem);
+		solo.goBack();
+		solo.clickOnButton(0);
+		solo.sleep(500);
+		ProjectManager projectManager = ProjectManager.getInstance();
+		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
+		projectManager.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
 		assertTrue("description is not set in project",
 				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
 	}

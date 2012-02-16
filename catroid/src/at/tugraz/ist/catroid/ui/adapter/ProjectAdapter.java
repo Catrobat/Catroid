@@ -45,71 +45,71 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectAdapter extends ArrayAdapter<String> {
 
-    public static class ViewHolder {
-        public TextView text;
-        public ImageView image;
-    }
+	public static class ViewHolder {
+		public TextView text;
+		public ImageView image;
+	}
 
-    private static LayoutInflater inflater;
-    private Context context;
+	private static LayoutInflater inflater;
+	private Context context;
 
-    public ProjectAdapter(Context context, int resource, int textViewResourceId, List<String> objects) {
-        super(context, resource, textViewResourceId, objects);
-        this.context = context;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
+	public ProjectAdapter(Context context, int resource, int textViewResourceId, List<String> objects) {
+		super(context, resource, textViewResourceId, objects);
+		this.context = context;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
 
-    @Override
-    public View getView(int position, View convView, ViewGroup parent) {
-        View convertView = convView;
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.activity_my_projects_item, null);
-            holder = new ViewHolder();
-            holder.text = (TextView) convertView.findViewById(R.id.project_title);
-            holder.image = (ImageView) convertView.findViewById(R.id.project_img);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
+	@Override
+	public View getView(int position, View convView, ViewGroup parent) {
+		View convertView = convView;
+		ViewHolder holder;
+		if (convertView == null) {
+			convertView = inflater.inflate(R.layout.activity_my_projects_item, null);
+			holder = new ViewHolder();
+			holder.text = (TextView) convertView.findViewById(R.id.project_title);
+			holder.image = (ImageView) convertView.findViewById(R.id.project_img);
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
 
-        // ------------------------------------------------------------
-        String projectName = getItem(position);
+		// ------------------------------------------------------------
+		String projectName = getItem(position);
 
-        holder.text.setText(projectName);
-        String pathOfScreenshot = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, StageListener.SCREENSHOT_FILE_NAME);
-        File projectImageFile = new File(pathOfScreenshot);
-        Bitmap projectImage;
-        if (!projectImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
-            projectImage = null;
-        } else {
-            projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, 160, 266, false);
-        }
-        holder.image.setImageBitmap(projectImage);
+		holder.text.setText(projectName);
+		String pathOfScreenshot = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, StageListener.SCREENSHOT_FILE_NAME);
+		File projectImageFile = new File(pathOfScreenshot);
+		Bitmap projectImage;
+		if (!projectImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
+			projectImage = null;
+		} else {
+			projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, 160, 266, true);
+		}
+		holder.image.setImageBitmap(projectImage);
 
-        // set size of project:
-        TextView sizeOfProject = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project);
-        sizeOfProject.setText(UtilFile.getSizeAsString(new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName))));
+		// set size of project:
+		TextView sizeOfProject = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project);
+		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName))));
 
-        File projectXMLFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName, projectName
-                + Consts.PROJECT_EXTENTION));
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
-        TextView dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_changed);
-        Date resultDate = new Date(projectXMLFile.lastModified());
-        dateChanged.setText(sdf.format(resultDate));
+		File projectXMLFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName, projectName
+				+ Consts.PROJECT_EXTENTION));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
+		TextView dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_changed);
+		Date resultDate = new Date(projectXMLFile.lastModified());
+		dateChanged.setText(sdf.format(resultDate));
 
-        TextView description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
-        ProjectManager projectManager = ProjectManager.getInstance();
-        String currentProjectName = projectManager.getCurrentProject().getName();
+		TextView description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
+		ProjectManager projectManager = ProjectManager.getInstance();
+		String currentProjectName = projectManager.getCurrentProject().getName();
 
-        if (projectName.equalsIgnoreCase(currentProjectName)) {
-            description.setText(projectManager.getCurrentProject().description);
-        } else {
-            projectManager.loadProject(projectName, context, false);
-            description.setText(projectManager.getCurrentProject().description);
-            projectManager.loadProject(currentProjectName, context, false);
-        }
+		if (projectName.equalsIgnoreCase(currentProjectName)) {
+			description.setText(projectManager.getCurrentProject().description);
+		} else {
+			projectManager.loadProject(projectName, context, false);
+			description.setText(projectManager.getCurrentProject().description);
+			projectManager.loadProject(currentProjectName, context, false);
+		}
 
-        return convertView;
-    }
+		return convertView;
+	}
 }
