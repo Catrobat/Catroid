@@ -21,17 +21,42 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RelativeLayout01"
 	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
+	android:layout_width="match_parent"
+	android:background="@drawable/brick_blue"
 >
-	<ImageView
-		android:id="@+id/ImageView01"
+	<TextView
+		android:id="@+id/ValueTextViewY"
+		android:text="@string/brick_set_y"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:background="@android:R/drawable/picture_frame"
-		android:scaleType="fitXY"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:paddingRight="5dip"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
 	>
-	</ImageView>
-</LinearLayout>
+	</TextView>
+	<EditText
+		android:id="@+id/brick_set_y_edit_text"
+		android:text="0"
+		android:layout_height="wrap_content"
+		android:layout_width="50dp"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="5dip"
+		android:layout_toRightOf="@id/ValueTextViewY"
+		android:clickable="false"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:gravity="right"
+		android:inputType="number|numberDecimal|numberSigned"
+		android:maxLength="3"
+		android:maxLines="1"
+		android:numeric="signed"
+	>
+	</EditText>
+</RelativeLayout>

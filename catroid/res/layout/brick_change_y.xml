@@ -21,26 +21,42 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RelativeLayout01"
+	android:layout_height="wrap_content"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@drawable/bg_dialog"
-	android:orientation="vertical"
-	android:scrollbarDefaultDelayBeforeFade="2000"
->	
-	<!-- Top bar -->
-	<include layout="@layout/brick_dialog_top"/>
-		
-	<ListView
-		android:id="@+id/toolboxListView"
-		android:layout_width="match_parent"
+	android:background="@drawable/brick_blue"
+>
+	<TextView
+		android:id="@+id/ValueTextViewY"
+		android:text="@string/brick_change_y_by"
 		android:layout_height="wrap_content"
-		android:fadingEdge="vertical"
-		android:fadingEdgeLength="50.0dp"
-		android:scrollbarFadeDuration="2000"
-		android:clickable="true"
-		android:dividerHeight="10dip"
-		android:divider="#00000000"
-	></ListView>
-</LinearLayout>
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:paddingRight="5dip"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
+	>
+	</TextView>
+	<EditText
+		android:id="@+id/brick_change_y_edit_text"
+		android:text="0"
+		android:layout_height="wrap_content"
+		android:layout_width="50dp"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="5dip"
+		android:layout_toRightOf="@id/ValueTextViewY"
+		android:clickable="false"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:gravity="right"
+		android:inputType="number|numberDecimal|numberSigned"
+		android:maxLength="3"
+		android:maxLines="1"
+		android:numeric="signed"
+	>
+	</EditText>
+</RelativeLayout>

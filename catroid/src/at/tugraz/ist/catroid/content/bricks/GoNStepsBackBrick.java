@@ -66,9 +66,9 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.toolbox_brick_go_back, null);
+		View view = View.inflate(context, R.layout.brick_go_back, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_go_back_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
 		edit.setText(String.valueOf(steps));
 		edit.setOnClickListener(this);
@@ -77,7 +77,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_go_back, null);
+		return View.inflate(context, R.layout.brick_go_back, null);
 	}
 
 	@Override

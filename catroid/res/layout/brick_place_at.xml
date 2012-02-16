@@ -29,7 +29,7 @@
     android:background="@drawable/brick_blue" >
 
     <LinearLayout
-        android:id="@+id/toolbox_brick_place_at_linear_layout"
+        android:id="@+id/brick_place_at_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -47,7 +47,7 @@
         </TextView>
 
         <EditText
-            android:id="@+id/toolbox_brick_place_at_x_edit_text"
+            android:id="@+id/brick_place_at_x_edit_text"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -73,7 +73,7 @@
         </TextView>
 
         <EditText
-            android:id="@+id/toolbox_brick_place_at_y_edit_text"
+            android:id="@+id/brick_place_at_y_edit_text"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/toolbox_brick_place_at_linear_layout"
+        android:layout_toLeftOf="@id/brick_place_at_linear_layout"
         android:text="@string/brick_place_at"
         android:textColor="@color/white"
         android:textSize="18dip"

@@ -21,42 +21,33 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<RelativeLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01"
 	android:layout_height="wrap_content"
-	android:layout_width="match_parent"
-	android:background="@drawable/brick_blue"
+	android:layout_width="fill_parent"
+	android:orientation="vertical"
+	android:background="@drawable/brick_yellow"
 >
 	<TextView
-		android:id="@+id/ValueTextViewX"
-		android:text="@string/brick_set_x"
+		android:text="@string/brick_note"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:paddingRight="5dip"
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/toolbox_brick_set_x_edit_text"
-		android:text="0"
+		android:id="@+id/brick_note_edit_text"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_width="50dp"
-		android:layout_centerVertical="true"
-		android:layout_marginLeft="5dip"
-		android:layout_toRightOf="@id/ValueTextViewX"
+		android:minLines = "1"
+		android:scrollbars="vertical"
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
-		android:gravity="right"
-		android:inputType="number|numberDecimal|numberSigned"
-		android:maxLength="3"
-		android:maxLines="1"
-		android:numeric="signed"
 	>
+			
 	</EditText>
-</RelativeLayout>
+</LinearLayout>
+

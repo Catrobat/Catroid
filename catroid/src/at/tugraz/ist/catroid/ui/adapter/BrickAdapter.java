@@ -216,7 +216,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 			//Hack!!!
 			//if wrapper isn't used the longClick event won't be triggered
-			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
+			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
 
 			if (currentBrickView.getParent() != null) {
 				((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);

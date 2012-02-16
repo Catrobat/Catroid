@@ -44,7 +44,7 @@
 			android:orientation="vertical"
 		>
 			<Button
-				android:id="@+id/back_to_construction_site_button"
+				android:id="@+id/exit_stage_button"
 				android:text="@string/back"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"

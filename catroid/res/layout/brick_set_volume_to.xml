@@ -43,7 +43,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/toolbox_brick_set_volume_to_edit_text"
+		android:id="@+id/brick_set_volume_to_edit_text"
 		android:text="100"
 		android:layout_height="wrap_content"
 		android:layout_width="60dp"

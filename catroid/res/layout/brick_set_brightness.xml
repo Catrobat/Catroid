@@ -25,38 +25,74 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/RelativeLayout01"
 	android:layout_height="wrap_content"
-	android:layout_width="match_parent"
-	android:background="@drawable/brick_blue"
+	android:layout_width="wrap_content"
 >
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:background="@drawable/brick_violet"
+	>
 	<TextView
-		android:id="@+id/ValueTextViewY"
-		android:text="@string/brick_change_y_by"
+		android:id="@+id/SetBrightnessTextView"
+		android:text="@string/brick_set_brightness"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
 		android:layout_centerVertical="true"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
 		android:paddingRight="5dip"
+	>
+	</TextView>
+	<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+	>
+	<TextView
+		android:id="@+id/SetBrightnessTextView"
+		android:text="@string/to_label"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
+		android:paddingRight="5dip"
+	>
+	</TextView>
+	<EditText
+		android:id="@+id/brick_set_brightness_edit_text"
+		android:text="0"
+		android:layout_height="wrap_content"
+		android:layout_width="60dp"
+		android:layout_toRightOf="@+id/SetBrightnessTextView"
+		android:clickable="false"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:gravity="right"
+		android:maxLength="4"
+		android:maxLines="1"
+		android:inputType="number|numberDecimal"
+	>
+	</EditText>
+	<TextView
+		android:id="@+id/SetBrightnessTextView"
+		android:text="@string/percent"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_toRightOf="@+id/brick_set_brightness_edit_text"
+		android:layout_centerVertical="true"
+		android:paddingLeft="5dip"
+		android:paddingRight="10dip"
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
 	>
 	</TextView>
-	<EditText
-		android:id="@+id/toolbox_brick_change_y_edit_text"
-		android:text="0"
-		android:layout_height="wrap_content"
-		android:layout_width="50dp"
-		android:layout_centerVertical="true"
-		android:layout_marginLeft="5dip"
-		android:layout_toRightOf="@id/ValueTextViewY"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:gravity="right"
-		android:inputType="number|numberDecimal|numberSigned"
-		android:maxLength="3"
-		android:maxLines="1"
-		android:numeric="signed"
-	>
-	</EditText>
+	</LinearLayout>
+</LinearLayout>
 </RelativeLayout>

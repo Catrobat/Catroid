@@ -66,9 +66,9 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_set_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_set_ghost_effect_to_edit_text);
+		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
 		editX.setText(String.valueOf(transparency));
 
 		editX.setOnClickListener(this);
@@ -77,7 +77,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_set_ghost_effect, null);
+		return View.inflate(context, R.layout.brick_set_ghost_effect, null);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 				try {
 					transparency = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
 				}
 				dialog.cancel();
 			}

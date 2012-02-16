@@ -64,7 +64,7 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
-		View view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
+		View view = View.inflate(context, R.layout.brick_play_sound, null);
 
 		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 		soundbrickSpinner.setAdapter(createSoundAdapter(context));
@@ -95,7 +95,7 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_play_sound, null);
+		return View.inflate(context, R.layout.brick_play_sound, null);
 	}
 
 	@Override

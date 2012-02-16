@@ -70,9 +70,9 @@ public class NoteBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_note, null);
+		view = View.inflate(context, R.layout.brick_note, null);
 
-		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_note_edit_text);
+		EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
 		editText.setText(note);
 		editText.setOnClickListener(new OnClickListener() {
 
@@ -107,7 +107,7 @@ public class NoteBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_note, null);
+		return View.inflate(context, R.layout.brick_note, null);
 	}
 
 	@Override
