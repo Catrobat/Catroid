@@ -27,14 +27,16 @@ import java.util.ArrayList;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -63,6 +65,14 @@ public class ProjectActivity extends ListActivity {
 	private static final int DIALOG_CONTEXT_MENU = 2;
 
 	private void initListeners() {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			String projectName = prefs.getString("projectName", null);
+
+			if (projectName != null) {
+				ProjectManager.getInstance().loadProject(projectName, this, false);
+			}
+		}
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		spriteAdapter = new SpriteAdapter(this, R.layout.activity_project_spritelist_item, R.id.sprite_title,
 				spriteList);

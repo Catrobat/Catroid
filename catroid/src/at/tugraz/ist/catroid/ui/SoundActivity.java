@@ -172,11 +172,18 @@ public class SoundActivity extends ListActivity {
 				//get real path of soundfile --------------------------
 				{
 					Uri audioUri = data.getData();
+					System.out.println("soundactivitx uri: " + audioUri);
 					String[] proj = { MediaStore.Audio.Media.DATA };
 					Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
-					int actualSoundColumnIndex = actualSoundCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-					actualSoundCursor.moveToFirst();
-					audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
+
+					if (actualSoundCursor != null) {
+						int actualSoundColumnIndex = actualSoundCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+						actualSoundCursor.moveToFirst();
+						audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
+					} else {
+						audioPath = audioUri.getPath();
+					}
+					System.out.println("audiopath: " + audioPath);
 				}
 				//-----------------------------------------------------
 
@@ -185,10 +192,11 @@ public class SoundActivity extends ListActivity {
 				}
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
 				String soundFileName = soundFile.getName();
-				String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1,
-						soundFileName.lastIndexOf('.'));
+				String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1, soundFileName
+						.lastIndexOf('.'));
 				updateSoundAdapter(soundTitle, soundFileName);
 			} catch (Exception e) {
+				e.printStackTrace();
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
 		}
