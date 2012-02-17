@@ -396,17 +396,18 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				viewBitmap = viewToTest.getDrawingCache();
 				if (isBackground) {
 					pixelColor = viewBitmap.getPixel(1, 3);
+					viewToTest.destroyDrawingCache();
 					assertTrue("Background divider should have 4px height", viewToTest.getHeight() == 4);
 					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.gray);
 					assertEquals("Divider color for background should be gray", pixelColor, colorDivider);
 					isBackground = false;
 				} else {
 					pixelColor = viewBitmap.getPixel(1, 1);
+					viewToTest.destroyDrawingCache();
 					assertTrue("Normal Sprite divider should have 2px height", viewToTest.getHeight() == 2);
 					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.egg_yellow);
 					assertEquals("Divider color for normal sprite should be eggyellow", pixelColor, colorDivider);
 				}
-				viewToTest.destroyDrawingCache();
 			}
 		}
 
