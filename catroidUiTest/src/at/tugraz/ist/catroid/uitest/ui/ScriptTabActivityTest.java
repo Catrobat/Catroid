@@ -162,6 +162,11 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.sleep(100);
 		solo.goBack();
 		solo.clickInList(2);
+		tabLabelsToTest[0] = scriptsLabel;
+		tabLabelsToTest[1] = costumesLabel;
+		tabLabelsToTest[2] = soundsLabel;
+		testTabText(tabLabelsToTest);
+
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		tabLabelsToTest[0] = costumesLabel;
