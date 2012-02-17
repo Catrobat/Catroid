@@ -22,6 +22,7 @@
  */
 package at.tugraz.ist.catroid.uitest.ui;
 
+import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
@@ -384,16 +385,28 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		int dividerID = R.id.sprite_divider;
 		int currentViewID;
 		boolean isBackground = true;
+		Bitmap viewBitmap;
+		int pixelColor;
+		int colorDivider;
 
 		for (View viewToTest : solo.getCurrentViews()) {
 			currentViewID = viewToTest.getId();
 			if (dividerID == currentViewID) {
+				viewToTest.buildDrawingCache();
+				viewBitmap = viewToTest.getDrawingCache();
 				if (isBackground) {
+					pixelColor = viewBitmap.getPixel(1, 3);
 					assertTrue("Background divider should have 4px height", viewToTest.getHeight() == 4);
+					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.gray);
+					assertEquals("Divider color for background should be gray", pixelColor, colorDivider);
 					isBackground = false;
 				} else {
+					pixelColor = viewBitmap.getPixel(1, 1);
 					assertTrue("Normal Sprite divider should have 2px height", viewToTest.getHeight() == 2);
+					colorDivider = solo.getCurrentActivity().getResources().getColor(R.color.egg_yellow);
+					assertEquals("Divider color for normal sprite should be eggyellow", pixelColor, colorDivider);
 				}
+				viewToTest.destroyDrawingCache();
 			}
 		}
 
