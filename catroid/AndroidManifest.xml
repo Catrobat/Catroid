@@ -91,7 +91,7 @@
 		
 		<activity android:name=".bluetooth.DeviceListActivity" android:theme="@android:style/Theme.Dialog" />
 
-		<activity android:name=".soundrecorder.SoundRecorderActivity" android:label="Catroid Sound Recorder">
+		<activity android:name=".soundrecorder.SoundRecorderActivity" android:label="@string/soundrecorder_name">
 		    <intent-filter>
 				<action	android:name="android.intent.action.GET_CONTENT" />
 				<category android:name="android.intent.category.DEFAULT" />

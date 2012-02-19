@@ -35,6 +35,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -46,6 +47,8 @@ import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundActivity extends ListActivity {
+	private static final String TAG = SoundActivity.class.getSimpleName();
+
 	public MediaPlayer mediaPlayer;
 	private ArrayList<SoundInfo> soundInfoList;
 
@@ -90,7 +93,8 @@ public class SoundActivity extends ListActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
+				startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+						REQUEST_SELECT_MUSIC);
 			}
 		};
 	}
@@ -172,7 +176,6 @@ public class SoundActivity extends ListActivity {
 				//get real path of soundfile --------------------------
 				{
 					Uri audioUri = data.getData();
-					System.out.println("soundactivitx uri: " + audioUri);
 					String[] proj = { MediaStore.Audio.Media.DATA };
 					Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
 
@@ -183,7 +186,7 @@ public class SoundActivity extends ListActivity {
 					} else {
 						audioPath = audioUri.getPath();
 					}
-					System.out.println("audiopath: " + audioPath);
+					Log.i(TAG, "audiopath: " + audioPath);
 				}
 				//-----------------------------------------------------
 
@@ -192,8 +195,8 @@ public class SoundActivity extends ListActivity {
 				}
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
 				String soundFileName = soundFile.getName();
-				String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1, soundFileName
-						.lastIndexOf('.'));
+				String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1,
+						soundFileName.lastIndexOf('.'));
 				updateSoundAdapter(soundTitle, soundFileName);
 			} catch (Exception e) {
 				e.printStackTrace();

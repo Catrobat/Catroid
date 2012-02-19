@@ -26,25 +26,69 @@
     android:layout_height="match_parent"
     android:background="@color/website_blue"
     android:orientation="vertical" >
+
+
     <TextView
-        android:id="@+id/textView1"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dip"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/soundrecorder_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/dark_gray" />
+
+
+    <ImageView
+        android:id="@+id/recordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="80dip"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_record_inactive" />
+
+    <TextView
+        android:id="@+id/recording"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Ich bin der Catroid sound recorder!!!"
-        android:textColor="@color/dark_gray"
-        android:textSize="20dip" />
+        android:paddingTop="30dip"
+        android:text="@string/soundrecorder_recording"
+        android:textColor="#000000"
+        android:textSize="25dip"
+        android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/buttonStart"
+    <LinearLayout
+        android:id="@+id/recordLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dip"
+        android:background="@drawable/button_yellow"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:shadowColor="#000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4" >
+
+        <TextView
+            android:id="@+id/recordText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/soundrecorder_record_start"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!--
+         <Button
+        android:id="@+id/buttonRecord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start" />
-
-    <Button
-        android:id="@+id/buttonStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop" />
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_record_inactive_button"
+        android:text="@string/soundrecorder_record_start" />
+    -->
 
 </LinearLayout>

@@ -28,15 +28,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 
 public class SoundRecorderActivity extends Activity implements OnClickListener {
+	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
+
 	private SoundRecorder soundRecorder;
-	private Button startButton;
-	private Button stopButton;
+	private ImageView recordButton;
+	private TextView recordText;
+	private LinearLayout recordLayout;
+
+	private TextView recordingIndicationText;
+
+	private boolean isRecording = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,30 +54,37 @@ public class SoundRecorderActivity extends Activity implements OnClickListener {
 
 		setContentView(R.layout.activity_soundrecorder);
 
-		startButton = (Button) findViewById(R.id.buttonStart);
-		stopButton = (Button) findViewById(R.id.buttonStop);
+		recordLayout = (LinearLayout) findViewById(R.id.recordLayout);
+		recordButton = (ImageView) findViewById(R.id.recordButton);
+		recordText = (TextView) findViewById(R.id.recordText);
+		recordingIndicationText = (TextView) findViewById(R.id.recording);
 
-		startButton.setOnClickListener(this);
-		stopButton.setOnClickListener(this);
+		recordLayout.setOnClickListener(this);
 	}
 
-	public void onClick(View v) {
+	public synchronized void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.buttonStart:
-				try {
-
-					soundRecorder = new SoundRecorder("catroid/soundrecorder/mytestfile");
-					soundRecorder.start();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			case R.id.recordLayout:
+				if (isRecording) {
+					stopRecording();
+					isRecording = false;
+				} else {
+					startRecording();
+					isRecording = true;
 				}
-
 				break;
-			case R.id.buttonStop:
-				stopRecording();
+		}
+	}
 
-				break;
+	private void startRecording() {
+		recordButton.setImageResource(R.drawable.ic_record);
+		recordText.setText(R.string.soundrecorder_record_stop);
+		recordingIndicationText.setVisibility(View.VISIBLE);
+		try {
+			soundRecorder = new SoundRecorder("catroid/soundrecorder/mytestfile");
+			soundRecorder.start();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -75,10 +92,13 @@ public class SoundRecorderActivity extends Activity implements OnClickListener {
 		if (soundRecorder == null) {
 			return;
 		}
+		recordButton.setImageResource(R.drawable.ic_record_inactive);
+		recordText.setText(R.string.soundrecorder_record_start);
+		recordingIndicationText.setVisibility(View.INVISIBLE);
 		try {
 			soundRecorder.stop();
 			Uri uri = soundRecorder.getPath();
-			System.out.println("recorde uri:" + uri);
+			Log.i(TAG, "uri from record file:" + uri);
 			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
