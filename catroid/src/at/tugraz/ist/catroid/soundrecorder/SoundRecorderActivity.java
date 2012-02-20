@@ -34,7 +34,9 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundRecorderActivity extends Activity implements OnClickListener {
 	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
@@ -45,8 +47,6 @@ public class SoundRecorderActivity extends Activity implements OnClickListener {
 	private LinearLayout recordLayout;
 
 	private TextView recordingIndicationText;
-
-	private boolean isRecording = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,57 +60,78 @@ public class SoundRecorderActivity extends Activity implements OnClickListener {
 		recordingIndicationText = (TextView) findViewById(R.id.recording);
 
 		recordLayout.setOnClickListener(this);
+
+		soundRecorder = (SoundRecorder) getLastNonConfigurationInstance();
+		if (soundRecorder != null && soundRecorder.isRecording()) {
+			setViewsToRecordingState();
+		}
+
+		Utils.checkForSdCard(this);
 	}
 
-	public synchronized void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.recordLayout:
-				if (isRecording) {
-					stopRecording();
-					isRecording = false;
-				} else {
-					startRecording();
-					isRecording = true;
-				}
-				break;
+	public void onClick(View v) {
+		if (v.getId() == R.id.recordLayout) {
+			if (soundRecorder != null && soundRecorder.isRecording()) {
+				stopRecording();
+				finish();
+			} else {
+				startRecording();
+			}
 		}
 	}
 
-	private void startRecording() {
-		recordButton.setImageResource(R.drawable.ic_record);
-		recordText.setText(R.string.soundrecorder_record_stop);
-		recordingIndicationText.setVisibility(View.VISIBLE);
+	@Override
+	public void onBackPressed() {
+		stopRecording();
+		super.onBackPressed();
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return soundRecorder;
+	}
+
+	private synchronized void startRecording() {
+		if (soundRecorder != null && soundRecorder.isRecording()) {
+			return;
+		}
+		setViewsToRecordingState();
 		try {
 			soundRecorder = new SoundRecorder("catroid/soundrecorder/mytestfile");
 			soundRecorder.start();
 		} catch (IOException e) {
 			e.printStackTrace();
+			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	private void stopRecording() {
-		if (soundRecorder == null) {
+	private void setViewsToRecordingState() {
+		recordButton.setImageResource(R.drawable.ic_record);
+		recordText.setText(R.string.soundrecorder_record_stop);
+		recordingIndicationText.setVisibility(View.VISIBLE);
+	}
+
+	private synchronized void stopRecording() {
+		if (soundRecorder == null || !soundRecorder.isRecording()) {
 			return;
 		}
-		recordButton.setImageResource(R.drawable.ic_record_inactive);
-		recordText.setText(R.string.soundrecorder_record_start);
-		recordingIndicationText.setVisibility(View.INVISIBLE);
+		setViewsToNotRecordingState();
 		try {
 			soundRecorder.stop();
 			Uri uri = soundRecorder.getPath();
 			Log.i(TAG, "uri from record file:" + uri);
 			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 			setResult(Activity.RESULT_CANCELED);
 		}
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		//stopRecording();
+	private void setViewsToNotRecordingState() {
+		recordButton.setImageResource(R.drawable.ic_record_inactive);
+		recordText.setText(R.string.soundrecorder_record_start);
+		recordingIndicationText.setVisibility(View.INVISIBLE);
 	}
 
 }

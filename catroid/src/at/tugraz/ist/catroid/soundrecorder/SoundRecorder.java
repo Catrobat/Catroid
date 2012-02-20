@@ -31,12 +31,11 @@ import android.os.Environment;
 
 public class SoundRecorder {
 
-	final MediaRecorder recorder = new MediaRecorder();
+	private MediaRecorder recorder = new MediaRecorder();
+	private boolean isRecording = false;
+
 	final String path;
 
-	/**
-	 * Creates a new audio recording at the given path (relative to root of SD card).
-	 */
 	public SoundRecorder(String path) {
 		this.path = sanitizePath(path);
 	}
@@ -55,11 +54,6 @@ public class SoundRecorder {
 	 * Starts a new recording.
 	 */
 	public void start() throws IOException {
-		String state = android.os.Environment.getExternalStorageState();
-		if (!state.equals(android.os.Environment.MEDIA_MOUNTED)) {
-			throw new IOException("SD Card is not mounted.  It is " + state + ".");
-		}
-
 		File soundFile = new File(path);
 		if (soundFile.exists()) {
 			soundFile.delete();
@@ -76,6 +70,7 @@ public class SoundRecorder {
 		recorder.setOutputFile(path);
 		recorder.prepare();
 		recorder.start();
+		isRecording = true;
 	}
 
 	/**
@@ -84,10 +79,15 @@ public class SoundRecorder {
 	public void stop() throws IOException {
 		recorder.stop();
 		recorder.release();
+		isRecording = false;
 	}
 
 	public Uri getPath() {
 		return Uri.fromFile(new File(path));
+	}
+
+	public boolean isRecording() {
+		return isRecording;
 	}
 
 }
