@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
@@ -80,22 +81,22 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 		Intent intent; // Reusable Intent for each tab
 
 		intent = new Intent().setClass(this, ScriptActivity.class);
-		setupTab(R.drawable.ic_tab_scripts, this.getString(R.string.scripts), intent);
+		setupTab(R.drawable.ic_tab_scripts_selector, this.getString(R.string.scripts), intent);
 		intent = new Intent().setClass(this, CostumeActivity.class);
 		int costumeIcon;
 		String costumeLabel;
 
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
-			costumeIcon = R.drawable.ic_tab_background;
+			costumeIcon = R.drawable.ic_tab_background_selector;
 			costumeLabel = this.getString(R.string.backgrounds);
 		} else {
-			costumeIcon = R.drawable.ic_tab_costumes;
+			costumeIcon = R.drawable.ic_tab_costumes_selector;
 			costumeLabel = this.getString(R.string.costumes);
 		}
 		setupTab(costumeIcon, costumeLabel, intent);
 		intent = new Intent().setClass(this, SoundActivity.class);
-		setupTab(R.drawable.ic_tab_sounds, this.getString(R.string.sounds), intent);
+		setupTab(R.drawable.ic_tab_sounds_selector, this.getString(R.string.sounds), intent);
 
 		setUpActionBar();
 		if (getLastNonConfigurationInstance() != null) {
@@ -150,10 +151,13 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 
 	private static View createTabView(Integer id, final Context context, final String text) {
 		View view = LayoutInflater.from(context).inflate(R.layout.activity_tabscriptactivity_tabs, null);
-		TextView textView = (TextView) view.findViewById(R.id.tabsText);
-		textView.setText(text);
+		TextView tabTextView = (TextView) view.findViewById(R.id.tabsText);
+		ImageView tabImageView = (ImageView) view.findViewById(R.id.tabsIcon);
+		tabTextView.setText(text);
 		if (id != null) {
-			textView.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0);
+			tabImageView.setImageResource(id);
+			tabImageView.setVisibility(ImageView.VISIBLE);
+			tabImageView.setTag(id);
 		}
 		return view;
 	}

@@ -19,7 +19,8 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 <resources>
 
@@ -71,7 +72,8 @@
         Scratch Projekt des MIT.\n
         Es wird am Institut für Software Technologie an der
         Technischen Universität Graz in Österreich entwickelt.\n\n
-        Dieses Programm steht unter der GNU GPL v3 Lizenz.\n\n    </string>
+        Dieses Programm steht unter der GNU GPL v3 Lizenz.\n\n
+    </string>
     <string name="about_link_text">Über Catroid</string>
 
     <!-- Project activity view -->
