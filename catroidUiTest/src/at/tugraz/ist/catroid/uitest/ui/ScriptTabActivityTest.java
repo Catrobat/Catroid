@@ -49,7 +49,6 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
