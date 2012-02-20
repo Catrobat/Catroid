@@ -274,12 +274,12 @@ public class AddBrickDialog extends Dialog {
 					} else {
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}
-					if (addedBrick instanceof LoopBeginBrick) {
-						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
-								(LoopBeginBrick) brickClone);
-						projectManager.getCurrentScript().addBrick(loopEndBrick);
-						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
-					}
+					//					if (addedBrick instanceof LoopBeginBrick) {
+					//						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
+					//								(LoopBeginBrick) brickClone);
+					//						projectManager.getCurrentScript().addBrick(loopEndBrick);
+					//						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
+					//					}
 				}
 				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
 				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_BRICK_CATEGORY);
