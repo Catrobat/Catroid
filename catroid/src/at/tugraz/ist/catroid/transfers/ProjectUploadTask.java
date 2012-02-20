@@ -108,11 +108,11 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
+		} catch (WebconnectionException webException) {
+			serverAnswer = webException.getMessage();
 		}
-		return false;
 
+		return false;
 	}
 
 	@Override
@@ -127,9 +127,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
-		//		showDialog(serverAnswer);
 		showDialog(context.getString(R.string.success_project_upload));
-
 	}
 
 	private void showDialog(String message) {

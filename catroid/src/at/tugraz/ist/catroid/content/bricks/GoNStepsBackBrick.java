@@ -36,15 +36,10 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.Utils;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private int steps;
-
-	@XStreamOmitField
-	private transient View view;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
@@ -56,12 +51,11 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		if (steps <= 0) {
-			throw new NumberFormatException("Steps was not a positive number!");
-		}
 		int zPosition = sprite.costume.zPosition;
-		if (zPosition - steps > zPosition) {
+		if (steps > 0 && (zPosition - steps) > zPosition) {
 			sprite.costume.zPosition = Integer.MIN_VALUE;
+		} else if (steps < 0 && (zPosition - steps) < zPosition) {
+			sprite.costume.zPosition = Integer.MAX_VALUE;
 		} else {
 			sprite.costume.zPosition -= steps;
 		}
@@ -72,10 +66,9 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		View view = View.inflate(context, R.layout.brick_go_back, null);
 
-		view = View.inflate(context, R.layout.toolbox_brick_go_back, null);
-
-		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_go_back_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
 		edit.setText(String.valueOf(steps));
 		edit.setOnClickListener(this);
@@ -84,7 +77,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_go_back, null);
+		return View.inflate(context, R.layout.brick_go_back, null);
 	}
 
 	@Override
@@ -98,7 +91,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		final EditText input = new EditText(context);
 		input.setText(String.valueOf(steps));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER);
+		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 		input.setSelectAllOnFocus(true);
 		dialog.setView(input);
 		dialog.setOnCancelListener((OnCancelListener) context);
@@ -107,7 +100,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 				try {
 					steps = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

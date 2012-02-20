@@ -144,7 +144,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 					}
 				}
 
-				projectManager.getCurrentProject().setDeviceData();
+				projectManager.getCurrentProject().setDeviceData(context);
 				projectManager.saveProject();
 
 				dismiss();

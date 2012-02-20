@@ -78,7 +78,7 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 		solo.sleep(500);
 		assertEquals("wrong execution index. ", 0, testScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
-		solo.sleep(2000);
+		solo.sleep(2300);
 		assertEquals("wrong execution index. ", 1, testScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
 		solo.sleep(2000);

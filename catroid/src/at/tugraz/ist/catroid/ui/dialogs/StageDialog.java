@@ -55,10 +55,10 @@ public class StageDialog extends Dialog {
 
 		getWindow().setGravity(Gravity.LEFT);
 
-		Button closeDialogButton = (Button) findViewById(R.id.back_to_construction_site_button);
+		Button closeDialogButton = (Button) findViewById(R.id.exit_stage_button);
 		closeDialogButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				backToConstructionSite();
+				exitStage();
 			}
 		});
 
@@ -88,7 +88,7 @@ public class StageDialog extends Dialog {
 		if (stageActivity.getResizePossible()) {
 			maximizeButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					stageActivity.changeScreenSize();
+					stageListener.changeScreenSize();
 				}
 			});
 		} else {
@@ -107,14 +107,14 @@ public class StageDialog extends Dialog {
 		});
 	}
 
-	private void backToConstructionSite() {
+	private void exitStage() {
 		this.dismiss();
 		stageActivity.manageLoadAndFinish();
 	}
 
 	@Override
 	public void onBackPressed() {
-		backToConstructionSite();
+		exitStage();
 	}
 
 	private void restartProject() {

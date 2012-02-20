@@ -104,7 +104,7 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 
-		motorStopBrick = new NXTMotorStopBrick(sprite, 0);
+		motorStopBrick = new NXTMotorStopBrick(sprite, NXTMotorStopBrick.Motor.MOTOR_A);
 
 		script.addBrick(motorStopBrick);
 

@@ -26,10 +26,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
-import android.os.Handler;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -41,31 +38,30 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListener, OnSeekBarChangeListener {
+public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
 	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
+	private static final int MIN_FREQ_IN_HERTZ = 200;
+	private static final int MAX_FREQ_IN_HERTZ = 14000;
+	private static final int MIN_DURATION = 0;
+	private static final int MAX_DURATION = Integer.MAX_VALUE;
+
 	private Sprite sprite;
-	private transient Handler btcHandler;
-	private int frequency;
-	private double duration;
-	private static final int MIN_FREQ = 2;
-	private static final int MAX_FREQ = 140;
-	private static final double MIN_DURATION = 0;
-	private static final double MAX_DURATION = Double.MAX_VALUE;
+	private int hertz;
+	private int durationInMs;
 
 	private transient EditText editFreq;
 	private transient SeekBar freqBar;
 	private transient EditIntegerDialog dialogFreq;
 
-	public NXTPlayToneBrick(Sprite sprite, int frequency, double duration) {
+	public NXTPlayToneBrick(Sprite sprite, int hertz, int duration) {
 		this.sprite = sprite;
-		this.frequency = frequency;
-		this.duration = duration;
+		this.hertz = hertz;
+		this.durationInMs = duration;
 	}
 
 	public int getRequiredResources() {
@@ -73,11 +69,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 	}
 
 	public void execute() {
-		if (btcHandler == null) {
-			btcHandler = LegoNXT.getBTCHandler();
-		}
-
-		LegoNXT.sendBTCPlayToneMessage(frequency * 100, (int) (1000 * duration));
+		LegoNXT.sendBTCPlayToneMessage(hertz, durationInMs);
 
 	}
 
@@ -86,7 +78,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 	}
 
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.toolbox_brick_nxt_play_tone, null);
+		View view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarNXTToneFrequency);
 		noClick.setEnabled(false);
 		return view;
@@ -94,15 +86,14 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 
 	@Override
 	public Brick clone() {
-		return new NXTPlayToneBrick(getSprite(), frequency, duration);
+		return new NXTPlayToneBrick(getSprite(), hertz, durationInMs);
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_nxt_play_tone, null);
+		View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
 		EditText editDuration = (EditText) brickView.findViewById(R.id.nxt_tone_duration_edit_text);
-		editDuration.setText(String.valueOf(duration));
+		editDuration.setText(String.valueOf(durationInMs / 1000.0));
 		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
 		//				MAX_DURATION);
 		//		dialogDuration.setOnDismissListener(this);
@@ -111,7 +102,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 		editDuration.setOnClickListener(this);
 
 		editFreq = (EditText) brickView.findViewById(R.id.nxt_tone_freq_edit_text);
-		editFreq.setText(String.valueOf(frequency));
+		editFreq.setText(String.valueOf(hertz / 100));
 		//		dialogFreq = new EditIntegerDialog(context, editFreq, frequency, true, MIN_FREQ, MAX_FREQ);
 		//		dialogFreq.setOnDismissListener(this);
 		//		dialogFreq.setOnCancelListener((OnCancelListener) context);
@@ -120,7 +111,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 
 		freqBar = (SeekBar) brickView.findViewById(R.id.seekBarNXTToneFrequency);
 		freqBar.setOnSeekBarChangeListener(this);
-		freqBar.setMax(MAX_FREQ);
+		freqBar.setMax(MAX_FREQ_IN_HERTZ / 100);
 		freqBar.setEnabled(true);
 		freqToSeekBarVal();
 
@@ -128,13 +119,13 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 		freqDown.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 
-				if (frequency <= 2) {
+				if (hertz <= 200) {
 					return;
 				}
 
-				frequency--;
+				hertz -= 100;
 				freqToSeekBarVal();
-				editFreq.setText(String.valueOf(frequency));
+				editFreq.setText(String.valueOf(hertz / 100));
 			}
 		});
 
@@ -142,13 +133,13 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 		freqUp.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 
-				if (frequency >= 140) {
+				if (hertz >= 14000) {
 					return;
 				}
 
-				frequency++;
+				hertz += 100;
 				freqToSeekBarVal();
-				editFreq.setText(String.valueOf(frequency));
+				editFreq.setText(String.valueOf(hertz / 100));
 			}
 		});
 
@@ -156,7 +147,13 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 	}
 
 	public void onProgressChanged(SeekBar freqBar, int progress, boolean fromUser) {
-		if (progress != (frequency)) {
+		if (!fromUser) { //Robotium fromUser=false
+			if (progress == 0) {
+				return;
+			}
+		}
+
+		if (progress != (hertz / 100)) {
 			seekbarValToFreq();
 			if (dialogFreq != null) {
 				dialogFreq.setValue(progress);
@@ -173,40 +170,23 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		if (dialog instanceof EditIntegerDialog) {
-			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.nxt_tone_freq_edit_text) {
-				frequency = inputDialog.getValue();
-				freqToSeekBarVal();
-			}
-		} else if (dialog instanceof EditDoubleDialog) {
-			EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
-			duration = inputDialog.getValue();
-		} else {
-			throw new RuntimeException("Received illegal id from EditText in NXTPlayToneBrick");
-		}
-
-		dialog.cancel();
-	}
-
 	private void seekbarValToFreq() {
-		frequency = freqBar.getProgress();
+		hertz = freqBar.getProgress() * 100;
 
-		if (frequency < 2) {
-			frequency = 2;
+		if (hertz < 200) {
+			hertz = 200;
 			freqBar.setProgress(2);
 		}
 
-		editFreq.setText(String.valueOf(frequency));
+		editFreq.setText(String.valueOf(hertz / 100));
 	}
 
 	private void freqToSeekBarVal() {
-		if (frequency < 2) {
-			frequency = 2;
+		if (hertz < 200) {
+			hertz = 200;
 			freqBar.setProgress(2);
 		}
-		freqBar.setProgress(frequency);
+		freqBar.setProgress(hertz / 100);
 	}
 
 	public void onClick(final View view) {
@@ -215,10 +195,10 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		final EditText input = new EditText(context);
 		if (view.getId() == R.id.nxt_tone_duration_edit_text) {
-			input.setText(String.valueOf(duration));
+			input.setText(String.valueOf(durationInMs / 1000.0));
 			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		} else if (view.getId() == R.id.nxt_tone_freq_edit_text) {
-			input.setText(String.valueOf(frequency));
+			input.setText(String.valueOf(hertz / 100));
 			input.setInputType(InputType.TYPE_CLASS_NUMBER);
 		}
 		input.setSelectAllOnFocus(true);
@@ -229,7 +209,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 				try {
 					if (view.getId() == R.id.nxt_tone_duration_edit_text) {
 
-						double newDuration = Double.parseDouble(input.getText().toString());
+						int newDuration = (int) (Double.parseDouble(input.getText().toString()) * 1000);
 						if (newDuration > MAX_DURATION) {
 							newDuration = MAX_DURATION;
 							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
@@ -237,20 +217,20 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 							newDuration = MIN_DURATION;
 							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
 						}
-						duration = newDuration;
+						durationInMs = newDuration;
 					} else if (view.getId() == R.id.nxt_tone_freq_edit_text) {
-						int newFrequency = Integer.parseInt(input.getText().toString());
-						if (newFrequency > MAX_FREQ) {
-							newFrequency = MAX_FREQ;
+						int newFrequency = Integer.parseInt(input.getText().toString()) * 100;
+						if (newFrequency > MAX_FREQ_IN_HERTZ) {
+							newFrequency = MAX_FREQ_IN_HERTZ;
 							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
-						} else if (newFrequency < MIN_FREQ) {
-							newFrequency = MIN_FREQ;
+						} else if (newFrequency < MIN_FREQ_IN_HERTZ) {
+							newFrequency = MIN_FREQ_IN_HERTZ;
 							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
 						}
-						frequency = newFrequency;
+						hertz = newFrequency;
 					}
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

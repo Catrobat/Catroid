@@ -37,7 +37,7 @@ public class LoopEndBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
-	private int timesToRepeat;
+	private transient int timesToRepeat;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
@@ -95,7 +95,7 @@ public class LoopEndBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_loop_end, null);
+		return inflater.inflate(R.layout.brick_loop_end, null);
 	}
 
 	@Override

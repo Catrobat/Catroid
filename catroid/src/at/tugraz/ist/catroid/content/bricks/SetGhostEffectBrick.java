@@ -38,14 +38,14 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class SetGhostEffectBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double ghostEffectValue;
+	private double transparency;
 	private Sprite sprite;
 
 	private transient View view;
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
-		this.ghostEffectValue = ghostEffectValue;
+		this.transparency = ghostEffectValue;
 	}
 
 	public int getRequiredResources() {
@@ -53,7 +53,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		sprite.costume.setAlphaValue((100f - (float) ghostEffectValue) / 100);
+		sprite.costume.setAlphaValue((100f - (float) transparency) / 100);
 	}
 
 	public Sprite getSprite() {
@@ -61,15 +61,15 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public double getGhostEffectValue() {
-		return ghostEffectValue;
+		return transparency;
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_set_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_set_ghost_effect_to_edit_text);
-		editX.setText(String.valueOf(ghostEffectValue));
+		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
+		editX.setText(String.valueOf(transparency));
 
 		editX.setOnClickListener(this);
 
@@ -77,7 +77,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_set_ghost_effect, null);
+		return View.inflate(context, R.layout.brick_set_ghost_effect, null);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		final EditText input = new EditText(context);
-		input.setText(String.valueOf(ghostEffectValue));
+		input.setText(String.valueOf(transparency));
 		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
 				| InputType.TYPE_NUMBER_FLAG_SIGNED);
 		input.setSelectAllOnFocus(true);
@@ -99,7 +99,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
-					ghostEffectValue = Double.parseDouble(input.getText().toString());
+					transparency = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
 				}

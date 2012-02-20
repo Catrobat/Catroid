@@ -65,9 +65,9 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_turn_right, null);
+		view = View.inflate(context, R.layout.brick_turn_right, null);
 
-		EditText editDegrees = (EditText) view.findViewById(R.id.toolbox_brick_turn_right_edit_text);
+		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
 		editDegrees.setText(String.valueOf(degrees));
 
 		editDegrees.setOnClickListener(this);
@@ -76,7 +76,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_turn_right, null);
+		return View.inflate(context, R.layout.brick_turn_right, null);
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 				try {
 					degrees = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}
