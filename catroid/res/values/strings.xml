@@ -112,6 +112,7 @@
     <string name="soundrecorder_record_start">Start recording</string>
     <string name="soundrecorder_record_stop">Stop recording</string>
     <string name="soundrecorder_recording">recording in progress...</string>
+    <string name="soundrecorder_error">Sound recording failed</string>
     
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
