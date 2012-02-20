@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -65,6 +66,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 	public void testPointInDirectionBrickTest() throws InterruptedException {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
+		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
@@ -78,7 +80,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		solo.pressSpinnerItem(0, 1);
 		String[] directionStringArray = getActivity().getResources().getStringArray(R.array.point_in_direction_strings);
-		assertEquals("Wrong selection", directionStringArray[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong selection", directionStringArray[1], currentSpinner.getSelectedItem());
 	}
 
 	private void createProject() {
