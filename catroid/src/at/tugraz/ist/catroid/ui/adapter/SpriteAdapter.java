@@ -86,6 +86,10 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		}
 		if (position == 0) {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 4));
+			// normally a color would be enough in this case(R.color.gray)
+			// but when I tested the color value, I did not get the correct color - the gray was slightly different
+			// should be #808080 for gray - but always was #848284
+			// with a shape gradient, I get the correct color in the testcase
 			holder.divider.setBackgroundResource(R.color.divider_background);
 		} else {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2));
