@@ -143,69 +143,51 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String soundsLabel = getActivity().getString(R.string.sounds);
 		String costumesLabel = getActivity().getString(R.string.costumes);
 
-		String[] hexValuesScriptsTab = { "ff1a1a1a", "ff090909", "ff2f2f2f", "ffe5e5e5", "fff6f6f6", "ffd0d0d0" };
-		String[] hexValuesBackgroundsTab = { "ff101010", "ff222222", "ef101010", "ffefefef", "ffdddddd", "efefefef" };
-		String[] hexValuesSoundsTab = { "ff141414", "ff2a2a2a", "bf282828", "ffebebeb", "ffd5d5d5", "bfd7d7d7" };
-		String[] hexValuesCostumesTab = { "ff000000", "ff505050", "ff5d5d5d", "ffffffff", "ffafafaf", "ffa2a2a2" };
+		String[] scriptsTabHexValues = { "ff1a1a1a", "ff090909", "ff2f2f2f", "ffe5e5e5", "fff6f6f6", "ffd0d0d0" };
+		String[] backgroundsTabHexValues = { "ff101010", "ff222222", "ef101010", "ffefefef", "ffdddddd", "efefefef" };
+		String[] soundsTabHexValues = { "ff141414", "ff2a2a2a", "bf282828", "ffebebeb", "ffd5d5d5", "bfd7d7d7" };
+		String[] costumesTabHexValues = { "ff000000", "ff505050", "ff5d5d5d", "ffffffff", "ffafafaf", "ffa2a2a2" };
 
 		int scriptsSelector = R.drawable.ic_tab_scripts_selector;
 		int backgroundsSelector = R.drawable.ic_tab_background_selector;
 		int soundsSelector = R.drawable.ic_tab_sounds_selector;
 		int costumesSelector = R.drawable.ic_tab_costumes_selector;
 
-		String[] tabLabelsToTest = { scriptsLabel, backgroundsLabel, soundsLabel };
-		testTabText(tabLabelsToTest);
-
-		String[][] referenceHexValues = { hexValuesScriptsTab, hexValuesBackgroundsTab, hexValuesSoundsTab };
+		testTabText(new String[] { scriptsLabel, backgroundsLabel, soundsLabel });
+		String[][] referenceHexValues = { scriptsTabHexValues, backgroundsTabHexValues, soundsTabHexValues };
 		testTabIcons(new int[] { scriptsSelector, backgroundsSelector, soundsSelector }, referenceHexValues);
 
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		tabLabelsToTest[0] = backgroundsLabel;
-		tabLabelsToTest[1] = scriptsLabel;
-		tabLabelsToTest[2] = soundsLabel;
-		testTabText(tabLabelsToTest);
-
-		referenceHexValues[0] = hexValuesBackgroundsTab;
-		referenceHexValues[1] = hexValuesScriptsTab;
-		referenceHexValues[2] = hexValuesSoundsTab;
+		testTabText(new String[] { backgroundsLabel, scriptsLabel, soundsLabel });
+		referenceHexValues[0] = backgroundsTabHexValues;
+		referenceHexValues[1] = scriptsTabHexValues;
+		referenceHexValues[2] = soundsTabHexValues;
 		testTabIcons(new int[] { backgroundsSelector, scriptsSelector, soundsSelector }, referenceHexValues);
 
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		tabLabelsToTest[0] = soundsLabel;
-		tabLabelsToTest[1] = scriptsLabel;
-		tabLabelsToTest[2] = backgroundsLabel;
-		testTabText(tabLabelsToTest);
-
-		referenceHexValues[0] = hexValuesSoundsTab;
-		referenceHexValues[1] = hexValuesScriptsTab;
-		referenceHexValues[2] = hexValuesBackgroundsTab;
+		testTabText(new String[] { soundsLabel, scriptsLabel, backgroundsLabel });
+		referenceHexValues[0] = soundsTabHexValues;
+		referenceHexValues[1] = scriptsTabHexValues;
+		referenceHexValues[2] = backgroundsTabHexValues;
 		testTabIcons(new int[] { soundsSelector, scriptsSelector, backgroundsSelector }, referenceHexValues);
 
 		solo.sleep(100);
 		solo.goBack();
 		solo.clickInList(2);
-		tabLabelsToTest[0] = scriptsLabel;
-		tabLabelsToTest[1] = costumesLabel;
-		tabLabelsToTest[2] = soundsLabel;
-		testTabText(tabLabelsToTest);
-
-		referenceHexValues[0] = hexValuesScriptsTab;
-		referenceHexValues[1] = hexValuesCostumesTab;
-		referenceHexValues[2] = hexValuesSoundsTab;
+		testTabText(new String[] { scriptsLabel, costumesLabel, soundsLabel });
+		referenceHexValues[0] = scriptsTabHexValues;
+		referenceHexValues[1] = costumesTabHexValues;
+		referenceHexValues[2] = soundsTabHexValues;
 		testTabIcons(new int[] { scriptsSelector, costumesSelector, soundsSelector }, referenceHexValues);
 
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.costumes));
-		tabLabelsToTest[0] = costumesLabel;
-		tabLabelsToTest[1] = scriptsLabel;
-		tabLabelsToTest[2] = soundsLabel;
-		testTabText(tabLabelsToTest);
-
-		referenceHexValues[0] = hexValuesCostumesTab;
-		referenceHexValues[1] = hexValuesScriptsTab;
-		referenceHexValues[2] = hexValuesSoundsTab;
+		testTabText(new String[] { costumesLabel, scriptsLabel, soundsLabel });
+		referenceHexValues[0] = costumesTabHexValues;
+		referenceHexValues[1] = scriptsTabHexValues;
+		referenceHexValues[2] = soundsTabHexValues;
 		testTabIcons(new int[] { costumesSelector, scriptsSelector, soundsSelector }, referenceHexValues);
 	}
 
@@ -221,23 +203,23 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	private void testTabText(String[] tabLabels) {
 		TextView textViewToTest;
-		String activeTextViewLabel;
+		String tabSelectedLabel;
 		String textViewLabel;
 		int textViewColor;
-		int colorSelected = getActivity().getResources().getColor(android.R.color.black);
+		int tabSelectedColor = getActivity().getResources().getColor(android.R.color.black);
 		int colorNotSelected = getActivity().getResources().getColor(android.R.color.white);
 
-		activeTextViewLabel = solo.getText(tabLabels[0]).getText().toString();
+		tabSelectedLabel = solo.getText(tabLabels[0]).getText().toString();
 
 		for (int i = 0; i < tabLabels.length; i++) {
 			textViewToTest = solo.getText(tabLabels[i]);
 			textViewColor = textViewToTest.getCurrentTextColor();
 			textViewLabel = textViewToTest.getText().toString();
-			if (activeTextViewLabel.equals(textViewLabel)) {
-				assertTrue(activeTextViewLabel + " Tab Active - " + textViewLabel + " Text should be black",
-						textViewColor == colorSelected);
+			if (tabSelectedLabel.equals(textViewLabel)) {
+				assertTrue(tabSelectedLabel + " Tab Active - " + textViewLabel + " Text should be black",
+						textViewColor == tabSelectedColor);
 			} else {
-				assertTrue(activeTextViewLabel + " Tab Active - " + textViewLabel + " Text should be white",
+				assertTrue(tabSelectedLabel + " Tab Active - " + textViewLabel + " Text should be white",
 						textViewColor == colorNotSelected);
 			}
 		}
@@ -265,8 +247,8 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		}
 	}
 
-	private void testTabIcon(ImageView icon, int iconTag, boolean activeTab, String[] expectedValues) {
-		assertEquals("Wrong amount of values to compare - should be 6", 6, expectedValues.length);
+	private void testTabIcon(ImageView icon, int iconTag, boolean activeTab, String[] referenceHexValues) {
+		assertEquals("Wrong amount of values to compare - should be 6", 6, referenceHexValues.length);
 		int[] x = new int[3];
 		int[] y = new int[3];
 		if (iconTag == R.drawable.ic_tab_scripts_selector) {
@@ -298,7 +280,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 			y[1] = 5;
 			y[2] = 8;
 		}
-		testPixelsOfTabIcon(icon, x, y, expectedValues, activeTab);
+		testPixelsOfTabIcon(icon, x, y, referenceHexValues, activeTab);
 	}
 
 	private void testPixelsOfTabIcon(ImageView icon, int[] x, int[] y, String[] expectedHexColors, boolean activeTab) {
