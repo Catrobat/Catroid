@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
@@ -150,10 +151,13 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 
 	private static View createTabView(Integer id, final Context context, final String text) {
 		View view = LayoutInflater.from(context).inflate(R.layout.activity_tabscriptactivity_tabs, null);
-		TextView tv = (TextView) view.findViewById(R.id.tabsText);
-		tv.setText(text);
+		TextView tabTextView = (TextView) view.findViewById(R.id.tabsText);
+		ImageView tabImageView = (ImageView) view.findViewById(R.id.tabsIcon);
+		tabTextView.setText(text);
 		if (id != null) {
-			tv.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0);
+			tabImageView.setImageResource(id);
+			tabImageView.setVisibility(ImageView.VISIBLE);
+			tabImageView.setTag(id);
 		}
 		return view;
 	}
