@@ -76,13 +76,13 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 
 		costumeFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image.png",
-				RESOURCE_COSTUME, getInstrumentation().getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+				RESOURCE_COSTUME, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(costumeFile.getName());
 		costumeData.setCostumeName(costumeName);
 
 		costumeFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image2.png",
-				RESOURCE_COSTUME2, getInstrumentation().getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+				RESOURCE_COSTUME2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		CostumeData costumeData2 = new CostumeData();
 		costumeData2.setCostumeFilename(costumeFile2.getName());
 		costumeData2.setCostumeName(costumeName2);
@@ -149,7 +149,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(300);
@@ -168,7 +168,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		solo.sleep(100);

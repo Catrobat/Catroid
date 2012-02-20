@@ -24,11 +24,8 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Spinner;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.WhenScript;
@@ -57,14 +54,17 @@ public class WhenBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
-		view = View.inflate(context, R.layout.toolbox_brick_when, null);
+		view = View.inflate(context, R.layout.brick_when, null);
+		TextView spinnerActionText = (TextView) view.findViewById(R.id.WhenBrickActionTapped);
+		spinnerActionText.setText(" " + spinnerActionText.getText());
 
-		final Spinner spinner = (Spinner) view.findViewById(R.id.toolbox_brick_when_spinner);
-		spinner.setFocusable(false);
-		spinner.setClickable(true);
-		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
-				android.R.layout.simple_spinner_item);
-		spinnerAdapter.add(context.getString(R.string.action_tapped));
+		// inactive until spinner has more than one element
+		//		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_when_spinner);
+		//		spinner.setFocusable(false);
+		//		spinner.setClickable(true);
+		//		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
+		//				android.R.layout.simple_spinner_item);
+		//		spinnerAdapter.add(context.getString(R.string.action_tapped));
 
 		//		TODO: not working with OpenGL yet, uncomment this when it does
 		//		spinnerAdapter.add(context.getString(R.string.action_doubleTapped));
@@ -73,30 +73,35 @@ public class WhenBrick implements Brick {
 		//		spinnerAdapter.add(context.getString(R.string.action_swipeDown));
 		//		spinnerAdapter.add(context.getString(R.string.action_swipeLeft));
 		//		spinnerAdapter.add(context.getString(R.string.action_swipeRight));
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(spinnerAdapter);
 
-		if (whenScript.getAction() != null) {
-			spinner.setSelection(whenScript.getPosition(), true);
-		}
-
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				spinner.setSelected(true);
-				whenScript.setAction(position);
-				spinner.setSelection(position);
-				adapter.notifyDataSetChanged();
-			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
+		//		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		//		spinner.setAdapter(spinnerAdapter);
+		//
+		//		if (whenScript.getAction() != null) {
+		//			spinner.setSelection(whenScript.getPosition(), true);
+		//		}
+		//
+		//		if (spinner.getSelectedItem() == null) {
+		//			spinner.setSelection(0);
+		//		}
+		//
+		//		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		//			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		//				spinner.setSelected(true);
+		//				whenScript.setAction(position);
+		//				spinner.setSelection(position);
+		//				adapter.notifyDataSetChanged();
+		//			}
+		//
+		//			public void onNothingSelected(AdapterView<?> parent) {
+		//			}
+		//		});
 
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_when, null);
+		return getView(context, 0, null);
 	}
 
 	@Override

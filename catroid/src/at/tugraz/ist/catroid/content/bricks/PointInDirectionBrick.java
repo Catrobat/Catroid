@@ -32,26 +32,44 @@ import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
-	public static final int DIRECTION_RIGHT = 0;
-	public static final int DIRECTION_LEFT = 1;
-	public static final int DIRECTION_UP = 2;
-	public static final int DIRECTION_DOWN = 3;
-
 	private static final long serialVersionUID = 1L;
-	private static final int[] directions = { 90, -90, 0, 180 };
+
+	public static enum Direction {
+		DIRECTION_RIGHT(90), DIRECTION_LEFT(-90), DIRECTION_UP(0), DIRECTION_DOWN(180);
+
+		private double directionDegrees;
+
+		private Direction(double degrees) {
+			directionDegrees = degrees;
+		}
+
+		public double getDegrees() {
+			return directionDegrees;
+		}
+	}
+
 	private Sprite sprite;
-	private int selectedIndex;
+	private double degrees;
 
-	@XStreamOmitField
-	private transient View view;
+	private transient Direction direction;
 
-	public PointInDirectionBrick(Sprite sprite, int selectedIndex) {
+	protected Object readResolve() {
+		// initialize direction if parsing from xml with XStream
+		for (Direction direction : Direction.values()) {
+			if (Math.abs(direction.getDegrees() - degrees) < 0.1) {
+				this.direction = direction;
+				break;
+			}
+		}
+		return this;
+	}
+
+	public PointInDirectionBrick(Sprite sprite, Direction direction) {
 		this.sprite = sprite;
-		this.selectedIndex = selectedIndex;
+		this.direction = direction;
+		this.degrees = direction.getDegrees();
 	}
 
 	public int getRequiredResources() {
@@ -59,7 +77,8 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public void execute() {
-		sprite.costume.rotation = -directions[selectedIndex] + 90f;
+		double degreeOffset = 90f;
+		sprite.costume.rotation = (float) (-degrees + degreeOffset);
 	}
 
 	public Sprite getSprite() {
@@ -68,7 +87,7 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);
+		View view = View.inflate(context, R.layout.brick_point_in_direction, null);
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
 				R.array.point_in_direction_strings, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,22 +100,23 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 		spinner.setOnItemSelectedListener(this);
 
-		spinner.setSelection(selectedIndex);
+		spinner.setSelection(direction.ordinal());
 
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);
+		return View.inflate(context, R.layout.brick_point_in_direction, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), selectedIndex);
+		return new PointInDirectionBrick(getSprite(), direction);
 	}
 
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		selectedIndex = position;
+		direction = Direction.values()[position];
+		degrees = direction.getDegrees();
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {

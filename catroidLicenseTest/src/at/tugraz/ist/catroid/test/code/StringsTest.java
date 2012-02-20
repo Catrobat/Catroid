@@ -45,7 +45,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.test.utils.Utils;
 
 /**
  * @author pete
@@ -159,7 +159,7 @@ public class StringsTest extends TestCase {
 		assertTrue("Couldn't find directory: " + SOURCE_DIRECTORY, directory.exists() && directory.isDirectory());
 		assertTrue("Couldn't read directory: " + SOURCE_DIRECTORY, directory.canRead());
 
-		List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, ".java");
+		List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, ".java");
 		for (File file : filesToCheck) {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 
@@ -175,7 +175,7 @@ public class StringsTest extends TestCase {
 		assertTrue("Couldn't find directory: " + RESOURCES_DIRECTORY, directory.exists() && directory.isDirectory());
 		assertTrue("Couldn't read directory: " + RESOURCES_DIRECTORY, directory.canRead());
 
-		filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, ".xml");
+		filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, ".xml");
 		for (File file : filesToCheck) {
 			if (!file.getName().equals("strings.xml")) {
 				BufferedReader reader = new BufferedReader(new FileReader(file));

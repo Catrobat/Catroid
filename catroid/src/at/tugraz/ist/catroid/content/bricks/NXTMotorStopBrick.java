@@ -23,11 +23,10 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
@@ -38,19 +37,27 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
+	public static enum Motor {
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
+	}
+
 	private Sprite sprite;
-	private Handler btcHandler;
-	private int motor;
-	private static final int MOTOR_A = 0;
-	private static final int MOTOR_B = 1;
-	private static final int MOTOR_C = 2;
-	private static final int MOTOR_A_C = 3;
-	private static final int ALL_MOTORS = 4;
+	private transient Motor motorEnum;
+	private String motor;
+
 	private static final int NO_DELAY = 0;
 
-	public NXTMotorStopBrick(Sprite sprite, int motor) {
+	protected Object readResolve() {
+		if (motor != null) {
+			motorEnum = Motor.valueOf(motor);
+		}
+		return this;
+	}
+
+	public NXTMotorStopBrick(Sprite sprite, Motor motor) {
 		this.sprite = sprite;
-		this.motor = motor;
+		this.motorEnum = motor;
+		this.motor = motorEnum.name();
 	}
 
 	public int getRequiredResources() {
@@ -58,18 +65,15 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public void execute() {
-		if (btcHandler == null) {
-			btcHandler = LegoNXT.getBTCHandler();
-		}
-		if (motor == ALL_MOTORS) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, 0, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_B, 0, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, 0, 0);
-		} else if (motor == MOTOR_A_C) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, 0, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, 0, 0);
+		if (motorEnum.equals(Motor.ALL_MOTORS)) {
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_B.ordinal(), 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), 0, 0);
+		} else if (motorEnum.equals(Motor.MOTOR_A_C)) {
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), 0, 0);
 		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), 0, 0);
 		}
 
 	}
@@ -79,44 +83,34 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_nxt_motor_stop, null);
+		return View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new NXTMotorStopBrick(getSprite(), motor);
+		return new NXTMotorStopBrick(getSprite(), motorEnum);
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_stop, null);
+		View brickView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
-		motorSpinner.setSelection(motor);
-		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
+		motorSpinner.setClickable(true);
+		motorSpinner.setEnabled(true);
+		motorSpinner.setAdapter(motorAdapter);
+		motorSpinner.setSelection(motorEnum.ordinal());
+
 		return brickView;
 	}
 
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		//String[] values = parent.getContext().getResources().getStringArray(R.array.nxt_motor_chooser);
-		switch (position) {
-			case 0:
-				motor = MOTOR_A;
-				break;
-			case 1:
-				motor = MOTOR_B;
-				break;
-			case 2:
-				motor = MOTOR_C;
-				break;
-			case 3:
-				motor = MOTOR_A_C;
-				break;
-			case 4:
-				motor = ALL_MOTORS;
-				break;
-		}
+		motorEnum = Motor.values()[position];
+		motor = motorEnum.name();
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {

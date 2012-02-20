@@ -73,7 +73,7 @@ public class SetCostumeBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
+		view = View.inflate(context, R.layout.brick_set_costume, null);
 
 		Spinner costumebrickSpinner = (Spinner) view.findViewById(R.id.setcostume_spinner);
 		costumebrickSpinner.setAdapter(createCostumeAdapter(context));
@@ -82,7 +82,11 @@ public class SetCostumeBrick implements Brick {
 
 		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				costumeData = (CostumeData) parent.getItemAtPosition(position);
+				if (position == 0) {
+					costumeData = null;
+				} else {
+					costumeData = (CostumeData) parent.getItemAtPosition(position);
+				}
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -117,7 +121,7 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
+		View prototypeView = View.inflate(context, R.layout.brick_set_costume, null);
 		if (sprite.getName().equals(context.getString(R.string.background))) {
 			TextView textView = (TextView) prototypeView.findViewById(R.id.tv_set_costume);
 			textView.setText(R.string.brick_set_background);

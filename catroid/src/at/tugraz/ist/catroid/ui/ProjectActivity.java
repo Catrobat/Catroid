@@ -52,7 +52,7 @@ public class ProjectActivity extends ListActivity {
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
-	private ActivityHelper activityHelper = new ActivityHelper(this);
+	private ActivityHelper activityHelper;
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
@@ -122,6 +122,7 @@ public class ProjectActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}

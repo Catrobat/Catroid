@@ -37,14 +37,9 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.Utils;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
-
-	@XStreamOmitField
-	private transient View view;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
@@ -73,9 +68,9 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_repeat, null);
+		View view = View.inflate(context, R.layout.brick_repeat, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_repeat_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");
 
 		edit.setOnClickListener(this);
@@ -83,7 +78,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_repeat, null);
+		return View.inflate(context, R.layout.brick_repeat, null);
 	}
 
 	public void onClick(View view) {
@@ -102,7 +97,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 				try {
 					timesToRepeat = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

@@ -58,14 +58,14 @@ public class WhenStartedBrick implements Brick {
 
 	public View getView(Context context, int brickId, final BaseAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_started, null);
+			view = View.inflate(context, R.layout.brick_started, null);
 		}
 
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_started, null);
+		return View.inflate(context, R.layout.brick_started, null);
 	}
 
 	@Override

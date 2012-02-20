@@ -73,9 +73,9 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
+		view = View.inflate(context, R.layout.brick_move_n_steps, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_move_n_steps_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
 
@@ -86,7 +86,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_move_n_steps, null);
+		View view = inflater.inflate(R.layout.brick_move_n_steps, null);
 		return view;
 	}
 
@@ -111,7 +111,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 				try {
 					steps = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}
