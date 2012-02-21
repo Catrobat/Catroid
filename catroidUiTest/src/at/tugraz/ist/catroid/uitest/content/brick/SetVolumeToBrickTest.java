@@ -57,7 +57,6 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		getActivity().finish();
 		super.tearDown();
 	}
 
