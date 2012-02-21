@@ -27,10 +27,15 @@ import java.util.List;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -56,6 +61,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		}
 
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -82,5 +88,84 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 				UiTestUtils.getPrivateField("xDestination", glideToBrick));
 		assertEquals("Wrong y input in Glide to brick", yPosition,
 				UiTestUtils.getPrivateField("yDestination", glideToBrick));
+	}
+
+	public void testResizeInputFields() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		createProject();
+		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		solo.sleep(100);
+
+		double[] glideTestValues = new double[] { 1.1, 1234.567, 1.0 };
+		int[] testValuesXY = new int[] { 1, 123456, -1 };
+		double currentGlideValue = 0.0;
+		int currentXYValue = 0;
+		int editTextWidth = 0;
+		for (int i = 0; i < glideTestValues.length; i++) {
+			currentGlideValue = glideTestValues[i];
+			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentGlideValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText for Glide not resized - value not (fully) visible",
+					solo.searchText(currentGlideValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText for Glide should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+
+			currentXYValue = testValuesXY[i];
+			UiTestUtils.insertIntegerIntoEditText(solo, 1, currentXYValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText for X not resized - value not (fully) visible", solo.searchText(currentXYValue + ""));
+			editTextWidth = solo.getEditText(1).getWidth();
+			assertTrue("Minwidth of EditText for X should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+			UiTestUtils.insertIntegerIntoEditText(solo, 2, currentXYValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText for Y not resized - value not (fully) visible", solo.searchText(currentXYValue + ""));
+			editTextWidth = solo.getEditText(2).getWidth();
+			assertTrue("Minwidth of EditText for Y should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentGlideValue = 12345.678;
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentGlideValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - Glide should not be resized and fully visible",
+				solo.searchText(currentGlideValue + ""));
+
+		currentXYValue = 1234567;
+		UiTestUtils.insertIntegerIntoEditText(solo, 1, currentXYValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - EditText X should not be resized and fully visible",
+				solo.searchText(currentXYValue + ""));
+		UiTestUtils.insertIntegerIntoEditText(solo, 2, currentXYValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - EditText Y should not be resized and fully visible",
+				solo.searchText(currentXYValue + ""));
+	}
+
+	private void createProject() {
+		int xValue = 800;
+		int yValue = 0;
+		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript(sprite);
+		Brick glideToBrick = new GlideToBrick(sprite, xValue, yValue, 1000);
+		script.addBrick(glideToBrick);
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 }
