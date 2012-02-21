@@ -71,7 +71,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	@Override
 	protected void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

@@ -44,7 +44,7 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

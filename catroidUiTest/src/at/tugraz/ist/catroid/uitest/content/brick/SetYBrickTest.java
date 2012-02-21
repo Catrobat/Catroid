@@ -43,7 +43,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private Solo solo;
 	private Project project;
 	private SetYBrick setYBrick;
-	private int setY;
+	private static final int SET_Y = 17;
 
 	public SetYBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -57,13 +57,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -78,24 +72,22 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_set_y)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, setY + "");
+		solo.enterText(0, SET_Y + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
 		int yPosition = (Integer) UiTestUtils.getPrivateField("yPosition", setYBrick);
-		assertEquals("Wrong text in field.", setY, yPosition);
-		assertEquals("Value in Brick is not updated.", setY + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", SET_Y, yPosition);
+		assertEquals("Value in Brick is not updated.", SET_Y + "", solo.getEditText(0).getText().toString());
 	}
 
 	private void createProject() {
-		setY = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

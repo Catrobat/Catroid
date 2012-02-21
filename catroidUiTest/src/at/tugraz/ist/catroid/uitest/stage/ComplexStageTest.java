@@ -65,7 +65,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

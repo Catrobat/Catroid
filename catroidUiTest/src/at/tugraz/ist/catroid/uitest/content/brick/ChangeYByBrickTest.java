@@ -43,7 +43,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	private Solo solo;
 	private Project project;
 	private ChangeYByBrick changeYByBrick;
-	private int yToChange;
+	private static final int Y_TO_CHANGE = 17;
 
 	public ChangeYByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -57,13 +57,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -78,24 +72,22 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_y_by)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, yToChange + "");
+		solo.enterText(0, Y_TO_CHANGE + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(1000);
 		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
-		assertEquals("Wrong text in field.", yToChange, yMovementValue);
-		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", Y_TO_CHANGE, yMovementValue);
+		assertEquals("Value in Brick is not updated.", Y_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}
 
 	private void createProject() {
-		yToChange = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

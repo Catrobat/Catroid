@@ -207,6 +207,18 @@ public class UiTestUtils {
 		}
 	}
 
+	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId, String activityToWaitFor) {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(solo.getCurrentActivity().getString(getBrickCategory(solo, brickStringId)));
+		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
+
+		solo.waitForActivity("ScriptTabActivity");
+
+		while (solo.scrollDown()) {
+			;
+		}
+	}
+
 	public static List<Brick> createTestProject() {
 		int xPosition = 457;
 		int yPosition = 598;
