@@ -27,27 +27,16 @@ import java.io.IOException;
 
 import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.Environment;
 
 public class SoundRecorder {
 
 	private MediaRecorder recorder = new MediaRecorder();
 	private boolean isRecording = false;
 
-	final String path;
+	private String path;
 
 	public SoundRecorder(String path) {
-		this.path = sanitizePath(path);
-	}
-
-	private String sanitizePath(String path) {
-		if (!path.startsWith("/")) {
-			path = "/" + path;
-		}
-		if (!path.contains(".")) {
-			path += ".mp3";
-		}
-		return Environment.getExternalStorageDirectory().getAbsolutePath() + path;
+		this.path = path;
 	}
 
 	/**
@@ -58,12 +47,13 @@ public class SoundRecorder {
 		if (soundFile.exists()) {
 			soundFile.delete();
 		}
-		// make sure the directory we plan to store the recording in exists
 		File directory = soundFile.getParentFile();
 		if (!directory.exists() && !directory.mkdirs()) {
 			throw new IOException("Path to file could not be created.");
 		}
 
+		// call reset() to start a new record for sure
+		recorder.reset();
 		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
