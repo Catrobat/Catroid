@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -231,6 +232,9 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		for (ImageView imageViewToTest : solo.getCurrentImageViews()) {
 			if (imageViewToTest.getId() == R.id.tabsIcon) {
 				boolean iconFound = false;
+				assertEquals("Padding right of ImageView should be 5 dip",
+						Utils.getPhysicalPixels(5, solo.getCurrentActivity().getBaseContext()),
+						imageViewToTest.getPaddingRight());
 				int iconTag = ((Integer) imageViewToTest.getTag()).intValue();
 				if (iconTag == tabIDs[0]) {
 					iconFound = true;
