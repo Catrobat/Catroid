@@ -60,7 +60,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

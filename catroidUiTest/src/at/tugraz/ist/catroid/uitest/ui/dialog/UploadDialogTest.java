@@ -65,7 +65,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
 		UiTestUtils.clearAllUtilTestProjects();
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

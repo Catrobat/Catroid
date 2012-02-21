@@ -68,7 +68,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

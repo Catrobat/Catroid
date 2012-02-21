@@ -61,8 +61,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	private SetSizeToBrick setSizeToBrick;
 	private SetCostumeBrick setCostumeBrick;
 	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.red_quad;
-	private final int screenWidth = 480;
-	private final int screenHeight = 800;
+	private static final int SCREEN_WIDTH = 480;
+	private static final int SCREEN_HEIGHT = 800;
 
 	public SetSizeToBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -76,13 +76,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 		if (directory.exists()) {
@@ -111,8 +105,6 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		UiTestUtils.clickEnterClose(solo, 0, newSize + "");
 
-		solo.sleep(500);
-
 		double size = (Double) UiTestUtils.getPrivateField("size", setSizeToBrick);
 		assertEquals("Wrong text in field", newSize, size);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
@@ -128,14 +120,11 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 
-		solo.sleep(1500);
-
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.stagemenu_screenshot));
-		solo.sleep(50);
 
-		assertTrue("Successful screenshot Toast not found!", solo.searchText(getActivity().getString(
-				R.string.notification_screenshot_ok)));
+		assertTrue("Successful screenshot Toast not found!",
+				solo.searchText(getActivity().getString(R.string.notification_screenshot_ok)));
 
 		solo.clickOnText(getActivity().getString(R.string.resume_current_project));
 
@@ -166,8 +155,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	private void createProject() {
 
-		Values.SCREEN_HEIGHT = screenHeight;
-		Values.SCREEN_WIDTH = screenWidth;
+		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		Values.SCREEN_WIDTH = SCREEN_WIDTH;
 
 		project = new Project(null, projectName);
 		Sprite sprite = new Sprite("cat");
@@ -194,8 +183,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		costumeData.setCostumeName("image");
 		setCostumeBrick.setCostume(costumeData);
 		sprite.getCostumeDataList().add(costumeData);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(), image
-				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
+				image.getAbsolutePath());
 		ProjectManager.getInstance().saveProject();
 	}
 

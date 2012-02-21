@@ -49,7 +49,7 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 	@Override
 	public void tearDown() throws Exception {
 		try {
-			solo.finalize();
+			solo.finishOpenedActivities();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -44,8 +45,8 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 	private Project project;
 	private NXTMotorActionBrick motorBrick;
 
-	private int setSpeed;
-	private int setSpeedInitially;
+	private static final int SET_SPEED = 30;
+	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int MAX_SPEED = 100;
 	private static final int MIN_SPEED = -100;
 
@@ -61,13 +62,8 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		solo.finishOpenedActivities();
 
-		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -90,27 +86,26 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, setSpeed + "");
+		solo.enterText(0, SET_SPEED + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
 		int speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
-		assertEquals("Wrong text in field.", setSpeed, speed);
-		assertEquals("Value in Brick is not updated.", setSpeed + "", solo.getEditText(0).getText().toString());
-		assertEquals("SeekBar is at wrong position", setSpeed + 100, solo.getCurrentProgressBars().get(0).getProgress());
+		assertEquals("Wrong text in field.", SET_SPEED, speed);
+		assertEquals("Value in Brick is not updated.", SET_SPEED + "", solo.getEditText(0).getText().toString());
+		assertEquals("SeekBar is at wrong position", SET_SPEED + 100, solo.getCurrentProgressBars().get(0)
+				.getProgress());
 
-		solo.setProgressBar(0, setSpeedInitially + 100); //robotium doesnt go through proper function onProgressChanged() to change value on progress bar!
-		solo.sleep(300);
+		solo.setProgressBar(0, SET_SPEED_INITIALLY + 100); //robotium doesnt go through proper function onProgressChanged() to change value on progress bar!
 
 		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
-		assertEquals("Wrong text in field.", setSpeedInitially, speed);
-		assertEquals("Value in Brick is not updated.", setSpeedInitially + "", solo.getEditText(0).getText().toString());
-		assertEquals("SeekBar is at wrong position", setSpeedInitially + 100, solo.getCurrentProgressBars().get(0)
+		assertEquals("Wrong text in field.", SET_SPEED_INITIALLY, speed);
+		assertEquals("Value in Brick is not updated.", SET_SPEED_INITIALLY + "", solo.getEditText(0).getText()
+				.toString());
+		assertEquals("SeekBar is at wrong position", SET_SPEED_INITIALLY + 100, solo.getCurrentProgressBars().get(0)
 				.getProgress());
 
 		solo.clickOnButton(0);
-		solo.sleep(300);
 
 		int speed_btn = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed_btn, speed - 1);
@@ -119,7 +114,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 				.getProgress());
 
 		solo.clickOnButton(1);
-		solo.sleep(300);
 
 		speed_btn = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed_btn, speed);
@@ -129,7 +123,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.setProgressBar(0, 1);
 		solo.clickOnButton(0);
 		solo.clickOnButton(0);
-		solo.sleep(300);
 
 		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed, MIN_SPEED);
@@ -139,40 +132,33 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.setProgressBar(0, MAX_SPEED + 100);
 		solo.clickOnButton(1);
 		solo.clickOnButton(1);
-		solo.sleep(300);
 
 		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed, MAX_SPEED);
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
-		solo.sleep(1500);
-		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
-		assertTrue("Spinner items list too short!", array.length == 4);
+		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
+		assertTrue("Spinner items list too short!", motors.length == 4);
 
-		solo.sleep(1500);
+		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
 		solo.pressSpinnerItem(0, 0);
-		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
 
 	}
 
 	private void createProject() {
-		//		setX = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 
-		setSpeedInitially = -70;
-
-		motorBrick = new NXTMotorActionBrick(sprite, NXTMotorActionBrick.Motor.MOTOR_A, setSpeedInitially);
-
-		setSpeed = 30;
+		motorBrick = new NXTMotorActionBrick(sprite, NXTMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 
 		script.addBrick(motorBrick);
 
