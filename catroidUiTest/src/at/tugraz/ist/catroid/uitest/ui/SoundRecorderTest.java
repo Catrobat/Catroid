@@ -32,8 +32,8 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.soundrecorder.SoundRecorderActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -62,55 +62,43 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		}
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
+
 		super.tearDown();
 
 	}
 
-	public void testRecordSound() throws InterruptedException {
+	public void testRecordMultipleSounds() throws InterruptedException {
+
 		prepareRecording();
+		recordSoundWithChangingOrientation();
+		assertSoundRecording(1);
 
-		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_start));
-		// record 500ms, solo.sleep() does not work here
-		Thread.sleep(500);
-		//solo.wait(500);
-		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_stop));
+		prepareRecording();
+		recordSoundGoBackWhileRecording();
+		assertSoundRecording(2);
 
-		assertSoundRecording();
 	}
 
-	public void testRecordSoundWithChangingOrientation() throws InterruptedException {
-		prepareRecording();
-
+	public void recordSoundWithChangingOrientation() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_start));
-		// record 500ms, solo.sleep() does not work here
-		Thread.sleep(250);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		Thread.sleep(250);
-		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_stop));
-
-		assertSoundRecording();
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_stop));
 	}
 
-	public void testRecordSoundGoBackWhileRecording() throws InterruptedException {
-		prepareRecording();
-
+	public void recordSoundGoBackWhileRecording() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_start));
-		// record 500ms, solo.sleep() does not work here
-		Thread.sleep(500);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
 
 		solo.goBack();
-
-		assertSoundRecording();
+		solo.setActivityOrientation(Solo.PORTRAIT);
 	}
 
 	private void prepareRecording() {
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
 
 		solo.clickOnText(getActivity().getString(R.string.add));
 		String soundRecorderText = getActivity().getString(R.string.soundrecorder_name);
@@ -120,19 +108,26 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clickOnText(soundRecorderText);
 	}
 
-	private void assertSoundRecording() {
-		String path = Consts.DEFAULT_ROOT + "/soundrecorder/mytestfile.mp3";
-		File recordedFile = new File(path);
+	private void assertSoundRecording(int recordNumber) {
+		String recordPath = Utils.buildPath(Consts.TMP_PATH,
+				getActivity().getString(R.string.soundrecorder_recorded_filename) + Consts.RECORDING_EXTENTION);
+		File recordedFile = new File(recordPath);
 		assertTrue("recorded sound file not found in file system", recordedFile.exists());
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		assertEquals("wrong number of items in the list ", 1, soundInfoList.size());
+		String recordTitle = getActivity().getString(R.string.soundrecorder_recorded_filename);
+		if (recordNumber > 1) {
+			recordTitle += (recordNumber - 1);
+		}
 
-		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		File recordedFileInCatroid = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.SOUND_DIRECTORY
-				+ "/");
-		assertTrue("recorded sound file not found in file system", recordedFileInCatroid.exists());
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		assertEquals("wrong number of items in the list ", recordNumber, soundInfoList.size());
+		SoundInfo lastAddedSoundInfo = soundInfoList.get(soundInfoList.size() - 1);
+		assertEquals("recorded sound not found in project", recordTitle, lastAddedSoundInfo.getTitle());
+
+		File lastAddedSoundFile = new File(lastAddedSoundInfo.getAbsolutePath());
+		assertTrue("recorded sound file not found in project", lastAddedSoundFile.exists());
+
 	}
 }

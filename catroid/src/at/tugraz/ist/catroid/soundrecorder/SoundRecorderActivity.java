@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundRecorderActivity extends Activity implements OnClickListener {
@@ -95,10 +96,12 @@ public class SoundRecorderActivity extends Activity implements OnClickListener {
 		if (soundRecorder != null && soundRecorder.isRecording()) {
 			return;
 		}
-		setViewsToRecordingState();
 		try {
-			soundRecorder = new SoundRecorder("catroid/soundrecorder/mytestfile");
+			String recordPath = Utils.buildPath(Consts.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
+					+ Consts.RECORDING_EXTENTION);
+			soundRecorder = new SoundRecorder(recordPath);
 			soundRecorder.start();
+			setViewsToRecordingState();
 		} catch (IOException e) {
 			e.printStackTrace();
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();

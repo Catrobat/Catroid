@@ -49,6 +49,7 @@ import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ScriptTabActivity extends TabActivity implements OnDismissListener {
 	protected ActivityHelper activityHelper;
@@ -73,6 +74,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scripttab);
+		Utils.loadProjectIfNeeded(this);
 
 		setupTabHost();
 		tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
