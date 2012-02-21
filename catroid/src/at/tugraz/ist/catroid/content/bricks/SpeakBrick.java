@@ -100,9 +100,9 @@ public class SpeakBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
-		view = View.inflate(context, R.layout.toolbox_brick_speak, null);
+		view = View.inflate(context, R.layout.brick_speak, null);
 
-		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_speak_edit_text);
+		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
 		editText.setText(text);
 
 		editText.setOnClickListener(new OnClickListener() {
@@ -138,7 +138,7 @@ public class SpeakBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_speak, null);
+		return View.inflate(context, R.layout.brick_speak, null);
 	}
 
 	@Override

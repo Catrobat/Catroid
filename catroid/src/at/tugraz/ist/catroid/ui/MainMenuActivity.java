@@ -34,7 +34,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -93,8 +92,7 @@ public class MainMenuActivity extends Activity {
 		}
 
 		if (projectManager.getCurrentProject() == null) {
-			Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
-			currentProjectButton.setEnabled(false);
+			findViewById(R.id.current_project_button).setEnabled(false);
 		}
 
 		String projectDownloadUrl = getIntent().getDataString();
@@ -219,7 +217,6 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void writeProjectTitleInTextfield() {
-
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ projectManager.getCurrentProject().getName();
 		titleText.setText(title);
@@ -285,8 +282,9 @@ public class MainMenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-	public void handleTutorialButton(View v) {
-		Utils.displayToast(this, "Tutorial not yet implemented!");
+	public void handleForumButton(View v) {
+		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_forum).toString()));
+		startActivity(browerIntent);
 	}
 
 	public void handleAboutCatroidButton(View v) {

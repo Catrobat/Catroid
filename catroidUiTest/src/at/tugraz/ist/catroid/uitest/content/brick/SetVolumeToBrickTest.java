@@ -44,7 +44,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	private Solo solo;
 	private Project project;
 	private SetVolumeToBrick setVolumeToBrick;
-	private double volume;
+	private float volume;
 
 	public SetVolumeToBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -118,7 +118,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	private void createProject() {
-		volume = 50.0;
+		volume = 50.0f;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

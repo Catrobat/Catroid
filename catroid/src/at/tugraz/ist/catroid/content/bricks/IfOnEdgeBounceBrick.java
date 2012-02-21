@@ -111,14 +111,14 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
+			view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 		}
 
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
+		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 	}
 
 	@Override

@@ -23,12 +23,12 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -83,7 +83,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_nxt_motor_stop, null);
+		return View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 	}
 
 	@Override
@@ -92,17 +92,23 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_stop, null);
+		View brickView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
+		motorSpinner.setClickable(true);
+		motorSpinner.setEnabled(true);
+		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(motorEnum.ordinal());
+
 		return brickView;
 	}
 
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		//String[] values = parent.getContext().getResources().getStringArray(R.array.nxt_motor_chooser);
 		motorEnum = Motor.values()[position];
 		motor = motorEnum.name();
 	}

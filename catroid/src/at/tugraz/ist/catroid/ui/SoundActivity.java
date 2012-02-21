@@ -31,6 +31,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -198,4 +199,46 @@ public class SoundActivity extends ListActivity {
 		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 	}
+
+	// Does not rename the actual file, only the title in the SoundInfo
+	public void handleSoundRenameButton(View v) {
+		int position = (Integer) v.getTag();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		scriptTabActivity.selectedSoundInfo = soundInfoList.get(position);
+		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
+	}
+
+	public void handlePlaySoundButton(View v) {
+		final int position = (Integer) v.getTag();
+		final SoundInfo soundInfo = soundInfoList.get(position);
+
+		stopSound(soundInfo);
+		startSound(soundInfo);
+
+		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+			public void onCompletion(MediaPlayer mp) {
+				soundInfo.isPlaying = false;
+				soundInfo.isPaused = false;
+				((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+			}
+		});
+
+		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
+	public void handlePauseSoundButton(View v) {
+		final int position = (Integer) v.getTag();
+		pauseSound(soundInfoList.get(position));
+		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
+	public void handleDeleteSoundButton(View v) {
+		final int position = (Integer) v.getTag();
+
+		stopSound(null);
+		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
+		soundInfoList.remove(position);
+		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
 }

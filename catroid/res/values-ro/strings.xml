@@ -57,15 +57,6 @@
 <!--    <string name="show">Arată</string>-->
 <!--    <string name="hide">Ascunde</string>-->
 
-    <!-- Construction site context menu -->
-<!--    <string name="construction_site_play">Spre scenă</string>-->
-<!--    <string name="reset">Resetarea Terenului de Construcție</string>-->
-    <string name="new_project">Proiect nou</string>
-    <string name="load">Incărcare</string>
-<!--    <string name="change_project_name_main">Schimbarea numelui proiectului</string>-->
-    <string name="about">Despre Catroid</string>
-    <string name="upload_project">Încărcarea proiectului</string>
-
     <!-- Main menu activity -->
     <string name="resume">Reluare</string>
     <string name="current_project">Proiectul curent:</string>
@@ -76,7 +67,13 @@
 	<string name="tutorial">Tutorialul</string>
 	<string name="settings">Setări</string>
 	<string name="web_resources">Resurse web</string>
-
+<!--    <string name="reset">Resetarea Terenului de Construcție</string>-->
+    <string name="new_project">Proiect nou</string>
+    <string name="load">Incărcare</string>
+<!--    <string name="change_project_name_main">Schimbarea numelui proiectului</string>-->
+    <string name="about">Despre Catroid</string>
+    <string name="upload_project">Încărcarea proiectului</string>
+	
 	<!-- Settings activity -->
 	<string name="pref_category_mindstorm">Setări Mindstorm</string>
 	<string name="pref_enable_ms_bricks">Permiterea blocurilor Mindstorm</string>
@@ -190,7 +187,6 @@
     <string name="register_error">A avut loc o eroare</string>
     
     <!--  Stage menu dialog -->
-<!--	<string name="back_to_construction_site">Înapoi</string>-->
 	<string name="resume_current_project">Reluare</string>
 	<string name="restart_current_project">Restartare</string>
 <!--	<string name="snapshot">Screenshot</string>-->
@@ -204,7 +200,6 @@
 <!--	<string name="point_to_select_location">Selectați</string>-->
 	
     <!-- Stage context menu -->
-<!--    <string name="stagemenu_construction_site">Către terenul de construcție</string>-->
 <!--    <string name="stagemenu_start">Redare/Pauză</string>-->
     
     <!-- Brick categories -->

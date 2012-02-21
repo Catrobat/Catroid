@@ -54,7 +54,7 @@ public class ClearGraphicEffectBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_clear_graphic_effect, null);
+			view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
 		}
 
 		return view;
@@ -62,7 +62,7 @@ public class ClearGraphicEffectBrick implements Brick {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_clear_graphic_effect, null);
+		return inflater.inflate(R.layout.brick_clear_graphic_effect, null);
 	}
 
 	@Override
