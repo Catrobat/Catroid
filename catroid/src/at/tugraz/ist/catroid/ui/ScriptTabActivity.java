@@ -117,12 +117,12 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 
 	private void setUpActionBar() {
 		activityHelper = new ActivityHelper(this);
-		Log.v("FOOBAR", "getCurrentsprite is " + ProjectManager.getInstance().getCurrentSprite() != null ? "not" : ""
+		Log.v("FOOBAR3", "getResources is " + this.getResources() != null ? "not" : "" + " null");
+		Log.v("FOOBAR4", "getString is " + this.getResources().getString(R.string.sprite_name) != null ? "not" : ""
 				+ " null");
-		Log.v("FOOBAR", "getName is " + ProjectManager.getInstance().getCurrentSprite().getName() != null ? "not" : ""
+		Log.v("FOOBAR1", "getCurrentsprite is " + ProjectManager.getInstance().getCurrentSprite() != null ? "not" : ""
 				+ " null");
-		Log.v("FOOBAR", "getResources is " + this.getResources() != null ? "not" : "" + " null");
-		Log.v("FOOBAR", "getString is " + this.getResources().getString(R.string.sprite_name) != null ? "not" : ""
+		Log.v("FOOBAR2", "getName is " + ProjectManager.getInstance().getCurrentSprite().getName() != null ? "not" : ""
 				+ " null");
 		String title = this.getResources().getString(R.string.sprite_name) + " "
 				+ ProjectManager.getInstance().getCurrentSprite().getName();
