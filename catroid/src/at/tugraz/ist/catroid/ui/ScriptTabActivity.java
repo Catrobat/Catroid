@@ -31,6 +31,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -116,7 +117,13 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 
 	private void setUpActionBar() {
 		activityHelper = new ActivityHelper(this);
-
+		Log.v("FOOBAR", "getCurrentsprite is " + ProjectManager.getInstance().getCurrentSprite() != null ? "not" : ""
+				+ " null");
+		Log.v("FOOBAR", "getName is " + ProjectManager.getInstance().getCurrentSprite().getName() != null ? "not" : ""
+				+ " null");
+		Log.v("FOOBAR", "getResources is " + this.getResources() != null ? "not" : "" + " null");
+		Log.v("FOOBAR", "getString is " + this.getResources().getString(R.string.sprite_name) != null ? "not" : ""
+				+ " null");
 		String title = this.getResources().getString(R.string.sprite_name) + " "
 				+ ProjectManager.getInstance().getCurrentSprite().getName();
 		activityHelper.setupActionBar(false, title);
