@@ -51,21 +51,20 @@
     <string name="current_project">Current project:</string>
     <string name="current_project_button">Current Project</string>
     <string name="my_projects">My Projects</string>
-	<string name="tutorial">Tutorial</string>
-	<string name="settings">Settings</string>
-	<string name="web_resources">Web Resources</string>
-	<string name="forum">Forum</string>
-	<string name="new_project">New Project</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="settings">Settings</string>
+    <string name="web_resources">Web Resources</string>
+    <string name="forum">Forum</string>
+    <string name="new_project">New Project</string>
     <string name="load">Load</string>
     <string name="about">About Catroid</string>
     <string name="upload_project">Upload Project</string>
-	
-	<!-- Settings activity -->
-	<string name="pref_category_mindstorm">Lego Mindstorms settings</string>
-	<string name="pref_enable_ms_bricks">Enable Lego Mindstorms bricks</string>
-	<string name="pref_descr_ms_bricks">These bricks are used to control Lego Mindstorms robots.</string>
-	
-		
+
+    <!-- Settings activity -->
+    <string name="pref_category_mindstorm">Lego Mindstorms settings</string>
+    <string name="pref_enable_ms_bricks">Enable Lego Mindstorms bricks</string>
+    <string name="pref_descr_ms_bricks">These bricks are used to control Lego Mindstorms robots.</string>
+
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
     <string name="about_text">Catroid is an on-device visual programming language for 
@@ -108,7 +107,7 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
-    
+
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
 
@@ -192,16 +191,16 @@
     <string name="brick_change_size_by">Change size by</string>
     <string name="brick_hide">Hide</string>
     <string name="brick_show">Show</string>
-	<string name="brick_set_ghost_effect">Set ghost effect</string>
-	<string name="brick_change_ghost_effect">Change ghost effect</string>
-	<string name="brick_set_brightness">Set brightness</string>
-	<string name="brick_change_brightness">Change brightness</string>
-	<string name="by_label">by</string>
-	<string name="to_label">to</string>
-	<string name="brick_clear_graphic_effect">Clear graphic effects</string>
-	<string name="brick_next_costume">Next Costume</string>
-	
-	<!-- Sound bricks -->
+    <string name="brick_set_ghost_effect">Set ghost effect</string>
+    <string name="brick_change_ghost_effect">Change ghost effect</string>
+    <string name="brick_set_brightness">Set brightness</string>
+    <string name="brick_change_brightness">Change brightness</string>
+    <string name="by_label">by</string>
+    <string name="to_label">to</string>
+    <string name="brick_clear_graphic_effect">Clear graphic effects</string>
+    <string name="brick_next_costume">Next Costume</string>
+
+    <!-- Sound bricks -->
     <string name="brick_play_sound">Play sound</string>
     <string name="brick_stop_all_sounds">Stop all sounds</string>
     <string name="brick_set_volume_to">Set volume to</string>
@@ -282,7 +281,6 @@
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT move motor</string>
     <string name="motor">motor</string>
-    <string name="motor_duration">Duration</string>
     <string name="motor_speed">Speed</string>
     <string name="brick_motor_turn_angle">NXT turn motor</string>
     <string name="motor_angle">Angle</string>
@@ -293,5 +291,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
-		
+
 </resources>
