@@ -32,12 +32,12 @@
     <ImageView android:id="@+id/tabsIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingRight="5dip"
         android:visibility="gone"/>
 
 	<TextView android:id="@+id/tabsText" 
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content" 
 		android:textSize="14dip" 
-		android:textColor="@drawable/tab_text_selector" 
-		android:drawablePadding="5dip"/>
+		android:textColor="@drawable/tab_text_selector"/>
 </LinearLayout>
