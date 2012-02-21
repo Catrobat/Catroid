@@ -61,7 +61,7 @@
 				android:focusableInTouchMode="false"
 				android:gravity="right"
 				android:inputType="number"
-				android:maxLength="5"
+				android:maxLength="8"
 				android:maxLines="1"
 			>
 			</EditText>
@@ -122,7 +122,7 @@
 				android:focusableInTouchMode="false"
 				android:gravity="right"
 				android:inputType="number|numberDecimal|numberSigned"
-				android:maxLength="5"
+				android:maxLength="6"
 				android:maxLines="1"
 			>
 			</EditText>
@@ -148,7 +148,7 @@
 				android:focusableInTouchMode="false"
 				android:gravity="right"
 				android:inputType="number|numberDecimal|numberSigned"
-				android:maxLength="5"
+				android:maxLength="6"
 				android:maxLines="1"
 			>
 			</EditText>
