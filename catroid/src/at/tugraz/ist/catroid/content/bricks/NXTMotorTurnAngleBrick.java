@@ -28,17 +28,17 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnShowListener;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -108,7 +108,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_nxt_motor_turn_angle, null);
+		return View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 	}
 
 	@Override
@@ -117,14 +117,20 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_turn_angle, null);
+		View brickView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
 		editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(degrees));
 		editX.setOnClickListener(this);
 
+		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
+				android.R.layout.simple_spinner_item);
+		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
+		motorSpinner.setClickable(true);
+		motorSpinner.setEnabled(true);
+		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -141,8 +147,10 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 
 		motorSpinner.setSelection(motorEnum.ordinal());
 
-		Button directions = (Button) brickView.findViewById(R.id.directions_btn);
-		directions.setOnClickListener(new OnClickListener() {
+		Button directionsButton = (Button) brickView.findViewById(R.id.directions_btn);
+		directionsButton.setClickable(true);
+		directionsButton.setEnabled(true);
+		directionsButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
@@ -211,7 +219,6 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 			}
 		});
 
-		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 		return brickView;
 	}
 
@@ -230,7 +237,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 				try {
 					degrees = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

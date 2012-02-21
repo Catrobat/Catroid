@@ -33,4 +33,5 @@
     <string name="wiki_url">http://wiki.catroid.org/</string>
     <string name="about_catroid_url">http://code.google.com/p/catroid/</string>
     <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
+    <string name="catroid_forum">https://groups.google.com/group/catroid</string>
 </resources>

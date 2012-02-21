@@ -32,6 +32,8 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.Utils;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
@@ -47,18 +49,10 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private int catroidVersionCode;
 
-	private String screenResolution;
-	public transient int virtualScreenWidth = 0;
-	public transient int virtualScreenHeight = 0;
-
-	protected Object readResolve() {
-		if (screenResolution != null) {
-			String[] resolutions = screenResolution.split("/");
-			virtualScreenWidth = Integer.valueOf(resolutions[0]);
-			virtualScreenHeight = Integer.valueOf(resolutions[1]);
-		}
-		return this;
-	}
+	@XStreamAlias("screenWidth")
+	public int virtualScreenWidth = 0;
+	@XStreamAlias("screenHeight")
+	public int virtualScreenHeight = 0;
 
 	public Project(Context context, String name) {
 		this.projectName = name;
@@ -111,8 +105,6 @@ public class Project implements Serializable {
 	public void setDeviceData(Context context) {
 		deviceName = Build.MODEL;
 		androidVersion = Build.VERSION.SDK_INT;
-
-		screenResolution = virtualScreenWidth + "/" + virtualScreenHeight;
 
 		if (context == null) {
 			catroidVersionName = "unknown";

@@ -59,6 +59,7 @@ public class StorageHandler {
 	private StorageHandler() throws IOException {
 
 		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream.processAnnotations(Project.class);
 		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
 		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
 		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
@@ -143,9 +144,8 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName, project
-					.getName()
-					+ Consts.PROJECT_EXTENTION)), Consts.BUFFER_8K);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
+					project.getName() + Consts.PROJECT_EXTENTION)), Consts.BUFFER_8K);
 
 			writer.write(XML_HEADER.concat(projectFile));
 			writer.flush();
@@ -215,8 +215,8 @@ public class StorageHandler {
 			if (newName != null) {
 				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + newName);
 			} else {
-				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_"
-						+ inputFile.getName());
+				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
+						checksumSource + "_" + inputFile.getName());
 				if (checksumCont.containsChecksum(checksumSource)) {
 					checksumCont.addChecksum(checksumSource, newFilePath);
 					return new File(checksumCont.getPath(checksumSource));
@@ -240,8 +240,8 @@ public class StorageHandler {
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
-		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumCompressedFile + "_"
-				+ inputFile.getName());
+		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
+				checksumCompressedFile + "_" + inputFile.getName());
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
 			outputFile.delete();

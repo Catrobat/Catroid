@@ -133,6 +133,7 @@ public class AddBrickDialog extends Dialog {
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();
 		looksBrickList.add(new SetCostumeBrick(sprite));
+		looksBrickList.add(new NextCostumeBrick(sprite));
 		looksBrickList.add(new SetSizeToBrick(sprite, 100));
 		looksBrickList.add(new ChangeSizeByNBrick(sprite, 20));
 		looksBrickList.add(new HideBrick(sprite));
@@ -142,7 +143,6 @@ public class AddBrickDialog extends Dialog {
 		looksBrickList.add(new SetBrightnessBrick(sprite, 0));
 		looksBrickList.add(new ChangeBrightnessBrick(sprite, 25));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
-		looksBrickList.add(new NextCostumeBrick(sprite));
 
 		brickMap.put(context.getString(R.string.category_looks), looksBrickList);
 
@@ -181,7 +181,7 @@ public class AddBrickDialog extends Dialog {
 		this.scriptTabActivity = scriptTabActivity;
 		this.category = category;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.dialog_toolbox);
+		setContentView(R.layout.dialog_add_brick);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -200,7 +200,7 @@ public class AddBrickDialog extends Dialog {
 	protected void onStart() {
 		super.onStart();
 
-		listView = (ListView) findViewById(R.id.toolboxListView);
+		listView = (ListView) findViewById(R.id.addBrickDialogListView);
 		brickMap = setupBrickMap(ProjectManager.getInstance().getCurrentSprite(), scriptTabActivity);
 		adapter = new PrototypeBrickAdapter(this.scriptTabActivity, brickMap.get(category));
 

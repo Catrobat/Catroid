@@ -73,7 +73,7 @@ public class ComeToFrontBrick implements Brick {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_come_to_front, null);
+			view = View.inflate(context, R.layout.brick_come_to_front, null);
 		}
 
 		return view;
@@ -85,6 +85,6 @@ public class ComeToFrontBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_come_to_front, null);
+		return View.inflate(context, R.layout.brick_come_to_front, null);
 	}
 }

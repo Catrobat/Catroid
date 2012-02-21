@@ -77,9 +77,9 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_change_x, null);
+		view = View.inflate(context, R.layout.brick_change_x, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_change_x_edit_text);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
 		editX.setText(String.valueOf(xMovement));
 
 		editX.setOnClickListener(this);
@@ -88,7 +88,7 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_change_x, null);
+		return View.inflate(context, R.layout.brick_change_x, null);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 				try {
 					xMovement = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

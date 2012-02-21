@@ -57,7 +57,7 @@ public class StopAllSoundsBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_stop_all_sounds, null);
+			view = View.inflate(context, R.layout.brick_stop_all_sounds, null);
 		}
 		return view;
 	}
@@ -68,6 +68,6 @@ public class StopAllSoundsBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_stop_all_sounds, null);
+		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
 	}
 }
