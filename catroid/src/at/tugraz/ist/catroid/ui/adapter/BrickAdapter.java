@@ -62,6 +62,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private boolean insertedBrick;
 	private boolean insertLoop;
 	private int pos;
+	private int fromTest;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -74,7 +75,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drag(int from, int to) {
-
+		Log.d("TESTING", "drag: from " + from + " to " + to);
+		fromTest = from;
 		int scriptFrom = getScriptId(from);
 		int scriptTo = getScriptId(to);
 		//		Log.d("TESTING", "Drag called from: " + from + ", to: " + to);
@@ -111,7 +113,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 				Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
 				if (script.getBrickList().indexOf(((LoopEndBrick) draggedBrick).getLoopBeginBrick()) == -1) {
-					Log.d("TESTING", "HOMOLON aka Oktolon");
 					dragTargetPosition = -1;
 					return;
 				}
@@ -123,22 +124,24 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 
 			if (from != to) {
+				Log.d("TESTING", "bricks lol: ");
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
-
 				sprite.getScript(scriptTo).addBrick(getScriptPosition(to, scriptTo), draggedBrick);
 			}
+
+			Log.d("TESTING", "bricks lol: dragTargetPosition " + dragTargetPosition);
 
 		} else {
 			if (to != 0) {
 				dragTargetPosition = to;
 			} else {
 				dragTargetPosition = 1;
+
 			}
 
 			if (from < to) {
 
 				if (draggedBrick instanceof LoopEndBrick) {
-					Log.d("TESTING", "HOMOLON aka Oktolon1");
 					dragTargetPosition = -1;
 					return;
 				}
@@ -150,7 +153,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			} else if (from > to && to > 0) {
 
 				if (draggedBrick instanceof LoopEndBrick) {
-					Log.d("TESTING", "HOMOLON aka Oktolon2");
 					dragTargetPosition = -1;
 					return;
 				}
@@ -204,9 +206,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drop(int to) {
+		boolean toLastScript = false;
+		Log.d("TESTING", "drop: " + to);
 
 		if (to < 0) {
-			Log.d("TESTING", "Drop to: " + to);
+			Log.d("TESTING", "dragTargetPosition: " + dragTargetPosition);
 			int nrScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 
 			int newTo = 0;
@@ -225,6 +229,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			to = newTo;
 			//to = dragTargetPosition;
 			Log.d("TESTING", "Itemposition: " + to);
+			toLastScript = true;
 		}
 
 		if (draggedBrick instanceof WhenBrick) {
@@ -232,103 +237,112 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			int sId = getScriptId(to);
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Script newScript = new WhenScript(projectManager.getCurrentSprite());
+			if (toLastScript) {
+				projectManager.getCurrentSprite().addScript(newScript);
+			} else {
+				ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
 
-			ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
+				ArrayList<Brick> tmpList = new ArrayList<Brick>();
 
-			ArrayList<Brick> tmpList = new ArrayList<Brick>();
+				int brickToScript = 0;
+				for (Brick brick : bricks) {
 
-			int brickToScript = 0;
-			for (Brick brick : bricks) {
-
-				if (brick instanceof WhenBrick) {
-					projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
-					break;
+					if (brick instanceof WhenBrick) {
+						projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+						break;
+					}
+					brickToScript++;
 				}
-				brickToScript++;
+
+				for (Brick brick : bricks) {
+					tmpList.add(brick);
+				}
+
+				projectManager.getCurrentSprite().addScript(sId + 1, newScript);
+
+				for (int j = brickToScript; j < tmpList.size(); j++) {
+					Brick brickToCopy = tmpList.get(j);
+					projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
+				}
+
+				for (int i = bricks.size(); i > brickToScript; i--) {
+					projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+				}
 			}
-
-			for (Brick brick : bricks) {
-				tmpList.add(brick);
-			}
-
-			projectManager.getCurrentSprite().addScript(sId + 1, newScript);
-
-			for (int j = brickToScript; j < tmpList.size(); j++) {
-				Brick brickToCopy = tmpList.get(j);
-				projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
-			}
-
-			for (int i = bricks.size(); i > brickToScript; i--) {
-				projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
-			}
-
 		} else if (draggedBrick instanceof WhenStartedBrick) {
 
 			int sId = getScriptId(to);
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Script newScript = new StartScript(projectManager.getCurrentSprite());
+			if (toLastScript) {
+				projectManager.getCurrentSprite().addScript(newScript);
+			} else {
+				ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
 
-			ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
+				ArrayList<Brick> tmpList = new ArrayList<Brick>();
 
-			ArrayList<Brick> tmpList = new ArrayList<Brick>();
+				int brickToScript = 0;
+				for (Brick brick : bricks) {
 
-			int brickToScript = 0;
-			for (Brick brick : bricks) {
-
-				if (brick instanceof WhenStartedBrick) {
-					projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
-					break;
+					if (brick instanceof WhenStartedBrick) {
+						projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+						break;
+					}
+					brickToScript++;
 				}
-				brickToScript++;
+
+				for (Brick brick : bricks) {
+					tmpList.add(brick);
+				}
+
+				projectManager.getCurrentSprite().addScript(sId + 1, newScript);
+
+				for (int j = brickToScript; j < tmpList.size(); j++) {
+					Brick brickToCopy = tmpList.get(j);
+					projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
+				}
+
+				for (int i = bricks.size(); i > brickToScript; i--) {
+					projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+				}
 			}
-
-			for (Brick brick : bricks) {
-				tmpList.add(brick);
-			}
-
-			projectManager.getCurrentSprite().addScript(sId + 1, newScript);
-
-			for (int j = brickToScript; j < tmpList.size(); j++) {
-				Brick brickToCopy = tmpList.get(j);
-				projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
-			}
-
-			for (int i = bricks.size(); i > brickToScript; i--) {
-				projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
-			}
-
+			//BroadcastScript
 		} else if (draggedBrick instanceof BroadcastReceiverBrick) {
+
 			int sId = getScriptId(to);
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
+			if (toLastScript) {
+				projectManager.getCurrentSprite().addScript(newScript);
+			} else {
+				ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
 
-			ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
+				ArrayList<Brick> tmpList = new ArrayList<Brick>();
 
-			ArrayList<Brick> tmpList = new ArrayList<Brick>();
+				int brickToScript = 0;
+				for (Brick brick : bricks) {
 
-			int brickToScript = 0;
-			for (Brick brick : bricks) {
-
-				if (brick instanceof BroadcastReceiverBrick) {
-					projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
-					break;
+					if (brick instanceof BroadcastReceiverBrick) {
+						projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+						break;
+					}
+					brickToScript++;
 				}
-				brickToScript++;
-			}
 
-			for (Brick brick : bricks) {
-				tmpList.add(brick);
-			}
+				for (Brick brick : bricks) {
+					tmpList.add(brick);
+				}
 
-			projectManager.getCurrentSprite().addScript(sId + 1, newScript);
+				projectManager.getCurrentSprite().addScript(sId + 1, newScript);
 
-			for (int j = brickToScript; j < tmpList.size(); j++) {
-				Brick brickToCopy = tmpList.get(j);
-				projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
-			}
+				for (int j = brickToScript; j < tmpList.size(); j++) {
+					Brick brickToCopy = tmpList.get(j);
+					projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
+				}
 
-			for (int i = bricks.size(); i > brickToScript; i--) {
-				projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+				for (int i = bricks.size(); i > brickToScript; i--) {
+					projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+				}
 			}
 		} else if (draggedBrick instanceof LoopBeginBrick) {
 			Log.d("TESTING", "Setting Loop Begin/end Brick");
@@ -351,6 +365,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 				((LoopBeginBrick) draggedBrick).setLoopEndBrick(loopEndBrick);
 				insertLoop = false;
+			}
+		} else {
+
+			if (toLastScript) {
+				int sId = getScriptId(fromTest);
+				int toSCript = sprite.getNumberOfScripts() - 1;
+				Log.d("TESTING", "sID " + sId);
+				sprite.getScript(sId).removeBrick(draggedBrick);
+				sprite.getScript(toSCript).addBrick(draggedBrick);
 			}
 		}
 
