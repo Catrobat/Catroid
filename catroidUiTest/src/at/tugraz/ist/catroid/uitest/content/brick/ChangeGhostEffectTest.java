@@ -36,13 +36,15 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private Project project;
-	private ChangeGhostEffectBrick ChangeGhostEffectBrick;
+	private ChangeGhostEffectBrick changeGhostEffectBrick;
 	private double effectToChange;
 
 	public ChangeGhostEffectTest() {
@@ -64,6 +66,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		}
 
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -81,8 +84,8 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
 				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(
-				R.string.brick_change_ghost_effect)));
+		assertNotNull("TextView does not exist",
+				solo.getText(getActivity().getString(R.string.brick_change_ghost_effect)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
@@ -92,17 +95,49 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", effectToChange, ChangeGhostEffectBrick.getChangeGhostEffect());
+		assertEquals("Wrong text in field", effectToChange, changeGhostEffectBrick.getChangeGhostEffect());
 		assertEquals("Text not updated", effectToChange, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		createProject();
+		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		solo.sleep(100);
+
+		double[] changeBrightnessTestValues = new double[] { 1.0, 100.55, -0.1 };
+		double currentChangeBrightnessValue = 0.0;
+		int editTextWidth = 0;
+		for (int i = 0; i < changeBrightnessTestValues.length; i++) {
+			currentChangeBrightnessValue = changeBrightnessTestValues[i];
+			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentChangeBrightnessValue);
+			solo.clickOnButton(0);
+			solo.sleep(100);
+			assertTrue("EditText not resized - value not (fully) visible",
+					solo.searchText(currentChangeBrightnessValue + ""));
+			editTextWidth = solo.getEditText(0).getWidth();
+			assertTrue("Minwidth of EditText should be 60 dpi",
+					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		}
+
+		solo.sleep(200);
+		currentChangeBrightnessValue = 1000.55;
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentChangeBrightnessValue);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+		assertFalse("Number too long - should not be resized and fully visible",
+				solo.searchText(currentChangeBrightnessValue + ""));
 	}
 
 	private void createProject() {
 		effectToChange = 11.2;
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		ChangeGhostEffectBrick = new ChangeGhostEffectBrick(sprite, 30.5);
-		script.addBrick(ChangeGhostEffectBrick);
+		changeGhostEffectBrick = new ChangeGhostEffectBrick(sprite, 30.5);
+		script.addBrick(changeGhostEffectBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -111,5 +146,4 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
