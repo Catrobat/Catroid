@@ -67,12 +67,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
-		try {
-			solo.finishOpenedActivities();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
