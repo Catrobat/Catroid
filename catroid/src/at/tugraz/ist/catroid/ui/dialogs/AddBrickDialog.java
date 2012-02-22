@@ -60,8 +60,6 @@ import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
@@ -250,10 +248,11 @@ public class AddBrickDialog extends Dialog {
 						Brick brickClone = getBrickClone(addedBrick);
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}
-				} else if (addedBrick instanceof LoopBeginBrick
-						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
-						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
-					//Don't add new loop brick, only one loop per script for now
+					//				} 
+					//				else if (addedBrick instanceof LoopBeginBrick
+					//						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
+					//						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
+					//					//Don't add new loop brick, only one loop per script for now
 				} else {
 					Brick brickClone = getBrickClone(adapter.getItem(position));
 
