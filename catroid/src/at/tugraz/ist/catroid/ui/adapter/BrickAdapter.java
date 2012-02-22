@@ -141,6 +141,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 
 		} else {
+
+			Log.d("TESTING", "Moved to ELSE");
+
 			if (to != 0) {
 				dragTargetPosition = to;
 			} else {
@@ -384,19 +387,48 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 		} else if (draggedBrick instanceof LoopBeginBrick) {
 			if (insertLoop) {
-				LoopEndBrick loopEndBrick = new LoopEndBrick(ProjectManager.getInstance().getCurrentSprite(),
-						(LoopBeginBrick) draggedBrick);
+				if (toLastScript) {
+					LoopEndBrick loopEndBrick = new LoopEndBrick(ProjectManager.getInstance().getCurrentSprite(),
+							(LoopBeginBrick) draggedBrick);
 
-				int sId = getScriptId(to);
-				int bId = ProjectManager.getInstance().getCurrentSprite().getScript(sId).getBrickList()
-						.indexOf(draggedBrick) + 1;
+					int del = -1;
+					int nrScripts = sprite.getNumberOfScripts();
+					for (int i = 0; i < nrScripts; i++) {
+						boolean breaker = false;
+						ArrayList<Brick> bricks = sprite.getScript(i).getBrickList();
+						for (Brick brick : bricks) {
+							if (brick == draggedBrick) {
+								del = i;
+								breaker = true;
+								break;
+							}
+						}
+						if (breaker) {
+							break;
+						}
+					}
+					ProjectManager.getInstance().getCurrentSprite().getScript(del).removeBrick(draggedBrick);
+					ProjectManager.getInstance().getCurrentSprite().getScript(nrScripts - 1).addBrick(draggedBrick);
+					ProjectManager.getInstance().getCurrentSprite().getScript(nrScripts - 1).addBrick(loopEndBrick);
 
-				Log.d("TESTING", "Moped Minion Oktolon -> BID: " + bId);
+					((LoopBeginBrick) draggedBrick).setLoopEndBrick(loopEndBrick);
+					insertLoop = false;
 
-				ProjectManager.getInstance().getCurrentSprite().getScript(sId).addBrick(bId, loopEndBrick);
+				} else {
+					LoopEndBrick loopEndBrick = new LoopEndBrick(ProjectManager.getInstance().getCurrentSprite(),
+							(LoopBeginBrick) draggedBrick);
 
-				((LoopBeginBrick) draggedBrick).setLoopEndBrick(loopEndBrick);
-				insertLoop = false;
+					int sId = getScriptId(to);
+					int bId = ProjectManager.getInstance().getCurrentSprite().getScript(sId).getBrickList()
+							.indexOf(draggedBrick) + 1;
+
+					Log.d("TESTING", "Moped Minion Oktolon -> BID: " + bId);
+
+					ProjectManager.getInstance().getCurrentSprite().getScript(sId).addBrick(bId, loopEndBrick);
+
+					((LoopBeginBrick) draggedBrick).setLoopEndBrick(loopEndBrick);
+					insertLoop = false;
+				}
 			}
 		} else {
 
