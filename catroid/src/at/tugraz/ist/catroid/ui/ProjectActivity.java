@@ -124,6 +124,7 @@ public class ProjectActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
+		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}
 
