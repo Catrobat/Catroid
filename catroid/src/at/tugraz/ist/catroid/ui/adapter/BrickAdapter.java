@@ -99,6 +99,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			if (draggedBrick instanceof LoopBeginBrick) {
 				LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
 				if (loopEndBrick != null) {
+
+					//NEW
+					Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
+					if (script.getBrickList().indexOf(((LoopBeginBrick) draggedBrick).getLoopEndBrick()) == -1) {
+						Log.d("TESTING", "HOMOLON aka Oktolon4");
+						dragTargetPosition = -1;
+						return;
+					}
+					//NEW END
+
 					if (getScriptPosition(to, scriptTo) >= brickList.indexOf(loopEndBrick)
 							|| getScriptPosition(from, scriptFrom) >= brickList.indexOf(loopEndBrick)) {
 						return;
@@ -142,6 +152,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					dragTargetPosition = -1;
 					return;
 				}
+				//				else if (draggedBrick instanceof LoopBeginBrick) {
+				//					Log.d("TESTING", "HOMOLON aka Oktolon3");
+				//					dragTargetPosition = -1;
+				//					return;
+				//				}
 				sprite.getScript(getScriptId(to)).addBrick(0, draggedBrick);
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
 				if (currentScriptPosition != 0 && from < currentScriptPosition) {
@@ -154,6 +169,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					dragTargetPosition = -1;
 					return;
 				}
+				//				else if (draggedBrick instanceof LoopBeginBrick) {
+				//					Log.d("TESTING", "HOMOLON aka Oktolon5");
+				//					dragTargetPosition = -1;
+				//					return;
+				//				}
 
 				sprite.getScript(getScriptId(to) - 1).addBrick(
 						sprite.getScript(getScriptId(to) - 1).getBrickList().size(), draggedBrick);
@@ -197,6 +217,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					//
 					//					dragTargetPosition = bId;
 				}
+				//				else if (draggedBrick instanceof LoopBeginBrick) {
+				//					Log.d("TESTING", "HOMOLON aka Oktolon6");
+				//					dragTargetPosition = -1;
+				//				}
 			}
 		}
 
@@ -331,8 +355,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
 			}
 		} else if (draggedBrick instanceof LoopBeginBrick) {
-			Log.d("TESTING", "Setting Loop Begin/end Brick");
 			if (insertLoop) {
+				Log.d("TESTING", "Setting Loop Begin/end Brick IF");
 				LoopEndBrick loopEndBrick = new LoopEndBrick(ProjectManager.getInstance().getCurrentSprite(),
 						(LoopBeginBrick) draggedBrick);
 
