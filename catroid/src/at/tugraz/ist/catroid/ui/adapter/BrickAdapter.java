@@ -75,6 +75,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drag(int from, int to) {
+		Log.d("HALLO", "POS: " + pos);
 		Log.d("TESTING", "drag: from " + from + " to " + to);
 		fromTest = from;
 		int scriptFrom = getScriptId(from);
@@ -104,13 +105,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 					//NEW
 					Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
+					Log.d("HALLO", "Called INDEXOF1");
 					if (script.getBrickList().indexOf(((LoopBeginBrick) draggedBrick).getLoopEndBrick()) == -1) {
 						Log.d("TESTING", "HOMOLON aka Oktolon4");
 						dragTargetPosition = -1;
 						return;
 					}
 					//NEW END
-
+					Log.d("HALLO", "Called INDEXOF2");
 					if (getScriptPosition(to, scriptTo) >= brickList.indexOf(loopEndBrick)
 							|| getScriptPosition(from, scriptFrom) >= brickList.indexOf(loopEndBrick)) {
 						return;
@@ -122,12 +124,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
 
 				Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
+				Log.d("HALLO", "Called INDEXOF3");
 				if (script.getBrickList().indexOf(((LoopEndBrick) draggedBrick).getLoopBeginBrick()) == -1) {
 					Log.d("TESTING", "HOMOLON aka Oktolon");
 					dragTargetPosition = -1;
 					return;
 				}
-
+				Log.d("HALLO", "Called INDEXOF4");
 				if (getScriptPosition(to, scriptTo) <= brickList.indexOf(loopBeginBrick)
 						|| getScriptPosition(from, scriptFrom) <= brickList.indexOf(loopBeginBrick)) {
 					return;
@@ -387,7 +390,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 		} else if (draggedBrick instanceof LoopBeginBrick) {
 			if (insertLoop) {
+				Log.d("HALLO", "IF PENNER INSERTLOOP");
 				if (toLastScript) {
+					Log.d("HALLO", "IF PENNER");
 					LoopEndBrick loopEndBrick = new LoopEndBrick(ProjectManager.getInstance().getCurrentSprite(),
 							(LoopBeginBrick) draggedBrick);
 
@@ -407,7 +412,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 							break;
 						}
 					}
-					ProjectManager.getInstance().getCurrentSprite().getScript(del).removeBrick(draggedBrick);
+					if (del >= 0) {
+						ProjectManager.getInstance().getCurrentSprite().getScript(del).removeBrick(draggedBrick);
+					}
 					ProjectManager.getInstance().getCurrentSprite().getScript(nrScripts - 1).addBrick(draggedBrick);
 					ProjectManager.getInstance().getCurrentSprite().getScript(nrScripts - 1).addBrick(loopEndBrick);
 
@@ -415,10 +422,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					insertLoop = false;
 
 				} else {
+					Log.d("HALLO", "ELSE PENNER");
 					LoopEndBrick loopEndBrick = new LoopEndBrick(ProjectManager.getInstance().getCurrentSprite(),
 							(LoopBeginBrick) draggedBrick);
 
 					int sId = getScriptId(to);
+					Log.d("HALLO", "Called INDEXOF5");
 					int bId = ProjectManager.getInstance().getCurrentSprite().getScript(sId).getBrickList()
 							.indexOf(draggedBrick) + 1;
 
@@ -431,6 +440,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				}
 			}
 		} else {
+
+			Log.d("HALLO", "ELSE PENNER INSERTLOOP");
 
 			if (toLastScript) {
 				int sId = getScriptId(fromTest);
