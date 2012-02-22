@@ -238,20 +238,20 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 				int iconTag = ((Integer) imageViewToTest.getTag()).intValue();
 				if (iconTag == tabIDs[0]) {
 					iconFound = true;
-					testTabIcon(imageViewToTest, iconTag, true, referenceHexValues[0]);
+					testTabIconColor(imageViewToTest, iconTag, true, referenceHexValues[0]);
 				} else if (iconTag == tabIDs[1]) {
 					iconFound = true;
-					testTabIcon(imageViewToTest, iconTag, false, referenceHexValues[1]);
+					testTabIconColor(imageViewToTest, iconTag, false, referenceHexValues[1]);
 				} else if (iconTag == tabIDs[2]) {
 					iconFound = true;
-					testTabIcon(imageViewToTest, iconTag, false, referenceHexValues[2]);
+					testTabIconColor(imageViewToTest, iconTag, false, referenceHexValues[2]);
 				}
 				assertTrue("Icon not found", iconFound);
 			}
 		}
 	}
 
-	private void testTabIcon(ImageView icon, int iconTag, boolean activeTab, String[] referenceHexValues) {
+	private void testTabIconColor(ImageView icon, int iconTag, boolean activeTab, String[] referenceHexValues) {
 		assertEquals("Wrong amount of values to compare - should be 6", 6, referenceHexValues.length);
 		int[] x = new int[3];
 		int[] y = new int[3];
