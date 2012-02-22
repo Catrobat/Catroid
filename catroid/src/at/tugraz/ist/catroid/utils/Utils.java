@@ -72,14 +72,6 @@ public class Utils {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
 
-	public static void updateScreenWidthAndHeight(Activity currentActivity) {
-		DisplayMetrics dm = new DisplayMetrics();
-		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-		Values.SCREEN_WIDTH = dm.widthPixels;
-		Values.SCREEN_HEIGHT = dm.heightPixels;
-	}
-
 	/**
 	 * Checks whether the current device has an SD card. If it has none an error
 	 * message is displayed and the calling activity is finished. A
@@ -105,6 +97,14 @@ public class Utils {
 			return false;
 		}
 		return true;
+	}
+
+	public static void updateScreenWidthAndHeight(Activity currentActivity) {
+		DisplayMetrics dm = new DisplayMetrics();
+		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+		Values.SCREEN_WIDTH = dm.widthPixels;
+		Values.SCREEN_HEIGHT = dm.heightPixels;
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -285,5 +285,11 @@ public class Utils {
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
 			}
 		};
+	}
+
+	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {
+		final float scale = context.getResources().getDisplayMetrics().density;
+		int physicalPixels = (int) (densityIndependentPixels * scale + 0.5f);
+		return physicalPixels;
 	}
 }

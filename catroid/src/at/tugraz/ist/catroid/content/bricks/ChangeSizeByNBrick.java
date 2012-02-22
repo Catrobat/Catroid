@@ -66,9 +66,9 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
+		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_change_size_by_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
 		edit.setText(String.valueOf(size));
 
 		edit.setOnClickListener(this);
@@ -77,7 +77,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
+		return View.inflate(context, R.layout.brick_change_size_by_n, null);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 				try {
 					size = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

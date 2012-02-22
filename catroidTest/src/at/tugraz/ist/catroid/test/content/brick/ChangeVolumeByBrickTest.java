@@ -42,8 +42,8 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
 	private String projectName = "projectiName";
-	private double louder = 10.6;
-	private double softer = -20.3;
+	private float louder = 10.6f;
+	private float softer = -20.3f;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -63,9 +63,9 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 
 	public void testVolume() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite size value", 70.0, SoundManager.getInstance().getVolume());
+		assertEquals("Unexpected initial sprite size value", 70.0f, SoundManager.getInstance().getVolume());
 
-		double volume = SoundManager.getInstance().getVolume();
+		float volume = SoundManager.getInstance().getVolume();
 		volume += louder;
 		ChangeVolumeByBrick changeVolumeByBrick1 = new ChangeVolumeByBrick(sprite, louder);
 		changeVolumeByBrick1.execute();

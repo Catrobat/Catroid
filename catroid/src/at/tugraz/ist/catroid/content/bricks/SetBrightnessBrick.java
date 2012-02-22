@@ -38,14 +38,14 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class SetBrightnessBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double brightnessValue;
+	private double brightness;
 	private Sprite sprite;
 
 	private transient View view;
 
 	public SetBrightnessBrick(Sprite sprite, double brightnessValue) {
 		this.sprite = sprite;
-		this.brightnessValue = brightnessValue;
+		this.brightness = brightnessValue;
 	}
 
 	public int getRequiredResources() {
@@ -53,7 +53,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		sprite.costume.setBrightnessValue((float) this.brightnessValue / 100);
+		sprite.costume.setBrightnessValue((float) this.brightness / 100);
 	}
 
 	public Sprite getSprite() {
@@ -61,15 +61,15 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	public double getBrightnessValue() {
-		return brightnessValue;
+		return brightness;
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_set_brightness, null);
+		view = View.inflate(context, R.layout.brick_set_brightness, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_set_brightness_edit_text);
-		editX.setText(String.valueOf(brightnessValue));
+		EditText editX = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
+		editX.setText(String.valueOf(brightness));
 
 		editX.setOnClickListener(this);
 
@@ -77,7 +77,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_set_brightness, null);
+		return View.inflate(context, R.layout.brick_set_brightness, null);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		final EditText input = new EditText(context);
-		input.setText(String.valueOf(brightnessValue));
+		input.setText(String.valueOf(brightness));
 		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		input.setSelectAllOnFocus(true);
 		dialog.setView(input);
@@ -98,9 +98,9 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
-					brightnessValue = Double.parseDouble(input.getText().toString());
+					brightness = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

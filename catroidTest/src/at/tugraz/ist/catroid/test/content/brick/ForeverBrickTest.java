@@ -97,6 +97,8 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		Thread.sleep(expectedDelay * repeatTimes);
 
+		final long endTime = System.currentTimeMillis();
+
 		assertEquals("Loop delay did not work!", repeatTimes * deltaY, (int) testSprite.costume.getYPosition());
 
 		/*
@@ -104,7 +106,6 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		 * http://code.google.com/p/catroid/issues/detail?id=28
 		 */
 		final long delayByContract = 20;
-		final long endTime = System.currentTimeMillis();
-		assertEquals("Loop delay did was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
+		assertEquals("Loop delay was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
 	}
 }

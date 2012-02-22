@@ -56,6 +56,9 @@ public abstract class Script implements Serializable {
 	public void run() {
 		isFinished = false;
 		for (int i = 0; i < brickList.size(); i++) {
+			if (!sprite.isAlive(Thread.currentThread())) {
+				break;
+			}
 			while (paused) {
 				if (finish) {
 					isFinished = true;

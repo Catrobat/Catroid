@@ -62,6 +62,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private boolean insertedBrick;
 	private boolean insertLoop;
 	private int pos;
+	private int fromTest;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -74,7 +75,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drag(int from, int to) {
-
+		Log.d("TESTING", "drag: from " + from + " to " + to);
+		fromTest = from;
 		int scriptFrom = getScriptId(from);
 		int scriptTo = getScriptId(to);
 		//		Log.d("TESTING", "Drag called from: " + from + ", to: " + to);
@@ -228,6 +230,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drop(int to) {
+		boolean toLastScript = false;
+		Log.d("TESTING", "drop: " + to);
 
 		if (to < 0) {
 			Log.d("TESTING", "Drop to: " + to);
@@ -249,6 +253,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			to = newTo;
 			//to = dragTargetPosition;
 			Log.d("TESTING", "Itemposition: " + to);
+			toLastScript = true;
 		}
 
 		if (draggedBrick instanceof WhenBrick) {
@@ -256,10 +261,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			int sId = getScriptId(to);
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Script newScript = new WhenScript(projectManager.getCurrentSprite());
+			if (toLastScript) {
+				projectManager.getCurrentSprite().addScript(newScript);
+			} else {
+				ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
 
-			ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
-
-			ArrayList<Brick> tmpList = new ArrayList<Brick>();
+				ArrayList<Brick> tmpList = new ArrayList<Brick>();
 
 			int brickToScript = 0;
 			for (Brick brick : bricks) {
@@ -285,14 +292,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			for (int i = bricks.size(); i > brickToScript; i--) {
 				projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
 			}
+			}
 
 		} else if (draggedBrick instanceof WhenStartedBrick) {
 
 			int sId = getScriptId(to);
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Script newScript = new StartScript(projectManager.getCurrentSprite());
-
-			ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
+			if (toLastScript) {
+				projectManager.getCurrentSprite().addScript(newScript);
+			} else {
+				ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
 
 			ArrayList<Brick> tmpList = new ArrayList<Brick>();
 
@@ -320,13 +330,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			for (int i = bricks.size(); i > brickToScript; i--) {
 				projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
 			}
-
+			}
 		} else if (draggedBrick instanceof BroadcastReceiverBrick) {
 			int sId = getScriptId(to);
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
-
-			ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
+			if (toLastScript) {
+				projectManager.getCurrentSprite().addScript(newScript);
+			} else {
+				ArrayList<Brick> bricks = projectManager.getCurrentSprite().getScript(sId).getBrickList();
 
 			ArrayList<Brick> tmpList = new ArrayList<Brick>();
 
@@ -354,6 +366,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			for (int i = bricks.size(); i > brickToScript; i--) {
 				projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
 			}
+			}
 		} else if (draggedBrick instanceof LoopBeginBrick) {
 			if (insertLoop) {
 				Log.d("TESTING", "Setting Loop Begin/end Brick IF");
@@ -375,6 +388,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 				((LoopBeginBrick) draggedBrick).setLoopEndBrick(loopEndBrick);
 				insertLoop = false;
+			}
+		} else {
+
+			if (toLastScript) {
+				int sId = getScriptId(fromTest);
+				int toSCript = sprite.getNumberOfScripts() - 1;
+				Log.d("TESTING", "sID " + sId);
+				sprite.getScript(sId).removeBrick(draggedBrick);
+				sprite.getScript(toSCript).addBrick(draggedBrick);
 			}
 		}
 
@@ -501,8 +523,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 			// Hack!!!
 			// if wrapper isn't used the longClick event won't be triggered
-			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
-
+			//ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
+			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
 			if (currentBrickView.getParent() != null) {
 				((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
 			}
