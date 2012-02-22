@@ -78,8 +78,8 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_y_by)));
 
 		solo.clickOnEditText(0);
@@ -92,6 +92,13 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
 		assertEquals("Wrong text in field.", yToChange, yMovementValue);
 		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
 	}
 
 	private void createProject() {

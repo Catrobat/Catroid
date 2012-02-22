@@ -60,7 +60,8 @@
 		android:id="@+id/brick_turn_right_edit_text"
 		android:text="15"
 		android:layout_height="wrap_content"
-		android:layout_width="75dp"
+		android:layout_width="wrap_content"
+		android:minWidth="75dip"
 		android:layout_centerVertical="true"
 		android:layout_toLeftOf="@+id/LabelTextView"
 		android:clickable="false"
@@ -68,7 +69,7 @@
 		android:focusableInTouchMode="false"
 		android:gravity="right"
 		android:inputType="number|numberDecimal"
-		android:maxLength="5"
+		android:maxLength="7"
 		android:maxLines="1"
 	>
 	</EditText>

@@ -88,7 +88,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
-
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -134,8 +134,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(getActivity().getString(R.string.stagemenu_screenshot));
 		solo.sleep(50);
 
-		assertTrue("Successful screenshot Toast not found!", solo.searchText(getActivity().getString(
-				R.string.notification_screenshot_ok)));
+		assertTrue("Successful screenshot Toast not found!",
+				solo.searchText(getActivity().getString(R.string.notification_screenshot_ok)));
 
 		solo.clickOnText(getActivity().getString(R.string.resume_current_project));
 
@@ -162,6 +162,20 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
 				colorInsideSizedQuad);
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		createTestProject();
+		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		solo.sleep(100);
+
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
 	}
 
 	private void createProject() {
@@ -194,9 +208,23 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		costumeData.setCostumeName("image");
 		setCostumeBrick.setCostume(costumeData);
 		sprite.getCostumeDataList().add(costumeData);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(), image
-				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
+				image.getAbsolutePath());
 		ProjectManager.getInstance().saveProject();
 	}
 
+	private void createTestProject() {
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript(sprite);
+		setSizeToBrick = new SetSizeToBrick(sprite, 0);
+		script.addBrick(setSizeToBrick);
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
+	}
 }
