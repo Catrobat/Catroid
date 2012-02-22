@@ -60,8 +60,6 @@ import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
@@ -209,16 +207,17 @@ public class AddBrickDialog extends Dialog {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
 		listView = (ListView) findViewById(R.id.addBrickDialogListView);
 		brickMap = setupBrickMap(ProjectManager.getInstance().getCurrentSprite(), scriptTabActivity);
 		adapter = new PrototypeBrickAdapter(this.scriptTabActivity, brickMap.get(category));
 
 		listView.setAdapter(adapter);
+
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Brick addedBrick = adapter.getItem(position);
-
 				ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (addedBrick instanceof WhenStartedBrick) {
@@ -254,12 +253,14 @@ public class AddBrickDialog extends Dialog {
 						Brick brickClone = getBrickClone(addedBrick);
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}
-				} else if (addedBrick instanceof LoopBeginBrick
-						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
-						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
-					//Don't add new loop brick, only one loop per script for now
+					//				} 
+					//				else if (addedBrick instanceof LoopBeginBrick
+					//						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
+					//						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
+					//					//Don't add new loop brick, only one loop per script for now
 				} else {
 					Brick brickClone = getBrickClone(adapter.getItem(position));
+
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 
 						Script newScript = new StartScript(projectManager.getCurrentSprite());
