@@ -103,6 +103,15 @@
     <string name="sound_pause">pausieren</string>
     <string name="sound_delete">löschen</string>
     <string name="sound_rename">editieren</string>
+    <string name="sound_select_source">Musik auswählen</string>
+
+    <!-- Soundrecorder activity -->
+    <string name="soundrecorder_name">Catroid Sound Recorder</string>
+    <string name="soundrecorder_record_start">Aufnahme starten</string>
+    <string name="soundrecorder_record_stop">Aufnahme stoppen</string>
+    <string name="soundrecorder_recording">Aufnahme im Gange...</string>
+    <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
+    <string name="soundrecorder_recorded_filename">Aufnahme</string>
     
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
