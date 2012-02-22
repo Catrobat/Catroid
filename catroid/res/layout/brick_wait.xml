@@ -62,6 +62,7 @@
 		android:text="1.0"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
+		android:minWidth="60dip"
 		android:layout_centerVertical="true"
 		android:layout_toLeftOf="@+id/LabelTextView"
 		android:layout_toRightOf="@+id/ValueTextView"
@@ -70,7 +71,7 @@
 		android:focusableInTouchMode="false"
 		android:gravity="right"
 		android:inputType="number|numberDecimal"
-		android:maxLength="6"
+		android:maxLength="8"
 		android:maxLines="1"
 	>
 	</EditText>

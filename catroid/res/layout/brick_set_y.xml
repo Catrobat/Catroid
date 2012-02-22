@@ -45,7 +45,8 @@
 		android:id="@+id/brick_set_y_edit_text"
 		android:text="0"
 		android:layout_height="wrap_content"
-		android:layout_width="50dp"
+		android:layout_width="wrap_content"
+		android:minWidth="50dip"
 		android:layout_centerVertical="true"
 		android:layout_marginLeft="5dip"
 		android:layout_toRightOf="@id/ValueTextViewY"
@@ -54,7 +55,7 @@
 		android:focusableInTouchMode="false"
 		android:gravity="right"
 		android:inputType="number|numberDecimal|numberSigned"
-		android:maxLength="3"
+		android:maxLength="6"
 		android:maxLines="1"
 		android:numeric="signed"
 	>
