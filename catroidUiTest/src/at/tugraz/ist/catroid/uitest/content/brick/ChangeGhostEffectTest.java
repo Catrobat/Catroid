@@ -107,28 +107,10 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
 		solo.sleep(100);
 
-		double[] changeBrightnessTestValues = new double[] { 1.0, 100.55, -0.1 };
-		double currentChangeBrightnessValue = 0.0;
-		int editTextWidth = 0;
-		for (int i = 0; i < changeBrightnessTestValues.length; i++) {
-			currentChangeBrightnessValue = changeBrightnessTestValues[i];
-			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentChangeBrightnessValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText not resized - value not (fully) visible",
-					solo.searchText(currentChangeBrightnessValue + ""));
-			editTextWidth = solo.getEditText(0).getWidth();
-			assertTrue("Minwidth of EditText should be 60 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
-		}
-
-		solo.sleep(200);
-		currentChangeBrightnessValue = 1000.55;
-		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentChangeBrightnessValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - should not be resized and fully visible",
-				solo.searchText(currentChangeBrightnessValue + ""));
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
 	}
 
 	private void createProject() {

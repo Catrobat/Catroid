@@ -35,7 +35,6 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -98,58 +97,17 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
 		solo.sleep(100);
 
-		double[] glideTestValues = new double[] { 1.1, 1234.567, 1.0 };
-		int[] testValuesXY = new int[] { 1, 123456, -1 };
-		double currentGlideValue = 0.0;
-		int currentXYValue = 0;
-		int editTextWidth = 0;
-		for (int i = 0; i < glideTestValues.length; i++) {
-			currentGlideValue = glideTestValues[i];
-			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentGlideValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText for Glide not resized - value not (fully) visible",
-					solo.searchText(currentGlideValue + ""));
-			editTextWidth = solo.getEditText(0).getWidth();
-			assertTrue("Minwidth of EditText for Glide should be 60 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1234.567, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1234.5678, 60, false);
 
-			currentXYValue = testValuesXY[i];
-			UiTestUtils.insertIntegerIntoEditText(solo, 1, currentXYValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText for X not resized - value not (fully) visible", solo.searchText(currentXYValue + ""));
-			editTextWidth = solo.getEditText(1).getWidth();
-			assertTrue("Minwidth of EditText for X should be 60 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
-			UiTestUtils.insertIntegerIntoEditText(solo, 2, currentXYValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText for Y not resized - value not (fully) visible", solo.searchText(currentXYValue + ""));
-			editTextWidth = solo.getEditText(2).getWidth();
-			assertTrue("Minwidth of EditText for Y should be 60 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
+		for (int i = 1; i < 3; i++) {
+			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 1234567, 60, false);
 		}
-
-		solo.sleep(200);
-		currentGlideValue = 12345.678;
-		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentGlideValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - Glide should not be resized and fully visible",
-				solo.searchText(currentGlideValue + ""));
-
-		currentXYValue = 1234567;
-		UiTestUtils.insertIntegerIntoEditText(solo, 1, currentXYValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - EditText X should not be resized and fully visible",
-				solo.searchText(currentXYValue + ""));
-		UiTestUtils.insertIntegerIntoEditText(solo, 2, currentXYValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - EditText Y should not be resized and fully visible",
-				solo.searchText(currentXYValue + ""));
 	}
 
 	private void createProject() {
