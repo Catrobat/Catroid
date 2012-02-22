@@ -153,12 +153,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
 		// Test version codes and names
-		final int preVersionCode = (Integer) TestUtils.getPrivateField("versionCode", project, false);
-		final int postVersionCode = (Integer) TestUtils.getPrivateField("versionCode", loadedProject, false);
+		final int preVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", project, false);
+		final int postVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", loadedProject, false);
 		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
 
-		final String preVersionName = (String) TestUtils.getPrivateField("versionName", project, false);
-		final String postVersionName = (String) TestUtils.getPrivateField("versionName", loadedProject, false);
+		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
+		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
 		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 

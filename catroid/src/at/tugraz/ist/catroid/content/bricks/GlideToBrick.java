@@ -73,9 +73,13 @@ public class GlideToBrick implements Brick, OnClickListener {
 		long startTime = System.currentTimeMillis();
 		int duration = durationInMilliSeconds;
 		while (duration > 0) {
+			if (!sprite.isAlive(Thread.currentThread())) {
+				break;
+			}
 			long timeBeforeSleep = System.currentTimeMillis();
 			int sleep = 33;
 			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
+
 				if (sprite.isPaused) {
 					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
 					long milliSecondsBeforePause = System.currentTimeMillis();
@@ -96,9 +100,14 @@ public class GlideToBrick implements Brick, OnClickListener {
 			updatePositions((int) (currentTime - startTime), duration);
 			startTime = currentTime;
 		}
-		sprite.costume.aquireXYWidthHeightLock();
-		sprite.costume.setXYPosition(xDestination, yDestination);
-		sprite.costume.releaseXYWidthHeightLock();
+
+		if (!sprite.isAlive(Thread.currentThread())) {
+			// -stay at last position
+		} else {
+			sprite.costume.aquireXYWidthHeightLock();
+			sprite.costume.setXYPosition(xDestination, yDestination);
+			sprite.costume.releaseXYWidthHeightLock();
+		}
 	}
 
 	private void updatePositions(int timePassed, int duration) {
@@ -123,17 +132,17 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_glide_to, null);
+		view = View.inflate(context, R.layout.brick_glide_to, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_x_edit_text);
+		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_x_edit_text);
 		editX.setText(String.valueOf(xDestination));
 		editX.setOnClickListener(this);
 
-		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_y_edit_text);
+		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_y_edit_text);
 		editY.setText(String.valueOf(yDestination));
 		editY.setOnClickListener(this);
 
-		EditText editDuration = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_duration_edit_text);
+		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_duration_edit_text);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 		editDuration.setOnClickListener(this);
 
@@ -141,7 +150,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_glide_to, null);
+		return View.inflate(context, R.layout.brick_glide_to, null);
 	}
 
 	@Override
@@ -154,13 +163,13 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		final EditText input = new EditText(context);
-		if (view.getId() == R.id.toolbox_brick_glide_to_x_edit_text) {
+		if (view.getId() == R.id.brick_glide_to_x_edit_text) {
 			input.setText(String.valueOf(xDestination));
 			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		} else if (view.getId() == R.id.toolbox_brick_glide_to_y_edit_text) {
+		} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
 			input.setText(String.valueOf(yDestination));
 			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		} else if (view.getId() == R.id.toolbox_brick_glide_to_duration_edit_text) {
+		} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
 			input.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
 					| InputType.TYPE_NUMBER_FLAG_SIGNED);
@@ -172,15 +181,15 @@ public class GlideToBrick implements Brick, OnClickListener {
 			public void onClick(DialogInterface dialog, int which) {
 
 				try {
-					if (view.getId() == R.id.toolbox_brick_glide_to_x_edit_text) {
+					if (view.getId() == R.id.brick_glide_to_x_edit_text) {
 						xDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.toolbox_brick_glide_to_y_edit_text) {
+					} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
 						yDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.toolbox_brick_glide_to_duration_edit_text) {
+					} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
 						durationInMilliSeconds = (int) Math.round(Double.parseDouble(input.getText().toString()) * 1000);
 					}
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

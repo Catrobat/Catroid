@@ -88,14 +88,17 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		setupTab(R.drawable.ic_tab_scripts, this.getString(R.string.scripts), intent);
 		intent = new Intent().setClass(this, CostumeActivity.class);
 		int costumeIcon;
+		String costumeLabel;
 
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
 			costumeIcon = R.drawable.ic_tab_background;
+			costumeLabel = this.getString(R.string.backgrounds);
 		} else {
 			costumeIcon = R.drawable.ic_tab_costumes;
+			costumeLabel = this.getString(R.string.costumes);
 		}
-		setupTab(costumeIcon, this.getString(R.string.costumes), intent);
+		setupTab(costumeIcon, costumeLabel, intent);
 		intent = new Intent().setClass(this, SoundActivity.class);
 		setupTab(R.drawable.ic_tab_sounds, this.getString(R.string.sounds), intent);
 
@@ -152,10 +155,10 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 	private static View createTabView(Integer id, final Context context, final String text) {
 		View view = LayoutInflater.from(context).inflate(R.layout.activity_tabscriptactivity_tabs, null);
-		TextView tv = (TextView) view.findViewById(R.id.tabsText);
-		tv.setText(text);
+		TextView textView = (TextView) view.findViewById(R.id.tabsText);
+		textView.setText(text);
 		if (id != null) {
-			tv.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0);
+			textView.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0);
 		}
 		return view;
 	}

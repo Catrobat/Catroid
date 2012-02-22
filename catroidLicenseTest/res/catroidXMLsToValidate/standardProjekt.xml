@@ -22,16 +22,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Content.Project>
-  <versionName>0.5.6a</versionName>
+  <androidVersion>10</androidVersion>
+  <catroidVersionCode>10</catroidVersionCode>
+  <catroidVersionName>0.5.6a</catroidVersionName>
+  <deviceName>GT-I9100</deviceName>
+  <projectName>standardProjekt</projectName>
+  <screenHeight>800</screenHeight>
+  <screenWidth>480</screenWidth>
   <spriteList>
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>B978398F6E8D16B857AA81618F3EF879_background</costumeFileName>
-          <costumeName>background</costumeName>
+          <fileName>B978398F6E8D16B857AA81618F3EF879_background</fileName>
+          <name>background</name>
         </Common.CostumeData>
       </costumeDataList>
-      <soundList/>
+      <name>Hintergrund</name>
       <scriptList>
         <Content.StartScript>
           <brickList>
@@ -43,24 +49,24 @@
           <sprite reference="../../.."/>
         </Content.StartScript>
       </scriptList>
-      <name>Hintergrund</name>
+      <soundList/>
     </Content.Sprite>
     <Content.Sprite>
       <costumeDataList>
         <Common.CostumeData>
-          <costumeFileName>143780EBC24495149123CCAF3A1CDC35_normalCat</costumeFileName>
-          <costumeName>normalCat</costumeName>
+          <fileName>143780EBC24495149123CCAF3A1CDC35_normalCat</fileName>
+          <name>normalCat</name>
         </Common.CostumeData>
         <Common.CostumeData>
-          <costumeFileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</costumeFileName>
-          <costumeName>banzaiCat</costumeName>
+          <fileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</fileName>
+          <name>banzaiCat</name>
         </Common.CostumeData>
         <Common.CostumeData>
-          <costumeFileName>3673EC84679EE425A215B86B085EC292_cheshireCat</costumeFileName>
-          <costumeName>cheshireCat</costumeName>
+          <fileName>3673EC84679EE425A215B86B085EC292_cheshireCat</fileName>
+          <name>cheshireCat</name>
         </Common.CostumeData>
       </costumeDataList>
-      <soundList/>
+      <name>Catroid</name>
       <scriptList>
         <Content.StartScript>
           <brickList>
@@ -69,13 +75,11 @@
               <sprite reference="../../../../.."/>
             </Bricks.SetCostumeBrick>
             <Bricks.RepeatBrick>
-              <sprite reference="../../../../.."/>
               <loopEndBrick>
                 <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
-                <timesToRepeat>0</timesToRepeat>
               </loopEndBrick>
-              <beginLoopTime>0</beginLoopTime>
+              <sprite reference="../../../../.."/>
               <timesToRepeat>3</timesToRepeat>
             </Bricks.RepeatBrick>
             <Bricks.ShowBrick>
@@ -110,14 +114,9 @@
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-          <position>0</position>
         </Content.WhenScript>
       </scriptList>
-      <name>Catroid</name>
+      <soundList/>
     </Content.Sprite>
-  </spriteList>
-  <deviceName>GT-I9100</deviceName>
-  <name>standardProjekt</name>
-  <screenResolution>480/800</screenResolution>
-  <versionCode>10</versionCode>
+  </spriteList>  
 </Content.Project>

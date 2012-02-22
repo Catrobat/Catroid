@@ -34,6 +34,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -76,21 +77,22 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity()
-				.getString(R.string.brick_point_in_direction)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist",
+				solo.getText(getActivity().getString(R.string.brick_point_in_direction)));
 
 		solo.pressSpinnerItem(0, 1);
 		solo.sleep(300);
-		assertEquals("Wrong selection", "(-90) left", solo.getCurrentSpinners().get(0).getSelectedItem());
+		String[] directionStringArray = getActivity().getResources().getStringArray(R.array.point_in_direction_strings);
+		assertEquals("Wrong selection", directionStringArray[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
+		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);

@@ -45,6 +45,8 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 public class StorageHandler {
 
@@ -55,7 +57,9 @@ public class StorageHandler {
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
-		xstream = new XStream();
+
+		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream.processAnnotations(Project.class);
 		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
 		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
 		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
@@ -205,8 +209,7 @@ public class StorageHandler {
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().fileChecksumContainer;
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		if ((imageDimensions[0] <= project.VIRTUAL_SCREEN_WIDTH)
-				&& (imageDimensions[1] <= project.VIRTUAL_SCREEN_HEIGHT)) {
+		if ((imageDimensions[0] <= project.virtualScreenWidth) && (imageDimensions[1] <= project.virtualScreenHeight)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			if (newName != null) {
@@ -229,8 +232,8 @@ public class StorageHandler {
 
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(), project.VIRTUAL_SCREEN_WIDTH,
-				project.VIRTUAL_SCREEN_HEIGHT, true);
+		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(), project.virtualScreenWidth,
+				project.virtualScreenHeight, true);
 
 		saveBitmapToImageFile(outputFile, bitmap);
 

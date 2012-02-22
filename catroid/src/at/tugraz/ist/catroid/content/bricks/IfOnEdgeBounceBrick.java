@@ -57,8 +57,8 @@ public class IfOnEdgeBounceBrick implements Brick {
 		int yPosition = (int) sprite.costume.getYPosition();
 		sprite.costume.releaseXYWidthHeightLock();
 
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_WIDTH / 2;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_HEIGHT / 2;
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth / 2;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight / 2;
 		float rotationResult = -sprite.costume.rotation + 90f;
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
@@ -111,14 +111,14 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
+			view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 		}
 
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
+		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 	}
 
 	@Override

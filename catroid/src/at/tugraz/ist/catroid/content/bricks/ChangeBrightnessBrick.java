@@ -66,9 +66,9 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_change_brightness, null);
+		view = View.inflate(context, R.layout.brick_change_brightness, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_change_brightness_edit_text);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
 		editX.setText(String.valueOf(changeBrightness));
 
 		editX.setOnClickListener(this);
@@ -77,7 +77,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_change_brightness, null);
+		return View.inflate(context, R.layout.brick_change_brightness, null);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 				try {
 					changeBrightness = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}
