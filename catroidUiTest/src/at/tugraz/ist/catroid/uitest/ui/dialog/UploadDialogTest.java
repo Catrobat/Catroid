@@ -140,7 +140,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.enterText(0, testProject);
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.clickOnButton(0);
 		solo.sleep(2000);
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
