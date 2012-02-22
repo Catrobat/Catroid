@@ -36,7 +36,6 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -96,26 +95,10 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	public void testResizeInputField() {
-		int[] yTestValues = new int[] { 1, 123456, -1 };
-		int currentYValue = 0;
-		int editTextWidth = 0;
-		for (int i = 0; i < yTestValues.length; i++) {
-			currentYValue = yTestValues[i];
-			UiTestUtils.insertIntegerIntoEditText(solo, 0, currentYValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentYValue + ""));
-			editTextWidth = solo.getEditText(0).getWidth();
-			assertTrue("Minwidth of EditText should be 50 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(50, solo.getCurrentActivity().getBaseContext()));
-		}
-
-		solo.sleep(200);
-		currentYValue = 1234567;
-		UiTestUtils.insertIntegerIntoEditText(solo, 0, currentYValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - should not be resized and fully visible", solo.searchText(currentYValue + ""));
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
 	}
 
 	private void createProject() {

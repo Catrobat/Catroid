@@ -40,7 +40,6 @@ import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -73,6 +72,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		}
 
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -128,39 +128,15 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	public void testResizeInputFields() {
-		int[] testValues = new int[] { 1, 12345, -1 };
-		int currentValue = 0;
-		int editTextWidth = 0;
-		for (int i = 0; i < testValues.length; i++) {
-			currentValue = testValues[i];
-			UiTestUtils.insertIntegerIntoEditText(solo, 0, currentValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText for X not resized - value not (fully) visible", solo.searchText(currentValue + ""));
-			editTextWidth = solo.getEditText(0).getWidth();
-			assertTrue("Minwidth of EditText for X should be 60 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
-			UiTestUtils.insertIntegerIntoEditText(solo, 1, currentValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText for Y not resized - value not (fully) visible", solo.searchText(currentValue + ""));
-			editTextWidth = solo.getEditText(1).getWidth();
-			assertTrue("Minwidth of EditText for Y should be 60 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
-		}
+		ProjectManager.getInstance().deleteCurrentProject();
+		createTestProject();
 
-		solo.sleep(200);
-		currentValue = 123456;
-		UiTestUtils.insertIntegerIntoEditText(solo, 0, currentValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - EditText X should not be resized and fully visible",
-				solo.searchText(currentValue + ""));
-		UiTestUtils.insertIntegerIntoEditText(solo, 1, currentValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - EditText Y should not be resized and fully visible",
-				solo.searchText(currentValue + ""));
+		for (int i = 0; i < 2; i++) {
+			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 12345, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, false);
+		}
 	}
 
 	private void createProject() {
@@ -178,6 +154,21 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		script.addBrick(soundBrick);
 
 		script.addBrick(new SetSizeToBrick(sprite, 80));
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
+	}
+
+	private void createTestProject() {
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript(sprite);
+		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
+		script.addBrick(placeAtBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

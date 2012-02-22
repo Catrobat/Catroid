@@ -37,7 +37,6 @@ import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -98,27 +97,10 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	public void testResizeInputField() {
-		double[] waitTestValues = new double[] { 1.0, 12345.67, 0.5 };
-		double currentWaitValue = 0.0;
-		int editTextWidth = 0;
-		for (int i = 0; i < waitTestValues.length; i++) {
-			currentWaitValue = waitTestValues[i];
-			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentWaitValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentWaitValue + ""));
-			editTextWidth = solo.getEditText(0).getWidth();
-			assertTrue("Minwidth of EditText should be 60 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(60, solo.getCurrentActivity().getBaseContext()));
-		}
-
-		solo.sleep(200);
-		currentWaitValue = 12345.678;
-		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentWaitValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - should not be resized and fully visible",
-				solo.searchText(currentWaitValue + ""));
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.67, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 0.5, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.678, 60, false);
 	}
 
 	private void createProject() {

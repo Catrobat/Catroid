@@ -36,7 +36,6 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -99,27 +98,10 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	public void testResizeInputField() {
-		double[] turnRightTestValues = new double[] { 1.0, 1080.55, 0.75 };
-		double currentTurnRightValue = 0.0;
-		int editTextWidth = 0;
-		for (int i = 0; i < turnRightTestValues.length; i++) {
-			currentTurnRightValue = turnRightTestValues[i];
-			UiTestUtils.insertDoubleIntoEditText(solo, 0, currentTurnRightValue);
-			solo.clickOnButton(0);
-			solo.sleep(100);
-			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(currentTurnRightValue + ""));
-			editTextWidth = solo.getEditText(0).getWidth();
-			assertTrue("Minwidth of EditText should be 75 dpi",
-					editTextWidth >= Utils.getPhysicalPixels(75, solo.getCurrentActivity().getBaseContext()));
-		}
-
-		solo.sleep(200);
-		currentTurnRightValue = 1080.555;
-		UiTestUtils.insertDoubleIntoEditText(solo, 0, currentTurnRightValue);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-		assertFalse("Number too long - should not be resized and fully visible",
-				solo.searchText(currentTurnRightValue + ""));
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1080.55, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 0.75, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1080.555, 75, false);
 	}
 
 	private void createProject() {
