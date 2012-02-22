@@ -189,12 +189,17 @@ public class AddBrickDialog extends Dialog {
 		ImageButton closeButton = (ImageButton) findViewById(R.id.btn_close_dialog);
 		closeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				abort();
 				dismiss();
 			}
 		});
 
 		TextView textView = (TextView) findViewById(R.id.tv_dialog_title);
 		textView.setText(category);
+	}
+
+	private void abort() {
+		scriptTabActivity.setDontcreateNewBrick();
 	}
 
 	public ScriptTabActivity getScriptTabActivity() {
@@ -204,17 +209,16 @@ public class AddBrickDialog extends Dialog {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
 		listView = (ListView) findViewById(R.id.addBrickDialogListView);
 		brickMap = setupBrickMap(ProjectManager.getInstance().getCurrentSprite(), scriptTabActivity);
 		adapter = new PrototypeBrickAdapter(this.scriptTabActivity, brickMap.get(category));
 
 		listView.setAdapter(adapter);
-
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Brick addedBrick = adapter.getItem(position);
+
 				ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (addedBrick instanceof WhenStartedBrick) {
@@ -256,7 +260,6 @@ public class AddBrickDialog extends Dialog {
 					//Don't add new loop brick, only one loop per script for now
 				} else {
 					Brick brickClone = getBrickClone(adapter.getItem(position));
-
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 
 						Script newScript = new StartScript(projectManager.getCurrentSprite());

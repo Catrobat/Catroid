@@ -66,6 +66,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	public static final int DIALOG_RENAME_SOUND = 1;
 	public static final int DIALOG_BRICK_CATEGORY = 2;
 	public static final int DIALOG_ADD_BRICK = 3;
+	private boolean dontcreateNewBrick;
 
 	private void setupTabHost() {
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -77,6 +78,8 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		super.onCreate(savedInstanceState);
 		addScript = false;
 		isCanceled = false;
+		dontcreateNewBrick = false;
+
 		setContentView(R.layout.activity_scripttab);
 
 		setupTabHost();
@@ -227,14 +230,21 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	}
 
 	public void onDismiss(DialogInterface dialogInterface) {
-		if (!isCanceled) {
-			if (addScript) {
-				((ScriptActivity) getCurrentActivity()).setAddNewScript();
-				addScript = false;
+
+		if (!dontcreateNewBrick) {
+			if (!isCanceled) {
+				if (addScript) {
+
+					((ScriptActivity) getCurrentActivity()).setAddNewScript();
+					addScript = false;
+				}
+
+				((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(dialogInterface);
+
 			}
-			((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(dialogInterface);
+			isCanceled = false;
 		}
-		isCanceled = false;
+		dontcreateNewBrick = false;
 	}
 
 	public void onCancel(DialogInterface dialog) {
@@ -245,4 +255,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		addScript = true;
 	}
 
+	public void setDontcreateNewBrick() {
+		dontcreateNewBrick = true;
+	}
 }

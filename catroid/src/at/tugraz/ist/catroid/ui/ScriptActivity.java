@@ -183,4 +183,5 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		}
 		return true;
 	}
+
 }

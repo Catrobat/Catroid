@@ -336,4 +336,5 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		this.position = pos;
 		newView = true;
 	}
+
 }
