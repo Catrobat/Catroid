@@ -46,7 +46,9 @@
 		android:debuggable="true"
 		android:theme="@android:style/Theme.Light.NoTitleBar">
 		
-		<activity android:name=".ui.MainMenuActivity">
+		<activity android:name=".ui.MainMenuActivity"
+		          android:screenOrientation="portrait"
+                  android:configChanges="orientation">
 			<intent-filter>
 				<action	android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -72,23 +74,40 @@
 			
 		<activity 
 		android:name=".stage.PreStageActivity" 
-		android:screenOrientation="portrait"/>
+		          android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
 
-		<activity android:name=".ui.ProjectActivity" />
+		<activity android:name=".ui.ProjectActivity"
+		          android:screenOrientation="portrait"
+                  android:configChanges="orientation" />
 		
-		<activity android:name=".ui.ScriptActivity" />
+		<activity android:name=".ui.ScriptActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation" />
 		
-		<activity android:name=".ui.SpriteActivity" />
+		<activity android:name=".ui.SpriteActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation" />
 		
-		<activity android:name=".ui.ScriptTabActivity" />
+		<activity android:name=".ui.ScriptTabActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation" />
 		
-		<activity android:name=".ui.CostumeActivity" />
+		<activity android:name=".ui.CostumeActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation" />
 		
-		<activity android:name=".ui.SoundActivity" />
+		<activity android:name=".ui.SoundActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation" />
 
-		<activity android:name=".ui.SettingsActivity" android:theme="@style/settings_activity"/>
+		<activity android:name=".ui.SettingsActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation" android:theme="@style/settings_activity"/>
 		
-		<activity android:name=".bluetooth.DeviceListActivity" android:theme="@android:style/Theme.Dialog">
+		<activity android:name=".bluetooth.DeviceListActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation" android:theme="@android:style/Theme.Dialog">
 		</activity>
 		
 	</application>
