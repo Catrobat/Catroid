@@ -22,61 +22,23 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
-import android.content.DialogInterface.OnShowListener;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class NewSpriteDialog {
-	protected ProjectActivity projectActivity;
-	private EditText input;
-	private Button buttonPositive;
-	public Dialog newSpriteDialog;
-	private ProjectManager projectManager;
+public class NewSpriteDialog extends TextDialog {
 
 	public NewSpriteDialog(ProjectActivity projectActivity) {
-		this.projectActivity = projectActivity;
-		projectManager = ProjectManager.getInstance();
-	}
-
-	public Dialog createDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(projectActivity);
-		builder.setTitle(R.string.new_sprite_dialog_title);
-
-		LayoutInflater inflater = (LayoutInflater) projectActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.dialog_new_sprite, null);
-
-		input = (EditText) view.findViewById(R.id.dialog_new_sprite_editText);
-		input.setHint(projectActivity.getString(R.string.new_sprite_dialog_default_sprite_name));
-
-		buttonPositive = (Button) view.findViewById(R.id.dialog_new_sprite_ok_button);
-
-		builder.setView(view);
-
-		initKeyListener(builder);
-
-		newSpriteDialog = builder.create();
-		newSpriteDialog.setCanceledOnTouchOutside(true);
-
-		initAlertDialogListener(newSpriteDialog);
-
-		return newSpriteDialog;
+		super(projectActivity, projectActivity.getString(R.string.new_sprite_dialog_title), projectActivity
+				.getString(R.string.new_sprite_dialog_default_sprite_name));
+		initKeyAndClickListener();
 	}
 
 	public void handleOkButton() {
@@ -84,30 +46,29 @@ public class NewSpriteDialog {
 		String spriteName = input.getText().toString();
 
 		if (spriteName == null || spriteName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
+			Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_invalid));
 			return;
 		}
 
 		if (projectManager.spriteExists(spriteName)) {
-			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_already_exists));
+			Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_already_exists));
 			return;
 		}
 		Sprite sprite = new Sprite(spriteName);
 		projectManager.addSprite(sprite);
-		((ArrayAdapter<?>) projectActivity.getListAdapter()).notifyDataSetChanged();
+		((ArrayAdapter<?>) ((ProjectActivity) activity).getListAdapter()).notifyDataSetChanged();
 
 		input.setText(null);
-		newSpriteDialog.dismiss();
+		activity.dismissDialog(ProjectActivity.DIALOG_NEW_SPRITE);
 	}
 
-	private void initKeyListener(AlertDialog.Builder builder) {
-		builder.setOnKeyListener(new OnKeyListener() {
+	private void initKeyAndClickListener() {
+		dialog.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					String newSpriteName = (input.getText().toString()).trim();
 					if (projectManager.spriteExists(newSpriteName)) {
-						Utils.displayErrorMessage(projectActivity,
-								projectActivity.getString(R.string.spritename_already_exists));
+						Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_already_exists));
 					} else {
 						handleOkButton();
 						return true;
@@ -116,32 +77,18 @@ public class NewSpriteDialog {
 				return false;
 			}
 		});
-	}
 
-	private void initAlertDialogListener(Dialog dialog) {
-
-		dialog.setOnShowListener(new OnShowListener() {
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) projectActivity
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+		buttonPositive.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				handleOkButton();
 			}
 		});
 
-		input.addTextChangedListener(new TextWatcher() {
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					buttonPositive.setEnabled(false);
-				} else {
-					buttonPositive.setEnabled(true);
-				}
-			}
-
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			public void afterTextChanged(Editable s) {
+		buttonNegative.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				activity.dismissDialog(ProjectActivity.DIALOG_NEW_SPRITE);
 			}
 		});
 	}
+
 }
