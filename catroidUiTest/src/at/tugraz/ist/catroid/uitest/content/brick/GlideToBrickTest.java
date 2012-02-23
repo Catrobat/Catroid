@@ -27,6 +27,10 @@ import java.util.List;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -56,6 +60,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		}
 
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -82,5 +87,43 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 				UiTestUtils.getPrivateField("xDestination", glideToBrick));
 		assertEquals("Wrong y input in Glide to brick", yPosition,
 				UiTestUtils.getPrivateField("yDestination", glideToBrick));
+	}
+
+	public void testResizeInputFields() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		createProject();
+		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		solo.sleep(100);
+
+		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1234.567, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1234.5678, 60, false);
+
+		for (int i = 1; i < 3; i++) {
+			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 1234567, 60, false);
+		}
+	}
+
+	private void createProject() {
+		int xValue = 800;
+		int yValue = 0;
+		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript(sprite);
+		Brick glideToBrick = new GlideToBrick(sprite, xValue, yValue, 1000);
+		script.addBrick(glideToBrick);
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 }

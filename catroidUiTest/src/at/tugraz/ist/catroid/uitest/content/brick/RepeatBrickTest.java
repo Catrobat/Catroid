@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -74,9 +75,16 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptActi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_repeat)));
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 75, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1234567891, 75, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 123, 75, true);
+		UiTestUtils.testIntegerEditText(solo, 0, -1234567891, 75, false);
 	}
 
 	private void createProject() {
