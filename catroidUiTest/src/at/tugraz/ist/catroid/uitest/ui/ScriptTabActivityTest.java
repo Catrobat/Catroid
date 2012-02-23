@@ -42,6 +42,22 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
+	private final String[] scriptsTabHexValues = { "ff1a1a1a", "ff090909", "ff2f2f2f", "ffe5e5e5", "fff6f6f6",
+			"ffd0d0d0" };
+	private final String[] backgroundsTabHexValues = { "ff101010", "ff222222", "ef101010", "ffefefef", "ffdddddd",
+			"efefefef" };
+	private final String[] soundsTabHexValues = { "ff141414", "ff2a2a2a", "bf282828", "ffebebeb", "ffd5d5d5",
+			"bfd7d7d7" };
+	private final String[] costumesTabHexValues = { "ff000000", "ff505050", "ff5d5d5d", "ffffffff", "ffafafaf",
+			"ffa2a2a2" };
+	private final int[] scriptsXCoords = { 12, 6, 9 };
+	private final int[] scriptsYCoords = { 12, 19, 3 };
+	private final int[] backgroundsXCoords = { 15, 5, 5 };
+	private final int[] backgroundsYCoords = { 15, 7, 15 };
+	private final int[] soundsXCoords = { 15, 5, 10 };
+	private final int[] soundsYCoords = { 15, 5, 6 };
+	private final int[] costumesXCoords = { 7, 4, 23 };
+	private final int[] costumesYCoords = { 21, 5, 8 };
 
 	public ScriptTabActivityTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -144,52 +160,34 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String soundsLabel = getActivity().getString(R.string.sounds);
 		String costumesLabel = getActivity().getString(R.string.costumes);
 
-		String[] scriptsTabHexValues = { "ff1a1a1a", "ff090909", "ff2f2f2f", "ffe5e5e5", "fff6f6f6", "ffd0d0d0" };
-		String[] backgroundsTabHexValues = { "ff101010", "ff222222", "ef101010", "ffefefef", "ffdddddd", "efefefef" };
-		String[] soundsTabHexValues = { "ff141414", "ff2a2a2a", "bf282828", "ffebebeb", "ffd5d5d5", "bfd7d7d7" };
-		String[] costumesTabHexValues = { "ff000000", "ff505050", "ff5d5d5d", "ffffffff", "ffafafaf", "ffa2a2a2" };
-
 		int scriptsSelector = R.drawable.ic_tab_scripts_selector;
 		int backgroundsSelector = R.drawable.ic_tab_background_selector;
 		int soundsSelector = R.drawable.ic_tab_sounds_selector;
 		int costumesSelector = R.drawable.ic_tab_costumes_selector;
 
 		testTabText(new String[] { scriptsLabel, backgroundsLabel, soundsLabel });
-		String[][] referenceHexValues = { scriptsTabHexValues, backgroundsTabHexValues, soundsTabHexValues };
-		testTabIcons(new int[] { scriptsSelector, backgroundsSelector, soundsSelector }, referenceHexValues);
+		testTabIcons(new int[] { scriptsSelector, backgroundsSelector, soundsSelector });
 
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		testTabText(new String[] { backgroundsLabel, scriptsLabel, soundsLabel });
-		referenceHexValues[0] = backgroundsTabHexValues;
-		referenceHexValues[1] = scriptsTabHexValues;
-		referenceHexValues[2] = soundsTabHexValues;
-		testTabIcons(new int[] { backgroundsSelector, scriptsSelector, soundsSelector }, referenceHexValues);
+		testTabIcons(new int[] { backgroundsSelector, scriptsSelector, soundsSelector });
 
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		testTabText(new String[] { soundsLabel, scriptsLabel, backgroundsLabel });
-		referenceHexValues[0] = soundsTabHexValues;
-		referenceHexValues[1] = scriptsTabHexValues;
-		referenceHexValues[2] = backgroundsTabHexValues;
-		testTabIcons(new int[] { soundsSelector, scriptsSelector, backgroundsSelector }, referenceHexValues);
+		testTabIcons(new int[] { soundsSelector, scriptsSelector, backgroundsSelector });
 
 		solo.sleep(100);
 		solo.goBack();
 		solo.clickInList(2);
 		testTabText(new String[] { scriptsLabel, costumesLabel, soundsLabel });
-		referenceHexValues[0] = scriptsTabHexValues;
-		referenceHexValues[1] = costumesTabHexValues;
-		referenceHexValues[2] = soundsTabHexValues;
-		testTabIcons(new int[] { scriptsSelector, costumesSelector, soundsSelector }, referenceHexValues);
+		testTabIcons(new int[] { scriptsSelector, costumesSelector, soundsSelector });
 
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		testTabText(new String[] { costumesLabel, scriptsLabel, soundsLabel });
-		referenceHexValues[0] = costumesTabHexValues;
-		referenceHexValues[1] = scriptsTabHexValues;
-		referenceHexValues[2] = soundsTabHexValues;
-		testTabIcons(new int[] { costumesSelector, scriptsSelector, soundsSelector }, referenceHexValues);
+		testTabIcons(new int[] { costumesSelector, scriptsSelector, soundsSelector });
 	}
 
 	private void addNewSprite(String spriteName) {
@@ -226,9 +224,8 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		}
 	}
 
-	private void testTabIcons(int[] tabIDs, String[][] referenceHexValues) {
+	private void testTabIcons(int[] tabIDs) {
 		assertEquals("Wrong number of tabs - should be 3 tabs", 3, tabIDs.length);
-		assertEquals("Wrong number of reference arrays - should be 3 arrays", 3, referenceHexValues.length);
 		for (ImageView imageViewToTest : solo.getCurrentImageViews()) {
 			if (imageViewToTest.getId() == R.id.tabsIcon) {
 				boolean iconFound = false;
@@ -238,53 +235,36 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 				int iconTag = ((Integer) imageViewToTest.getTag()).intValue();
 				if (iconTag == tabIDs[0]) {
 					iconFound = true;
-					testTabIconColor(imageViewToTest, iconTag, true, referenceHexValues[0]);
+					testTabIconColor(imageViewToTest, iconTag, true);
 				} else if (iconTag == tabIDs[1]) {
 					iconFound = true;
-					testTabIconColor(imageViewToTest, iconTag, false, referenceHexValues[1]);
+					testTabIconColor(imageViewToTest, iconTag, false);
 				} else if (iconTag == tabIDs[2]) {
 					iconFound = true;
-					testTabIconColor(imageViewToTest, iconTag, false, referenceHexValues[2]);
+					testTabIconColor(imageViewToTest, iconTag, false);
 				}
 				assertTrue("Icon not found", iconFound);
 			}
 		}
 	}
 
-	private void testTabIconColor(ImageView icon, int iconTag, boolean activeTab, String[] referenceHexValues) {
-		assertEquals("Wrong amount of values to compare - should be 6", 6, referenceHexValues.length);
-		int[] x = new int[3];
-		int[] y = new int[3];
-		if (iconTag == R.drawable.ic_tab_scripts_selector) {
-			x[0] = 12;
-			x[1] = 6;
-			x[2] = 9;
-			y[0] = 12;
-			y[1] = 19;
-			y[2] = 3;
-		} else if (iconTag == R.drawable.ic_tab_background_selector) {
-			x[0] = 15;
-			x[1] = 5;
-			x[2] = 5;
-			y[0] = 15;
-			y[1] = 7;
-			y[2] = 15;
-		} else if (iconTag == R.drawable.ic_tab_sounds_selector) {
-			x[0] = 15;
-			x[1] = 5;
-			x[2] = 10;
-			y[0] = 15;
-			y[1] = 5;
-			y[2] = 6;
-		} else if (iconTag == R.drawable.ic_tab_costumes_selector) {
-			x[0] = 7;
-			x[1] = 4;
-			x[2] = 23;
-			y[0] = 21;
-			y[1] = 5;
-			y[2] = 8;
+	private void testTabIconColor(ImageView icon, int iconTag, boolean activeTab) {
+		switch (iconTag) {
+			case R.drawable.ic_tab_scripts_selector:
+				testPixelsOfTabIcon(icon, scriptsXCoords, scriptsYCoords, scriptsTabHexValues, activeTab);
+				break;
+			case R.drawable.ic_tab_background_selector:
+				testPixelsOfTabIcon(icon, backgroundsXCoords, backgroundsYCoords, backgroundsTabHexValues, activeTab);
+				break;
+			case R.drawable.ic_tab_sounds_selector:
+				testPixelsOfTabIcon(icon, soundsXCoords, soundsYCoords, soundsTabHexValues, activeTab);
+				break;
+			case R.drawable.ic_tab_costumes_selector:
+				testPixelsOfTabIcon(icon, costumesXCoords, costumesYCoords, costumesTabHexValues, activeTab);
+				break;
+			default:
+				fail("Wrong Icon Selector");
 		}
-		testPixelsOfTabIcon(icon, x, y, referenceHexValues, activeTab);
 	}
 
 	private void testPixelsOfTabIcon(ImageView icon, int[] x, int[] y, String[] expectedHexColors, boolean activeTab) {
