@@ -226,7 +226,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(getActivity().getString(R.string.set_description));
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, lorem);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(500);
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -244,7 +243,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(getActivity().getString(R.string.set_description));
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, lorem);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(500);
 		ProjectManager projectManager = ProjectManager.getInstance();
