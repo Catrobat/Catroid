@@ -79,8 +79,8 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_turn_right)));
 
 		solo.clickOnEditText(0);
@@ -95,6 +95,13 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1080.55, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 0.75, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1080.555, 75, false);
 	}
 
 	private void createProject() {

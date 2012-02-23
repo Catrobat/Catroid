@@ -46,7 +46,8 @@
 		android:id="@+id/brick_move_n_steps_edit_text"
 		android:text="1"
 		android:layout_height="wrap_content"
-		android:layout_width="50dp"
+		android:layout_width="wrap_content"
+		android:minWidth="50dip"
 		android:layout_centerVertical="true"
 		android:layout_toLeftOf="@+id/LabelTextView"
 		android:clickable="true"
@@ -57,7 +58,7 @@
 		android:gravity="right"
 		android:inputType="number|numberDecimal|numberSigned"
 		android:maxLines="1"
-		android:maxLength="5"
+		android:maxLength="10"
 	>
 	</EditText>
 	<TextView
