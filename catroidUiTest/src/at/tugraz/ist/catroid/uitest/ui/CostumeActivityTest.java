@@ -98,7 +98,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(2000);
 		solo.clickOnButton(2);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition))) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
@@ -110,11 +109,10 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testDeleteCostume() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(700);
+		solo.sleep(500);
 		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
-		solo.sleep(1000);
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not right", 2, oldCount);
 		assertEquals("the new count is not right - all costumes should be deleted", 1, newCount);
@@ -133,7 +131,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.sleep(600);
+		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clickOnButton(0);
 		solo.sleep(100);
@@ -208,7 +206,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testEditImageWithPaintroid() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.sleep(500);
 
 		CostumeData costumeData = costumeDataList.get(0);
 		(getActivity()).selectedCostumeData = costumeData;
@@ -223,9 +221,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
-		solo.sleep(5000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
-		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
+		assertEquals("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5PaintroidImage);
 
 		boolean isInCostumeDataListPaintroidImage = false;
@@ -244,7 +242,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testEditImageWithPaintroidNoChanges() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.sleep(500);
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
@@ -270,7 +268,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testEditImageWithPaintroidNoPath() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.sleep(500);
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
@@ -294,7 +292,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testGetImageFromPaintroidNoPath() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.sleep(500);
 
 		CostumeData costumeData = costumeDataList.get(0);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
@@ -315,7 +313,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testGetImageFromGallery() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.sleep(500);
 
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
@@ -344,7 +342,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(900);
+		solo.sleep(500);
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
@@ -362,7 +360,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		intent.putExtras(bundleForPaintroid);
 		solo.sleep(500);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
-		solo.sleep(4000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		assertNotSame("Picture did not change", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5ImageFile);
@@ -384,9 +382,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		projectManager.fileChecksumContainer.addChecksum(costumeDataToAdd.getChecksum(),
 				costumeDataToAdd.getAbsolutePath());
 
-		solo.sleep(900);
+		solo.sleep(500);
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(900);
+		solo.sleep(500);
 
 		CostumeData costumeData = costumeDataList.get(0);
 		(getActivity()).selectedCostumeData = costumeData;
@@ -403,7 +401,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		intent.putExtras(bundleForPaintroid);
 		solo.sleep(500);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
-		solo.sleep(4000);
+		solo.sleep(200);
 
 		assertEquals("wrong number of costumedatas", 3, costumeDataList.size());
 		assertTrue("new added image has been deleted", tempImageFile.exists());

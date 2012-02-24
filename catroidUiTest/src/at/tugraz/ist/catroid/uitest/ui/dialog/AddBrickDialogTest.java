@@ -37,7 +37,6 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = UiTestUtils.PROJECTNAME1;
 
 	public AddBrickDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -46,7 +45,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
-		createTestProject(testProject);
+		createTestProject(UiTestUtils.PROJECTNAME1);
 	}
 
 	@Override
@@ -63,37 +62,20 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		super.tearDown();
 	}
 
-	private void checkIfBrickIsPresent(int brickStringId) {
-
-		// String brickText = solo.getCurrentActivity().getString(R.string.add_new_brick);
-		// assertTrue("Inserted brick " + brickText + " was not found.", solo.searchText(brickText)); TODO .. well..
-
-	}
-
-	private void addAndCheckBrick(Solo solo, int brickStringId) {
-		UiTestUtils.addNewBrickAndScrollDown(solo, brickStringId);
-		solo.sleep(100);
-		checkIfBrickIsPresent(brickStringId);
-	}
-
 	public void testAddBrickDialog() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
-		//solo.clickOnText(testProject);
 		solo.clickInList(2);
 
-		int[] brickIds = new int[] { R.string.brick_wait, R.string.brick_hide, R.string.brick_show,
-				R.string.brick_place_at, R.string.brick_set_x, R.string.brick_set_y, R.string.brick_change_x_by,
-				R.string.brick_change_y_by, R.string.brick_point_in_direction, R.string.brick_set_costume,
-				R.string.brick_set_size_to, R.string.brick_go_back, R.string.brick_come_to_front,
-				R.string.brick_play_sound, R.string.brick_glide, R.string.brick_broadcast,
-				R.string.brick_broadcast_wait, R.string.brick_note, R.string.brick_forever };
+		// At least one from each category
+		int[] brickIds = new int[] { R.string.brick_glide, R.string.brick_change_brightness, R.string.brick_play_sound,
+				R.string.brick_broadcast_wait, R.string.brick_forever, R.string.brick_motor_action };
 
 		ProjectManager manager = ProjectManager.getInstance();
 		for (int id : brickIds) {
 			Script script = manager.getCurrentScript();
 			int numberOfBricksBeforeAdding = id == R.string.brick_when ? 0 : script.getBrickList().size();
-			addAndCheckBrick(solo, id);
+			UiTestUtils.addNewBrickAndScrollDown(solo, id);
 			if (id == R.string.brick_forever) {
 				assertEquals("Brick " + solo.getCurrentActivity().getString(id) + " didn't created a LoopEndBrick.",
 						numberOfBricksBeforeAdding + 2, script.getBrickList().size());
@@ -108,7 +90,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
 		for (int id : triggerBrickIds) {
 			int oldNumberOfScripts = manager.getCurrentSprite().getNumberOfScripts();
-			addAndCheckBrick(solo, id);
+			UiTestUtils.addNewBrickAndScrollDown(solo, id);
 			Script script = manager.getCurrentScript();
 			assertEquals("Adding new trigger brick changed currentScript to change", brickIds.length + 1, script
 					.getBrickList().size());

@@ -51,7 +51,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void setUp() throws Exception {
-		createTestProject("testProject");
+		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 
@@ -60,6 +60,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -111,7 +112,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.clickLongInList(deleteIndex);
 
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.sleep(1000);
+		solo.sleep(500);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
@@ -119,7 +120,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.sleep(1000);
+		solo.sleep(500);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);

@@ -78,7 +78,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 
 		solo.waitForActivity("StageActivity");
-		solo.sleep(2000);
+		solo.sleep(1000);
 		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -41, screenWidth, screenHeight);
@@ -96,7 +96,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(whitePixel, screenArray, 0, 0, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) + 21, (screenHeight / 2) - 21);
-		solo.sleep(2000);
+		solo.sleep(500);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 0, 0, screenWidth, screenHeight);
@@ -106,7 +106,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 				screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) - 21, (screenHeight / 2) - 21);
-		solo.sleep(3000);
+		solo.sleep(500);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(whitePixel, screenArray, -31, 21, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
@@ -114,7 +114,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) + 21, (screenHeight / 2) + 21);
-		solo.sleep(3000);
+		solo.sleep(500);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -2, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -2, screenWidth, screenHeight);
@@ -122,7 +122,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) - 21, (screenHeight / 2) + 21);
-		solo.sleep(3000);
+		solo.sleep(500);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(redBrightnessPixel, screenArray, -21, -21, screenWidth,
 				screenHeight);
