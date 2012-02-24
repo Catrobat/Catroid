@@ -130,7 +130,8 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
-		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(1).getAbsolutePath());
+		solo.sleep(1000);
+		assertEquals("costume not set", costumeDataList.get(1).getAbsolutePath(), costume.getImagePath());
 	}
 
 	public void testSpinnerUpdates() {
@@ -190,7 +191,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(newCostume);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(500);
+		solo.sleep(1000);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().costume.getImagePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script.", costumeImagePath,
 				costumePath);
