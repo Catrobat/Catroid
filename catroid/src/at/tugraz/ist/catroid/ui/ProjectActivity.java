@@ -71,6 +71,8 @@ public class ProjectActivity extends ListActivity {
 
 		setListAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
 
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

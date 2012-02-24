@@ -46,12 +46,13 @@
 		android:id="@+id/brick_change_size_by_edit_text"
 		android:text="20"
 		android:layout_height="wrap_content"
-		android:layout_width="60dp"
+		android:layout_width="wrap_content"
+		android:minWidth="60dip"
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
 		android:gravity="right"
-		android:maxLength="3"
+		android:maxLength="6"
 		android:maxLines="1"
 	>
 	</EditText>

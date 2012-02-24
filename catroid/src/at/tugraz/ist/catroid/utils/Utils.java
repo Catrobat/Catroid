@@ -122,9 +122,9 @@ public class Utils {
 	 * Constructs a path out of the pathElements.
 	 * 
 	 * @param pathElements
-	 *            the strings to connect. They can have "/" in them which will
-	 *            be de-duped in the result, if necessary.
-	 * @return the path that was constructed.
+	 *            the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
+	 * @return
+	 *         the path that was constructed.
 	 */
 	static public String buildPath(String... pathElements) {
 		StringBuilder result = new StringBuilder("/");
@@ -144,8 +144,7 @@ public class Utils {
 
 	/**
 	 * @param projectFileName
-	 * @return the project name without the default file extension, else returns
-	 *         unchanged string
+	 * @return the project name without the default file extension, else returns unchanged string
 	 */
 	public static String getProjectName(String projectFileName) {
 		if (projectFileName.endsWith(Consts.PROJECT_EXTENTION)) {
@@ -173,10 +172,7 @@ public class Utils {
 		builder.show();
 	}
 
-	public static void displayToast(Activity activity, String message/*
-																	 * , int
-																	 * duration
-																	 */) {
+	public static void displayToast(Activity activity, String message/* , int duration */) {
 		LayoutInflater inflater = activity.getLayoutInflater();
 		View layout = inflater.inflate(R.layout.toast_settings,
 				(ViewGroup) activity.findViewById(R.id.toast_layout_root));

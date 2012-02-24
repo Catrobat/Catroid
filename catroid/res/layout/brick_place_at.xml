@@ -19,7 +19,8 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,14 +49,15 @@
 
         <EditText
             android:id="@+id/brick_place_at_x_edit_text"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="60dip"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="right"
             android:inputType="number|numberDecimal|numberSigned"
-            android:maxLength="4"
+            android:maxLength="5"
             android:maxLines="1"
             android:text="0" >
         </EditText>
@@ -74,14 +76,15 @@
 
         <EditText
             android:id="@+id/brick_place_at_y_edit_text"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="60dip"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="right"
             android:inputType="number|numberDecimal|numberSigned"
-            android:maxLength="4"
+            android:maxLength="5"
             android:maxLines="1"
             android:text="0" >
         </EditText>
