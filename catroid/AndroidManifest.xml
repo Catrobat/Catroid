@@ -39,6 +39,7 @@
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
  	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.RECORD_AUDIO" />
 	
 	<application
 		android:icon="@drawable/ic_launcher_catroid_fat"
@@ -88,7 +89,14 @@
 
 		<activity android:name=".ui.SettingsActivity" android:theme="@style/settings_activity"/>
 		
-		<activity android:name=".bluetooth.DeviceListActivity" android:theme="@android:style/Theme.Dialog">
+		<activity android:name=".bluetooth.DeviceListActivity" android:theme="@android:style/Theme.Dialog" />
+
+		<activity android:name=".soundrecorder.SoundRecorderActivity" android:label="@string/soundrecorder_name">
+		    <intent-filter>
+				<action	android:name="android.intent.action.GET_CONTENT" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="audio/*"/>			
+			</intent-filter>
 		</activity>
 		
 	</application>

@@ -87,6 +87,13 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals("Value in Brick is not updated.", X_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}
 
+	public void testResizeInputField() {
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
+	}
+
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");

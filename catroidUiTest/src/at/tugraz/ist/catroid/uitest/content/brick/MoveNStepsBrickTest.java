@@ -101,4 +101,10 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
 	}
 
+	public void testResizeInputField() {
+		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 50, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.6789, 50, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 50, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -12345.6789, 50, false);
+	}
 }
