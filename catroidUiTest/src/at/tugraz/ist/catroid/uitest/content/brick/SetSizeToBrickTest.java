@@ -82,7 +82,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
-
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -153,6 +153,20 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
 	}
 
+	public void testResizeInputField() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		createTestProject();
+		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		solo.sleep(100);
+
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+	}
+
 	private void createProject() {
 
 		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
@@ -188,4 +202,18 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		ProjectManager.getInstance().saveProject();
 	}
 
+	private void createTestProject() {
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript(sprite);
+		setSizeToBrick = new SetSizeToBrick(sprite, 0);
+		script.addBrick(setSizeToBrick);
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
+	}
 }

@@ -87,6 +87,13 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		assertEquals("Value in Brick is not updated.", SET_Y + "", solo.getEditText(0).getText().toString());
 	}
 
+	public void testResizeInputField() {
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
+	}
+
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");

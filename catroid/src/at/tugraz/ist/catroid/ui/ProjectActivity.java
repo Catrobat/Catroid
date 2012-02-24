@@ -69,6 +69,8 @@ public class ProjectActivity extends ListActivity {
 
 		setListAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
 
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -124,6 +126,7 @@ public class ProjectActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
+		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}
 

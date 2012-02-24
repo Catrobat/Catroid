@@ -66,6 +66,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -117,6 +118,18 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
 	}
 
+	public void testResizeInputFields() {
+		ProjectManager.getInstance().deleteCurrentProject();
+		createTestProject();
+
+		for (int i = 0; i < 2; i++) {
+			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 12345, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, false);
+		}
+	}
+
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
@@ -132,6 +145,21 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		script.addBrick(soundBrick);
 
 		script.addBrick(new SetSizeToBrick(sprite, 80));
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
+	}
+
+	private void createTestProject() {
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript(sprite);
+		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
+		script.addBrick(placeAtBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

@@ -88,6 +88,13 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
+	public void testResizeInputField() {
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1080.55, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 0.75, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1080.555, 75, false);
+	}
+
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");

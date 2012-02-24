@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -83,6 +84,13 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.clickOnButton(0);
 
 		assertEquals("Text not updated", VOLUME_TO_CHANGE, Float.parseFloat(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12.5, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.12, 60, false);
 	}
 
 	private void createProject() {

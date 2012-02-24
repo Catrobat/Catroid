@@ -36,13 +36,14 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private Project project;
-	private ChangeBrightnessBrick ChangeBrightnessBrick;
+	private ChangeBrightnessBrick changeBrightnessBrick;
 	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
 
 	public ChangeBrightnessTest() {
@@ -58,11 +59,12 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	@Smoke
-	public void testChangeGhostEffectBrick() {
+	public void testChangeBrightnessBrick() {
 		int childrenCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter()
 				.getChildCountFromLastGroup();
 		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
@@ -86,17 +88,34 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, ChangeBrightnessBrick.getChangeBrightness());
+		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
+		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
+				Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
 		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
 				Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
+	public void testResizeInputField() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		createProject();
+		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		solo.sleep(100);
+
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+	}
+
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		ChangeBrightnessBrick = new ChangeBrightnessBrick(sprite, 10.2);
-		script.addBrick(ChangeBrightnessBrick);
+		changeBrightnessBrick = new ChangeBrightnessBrick(sprite, 10.2);
+		script.addBrick(changeBrightnessBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -105,5 +124,4 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

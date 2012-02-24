@@ -36,13 +36,14 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private Project project;
-	private ChangeGhostEffectBrick ChangeGhostEffectBrick;
+	private ChangeGhostEffectBrick changeGhostEffectBrick;
 	private static final double EFFECT_TO_CHANGE = 11.2;
 
 	public ChangeGhostEffectTest() {
@@ -58,6 +59,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -84,16 +86,30 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, ChangeGhostEffectBrick.getChangeGhostEffect());
+		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectBrick.getChangeGhostEffect());
 		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
+	public void testResizeInputField() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		createProject();
+		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		solo.sleep(100);
+
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+	}
+
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		ChangeGhostEffectBrick = new ChangeGhostEffectBrick(sprite, 30.5);
-		script.addBrick(ChangeGhostEffectBrick);
+		changeGhostEffectBrick = new ChangeGhostEffectBrick(sprite, 30.5);
+		script.addBrick(changeGhostEffectBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

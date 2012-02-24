@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/website_blue"
+    android:orientation="vertical" >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dip"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/soundrecorder_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/dark_gray" />
+
+
+    <ImageView
+        android:id="@+id/recordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="80dip"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_record_inactive" />
+
+    <TextView
+        android:id="@+id/recording"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="30dip"
+        android:text="@string/soundrecorder_recording"
+        android:textColor="#000000"
+        android:textSize="25dip"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:id="@+id/recordLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dip"
+        android:background="@drawable/button_yellow"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:shadowColor="#000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4" >
+
+        <TextView
+            android:id="@+id/recordText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/soundrecorder_record_start"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!--
+         <Button
+        android:id="@+id/buttonRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_record_inactive_button"
+        android:text="@string/soundrecorder_record_start" />
+    -->
+
+</LinearLayout>

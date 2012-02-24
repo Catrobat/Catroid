@@ -28,6 +28,7 @@ public final class Consts {
 
 	public static final String PROJECT_EXTENTION = ".xml";
 	public static final String CATROID_EXTENTION = ".catroid";
+	public static final String RECORDING_EXTENTION = ".mp3";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
@@ -42,4 +43,5 @@ public final class Consts {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PAINTROID_DOWNLOAD_LINK = "http://code.google.com/p/catroid/downloads/detail?name=paintroid-0.5.76-debug.apk";
+	public static final String PREF_PROJECTNAME_KEY = "projectName";
 }
