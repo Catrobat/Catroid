@@ -62,7 +62,7 @@
                 android:focusable="false"
                 android:gravity="center_vertical"
                 android:longClickable="false"
-                android:onClick="handleRenameCostumeButton"
+                android:onClick="handleSoundRenameButton"
                 android:paddingLeft="10dp"
                 android:paddingRight="8dip"
                 android:singleLine="true"
