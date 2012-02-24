@@ -74,7 +74,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dip" >
+            android:layout_marginTop="10dip" >
 
             <TextView
                 android:id="@+id/sound_duration"
