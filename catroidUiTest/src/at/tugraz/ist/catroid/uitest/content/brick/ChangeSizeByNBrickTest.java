@@ -76,8 +76,8 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_change_size_by)));
 
 		double newSize = 25;
@@ -93,6 +93,13 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		assertEquals("Wrong text in field", newSize, actualSize);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
 	}
 
 	private void createProject() {
