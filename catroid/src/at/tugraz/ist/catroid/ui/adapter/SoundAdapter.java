@@ -57,7 +57,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 		final SoundInfo soundInfo = soundInfoItems.get(position);
 
-		convertView.findViewById(R.id.btn_sound_rename).setTag(position);
+		convertView.findViewById(R.id.sound_name).setTag(position);
 		convertView.findViewById(R.id.btn_sound_play).setTag(position);
 		convertView.findViewById(R.id.btn_sound_pause).setTag(position);
 		convertView.findViewById(R.id.btn_sound_delete).setTag(position);
