@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -75,8 +76,8 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_set_brightness)));
 
 		double newBrightness = 65.5;
@@ -91,6 +92,13 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
 		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
 	}
 
 	private void createProject() {
