@@ -48,7 +48,7 @@ public class NextCostumeBrick implements Brick {
 		final ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
 		int costumeDataListSize = costumeDataList.size();
 
-		if (costumeDataListSize > 0) {
+		if (costumeDataListSize > 0 && sprite.costume.getCostumeData() != null) {
 			CostumeData currentCostumeData = sprite.costume.getCostumeData();
 			CostumeData finalCostumeData = costumeDataList.get(costumeDataListSize - 1);
 			boolean executeOnce = true;
