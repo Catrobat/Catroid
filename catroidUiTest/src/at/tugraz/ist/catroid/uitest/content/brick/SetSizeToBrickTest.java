@@ -158,7 +158,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.sleep(200);
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		createTestProject();
-		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		//		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
 		solo.sleep(100);
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
