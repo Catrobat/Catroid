@@ -78,8 +78,8 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getItem(adapter
-				.getScriptId(groupCount - 1) + 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				adapter.getItem(adapter.getScriptId(groupCount - 1) + 1));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_wait)));
 
 		double waitTime = 2.25;
@@ -94,6 +94,13 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		int actualWaitTime = (Integer) UiTestUtils.getPrivateField("timeToWaitInMilliSeconds", waitBrick);
 		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
+	}
+
+	public void testResizeInputField() {
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.67, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 0.5, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.678, 60, false);
 	}
 
 	private void createProject() {

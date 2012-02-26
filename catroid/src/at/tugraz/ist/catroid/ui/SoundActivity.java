@@ -35,6 +35,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -46,6 +47,8 @@ import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundActivity extends ListActivity {
+	private static final String TAG = SoundActivity.class.getSimpleName();
+
 	public MediaPlayer mediaPlayer;
 	private ArrayList<SoundInfo> soundInfoList;
 
@@ -90,7 +93,8 @@ public class SoundActivity extends ListActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
+				startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+						REQUEST_SELECT_MUSIC);
 			}
 		};
 	}
@@ -106,6 +110,9 @@ public class SoundActivity extends ListActivity {
 	}
 
 	private void updateSoundAdapter(String title, String fileName) {
+
+		title = searchForNonExistingTitle(title, 0);
+
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);
 		newSoundInfo.setSoundFileName(fileName);
@@ -121,6 +128,22 @@ public class SoundActivity extends ListActivity {
 				}
 			});
 		}
+	}
+
+	private String searchForNonExistingTitle(String title, int nextNumber) {
+		// search for sounds with the same title
+		String newTitle;
+		if (nextNumber == 0) {
+			newTitle = title;
+		} else {
+			newTitle = title + nextNumber;
+		}
+		for (SoundInfo soundInfo : soundInfoList) {
+			if (soundInfo.getTitle().equals(newTitle)) {
+				return searchForNonExistingTitle(title, ++nextNumber);
+			}
+		}
+		return newTitle;
 	}
 
 	public void pauseSound(SoundInfo soundInfo) {
@@ -174,9 +197,15 @@ public class SoundActivity extends ListActivity {
 					Uri audioUri = data.getData();
 					String[] proj = { MediaStore.Audio.Media.DATA };
 					Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
-					int actualSoundColumnIndex = actualSoundCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-					actualSoundCursor.moveToFirst();
-					audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
+
+					if (actualSoundCursor != null) {
+						int actualSoundColumnIndex = actualSoundCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+						actualSoundCursor.moveToFirst();
+						audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
+					} else {
+						audioPath = audioUri.getPath();
+					}
+					Log.i(TAG, "audiopath: " + audioPath);
 				}
 				//-----------------------------------------------------
 
@@ -189,6 +218,7 @@ public class SoundActivity extends ListActivity {
 						soundFileName.lastIndexOf('.'));
 				updateSoundAdapter(soundTitle, soundFileName);
 			} catch (Exception e) {
+				e.printStackTrace();
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
 		}
