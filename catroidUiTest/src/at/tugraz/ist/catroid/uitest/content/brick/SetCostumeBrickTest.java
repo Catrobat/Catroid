@@ -154,7 +154,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.goBack();
