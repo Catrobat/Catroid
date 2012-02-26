@@ -65,12 +65,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -116,8 +111,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
-		assertTrue("No error message was displayed upon creating a project with an empty name.", solo
-				.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		assertTrue("No error message was displayed upon creating a project with an empty name.",
+				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
 		solo.clickOnButton(0);
 
@@ -139,8 +134,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
-		assertTrue("No error message was displayed upon creating a project with the same name twice.", solo
-				.searchText(getActivity().getString(R.string.error_project_exists)));
+		assertTrue("No error message was displayed upon creating a project with the same name twice.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
 	}
 

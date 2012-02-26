@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -50,25 +51,19 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	public ScriptChangeTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
-
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		createTestProject("testProject");
+		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
-
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 

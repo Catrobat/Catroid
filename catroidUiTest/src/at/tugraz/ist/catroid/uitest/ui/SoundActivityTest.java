@@ -71,23 +71,17 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(), soundInfo
-				.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(), soundInfo2
-				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(),
+				soundInfo.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(),
+				soundInfo2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.sleep(500);
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 

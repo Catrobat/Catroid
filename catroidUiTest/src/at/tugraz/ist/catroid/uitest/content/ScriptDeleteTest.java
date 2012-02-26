@@ -51,7 +51,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void setUp() throws Exception {
-		createTestProject("testProject");
+		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 
@@ -59,24 +59,19 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
-
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testAddLooksCategoryBrick() {
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
-		assertTrue("Set costume brick was not added", solo.searchText(getActivity().getString(
-				R.string.brick_set_costume)));
+		assertTrue("Set costume brick was not added",
+				solo.searchText(getActivity().getString(R.string.brick_set_costume)));
 
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
-		assertTrue("Set size to brick was not added", solo.searchText(getActivity().getString(
-				R.string.brick_set_size_to)));
+		assertTrue("Set size to brick was not added",
+				solo.searchText(getActivity().getString(R.string.brick_set_size_to)));
 
 		//		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		//		assertTrue("Category was not found!",
@@ -117,7 +112,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.clickLongInList(deleteIndex);
 
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.sleep(1000);
+		solo.sleep(500);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
@@ -125,7 +120,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.sleep(1000);
+		solo.sleep(500);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
