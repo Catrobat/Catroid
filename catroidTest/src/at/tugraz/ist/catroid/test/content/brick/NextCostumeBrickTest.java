@@ -156,4 +156,20 @@ public class NextCostumeBrickTest extends InstrumentationTestCase {
 		assertEquals("Wrong costume after executing NextCostumeBrick with just one costume", costumeData1,
 				sprite.costume.getCostumeData());
 	}
+
+	public void testNextCostumeWithNoCostumeSet() {
+
+		Sprite sprite = new Sprite("cat");
+
+		NextCostumeBrick nextCostumeBrick = new NextCostumeBrick(sprite);
+
+		CostumeData costumeData1 = new CostumeData();
+		costumeData1.setCostumeFilename(testImage.getName());
+		costumeData1.setCostumeName("testImage1");
+		sprite.getCostumeDataList().add(costumeData1);
+
+		nextCostumeBrick.execute();
+
+		assertNull("No Custume should be set.", sprite.costume.getCostumeData());
+	}
 }
