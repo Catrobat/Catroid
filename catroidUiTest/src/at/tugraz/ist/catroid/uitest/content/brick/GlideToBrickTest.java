@@ -53,19 +53,13 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testNumberInput() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_glide);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_glide, ScriptTabActivity.class.getName());
 
 		double duration = 1.5;
 		int xPosition = 123;
@@ -76,7 +70,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 2, String.valueOf(xPosition));
 		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 1, String.valueOf(yPosition));
 
-		solo.sleep(1000);
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(brickList.size() - 1);

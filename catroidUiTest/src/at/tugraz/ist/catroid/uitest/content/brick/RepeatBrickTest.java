@@ -55,13 +55,7 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptActi
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
