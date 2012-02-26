@@ -103,7 +103,6 @@
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
-    <string name="sound_rename">rename</string>
     <string name="sound_select_source">Select music</string>
 
     <!-- Soundrecorder activity -->
