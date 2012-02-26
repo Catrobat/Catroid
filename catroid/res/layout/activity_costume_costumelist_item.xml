@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -38,9 +38,9 @@
             android:id="@+id/costume_image"
             android:layout_width="110dip"
             android:layout_height="110dip"
-            android:scaleType="centerCrop"
             android:clickable="true"
-            android:onClick="handleEditCostumeButton" />
+            android:onClick="handleEditCostumeButton"
+            android:scaleType="centerCrop" />
 
         <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,36 +48,24 @@
             android:layout_height="110dip"
             android:orientation="vertical" >
 
-            <FrameLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <TextView
+                android:id="@+id/costume_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dip"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:background="@color/list_item_text_background"
+                android:clickable="true"
+                android:ellipsize="end"
+                android:focusable="false"
+                android:gravity="center_vertical"
+                android:longClickable="false"
+                android:onClick="handleRenameCostumeButton"
                 android:paddingLeft="10dip"
-                android:paddingRight="10dip" >
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:longClickable="false" />
-
-                <TextView
-                    android:id="@+id/costume_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:ellipsize="end"
-                    android:focusable="false"
-                    android:gravity="center_vertical"
-                    android:longClickable="false"
-                    android:onClick="handleRenameCostumeButton"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="8dip"
-                    android:singleLine="true"
-                    android:textColor="@color/solid_black"
-                    android:textSize="18dip" />
-            </FrameLayout>
+                android:paddingRight="8dip"
+                android:singleLine="true"
+                android:textColor="@color/solid_black"
+                android:textSize="18dip" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
