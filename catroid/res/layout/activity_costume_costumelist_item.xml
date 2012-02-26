@@ -38,7 +38,9 @@
             android:id="@+id/costume_image"
             android:layout_width="110dip"
             android:layout_height="110dip"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:clickable="true"
+            android:onClick="handleEditCostumeButton" />
 
         <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"

@@ -56,6 +56,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 		convertView.findViewById(R.id.btn_costume_delete).setTag(position);
 		convertView.findViewById(R.id.btn_costume_edit).setTag(position);
 		convertView.findViewById(R.id.costume_name).setTag(position);
+		convertView.findViewById(R.id.costume_image).setTag(position);
 
 		CostumeData costumeData = costumeDataItems.get(position);
 

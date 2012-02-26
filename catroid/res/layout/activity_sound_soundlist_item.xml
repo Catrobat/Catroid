@@ -24,7 +24,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:paddingTop="6dip" >
 
     <ImageView
         android:id="@+id/sound_img"
@@ -43,8 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dip"
             android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="6dip" >
+            android:paddingRight="10dip" >
 
             <EditText
                 android:layout_width="match_parent"
