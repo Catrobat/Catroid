@@ -98,7 +98,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.clickOnButton(2);
+		solo.clickOnButton(1);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition))) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
 					costumeDataList.size());
@@ -123,7 +123,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String newName = "newName";
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.clearEditText(0);
@@ -155,7 +155,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String newName = "newTestName";
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.clickOnView(solo.getView(R.id.costume_name));
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
