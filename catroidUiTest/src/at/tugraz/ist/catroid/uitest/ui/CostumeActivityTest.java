@@ -104,7 +104,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(2000);
-		solo.clickOnButton(2);
+		solo.clickOnButton(1);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition))) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
 					costumeDataList.size());
@@ -130,7 +130,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String newName = "newName";
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.clearEditText(0);
@@ -163,7 +163,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String newName = "newTestName";
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.clickOnView(solo.getView(R.id.costume_name));
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
@@ -188,8 +188,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid), paintroidImageFile
-				.getAbsolutePath());
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				paintroidImageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
@@ -197,8 +197,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(200);
 
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
-		assertTrue("Checksum not in checksumcontainer", projectManager.fileChecksumContainer
-				.containsChecksum(checksumPaintroidImageFile));
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
 
 		boolean isInCostumeDataList = false;
 		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
@@ -222,8 +222,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid), imageFile
-				.getAbsolutePath());
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
 		bundleForPaintroid.putString("secondExtra", paintroidImageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
@@ -258,8 +258,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid), imageFile
-				.getAbsolutePath());
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
@@ -334,8 +334,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
-		assertTrue("Checksum not in checksumcontainer", projectManager.fileChecksumContainer
-				.containsChecksum(checksumPaintroidImageFile));
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
 
 		boolean isInCostumeDataList = false;
 		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
@@ -359,8 +359,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid), imageFile
-				.getAbsolutePath());
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
 		bundleForPaintroid.putString("secondExtra", imageFile2.getAbsolutePath());
 
 		Intent intent = new Intent(getInstrumentation().getContext(),
@@ -376,8 +376,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		int newNumberOfCostumeDatas = costumeDataList.size();
 		assertEquals("CostumeData was added", numberOfCostumeDatas, newNumberOfCostumeDatas);
 		assertEquals("too many references for checksum", 0, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
-		assertEquals("not the right number of checksum references", 2, projectManager.fileChecksumContainer
-				.getUsage(md5PaintroidImageFile));
+		assertEquals("not the right number of checksum references", 2,
+				projectManager.fileChecksumContainer.getUsage(md5PaintroidImageFile));
 	}
 
 	public void testEditImageWhichIsAlreadyUsed() {
@@ -387,8 +387,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeDataToAdd.setCostumeFilename(tempImageFile.getName());
 		costumeDataToAdd.setCostumeName("justforthistest");
 		costumeDataList.add(costumeDataToAdd);
-		projectManager.fileChecksumContainer.addChecksum(costumeDataToAdd.getChecksum(), costumeDataToAdd
-				.getAbsolutePath());
+		projectManager.fileChecksumContainer.addChecksum(costumeDataToAdd.getChecksum(),
+				costumeDataToAdd.getAbsolutePath());
 
 		solo.sleep(900);
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
@@ -400,8 +400,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		//		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid), imageFile
-				.getAbsolutePath());
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
 		bundleForPaintroid.putString("secondExtra", imageFile2.getAbsolutePath());
 
 		Intent intent = new Intent(getInstrumentation().getContext(),

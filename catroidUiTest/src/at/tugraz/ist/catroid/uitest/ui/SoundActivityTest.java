@@ -71,10 +71,10 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(), soundInfo
-				.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(), soundInfo2
-				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(),
+				soundInfo.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(),
+				soundInfo2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -110,7 +110,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		String newName = "newSoundName";
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.clickOnView(solo.getView(R.id.sound_name));
 		assertTrue("wrong title of dialog", solo.searchText(soundName));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
@@ -170,7 +170,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(1000);
 		String newName = "newTestName";
-		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.clickOnView(solo.getView(R.id.sound_name));
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
