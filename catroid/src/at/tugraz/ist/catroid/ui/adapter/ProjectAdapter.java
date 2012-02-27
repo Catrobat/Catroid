@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.stage.StageListener;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -46,8 +48,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class ProjectAdapter extends ArrayAdapter<String> {
 
 	public static class ViewHolder {
-		public TextView text;
+		public TextView projectName;
 		public ImageView image;
+		public TextView size;
+		public TextView dateChanged;
+		public TextView description;
 	}
 
 	private static LayoutInflater inflater;
@@ -66,8 +71,11 @@ public class ProjectAdapter extends ArrayAdapter<String> {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.activity_my_projects_item, null);
 			holder = new ViewHolder();
-			holder.text = (TextView) convertView.findViewById(R.id.project_title);
+			holder.projectName = (TextView) convertView.findViewById(R.id.project_title);
 			holder.image = (ImageView) convertView.findViewById(R.id.project_img);
+			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project);
+			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_changed);
+			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -76,37 +84,36 @@ public class ProjectAdapter extends ArrayAdapter<String> {
 		// ------------------------------------------------------------
 		String projectName = getItem(position);
 
-		holder.text.setText(projectName);
+		holder.projectName.setText(projectName);
 		String pathOfScreenshot = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, StageListener.SCREENSHOT_FILE_NAME);
 		File projectImageFile = new File(pathOfScreenshot);
 		Bitmap projectImage;
 		if (!projectImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
 			projectImage = null;
 		} else {
-			projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, 160, 266, true);
+			Utils.updateScreenWidthAndHeight((Activity) context);
+			projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, Values.SCREEN_WIDTH / 3,
+					Values.SCREEN_HEIGHT / 3, true);
 		}
 		holder.image.setImageBitmap(projectImage);
 
 		// set size of project:
-		TextView sizeOfProject = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project);
-		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName))));
+		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName))));
 
 		File projectXMLFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName, projectName
 				+ Consts.PROJECT_EXTENTION));
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
-		TextView dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_changed);
 		Date resultDate = new Date(projectXMLFile.lastModified());
-		dateChanged.setText(sdf.format(resultDate));
+		holder.dateChanged.setText(sdf.format(resultDate));
 
-		TextView description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
 		ProjectManager projectManager = ProjectManager.getInstance();
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		if (projectName.equalsIgnoreCase(currentProjectName)) {
-			description.setText(projectManager.getCurrentProject().description);
+			holder.description.setText(projectManager.getCurrentProject().description);
 		} else {
 			projectManager.loadProject(projectName, context, false);
-			description.setText(projectManager.getCurrentProject().description);
+			holder.description.setText(projectManager.getCurrentProject().description);
 			projectManager.loadProject(currentProjectName, context, false);
 		}
 
