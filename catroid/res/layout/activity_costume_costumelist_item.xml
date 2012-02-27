@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -38,6 +38,8 @@
             android:id="@+id/costume_image"
             android:layout_width="110dip"
             android:layout_height="110dip"
+            android:clickable="true"
+            android:onClick="handleEditCostumeButton"
             android:scaleType="centerCrop" />
 
         <RelativeLayout
@@ -49,15 +51,19 @@
             <TextView
                 android:id="@+id/costume_name"
                 android:layout_width="match_parent"
-                android:layout_height="55dip"
-                android:clickable="false"
+                android:layout_height="40dip"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:background="@color/list_item_text_background"
+                android:clickable="true"
                 android:ellipsize="end"
                 android:focusable="false"
                 android:gravity="center_vertical"
                 android:longClickable="false"
-                android:maxLines="2"
-                android:paddingLeft="10dp"
+                android:onClick="handleRenameCostumeButton"
+                android:paddingLeft="10dip"
                 android:paddingRight="8dip"
+                android:singleLine="true"
                 android:textColor="@color/solid_black"
                 android:textSize="18dip" />
 
@@ -104,31 +110,23 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingRight="4dip" >
+        android:paddingRight="4dip"
+        android:weightSum="3" >
 
         <Button
             android:id="@+id/btn_costume_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".25"
+            android:layout_weight="1"
             android:drawableTop="@drawable/ic_paintroid_logo"
             android:onClick="handleEditCostumeButton"
             android:text="@string/edit_costume_paintroid" />
 
         <Button
-            android:id="@+id/btn_costume_rename"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".25"
-            android:drawableTop="@drawable/ic_menu_edit"
-            android:onClick="handleRenameCostumeButton"
-            android:text="@string/sound_rename" />
-
-        <Button
             android:id="@+id/btn_costume_copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".25"
+            android:layout_weight="1"
             android:drawableTop="@drawable/ic_copy"
             android:onClick="handleCopyCostumeButton"
             android:text="@string/copy_costume" />
@@ -138,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_weight=".25"
+            android:layout_weight="1"
             android:drawableTop="@drawable/ic_menu_delete"
             android:onClick="handleDeleteCostumeButton"
             android:text="@string/sound_delete" />
