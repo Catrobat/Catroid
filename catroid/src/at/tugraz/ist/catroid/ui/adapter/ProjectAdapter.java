@@ -45,7 +45,7 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectAdapter extends ArrayAdapter<String> {
+public class ProjectAdapter extends ArrayAdapter<File> {
 
 	public static class ViewHolder {
 		public TextView projectName;
@@ -58,7 +58,7 @@ public class ProjectAdapter extends ArrayAdapter<String> {
 	private static LayoutInflater inflater;
 	private Context context;
 
-	public ProjectAdapter(Context context, int resource, int textViewResourceId, List<String> objects) {
+	public ProjectAdapter(Context context, int resource, int textViewResourceId, List<File> objects) {
 		super(context, resource, textViewResourceId, objects);
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -82,7 +82,7 @@ public class ProjectAdapter extends ArrayAdapter<String> {
 		}
 
 		// ------------------------------------------------------------
-		String projectName = getItem(position);
+		String projectName = Utils.getProjectName(getItem(position).getName());
 
 		holder.projectName.setText(projectName);
 		String pathOfScreenshot = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, StageListener.SCREENSHOT_FILE_NAME);
