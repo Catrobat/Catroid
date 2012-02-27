@@ -236,7 +236,7 @@ public class MyProjectsActivity extends ListActivity {
 				if (projectToEdit.equalsIgnoreCase(currentProjectName)) {
 					descriptionEditText.setText(projectManager.getCurrentProject().description);
 				} else {
-					projectManager.loadProject(projectToEdit, this, false);
+					projectManager.loadProject(projectToEdit, this, false); //TODO: check something
 					descriptionEditText.setText(projectManager.getCurrentProject().description);
 					projectManager.loadProject(currentProjectName, this, false);
 				}
