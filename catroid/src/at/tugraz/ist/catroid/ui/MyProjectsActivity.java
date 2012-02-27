@@ -53,7 +53,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class MyProjectsActivity extends ListActivity {
 
-	private List<String> projectList;
+	private List<File> projectList;
 	public String projectToEdit;
 	private ProjectAdapter adapter;
 	private CustomIconContextMenu iconContextMenu;
@@ -111,12 +111,13 @@ public class MyProjectsActivity extends ListActivity {
 
 	public void initAdapter() {
 		File rootDirectory = new File(Consts.DEFAULT_ROOT);
-		projectList = UtilFile.getProjectNames(rootDirectory);
-		Collections.sort(projectList, new Comparator<String>() {
-			public int compare(String s1, String s2) {
-				return s1.compareToIgnoreCase(s2);
+		projectList = UtilFile.getProjectFiles(rootDirectory);
+		Collections.sort(projectList, new Comparator<File>() {
+			public int compare(File f1, File f2) {
+				return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
 			}
 		});
+
 		adapter = new ProjectAdapter(this, R.layout.activity_my_projects_item, R.id.project_title, projectList);
 		setListAdapter(adapter);
 	}
@@ -124,7 +125,8 @@ public class MyProjectsActivity extends ListActivity {
 	private void initClickListener() {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), MyProjectsActivity.this, true)) {
+				if (!ProjectManager.getInstance().loadProject(
+						Utils.getProjectName((adapter.getItem(position)).getName()), MyProjectsActivity.this, true)) {
 					return; // error message already in ProjectManager
 							// loadProject
 				}
@@ -134,7 +136,7 @@ public class MyProjectsActivity extends ListActivity {
 		});
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				projectToEdit = projectList.get(position);
+				projectToEdit = Utils.getProjectName((projectList.get(position)).getName());
 				removeDialog(DIALOG_CONTEXT_MENU);
 				showDialog(DIALOG_CONTEXT_MENU);
 				return true;
@@ -176,7 +178,8 @@ public class MyProjectsActivity extends ListActivity {
 						if (projectList.size() == 0) { // no projects left
 							projectManager.initializeDefaultProject(MyProjectsActivity.this);
 						} else {
-							projectManager.loadProject(projectList.get(0), MyProjectsActivity.this, true);
+							projectManager.loadProject(Utils.getProjectName((projectList.get(0)).getName()),
+									MyProjectsActivity.this, true);
 							projectManager.saveProject();
 							Utils.saveToPreferences(MyProjectsActivity.this, Consts.PREF_PROJECTNAME_KEY,
 									projectManager.getCurrentProject().getName());
@@ -249,8 +252,8 @@ public class MyProjectsActivity extends ListActivity {
 	}
 
 	public boolean projectAlreadyExists(String projectName) {
-		for (String project : projectList) {
-			if (projectName.equalsIgnoreCase(project)) {
+		for (File project : projectList) {
+			if (projectName.equalsIgnoreCase(Utils.getProjectName(project.getName()))) {
 				return true;
 			}
 		}
@@ -262,4 +265,5 @@ public class MyProjectsActivity extends ListActivity {
 		titleTextView.setText(MyProjectsActivity.this.getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName());
 	}
+
 }

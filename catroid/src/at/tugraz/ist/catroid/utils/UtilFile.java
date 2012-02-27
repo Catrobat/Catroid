@@ -150,4 +150,17 @@ public class UtilFile {
 		return projectList;
 	}
 
+	public static List<File> getProjectFiles(File directory) {
+		List<File> projectList = new ArrayList<File>();
+		File[] sdFileList = directory.listFiles();
+		for (File file : sdFileList) {
+			if (file.isDirectory()) {
+				projectList.addAll(getProjectFiles(file));
+			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
+				projectList.add(file); //Utils.getProjectName(file.getName()));
+			}
+		}
+		return projectList;
+	}
+
 }
