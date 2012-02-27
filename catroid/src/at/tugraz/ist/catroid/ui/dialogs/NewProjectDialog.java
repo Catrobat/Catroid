@@ -47,7 +47,7 @@ public class NewProjectDialog extends TextDialog {
 	}
 
 	public void handleOkButton() {
-		String projectName = (input.getText().toString());
+		String projectName = (input.getText().toString().trim());
 
 		if (projectName.length() == 0) {
 			Utils.displayErrorMessage(activity, activity.getString(R.string.error_no_name_entered));
