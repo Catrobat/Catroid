@@ -104,6 +104,12 @@
     <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
     <string name="sound_select_source">Select music</string>
+    
+    <!-- My Projects activity -->
+    <string name="last_changed">Last changed:  </string>
+    <string name="description">Description:     </string>
+    <string name="set_description">set Description</string>
+    <string name="rename_project">Rename Project</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>

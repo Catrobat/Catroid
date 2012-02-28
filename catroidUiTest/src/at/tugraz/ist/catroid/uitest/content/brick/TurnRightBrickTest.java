@@ -44,7 +44,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	private Solo solo;
 	private Project project;
 	private TurnRightBrick turnRightBrick;
-	private static final double TURN_DEGREES = 25;
+	private double turnDegrees;
 
 	public TurnRightBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -58,7 +58,13 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -79,14 +85,16 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, TURN_DEGREES + "");
+		solo.enterText(0, turnDegrees + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
+		solo.sleep(1000);
+
 		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnRightBrick);
 
-		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees);
-		assertEquals("Text not updated", TURN_DEGREES, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
+		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
@@ -97,6 +105,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	private void createProject() {
+		turnDegrees = 25;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

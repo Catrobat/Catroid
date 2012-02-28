@@ -43,6 +43,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -296,6 +297,13 @@ public class Utils {
 		return physicalPixels;
 	}
 
+	public static void saveToPreferences(Context context, String key, String message) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = prefs.edit();
+		edit.putString(key, message);
+		edit.commit();
+	}
+
 	public static void loadProjectIfNeeded(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -308,5 +316,4 @@ public class Utils {
 			}
 		}
 	}
-
 }

@@ -57,7 +57,13 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -82,6 +88,8 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		solo.enterText(0, turnDegrees + "");
 		solo.goBack();
 		solo.clickOnButton(0);
+
+		solo.sleep(1000);
 
 		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees);

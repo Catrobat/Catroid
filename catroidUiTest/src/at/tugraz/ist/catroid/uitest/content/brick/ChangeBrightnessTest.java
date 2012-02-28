@@ -44,7 +44,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	private Solo solo;
 	private Project project;
 	private ChangeBrightnessBrick changeBrightnessBrick;
-	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
+	private double brightnessToChange;
 
 	public ChangeBrightnessTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -58,7 +58,13 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -82,17 +88,14 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
+		solo.enterText(0, brightnessToChange + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
-		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
-				Double.parseDouble(solo.getEditText(0).getText().toString()));
-		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
-		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
+		assertEquals("Wrong text in field", brightnessToChange, changeBrightnessBrick.getChangeBrightness());
+		assertEquals("Text not updated", brightnessToChange,
 				Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
@@ -111,6 +114,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	private void createProject() {
+		brightnessToChange = 56.6;
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

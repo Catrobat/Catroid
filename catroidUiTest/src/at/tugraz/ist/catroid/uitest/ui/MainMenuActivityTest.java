@@ -65,7 +65,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -86,7 +91,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
-		solo.goBack();
+		//solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(400);
 
@@ -108,7 +113,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(100);
 
 		assertTrue("No error message was displayed upon creating a project with an empty name.",
@@ -151,7 +156,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
+		//solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
 

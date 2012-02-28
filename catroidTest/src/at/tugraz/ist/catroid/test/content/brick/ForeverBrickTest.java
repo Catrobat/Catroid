@@ -22,7 +22,6 @@
  */
 package at.tugraz.ist.catroid.test.content.brick;
 
-import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
@@ -66,8 +65,8 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		Thread.sleep(expectedDelay * twentyIsAlmostForever);
 
-		assertEquals("Executed the wrong number of times!", twentyIsAlmostForever * deltaY,
-				(int) testSprite.costume.getYPosition());
+		assertEquals("Executed the wrong number of times!", twentyIsAlmostForever * deltaY, (int) testSprite.costume
+				.getYPosition());
 
 		final int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
 		final int forever = (Integer) TestUtils.getPrivateField("FOREVER", loopEndBrick, false);
@@ -75,7 +74,6 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		assertEquals("Wrong number of times to repeat", forever, timesToRepeat);
 	}
 
-	@FlakyTest(tolerance = 3)
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 		final int repeatTimes = 15;

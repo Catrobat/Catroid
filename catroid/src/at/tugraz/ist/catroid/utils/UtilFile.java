@@ -27,6 +27,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.common.Consts;
@@ -130,6 +132,35 @@ public class UtilFile {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * returns a list of strings of all projectnames in the catroid folder
+	 */
+	public static List<String> getProjectNames(File directory) {
+		List<String> projectList = new ArrayList<String>();
+		File[] sdFileList = directory.listFiles();
+		for (File file : sdFileList) {
+			if (file.isDirectory()) {
+				projectList.addAll(getProjectNames(file));
+			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
+				projectList.add(Utils.getProjectName(file.getName()));
+			}
+		}
+		return projectList;
+	}
+
+	public static List<File> getProjectFiles(File directory) {
+		List<File> projectList = new ArrayList<File>();
+		File[] sdFileList = directory.listFiles();
+		for (File file : sdFileList) {
+			if (file.isDirectory()) {
+				projectList.addAll(getProjectFiles(file));
+			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
+				projectList.add(file); //Utils.getProjectName(file.getName()));
+			}
+		}
+		return projectList;
 	}
 
 }

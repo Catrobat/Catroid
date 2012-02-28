@@ -98,7 +98,12 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		if (soundFile.exists()) {
 			soundFile.delete();
@@ -140,13 +145,18 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testSpinnerUpdatesDelete() {
+		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(300);
 		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.sleep(300);
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
 		assertFalse(soundName + " is still in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
@@ -154,16 +164,20 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
+		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(300);
 		solo.clickOnView(solo.getView(R.id.sound_name));
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(500);
+		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clickOnButton(0);
 		solo.sleep(300);

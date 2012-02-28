@@ -177,11 +177,6 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_note, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_forever, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_repeat, R.string.category_control);
-
-		brickCategoryMap.put(R.string.brick_motor_turn_angle, R.string.category_lego_nxt);
-		brickCategoryMap.put(R.string.motor_stop, R.string.category_lego_nxt);
-		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
-		brickCategoryMap.put(R.string.nxt_play_tone, R.string.category_lego_nxt);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -208,18 +203,6 @@ public class UiTestUtils {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
-
-		while (solo.scrollDown()) {
-			;
-		}
-	}
-
-	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId, String activityToWaitFor) {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
-		solo.clickOnText(solo.getCurrentActivity().getString(getBrickCategory(solo, brickStringId)));
-		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
-
-		solo.waitForActivity(activityToWaitFor);
 
 		while (solo.scrollDown()) {
 			;
@@ -505,20 +488,17 @@ public class UiTestUtils {
 		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], 10);
 	}
 
-	public static void testIntegerEditText(Solo solo, int editTextIndex, int value, int editTextMinWidth,
-			boolean assertMode) {
+	public static void testIntegerEditText(Solo solo, int editTextIndex, int value, int editTextMinWidth, boolean assertMode) {
 		insertIntegerIntoEditText(solo, editTextIndex, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
-	public static void testDoubleEditText(Solo solo, int editTextIndex, double value, int editTextMinWidth,
-			boolean assertMode) {
+	public static void testDoubleEditText(Solo solo, int editTextIndex, double value, int editTextMinWidth, boolean assertMode) {
 		insertDoubleIntoEditText(solo, editTextIndex, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
-	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth,
-			boolean assertMode) {
+	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth, boolean assertMode) {
 		solo.clickOnButton(0);
 		solo.sleep(100);
 		int width = 0;

@@ -48,7 +48,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private Solo solo;
 	private Project project;
 	private GoNStepsBackBrick goNStepsBackBrick;
-	private final static int STEPS_TO_GO_BACK = 17;
+	private int stepsToGoBack;
 
 	public GoNStepsBackTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -62,7 +62,13 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -77,21 +83,23 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_go_back)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, STEPS_TO_GO_BACK + "");
+		solo.enterText(0, stepsToGoBack + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_GO_BACK + "", solo.getEditText(0).getText().toString());
+		solo.sleep(300);
+		assertEquals("Wrong text in field.", stepsToGoBack, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
+		assertEquals("Value in Brick is not updated.", stepsToGoBack + "", solo.getEditText(0).getText().toString());
 	}
 
 	private void createProject() {
+		stepsToGoBack = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
