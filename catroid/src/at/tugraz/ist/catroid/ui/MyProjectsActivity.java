@@ -139,6 +139,9 @@ public class MyProjectsActivity extends ListActivity {
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				projectToEdit = projectList.get(position);
+				if (projectToEdit == null) {
+					return true;
+				}
 				if (!ProjectManager.getInstance().canLoadProject(Utils.getProjectName((projectToEdit.getName())))) {
 					removeDialog(DIALOG_CONTEXT_MENU2);
 					showDialog(DIALOG_CONTEXT_MENU2);
@@ -222,7 +225,10 @@ public class MyProjectsActivity extends ListActivity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
-		String project = Utils.getProjectName((projectToEdit.getName()));
+		String project = "";
+		if (projectToEdit != null) {
+			project = Utils.getProjectName((projectToEdit.getName()));
+		}
 		switch (id) {
 			case DIALOG_CONTEXT_MENU:
 				if (iconContextMenu != null && projectToEdit != null) {
@@ -257,7 +263,10 @@ public class MyProjectsActivity extends ListActivity {
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		super.onPrepareDialog(id, dialog);
-		String project = Utils.getProjectName((projectToEdit.getName()));
+		String project = "";
+		if (projectToEdit != null) {
+			project = Utils.getProjectName((projectToEdit.getName()));
+		}
 		switch (id) {
 			case DIALOG_RENAME_PROJECT:
 				EditText renameProjectEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
@@ -298,5 +307,4 @@ public class MyProjectsActivity extends ListActivity {
 		titleTextView.setText(MyProjectsActivity.this.getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName());
 	}
-
 }
