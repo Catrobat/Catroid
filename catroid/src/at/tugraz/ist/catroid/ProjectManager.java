@@ -38,199 +38,208 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
-    private Project project;
-    private Script currentScript;
-    private Sprite currentSprite;
-    private static ProjectManager instance;
+	private Project project;
+	private Script currentScript;
+	private Sprite currentSprite;
+	private static ProjectManager instance;
 
-    public FileChecksumContainer fileChecksumContainer;
-    public MessageContainer messageContainer;
+	public FileChecksumContainer fileChecksumContainer;
+	public MessageContainer messageContainer;
 
-    private ProjectManager() {
-        fileChecksumContainer = new FileChecksumContainer();
-        messageContainer = new MessageContainer();
-    }
+	private ProjectManager() {
+		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
+	}
 
-    public static ProjectManager getInstance() {
-        if (instance == null) {
-            instance = new ProjectManager();
-        }
-        return instance;
-    }
+	public static ProjectManager getInstance() {
+		if (instance == null) {
+			instance = new ProjectManager();
+		}
+		return instance;
+	}
 
-    public boolean loadProject(String projectName, Context context, boolean errorMessage) {
-        try {
-            fileChecksumContainer = new FileChecksumContainer();
-            messageContainer = new MessageContainer();
+	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
+		try {
+			fileChecksumContainer = new FileChecksumContainer();
+			messageContainer = new MessageContainer();
 
-            project = StorageHandler.getInstance().loadProject(projectName);
-            if (project == null) {
-                project = StandardProjectHandler.createAndSaveStandardProject(context);
-                if (errorMessage) {
-                    Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-                    return false;
-                }
-            }
-            // adapt name of background sprite to the current language and place
-            // on lowest layer
-            project.getSpriteList().get(0).setName(context.getString(R.string.background));
-            project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+			project = StorageHandler.getInstance().loadProject(projectName);
+			if (project == null) {
+				project = StandardProjectHandler.createAndSaveStandardProject(context);
+				if (errorMessage) {
+					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+					return false;
+				}
+			}
+			// adapt name of background sprite to the current language and place
+			// on lowest layer
+			project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
 
-            currentSprite = null;
-            currentScript = null;
-            return true;
-        } catch (Exception e) {
-            Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-            return false;
-        }
-    }
+			currentSprite = null;
+			currentScript = null;
+			return true;
+		} catch (Exception e) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+			return false;
+		}
+	}
 
-    public void saveProject() {
-        if (project == null) {
-            return;
-        }
-        StorageHandler.getInstance().saveProject(project);
-    }
+	public boolean canLoadProject(String projectName) {
+		Project project = StorageHandler.getInstance().loadProject(projectName);
+		if (project == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-    public boolean initializeDefaultProject(Context context) {
-        try {
-            fileChecksumContainer = new FileChecksumContainer();
-            messageContainer = new MessageContainer();
-            project = StandardProjectHandler.createAndSaveStandardProject(context);
-            currentSprite = null;
-            currentScript = null;
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-            return false;
-        }
-    }
+	public void saveProject() {
+		if (project == null) {
+			return;
+		}
+		StorageHandler.getInstance().saveProject(project);
+	}
 
-    public void initializeNewProject(String projectName, Context context) throws IOException {
-        fileChecksumContainer = new FileChecksumContainer();
-        messageContainer = new MessageContainer();
-        project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+	public boolean initializeDefaultProject(Context context) {
+		try {
+			fileChecksumContainer = new FileChecksumContainer();
+			messageContainer = new MessageContainer();
+			project = StandardProjectHandler.createAndSaveStandardProject(context);
+			currentSprite = null;
+			currentScript = null;
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+			return false;
+		}
+	}
 
-        currentSprite = null;
-        currentScript = null;
-        saveProject();
-    }
+	public void initializeNewProject(String projectName, Context context) throws IOException {
+		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
+		project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
 
-    public Project getCurrentProject() {
-        return project;
-    }
+		currentSprite = null;
+		currentScript = null;
+		saveProject();
+	}
 
-    public void setProject(Project project) {
-        currentScript = null;
-        currentSprite = null;
+	public Project getCurrentProject() {
+		return project;
+	}
 
-        this.project = project;
-    }
+	public void setProject(Project project) {
+		currentScript = null;
+		currentSprite = null;
 
-    public void deleteCurrentProject() {
-        StorageHandler.getInstance().deleteProject(project);
+		this.project = project;
+	}
 
-        project = null;
-    }
+	public void deleteCurrentProject() {
+		StorageHandler.getInstance().deleteProject(project);
 
-    public boolean renameProject(String newProjectName, Context context) {
-        if (StorageHandler.getInstance().projectExists(newProjectName)) {
-            Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-            return false;
-        }
+		project = null;
+	}
 
-        File oldProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName()));
-        File oldProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), project.getName()
-                + Consts.PROJECT_EXTENTION));
+	public boolean renameProject(String newProjectName, Context context) {
+		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+			return false;
+		}
 
-        File newProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, newProjectName));
-        File newProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), newProjectName
-                + Consts.PROJECT_EXTENTION));
+		File oldProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName()));
+		File oldProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), project.getName()
+				+ Consts.PROJECT_EXTENTION));
 
-        project.setName(newProjectName);
+		File newProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, newProjectName));
+		File newProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), newProjectName
+				+ Consts.PROJECT_EXTENTION));
 
-        boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
-        boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		project.setName(newProjectName);
 
-        if (directoryRenamed && fileRenamed) {
-            this.saveProject();
-        }
+		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
+		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 
-        return (directoryRenamed && fileRenamed);
-    }
+		if (directoryRenamed && fileRenamed) {
+			this.saveProject();
+		}
 
-    public Sprite getCurrentSprite() {
-        return currentSprite;
-    }
+		return (directoryRenamed && fileRenamed);
+	}
 
-    public void setCurrentSprite(Sprite sprite) {
-        currentSprite = sprite;
-    }
+	public Sprite getCurrentSprite() {
+		return currentSprite;
+	}
 
-    public Script getCurrentScript() {
-        return currentScript;
-    }
+	public void setCurrentSprite(Sprite sprite) {
+		currentSprite = sprite;
+	}
 
-    public void setCurrentScript(Script script) {
-        if (script == null) {
-            currentScript = null;
-        } else if (currentSprite.getScriptIndex(script) != -1) {
-            currentScript = script;
-        }
-    }
+	public Script getCurrentScript() {
+		return currentScript;
+	}
 
-    public void addSprite(Sprite sprite) {
-        project.addSprite(sprite);
-    }
+	public void setCurrentScript(Script script) {
+		if (script == null) {
+			currentScript = null;
+		} else if (currentSprite.getScriptIndex(script) != -1) {
+			currentScript = script;
+		}
+	}
 
-    public void addScript(Script script) {
-        currentSprite.addScript(script);
-    }
+	public void addSprite(Sprite sprite) {
+		project.addSprite(sprite);
+	}
 
-    public boolean spriteExists(String spriteName) {
-        for (Sprite tempSprite : project.getSpriteList()) {
-            if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public void addScript(Script script) {
+		currentSprite.addScript(script);
+	}
 
-    public int getCurrentSpritePosition() {
-        return project.getSpriteList().indexOf(currentSprite);
-    }
+	public boolean spriteExists(String spriteName) {
+		for (Sprite tempSprite : project.getSpriteList()) {
+			if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public int getCurrentScriptPosition() {
-        int currentSpritePosition = this.getCurrentSpritePosition();
-        if (currentSpritePosition == -1) {
-            return -1;
-        }
+	public int getCurrentSpritePosition() {
+		return project.getSpriteList().indexOf(currentSprite);
+	}
 
-        return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
-    }
+	public int getCurrentScriptPosition() {
+		int currentSpritePosition = this.getCurrentSpritePosition();
+		if (currentSpritePosition == -1) {
+			return -1;
+		}
 
-    public boolean setCurrentSpriteWithPosition(int position) {
-        if (position >= project.getSpriteList().size() || position < 0) {
-            return false;
-        }
+		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
+	}
 
-        currentSprite = project.getSpriteList().get(position);
-        return true;
-    }
+	public boolean setCurrentSpriteWithPosition(int position) {
+		if (position >= project.getSpriteList().size() || position < 0) {
+			return false;
+		}
 
-    public boolean setCurrentScriptWithPosition(int position) {
-        int currentSpritePosition = this.getCurrentSpritePosition();
-        if (currentSpritePosition == -1) {
-            return false;
-        }
+		currentSprite = project.getSpriteList().get(position);
+		return true;
+	}
 
-        if (position >= project.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
-            return false;
-        }
+	public boolean setCurrentScriptWithPosition(int position) {
+		int currentSpritePosition = this.getCurrentSpritePosition();
+		if (currentSpritePosition == -1) {
+			return false;
+		}
 
-        currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
+		if (position >= project.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
+			return false;
+		}
 
-        return true;
-    }
+		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
+
+		return true;
+	}
 }

@@ -137,6 +137,11 @@ public class MyProjectsActivity extends ListActivity {
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				projectToEdit = Utils.getProjectName((projectList.get(position)).getName());
+				if (!ProjectManager.getInstance().canLoadProject(projectToEdit)) {
+					Utils.displayErrorMessage(MyProjectsActivity.this,
+							MyProjectsActivity.this.getString(R.string.error_load_project));
+					return true;
+				}
 				removeDialog(DIALOG_CONTEXT_MENU);
 				showDialog(DIALOG_CONTEXT_MENU);
 				return true;
@@ -179,7 +184,7 @@ public class MyProjectsActivity extends ListActivity {
 							projectManager.initializeDefaultProject(MyProjectsActivity.this);
 						} else {
 							projectManager.loadProject(Utils.getProjectName((projectList.get(0)).getName()),
-									MyProjectsActivity.this, true);
+									MyProjectsActivity.this, false);
 							projectManager.saveProject();
 							Utils.saveToPreferences(MyProjectsActivity.this, Consts.PREF_PROJECTNAME_KEY,
 									projectManager.getCurrentProject().getName());
