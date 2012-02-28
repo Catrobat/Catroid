@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -104,7 +104,7 @@
     <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
     <string name="sound_select_source">Select music</string>
-    
+
     <!-- My Projects activity -->
     <string name="last_changed">Last changed:  </string>
     <string name="description">Description:     </string>
@@ -118,7 +118,7 @@
     <string name="soundrecorder_recording">recording in progress...</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
-    
+
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
 
@@ -212,7 +212,7 @@
     <string name="by_label">by</string>
     <string name="to_label">to</string>
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
-    <string name="brick_next_costume">Next Costume</string>
+    <string name="brick_next_costume">Next costume</string>
 
     <!-- Sound bricks -->
     <string name="brick_play_sound">Play sound</string>
