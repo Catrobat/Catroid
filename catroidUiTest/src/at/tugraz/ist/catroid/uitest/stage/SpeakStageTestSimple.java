@@ -59,7 +59,12 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}

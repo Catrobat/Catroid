@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -56,7 +55,13 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -72,28 +77,29 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_stop)));
 
-		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_stop_motor_chooser);
-		assertTrue("Spinner items list too short!", motors.length == 5);
+		String[] array = getActivity().getResources().getStringArray(R.array.nxt_stop_motor_chooser);
+		assertTrue("Spinner items list too short!", array.length == 5);
 
-		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
+		solo.sleep(500);
 		solo.pressSpinnerItem(0, 5);
-		assertEquals("Wrong item in spinner!", motors[4], currentSpinner.getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[4], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 
 	private void createProject() {
+		//		setX = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

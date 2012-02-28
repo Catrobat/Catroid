@@ -49,7 +49,6 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -65,14 +64,19 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void setUp() throws Exception {
-		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		createProject("testProject");
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
 	}
 

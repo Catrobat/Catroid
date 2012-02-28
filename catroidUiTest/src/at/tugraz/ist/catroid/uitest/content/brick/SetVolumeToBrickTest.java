@@ -43,7 +43,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	private Solo solo;
 	private Project project;
 	private SetVolumeToBrick setVolumeToBrick;
-	private static final float VOLUME = 50f;
+	private float volume;
 
 	public SetVolumeToBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -57,7 +57,13 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -78,11 +84,12 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, VOLUME + "");
+		solo.enterText(0, volume + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		assertEquals("Value in Brick is not updated.", VOLUME + "", solo.getEditText(0).getText().toString());
+		solo.sleep(300);
+		assertEquals("Value in Brick is not updated.", volume + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
@@ -93,6 +100,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	private void createProject() {
+		volume = 50.0f;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

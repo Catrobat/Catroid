@@ -56,7 +56,13 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -81,6 +87,8 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		solo.enterText(0, newBrightness + "");
 		solo.goBack();
 		solo.clickOnButton(0);
+
+		solo.sleep(1000);
 
 		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
 		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));

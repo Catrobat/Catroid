@@ -55,7 +55,13 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -70,10 +76,9 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_point_to)));
-
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.point_to_spinner));
 		solo.clickInList(0);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.sleep(300);
 		assertEquals("Wrong selection", "Nothing...", solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 

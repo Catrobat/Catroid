@@ -69,7 +69,12 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}

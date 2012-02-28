@@ -44,7 +44,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	private Solo solo;
 	private Project project;
 	private ChangeGhostEffectBrick changeGhostEffectBrick;
-	private static final double EFFECT_TO_CHANGE = 11.2;
+	private double effectToChange;
 
 	public ChangeGhostEffectTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -58,7 +58,13 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -82,12 +88,14 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, EFFECT_TO_CHANGE + "");
+		solo.enterText(0, effectToChange + "");
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectBrick.getChangeGhostEffect());
-		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		solo.sleep(1000);
+
+		assertEquals("Wrong text in field", effectToChange, changeGhostEffectBrick.getChangeGhostEffect());
+		assertEquals("Text not updated", effectToChange, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
@@ -105,6 +113,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	private void createProject() {
+		effectToChange = 11.2;
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
@@ -118,5 +127,4 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

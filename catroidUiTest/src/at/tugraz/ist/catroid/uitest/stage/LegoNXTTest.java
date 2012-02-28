@@ -89,8 +89,14 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		UiTestUtils.clearAllUtilTestProjects();
+
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -229,8 +235,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
-		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
-				solo.searchText(KITTYROID_MAC_ADDRESS));
+		assertTrue("I should be on the bluetooth device choosing screen, but am not!", solo
+				.searchText(KITTYROID_MAC_ADDRESS));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
