@@ -65,8 +65,4 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-
-	static class ViewHolder {
-
-	}
 }
