@@ -57,6 +57,7 @@ public class MyProjectsActivity extends ListActivity {
 	public String projectToEdit;
 	private ProjectAdapter adapter;
 	private CustomIconContextMenu iconContextMenu;
+	private CustomIconContextMenu iconContextMenu2;
 	private ActivityHelper activityHelper;
 
 	public static final int DIALOG_NEW_PROJECT = 0;
@@ -66,6 +67,7 @@ public class MyProjectsActivity extends ListActivity {
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
 	public static final int DIALOG_RENAME_PROJECT = 5;
 	public static final int DIALOG_SET_DESCRIPTION = 6;
+	public static final int DIALOG_CONTEXT_MENU2 = 7;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -138,8 +140,8 @@ public class MyProjectsActivity extends ListActivity {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				projectToEdit = Utils.getProjectName((projectList.get(position)).getName());
 				if (!ProjectManager.getInstance().canLoadProject(projectToEdit)) {
-					Utils.displayErrorMessage(MyProjectsActivity.this,
-							MyProjectsActivity.this.getString(R.string.error_load_project));
+					removeDialog(DIALOG_CONTEXT_MENU2);
+					showDialog(DIALOG_CONTEXT_MENU2);
 					return true;
 				}
 				removeDialog(DIALOG_CONTEXT_MENU);
@@ -169,33 +171,51 @@ public class MyProjectsActivity extends ListActivity {
 						showDialog(DIALOG_SET_DESCRIPTION);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
-						ProjectManager projectManager = ProjectManager.getInstance();
-						Project currentProject = projectManager.getCurrentProject();
-
-						UtilFile.deleteDirectory(new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectToEdit)));
-
-						if (!(currentProject != null && currentProject.getName().equalsIgnoreCase(projectToEdit))) {
-							initAdapter();
-							break;
-						}
-
-						projectList.remove(projectToEdit);
-						if (projectList.size() == 0) { // no projects left
-							projectManager.initializeDefaultProject(MyProjectsActivity.this);
-						} else {
-							projectManager.loadProject(Utils.getProjectName((projectList.get(0)).getName()),
-									MyProjectsActivity.this, false);
-							projectManager.saveProject();
-							Utils.saveToPreferences(MyProjectsActivity.this, Consts.PREF_PROJECTNAME_KEY,
-									projectManager.getCurrentProject().getName());
-						}
-
-						updateProjectTitle();
-						initAdapter();
+						deleteProject();
 						break;
 				}
 			}
 		});
+
+		iconContextMenu2 = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU2);
+		iconContextMenu2.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
+				CONTEXT_MENU_ITEM_DELETE);
+
+		iconContextMenu2.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+			public void onClick(int menuId) {
+				switch (menuId) {
+					case CONTEXT_MENU_ITEM_DELETE:
+						deleteProject();
+						break;
+				}
+			}
+		});
+	}
+
+	private void deleteProject() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project currentProject = projectManager.getCurrentProject();
+
+		UtilFile.deleteDirectory(new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectToEdit)));
+
+		if (!(currentProject != null && currentProject.getName().equalsIgnoreCase(projectToEdit))) {
+			initAdapter();
+			return;
+		}
+
+		projectList.remove(projectToEdit);
+		if (projectList.size() == 0) { // no projects left
+			projectManager.initializeDefaultProject(MyProjectsActivity.this);
+		} else {
+			projectManager.loadProject(Utils.getProjectName((projectList.get(0)).getName()), MyProjectsActivity.this,
+					false);
+			projectManager.saveProject();
+			Utils.saveToPreferences(MyProjectsActivity.this, Consts.PREF_PROJECTNAME_KEY, projectManager
+					.getCurrentProject().getName());
+		}
+
+		updateProjectTitle();
+		initAdapter();
 	}
 
 	@Override
@@ -205,6 +225,11 @@ public class MyProjectsActivity extends ListActivity {
 			case DIALOG_CONTEXT_MENU:
 				if (iconContextMenu != null && projectToEdit != null) {
 					dialog = iconContextMenu.createMenu(projectToEdit);
+				}
+				break;
+			case DIALOG_CONTEXT_MENU2:
+				if (iconContextMenu2 != null && projectToEdit != null) {
+					dialog = iconContextMenu2.createMenu(projectToEdit);
 				}
 				break;
 			case DIALOG_RENAME_PROJECT:
