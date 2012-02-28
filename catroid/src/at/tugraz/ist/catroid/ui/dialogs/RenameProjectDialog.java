@@ -37,7 +37,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class RenameProjectDialog extends TextDialog {
 
 	public RenameProjectDialog(MyProjectsActivity myProjectsActivity, String projectName) {
-		super(myProjectsActivity, myProjectsActivity.getString(R.string.rename_project), projectName);
+		super(myProjectsActivity, myProjectsActivity.getString(R.string.rename_project), null);
 		initKeyListenerAndClickListener();
 	}
 
