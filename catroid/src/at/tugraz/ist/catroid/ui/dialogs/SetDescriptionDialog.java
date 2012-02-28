@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class SetDescriptionDialog extends TextDialog {
 
@@ -55,7 +56,7 @@ public class SetDescriptionDialog extends TextDialog {
 		String description = (input.getText().toString());
 
 		String currentProjectName = projectManager.getCurrentProject().getName();
-		String projectToChangeName = ((MyProjectsActivity) activity).projectToEdit;
+		String projectToChangeName = Utils.getProjectName((((MyProjectsActivity) activity).projectToEdit.getName()));
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
 			setDescription(description);
