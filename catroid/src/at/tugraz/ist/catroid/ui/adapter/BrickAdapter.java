@@ -48,11 +48,8 @@ import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
-	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
-
 	private Context context;
 	private Sprite sprite;
-	//private BrickListAnimation brickListAnimation;
 	private int dragTargetPosition;
 	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
@@ -62,10 +59,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
-		//brickListAnimation = new BrickListAnimation(this, listView);
 		longClickListener = listView;
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
-
 	}
 
 	public void drag(int from, int to) {
