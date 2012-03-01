@@ -29,6 +29,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -81,6 +82,10 @@ public class NextCostumeBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_next_costume, null);
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) view.findViewById(R.id.tv_next_costume);
+			textView.setText(R.string.brick_next_background);
+		}
 		return view;
 	}
 
@@ -99,7 +104,11 @@ public class NextCostumeBrick implements Brick {
 			view = View.inflate(context, R.layout.brick_next_costume, null);
 		}
 
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) view.findViewById(R.id.tv_next_costume);
+			textView.setText(R.string.brick_next_background);
+		}
+
 		return view;
 	}
-
 }
