@@ -169,14 +169,17 @@ public class TestUtils {
 		return field;
 	}
 
-	public static void invokeMethod(Object classObject, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
+	public static Object invokeMethod(Object classObject, String methodName, Class<?>[] methodParams,
+			Object[] methodArgs) {
 		try {
 			Class<?> currentClass = classObject.getClass();
 			Method currentMethod = currentClass.getDeclaredMethod(methodName, methodParams);
 			currentMethod.setAccessible(true);
-			currentMethod.invoke(classObject, methodArgs);
+			Object returnObject = currentMethod.invoke(classObject, methodArgs);
+			return returnObject;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 }

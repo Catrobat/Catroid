@@ -168,4 +168,29 @@ public class UtilsTest extends TestCase {
 		assertFalse("Same unique name!", first.equals(third));
 		assertFalse("Same unique name!", second.equals(third));
 	}
+
+	public void testInvokeMethod() {
+		class Test {
+			@SuppressWarnings("unused")
+			private String testMethod1() {
+				return "Called testMethod1!";
+			};
+
+			@SuppressWarnings("unused")
+			private String testMethod2(String param1, String param2) {
+				return param1 + " " + param2;
+			};
+		}
+
+		String testString1 = (String) TestUtils.invokeMethod(new Test(), "testMethod1", null, null);
+		assertEquals("Calling private method without arguments failed!", "Called testMethod1!", testString1);
+
+		String test1 = "Calling method";
+		String test2 = "with parameters!";
+		Class<?> methodParams[] = new Class[] { String.class, String.class };
+		Object methodArgs[] = new Object[] { test1, test2 };
+
+		String testString2 = (String) TestUtils.invokeMethod(new Test(), "testMethod2", methodParams, methodArgs);
+		assertEquals("Calling private method with arguments failed!", test1 + " " + test2, testString2);
+	}
 }

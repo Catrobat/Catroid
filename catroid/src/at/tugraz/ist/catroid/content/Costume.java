@@ -28,6 +28,7 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -135,7 +136,8 @@ public class Costume extends Image {
 			if (internalPath) {
 				pixmap = new Pixmap(Gdx.files.internal(costumeData.getAbsolutePath()));
 			} else {
-				pixmap = new Pixmap(Gdx.files.absolute(costumeData.getAbsolutePath()));
+				FileHandle test = Gdx.files.absolute(costumeData.getAbsolutePath());
+				pixmap = new Pixmap(test);
 			}
 
 			xYWidthHeightLock.acquireUninterruptibly();
