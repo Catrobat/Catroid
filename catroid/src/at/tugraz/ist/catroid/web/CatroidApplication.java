@@ -20,59 +20,21 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.ui.adapter;
+package at.tugraz.ist.catroid.web;
 
-/**
- * @author DENISE, DANIEL
- *
- */
+// this class is a dummy class just to initialize ACRA (our bug reporting tool)
 
-import java.util.List;
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.content.bricks.Brick;
+import android.app.Application;
 
-public class PrototypeBrickAdapter extends BaseAdapter {
-
-	private Context context;
-	private List<Brick> brickList;
-
-	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
-		this.context = context;
-		this.brickList = brickList;
-	}
-
-	public int getCount() {
-		return brickList.size();
-	}
-
-	public Brick getItem(int position) {
-		return brickList.get(position);
-	}
-
-	public long getItemId(int position) {
-		return position;
-	}
-
+// the formKey represents the GoogleDoc-file
+@ReportsCrashes(formKey = "dGh5c0k2anJOalVvdThxUzFEUk9tcUE6MQ")
+public class CatroidApplication extends Application {
 	@Override
-	public int getItemViewType(int position) {
-		return position;
-	}
-
-	@Override
-	public int getViewTypeCount() {
-		return brickList.size();
-	}
-
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null) {
-			Brick brick = brickList.get(position);
-			return brick.getPrototypeView(context);
-		}
-
-		return convertView;
+	public void onCreate() {
+		ACRA.init(this);
+		super.onCreate();
 	}
 }
