@@ -83,7 +83,7 @@ public class NextCostumeBrick implements Brick {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_next_costume, null);
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.tv_next_costume);
+			TextView textView = (TextView) view.findViewById(R.id.textview_next_costume);
 			textView.setText(R.string.brick_next_background);
 		}
 		return view;
@@ -105,7 +105,7 @@ public class NextCostumeBrick implements Brick {
 		}
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.tv_next_costume);
+			TextView textView = (TextView) view.findViewById(R.id.textview_next_costume);
 			textView.setText(R.string.brick_next_background);
 		}
 
