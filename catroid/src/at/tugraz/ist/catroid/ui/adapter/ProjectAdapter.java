@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -108,10 +107,10 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		Date resultDate = new Date(projectXMLFile.lastModified());
 		holder.dateChanged.setText(sdf.format(resultDate));
 
-		ProjectManager projectManager = ProjectManager.getInstance();
-		String currentProjectName = projectManager.getCurrentProject().getName();
+		// temporarily removed - because of upcoming release, and bad performance of projectdescription
+		//		ProjectManager projectManager = ProjectManager.getInstance();
+		//		String currentProjectName = projectManager.getCurrentProject().getName();
 
-		// temporarily removed - because of upcoming release, and bad performance of projectdescription		
 		//		if (projectName.equalsIgnoreCase(currentProjectName)) {
 		//			holder.description.setText(projectManager.getCurrentProject().description);
 		//		} else {
