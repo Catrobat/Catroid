@@ -52,7 +52,8 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		public ImageView image;
 		public TextView size;
 		public TextView dateChanged;
-		public TextView description;
+		// temporarily removed - because of upcoming release, and bad performance of projectdescription
+		//		public TextView description;
 	}
 
 	private static LayoutInflater inflater;
@@ -75,7 +76,8 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 			holder.image = (ImageView) convertView.findViewById(R.id.project_img);
 			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project);
 			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_changed);
-			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
+			// temporarily removed - because of upcoming release, and bad performance of projectdescription
+			//			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -109,13 +111,14 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
-		if (projectName.equalsIgnoreCase(currentProjectName)) {
-			holder.description.setText(projectManager.getCurrentProject().description);
-		} else {
-			projectManager.loadProject(projectName, context, false);
-			holder.description.setText(projectManager.getCurrentProject().description);
-			projectManager.loadProject(currentProjectName, context, false);
-		}
+		// temporarily removed - because of upcoming release, and bad performance of projectdescription		
+		//		if (projectName.equalsIgnoreCase(currentProjectName)) {
+		//			holder.description.setText(projectManager.getCurrentProject().description);
+		//		} else {
+		//			projectManager.loadProject(projectName, context, false);
+		//			holder.description.setText(projectManager.getCurrentProject().description);
+		//			projectManager.loadProject(currentProjectName, context, false);
+		//		}
 
 		return convertView;
 	}
