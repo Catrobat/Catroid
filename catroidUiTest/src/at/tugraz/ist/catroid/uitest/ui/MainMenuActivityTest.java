@@ -95,7 +95,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 		solo.sleep(400);
 
-		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
+		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + Consts.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
 	}
 

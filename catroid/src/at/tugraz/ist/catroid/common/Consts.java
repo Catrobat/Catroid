@@ -26,7 +26,8 @@ import android.os.Environment;
 
 public final class Consts {
 
-	public static final String PROJECT_EXTENTION = ".xml";
+	//public static final String PROJECT_EXTENTION = ".xml";
+	public static final String PROJECTCODE_NAME = "projectcode.xml";
 	public static final String CATROID_EXTENTION = ".catroid";
 	public static final String RECORDING_EXTENTION = ".mp3";
 

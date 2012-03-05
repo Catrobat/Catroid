@@ -44,8 +44,7 @@ public class XMLValidationUtil {
 
 	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException, JSONException {
 		String projectName = projectToValidate.getName();
-		String fullPathFilename = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, projectName
-				+ Consts.PROJECT_EXTENTION);
+		String fullPathFilename = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.PROJECTCODE_NAME);
 		sendProjectXMLToServerForValidating(fullPathFilename);
 	}
 
