@@ -116,8 +116,7 @@ public class TestUtils {
 	}
 
 	public static String getProjectfileAsString(String projectName) {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
-				+ Consts.PROJECT_EXTENTION);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.PROJECTCODE_NAME);
 		if (!projectFile.exists()) {
 			return null;
 		}

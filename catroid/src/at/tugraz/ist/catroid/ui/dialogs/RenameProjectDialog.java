@@ -43,7 +43,7 @@ public class RenameProjectDialog extends TextDialog {
 
 	public void handleOkButton() {
 		String newProjectName = (input.getText().toString()).trim();
-		String oldProjectName = Utils.getProjectName((((MyProjectsActivity) activity).projectToEdit.getName()));
+		String oldProjectName = (((MyProjectsActivity) activity).projectToEdit.getName());
 
 		if (newProjectName.equalsIgnoreCase(oldProjectName)) {
 			activity.dismissDialog(MyProjectsActivity.DIALOG_RENAME_PROJECT);
@@ -80,8 +80,7 @@ public class RenameProjectDialog extends TextDialog {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					String newProjectName = (input.getText().toString()).trim();
-					String oldProjectName = Utils.getProjectName((((MyProjectsActivity) activity).projectToEdit
-							.getName()));
+					String oldProjectName = (((MyProjectsActivity) activity).projectToEdit.getName());
 					if (((MyProjectsActivity) activity).projectAlreadyExists(newProjectName)
 							&& !newProjectName.equalsIgnoreCase(oldProjectName)) {
 						Utils.displayErrorMessage(activity, activity.getString(R.string.error_project_exists));

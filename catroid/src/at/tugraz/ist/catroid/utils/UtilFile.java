@@ -142,9 +142,7 @@ public class UtilFile {
 		File[] sdFileList = directory.listFiles();
 		for (File file : sdFileList) {
 			if (file.isDirectory()) {
-				projectList.addAll(getProjectNames(file));
-			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
-				projectList.add(Utils.getProjectName(file.getName()));
+				projectList.add(file.getName());
 			}
 		}
 		return projectList;
@@ -155,9 +153,7 @@ public class UtilFile {
 		File[] sdFileList = directory.listFiles();
 		for (File file : sdFileList) {
 			if (file.isDirectory()) {
-				projectList.addAll(getProjectFiles(file));
-			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
-				projectList.add(file); //Utils.getProjectName(file.getName()));
+				projectList.add(file);
 			}
 		}
 		return projectList;

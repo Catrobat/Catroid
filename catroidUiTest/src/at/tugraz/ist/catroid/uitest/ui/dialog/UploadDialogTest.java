@@ -143,7 +143,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnButton(0);
 		solo.sleep(2000);
 
-		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
+		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + Consts.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 	}

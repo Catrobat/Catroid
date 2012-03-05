@@ -82,7 +82,7 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		}
 
 		// ------------------------------------------------------------
-		String projectName = Utils.getProjectName(getItem(position).getName());
+		String projectName = getItem(position).getName();
 
 		holder.projectName.setText(projectName);
 		String pathOfScreenshot = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, StageListener.SCREENSHOT_FILE_NAME);
@@ -100,8 +100,7 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		// set size of project:
 		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName))));
 
-		File projectXMLFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName, projectName
-				+ Consts.PROJECT_EXTENTION));
+		File projectXMLFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.PROJECTCODE_NAME));
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
 		Date resultDate = new Date(projectXMLFile.lastModified());
 		holder.dateChanged.setText(sdf.format(resultDate));
