@@ -110,8 +110,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		// go back that the project xml is saved
 		solo.goBack();
 
-		String projectXMLPath = Utils.buildPath(Consts.DEFAULT_ROOT, testProjectName, testProjectName
-				+ Consts.PROJECT_EXTENTION);
+		String projectXMLPath = Utils.buildPath(Consts.DEFAULT_ROOT, testProjectName, Consts.PROJECTCODE_NAME);
 		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);
 	}
 

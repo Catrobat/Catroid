@@ -146,12 +146,12 @@ public class Utils {
 	 * @param projectFileName
 	 * @return the project name without the default file extension, else returns unchanged string
 	 */
-	public static String getProjectName(String projectFileName) {
-		if (projectFileName.endsWith(Consts.PROJECT_EXTENTION)) {
-			return projectFileName.substring(0, projectFileName.length() - Consts.PROJECT_EXTENTION.length());
-		}
-		return projectFileName;
-	}
+	//	public static String getProjectName(String projectFileName) {
+	//		if (projectFileName.endsWith(Consts.PROJECT_EXTENTION)) {
+	//			return projectFileName.substring(0, projectFileName.length() - Consts.PROJECT_EXTENTION.length());
+	//		}
+	//		return projectFileName;
+	//	}
 
 	/**
 	 * Displays an AlertDialog with the given error message and just a close

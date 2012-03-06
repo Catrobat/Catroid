@@ -127,8 +127,8 @@ public class MyProjectsActivity extends ListActivity {
 	private void initClickListener() {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance().loadProject(
-						Utils.getProjectName((adapter.getItem(position)).getName()), MyProjectsActivity.this, true)) {
+				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).getName(),
+						MyProjectsActivity.this, true)) {
 					return; // error message already in ProjectManager
 							// loadProject
 				}
@@ -142,7 +142,7 @@ public class MyProjectsActivity extends ListActivity {
 				if (projectToEdit == null) {
 					return true;
 				}
-				if (!ProjectManager.getInstance().canLoadProject(Utils.getProjectName((projectToEdit.getName())))) {
+				if (!ProjectManager.getInstance().canLoadProject((projectToEdit.getName()))) {
 					removeDialog(DIALOG_CONTEXT_MENU2);
 					showDialog(DIALOG_CONTEXT_MENU2);
 					return true;
@@ -199,7 +199,7 @@ public class MyProjectsActivity extends ListActivity {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
 
-		String project = Utils.getProjectName((projectToEdit.getName()));
+		String project = (projectToEdit.getName());
 		UtilFile.deleteDirectory(new File(Utils.buildPath(Consts.DEFAULT_ROOT, project)));
 
 		if (!(currentProject != null && currentProject.getName().equalsIgnoreCase(project))) {
@@ -211,8 +211,7 @@ public class MyProjectsActivity extends ListActivity {
 		if (projectList.size() == 0) { // no projects left
 			projectManager.initializeDefaultProject(MyProjectsActivity.this);
 		} else {
-			projectManager.loadProject(Utils.getProjectName((projectList.get(0)).getName()), MyProjectsActivity.this,
-					false);
+			projectManager.loadProject((projectList.get(0)).getName(), MyProjectsActivity.this, false);
 			projectManager.saveProject();
 			Utils.saveToPreferences(MyProjectsActivity.this, Consts.PREF_PROJECTNAME_KEY, projectManager
 					.getCurrentProject().getName());
@@ -227,7 +226,7 @@ public class MyProjectsActivity extends ListActivity {
 		Dialog dialog = null;
 		String project = "";
 		if (projectToEdit != null) {
-			project = Utils.getProjectName((projectToEdit.getName()));
+			project = (projectToEdit.getName());
 		}
 		switch (id) {
 			case DIALOG_CONTEXT_MENU:
@@ -265,7 +264,7 @@ public class MyProjectsActivity extends ListActivity {
 		super.onPrepareDialog(id, dialog);
 		String project = "";
 		if (projectToEdit != null) {
-			project = Utils.getProjectName((projectToEdit.getName()));
+			project = projectToEdit.getName();
 		}
 		switch (id) {
 			case DIALOG_RENAME_PROJECT:
@@ -295,7 +294,7 @@ public class MyProjectsActivity extends ListActivity {
 
 	public boolean projectAlreadyExists(String projectName) {
 		for (File project : projectList) {
-			if (projectName.equalsIgnoreCase(Utils.getProjectName(project.getName()))) {
+			if (projectName.equalsIgnoreCase(project.getName())) {
 				return true;
 			}
 		}
