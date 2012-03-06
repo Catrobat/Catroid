@@ -166,6 +166,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		String categoryLooks = getActivity().getString(R.string.category_looks);
 		String categoryMotion = getActivity().getString(R.string.category_motion);
 		String setBackground = getActivity().getString(R.string.brick_set_background);
+		String nextBackground = getActivity().getString(R.string.brick_next_background);
 		String comeToFront = getActivity().getString(R.string.brick_come_to_front);
 		String goNStepsBack = getActivity().getString(R.string.brick_go_back_layers);
 
@@ -178,6 +179,11 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(categoryLooks);
+		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
+		solo.clickOnText(nextBackground);
+		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(categoryMotion);

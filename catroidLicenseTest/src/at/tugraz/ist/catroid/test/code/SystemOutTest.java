@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.List;
 
 import junit.framework.TestCase;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.test.utils.Utils;
 
 public class SystemOutTest extends TestCase {
 
@@ -62,7 +62,7 @@ public class SystemOutTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java", });
+			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] { ".java", });
 			for (File file : filesToCheck) {
 				checkFileForSystemOut(file);
 			}

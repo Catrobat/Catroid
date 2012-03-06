@@ -83,8 +83,8 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_motor_action)));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_speed)));
 
@@ -126,7 +126,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
-		solo.setProgressBar(0, MIN_SPEED + 100);
+		solo.setProgressBar(0, 1);
 		solo.clickOnButton(0);
 		solo.clickOnButton(0);
 		solo.sleep(300);

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+        <LinearLayout 
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal" 
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/spritelist_item_background">
+                <ImageView 
+                        android:id="@+id/project_img" 
+                        android:layout_width="80dp"
+                        android:layout_height="133dp" 
+                        android:layout_marginRight="6dip" 
+                        android:layout_marginLeft="5dip"/>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView 
+                                android:layout_width="fill_parent" 
+                                android:id="@+id/project_title"
+                                android:layout_height="wrap_content" 
+                                android:paddingLeft="8dp" 
+                                android:textSize="18sp" 
+                                android:textStyle="bold"
+                                android:textColor="@color/solid_black"
+                                android:ellipsize="end"
+                                android:maxLines="2"/>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView 
+                                        android:text="@string/last_changed" 
+                                        android:layout_width="wrap_content" 
+                                        android:layout_height="wrap_content" 
+                                        android:textSize="14sp"
+                                        android:paddingLeft="8dp"
+                                        android:textStyle="bold"/>
+                                <TextView 
+                                        android:id="@+id/my_projects_activity_changed" 
+                                        android:layout_width="wrap_content" 
+                                        android:layout_height="wrap_content" 
+                                        android:textSize="14sp"
+                                        android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView 
+                                        android:text="@string/size_of_project" 
+                                        android:layout_width="wrap_content" 
+                                        android:layout_height="wrap_content" 
+                                        android:textSize="14sp"
+                                        android:paddingLeft="8dp"
+                                        android:textStyle="bold"/>
+                                <TextView 
+                                        android:id="@+id/my_projects_activity_size_of_project" 
+                                        android:layout_width="wrap_content" 
+                                        android:layout_height="wrap_content" 
+                                        android:textSize="14sp"
+                                        android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView 
+                                        android:text="@string/description" 
+                                        android:layout_width="wrap_content" 
+                                        android:layout_height="wrap_content" 
+                                        android:textSize="14sp"
+                                        android:paddingLeft="8dp"
+                                        android:textStyle="bold"/>
+                                <TextView 
+                                        android:id="@+id/my_projects_activity_description" 
+                                        android:layout_width="wrap_content" 
+                                        android:layout_height="wrap_content" 
+                                        android:textSize="14sp"
+                                        android:layout_marginLeft="8dp"/>"
+                        </LinearLayout>+
+                </LinearLayout>
+        </LinearLayout>
+

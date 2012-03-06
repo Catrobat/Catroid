@@ -69,14 +69,14 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.toolbox_brick_place_at, null);
+		view = View.inflate(context, R.layout.brick_place_at, null);
 
-		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_place_at_x_edit_text);
+		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_x_edit_text);
 		editX.setText(String.valueOf(xPosition));
 
 		editX.setOnClickListener(this);
 
-		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_place_at_y_edit_text);
+		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_y_edit_text);
 		editY.setText(String.valueOf(yPosition));
 
 		editY.setOnClickListener(this);
@@ -85,7 +85,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_place_at, null);
+		return View.inflate(context, R.layout.brick_place_at, null);
 	}
 
 	@Override
@@ -98,9 +98,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		final EditText input = new EditText(context);
-		if (view.getId() == R.id.toolbox_brick_place_at_x_edit_text) {
+		if (view.getId() == R.id.brick_place_at_x_edit_text) {
 			input.setText(String.valueOf(xPosition));
-		} else if (view.getId() == R.id.toolbox_brick_place_at_y_edit_text) {
+		} else if (view.getId() == R.id.brick_place_at_y_edit_text) {
 			input.setText(String.valueOf(yPosition));
 		}
 		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
@@ -110,13 +110,13 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
-					if (view.getId() == R.id.toolbox_brick_place_at_x_edit_text) {
+					if (view.getId() == R.id.brick_place_at_x_edit_text) {
 						xPosition = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.toolbox_brick_place_at_y_edit_text) {
+					} else if (view.getId() == R.id.brick_place_at_y_edit_text) {
 						yPosition = Integer.parseInt(input.getText().toString());
 					}
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

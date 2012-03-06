@@ -29,6 +29,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -37,6 +38,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
@@ -58,8 +60,8 @@ public class ProjectActivity extends ListActivity {
 	private NewSpriteDialog newSpriteDialog;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
-	private static final int DIALOG_NEW_SPRITE = 0;
-	private static final int DIALOG_RENAME_SPRITE = 1;
+	public static final int DIALOG_NEW_SPRITE = 0;
+	public static final int DIALOG_RENAME_SPRITE = 1;
 	private static final int DIALOG_CONTEXT_MENU = 2;
 
 	private void initListeners() {
@@ -69,6 +71,8 @@ public class ProjectActivity extends ListActivity {
 
 		setListAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
 
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -124,6 +128,7 @@ public class ProjectActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
+		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}
 
@@ -177,14 +182,14 @@ public class ProjectActivity extends ListActivity {
 		switch (id) {
 			case DIALOG_NEW_SPRITE:
 				newSpriteDialog = new NewSpriteDialog(this);
-				dialog = newSpriteDialog.createDialog();
+				dialog = newSpriteDialog.dialog;
 				break;
 			case DIALOG_RENAME_SPRITE:
 				if (spriteToEdit == null) {
 					dialog = null;
 				} else {
 					renameDialog = new RenameSpriteDialog(this);
-					dialog = renameDialog.createDialog(spriteToEdit.getName());
+					dialog = renameDialog.dialog;
 				}
 				break;
 			case DIALOG_CONTEXT_MENU:
@@ -207,13 +212,13 @@ public class ProjectActivity extends ListActivity {
 		switch (id) {
 			case DIALOG_RENAME_SPRITE:
 				if (dialog != null && spriteToEdit != null) {
-					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sprite_editText);
+					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
 					spriteTitleInput.setText(spriteToEdit.getName());
 				}
 				break;
 			case DIALOG_NEW_SPRITE:
 				if (dialog != null) {
-					Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_new_sprite_ok_button);
+					Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_text_ok);
 					buttonPositive.setEnabled(false);
 				}
 				break;
@@ -250,23 +255,19 @@ public class ProjectActivity extends ListActivity {
 		}
 	}
 
-	public void handlePositiveButtonRenameSprite(View v) {
-		renameDialog.handleOkButton();
-	}
-
-	public void handleNegativeButtonRenameSprite(View v) {
-		renameDialog.renameDialog.cancel();
-	}
-
-	public void handlePositiveButtonNewSprite(View v) {
-		newSpriteDialog.handleOkButton();
-	}
-
-	public void handleNegativeButtonNewSprite(View v) {
-		newSpriteDialog.newSpriteDialog.cancel();
-	}
-
 	public void handleProjectActivityItemLongClick(View view) {
-
 	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Utils.saveToPreferences(this, Consts.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
+					.getCurrentProject().getName());
+			Intent intent = new Intent(this, MainMenuActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			this.startActivity(intent);
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
 }

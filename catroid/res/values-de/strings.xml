@@ -46,12 +46,6 @@
     <string name="home">Menü</string>
     <string name="start">Starten</string>
 
-    <!-- Construction site context menu -->
-    <string name="new_project">Neues Projekt</string>
-    <string name="load">Laden</string>
-    <string name="about">Über Catroid</string>
-    <string name="upload_project">Projekt hochladen</string>
-
     <!-- Main menu activity -->
     <string name="resume">Fortsetzen</string>
     <string name="current_project">Aktuelles Projekt:</string>
@@ -61,6 +55,10 @@
     <string name="settings">Einstellungen</string>
     <string name="web_resources">Internet-Ressourcen</string>
     <string name="forum">Forum</string>
+    <string name="new_project">Neues Projekt</string>
+    <string name="load">Laden</string>
+    <string name="about">Über Catroid</string>
+    <string name="upload_project">Projekt hochladen</string>
 
     <!-- Settings activity -->
     <string name="pref_category_mindstorm">Mindstorm Einstellungen</string>
@@ -69,7 +67,7 @@
 
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>
-    <string name="about_text">        Catroid ist eine grafische Programmiersprache für Android, inspiriert vom
+    <string name="about_text">Catroid ist eine grafische Programmiersprache für Android, inspiriert vom
         Scratch Projekt des MIT.\n
         Es wird am Institut für Software Technologie an der
         Technischen Universität Graz in Österreich entwickelt.\n\n
@@ -85,7 +83,7 @@
     <!-- ScriptTab activity -->
     <string name="scripts">Skripte</string>
     <string name="costumes">Kostüme</string>
-    <string name="sounds">Sounds</string>
+    <string name="sounds">Klänge</string>
     <string name="backgrounds">Hintergründe</string>
 
     <!-- Costume activity -->
@@ -104,8 +102,25 @@
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
     <string name="sound_delete">löschen</string>
-    <string name="sound_rename">editieren</string>
+    <string name="sound_select_source">Musik auswählen</string>
 
+    <!-- Soundrecorder activity -->
+    <string name="soundrecorder_name">Catroid Sound Recorder</string>
+    <string name="soundrecorder_record_start">Aufnehmen</string>
+    <string name="soundrecorder_record_stop">Beenden</string>
+    <string name="soundrecorder_recording">Aufnahme gestartet...</string>
+    <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
+    <string name="soundrecorder_recorded_filename">Aufnahme</string>
+    
+    <!-- PreStage activity -->
+    <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
+    
+    <!-- My Projects activity -->
+    <string name="last_changed">Zuletzt geändert:</string>
+    <string name="description">Beschreibung:</string>
+    <string name="set_description">Beschreibung</string>
+    <string name="rename_project">Projeckt umbenennen</string>
+        
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menü</string>
 
@@ -196,9 +211,8 @@
     <string name="by_label">um</string>
     <string name="to_label">auf</string>
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
-    <string name="brick_say">Sage</string>
-    <string name="brick_think">Denke</string>
     <string name="brick_next_costume">Nächstes Kostüm</string>
+    <string name="brick_next_background">Nächster Hintergrund</string>
 
     <!-- Sound bricks -->
     <string name="brick_play_sound">Spiele Klang</string>
@@ -231,25 +245,25 @@
     <string name="action_swipeDown">nach unten gewischt</string>
 
     <!-- defaultValues -->
-    <string name="default_project_name">standardProjekt</string>
+    <string name="default_project_name">Mein erstes Projekt</string>
 
     <!-- Notifications -->
-    <string name="notification_invalid_text_entered">    	Bitte einen Wert eingeben</string>
-    <string name="notification_screenshot_ok">        Screenshot erfolgreich gespeichert</string>
+    <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
+    <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
 
     <!-- Error messages -->
-    <string name="error_no_sd_card">        Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
-    <string name="error_no_name_entered">    	Bitte einen Namen eingeben.</string>
-    <string name="error_project_exists">        Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
-    <string name="error_project_upload">        Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_project_download">        Beim Download des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_new_project">    	Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_load_project">        Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_no_number_entered">        Bitte eine Zahl eingeben.</string>
-    <string name="error_screenshot_failed">        Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
-    <string name="error_load_image">    	Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
-    <string name="error_load_sound">    	Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
-    <string name="error_internet_connection">    	Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
+    <string name="error_no_sd_card">Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
+    <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
+    <string name="error_project_exists">Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
+    <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_project_download">Beim Download des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_new_project">Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_load_project">Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_no_number_entered">Bitte eine Zahl eingeben.</string>
+    <string name="error_screenshot_failed">Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
+    <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
+    <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
+    <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
@@ -280,7 +294,6 @@
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT bewege Motor</string>
     <string name="motor">Motor</string>
-    <string name="motor_duration">Dauer</string>
     <string name="motor_speed">Geschwindigkeit</string>
     <string name="brick_motor_turn_angle">NXT rotiere Motor</string>
     <string name="motor_angle">Winkel</string>
