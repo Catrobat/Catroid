@@ -85,7 +85,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
 		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
 		new File(pathToDefaultProject).mkdirs();
-		String projectFilename = "test" + Consts.PROJECT_EXTENTION;
+		String projectFilename = Consts.PROJECTCODE_NAME;
 		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
 		String projectDescription = "this is just a testproject";
 

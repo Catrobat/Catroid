@@ -120,8 +120,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		projectManager.setCurrentScript(script2);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite2);
 		projectManager.getCurrentScript().addBrick(setCostumeBrick);
-		assertTrue("Brick not in current Script", projectManager.getCurrentScript().getBrickList().contains(
-				setCostumeBrick));
+		assertTrue("Brick not in current Script",
+				projectManager.getCurrentScript().getBrickList().contains(setCostumeBrick));
 	}
 
 	public void testRenameProject() throws IOException {
@@ -136,12 +136,10 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		projectManager.saveProject();
 
 		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName);
-		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName + "/" + oldProjectName
-				+ Consts.PROJECT_EXTENTION);
+		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName + "/" + Consts.PROJECTCODE_NAME);
 
 		File newProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + newProjectName);
-		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + newProjectName
-				+ Consts.PROJECT_EXTENTION);
+		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + Consts.PROJECTCODE_NAME);
 
 		String projectFileAsString = TestUtils.getProjectfileAsString(newProjectName);
 
@@ -202,8 +200,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image), image
-				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image),
+				image.getAbsolutePath());
 
 		storageHandler.saveProject(project);
 		return project;

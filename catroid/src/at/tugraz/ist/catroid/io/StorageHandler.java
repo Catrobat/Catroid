@@ -97,13 +97,11 @@ public class StorageHandler {
 				return (Project) xstream.fromXML(spfFileStream);
 			}
 
-			projectName = Utils.getProjectName(projectName);
-
 			File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
 
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
-						projectName + Consts.PROJECT_EXTENTION));
+						Consts.PROJECTCODE_NAME));
 				return (Project) xstream.fromXML(projectFileStream);
 			} else {
 				return null;
@@ -145,7 +143,7 @@ public class StorageHandler {
 			}
 
 			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-					project.getName() + Consts.PROJECT_EXTENTION)), Consts.BUFFER_8K);
+					Consts.PROJECTCODE_NAME)), Consts.BUFFER_8K);
 
 			writer.write(XML_HEADER.concat(projectFile));
 			writer.flush();

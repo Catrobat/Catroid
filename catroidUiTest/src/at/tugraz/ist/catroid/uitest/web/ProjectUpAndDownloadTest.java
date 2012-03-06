@@ -113,8 +113,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnButton(0);
 		solo.sleep(2000);
 
-		File file = new File(Consts.DEFAULT_ROOT + "/" + projectToCreate + "/" + projectToCreate
-				+ Consts.PROJECT_EXTENTION);
+		File file = new File(Consts.DEFAULT_ROOT + "/" + projectToCreate + "/" + Consts.PROJECTCODE_NAME);
 		assertTrue(projectToCreate + " was not created!", file.exists());
 	}
 
@@ -172,7 +171,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);
-		File downloadedProjectFile = new File(projectPath + "/" + newTestProject + Consts.PROJECT_EXTENTION);
+		File downloadedProjectFile = new File(projectPath + "/" + Consts.PROJECTCODE_NAME);
 		assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Project File does not exist.", downloadedProjectFile.exists());
 

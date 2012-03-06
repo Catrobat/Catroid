@@ -37,7 +37,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
-import at.tugraz.ist.catroid.utils.Utils;
 
 public class LoadProjectDialog extends Dialog {
 	private final Context context;
@@ -91,9 +90,8 @@ public class LoadProjectDialog extends Dialog {
 		File[] sdFileList = directory.listFiles();
 		for (File file : sdFileList) {
 			if (file.isDirectory()) {
-				searchForProjectFiles(file);
-			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
-				adapterFileList.add(Utils.getProjectName(file.getName()));
+				//searchForProjectFiles(file);
+				adapterFileList.add(file.getName());
 			}
 		}
 	}
