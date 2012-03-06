@@ -83,6 +83,8 @@
                                         android:textSize="14sp"
                                         android:layout_marginLeft="8dp"/>
                         </LinearLayout>
+                        <!-- 
+                        temporarily removed - because of upcoming release, and bad performance of projectdescription
                         <LinearLayout
                                 android:orientation="vertical"
                                 android:layout_width="match_parent"
@@ -100,7 +102,7 @@
                                         android:layout_height="wrap_content" 
                                         android:textSize="14sp"
                                         android:layout_marginLeft="8dp"/>"
-                        </LinearLayout>+
+                        </LinearLayout> -->
                 </LinearLayout>
         </LinearLayout>
 

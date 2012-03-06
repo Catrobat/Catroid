@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -52,7 +51,8 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		public ImageView image;
 		public TextView size;
 		public TextView dateChanged;
-		public TextView description;
+		// temporarily removed - because of upcoming release, and bad performance of projectdescription
+		//		public TextView description;
 	}
 
 	private static LayoutInflater inflater;
@@ -75,7 +75,8 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 			holder.image = (ImageView) convertView.findViewById(R.id.project_img);
 			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project);
 			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_changed);
-			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
+			// temporarily removed - because of upcoming release, and bad performance of projectdescription
+			//			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -105,16 +106,17 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		Date resultDate = new Date(projectXMLFile.lastModified());
 		holder.dateChanged.setText(sdf.format(resultDate));
 
-		ProjectManager projectManager = ProjectManager.getInstance();
-		String currentProjectName = projectManager.getCurrentProject().getName();
+		// temporarily removed - because of upcoming release, and bad performance of projectdescription
+		//		ProjectManager projectManager = ProjectManager.getInstance();
+		//		String currentProjectName = projectManager.getCurrentProject().getName();
 
-		if (projectName.equalsIgnoreCase(currentProjectName)) {
-			holder.description.setText(projectManager.getCurrentProject().description);
-		} else {
-			projectManager.loadProject(projectName, context, false);
-			holder.description.setText(projectManager.getCurrentProject().description);
-			projectManager.loadProject(currentProjectName, context, false);
-		}
+		//		if (projectName.equalsIgnoreCase(currentProjectName)) {
+		//			holder.description.setText(projectManager.getCurrentProject().description);
+		//		} else {
+		//			projectManager.loadProject(projectName, context, false);
+		//			holder.description.setText(projectManager.getCurrentProject().description);
+		//			projectManager.loadProject(currentProjectName, context, false);
+		//		}
 
 		return convertView;
 	}
