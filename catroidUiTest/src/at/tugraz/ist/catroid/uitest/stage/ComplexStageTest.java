@@ -143,10 +143,10 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
 
-		solo.clickOnScreen((screenWidth / 2) - 80, (screenHeight / 2) + 80);
-		solo.sleep(2000);
+		solo.clickOnScreen((screenWidth / 2) - 50, (screenHeight / 2) - 50);
+		solo.sleep(3000);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(blackBrightnessPixel, screenArray, -80, -80, screenWidth,
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(blackBrightnessPixel, screenArray, -54, 55, screenWidth,
 				screenHeight);
 		assertTrue("Just for FileTest", true);
 	}
@@ -266,7 +266,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		blackCostumeBrick.setCostume(blackCostumeData);
 		blackStartScript.addBrick(blackCostumeBrick);
-		blackStartScript.addBrick(new PlaceAtBrick(blackSprite, -80, -80));
+		blackStartScript.addBrick(new PlaceAtBrick(blackSprite, -50, 50));
 
 		blackSprite.addScript(blackStartScript);
 
@@ -278,11 +278,11 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		blackSprite.addScript(blackWhenScript);
 
+		project.addSprite(blackSprite);
 		project.addSprite(yellowSprite);
 		project.addSprite(redSprite);
 		project.addSprite(greenSprite);
 		project.addSprite(blueSprite);
-		project.addSprite(blackSprite);
 
 		StorageHandler.getInstance().saveProject(project);
 
