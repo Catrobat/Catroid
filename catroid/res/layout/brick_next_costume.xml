@@ -29,6 +29,7 @@
 	android:background="@drawable/brick_violet"
 >
 	<TextView
+		android:id="@+id/textview_next_costume"
 		android:text="@string/brick_next_costume"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
