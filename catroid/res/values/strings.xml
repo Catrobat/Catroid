@@ -213,6 +213,7 @@
     <string name="to_label">to</string>
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
     <string name="brick_next_costume">Next costume</string>
+    <string name="brick_next_background">Next background</string>
 
     <!-- Sound bricks -->
     <string name="brick_play_sound">Play sound</string>
