@@ -57,9 +57,22 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		return position;
 	}
 
-	public View getView(int position, View convertView, ViewGroup parent) {
-		Brick brick = brickList.get(position);
+	@Override
+	public int getItemViewType(int position) {
+		return position;
+	}
 
-		return brick.getPrototypeView(context);
+	@Override
+	public int getViewTypeCount() {
+		return brickList.size();
+	}
+
+	public View getView(int position, View convertView, ViewGroup parent) {
+		if (convertView == null) {
+			Brick brick = brickList.get(position);
+			return brick.getPrototypeView(context);
+		}
+
+		return convertView;
 	}
 }

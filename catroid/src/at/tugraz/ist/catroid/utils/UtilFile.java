@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.utils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,40 +36,6 @@ import at.tugraz.ist.catroid.common.Consts;
 public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
-
-	static public List<File> getFilesFromDirectoryByExtension(File directory, String extension) {
-		String[] extensions = { extension };
-		return getFilesFromDirectoryByExtension(directory, extensions);
-	}
-
-	static public List<File> getFilesFromDirectoryByExtension(File directory, final String[] extensions) {
-		List<File> filesFound = new ArrayList<File>();
-		File[] contents = directory.listFiles(new FileFilter() {
-			public boolean accept(File pathname) {
-				// ignore automatically created build.xml files
-				if (pathname.getName().equals("build.xml")) {
-					return false;
-				}
-				for (String extension : extensions) {
-					if (pathname.getName().endsWith(extension)) {
-						return true;
-					}
-				}
-				return (pathname.isDirectory() && !pathname.getName().equals("gen") && !pathname.getName().equals(
-						"reports"));
-			}
-		});
-
-		for (File file : contents) {
-			if (file.isDirectory()) {
-				filesFound.addAll(getFilesFromDirectoryByExtension(file, extensions));
-			} else {
-				filesFound.add(file);
-			}
-		}
-
-		return filesFound;
-	}
 
 	static private long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
 		if (!fileOrDirectory.exists()) {
@@ -167,6 +132,35 @@ public class UtilFile {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * returns a list of strings of all projectnames in the catroid folder
+	 */
+	public static List<String> getProjectNames(File directory) {
+		List<String> projectList = new ArrayList<String>();
+		File[] sdFileList = directory.listFiles();
+		for (File file : sdFileList) {
+			if (file.isDirectory()) {
+				projectList.addAll(getProjectNames(file));
+			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
+				projectList.add(Utils.getProjectName(file.getName()));
+			}
+		}
+		return projectList;
+	}
+
+	public static List<File> getProjectFiles(File directory) {
+		List<File> projectList = new ArrayList<File>();
+		File[] sdFileList = directory.listFiles();
+		for (File file : sdFileList) {
+			if (file.isDirectory()) {
+				projectList.addAll(getProjectFiles(file));
+			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
+				projectList.add(file); //Utils.getProjectName(file.getName()));
+			}
+		}
+		return projectList;
 	}
 
 }

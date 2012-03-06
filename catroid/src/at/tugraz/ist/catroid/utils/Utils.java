@@ -42,12 +42,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -58,6 +61,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -70,14 +74,6 @@ public class Utils {
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
-	}
-
-	public static void updateScreenWidthAndHeight(Activity currentActivity) {
-		DisplayMetrics dm = new DisplayMetrics();
-		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-		Values.SCREEN_WIDTH = dm.widthPixels;
-		Values.SCREEN_HEIGHT = dm.heightPixels;
 	}
 
 	/**
@@ -105,6 +101,14 @@ public class Utils {
 			return false;
 		}
 		return true;
+	}
+
+	public static void updateScreenWidthAndHeight(Activity currentActivity) {
+		DisplayMetrics dm = new DisplayMetrics();
+		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+		Values.SCREEN_WIDTH = dm.widthPixels;
+		Values.SCREEN_HEIGHT = dm.heightPixels;
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -291,5 +295,25 @@ public class Utils {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		int physicalPixels = (int) (densityIndependentPixels * scale + 0.5f);
 		return physicalPixels;
+	}
+
+	public static void saveToPreferences(Context context, String key, String message) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = prefs.edit();
+		edit.putString(key, message);
+		edit.commit();
+	}
+
+	public static void loadProjectIfNeeded(Context context) {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			String projectName = prefs.getString(Consts.PREF_PROJECTNAME_KEY, null);
+
+			if (projectName != null) {
+				ProjectManager.getInstance().loadProject(projectName, context, false);
+			} else {
+				ProjectManager.getInstance().initializeDefaultProject(context);
+			}
+		}
 	}
 }

@@ -62,7 +62,7 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(500);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
-
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
 
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };

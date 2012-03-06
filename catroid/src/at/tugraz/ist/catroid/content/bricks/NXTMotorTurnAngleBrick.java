@@ -108,7 +108,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_nxt_motor_turn_angle, null);
+		return View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
-		View brickView = View.inflate(context, R.layout.toolbox_brick_nxt_motor_turn_angle, null);
+		View brickView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
 		editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(degrees));
@@ -219,7 +219,6 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 			}
 		});
 
-		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 		return brickView;
 	}
 
@@ -238,7 +237,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 				try {
 					degrees = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

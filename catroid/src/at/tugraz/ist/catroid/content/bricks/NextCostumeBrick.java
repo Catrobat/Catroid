@@ -29,6 +29,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -48,7 +49,7 @@ public class NextCostumeBrick implements Brick {
 		final ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
 		int costumeDataListSize = costumeDataList.size();
 
-		if (costumeDataListSize > 0) {
+		if (costumeDataListSize > 0 && sprite.costume.getCostumeData() != null) {
 			CostumeData currentCostumeData = sprite.costume.getCostumeData();
 			CostumeData finalCostumeData = costumeDataList.get(costumeDataListSize - 1);
 			boolean executeOnce = true;
@@ -80,7 +81,11 @@ public class NextCostumeBrick implements Brick {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_next_costume, null);
+		View view = inflater.inflate(R.layout.brick_next_costume, null);
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) view.findViewById(R.id.textview_next_costume);
+			textView.setText(R.string.brick_next_background);
+		}
 		return view;
 	}
 
@@ -96,10 +101,14 @@ public class NextCostumeBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_next_costume, null);
+			view = View.inflate(context, R.layout.brick_next_costume, null);
+		}
+
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) view.findViewById(R.id.textview_next_costume);
+			textView.setText(R.string.brick_next_background);
 		}
 
 		return view;
 	}
-
 }
