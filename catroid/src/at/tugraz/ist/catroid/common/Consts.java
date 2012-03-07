@@ -46,6 +46,4 @@ public final class Consts {
 	public static final String PAINTROID_DOWNLOAD_LINK = "http://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.7b.apk";
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 
-	public static final String BLACKLISTED_CHARACTERS[] = { "\"", "*", "/", ":", "<", ">", "?", "\\", "|", "+", ",",
-			".", ";", "=", "[", "]" };
 }
