@@ -488,18 +488,23 @@ public class UiTestUtils {
 		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], 10);
 	}
 
-	public static void testIntegerEditText(Solo solo, int editTextIndex, int value, int editTextMinWidth, boolean assertMode) {
+	public static void testIntegerEditText(Solo solo, int editTextIndex, int value, int editTextMinWidth,
+			boolean assertMode) {
 		insertIntegerIntoEditText(solo, editTextIndex, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
-	public static void testDoubleEditText(Solo solo, int editTextIndex, double value, int editTextMinWidth, boolean assertMode) {
+	public static void testDoubleEditText(Solo solo, int editTextIndex, double value, int editTextMinWidth,
+			boolean assertMode) {
 		insertDoubleIntoEditText(solo, editTextIndex, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
-	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth, boolean assertMode) {
-		solo.clickOnButton(0);
+	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth,
+			boolean assertMode) {
+		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
 		solo.sleep(100);
 		int width = 0;
 		if (assertMode) {
