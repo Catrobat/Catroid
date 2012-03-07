@@ -142,6 +142,10 @@ public class Utils {
 		return returnValue;
 	}
 
+	static public String buildProjectPath(String projectName, String... pathElements) {
+		return null;
+	}
+
 	/**
 	 * @param projectFileName
 	 * @return the project name without the default file extension, else returns unchanged string
@@ -315,5 +319,12 @@ public class Utils {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 		}
+	}
+
+	public static String deleteSpecialCharactersFromString(String stringToAdapt) {
+		for (String currentCharacter : Consts.BLACKLISTED_CHARACTERS) {
+			stringToAdapt = stringToAdapt.replace(currentCharacter.subSequence(0, 1), "");
+		}
+		return stringToAdapt;
 	}
 }

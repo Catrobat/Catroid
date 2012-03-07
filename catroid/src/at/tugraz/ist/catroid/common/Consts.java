@@ -45,4 +45,7 @@ public final class Consts {
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PAINTROID_DOWNLOAD_LINK = "http://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.7b.apk";
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
+
+	public static final String BLACKLISTED_CHARACTERS[] = { "\"", "*", "/", ":", "<", ">", "?", "\\", "|", "+", ",",
+			".", ";", "=", "[", "]" };
 }
