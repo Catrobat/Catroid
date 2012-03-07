@@ -321,7 +321,7 @@ public class Utils {
 		}
 	}
 
-	public static String deleteSpecialCharactersFromString(String stringToAdapt) {
+	public static String deleteSpecialCharactersInString(String stringToAdapt) {
 		for (String currentCharacter : Consts.BLACKLISTED_CHARACTERS) {
 			stringToAdapt = stringToAdapt.replace(currentCharacter.subSequence(0, 1), "");
 		}

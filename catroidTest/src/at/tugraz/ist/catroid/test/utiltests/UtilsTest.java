@@ -196,7 +196,7 @@ public class UtilsTest extends TestCase {
 
 	public void testDeleteSpecialCharactersFromString() {
 		String testString = "This:Is+A-\" */ :<Very>?\\|Very]+++,Long.;_=[Test ]String";
-		String newString = Utils.deleteSpecialCharactersFromString(testString);
+		String newString = Utils.deleteSpecialCharactersInString(testString);
 		assertEquals("Strings are not equal!", "ThisIsA-  VeryVeryLong_Test String", newString);
 	}
 }
