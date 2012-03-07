@@ -142,8 +142,8 @@ public class Utils {
 		return returnValue;
 	}
 
-	static public String buildProjectPath(String projectName, String... pathElements) {
-		return null;
+	static public String buildProjectPath(String projectName) {
+		return Consts.DEFAULT_ROOT + "/" + deleteSpecialCharactersInString(projectName);
 	}
 
 	/**
@@ -322,9 +322,6 @@ public class Utils {
 	}
 
 	public static String deleteSpecialCharactersInString(String stringToAdapt) {
-		for (String currentCharacter : Consts.BLACKLISTED_CHARACTERS) {
-			stringToAdapt = stringToAdapt.replace(currentCharacter.subSequence(0, 1), "");
-		}
-		return stringToAdapt;
+		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}
 }

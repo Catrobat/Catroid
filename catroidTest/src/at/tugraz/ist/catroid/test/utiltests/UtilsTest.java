@@ -195,8 +195,14 @@ public class UtilsTest extends TestCase {
 	}
 
 	public void testDeleteSpecialCharactersFromString() {
-		String testString = "This:Is+A-\" */ :<Very>?\\|Very]+++,Long.;_=[Test ]String";
+		String testString = "This:IsA-\" */ :<Very>?|Very\\\\Long_Test_String";
 		String newString = Utils.deleteSpecialCharactersInString(testString);
-		assertEquals("Strings are not equal!", "ThisIsA-  VeryVeryLong_Test String", newString);
+		assertEquals("Strings are not equal!", "ThisIsA-  VeryVeryLong_Test_String", newString);
+	}
+
+	public void testBuildProjectPath() {
+		String projectName1 = "test?Projekt\"1";
+		String result1 = "/mnt/sdcard/catroid/testProjekt1";
+		assertEquals(result1, Utils.buildProjectPath(projectName1));
 	}
 }
