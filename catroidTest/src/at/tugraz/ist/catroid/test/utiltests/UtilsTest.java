@@ -193,4 +193,10 @@ public class UtilsTest extends TestCase {
 		String testString2 = (String) TestUtils.invokeMethod(new Test(), "testMethod2", methodParams, methodArgs);
 		assertEquals("Calling private method with arguments failed!", test1 + " " + test2, testString2);
 	}
+
+	public void testDeleteSpecialCharactersFromString() {
+		String testString = "This:Is+A-\" */ :<Very>?\\|Very]+++,Long.;_=[Test ]String";
+		String newString = Utils.deleteSpecialCharactersFromString(testString);
+		assertEquals("Strings are not equal!", "ThisIsA-  VeryVeryLong_Test String", newString);
+	}
 }
