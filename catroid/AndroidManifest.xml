@@ -47,7 +47,9 @@
 		android:debuggable="true"
 		android:theme="@android:style/Theme.Light.NoTitleBar" android:name=".web.CatroidApplication">
 		
-		<activity android:name=".ui.MainMenuActivity">
+		<activity android:name=".ui.MainMenuActivity"
+		          android:screenOrientation="portrait"
+                  android:configChanges="orientation">
 			<intent-filter>
 				<action	android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -73,7 +75,8 @@
 			
 		<activity 
 		android:name=".stage.PreStageActivity" 
-		android:screenOrientation="portrait"/>
+		          android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
 
 		<activity android:name=".ui.ProjectActivity" />
 		
@@ -93,12 +96,15 @@
 		
 		<activity android:name=".bluetooth.DeviceListActivity" android:theme="@android:style/Theme.Dialog" />
 
-		<activity android:name=".soundrecorder.SoundRecorderActivity" android:label="@string/soundrecorder_name">
+		<activity android:name=".soundrecorder.SoundRecorderActivity" 
+		    	  android:screenOrientation="portrait"
+                  android:configChanges="orientation" android:label="@string/soundrecorder_name">
 		    <intent-filter>
 				<action	android:name="android.intent.action.GET_CONTENT" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:mimeType="audio/*"/>			
 			</intent-filter>
+
 		</activity>
 		
 	</application>
