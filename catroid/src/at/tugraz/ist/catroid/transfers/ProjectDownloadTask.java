@@ -76,7 +76,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString);
 
-			result = UtilZip.unZipFile(zipFileString, Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
+			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 			return result;
 		} catch (WebconnectionException e) {
 			e.printStackTrace();

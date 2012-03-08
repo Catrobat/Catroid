@@ -69,7 +69,7 @@ public class SoundInfo implements Comparable<SoundInfo> {
 	}
 
 	private String getPathWithoutFileName() {
-		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
+		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Consts.SOUND_DIRECTORY);
 	}
 
