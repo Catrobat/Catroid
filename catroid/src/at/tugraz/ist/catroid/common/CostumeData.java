@@ -78,13 +78,14 @@ public class CostumeData {
 	}
 
 	public String getPathWithoutFileName() {
-		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
+		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Consts.IMAGE_DIRECTORY);
 	}
 
 	public Bitmap getThumbnailBitmap() {
 		if (thumbnailBitmap == null) {
-			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH, false);
+			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_HEIGHT,
+					THUMBNAIL_WIDTH, false);
 		}
 		return thumbnailBitmap;
 	}

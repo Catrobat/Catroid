@@ -30,15 +30,15 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Bitmap.Config;
+import android.graphics.Color;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -49,8 +49,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -122,8 +122,7 @@ public class StageListener implements ApplicationListener {
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
 
-		pathForScreenshot = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ "/";
+		pathForScreenshot = Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()) + "/";
 
 		costumeComparator = new CostumeComparator();
 
