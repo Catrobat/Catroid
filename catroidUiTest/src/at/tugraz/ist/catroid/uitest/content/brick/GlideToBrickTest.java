@@ -65,21 +65,25 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	}
 
 	public void testNumberInput() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_glide);
+		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(getActivity().getString(R.string.delete));
+		solo.sleep(1000);
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
+		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 
 		double duration = 1.5;
 		int xPosition = 123;
 		int yPosition = 567;
 
-		int numberOfEditTexts = solo.getCurrentEditTexts().size();
-		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 3, String.valueOf(duration));
-		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 2, String.valueOf(xPosition));
-		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 1, String.valueOf(yPosition));
+		UiTestUtils.clickEnterClose(solo, 0, String.valueOf(duration));
+		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
+		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
 
 		solo.sleep(1000);
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
-		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(brickList.size() - 1);
+		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
 				glideToBrick.getDurationInMilliSeconds());
 
