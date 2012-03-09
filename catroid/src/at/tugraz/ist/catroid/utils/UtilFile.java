@@ -26,6 +26,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,8 +152,13 @@ public class UtilFile {
 	public static List<File> getProjectFiles(File directory) {
 		List<File> projectList = new ArrayList<File>();
 		File[] sdFileList = directory.listFiles();
+		FilenameFilter filenameFilter = new FilenameFilter() {
+			public boolean accept(File dir, String filename) {
+				return filename.contentEquals(Consts.PROJECTCODE_NAME);
+			}
+		};
 		for (File file : sdFileList) {
-			if (file.isDirectory()) {
+			if (file.isDirectory() && file.list(filenameFilter).length != 0) {
 				projectList.add(file);
 			}
 		}
