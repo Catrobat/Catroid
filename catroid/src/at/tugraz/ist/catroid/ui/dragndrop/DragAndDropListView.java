@@ -33,7 +33,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,6 +44,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
@@ -207,33 +208,25 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	public boolean onLongClick(View view) {
 		int itemPosition = -1;
+		int[] location = new int[2];
 		if (newView) {
 			itemPosition = this.position;
+			(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
 			newView = false;
 		} else {
 			itemPosition = pointToPosition(view.getLeft(), view.getTop());
+			(getChildAt(itemPosition)).getLocationOnScreen(location);
 		}
-
-		int[] location = new int[2];
-
-		(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
 
 		touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
 
-		//		Log.d("TESTING", "ItemPosition: " + itemPosition + ", touchpos: " + touchPointY);
-		//		Log.d("TESTING", "ItemPosition: " + itemPosition + ", Location x: " + location[0] + ", y: " + location[1]);
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
 
-		//		if (view.getDrawingCache() == null) {
-		//			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
-		//		}
-
-		view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-		Display display = getWindowManager().getDefaultDisplay();
-		view.layout(0, 0, display.getWidth(), view.getMeasuredHeight());
+		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
+				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(80, getContext()), MeasureSpec.EXACTLY));
+		view.layout(0, 0, Values.SCREEN_WIDTH, view.getMeasuredHeight());
 
 		view.buildDrawingCache(true);
 
