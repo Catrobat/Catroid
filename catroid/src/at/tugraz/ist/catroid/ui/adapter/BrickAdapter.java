@@ -295,16 +295,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 					if (brick instanceof WhenBrick) {
 						if (intersectLoop(sId, brickToScript)) {
-							Log.d("HALLO", "TROLOLOLOLOL");
 							DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
 									.findViewById(R.id.brick_list_view);
-							//							View currentBrickView = draggedBrick.getPrototypeView(context);
-							//							insertedBrick = true;
-							setInsertedBrickpos(brickToScript + 1);
+							int additional = 0;
+							for (int i = 0; i < sId; i++) {
+								additional += sprite.getScript(i).getBrickList().size();
+							}
+							setInsertedBrickpos(brickToScript + sId + 1 + additional);
 							intersect = true;
-							listView.setInsertedBrick(brickToScript + 1);
-							Log.d("HALLO", "BrickList size: " + sprite.getScript(0).getBrickList().size());
-							//							listView.onLongClick(currentBrickView);
+							listView.setInsertedBrick(brickToScript + sId + 1 + additional);
+							//							Log.d("LOL", "BrickList size: " + sprite.getScript(sId).getBrickList().size() + ", SID: "
+							//									+ sId + ", ADD: " + additional + ", count: " + brickToScript);
 
 						} else {
 							projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
@@ -314,16 +315,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					brickToScript++;
 				}
 
-				if (intersect) {
-					Log.d("HALLO", "TROLOLOLOLOL");
-					//					intersect = false;
-					//					DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
-					//							.findViewById(R.id.brick_list_view);
-					//					View currentBrickView = draggedBrick.getPrototypeView(context);
-					//					insertedBrick = true;
-					//					listView.onLongClick(currentBrickView);
-
-				} else {
+				if (!intersect) {
 
 					for (Brick brick : bricks) {
 						tmpList.add(brick);
@@ -358,25 +350,43 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				for (Brick brick : bricks) {
 
 					if (brick instanceof WhenStartedBrick) {
-						projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+
+						if (intersectLoop(sId, brickToScript)) {
+							DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
+									.findViewById(R.id.brick_list_view);
+							int additional = 0;
+							for (int i = 0; i < sId; i++) {
+								additional += sprite.getScript(i).getBrickList().size();
+							}
+							setInsertedBrickpos(brickToScript + sId + 1 + additional);
+							intersect = true;
+							listView.setInsertedBrick(brickToScript + sId + 1 + additional);
+							//							Log.d("LOL", "BrickList size: " + sprite.getScript(sId).getBrickList().size() + ", SID: "
+							//									+ sId + ", ADD: " + additional + ", count: " + brickToScript);
+
+						} else {
+							projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+						}
 						break;
 					}
 					brickToScript++;
 				}
 
-				for (Brick brick : bricks) {
-					tmpList.add(brick);
-				}
+				if (!intersect) {
+					for (Brick brick : bricks) {
+						tmpList.add(brick);
+					}
 
-				projectManager.getCurrentSprite().addScript(sId + 1, newScript);
+					projectManager.getCurrentSprite().addScript(sId + 1, newScript);
 
-				for (int j = brickToScript; j < tmpList.size(); j++) {
-					Brick brickToCopy = tmpList.get(j);
-					projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
-				}
+					for (int j = brickToScript; j < tmpList.size(); j++) {
+						Brick brickToCopy = tmpList.get(j);
+						projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
+					}
 
-				for (int i = bricks.size(); i > brickToScript; i--) {
-					projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+					for (int i = bricks.size(); i > brickToScript; i--) {
+						projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+					}
 				}
 			}
 		} else if (draggedBrick instanceof BroadcastReceiverBrick) {
@@ -394,25 +404,43 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				for (Brick brick : bricks) {
 
 					if (brick instanceof BroadcastReceiverBrick) {
-						projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+
+						if (intersectLoop(sId, brickToScript)) {
+							DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
+									.findViewById(R.id.brick_list_view);
+							int additional = 0;
+							for (int i = 0; i < sId; i++) {
+								additional += sprite.getScript(i).getBrickList().size();
+							}
+							setInsertedBrickpos(brickToScript + sId + 1 + additional);
+							intersect = true;
+							listView.setInsertedBrick(brickToScript + sId + 1 + additional);
+							//							Log.d("LOL", "BrickList size: " + sprite.getScript(sId).getBrickList().size() + ", SID: "
+							//									+ sId + ", ADD: " + additional + ", count: " + brickToScript);
+
+						} else {
+							projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+						}
 						break;
 					}
 					brickToScript++;
 				}
 
-				for (Brick brick : bricks) {
-					tmpList.add(brick);
-				}
+				if (!intersect) {
+					for (Brick brick : bricks) {
+						tmpList.add(brick);
+					}
 
-				projectManager.getCurrentSprite().addScript(sId + 1, newScript);
+					projectManager.getCurrentSprite().addScript(sId + 1, newScript);
 
-				for (int j = brickToScript; j < tmpList.size(); j++) {
-					Brick brickToCopy = tmpList.get(j);
-					projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
-				}
+					for (int j = brickToScript; j < tmpList.size(); j++) {
+						Brick brickToCopy = tmpList.get(j);
+						projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
+					}
 
-				for (int i = bricks.size(); i > brickToScript; i--) {
-					projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+					for (int i = bricks.size(); i > brickToScript; i--) {
+						projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+					}
 				}
 			}
 		} else if (draggedBrick instanceof LoopBeginBrick) {
@@ -766,7 +794,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					if (draggedBrick == null) {
 						ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(index)));
 						setCurrentScriptPosition(index);
-						//						notifyDataSetChanged();
 					}
 				}
 			}
