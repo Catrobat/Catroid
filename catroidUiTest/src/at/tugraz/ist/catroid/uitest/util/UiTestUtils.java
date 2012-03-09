@@ -194,19 +194,15 @@ public class UiTestUtils {
 		return brickCategoryMap.get(brickStringId);
 	}
 
-	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
+	public static void addNewBrick(Solo solo, int brickStringId) {
 		int categoryStringId = getBrickCategory(solo, brickStringId);
-		addNewBrickAndScrollDown(solo, categoryStringId, brickStringId);
+		addNewBrick(solo, categoryStringId, brickStringId);
 	}
 
-	public static void addNewBrickAndScrollDown(Solo solo, int categoryStringId, int brickStringId) {
+	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId) {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
-
-		while (solo.scrollDown()) {
-			;
-		}
 	}
 
 	public static List<Brick> createTestProject() {

@@ -56,13 +56,18 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	}
 
 	public void testIntegerDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
+		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(getActivity().getString(R.string.delete));
+		solo.sleep(1000);
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_place_at);
+		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 
 		int xPosition = 5;
 		int yPosition = 7;
 
-		int yPositionEditTextId = solo.getCurrentEditTexts().size() - 1;
-		int xPositionEditTextId = yPositionEditTextId - 1;
+		int yPositionEditTextId = 1;
+		int xPositionEditTextId = 0;
 
 		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
 		solo.sleep(300);
@@ -80,7 +85,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	}
 
 	public void testDoubleDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
+		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
 
 		double wait = 5.9;
 

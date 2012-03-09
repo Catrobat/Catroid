@@ -70,52 +70,25 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 	}
 
 	public void testAddLooksCategoryBrick() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
-		assertTrue("Set costume brick was not added", solo.searchText(getActivity().getString(
-				R.string.brick_set_costume)));
+		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
+		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		assertTrue("Set costume brick was not added",
+				solo.searchText(getActivity().getString(R.string.brick_set_costume)));
 
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
-		assertTrue("Set size to brick was not added", solo.searchText(getActivity().getString(
-				R.string.brick_set_size_to)));
+		UiTestUtils.addNewBrick(solo, R.string.brick_set_size_to);
+		solo.clickOnText(getActivity().getString(R.string.brick_set_costume));
+		assertTrue("Set size to brick was not added",
+				solo.searchText(getActivity().getString(R.string.brick_set_size_to)));
 
-		//		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		//		assertTrue("Category was not found!",
-		//				solo.searchText(solo.getCurrentActivity().getString(R.string.category_motion)));
-		//		assertTrue("Category was not found!",
-		//				solo.searchText(solo.getCurrentActivity().getString(R.string.category_looks)));
-		//		assertTrue("Category was not found!",
-		//				solo.searchText(solo.getCurrentActivity().getString(R.string.category_sound)));
-		//		assertTrue("Category was not found!",
-		//				solo.searchText(solo.getCurrentActivity().getString(R.string.category_control)));
-		//		solo.clickOnText(getActivity().getString(R.string.category_looks));
-		//		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
-		//
-		//		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		//		assertTrue("Category was not found!",
-		//				solo.searchText(solo.getCurrentActivity().getString(R.string.category_motion)));
-		//		assertTrue("Category was not found!",
-		//				solo.searchText(solo.getCurrentActivity().getString(R.string.category_looks)));
-		//		assertTrue("Category was not found!",
-		//				solo.searchText(solo.getCurrentActivity().getString(R.string.category_sound)));
-		//		assertTrue("Category was not found!",
-		//				solo.searchText(solo.getCurrentActivity().getString(R.string.category_control)));
-		//		solo.clickOnText(getActivity().getString(R.string.category_looks));
-		//		solo.clickOnText(getActivity().getString(R.string.brick_set_costume));
 	}
 
 	public void testDeleteScript() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_when_started);
-
+		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
+		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
-		int deleteIndex = 0;
-		for (int i = 0; i < numberOfScripts; i++) {
-			deleteIndex += ProjectManager.getInstance().getCurrentSprite().getScript(i).getBrickList().size();
-		}
-		deleteIndex += numberOfScripts;
+		assertEquals("Incorrect number of scripts in list", 2, numberOfScripts);
 
-		solo.clickInList(deleteIndex);
-		solo.clickLongInList(deleteIndex);
-
+		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		solo.sleep(1000);
 
@@ -123,7 +96,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
-		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		solo.sleep(1000);
 
@@ -131,7 +104,8 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_hide);
+		UiTestUtils.addNewBrick(solo, R.string.brick_hide);
+		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
