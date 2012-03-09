@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnLongClickListener;
 import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -75,8 +75,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drag(int from, int to) {
-		Log.d("HALLO", "POS: " + pos);
-		Log.d("TESTING", "drag: from " + from + " to " + to);
 		fromTest = from;
 		int scriptFrom = getScriptId(from);
 		int scriptTo = getScriptId(to);
@@ -105,14 +103,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 					//NEW
 					Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
-					Log.d("HALLO", "Called INDEXOF1");
 					if (script.getBrickList().indexOf(((LoopBeginBrick) draggedBrick).getLoopEndBrick()) == -1) {
-						Log.d("TESTING", "HOMOLON aka Oktolon4");
 						dragTargetPosition = -1;
 						return;
 					}
 					//NEW END
-					Log.d("HALLO", "Called INDEXOF2");
 					if (getScriptPosition(to, scriptTo) >= brickList.indexOf(loopEndBrick)
 							|| getScriptPosition(from, scriptFrom) >= brickList.indexOf(loopEndBrick)) {
 						return;
@@ -124,13 +119,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
 
 				Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
-				Log.d("HALLO", "Called INDEXOF3");
 				if (script.getBrickList().indexOf(((LoopEndBrick) draggedBrick).getLoopBeginBrick()) == -1) {
-					Log.d("TESTING", "HOMOLON aka Oktolon");
 					dragTargetPosition = -1;
 					return;
 				}
-				Log.d("HALLO", "Called INDEXOF4");
 				if (getScriptPosition(to, scriptTo) <= brickList.indexOf(loopBeginBrick)
 						|| getScriptPosition(from, scriptFrom) <= brickList.indexOf(loopBeginBrick)) {
 					return;
@@ -145,8 +137,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		} else {
 
-			Log.d("TESTING", "Moved to ELSE");
-
 			if (to != 0) {
 				dragTargetPosition = to;
 			} else {
@@ -155,14 +145,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 			if (draggedBrick instanceof LoopBeginBrick) {
 				if (((LoopBeginBrick) draggedBrick).getLoopEndBrick() != null) {
-					Log.d("TESTING", "HOMOLON aka Oktolon8");
 					dragTargetPosition = -1;
 					return;
 				}
 			}
 
 			if (draggedBrick instanceof LoopEndBrick) {
-				Log.d("TESTING", "HOMOLON aka Oktolon9");
 				dragTargetPosition = -1;
 				return;
 			}
@@ -170,15 +158,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			if (from < to) {
 
 				if (draggedBrick instanceof LoopEndBrick) {
-					Log.d("TESTING", "HOMOLON aka Oktolon1");
 					dragTargetPosition = -1;
 					return;
 				}
-				//				else if (draggedBrick instanceof LoopBeginBrick) {
-				//					Log.d("TESTING", "HOMOLON aka Oktolon3");
-				//					dragTargetPosition = -1;
-				//					return;
-				//				}
 				sprite.getScript(getScriptId(to)).addBrick(0, draggedBrick);
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
 				if (currentScriptPosition != 0 && from < currentScriptPosition) {
@@ -187,15 +169,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			} else if (from > to && to > 0) {
 
 				if (draggedBrick instanceof LoopEndBrick) {
-					Log.d("TESTING", "HOMOLON aka Oktolon2");
 					dragTargetPosition = -1;
 					return;
 				}
-				//				else if (draggedBrick instanceof LoopBeginBrick) {
-				//					Log.d("TESTING", "HOMOLON aka Oktolon5");
-				//					dragTargetPosition = -1;
-				//					return;
-				//				}
 
 				sprite.getScript(getScriptId(to) - 1).addBrick(
 						sprite.getScript(getScriptId(to) - 1).getBrickList().size(), draggedBrick);
@@ -204,47 +180,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					currentScriptPosition++;
 				}
 			}
-			//			else {
-			//				if (draggedBrick instanceof LoopEndBrick) {
-			//					dragTargetPosition = -1;
-			//					//					int nrScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
-			//					//					int bId = 1;
-			//					//					boolean breakLoop = false;
-			//					//
-			//					//					for (int i = 0; i < nrScripts; i++) {
-			//					//						if (breakLoop) {
-			//					//							break;
-			//					//						}
-			//					//						ArrayList<Brick> bricks = ProjectManager.getInstance().getCurrentSprite().getScript(i)
-			//					//								.getBrickList();
-			//					//						for (int j = 0; j < bricks.size(); j++) {
-			//					//							if (bricks.get(j) instanceof LoopBeginBrick) {
-			//					//								breakLoop = true;
-			//					//								break;
-			//					//							}
-			//					//							bId++;
-			//					//						}
-			//					//						bId++;
-			//					//					}
-			//					//
-			//					//										ArrayList<Brick> bricks = ProjectManager.getInstance().getCurrentSprite().getScript(sId)
-			//					//												.getBrickList();
-			//					//										for (int i = 0; i < bricks.size(); i++) {
-			//					//											if (bricks.get(i) instanceof LoopBeginBrick) {
-			//					//												bId = i + 1;
-			//					//											}
-			//					//										}
-			//					//
-			//					//										bId = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList()
-			//					//												.indexOf(draggedBrick) + 3;
-			//					//
-			//					//					dragTargetPosition = bId;
-			//				}
-			//				//				else if (draggedBrick instanceof LoopBeginBrick) {
-			//				//					Log.d("TESTING", "HOMOLON aka Oktolon6");
-			//				//					dragTargetPosition = -1;
-			//				//				}
-			//			}
 		}
 
 		notifyDataSetChanged();
@@ -253,14 +188,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	public void drop(int to) {
 		boolean toLastScript = false;
 		boolean intersect = false;
-		Log.d("TESTING", "drop: " + to);
 
 		if (to < 0) {
-			Log.d("TESTING", "Drop to: " + to);
 			int nrScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 
 			int newTo = 0;
-			Log.d("TESTING", "nrScripts: " + nrScripts);
 
 			for (int i = 0; i < nrScripts; i++) {
 				int tmp = ProjectManager.getInstance().getCurrentSprite().getScript(i).getBrickList().size();
@@ -270,11 +202,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				}
 
 				newTo += tmp;
-				Log.d("TESTING", "foo: " + tmp);
 			}
 			to = newTo;
-			//to = dragTargetPosition;
-			Log.d("TESTING", "Itemposition: " + to);
 			toLastScript = true;
 		}
 
@@ -304,8 +233,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 							setInsertedBrickpos(brickToScript + sId + 1 + additional);
 							intersect = true;
 							listView.setInsertedBrick(brickToScript + sId + 1 + additional);
-							//							Log.d("LOL", "BrickList size: " + sprite.getScript(sId).getBrickList().size() + ", SID: "
-							//									+ sId + ", ADD: " + additional + ", count: " + brickToScript);
 
 						} else {
 							projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
@@ -361,8 +288,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 							setInsertedBrickpos(brickToScript + sId + 1 + additional);
 							intersect = true;
 							listView.setInsertedBrick(brickToScript + sId + 1 + additional);
-							//							Log.d("LOL", "BrickList size: " + sprite.getScript(sId).getBrickList().size() + ", SID: "
-							//									+ sId + ", ADD: " + additional + ", count: " + brickToScript);
 
 						} else {
 							projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
@@ -415,8 +340,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 							setInsertedBrickpos(brickToScript + sId + 1 + additional);
 							intersect = true;
 							listView.setInsertedBrick(brickToScript + sId + 1 + additional);
-							//							Log.d("LOL", "BrickList size: " + sprite.getScript(sId).getBrickList().size() + ", SID: "
-							//									+ sId + ", ADD: " + additional + ", count: " + brickToScript);
 
 						} else {
 							projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
@@ -445,9 +368,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 		} else if (draggedBrick instanceof LoopBeginBrick) {
 			if (insertLoop) {
-				Log.d("HALLO", "IF PENNER INSERTLOOP");
 				if (toLastScript) {
-					Log.d("HALLO", "IF PENNER");
 					LoopEndBrick loopEndBrick = new LoopEndBrick(ProjectManager.getInstance().getCurrentSprite(),
 							(LoopBeginBrick) draggedBrick);
 
@@ -477,16 +398,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					insertLoop = false;
 
 				} else {
-					Log.d("HALLO", "ELSE PENNER");
 					LoopEndBrick loopEndBrick = new LoopEndBrick(ProjectManager.getInstance().getCurrentSprite(),
 							(LoopBeginBrick) draggedBrick);
 
 					int sId = getScriptId(to);
-					Log.d("HALLO", "Called INDEXOF5");
-					int bId = ProjectManager.getInstance().getCurrentSprite().getScript(sId).getBrickList()
-							.indexOf(draggedBrick) + 1;
-
-					Log.d("TESTING", "Moped Minion Oktolon -> BID: " + bId);
+					int bId = ProjectManager.getInstance().getCurrentSprite().getScript(sId).getBrickList().indexOf(
+							draggedBrick) + 1;
 
 					ProjectManager.getInstance().getCurrentSprite().getScript(sId).addBrick(bId, loopEndBrick);
 
@@ -495,8 +412,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				}
 			}
 		} else {
-
-			Log.d("HALLO", "ELSE PENNER INSERTLOOP");
 
 			if (toLastScript) {
 				if (draggedBrick instanceof LoopEndBrick) {
@@ -513,14 +428,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					if (begin) {
 						int sId = getScriptId(fromTest);
 						int toSCript = sprite.getNumberOfScripts() - 1;
-						Log.d("TESTING", "sID " + sId);
 						sprite.getScript(sId).removeBrick(draggedBrick);
 						sprite.getScript(toSCript).addBrick(draggedBrick);
 					}
 				} else {
 					int sId = getScriptId(fromTest);
 					int toSCript = sprite.getNumberOfScripts() - 1;
-					Log.d("TESTING", "sID " + sId);
 					sprite.getScript(sId).removeBrick(draggedBrick);
 					sprite.getScript(toSCript).addBrick(draggedBrick);
 				}
@@ -601,7 +514,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				sprite.getScript(del).removeBrick(draggedBrick);
 				sprite.getScript(del).removeBrick(loopEnd);
 			} else {
-				Log.d("TESTING", "Still no End inserted");
 				int nrScripts = sprite.getNumberOfScripts();
 				for (int i = 0; i < nrScripts; i++) {
 					boolean breaker = false;
@@ -646,7 +558,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			sprite.getScript(del).removeBrick(draggedBrick);
 		} else {
 			sprite.getScript(getScriptId(index)).removeBrick(draggedBrick);
-			Log.d("TESTING", "Remove");
 		}
 
 		draggedBrick = null;
@@ -834,7 +745,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public int rearangeBricks(int pos) {
 
-		//		int orig = pos;
 		Script script = ProjectManager.getInstance().getCurrentScript();
 		Brick brick = script.getBrick(script.getBrickList().size() - 1);
 		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
@@ -849,17 +759,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			pos -= (sprite.getScript(i).getBrickList().size() + 1);
 		}
 
-		//		if (sprite.getScriptCount() > 1) {
-		//			if (!isBrick(orig)) {
-		//				orig++;
-		//				if (sId != getScriptId(orig)) {
-		//					sId = getScriptId(orig);
-		//					pos -= (sprite.getScript(sId - 1).getBrickList().size() + 1);
-		//				}
-		//			}
-		//		}
-
-		//		Log.d("TESTING", "Adding in Script: " + sId + ", pos: " + pos + ", orig: " + orig);
 		sprite.getScript(sId).addBrick(pos, brick);
 
 		int newPos = 0;
@@ -880,7 +779,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public boolean intersectLoop(int sId, int to) {
 
-		Log.d("HALLO", "Called Intersect Loop");
 		Script dropScript = sprite.getScript(sId);
 		ArrayList<Brick> bricks = dropScript.getBrickList();
 
