@@ -81,7 +81,8 @@ public class UtilFileTest extends InstrumentationTestCase {
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		assertEquals("not the expected string", "84.2 KB", UtilFile.getSizeAsString(testDirectory));
+		String test = UtilFile.getSizeAsString(testDirectory);
+		assertEquals("not the expected string", "84.2 KB", test);
 
 		for (int i = 2; i < 48; i++) {
 			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",

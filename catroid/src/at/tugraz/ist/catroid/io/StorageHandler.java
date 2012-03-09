@@ -125,10 +125,10 @@ public class StorageHandler {
 			File projectDirectory = new File(projectDirectoryName);
 
 			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
-				boolean test = projectDirectory.mkdir();
+				projectDirectory.mkdir();
 
 				File imageDirectory = new File(Utils.buildPath(projectDirectoryName, Consts.IMAGE_DIRECTORY));
-				boolean test2 = imageDirectory.mkdir();
+				imageDirectory.mkdir();
 
 				File noMediaFile = new File(Utils.buildPath(projectDirectoryName, Consts.IMAGE_DIRECTORY,
 						Consts.NO_MEDIA_FILE));
