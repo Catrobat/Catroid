@@ -203,6 +203,6 @@ public class UtilsTest extends TestCase {
 	public void testBuildProjectPath() {
 		String projectName1 = "test?Projekt\"1";
 		String result1 = "/mnt/sdcard/catroid/testProjekt1";
-		assertEquals(result1, Utils.buildProjectPath(projectName1));
+		assertEquals("Paths are different!", result1, Utils.buildProjectPath(projectName1));
 	}
 }

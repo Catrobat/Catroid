@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
@@ -44,6 +43,7 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -144,8 +144,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	}
 
-	public void testCreateNewProjectWithSpecialCharacters() {
-		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
+	public void testCreateNewProjectWithBlacklistedCharacters() {
+		final String projectNameWithSpecialCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 
@@ -160,10 +160,37 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
-		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance()
-				.getCurrentProject().getName(), projectNameWithSpecialCharacters);
+		String directoryPath = Utils.buildProjectPath(projectNameWithSpecialCharacters);
+		File directory = new File(directoryPath);
+		File xmlFile = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
+		assertTrue("Project directory with special characters was not set properly!", directory.isDirectory());
+		assertTrue("Project XML file with special characters was not set properly!", xmlFile.exists());
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameWithSpecialCharacters);
+		UtilFile.deleteDirectory(directory);
+	}
+
+	public void testCreateNewProjectWithWhitelistedCharacters() {
+		final String projectNameWithSpecialCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
+
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameWithSpecialCharacters);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		//solo.goBack();
+		solo.clickOnButton(0);
+		solo.sleep(100);
+
+		String directoryPath = Utils.buildProjectPath(projectNameWithSpecialCharacters);
+		File directory = new File(directoryPath);
+		File xmlFile = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
+		assertTrue("Project directory with special characters was not set properly!", directory.isDirectory());
+		assertTrue("Project XML file with special characters was not set properly!", xmlFile.exists());
+
 		UtilFile.deleteDirectory(directory);
 	}
 
