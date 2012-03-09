@@ -144,6 +144,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 
+		solo.sleep(500);
+
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
 
 		try {
@@ -159,7 +161,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 			solo.clickOnButton(0);
 		} catch (JSONException e) {
-			assertFalse("json exception orrured", true);
+			fail("JSON exception orrured");
 		}
 	}
 
