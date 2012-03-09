@@ -25,7 +25,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:versionCode="10"
 	package="at.tugraz.ist.catroid"
-	android:versionName="0.5a"
+	android:versionName="0.6.0beta"
 	android:installLocation="auto">
 
     <uses-sdk
@@ -47,9 +47,7 @@
 		android:debuggable="true"
 		android:theme="@android:style/Theme.Light.NoTitleBar" android:name=".web.CatroidApplication">
 		
-		<activity android:name=".ui.MainMenuActivity"
-		          android:screenOrientation="portrait"
-                  android:configChanges="orientation">
+		<activity android:name=".ui.MainMenuActivity">
 			<intent-filter>
 				<action	android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -75,8 +73,7 @@
 			
 		<activity 
 		android:name=".stage.PreStageActivity" 
-		          android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
+		android:screenOrientation="portrait"/>
 
 		<activity android:name=".ui.ProjectActivity" />
 		
@@ -96,15 +93,12 @@
 		
 		<activity android:name=".bluetooth.DeviceListActivity" android:theme="@android:style/Theme.Dialog" />
 
-		<activity android:name=".soundrecorder.SoundRecorderActivity" 
-		    	  android:screenOrientation="portrait"
-                  android:configChanges="orientation" android:label="@string/soundrecorder_name">
+		<activity android:name=".soundrecorder.SoundRecorderActivity" android:label="@string/soundrecorder_name">
 		    <intent-filter>
 				<action	android:name="android.intent.action.GET_CONTENT" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:mimeType="audio/*"/>			
 			</intent-filter>
-
 		</activity>
 		
 	</application>
