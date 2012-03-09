@@ -252,6 +252,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public void drop(int to) {
 		boolean toLastScript = false;
+		boolean intersect = false;
 		Log.d("TESTING", "drop: " + to);
 
 		if (to < 0) {
@@ -290,7 +291,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				ArrayList<Brick> tmpList = new ArrayList<Brick>();
 
 				int brickToScript = 0;
-				boolean intersect = false;
 				for (Brick brick : bricks) {
 
 					if (brick instanceof WhenBrick) {
@@ -298,10 +298,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 							Log.d("HALLO", "TROLOLOLOLOL");
 							DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
 									.findViewById(R.id.brick_list_view);
-							View currentBrickView = draggedBrick.getPrototypeView(context);
-							insertedBrick = true;
+							//							View currentBrickView = draggedBrick.getPrototypeView(context);
+							//							insertedBrick = true;
+							setInsertedBrickpos(brickToScript + 1);
 							intersect = true;
-							listView.onLongClick(currentBrickView);
+							listView.setInsertedBrick(brickToScript + 1);
+							Log.d("HALLO", "BrickList size: " + sprite.getScript(0).getBrickList().size());
+							//							listView.onLongClick(currentBrickView);
+
 						} else {
 							projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
 						}
@@ -312,6 +316,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 				if (intersect) {
 					Log.d("HALLO", "TROLOLOLOLOL");
+					//					intersect = false;
 					//					DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
 					//							.findViewById(R.id.brick_list_view);
 					//					View currentBrickView = draggedBrick.getPrototypeView(context);
@@ -495,7 +500,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		}
 
 		draggedBrick = null;
-		clearScriptBricks();
+		if (!intersect) {
+			clearScriptBricks();
+		}
 		notifyDataSetChanged();
 	}
 
