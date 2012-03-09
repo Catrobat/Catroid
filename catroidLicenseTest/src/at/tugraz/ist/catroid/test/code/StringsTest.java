@@ -220,12 +220,6 @@ public class StringsTest extends TestCase {
 				layoutFiles.add(file);
 			}
 		}
-		layoutDir = new File("../catroid/res/layout-land/");
-		for (File file : layoutDir.listFiles()) {
-			if (file.getName().endsWith(".xml")) {
-				layoutFiles.add(file);
-			}
-		}
 		return layoutFiles;
 	}
 
