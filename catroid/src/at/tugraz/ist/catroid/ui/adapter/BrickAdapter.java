@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -49,9 +49,11 @@ import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
+	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
+
 	private Context context;
 	private Sprite sprite;
-
+	// private BrickListAnimation brickListAnimation;
 	private int dragTargetPosition;
 	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
@@ -65,10 +67,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
-
+		// brickListAnimation = new BrickListAnimation(this, listView);
 		longClickListener = listView;
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
-
+		insertedBrick = false;
+		insertLoop = false;
 	}
 
 	public void drag(int from, int to) {
@@ -287,28 +290,50 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				ArrayList<Brick> tmpList = new ArrayList<Brick>();
 
 				int brickToScript = 0;
+				boolean intersect = false;
 				for (Brick brick : bricks) {
 
 					if (brick instanceof WhenBrick) {
-						projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+						if (intersectLoop(sId, brickToScript)) {
+							Log.d("HALLO", "TROLOLOLOLOL");
+							DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
+									.findViewById(R.id.brick_list_view);
+							View currentBrickView = draggedBrick.getPrototypeView(context);
+							insertedBrick = true;
+							intersect = true;
+							listView.onLongClick(currentBrickView);
+						} else {
+							projectManager.getCurrentSprite().getScript(sId).removeBrick(brick);
+						}
 						break;
 					}
 					brickToScript++;
 				}
 
-				for (Brick brick : bricks) {
-					tmpList.add(brick);
-				}
+				if (intersect) {
+					Log.d("HALLO", "TROLOLOLOLOL");
+					//					DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
+					//							.findViewById(R.id.brick_list_view);
+					//					View currentBrickView = draggedBrick.getPrototypeView(context);
+					//					insertedBrick = true;
+					//					listView.onLongClick(currentBrickView);
 
-				projectManager.getCurrentSprite().addScript(sId + 1, newScript);
+				} else {
 
-				for (int j = brickToScript; j < tmpList.size(); j++) {
-					Brick brickToCopy = tmpList.get(j);
-					projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
-				}
+					for (Brick brick : bricks) {
+						tmpList.add(brick);
+					}
 
-				for (int i = bricks.size(); i > brickToScript; i--) {
-					projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+					projectManager.getCurrentSprite().addScript(sId + 1, newScript);
+
+					for (int j = brickToScript; j < tmpList.size(); j++) {
+						Brick brickToCopy = tmpList.get(j);
+						projectManager.getCurrentSprite().getScript(sId + 1).addBrick(brickToCopy);
+					}
+
+					for (int i = bricks.size(); i > brickToScript; i--) {
+						projectManager.getCurrentSprite().getScript(sId).removeBrick(bricks.get(bricks.size() - 1));
+					}
 				}
 			}
 
@@ -425,8 +450,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 					int sId = getScriptId(to);
 					Log.d("HALLO", "Called INDEXOF5");
-					int bId = ProjectManager.getInstance().getCurrentSprite().getScript(sId).getBrickList().indexOf(
-							draggedBrick) + 1;
+					int bId = ProjectManager.getInstance().getCurrentSprite().getScript(sId).getBrickList()
+							.indexOf(draggedBrick) + 1;
 
 					Log.d("TESTING", "Moped Minion Oktolon -> BID: " + bId);
 
@@ -441,11 +466,31 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			Log.d("HALLO", "ELSE PENNER INSERTLOOP");
 
 			if (toLastScript) {
-				int sId = getScriptId(fromTest);
-				int toSCript = sprite.getNumberOfScripts() - 1;
-				Log.d("TESTING", "sID " + sId);
-				sprite.getScript(sId).removeBrick(draggedBrick);
-				sprite.getScript(toSCript).addBrick(draggedBrick);
+				if (draggedBrick instanceof LoopEndBrick) {
+					LoopBeginBrick loopBegin = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
+					Script lScript = sprite.getScript((sprite.getNumberOfScripts() - 1));
+					ArrayList<Brick> bricks = lScript.getBrickList();
+					boolean begin = false;
+					for (Brick brick : bricks) {
+						if (brick.equals(loopBegin)) {
+							begin = true;
+							break;
+						}
+					}
+					if (begin) {
+						int sId = getScriptId(fromTest);
+						int toSCript = sprite.getNumberOfScripts() - 1;
+						Log.d("TESTING", "sID " + sId);
+						sprite.getScript(sId).removeBrick(draggedBrick);
+						sprite.getScript(toSCript).addBrick(draggedBrick);
+					}
+				} else {
+					int sId = getScriptId(fromTest);
+					int toSCript = sprite.getNumberOfScripts() - 1;
+					Log.d("TESTING", "sID " + sId);
+					sprite.getScript(sId).removeBrick(draggedBrick);
+					sprite.getScript(toSCript).addBrick(draggedBrick);
+				}
 			}
 		}
 
@@ -799,4 +844,27 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		pos = Npos;
 	}
 
+	public boolean intersectLoop(int sId, int to) {
+
+		Log.d("HALLO", "Called Intersect Loop");
+		Script dropScript = sprite.getScript(sId);
+		ArrayList<Brick> bricks = dropScript.getBrickList();
+
+		int loopBegin = 0;
+		int loopEnd = 0;
+		int globalCount = 0;
+		for (Brick brick : bricks) {
+			if (brick instanceof LoopBeginBrick) {
+				loopBegin = globalCount;
+			} else if (brick instanceof LoopEndBrick) {
+				loopEnd = globalCount;
+			}
+			globalCount++;
+			if (loopEnd != 0 && loopBegin < to && to <= loopEnd) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
