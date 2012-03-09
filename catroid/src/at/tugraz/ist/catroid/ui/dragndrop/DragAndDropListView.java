@@ -36,9 +36,9 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.View.OnLongClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -212,20 +212,21 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		if (newView) {
 			itemPosition = this.position;
 			(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
+			touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
 			newView = false;
 		} else {
 			itemPosition = pointToPosition(view.getLeft(), view.getTop());
-			(getChildAt(itemPosition)).getLocationOnScreen(location);
+			int visiblePosition = itemPosition - getFirstVisiblePosition();
+			(getChildAt(visiblePosition)).getLocationOnScreen(location);
+			touchPointY = location[1] + (getChildAt(visiblePosition)).getHeight() / 2;
 		}
-
-		touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
 
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
 
-		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
-				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(80, getContext()), MeasureSpec.EXACTLY));
+		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
+				.makeMeasureSpec(Utils.getPhysicalPixels(300, getContext()), MeasureSpec.AT_MOST));
 		view.layout(0, 0, Values.SCREEN_WIDTH, view.getMeasuredHeight());
 
 		view.buildDrawingCache(true);
