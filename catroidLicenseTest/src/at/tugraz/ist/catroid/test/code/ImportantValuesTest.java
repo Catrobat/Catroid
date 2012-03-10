@@ -20,29 +20,15 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.common;
+package at.tugraz.ist.catroid.test.code;
 
-import android.os.Environment;
+import junit.framework.TestCase;
+import at.tugraz.ist.catroid.common.Consts;
 
-public final class Consts {
+public class ImportantValuesTest extends TestCase {
 
-	//public static final String PROJECT_EXTENTION = ".xml";
-	public static final String PROJECTCODE_NAME = "projectcode.xml";
-	public static final String CATROID_EXTENTION = ".catroid";
-	public static final String RECORDING_EXTENTION = ".mp3";
-
-	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";
-	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
-	public static final String IMAGE_DIRECTORY = "images";
-	public static final String SOUND_DIRECTORY = "sounds";
-
-	public static final String NO_MEDIA_FILE = ".nomedia";
-
-	//Web:
-	public static final String TOKEN = "token";
-
-	//Various:
-	public static final int BUFFER_8K = 8 * 1024;
-	public static final String PAINTROID_DOWNLOAD_LINK = "http://code.google.com/p/catroid/downloads";
-	public static final String PREF_PROJECTNAME_KEY = "projectName";
+	public void testPaintroidDownloadLink() {
+		assertEquals("wrong paintroid download link", "http://code.google.com/p/catroid/downloads",
+				Consts.PAINTROID_DOWNLOAD_LINK);
+	}
 }
