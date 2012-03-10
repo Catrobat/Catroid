@@ -60,8 +60,6 @@ import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
@@ -143,6 +141,7 @@ public class AddBrickDialog extends Dialog {
 		looksBrickList.add(new SetBrightnessBrick(sprite, 0));
 		looksBrickList.add(new ChangeBrightnessBrick(sprite, 25));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
+		looksBrickList.add(new NextCostumeBrick(sprite));
 
 		brickMap.put(context.getString(R.string.category_looks), looksBrickList);
 
@@ -188,12 +187,21 @@ public class AddBrickDialog extends Dialog {
 		ImageButton closeButton = (ImageButton) findViewById(R.id.btn_close_dialog);
 		closeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				abort();
 				dismiss();
 			}
 		});
 
 		TextView textView = (TextView) findViewById(R.id.tv_dialog_title);
 		textView.setText(category);
+	}
+
+	private void abort() {
+		scriptTabActivity.setDontcreateNewBrick();
+	}
+
+	public ScriptTabActivity getScriptTabActivity() {
+		return this.scriptTabActivity;
 	}
 
 	@Override
@@ -207,41 +215,54 @@ public class AddBrickDialog extends Dialog {
 		listView.setAdapter(adapter);
 
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Brick addedBrick = adapter.getItem(position);
 				ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (addedBrick instanceof WhenStartedBrick) {
-					Script newScript = new StartScript(projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
+						(getScriptTabActivity()).setNewScript();
+						Script newScript = new StartScript(projectManager.getCurrentSprite());
+						projectManager.addScript(newScript);
+
 						projectManager.setCurrentScript(newScript);
+					} else {
+						Brick brickClone = getBrickClone(addedBrick);
+						projectManager.getCurrentScript().addBrick(brickClone);
 					}
 				} else if (addedBrick instanceof WhenBrick) {
-					Script newScript = new WhenScript(projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
+						(getScriptTabActivity()).setNewScript();
+						Script newScript = new WhenScript(projectManager.getCurrentSprite());
+						projectManager.addScript(newScript);
+
 						projectManager.setCurrentScript(newScript);
-					}
-				} else if (addedBrick instanceof WhenBrick) {
-					Script newScript = new WhenScript(projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
-					if (projectManager.getCurrentScriptPosition() < 0) {
-						projectManager.setCurrentScript(newScript);
+					} else {
+						Brick brickClone = getBrickClone(addedBrick);
+						projectManager.getCurrentScript().addBrick(brickClone);
 					}
 				} else if (addedBrick instanceof BroadcastReceiverBrick) {
-					Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
+						(getScriptTabActivity()).setNewScript();
+						Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
+						projectManager.addScript(newScript);
+
 						projectManager.setCurrentScript(newScript);
+					} else {
+						Brick brickClone = getBrickClone(addedBrick);
+						projectManager.getCurrentScript().addBrick(brickClone);
 					}
-				} else if (addedBrick instanceof LoopBeginBrick
-						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
-						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
-					//Don't add new loop brick, only one loop per script for now
+					//				} 
+					//				else if (addedBrick instanceof LoopBeginBrick
+					//						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
+					//						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
+					//					//Don't add new loop brick, only one loop per script for now
 				} else {
 					Brick brickClone = getBrickClone(adapter.getItem(position));
+
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
+
 						Script newScript = new StartScript(projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
 
@@ -251,18 +272,20 @@ public class AddBrickDialog extends Dialog {
 						} else {
 							temp = projectManager.getCurrentScript();
 						}
+
 						projectManager.setCurrentScript(newScript);
 						projectManager.getCurrentScript().addBrick(brickClone);
 						projectManager.setCurrentScript(temp);
+
 					} else {
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}
-					if (addedBrick instanceof LoopBeginBrick) {
-						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
-								(LoopBeginBrick) brickClone);
-						projectManager.getCurrentScript().addBrick(loopEndBrick);
-						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
-					}
+					//					if (addedBrick instanceof LoopBeginBrick) {
+					//						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
+					//								(LoopBeginBrick) brickClone);
+					//						projectManager.getCurrentScript().addBrick(loopEndBrick);
+					//						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
+					//					}
 				}
 				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
 				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_BRICK_CATEGORY);
