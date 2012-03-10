@@ -216,6 +216,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		File renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 
+		UtilFile.deleteDirectory(renameDirectory);
+
 	}
 
 	public void testRenameProjectWithBlacklistedCharacters() {
@@ -231,6 +233,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		File renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
+
+		UtilFile.deleteDirectory(renameDirectory);
 	}
 
 	public void testAddNewProject() {

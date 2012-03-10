@@ -52,6 +52,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
+	private String projectNameWithBlacklistedCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
+	private String projectNameWithWhitelistedCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -72,6 +74,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		}
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
 		super.tearDown();
 	}
 
@@ -145,53 +149,49 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testCreateNewProjectWithBlacklistedCharacters() {
-		final String projectNameWithSpecialCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
+		String directoryPath = Utils.buildProjectPath(projectNameWithBlacklistedCharacters);
+		File directory = new File(directoryPath);
+		UtilFile.deleteDirectory(directory);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.clearEditText(0);
-		solo.enterText(0, projectNameWithSpecialCharacters);
+		solo.enterText(0, projectNameWithBlacklistedCharacters);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
 		//solo.goBack();
 		solo.clickOnButton(0);
-		solo.sleep(100);
+		solo.sleep(400);
 
-		String directoryPath = Utils.buildProjectPath(projectNameWithSpecialCharacters);
-		File directory = new File(directoryPath);
-		File xmlFile = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
-		assertTrue("Project directory with special characters was not set properly!", directory.isDirectory());
-		assertTrue("Project XML file with special characters was not set properly!", xmlFile.exists());
+		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
+		assertTrue("Project with blacklisted characters was not created!", file.exists());
 
-		UtilFile.deleteDirectory(directory);
 	}
 
 	public void testCreateNewProjectWithWhitelistedCharacters() {
-		final String projectNameWithSpecialCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
+		String directoryPath = Utils.buildProjectPath(projectNameWithWhitelistedCharacters);
+		File directory = new File(directoryPath);
+		UtilFile.deleteDirectory(directory);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.clearEditText(0);
-		solo.enterText(0, projectNameWithSpecialCharacters);
+		solo.enterText(0, projectNameWithWhitelistedCharacters);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
 		//solo.goBack();
 		solo.clickOnButton(0);
-		solo.sleep(100);
+		solo.sleep(400);
 
-		String directoryPath = Utils.buildProjectPath(projectNameWithSpecialCharacters);
-		File directory = new File(directoryPath);
-		File xmlFile = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
-		assertTrue("Project directory with special characters was not set properly!", directory.isDirectory());
-		assertTrue("Project XML file with special characters was not set properly!", xmlFile.exists());
+		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
+		assertTrue("Project file with whitelisted characters was not created!", file.exists());
 
-		UtilFile.deleteDirectory(directory);
 	}
 
 	public void testLoadProject() {
