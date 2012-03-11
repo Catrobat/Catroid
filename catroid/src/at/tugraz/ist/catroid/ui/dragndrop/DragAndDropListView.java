@@ -36,14 +36,16 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.View.OnLongClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
@@ -61,6 +63,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private int lowerDragBound;
 
 	private ImageView dragView;
+	private int position;
+	private boolean newView;
 
 	private ImageView trashView;
 	private int originalTrashWidth;
@@ -94,11 +98,10 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
+
 		if (dragAndDropListener != null && dragView != null) {
 			onTouchEvent(event);
 		}
-
-		touchPointY = (int) event.getRawY();
 
 		return super.onInterceptTouchEvent(event);
 	}
@@ -123,7 +126,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			if (dragAndDropListener != null) {
 				dragAndDropListener.setTouchedScript(touchedListPosition);
 			}
-
 		}
 
 		if (dragAndDropListener != null && dragView != null) {
@@ -143,6 +145,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 					if (x > getWidth() * 3 / 4) {
 						dragAndDropListener.remove(itemPosition);
 					} else {
+						//						if (itemPosition < 0) {
+						//							Log.d("TESTING", "Itemposition: " + itemPosition);
+						//							itemPosition = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() - 1;
+						//							Log.d("TESTING", "Itemposition: " + itemPosition);
+						//						}
 						dragAndDropListener.drop(itemPosition);
 					}
 
@@ -192,6 +199,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	@Override
 	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+
 		super.onSizeChanged(width, height, oldWidth, oldHeight);
 		upperScrollBound = height / 6;
 		lowerScrollBound = height * 5 / 6;
@@ -199,20 +207,39 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	public boolean onLongClick(View view) {
+		int itemPosition = -1;
+		int[] location = new int[2];
+		if (newView) {
+			itemPosition = this.position;
+			(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
+			touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
+			newView = false;
+		} else {
+			itemPosition = pointToPosition(view.getLeft(), view.getTop());
+			int visiblePosition = itemPosition - getFirstVisiblePosition();
+			(getChildAt(visiblePosition)).getLocationOnScreen(location);
+			touchPointY = location[1] + (getChildAt(visiblePosition)).getHeight() / 2;
+		}
 
-		int itemPosition = pointToPosition(view.getLeft(), view.getTop());
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
 
+		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
+				.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
+		view.layout(0, 0, Values.SCREEN_WIDTH, view.getMeasuredHeight());
+
+		view.buildDrawingCache(true);
+
 		if (view.getDrawingCache() == null) {
-			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
+			return false;
 		}
 
 		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 		view.setDrawingCacheEnabled(drawingCacheEnabled);
 
 		startDragging(bitmap, touchPointY);
+
 		dragAndDropListener.drag(itemPosition, itemPosition);
 
 		trashView.setVisibility(View.VISIBLE);
@@ -297,4 +324,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	public int getTouchedListPosition() {
 		return touchedListPosition;
 	}
+
+	public void setInsertedBrick(int pos) {
+
+		this.position = pos;
+		newView = true;
+	}
+
 }
