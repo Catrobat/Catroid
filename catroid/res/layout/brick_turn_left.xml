@@ -19,58 +19,49 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01"
-	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_blue"
-	android:focusable="false"
-	android:focusableInTouchMode="false"
->
-	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/brick_turn_left"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-	<TextView
-		android:id="@+id/LabelTextView"
-		android:text="@string/brick_turn_left_n_degrees"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true"
-		android:paddingLeft="10dip"
-		android:paddingRight="10dip"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-	<EditText
-		android:id="@+id/brick_turn_left_edit_text"
-		android:text="15"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:minWidth="75dip"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/LabelTextView"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:gravity="right"
-		android:inputType="number|numberDecimal"
-		android:maxLength="7"
-		android:maxLines="1"
-	>
-	</EditText>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_blue"
+    android:focusable="false"
+    android:focusableInTouchMode="false" >
+
+    <TextView
+        android:id="@+id/ValueTextView"
+        style="@style/brick_text_style"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="@string/brick_turn_left" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/LabelTextView"
+        style="@style/brick_text_style"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:text="@string/brick_turn_left_n_degrees" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/brick_turn_left_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/LabelTextView"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="right"
+        android:inputType="number|numberDecimal"
+        android:maxLength="7"
+        android:maxLines="1"
+        android:minWidth="75dip"
+        android:text="15" >
+    </EditText>
+
 </RelativeLayout>

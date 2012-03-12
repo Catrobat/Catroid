@@ -19,139 +19,117 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content"
-	android:layout_width="match_parent"
-	android:orientation="vertical"
-	android:background="@drawable/brick_blue"
->
-	<RelativeLayout
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:layout_centerVertical="true"
-	>
-		<TextView
-			android:text="@string/brick_glide"
-			android:layout_centerVertical="true"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:paddingRight="10dip"
-			android:textColor="@color/white"
-			android:textSize="18dip"
-			android:textStyle="bold"
-		>
-		</TextView>
-		<LinearLayout
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-		>
-			<EditText
-				android:id="@+id/brick_glide_to_duration_edit_text"
-				android:text="3"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:minWidth="60dip"
-				android:clickable="false"
-				android:focusable="false"
-				android:focusableInTouchMode="false"
-				android:gravity="right"
-				android:inputType="number"
-				android:maxLength="8"
-				android:maxLines="1"
-			>
-			</EditText>
-			<TextView
-				android:text="@string/seconds"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:paddingLeft="10dip"
-				android:paddingRight="10dip"
-				android:textColor="@color/white"
-				android:textSize="18dip"
-				android:textStyle="bold"
-			>
-			</TextView>
-		</LinearLayout>
-	</RelativeLayout>
-	
-	<RelativeLayout
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:layout_centerVertical="true"
-	>
-		<TextView
-			android:text="@string/brick_glide_to"
-			android:layout_centerVertical="true"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:paddingRight="10dip"
-			android:textColor="@color/white"
-			android:textSize="18dip"
-			android:textStyle="bold"
-		>
-		</TextView>
-		<LinearLayout
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-		>
-			<TextView
-				android:text="@string/x_label"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:paddingRight="10dip"
-				android:textColor="@color/white"
-				android:textSize="18dip"
-				android:textStyle="bold"
-			>
-			</TextView>
-			<EditText
-				android:id="@+id/brick_glide_to_x_edit_text"
-				android:text="0"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:minWidth="60dip"
-				android:clickable="false"
-				android:focusable="false"
-				android:focusableInTouchMode="false"
-				android:gravity="right"
-				android:inputType="number|numberDecimal|numberSigned"
-				android:maxLength="6"
-				android:maxLines="1"
-			>
-			</EditText>
-			<TextView
-				android:text="@string/y_label"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:paddingLeft="10dip"
-				android:paddingRight="10dip"
-				android:textColor="@color/white"
-				android:textSize="18dip"
-				android:textStyle="bold"
-			>
-			</TextView>
-			<EditText
-				android:id="@+id/brick_glide_to_y_edit_text"
-				android:text="0"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:minWidth="60dip"
-				android:clickable="false"
-				android:focusable="false"
-				android:focusableInTouchMode="false"
-				android:gravity="right"
-				android:inputType="number|numberDecimal|numberSigned"
-				android:maxLength="6"
-				android:maxLines="1"
-			>
-			</EditText>
-		</LinearLayout>
-	</RelativeLayout>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_blue"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true" >
+
+        <TextView
+            style="@style/brick_text_style"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dip"
+            android:text="@string/brick_glide" >
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" >
+
+            <EditText
+                android:id="@+id/brick_glide_to_duration_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="right"
+                android:inputType="number"
+                android:maxLength="8"
+                android:maxLines="1"
+                android:minWidth="60dip"
+                android:text="3" >
+            </EditText>
+
+            <TextView
+                style="@style/brick_text_style"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"
+                android:text="@string/seconds" >
+            </TextView>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true" >
+
+        <TextView
+            style="@style/brick_text_style"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dip"
+            android:text="@string/brick_glide_to" >
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" >
+
+            <TextView
+                style="@style/brick_text_style"
+                android:paddingRight="10dip"
+                android:text="@string/x_label" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/brick_glide_to_x_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="right"
+                android:inputType="number|numberDecimal|numberSigned"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:minWidth="60dip"
+                android:text="0" >
+            </EditText>
+
+            <TextView
+                style="@style/brick_text_style"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"
+                android:text="@string/y_label" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/brick_glide_to_y_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="right"
+                android:inputType="number|numberDecimal|numberSigned"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:minWidth="60dip"
+                android:text="0" >
+            </EditText>
+        </LinearLayout>
+    </RelativeLayout>
+
 </LinearLayout>

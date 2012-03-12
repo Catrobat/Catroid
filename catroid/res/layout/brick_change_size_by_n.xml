@@ -19,55 +19,47 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01"
-	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_violet"
-	android:orientation="horizontal"
->
-	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/brick_change_size_by"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/ChangeSizeByEditText"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-	<EditText
-		android:id="@+id/brick_change_size_by_edit_text"
-		android:text="20"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:minWidth="60dip"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:gravity="right"
-		android:maxLength="6"
-		android:maxLines="1"
-	>
-	</EditText>
-	<TextView
-		android:id="@+id/ChangeSizeByTextView"
-		android:text="@string/percent"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true"
-		android:paddingLeft="5dip"
-		android:paddingRight="10dip"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout01"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_violet"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/ValueTextView"
+        style="@style/brick_text_style"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/ChangeSizeByEditText"
+        android:paddingRight="5dp"
+        android:text="@string/brick_change_size_by" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/brick_change_size_by_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="right"
+        android:maxLength="6"
+        android:maxLines="1"
+        android:minWidth="60dip"
+        android:text="20" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/ChangeSizeByTextView"
+        style="@style/brick_text_style"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="5dip"
+        android:paddingRight="10dip"
+        android:text="@string/percent" >
+    </TextView>
+
 </LinearLayout>
