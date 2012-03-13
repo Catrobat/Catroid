@@ -45,6 +45,7 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.basic.StringConverter;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -302,6 +303,24 @@ public class StorageHandler {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public String getProjectNameFromXML(String directoryName) {
+		try {
+			xstream.registerLocalConverter(String.class, "projectName", new StringConverter());
+			File projectDirectory = new File(Utils.buildProjectPath(directoryName));
+
+			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
+				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
+						Consts.PROJECTCODE_NAME));
+				return (String) xstream.fromXML(projectFileStream);
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 
