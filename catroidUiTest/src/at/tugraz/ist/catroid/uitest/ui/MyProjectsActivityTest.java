@@ -37,6 +37,7 @@ import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -199,6 +200,41 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
 				.getCurrentProject().getName());
+	}
+
+	public void testRenameProjectWithWhitelistedCharacters() {
+		final String renameString = "[Hey+, =lo_ok. I'm; -special! too!]";
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, renameString);
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.ok));
+		solo.sleep(200);
+		File renameDirectory = new File(Utils.buildProjectPath(renameString));
+		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
+
+		UtilFile.deleteDirectory(renameDirectory);
+
+	}
+
+	public void testRenameProjectWithBlacklistedCharacters() {
+		final String renameString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, renameString);
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.ok));
+		solo.sleep(200);
+		File renameDirectory = new File(Utils.buildProjectPath(renameString));
+		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
+
+		UtilFile.deleteDirectory(renameDirectory);
 	}
 
 	public void testAddNewProject() {
