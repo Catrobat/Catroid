@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -35,7 +34,6 @@ import at.tugraz.ist.catroid.test.utils.Utils;
 
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
-	private static final String[] IGNORED_FILES = { "DashboardLayout.java" };
 
 	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;
@@ -102,9 +100,7 @@ public class LicenseTest extends TestCase {
 			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory,
 					new String[] { ".java", ".xml" });
 			for (File file : filesToCheck) {
-				if (!Arrays.asList(IGNORED_FILES).contains(file.getName())) {
-					checkFileForLicense(file, agplLicenseText);
-				}
+				checkFileForLicense(file, agplLicenseText);
 			}
 		}
 		assertTrue("Correct license text was not found in all files:\n" + errorMessages.toString(),
