@@ -19,20 +19,16 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="horizontal"
-  android:layout_height="wrap_content"
-  android:layout_width="fill_parent"
-  android:background="@drawable/brick_blue"
->
-  <TextView
-    android:text="@string/brick_if_on_edge_bounce"
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_width="fill_parent"
-    android:textColor="@color/white"
-    android:textSize="18dip"
-    android:textStyle="bold" />
+    android:background="@drawable/brick_blue"
+    android:orientation="horizontal" >
+
+    <TextView
+        style="@style/brick_text_style"
+        android:text="@string/brick_if_on_edge_bounce" />
+
 </LinearLayout>

@@ -91,6 +91,11 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		createTestProject(testProject);
 		addABrickToProject();
 
+		//intent to the main activity is sent since changing activity orientation is not working
+		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
+
 		UiTestUtils.createValidUser(getActivity());
 
 		uploadProject();
@@ -137,9 +142,15 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnEditText(1);
 		solo.enterText(1, "the project description");
 
+		//		solo.setActivityOrientation(Solo.LANDSCAPE);
+
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
 
+		solo.sleep(500);
+
 		try {
+			solo.setActivityOrientation(Solo.LANDSCAPE);
+
 			solo.waitForDialogToClose(10000);
 			assertTrue("Upload failed. Internet connection?",
 					solo.searchText(getActivity().getString(R.string.success_project_upload)));
@@ -150,7 +161,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 			solo.clickOnButton(0);
 		} catch (JSONException e) {
-			assertFalse("json exception orrured", true);
+			fail("JSON exception orrured");
 		}
 	}
 

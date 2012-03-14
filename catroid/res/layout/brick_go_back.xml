@@ -19,60 +19,51 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/LinearLayout01"
-	android:orientation="horizontal"
-	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_blue"
->
-	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/brick_go_back"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:paddingRight="10dip"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-	<EditText
-		android:id="@+id/brick_go_back_edit_text"
-		android:text="1"
-		android:layout_height="wrap_content"
-		android:layout_width="50dp"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/LabelTextView"
-		android:clickable="true"
-		android:cursorVisible="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:freezesText="false"
-		android:gravity="right"
-		android:inputType="number"
-		android:maxLines="1"
-		android:maxLength="5"
-	>
-	</EditText>
-	<TextView
-		android:id="@+id/LabelTextView"
-		android:text="@string/brick_go_back_layers"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true"
-		android:paddingBottom="10dip"
-		android:paddingLeft="10dip"
-		android:paddingRight="10dip"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_blue"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/ValueTextView"
+        style="@style/brick_text_style"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dip"
+        android:text="@string/brick_go_back" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/brick_go_back_edit_text"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/LabelTextView"
+        android:clickable="true"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:freezesText="false"
+        android:gravity="right"
+        android:inputType="number"
+        android:maxLength="5"
+        android:maxLines="1"
+        android:text="1" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/LabelTextView"
+        style="@style/brick_text_style"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="10dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:text="@string/brick_go_back_layers" >
+    </TextView>
+
 </LinearLayout>

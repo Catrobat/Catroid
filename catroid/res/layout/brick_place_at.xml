@@ -19,8 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,20 +37,15 @@
 
         <TextView
             android:id="@+id/TextView01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/brick_text_style"
             android:paddingRight="10dip"
-            android:text="@string/x_label"
-            android:textColor="@color/white"
-            android:textSize="18dip"
-            android:textStyle="bold" >
+            android:text="@string/x_label" >
         </TextView>
 
         <EditText
             android:id="@+id/brick_place_at_x_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="60dip"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -59,26 +53,22 @@
             android:inputType="number|numberDecimal|numberSigned"
             android:maxLength="5"
             android:maxLines="1"
+            android:minWidth="60dip"
             android:text="0" >
         </EditText>
 
         <TextView
             android:id="@+id/TextView02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/brick_text_style"
             android:paddingLeft="10dip"
             android:paddingRight="10dip"
-            android:text="@string/y_label"
-            android:textColor="@color/white"
-            android:textSize="18dip"
-            android:textStyle="bold" >
+            android:text="@string/y_label" >
         </TextView>
 
         <EditText
             android:id="@+id/brick_place_at_y_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="60dip"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -86,21 +76,18 @@
             android:inputType="number|numberDecimal|numberSigned"
             android:maxLength="5"
             android:maxLines="1"
+            android:minWidth="60dip"
             android:text="0" >
         </EditText>
     </LinearLayout>
 
     <TextView
         android:id="@+id/ValueTextViewXY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/brick_text_style"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/brick_place_at_linear_layout"
-        android:text="@string/brick_place_at"
-        android:textColor="@color/white"
-        android:textSize="18dip"
-        android:textStyle="bold" >
+        android:text="@string/brick_place_at" >
     </TextView>
 
 </RelativeLayout>

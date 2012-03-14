@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.uitest.util;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -456,7 +457,7 @@ public class UiTestUtils {
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-			assertEquals("Error creating test User. ", true, false);
+			fail("Error creating test user.");
 		}
 	}
 

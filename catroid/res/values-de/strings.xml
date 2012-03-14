@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -51,7 +51,6 @@
     <string name="current_project">Aktuelles Projekt:</string>
     <string name="current_project_button">Aktuelles Projekt</string>
     <string name="my_projects">Meine Projekte</string>
-    <string name="tutorial">Anleitung</string>
     <string name="settings">Einstellungen</string>
     <string name="web_resources">Internet-Ressourcen</string>
     <string name="forum">Forum</string>
@@ -111,16 +110,16 @@
     <string name="soundrecorder_recording">Aufnahme gestartet...</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
-    
+
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
-    
+
     <!-- My Projects activity -->
     <string name="last_changed">Zuletzt geändert:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projeckt umbenennen</string>
-        
+
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menü</string>
 
