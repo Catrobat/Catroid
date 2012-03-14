@@ -146,6 +146,29 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
+		solo.clickOnButton(0);
+
+		directory = new File(Utils.buildProjectPath("te?st"));
+		String name = "te/st:";
+		directory.mkdirs();
+		solo.sleep(50);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, name);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(name));
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+
+		assertTrue("No error message was displayed upon creating a project with the same name twice.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+
+		UtilFile.deleteDirectory(directory);
+
 	}
 
 	public void testCreateNewProjectWithBlacklistedCharacters() {
