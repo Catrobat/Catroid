@@ -39,7 +39,7 @@ public class SoundInfo implements Comparable<SoundInfo> {
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return Utils.buildPath(getPathWithoutFileName(), fileName);
+			return Utils.buildPath(getPathToSoundDirectory(), fileName);
 		} else {
 			return null;
 		}
@@ -68,8 +68,8 @@ public class SoundInfo implements Comparable<SoundInfo> {
 		return fileName.substring(0, 32);
 	}
 
-	private String getPathWithoutFileName() {
-		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
+	private String getPathToSoundDirectory() {
+		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Consts.SOUND_DIRECTORY);
 	}
 

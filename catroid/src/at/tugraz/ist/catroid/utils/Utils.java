@@ -142,6 +142,10 @@ public class Utils {
 		return returnValue;
 	}
 
+	static public String buildProjectPath(String projectName) {
+		return Consts.DEFAULT_ROOT + "/" + deleteSpecialCharactersInString(projectName);
+	}
+
 	/**
 	 * @param projectFileName
 	 * @return the project name without the default file extension, else returns unchanged string
@@ -315,5 +319,9 @@ public class Utils {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 		}
+	}
+
+	public static String deleteSpecialCharactersInString(String stringToAdapt) {
+		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}
 }
