@@ -97,7 +97,7 @@ public class StorageHandler {
 				return (Project) xstream.fromXML(spfFileStream);
 			}
 
-			File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
+			File projectDirectory = new File(Utils.buildProjectPath(projectName));
 
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
@@ -121,7 +121,7 @@ public class StorageHandler {
 		try {
 			String projectFile = xstream.toXML(project);
 
-			String projectDirectoryName = Utils.buildPath(Consts.DEFAULT_ROOT, project.getName());
+			String projectDirectoryName = Utils.buildProjectPath(project.getName());
 			File projectDirectory = new File(projectDirectoryName);
 
 			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
@@ -159,13 +159,13 @@ public class StorageHandler {
 
 	public boolean deleteProject(Project project) {
 		if (project != null) {
-			return UtilFile.deleteDirectory(new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName())));
+			return UtilFile.deleteDirectory(new File(Utils.buildProjectPath(project.getName())));
 		}
 		return false;
 	}
 
 	public boolean projectExists(String projectName) {
-		File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
+		File projectDirectory = new File(Utils.buildProjectPath(projectName));
 		if (!projectDirectory.exists()) {
 			return false;
 		}
@@ -174,7 +174,7 @@ public class StorageHandler {
 
 	public File copySoundFile(String path) throws IOException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-		File soundDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, currentProject, Consts.SOUND_DIRECTORY));
+		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject), Consts.SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -195,7 +195,8 @@ public class StorageHandler {
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
 		String newFilePath;
-		File imageDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, currentProjectName, Consts.IMAGE_DIRECTORY));
+		File imageDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProjectName),
+				Consts.IMAGE_DIRECTORY));
 
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {

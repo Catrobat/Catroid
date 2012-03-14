@@ -138,10 +138,10 @@ public class StandardProjectHandler {
 	}
 
 	private static File createBackgroundImage(String projectName) throws FileNotFoundException {
-		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
+		String directoryName = Utils.buildPath(Utils.buildProjectPath(projectName), Consts.IMAGE_DIRECTORY);
 		File backgroundTemp = new File(Utils.buildPath(directoryName, BACKGROUND));
-		Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT, Color
-				.parseColor(BACKGROUND_COLOR));
+		Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT,
+				Color.parseColor(BACKGROUND_COLOR));
 		StorageHandler.saveBitmapToImageFile(backgroundTemp, backgroundBitmap);
 		File backgroundFile = new File(directoryName, Utils.md5Checksum(backgroundTemp) + "_"
 				+ backgroundTemp.getName());
@@ -151,7 +151,7 @@ public class StandardProjectHandler {
 
 	private static File copyAndScaleImageToProject(String projectName, Context context, String imageName, int imageId)
 			throws IOException {
-		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
+		String directoryName = Utils.buildPath(Utils.buildProjectPath(projectName), Consts.IMAGE_DIRECTORY);
 		File tempImageFile = savePictureFromResourceInProject(projectName, imageName, imageId, context);
 
 		int[] dimensions = ImageEditing.getImageDimensions(tempImageFile.getAbsolutePath());
@@ -175,7 +175,7 @@ public class StandardProjectHandler {
 	private static File savePictureFromResourceInProject(String project, String outputName, int fileId, Context context)
 			throws IOException {
 
-		final String imagePath = Utils.buildPath(Consts.DEFAULT_ROOT, project, Consts.IMAGE_DIRECTORY, outputName);
+		final String imagePath = Utils.buildPath(Utils.buildProjectPath(project), Consts.IMAGE_DIRECTORY, outputName);
 		File testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();
