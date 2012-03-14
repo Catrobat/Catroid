@@ -129,6 +129,7 @@
     <string name="new_project_dialog_button">Create</string>
     <string name="new_project_dialog_title">Name of new project</string>
     <string name="new_project_dialog_default_project_name">projectname</string>
+    <string name="new_project_dialog_hint">projectname</string>
 
     <!-- Rename Dialog -->
     <string name="rename_hint">Name</string>
