@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.nativetest.io;
 import java.io.IOException;
 
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
@@ -151,7 +152,10 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 	}
 
 	public void testGetProjectNameFromXML() {
-		String name = "Mein erstes Projekt";
+		String name = "tes?t<Proj>ek/t";
+		Project project = new Project(getInstrumentation().getContext(), name);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().saveProject();
 		String projectName = StorageHandler.getInstance().getProjectNameFromXML(name);
 		assertEquals("Project name is not the same!", name, projectName);
 	}

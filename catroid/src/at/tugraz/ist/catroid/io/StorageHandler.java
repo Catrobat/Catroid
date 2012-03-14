@@ -22,7 +22,9 @@
  */
 package at.tugraz.ist.catroid.io;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,7 +47,6 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.basic.StringConverter;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -308,16 +309,22 @@ public class StorageHandler {
 
 	public String getProjectNameFromXML(String directoryName) {
 		try {
-			xstream.registerLocalConverter(String.class, "projectName", new StringConverter());
 			File projectDirectory = new File(Utils.buildProjectPath(directoryName));
 
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
-						Consts.PROJECTCODE_NAME));
-				return (String) xstream.fromXML(projectFileStream);
-			} else {
-				return null;
+				String xmlPath = Utils.buildPath(projectDirectory.getAbsolutePath(), Consts.PROJECTCODE_NAME);
+				DataInputStream data = new DataInputStream(new BufferedInputStream(new FileInputStream(xmlPath)));
+				boolean found = true;
+				while (found && (data.available() != 0)) {
+					String[] splitString = data.readLine().trim().split("<projectName>");
+					if (splitString[0].matches("")) {
+						String[] projectName = splitString[1].split("</projectName>");
+						found = false;
+						return projectName[0];
+					}
+				}
 			}
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

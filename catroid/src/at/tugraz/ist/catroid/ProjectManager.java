@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
