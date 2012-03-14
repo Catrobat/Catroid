@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
@@ -149,22 +148,21 @@ public class ProjectManager {
 			return false;
 		}
 
-		File oldProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName()));
-		File oldProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), Consts.PROJECTCODE_NAME));
+		String oldProjectPath = Utils.buildProjectPath(project.getName());
+		File oldProjectDirectory = new File(oldProjectPath);
 
-		File newProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, newProjectName));
-		File newProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), Consts.PROJECTCODE_NAME));
+		String newProjectPath = Utils.buildProjectPath(newProjectName);
+		File newProjectDirectory = new File(newProjectPath);
 
 		project.setName(newProjectName);
 
-		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 
-		if (directoryRenamed && fileRenamed) {
+		if (directoryRenamed) {
 			this.saveProject();
 		}
 
-		return (directoryRenamed && fileRenamed);
+		return (directoryRenamed);
 	}
 
 	public Sprite getCurrentSprite() {
