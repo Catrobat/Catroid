@@ -40,7 +40,7 @@ public class CostumeData {
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return Utils.buildPath(getPathWithoutFileName(), fileName);
+			return Utils.buildPath(getPathToImageDirectory(), fileName);
 		} else {
 			return null;
 		}
@@ -77,7 +77,7 @@ public class CostumeData {
 		return fileName.substring(0, 32);
 	}
 
-	public String getPathWithoutFileName() {
+	private String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Consts.IMAGE_DIRECTORY);
 	}
