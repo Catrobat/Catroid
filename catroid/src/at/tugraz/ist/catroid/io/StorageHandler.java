@@ -22,9 +22,7 @@
  */
 package at.tugraz.ist.catroid.io;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -304,30 +302,6 @@ public class StorageHandler {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
-	}
-
-	public String getProjectNameFromXML(String directoryName) {
-		try {
-			File projectDirectory = new File(Utils.buildProjectPath(directoryName));
-
-			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				String xmlPath = Utils.buildPath(projectDirectory.getAbsolutePath(), Consts.PROJECTCODE_NAME);
-				DataInputStream data = new DataInputStream(new BufferedInputStream(new FileInputStream(xmlPath)));
-				boolean found = true;
-				while (found && (data.available() != 0)) {
-					String[] splitString = data.readLine().trim().split("<projectName>");
-					if (splitString[0].matches("")) {
-						String[] projectName = splitString[1].split("</projectName>");
-						found = false;
-						return projectName[0];
-					}
-				}
-			}
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
 		}
 	}
 
