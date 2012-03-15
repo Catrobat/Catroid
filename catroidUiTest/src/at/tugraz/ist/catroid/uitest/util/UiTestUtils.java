@@ -370,6 +370,16 @@ public class UiTestUtils {
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "My first project");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "Mein erstes Projekt");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
 	}
 
 	public static Object getPrivateField(String fieldName, Object object) {

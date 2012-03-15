@@ -109,11 +109,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			UtilFile.deleteDirectory(renameDirectory);
 			renameDirectory = null;
 		}
-		renameDirectory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
-		if (renameDirectory != null && renameDirectory.isDirectory()) {
-			UtilFile.deleteDirectory(renameDirectory);
-			renameDirectory = null;
-		}
 
 		String zipFileString = Utils.buildPath(Consts.DEFAULT_ROOT, ZIPFILE_NAME);
 		File zipFile = new File(zipFileString);
