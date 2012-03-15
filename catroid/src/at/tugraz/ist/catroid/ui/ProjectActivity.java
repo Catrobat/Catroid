@@ -145,7 +145,7 @@ public class ProjectActivity extends ListActivity {
 				+ ProjectManager.getInstance().getCurrentProject().getName();
 		activityHelper.setupActionBar(false, title);
 
-		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black, R.string.add,
+		activityHelper.addActionButton(R.id.btn_action_add_button, R.drawable.ic_plus_black, R.string.add,
 				new View.OnClickListener() {
 					public void onClick(View v) {
 						showDialog(DIALOG_NEW_SPRITE);
@@ -261,8 +261,8 @@ public class ProjectActivity extends ListActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Utils.saveToPreferences(this, Consts.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
-					.getCurrentProject().getName());
+			Utils.saveToPreferences(this, Consts.PREF_PROJECTNAME_KEY, ProjectManager.getInstance().getCurrentProject()
+					.getName());
 			Intent intent = new Intent(this, MainMenuActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			this.startActivity(intent);

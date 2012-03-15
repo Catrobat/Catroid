@@ -104,7 +104,7 @@ public class MyProjectsActivity extends ListActivity {
 		activityHelper = new ActivityHelper(this);
 		activityHelper.setupActionBar(false, title);
 
-		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black, R.string.add,
+		activityHelper.addActionButton(R.id.btn_action_add_button, R.drawable.ic_plus_black, R.string.add,
 				new View.OnClickListener() {
 					public void onClick(View v) {
 						showDialog(DIALOG_NEW_PROJECT);

@@ -83,7 +83,7 @@ public class CostumeActivity extends ListActivity {
 		ActivityHelper activityHelper = scriptTabActivity.activityHelper;
 		if (activityHelper != null) {
 			//set new functionality for actionbar add button:
-			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
+			activityHelper.changeClickListener(R.id.btn_action_add_button, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
 			int addButtonIcon;
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
@@ -92,7 +92,7 @@ public class CostumeActivity extends ListActivity {
 			} else {
 				addButtonIcon = R.drawable.ic_actionbar_shirt;
 			}
-			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, addButtonIcon);
+			activityHelper.changeButtonIcon(R.id.btn_action_add_button, addButtonIcon);
 		}
 
 	}
