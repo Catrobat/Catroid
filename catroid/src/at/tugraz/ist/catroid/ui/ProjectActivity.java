@@ -257,17 +257,4 @@ public class ProjectActivity extends ListActivity {
 
 	public void handleProjectActivityItemLongClick(View view) {
 	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Utils.saveToPreferences(this, Consts.PREF_PROJECTNAME_KEY, ProjectManager.getInstance().getCurrentProject()
-					.getName());
-			Intent intent = new Intent(this, MainMenuActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			this.startActivity(intent);
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-
 }
