@@ -71,7 +71,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnText(currentProject);
 		solo.clickOnText(background);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		assertFalse("Lego brick category is showing!",
 				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
 		solo.goBack();
@@ -83,7 +83,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 		solo.clickOnText(currentProject);
 		solo.clickOnText(background);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		assertTrue("Lego brick category is not showing!",
 				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
 

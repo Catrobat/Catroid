@@ -81,9 +81,9 @@ public class SoundActivity extends ListActivity {
 		ActivityHelper activityHelper = scriptTabActivity.activityHelper;
 		if (activityHelper != null) {
 			//set new functionality for actionbar add button:
-			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddSoundClickListener());
+			activityHelper.changeClickListener(R.id.btn_action_add_button, createAddSoundClickListener());
 			//set new icon for actionbar plus button:
-			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_music);
+			activityHelper.changeButtonIcon(R.id.btn_action_add_button, R.drawable.ic_music);
 		}
 
 	}

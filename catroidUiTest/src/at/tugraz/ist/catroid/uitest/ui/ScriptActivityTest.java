@@ -96,7 +96,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 			solo.clickOnText(getActivity().getString(R.string.current_project_button));
 			solo.clickOnText(getActivity().getString(R.string.background));
 		}
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_motion)));
@@ -175,27 +175,27 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.sleep(200);
 		solo.clickOnText(currentProject);
 		solo.clickOnText(background);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(categoryLooks);
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 		solo.clickOnText(nextBackground);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
 	}
 
 	public void testSelectCategoryDialogOnOrientationChange() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_motion)));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
@@ -225,7 +225,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testAddBrickDialogOnOrientationChange() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(getActivity().getString(R.string.category_motion));
 		assertTrue("Not in AddBrickDialog - category motion",
 				solo.searchText(getActivity().getString(R.string.brick_place_at)));

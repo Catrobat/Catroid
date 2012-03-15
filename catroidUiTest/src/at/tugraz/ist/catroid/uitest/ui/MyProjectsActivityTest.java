@@ -240,7 +240,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void testAddNewProject() {
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
