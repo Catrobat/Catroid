@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -183,6 +184,10 @@ public class MainMenuActivity extends Activity {
 				EditText passwordEditText = (EditText) dialog.findViewById(R.id.password);
 				usernameEditText.setText("");
 				passwordEditText.setText("");
+				break;
+			case DIALOG_NEW_PROJECT:
+				Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_text_ok);
+				buttonPositive.setEnabled(false);
 				break;
 		}
 	}

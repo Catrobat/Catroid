@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -37,6 +38,7 @@ import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -45,6 +47,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	private final int RESOURCE_IMAGE = R.drawable.catroid_sunglasses;
 	private Solo solo;
+	private final String ZIPFILE_NAME = "testzip";
+	private File renameDirectory = null;
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
 	//	private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
@@ -56,9 +60,30 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	@Override
 	public void setUp() {
 
-		//delete all projects
 		File directory;
 		File rootDirectory = new File(Consts.DEFAULT_ROOT);
+		String[] paths = rootDirectory.list();
+
+		if (paths == null) {
+			fail("could not determine catroid directory");
+		}
+
+		for (int i = 0; i < paths.length; i++) {
+			paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
+		}
+		try {
+			String zipFileString = Utils.buildPath(Consts.DEFAULT_ROOT, ZIPFILE_NAME);
+			File zipFile = new File(zipFileString);
+			if (!zipFile.exists()) {
+				zipFile.getParentFile().mkdirs();
+				zipFile.createNewFile();
+			}
+			if (!UtilZip.writeToZipFile(paths, zipFileString)) {
+				zipFile.delete();
+			}
+		} catch (IOException e) {
+		}
+
 		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
 			directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 			if (directory.exists()) {
@@ -80,6 +105,16 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
+		if (renameDirectory != null && renameDirectory.isDirectory()) {
+			UtilFile.deleteDirectory(renameDirectory);
+			renameDirectory = null;
+		}
+
+		String zipFileString = Utils.buildPath(Consts.DEFAULT_ROOT, ZIPFILE_NAME);
+		File zipFile = new File(zipFileString);
+		UtilZip.unZipFile(zipFileString, Consts.DEFAULT_ROOT);
+		zipFile.delete();
+
 		super.tearDown();
 	}
 
@@ -169,7 +204,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("default project not visible", solo.searchText(defaultProjectName));
 		assertEquals("the current project is not the default project", defaultProjectName, projectManager
 				.getCurrentProject().getName());
-
 	}
 
 	public void testRenameProject() {
@@ -213,11 +247,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
 		solo.sleep(200);
-		File renameDirectory = new File(Utils.buildProjectPath(renameString));
+		renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
-
-		UtilFile.deleteDirectory(renameDirectory);
-
 	}
 
 	public void testRenameProjectWithBlacklistedCharacters() {
@@ -231,10 +262,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
 		solo.sleep(200);
-		File renameDirectory = new File(Utils.buildProjectPath(renameString));
+		renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
-
-		UtilFile.deleteDirectory(renameDirectory);
 	}
 
 	public void testAddNewProject() {
@@ -252,6 +281,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 		solo.goBack();
 		solo.sleep(200);
+		solo.assertCurrentActivity("not in MainMenuActivity after goBack from ProjectActivity", MainMenuActivity.class);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added", solo.searchText(UiTestUtils.PROJECTNAME2));
 	}
