@@ -18,9 +18,12 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
+
     <dimen name="actionbar_height">45dp</dimen>
     <dimen name="actionbar_catroid_logo">110dp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+
 </resources>

@@ -19,42 +19,46 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="@dimen/actionbar_height"
-	android:orientation="horizontal">
-	<LinearLayout 
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent"
-		android:layout_height="@dimen/actionbar_height"
-		android:background="@drawable/actionbar_background" 
-		android:layout_weight="0.1">       
-		<TextView 
-			xmlns:android="http://schemas.android.com/apk/res/android"
-			android:id="@+id/tv_dialog_title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"    
-			android:text="If you see this, something went wrong."
-			android:textSize="15dip"
-			android:textColor="#333333"
-			android:textStyle="bold"
-			android:layout_gravity="center"
-			android:paddingLeft="10dip"/>
-	</LinearLayout>
-	<ImageView
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="2px"
-		android:layout_height="@dimen/actionbar_height"
-		android:background="@drawable/actionbar_separator" />
-	<ImageButton
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@+id/btn_close_dialog"
-		android:layout_width="@dimen/actionbar_height"
-		android:layout_height="@dimen/actionbar_height"
-		android:layout_gravity="center"
-		android:src="@drawable/ic_close_black"
-		android:background="@drawable/btn_close_dialog_selector" />
-</LinearLayout> 
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/actionbar_height"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:layout_weight="0.1"
+        android:background="@drawable/actionbar_background" >
+
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="10dip"
+            android:text="If you see this, something went wrong."
+            android:textColor="#333333"
+            android:textSize="15dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="2px"
+        android:layout_height="@dimen/actionbar_height"
+        android:background="@drawable/actionbar_separator" />
+
+    <ImageButton
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/btn_close_dialog"
+        android:layout_width="@dimen/actionbar_height"
+        android:layout_height="@dimen/actionbar_height"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_close_dialog_selector"
+        android:src="@drawable/ic_close_black" />
+
+</LinearLayout>

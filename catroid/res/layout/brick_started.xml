@@ -19,23 +19,18 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_script"
-	android:orientation="horizontal"
->
-	<TextView
-		android:id="@+id/StartedBrick"
-		android:text="@string/brick_when_started"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_script"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/StartedBrick"
+        style="@style/brick_text_style"
+        android:text="@string/brick_when_started" >
+    </TextView>
+
 </LinearLayout>

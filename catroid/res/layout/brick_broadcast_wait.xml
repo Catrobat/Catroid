@@ -19,48 +19,45 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="horizontal"
->
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:background="@drawable/brick_yellow"
-	>
-		<TextView
-			android:text="@string/brick_broadcast_wait"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:textColor="@color/white"
-			android:textSize="18dip"
-			android:textStyle="bold" />
-			<LinearLayout
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-			>
-				<Spinner 
-					android:id="@+id/broadcast_spinner" 
-					android:layout_width="wrap_content" 
-					android:layout_height="wrap_content"
-					android:layout_weight="5"
-					android:focusable="false"
-					android:clickable="false"
-				/>
-				<Button 
-					android:layout_width="wrap_content" 
-					android:id="@+id/broadcast_new_message" 
-					android:layout_height="wrap_content" 
-					android:text="@string/new_broadcast_message" 
-					android:layout_weight="1"
-					android:focusable = "false"
-					android:clickable="false"/>
-			</LinearLayout>
-	</LinearLayout>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/brick_yellow"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/brick_text_style"
+            android:text="@string/brick_broadcast_wait" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/broadcast_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:clickable="false"
+                android:focusable="false" />
+
+            <Button
+                android:id="@+id/broadcast_new_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:focusable="false"
+                android:text="@string/new_broadcast_message" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

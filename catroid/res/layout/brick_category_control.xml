@@ -19,23 +19,18 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:background="@drawable/brick_yellow"
->
-	<TextView
-		android:text="@string/category_control"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-		android:paddingTop="15dip"
-		android:paddingBottom="15dip"
-	>
-	</TextView>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_yellow" >
+
+    <TextView
+        style="@style/brick_text_style"
+        android:paddingBottom="15dip"
+        android:paddingTop="15dip"
+        android:text="@string/category_control" >
+    </TextView>
+
 </LinearLayout>

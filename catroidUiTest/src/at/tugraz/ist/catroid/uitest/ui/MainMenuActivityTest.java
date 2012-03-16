@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
@@ -44,6 +43,7 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -52,6 +52,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
+	private String projectNameWithBlacklistedCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
+	private String projectNameWithWhitelistedCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -72,6 +74,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		}
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
 		super.tearDown();
 	}
 
@@ -142,29 +146,75 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
-	}
+		solo.clickOnButton(0);
 
-	public void testCreateNewProjectWithSpecialCharacters() {
-		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
-
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
+		directory = new File(Utils.buildProjectPath("te?st"));
+		String name = "te/st:";
+		directory.mkdirs();
+		solo.sleep(50);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.clearEditText(0);
-		solo.enterText(0, projectNameWithSpecialCharacters);
+		solo.enterText(0, name);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(name));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		//solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
-		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance()
-				.getCurrentProject().getName(), projectNameWithSpecialCharacters);
+		assertTrue("No error message was displayed upon creating a project with the same name twice.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameWithSpecialCharacters);
 		UtilFile.deleteDirectory(directory);
+
+	}
+
+	public void testCreateNewProjectWithBlacklistedCharacters() {
+		String directoryPath = Utils.buildProjectPath(projectNameWithBlacklistedCharacters);
+		File directory = new File(directoryPath);
+		UtilFile.deleteDirectory(directory);
+
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameWithBlacklistedCharacters);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
+		//solo.goBack();
+		solo.clickOnButton(0);
+		solo.sleep(400);
+
+		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
+		assertTrue("Project with blacklisted characters was not created!", file.exists());
+
+	}
+
+	public void testCreateNewProjectWithWhitelistedCharacters() {
+		String directoryPath = Utils.buildProjectPath(projectNameWithWhitelistedCharacters);
+		File directory = new File(directoryPath);
+		UtilFile.deleteDirectory(directory);
+
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameWithWhitelistedCharacters);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
+		//solo.goBack();
+		solo.clickOnButton(0);
+		solo.sleep(400);
+
+		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
+		assertTrue("Project file with whitelisted characters was not created!", file.exists());
+
 	}
 
 	public void testLoadProject() {

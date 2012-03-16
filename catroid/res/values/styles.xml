@@ -19,48 +19,68 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
-	<style name="stage_dialog" parent="android:style/Theme.Dialog">
+
+    <style name="stage_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>   
-        <item name="android:windowAnimationStyle">@style/rotate_dialog_animation</item>     
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowAnimationStyle">@style/rotate_dialog_animation</item>
     </style>
-    
+
     <style name="custom_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>   
-        <item name="android:windowAnimationStyle">@style/slide_left_dialog_animation</item>     
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowAnimationStyle">@style/slide_left_dialog_animation</item>
     </style>
-    
+
     <style name="brick_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>   
-        <item name="android:windowAnimationStyle">@style/slide_up_dialog_animation</item>     
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowAnimationStyle">@style/slide_up_dialog_animation</item>
     </style>
-    
-   	<style name="settings_activity" parent="android:Theme.Light">
-    	<item name="android:windowNoTitle">true</item>
-   	    <item name="android:windowBackground">@drawable/bg_dialog</item>
-	</style>
-    
+
+    <style name="settings_activity" parent="android:Theme.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
+    </style>
+
     <style name="rotate_dialog_animation">
         <item name="android:windowEnterAnimation">@anim/rotate_in_left</item>
         <item name="android:windowExitAnimation">@anim/rotate_out_left</item>
     </style>
-    
+
     <style name="slide_left_dialog_animation">
         <item name="android:windowEnterAnimation">@anim/slide_in</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>
     </style>
-    
+
     <style name="slide_up_dialog_animation">
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
-    
+
+    <style name="DashboardButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="brick_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

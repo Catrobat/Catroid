@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.uitest.util;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -200,7 +201,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId) {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 	}
@@ -456,7 +457,7 @@ public class UiTestUtils {
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-			assertEquals("Error creating test User. ", true, false);
+			fail("Error creating test user.");
 		}
 	}
 
