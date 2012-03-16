@@ -33,7 +33,7 @@ import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 
 public class CatroidFieldKeySorter implements FieldKeySorter {
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Map sort(final Class type, final Map keyedByFieldKey) {
 		final Map map = new TreeMap(new Comparator() {
 

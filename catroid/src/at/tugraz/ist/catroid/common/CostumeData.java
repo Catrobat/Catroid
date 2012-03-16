@@ -40,7 +40,7 @@ public class CostumeData {
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return Utils.buildPath(getPathWithoutFileName(), fileName);
+			return Utils.buildPath(getPathToImageDirectory(), fileName);
 		} else {
 			return null;
 		}
@@ -77,14 +77,15 @@ public class CostumeData {
 		return fileName.substring(0, 32);
 	}
 
-	public String getPathWithoutFileName() {
-		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
+	private String getPathToImageDirectory() {
+		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Consts.IMAGE_DIRECTORY);
 	}
 
 	public Bitmap getThumbnailBitmap() {
 		if (thumbnailBitmap == null) {
-			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH, false);
+			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_HEIGHT,
+					THUMBNAIL_WIDTH, false);
 		}
 		return thumbnailBitmap;
 	}

@@ -193,4 +193,16 @@ public class UtilsTest extends TestCase {
 		String testString2 = (String) TestUtils.invokeMethod(new Test(), "testMethod2", methodParams, methodArgs);
 		assertEquals("Calling private method with arguments failed!", test1 + " " + test2, testString2);
 	}
+
+	public void testDeleteSpecialCharactersFromString() {
+		String testString = "This:IsA-\" */ :<Very>?|Very\\\\Long_Test_String";
+		String newString = Utils.deleteSpecialCharactersInString(testString);
+		assertEquals("Strings are not equal!", "ThisIsA-  VeryVeryLong_Test_String", newString);
+	}
+
+	public void testBuildProjectPath() {
+		String projectName1 = "test?Projekt\"1";
+		String result1 = "/mnt/sdcard/catroid/testProjekt1";
+		assertEquals("Paths are different!", result1, Utils.buildProjectPath(projectName1));
+	}
 }

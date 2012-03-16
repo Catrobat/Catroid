@@ -33,44 +33,38 @@
 	<TextView
 		android:id="@+id/ValueTextView"
 		android:text="@string/brick_repeat"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
 		android:layout_centerVertical="true"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
+		style="@style/brick_text_style"
 	>
 	</TextView>
 	<TextView
 		android:id="@+id/LabelTextView"
 		android:text="@string/times_label"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
+
 		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
 		android:paddingLeft="10dip"
 		android:paddingRight="10dip"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
+style="@style/brick_text_style"
 	>
 	</TextView>
+
 	<EditText
-		android:id="@+id/brick_repeat_edit_text"
-		android:text="3"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:minWidth="75dip"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/LabelTextView"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:gravity="right"
-		android:inputType="number|numberDecimal"
-		android:maxLength="10"
-		android:maxLines="1"
-	>
+	    android:id="@+id/brick_repeat_edit_text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerVertical="true"
+	    android:layout_toLeftOf="@+id/LabelTextView"
+	    android:clickable="false"
+	    android:focusable="false"
+	    android:focusableInTouchMode="false"
+	    android:gravity="right"
+	    android:inputType="number|numberDecimal"
+	    android:maxLength="10"
+	    android:maxLines="1"
+	    android:minWidth="75dip"
+	    android:text="3" >
+
 	</EditText>
 </RelativeLayout>
