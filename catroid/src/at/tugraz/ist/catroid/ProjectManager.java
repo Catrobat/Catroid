@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
@@ -77,6 +78,9 @@ public class ProjectManager {
 
 			currentSprite = null;
 			currentScript = null;
+
+			Utils.saveToPreferences(context, Consts.PREF_PROJECTNAME_KEY, project.getName());
+
 			return true;
 		} catch (Exception e) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
