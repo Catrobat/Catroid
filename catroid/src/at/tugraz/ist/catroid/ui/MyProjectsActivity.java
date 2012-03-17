@@ -116,8 +116,12 @@ public class MyProjectsActivity extends ListActivity {
 		File rootDirectory = new File(Consts.DEFAULT_ROOT);
 		projectList = UtilFile.getProjectFiles(rootDirectory);
 		Collections.sort(projectList, new Comparator<File>() {
-			public int compare(File f1, File f2) {
-				return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
+			public int compare(File projectFolder1, File projectFolder2) {
+				File projectXMLModified1 = new File(Utils.buildPath(Utils.buildProjectPath(projectFolder1.getName()),
+						Consts.PROJECTCODE_NAME));
+				File projectXMLModified2 = new File(Utils.buildPath(Utils.buildProjectPath(projectFolder2.getName()),
+						Consts.PROJECTCODE_NAME));
+				return Long.valueOf(projectXMLModified2.lastModified()).compareTo(projectXMLModified1.lastModified());
 			}
 		});
 
@@ -146,11 +150,9 @@ public class MyProjectsActivity extends ListActivity {
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
 				if (!projectToEdit.getName().equalsIgnoreCase(currentProject.getName())
 						&& !ProjectManager.getInstance().canLoadProject((projectToEdit.getName()))) {
-					removeDialog(DIALOG_CONTEXT_MENU2);
 					showDialog(DIALOG_CONTEXT_MENU2);
 					return true;
 				}
-				removeDialog(DIALOG_CONTEXT_MENU);
 				showDialog(DIALOG_CONTEXT_MENU);
 				return true;
 			}
@@ -268,14 +270,11 @@ public class MyProjectsActivity extends ListActivity {
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		super.onPrepareDialog(id, dialog);
-		String project = "";
-		if (projectToEdit != null) {
-			project = projectToEdit.getName();
-		}
+		TextView customTitleTextView = null;
 		switch (id) {
 			case DIALOG_RENAME_PROJECT:
 				EditText renameProjectEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-				renameProjectEditText.setText(project);
+				renameProjectEditText.setText(projectToEdit.getName());
 				break;
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
 			//			case DIALOG_SET_DESCRIPTION:
@@ -295,6 +294,14 @@ public class MyProjectsActivity extends ListActivity {
 			case DIALOG_NEW_PROJECT:
 				EditText newProjectEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
 				newProjectEditText.setText("");
+				break;
+			case DIALOG_CONTEXT_MENU:
+				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
+				customTitleTextView.setText(projectToEdit.getName());
+				break;
+			case DIALOG_CONTEXT_MENU2:
+				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
+				customTitleTextView.setText(projectToEdit.getName());
 				break;
 		}
 	}
