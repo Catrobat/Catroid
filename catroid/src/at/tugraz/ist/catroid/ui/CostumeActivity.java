@@ -107,6 +107,7 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	public void updateCostumeAdapter(String name, String fileName) {
+		name = Utils.searchForNonExistingCostumeName(name, 0);
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(fileName);
 		costumeData.setCostumeName(name);

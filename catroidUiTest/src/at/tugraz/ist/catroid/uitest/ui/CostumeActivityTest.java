@@ -427,13 +427,21 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 			;
 		}
 
-		renameCostume(costumeName, "costume1");
-		renameCostume("costumeNameTest2", "costume2");
-		renameCostume("costumeNametest_", "costume1");
+		renameCostume(costumeName, "costume");
+		renameCostume("costumeNameTest2", "costume");
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
+		assertEquals("costume not renamed correctly", "costume1", costumeDataList.get(1).getCostumeName());
+		renameCostume("costumeNametest_", "costume");
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
+		assertEquals("costume not renamed correctly", "costume2", costumeDataList.get(2).getCostumeName());
 
-		assertEquals("costume not renamed correctly", "costume3", costumeDataList.get(2).getCostumeName());
-
-		solo.sleep(5000);
+		renameCostume("costume1", "a");
+		while (solo.scrollUpList(1)) {
+			;
+		}
+		solo.clickOnText(solo.getString(R.string.copy_costume));
+		renameCostume("costume_", "costume");
+		assertEquals("costume not renamed correctly", "costume1", costumeDataList.get(3).getCostumeName());
 	}
 
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
@@ -444,5 +452,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
+		solo.waitForDialogToClose(1000);
 	}
 }
