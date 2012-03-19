@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -416,5 +417,32 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("wrong number of checksum references of sunnglasses picture", 1,
 				projectManager.fileChecksumContainer.getUsage(md5ImageFile));
 
+	}
+
+	public void testCostumeName() {
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity("CostumeActivity");
+		solo.clickOnText(solo.getString(R.string.copy_costume));
+		while (solo.scrollUpList(1)) {
+			;
+		}
+
+		renameCostume(costumeName, "costume1");
+		renameCostume("costumeNameTest2", "costume2");
+		renameCostume("costumeNametest_", "costume1");
+
+		assertEquals("costume not renamed correctly", "costume3", costumeDataList.get(2).getCostumeName());
+
+		solo.sleep(5000);
+	}
+
+	private void renameCostume(String currentCostumeName, String newCostumeName) {
+		solo.clickOnText(currentCostumeName);
+		EditText editTextCostumeName = (EditText) solo.getView(R.id.dialog_rename_costume_editText);
+		solo.clearEditText(editTextCostumeName);
+		solo.enterText(editTextCostumeName, newCostumeName);
+		solo.goBack();
+		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
+		solo.clickOnButton(buttonOKText);
 	}
 }
