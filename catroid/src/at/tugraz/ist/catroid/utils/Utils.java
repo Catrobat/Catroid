@@ -33,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
@@ -64,6 +65,7 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 
 public class Utils {
@@ -323,5 +325,21 @@ public class Utils {
 
 	public static String deleteSpecialCharactersInString(String stringToAdapt) {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
+	}
+
+	public static String searchForNonExistingCostumeName(String name, int nextNumber) {
+		String newName;
+		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		if (nextNumber == 0) {
+			newName = name;
+		} else {
+			newName = name + nextNumber;
+		}
+		for (CostumeData costumeData : costumeDataList) {
+			if (costumeData.getCostumeName().equals(newName)) {
+				return searchForNonExistingCostumeName(name, ++nextNumber);
+			}
+		}
+		return newName;
 	}
 }
