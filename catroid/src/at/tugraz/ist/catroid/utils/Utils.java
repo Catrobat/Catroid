@@ -66,6 +66,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
 
 public class Utils {
@@ -341,5 +342,22 @@ public class Utils {
 			}
 		}
 		return newName;
+	}
+
+	public static String searchForNonExistingSoundTitle(String title, int nextNumber) {
+		// search for sounds with the same title
+		String newTitle;
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		if (nextNumber == 0) {
+			newTitle = title;
+		} else {
+			newTitle = title + nextNumber;
+		}
+		for (SoundInfo soundInfo : soundInfoList) {
+			if (soundInfo.getTitle().equals(newTitle)) {
+				return searchForNonExistingSoundTitle(title, ++nextNumber);
+			}
+		}
+		return newTitle;
 	}
 }
