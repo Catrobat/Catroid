@@ -419,7 +419,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	}
 
-	public void testCostumeName() {
+	public void testCostumeNames() {
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.waitForActivity("CostumeActivity");
 		solo.clickOnText(solo.getString(R.string.copy_costume));
