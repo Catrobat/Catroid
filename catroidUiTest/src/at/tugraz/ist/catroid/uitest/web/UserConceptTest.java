@@ -163,6 +163,10 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
 		EditText passwordField = (EditText) solo.getView(R.id.password);
+		// sometimes, the keyboard overlaps the password textview
+		// if the click cannot be performed, an AssertionFailedError is thrown
+		// goBack makes the keyboard disappear, and then the click should work
+		// could be a workaround for other unstable tests - then this would be moved to UiTestUitls
 		try {
 			solo.clickOnView(passwordField);
 		} catch (AssertionFailedError e) {
