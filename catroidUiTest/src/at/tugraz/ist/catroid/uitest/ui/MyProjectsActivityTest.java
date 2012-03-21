@@ -212,7 +212,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.enterText(solo, 0, renameString);
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
-		solo.sleep(200);
+		solo.waitForDialogToClose(2000);
 		File renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 
@@ -230,7 +230,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.enterText(solo, 0, renameString);
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
-		solo.sleep(200);
+		solo.waitForDialogToClose(2000);
 		File renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 
