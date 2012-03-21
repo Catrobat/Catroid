@@ -185,10 +185,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		//solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(400);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
 		assertTrue("Project with blacklisted characters was not created!", file.exists());
@@ -208,10 +208,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		//solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(400);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
