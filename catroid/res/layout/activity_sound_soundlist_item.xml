@@ -44,7 +44,7 @@
             android:layout_height="40dip"
             android:layout_marginLeft="8dip"
             android:layout_marginRight="8dip"
-            android:background="@color/list_item_text_background"
+            android:background="@drawable/list_item_text_background"
             android:clickable="true"
             android:ellipsize="end"
             android:focusable="false"
