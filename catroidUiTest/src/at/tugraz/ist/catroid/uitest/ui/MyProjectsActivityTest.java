@@ -59,7 +59,28 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void setUp() {
+		createProjects();
+		solo = new Solo(getInstrumentation(), getActivity());
+	}
 
+	@Override
+	public void tearDown() throws Exception {
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
+		if (renameDirectory != null && renameDirectory.isDirectory()) {
+			UtilFile.deleteDirectory(renameDirectory);
+			renameDirectory = null;
+		}
+
+		super.tearDown();
+	}
+
+	public void saveProjectsToZip() {
 		File directory;
 		File rootDirectory = new File(Consts.DEFAULT_ROOT);
 		String[] paths = rootDirectory.list();
@@ -90,41 +111,22 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				UtilFile.deleteDirectory(directory);
 			}
 		}
-
-		createProjects();
-
-		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
-		UiTestUtils.clearAllUtilTestProjects();
-		if (renameDirectory != null && renameDirectory.isDirectory()) {
-			UtilFile.deleteDirectory(renameDirectory);
-			renameDirectory = null;
-		}
-
+	public void unzipProjects() {
 		String zipFileString = Utils.buildPath(Consts.DEFAULT_ROOT, ZIPFILE_NAME);
 		File zipFile = new File(zipFileString);
 		UtilZip.unZipFile(zipFileString, Consts.DEFAULT_ROOT);
 		zipFile.delete();
-
-		super.tearDown();
 	}
 
 	public void testProjectsVisible() {
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		assertTrue("activity doesn't show the project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
+				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
 		assertTrue("activity doesn't show the project " + UiTestUtils.PROJECTNAME1,
-				solo.searchText(UiTestUtils.PROJECTNAME1));
+				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 	}
 
 	public void testDeleteProject() {
@@ -134,7 +136,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
-				solo.searchText(UiTestUtils.PROJECTNAME1));
+				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		File rootDirectory = new File(Consts.DEFAULT_ROOT);
 		ArrayList<String> projectList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
 		boolean projectDeleted = true;
@@ -155,14 +157,16 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
-				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
+				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
-				solo.searchText(UiTestUtils.PROJECTNAME1));
+				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 				projectManager.getCurrentProject().getName());
 	}
 
 	public void testDeleteAllProjects() {
+
+		saveProjectsToZip();
 
 		solo.sleep(500);
 
@@ -172,7 +176,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String defaultProjectName = getActivity().getString(R.string.default_project_name);
 
 		//delete default project:
-		if (solo.searchText(defaultProjectName)) {
+		if (solo.searchText(defaultProjectName, 1, true)) {
 			solo.clickLongOnText(defaultProjectName);
 			solo.sleep(100);
 			solo.clickOnText(getActivity().getString(R.string.delete));
@@ -181,12 +185,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//delete first project
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
 		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.delete));
+		solo.clickOnText(getActivity().getString(R.string.delete), 1, true);
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
-				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
+				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
-				solo.searchText(UiTestUtils.PROJECTNAME1));
+				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 				projectManager.getCurrentProject().getName());
 		assertEquals(UiTestUtils.PROJECTNAME1 + " should be the current project", UiTestUtils.PROJECTNAME1,
@@ -195,34 +199,51 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//delete second project
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 2);
 		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.delete));
+		solo.clickOnText(getActivity().getString(R.string.delete), 1, true);
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
-				solo.searchText(UiTestUtils.PROJECTNAME1));
+				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 				projectManager.getCurrentProject().getName());
 
 		assertTrue("default project not visible", solo.searchText(defaultProjectName));
 		assertEquals("the current project is not the default project", defaultProjectName, projectManager
 				.getCurrentProject().getName());
+
+		unzipProjects();
 	}
 
 	public void testRenameProject() {
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
-		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
-		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.clickOnText(getActivity().getString(R.string.rename), 1, true);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.ok));
+		solo.clickOnText(getActivity().getString(R.string.ok), 1, true);
 		solo.sleep(200);
-		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3));
+		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
+		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
+		assertEquals("the renamed project is not first in list", solo.getCurrentListViews().get(0).getAdapter()
+				.getItem(0).toString(), Consts.DEFAULT_ROOT + "/" + UiTestUtils.PROJECTNAME3);
+
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME1);
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.ok), 1, true);
+		solo.sleep(200);
+		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
+		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
+		assertEquals("the renamed project is not first in list", solo.getCurrentListViews().get(0).getAdapter()
+				.getItem(0).toString(), Consts.DEFAULT_ROOT + "/" + UiTestUtils.PROJECTNAME1);
 	}
 
 	public void testRenameCurrentProject() {
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(300);
-		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
 		solo.sleep(200);
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(200);
@@ -230,7 +251,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
 		solo.sleep(200);
-		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3));
+		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		solo.goBack();
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME3, ProjectManager.getInstance()
 				.getCurrentProject().getName());
@@ -240,13 +261,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		final String renameString = "[Hey+, =lo_ok. I'm; -special! too!]";
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
-		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, renameString);
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
-		solo.sleep(200);
+		solo.waitForDialogToClose(2000);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 	}
@@ -255,13 +276,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		final String renameString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
-		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, renameString);
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
-		solo.sleep(200);
+		solo.waitForDialogToClose(2000);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
@@ -283,7 +304,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.assertCurrentActivity("not in MainMenuActivity after goBack from ProjectActivity", MainMenuActivity.class);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added", solo.searchText(UiTestUtils.PROJECTNAME2));
+		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added",
+				solo.searchText(UiTestUtils.PROJECTNAME2, 1, true));
 	}
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription
