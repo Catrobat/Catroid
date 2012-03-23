@@ -49,6 +49,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	private Solo solo;
 	private final String ZIPFILE_NAME = "testzip";
 	private File renameDirectory = null;
+	private boolean unzip;
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
 	//	private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
@@ -59,6 +60,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void setUp() {
+		unzip = false;
 		createProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -75,6 +77,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
 			renameDirectory = null;
+		}
+
+		if (unzip) {
+			unzipProjects();
 		}
 
 		super.tearDown();
@@ -165,8 +171,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testDeleteAllProjects() {
-
+		unzip = true;
 		saveProjectsToZip();
+		createProjects();
 
 		solo.sleep(500);
 
@@ -208,8 +215,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("default project not visible", solo.searchText(defaultProjectName));
 		assertEquals("the current project is not the default project", defaultProjectName, projectManager
 				.getCurrentProject().getName());
-
-		unzipProjects();
 	}
 
 	public void testRenameProject() {
@@ -227,6 +232,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals("the renamed project is not first in list", solo.getCurrentListViews().get(0).getAdapter()
 				.getItem(0).toString(), Consts.DEFAULT_ROOT + "/" + UiTestUtils.PROJECTNAME3);
 
+		while (solo.scrollUp()) {
+			;
+		}
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(200);
