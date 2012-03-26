@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -52,8 +53,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class MyProjectsActivity extends ListActivity {
 
-	private List<File> projectList;
-	public File projectToEdit;
+	private List<ProjectData> projectList;
+	public ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 	private CustomIconContextMenu iconContextMenu;
 	private CustomIconContextMenu iconContextMenu2;
@@ -74,7 +75,7 @@ public class MyProjectsActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_projects);
-		projectToEdit = (File) getLastNonConfigurationInstance();
+		projectToEdit = (ProjectData) getLastNonConfigurationInstance();
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class MyProjectsActivity extends ListActivity {
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
-		final File savedSelectedProject = projectToEdit;
+		final ProjectData savedSelectedProject = projectToEdit;
 		return savedSelectedProject;
 	}
 
@@ -114,14 +115,17 @@ public class MyProjectsActivity extends ListActivity {
 
 	public void initAdapter() {
 		File rootDirectory = new File(Consts.DEFAULT_ROOT);
-		projectList = UtilFile.getProjectFiles(rootDirectory);
-		Collections.sort(projectList, new Comparator<File>() {
-			public int compare(File projectFolder1, File projectFolder2) {
-				File projectXMLModified1 = new File(Utils.buildPath(Utils.buildProjectPath(projectFolder1.getName()),
-						Consts.PROJECTCODE_NAME));
-				File projectXMLModified2 = new File(Utils.buildPath(Utils.buildProjectPath(projectFolder2.getName()),
-						Consts.PROJECTCODE_NAME));
-				return Long.valueOf(projectXMLModified2.lastModified()).compareTo(projectXMLModified1.lastModified());
+		long projectChanged;
+		File projectFileChanged;
+		projectList = new ArrayList<ProjectData>();
+		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
+			projectFileChanged = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Consts.PROJECTCODE_NAME));
+			projectChanged = projectFileChanged.lastModified();
+			projectList.add(new ProjectData(projectName, projectChanged));
+		}
+		Collections.sort(projectList, new Comparator<ProjectData>() {
+			public int compare(ProjectData project1, ProjectData project2) {
+				return Long.valueOf(project2.lastChanged).compareTo(project1.lastChanged);
 			}
 		});
 
@@ -132,7 +136,7 @@ public class MyProjectsActivity extends ListActivity {
 	private void initClickListener() {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).getName(),
+				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
 						MyProjectsActivity.this, true)) {
 					return; // error message already in ProjectManager
 							// loadProject
@@ -148,8 +152,8 @@ public class MyProjectsActivity extends ListActivity {
 					return true;
 				}
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				if (!projectToEdit.getName().equalsIgnoreCase(currentProject.getName())
-						&& !ProjectManager.getInstance().canLoadProject((projectToEdit.getName()))) {
+				if (!projectToEdit.projectName.equalsIgnoreCase(currentProject.getName())
+						&& !ProjectManager.getInstance().canLoadProject((projectToEdit.projectName))) {
 					showDialog(DIALOG_CONTEXT_MENU2);
 					return true;
 				}
@@ -206,7 +210,7 @@ public class MyProjectsActivity extends ListActivity {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
 
-		String project = (projectToEdit.getName());
+		String project = (projectToEdit.projectName);
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(project)));
 
 		if (!(currentProject != null && currentProject.getName().equalsIgnoreCase(project))) {
@@ -218,7 +222,7 @@ public class MyProjectsActivity extends ListActivity {
 		if (projectList.size() == 0) { // no projects left
 			projectManager.initializeDefaultProject(MyProjectsActivity.this);
 		} else {
-			projectManager.loadProject((projectList.get(0)).getName(), MyProjectsActivity.this, false);
+			projectManager.loadProject((projectList.get(0)).projectName, MyProjectsActivity.this, false);
 			projectManager.saveProject();
 			Utils.saveToPreferences(MyProjectsActivity.this, Consts.PREF_PROJECTNAME_KEY, projectManager
 					.getCurrentProject().getName());
@@ -233,7 +237,7 @@ public class MyProjectsActivity extends ListActivity {
 		Dialog dialog = null;
 		String project = "";
 		if (projectToEdit != null) {
-			project = (projectToEdit.getName());
+			project = (projectToEdit.projectName);
 		}
 		switch (id) {
 			case DIALOG_CONTEXT_MENU:
@@ -274,7 +278,7 @@ public class MyProjectsActivity extends ListActivity {
 		switch (id) {
 			case DIALOG_RENAME_PROJECT:
 				EditText renameProjectEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-				renameProjectEditText.setText(projectToEdit.getName());
+				renameProjectEditText.setText(projectToEdit.projectName);
 				break;
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
 			//			case DIALOG_SET_DESCRIPTION:
@@ -297,18 +301,18 @@ public class MyProjectsActivity extends ListActivity {
 				break;
 			case DIALOG_CONTEXT_MENU:
 				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
-				customTitleTextView.setText(projectToEdit.getName());
+				customTitleTextView.setText(projectToEdit.projectName);
 				break;
 			case DIALOG_CONTEXT_MENU2:
 				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
-				customTitleTextView.setText(projectToEdit.getName());
+				customTitleTextView.setText(projectToEdit.projectName);
 				break;
 		}
 	}
 
 	public boolean projectAlreadyExists(String projectName) {
-		for (File project : projectList) {
-			if (projectName.equalsIgnoreCase(project.getName())) {
+		for (ProjectData project : projectList) {
+			if (projectName.equalsIgnoreCase(project.projectName)) {
 				return true;
 			}
 		}
@@ -319,5 +323,15 @@ public class MyProjectsActivity extends ListActivity {
 		TextView titleTextView = (TextView) MyProjectsActivity.this.findViewById(R.id.tv_title);
 		titleTextView.setText(MyProjectsActivity.this.getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName());
+	}
+
+	public class ProjectData {
+		public String projectName;
+		public long lastChanged;
+
+		public ProjectData(String projectName, long lastChanged) {
+			this.projectName = projectName;
+			this.lastChanged = lastChanged;
+		}
 	}
 }
