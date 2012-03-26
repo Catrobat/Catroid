@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -229,8 +230,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
-		assertEquals("the renamed project is not first in list", solo.getCurrentListViews().get(0).getAdapter()
-				.getItem(0).toString(), Consts.DEFAULT_ROOT + "/" + UiTestUtils.PROJECTNAME3);
+		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
+				.getAdapter().getItem(0))).projectName, Consts.DEFAULT_ROOT + "/" + UiTestUtils.PROJECTNAME3);
 
 		while (solo.scrollUp()) {
 			;

@@ -224,8 +224,6 @@ public class MyProjectsActivity extends ListActivity {
 		} else {
 			projectManager.loadProject((projectList.get(0)).projectName, MyProjectsActivity.this, false);
 			projectManager.saveProject();
-			Utils.saveToPreferences(MyProjectsActivity.this, Consts.PREF_PROJECTNAME_KEY, projectManager
-					.getCurrentProject().getName());
 		}
 
 		updateProjectTitle();
