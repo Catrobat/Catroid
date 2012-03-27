@@ -196,8 +196,6 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		renameSound(soundName2, "sound");
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("sound not renamed correctly", "sound1", soundInfoList.get(1).getTitle());
-
-		solo.sleep(5000);
 	}
 
 	private void renameSound(String currentSoundTitle, String newSoundTitle) {
