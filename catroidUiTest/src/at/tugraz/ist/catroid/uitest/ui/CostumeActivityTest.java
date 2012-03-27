@@ -442,6 +442,54 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(solo.getString(R.string.copy_costume));
 		renameCostume("costume_", "costume");
 		assertEquals("costume not renamed correctly", "costume1", costumeDataList.get(3).getCostumeName());
+
+		// test that Image from paintroid is correctly renamed
+		String fileName = "costume";
+		try {
+			paintroidImageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png",
+					RESOURCE_IMAGE2, getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Image was not created");
+		}
+		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				paintroidImageFile.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		intent.putExtras(bundleForPaintroid);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		solo.sleep(200);
+
+		assertEquals("costume not renamed correctly", "costume3", costumeDataList.get(4).getCostumeName());
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
+
+		// test that Image from gallery is correctly renamed
+		try {
+			paintroidImageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png",
+					RESOURCE_IMAGE, getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Image was not created");
+		}
+		checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
+		intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		solo.sleep(200);
+
+		assertEquals("costume not renamed correctly", "costume4", costumeDataList.get(5).getCostumeName());
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
+
 	}
 
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
