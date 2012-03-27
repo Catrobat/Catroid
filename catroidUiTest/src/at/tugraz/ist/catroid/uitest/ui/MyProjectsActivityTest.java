@@ -231,7 +231,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
-				.getAdapter().getItem(0))).projectName, Consts.DEFAULT_ROOT + "/" + UiTestUtils.PROJECTNAME3);
+				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME3);
 
 		while (solo.scrollUp()) {
 			;
@@ -245,8 +245,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
-		assertEquals("the renamed project is not first in list", solo.getCurrentListViews().get(0).getAdapter()
-				.getItem(0).toString(), Consts.DEFAULT_ROOT + "/" + UiTestUtils.PROJECTNAME1);
+		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
+				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
 	}
 
 	public void testRenameCurrentProject() {
