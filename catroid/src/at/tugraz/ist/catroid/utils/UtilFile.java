@@ -142,7 +142,12 @@ public class UtilFile {
 		List<String> projectList = new ArrayList<String>();
 		File[] sdFileList = directory.listFiles();
 		for (File file : sdFileList) {
-			if (file.isDirectory()) {
+			FilenameFilter filenameFilter = new FilenameFilter() {
+				public boolean accept(File dir, String filename) {
+					return filename.contentEquals(Consts.PROJECTCODE_NAME);
+				}
+			};
+			if (file.isDirectory() && file.list(filenameFilter).length != 0) {
 				projectList.add(file.getName());
 			}
 		}

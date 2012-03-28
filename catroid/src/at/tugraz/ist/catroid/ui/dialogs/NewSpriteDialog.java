@@ -86,6 +86,7 @@ public class NewSpriteDialog extends TextDialog {
 
 		buttonNegative.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				input.setText(null);
 				activity.dismissDialog(ProjectActivity.DIALOG_NEW_SPRITE);
 			}
 		});
