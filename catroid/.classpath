@@ -2,14 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="libs/xstream-1.4.1.jar" sourcepath="libs/xstream-1.4.1-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/catroid/libs/xstream-1.4.1-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-android.jar" sourcepath="lib/gdx-backend-android-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/gdx.jar" sourcepath="lib/gdx-sources.jar"/>
-	<classpathentry kind="lib" path="libs/acra-4.2.3.jar"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
