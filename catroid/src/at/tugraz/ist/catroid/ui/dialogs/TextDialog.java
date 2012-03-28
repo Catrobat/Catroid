@@ -66,6 +66,10 @@ public abstract class TextDialog {
 		buttonPositive = (Button) view.findViewById(R.id.dialog_text_ok);
 		buttonNegative = (Button) view.findViewById(R.id.dialog_text_cancel);
 
+		if (input.getText().toString().length() == 0) {
+			buttonPositive.setEnabled(false);
+		}
+
 		builder.setView(view);
 
 		dialog = builder.create();
