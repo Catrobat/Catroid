@@ -51,13 +51,26 @@ public class ProjectScreenshotLoader {
 		}
 	}
 
-	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(10, 1.5f,
-			true));
+	private static final int POOL_SIZE = 10;
+	private static final int SCALING_LEVEL = 4; //1 = no scaling, 2 = half screen, 3 = to a third of screen size ...
+	private static final int CACHE_MAX_SIZE = 25;
+
 	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
-	ExecutorService executorService;
+	private ExecutorService executorService;
+
+	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(10, 1.5f,
+			true) {
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		protected boolean removeEldestEntry(Map.Entry<String, Bitmap> eldest) {
+			return size() > CACHE_MAX_SIZE;
+		}
+	});
 
 	public ProjectScreenshotLoader(Context context) {
-		executorService = Executors.newFixedThreadPool(5);
+		executorService = Executors.newFixedThreadPool(POOL_SIZE);
 	}
 
 	public void loadAndShowScreenshot(String projectName, ImageView imageView) {
@@ -95,8 +108,8 @@ public class ProjectScreenshotLoader {
 				projectImage = null;
 			} else {
 				Utils.updateScreenWidthAndHeight(uiActivity);
-				projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, Values.SCREEN_WIDTH / 4,
-						Values.SCREEN_HEIGHT / 4, true);
+				projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, Values.SCREEN_WIDTH
+						/ SCALING_LEVEL, Values.SCREEN_HEIGHT / SCALING_LEVEL, true);
 			}
 
 			imageCache.put(projectScreenshotData.projectName, projectImage);
