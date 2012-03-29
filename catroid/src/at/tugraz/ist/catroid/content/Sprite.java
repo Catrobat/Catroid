@@ -250,6 +250,14 @@ public class Sprite implements Serializable {
 		return scriptList.size();
 	}
 
+	public int getNumberOfBricks() {
+		int brickCount = 0;
+		for (Script s : scriptList) {
+			brickCount += s.getBrickList().size();
+		}
+		return brickCount;
+	}
+
 	public int getScriptIndex(Script script) {
 		return scriptList.indexOf(script);
 	}

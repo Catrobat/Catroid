@@ -41,16 +41,22 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 	private static LayoutInflater inflater = null;
 	boolean first = true;
+	private Context context;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.context = context;
 	}
 
 	public static class ViewHolder {
 		public TextView text;
 		public ImageView image;
 		public View divider;
+		public TextView scripts;
+		public TextView bricks;
+		public TextView costumes;
+		public TextView sounds;
 		//public TextView detail;
 	}
 
@@ -65,6 +71,10 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			//holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
 			holder.divider = spriteView.findViewById(R.id.sprite_divider);
+			holder.scripts = (TextView) spriteView.findViewById(R.id.textView_number_of_scripts);
+			holder.bricks = (TextView) spriteView.findViewById(R.id.textView_number_of_bricks);
+			holder.costumes = (TextView) spriteView.findViewById(R.id.textView_number_of_costumes);
+			holder.sounds = (TextView) spriteView.findViewById(R.id.textView_number_of_sounds);
 			spriteView.setTag(holder);
 		} else {
 			holder = (ViewHolder) spriteView.getTag();
@@ -84,6 +94,19 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		} else {
 			holder.image.setImageBitmap(firstCostumeData.getThumbnailBitmap());
 		}
+
+		holder.scripts.setText(context.getResources().getString(R.string.number_of_scripts) + " "
+				+ sprite.getNumberOfScripts());
+
+		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks) + " "
+				+ sprite.getNumberOfBricks());
+
+		holder.costumes.setText(context.getResources().getString(R.string.number_of_costumes) + " "
+				+ sprite.getCostumeDataList().size());
+
+		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds) + " "
+				+ sprite.getSoundList().size());
+
 		if (position == 0) {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 4));
 			// normally a color would be enough in this case(R.color.gray)
