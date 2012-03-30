@@ -94,6 +94,7 @@ public class RenameSoundDialog {
 			return;
 		}
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
+			newSoundTitle = Utils.searchForNonExistingSoundTitle(newSoundTitle, 0);
 			scriptTabActivity.selectedSoundInfo.setTitle(newSoundTitle);
 			((SoundAdapter) ((SoundActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
 					.notifyDataSetChanged(); //TODO: this is madness!
