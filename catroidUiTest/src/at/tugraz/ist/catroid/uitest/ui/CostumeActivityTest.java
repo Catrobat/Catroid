@@ -444,51 +444,52 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("costume not renamed correctly", "costume1", costumeDataList.get(3).getCostumeName());
 
 		// test that Image from paintroid is correctly renamed
-		String fileName = "costume";
+		String fileName = "catroidTemp";
 		try {
-			paintroidImageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png",
-					RESOURCE_IMAGE2, getActivity());
+			imageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png", RESOURCE_IMAGE2,
+					getActivity());
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Image was not created");
 		}
-		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+		String checksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
-				paintroidImageFile.getAbsolutePath());
+				imageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
-		solo.sleep(200);
 
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("costume not renamed correctly", "costume3", costumeDataList.get(4).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
+				projectManager.fileChecksumContainer.containsChecksum(checksumImageFile));
 
 		// test that Image from gallery is correctly renamed
+		fileName = "costume";
 		try {
-			paintroidImageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png",
-					RESOURCE_IMAGE, getActivity());
+			imageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png", RESOURCE_IMAGE,
+					getActivity());
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Image was not created");
 		}
-		checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+		checksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForGallery = new Bundle();
-		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
+		bundleForGallery.putString("filePath", imageFile.getAbsolutePath());
 		intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
-		solo.sleep(200);
 
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("costume not renamed correctly", "costume4", costumeDataList.get(5).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
+				projectManager.fileChecksumContainer.containsChecksum(checksumImageFile));
 
 	}
 
