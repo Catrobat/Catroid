@@ -89,17 +89,18 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		Button okButton = (Button) solo.getView(R.id.dialog_text_ok);
 		EditText editText = (EditText) solo.getView(R.id.dialog_text_EditText);
 
-		assertTrue(editText.getText().length() == 0);
+		assertTrue("EditText was not empty", editText.getText().length() == 0);
 
 		final String projectName = "MyTestProject";
 		UiTestUtils.enterText(solo, 0, projectName);
 
-		assertEquals(projectName, editText.getText().toString());
+		assertEquals("Wrong projectname in EditText - should be MyTestProject", projectName, editText.getText()
+				.toString());
 		assertTrue("New project ok button not enabled!", okButton.isEnabled());
 
 		UiTestUtils.enterText(solo, 0, "");
 
-		assertEquals("", editText.getText().toString());
+		assertEquals("EditText was not empty", "", editText.getText().toString());
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
 
