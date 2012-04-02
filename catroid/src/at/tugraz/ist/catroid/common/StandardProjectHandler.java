@@ -49,7 +49,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class StandardProjectHandler {
 
-	private static String FILENAME_SEPARATOR = "_";
+	private static final String FILENAME_SEPARATOR = "_";
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
