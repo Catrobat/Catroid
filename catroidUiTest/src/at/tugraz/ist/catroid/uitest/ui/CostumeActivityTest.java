@@ -444,7 +444,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("costume not renamed correctly", "costume1", costumeDataList.get(3).getCostumeName());
 
 		// test that Image from paintroid is correctly renamed
-		String fileName = "catroidTemp";
+		String fileName = "costume";
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png", RESOURCE_IMAGE2,
 					getActivity());
