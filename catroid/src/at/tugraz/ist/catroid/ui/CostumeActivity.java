@@ -204,10 +204,6 @@ public class CostumeActivity extends ListActivity {
 				imageName = oldFile.getName();
 			}
 
-			//			if (imageName.contentEquals(this.getString(R.string.costume_name_from_paintroid))) {
-			//				imageName = this.getString(R.string.default_costume_name);
-			//			}
-
 			String imageFileName = imageFile.getName();
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
