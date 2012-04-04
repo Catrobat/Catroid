@@ -204,9 +204,9 @@ public class CostumeActivity extends ListActivity {
 				imageName = oldFile.getName();
 			}
 
-			if (imageName.contentEquals(this.getString(R.string.costume_name_from_paintroid))) {
-				imageName = this.getString(R.string.default_costume_name);
-			}
+			//			if (imageName.contentEquals(this.getString(R.string.costume_name_from_paintroid))) {
+			//				imageName = this.getString(R.string.default_costume_name);
+			//			}
 
 			String imageFileName = imageFile.getName();
 			updateCostumeAdapter(imageName, imageFileName);
@@ -255,6 +255,8 @@ public class CostumeActivity extends ListActivity {
 
 				Bundle bundleForPaintroid = new Bundle();
 				bundleForPaintroid.putString(CostumeActivity.this.getString(R.string.extra_picture_path_paintroid), "");
+				bundleForPaintroid.putString(CostumeActivity.this.getString(R.string.extra_picture_name_paintroid),
+						CostumeActivity.this.getString(R.string.default_costume_name));
 
 				intent.setType("image/*");
 				intent.putExtras(bundleForPaintroid);
