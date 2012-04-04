@@ -80,9 +80,6 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 	@FlakyTest(tolerance = 3)
 	public void testLoopDelay() throws InterruptedException {
-		if (count != 0) {
-			Thread.sleep(2000);
-		}
 		Log.d("testForeverBrick", "Execution Count:" + ++count);
 		final int deltaY = -10;
 		final int repeatTimes = 15;
