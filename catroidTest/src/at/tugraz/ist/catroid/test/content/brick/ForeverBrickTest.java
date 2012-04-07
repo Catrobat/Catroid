@@ -47,7 +47,9 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		testSprite = new Sprite("testSprite");
 	}
 
+	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
+		Log.d("testForeverBrick", "Execution Count:" + ++count);
 		final int twentyIsAlmostForever = 20;
 
 		testSprite.removeAllScripts();
