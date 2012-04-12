@@ -62,7 +62,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	@Override
 	public void setUp() {
 		unzip = false;
-		createProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -128,6 +127,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testProjectsVisible() {
+		createProjects();
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		assertTrue("activity doesn't show the project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
@@ -137,6 +137,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testDeleteProject() {
+		createProjects();
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
@@ -156,6 +157,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testDeleteCurrentProject() {
+		createProjects();
 		//current project is UiTestUtils.DEFAULT_TEST_PROJECT_NAME
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
@@ -184,7 +186,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String defaultProjectName = getActivity().getString(R.string.default_project_name);
 
 		//delete default project:
-		if (solo.searchText(defaultProjectName, 1, true)) {
+		if (solo.searchText(defaultProjectName, 1)) {
 			solo.clickLongOnText(defaultProjectName);
 			solo.sleep(100);
 			solo.clickOnText(getActivity().getString(R.string.delete));
@@ -193,12 +195,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//delete first project
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
 		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.delete), 1, true);
+		solo.clickOnText(getActivity().getString(R.string.delete), 1);
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
-				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
+				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
-				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
+				solo.searchText(UiTestUtils.PROJECTNAME1, 1));
 		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 				projectManager.getCurrentProject().getName());
 		assertEquals(UiTestUtils.PROJECTNAME1 + " should be the current project", UiTestUtils.PROJECTNAME1,
@@ -207,9 +209,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//delete second project
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 2);
 		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.delete), 1, true);
+		solo.clickOnText(getActivity().getString(R.string.delete), 1);
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
-				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
+				solo.searchText(UiTestUtils.PROJECTNAME1, 1));
 		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 				projectManager.getCurrentProject().getName());
 
@@ -219,6 +221,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testRenameProject() {
+		createProjects();
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
@@ -250,6 +253,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testRenameCurrentProject() {
+		createProjects();
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(300);
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
@@ -267,6 +271,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testRenameProjectWithWhitelistedCharacters() {
+		createProjects();
 		final String renameString = "[Hey+, =lo_ok. I'm; -special! too!]";
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
@@ -282,6 +287,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testRenameProjectWithBlacklistedCharacters() {
+		createProjects();
 		final String renameString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
@@ -297,6 +303,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testAddNewProject() {
+		createProjects();
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
@@ -319,6 +326,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription
 	//	public void testSetDescriptionCurrentProject() {
+	//      createProjects();
 	//		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 	//		solo.sleep(200);
 	//		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
@@ -336,6 +344,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	//	}
 	//
 	//	public void testSetDescription() {
+	//		createProjects();
 	//		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 	//		solo.sleep(200);
 	//		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
