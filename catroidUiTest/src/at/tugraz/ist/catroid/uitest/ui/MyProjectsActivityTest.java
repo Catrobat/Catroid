@@ -178,14 +178,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		saveProjectsToZip();
 		createProjects();
 
-		solo.sleep(500);
-
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 
 		String defaultProjectName = getActivity().getString(R.string.default_project_name);
 
-		//delete default project:
+		//delete default project if exists:
 		if (solo.searchText(defaultProjectName, 1)) {
 			solo.clickLongOnText(defaultProjectName);
 			solo.sleep(100);
@@ -239,6 +238,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		while (solo.scrollUp()) {
 			;
 		}
+
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(200);
