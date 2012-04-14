@@ -41,28 +41,28 @@
     <TextView 
         android:id="@+id/project_title"
         android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" 
         android:layout_toRightOf="@+id/project_img" 
         android:gravity="center_vertical"
-        android:layout_height="wrap_content" 
         android:layout_marginLeft="5dp"
         android:textSize="18sp" 
         android:textStyle="bold"
         android:textColor="@color/solid_black"
         android:ellipsize="end"
-        android:maxLines="2"/>
+        android:maxLines="2"
+        android:layout_marginRight="6dp"/>
     
     <TextView 
         android:id="@+id/project_changed"
         android:layout_width="wrap_content"
-        android:layout_alignParentRight="true" 
+        android:layout_height="wrap_content"
         android:layout_below="@+id/project_title"
+        android:layout_toRightOf="@+id/project_img"
         android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
         android:textStyle="bold" 
-        android:layout_toRightOf="@+id/project_img"
-        android:layout_height="wrap_content"
         android:textSize="14sp" 
         android:text="@string/last_changed"
         android:layout_marginLeft="5dp" />
@@ -70,12 +70,12 @@
     <TextView 
         android:id="@+id/project_size"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/project_changed"
+        android:layout_toRightOf="@+id/project_img"
         android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
         android:textStyle="bold" 
-        android:layout_toRightOf="@+id/project_img"
-        android:layout_height="wrap_content"
         android:textSize="14sp" 
         android:text="@string/size_of_project"
         android:layout_marginLeft="5dp" />
@@ -83,23 +83,27 @@
     <TextView 
         android:id="@+id/my_projects_activity_changed"
         android:layout_width="wrap_content"
-        android:layout_alignParentRight="true" 
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/project_title"
+        android:layout_alignTop="@+id/project_changed"
         android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
-        android:layout_alignTop="@+id/project_changed"
-        android:layout_height="wrap_content"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="6dp" />
     
     <TextView 
         android:id="@+id/my_projects_activity_size_of_project"
         android:layout_width="wrap_content"
-        android:layout_alignParentRight="true" 
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/my_projects_activity_changed"
+        android:layout_alignTop="@+id/project_size"
         android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
-        android:layout_alignTop="@+id/project_size"
-        android:layout_height="wrap_content"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="6dp" />
 </RelativeLayout>
 
