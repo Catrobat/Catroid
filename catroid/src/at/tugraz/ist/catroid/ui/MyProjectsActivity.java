@@ -129,7 +129,8 @@ public class MyProjectsActivity extends ListActivity {
 			}
 		});
 
-		adapter = new ProjectAdapter(this, R.layout.activity_my_projects_item, R.id.project_title, projectList);
+		adapter = new ProjectAdapter(this, R.layout.activity_my_projects_item, R.id.my_projects_activity_project_title,
+				projectList);
 		setListAdapter(adapter);
 	}
 

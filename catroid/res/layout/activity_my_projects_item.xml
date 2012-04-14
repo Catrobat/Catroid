@@ -30,7 +30,7 @@
 	android:background="@color/spritelist_item_background">
 	       
     <ImageView 
-        android:id="@+id/project_img"
+        android:id="@+id/my_projects_activity_project_image"
 		android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true" 
 		android:layout_width="80dp"
@@ -39,12 +39,12 @@
 		android:layout_marginLeft="5dp" />
     
     <TextView 
-        android:id="@+id/project_title"
+        android:id="@+id/my_projects_activity_project_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" 
-        android:layout_toRightOf="@+id/project_img" 
+        android:layout_toRightOf="@+id/my_projects_activity_project_image" 
         android:gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:textSize="18sp" 
@@ -55,11 +55,11 @@
         android:layout_marginRight="6dp"/>
     
     <TextView 
-        android:id="@+id/project_changed"
+        android:id="@+id/my_projects_activity_project_changed_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/project_title"
-        android:layout_toRightOf="@+id/project_img"
+        android:layout_below="@+id/my_projects_activity_project_title"
+        android:layout_toRightOf="@+id/my_projects_activity_project_image"
         android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
         android:textStyle="bold" 
@@ -68,11 +68,11 @@
         android:layout_marginLeft="5dp" />
     
     <TextView 
-        android:id="@+id/project_size"
+        android:id="@+id/my_projects_activity_size_of_project_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/project_changed"
-        android:layout_toRightOf="@+id/project_img"
+        android:layout_below="@+id/my_projects_activity_project_changed_1"
+        android:layout_toRightOf="@+id/my_projects_activity_project_image"
         android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
         android:textStyle="bold" 
@@ -81,12 +81,12 @@
         android:layout_marginLeft="5dp" />
     
     <TextView 
-        android:id="@+id/my_projects_activity_changed"
+        android:id="@+id/my_projects_activity_project_changed_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/project_title"
-        android:layout_alignTop="@+id/project_changed"
+        android:layout_below="@+id/my_projects_activity_project_title"
+        android:layout_alignTop="@+id/my_projects_activity_project_changed_1"
         android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
         android:textSize="14sp"
@@ -94,12 +94,12 @@
         android:layout_marginRight="6dp" />
     
     <TextView 
-        android:id="@+id/my_projects_activity_size_of_project"
+        android:id="@+id/my_projects_activity_size_of_project_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/my_projects_activity_changed"
-        android:layout_alignTop="@+id/project_size"
+        android:layout_below="@+id/my_projects_activity_project_changed_2"
+        android:layout_alignTop="@+id/my_projects_activity_size_of_project_1"
         android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
         android:textSize="14sp"

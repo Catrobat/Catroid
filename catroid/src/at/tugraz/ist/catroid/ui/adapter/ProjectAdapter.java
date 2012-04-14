@@ -66,10 +66,10 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.activity_my_projects_item, null);
 			holder = new ViewHolder();
-			holder.projectName = (TextView) convertView.findViewById(R.id.project_title);
-			holder.image = (ImageView) convertView.findViewById(R.id.project_img);
-			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project);
-			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_changed);
+			holder.projectName = (TextView) convertView.findViewById(R.id.my_projects_activity_project_title);
+			holder.image = (ImageView) convertView.findViewById(R.id.my_projects_activity_project_image);
+			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project_2);
+			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_project_changed_2);
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
 			//			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
 			convertView.setTag(holder);
