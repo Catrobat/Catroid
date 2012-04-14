@@ -151,12 +151,6 @@ public class MyProjectsActivity extends ListActivity {
 				if (projectToEdit == null) {
 					return true;
 				}
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				if (!projectToEdit.projectName.equalsIgnoreCase(currentProject.getName())
-						&& !ProjectManager.getInstance().canLoadProject((projectToEdit.projectName))) {
-					showDialog(DIALOG_CONTEXT_MENU2);
-					return true;
-				}
 				showDialog(DIALOG_CONTEXT_MENU);
 				return true;
 			}
