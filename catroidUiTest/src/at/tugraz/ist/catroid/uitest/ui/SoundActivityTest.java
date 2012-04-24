@@ -26,8 +26,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.FlakyTest;
-import android.util.Log;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -47,8 +45,6 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 	private ArrayList<SoundInfo> soundInfoList;
 	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
-
-	private static int count = 0;
 
 	public SoundActivityTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -110,9 +106,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		assertEquals("the count of the costumeDataList is not right", 1, soundInfoList.size());
 	}
 
-	@FlakyTest(tolerance = 3)
 	public void testRenameSound() {
-		Log.d("testForeverBrick", "Execution Count:" + ++count);
 		String newName = "newSoundName";
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(500);

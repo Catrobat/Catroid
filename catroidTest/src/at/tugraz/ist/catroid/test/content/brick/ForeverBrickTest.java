@@ -24,7 +24,6 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
@@ -40,16 +39,12 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick foreverBrick;
 
-	private static int count = 0;
-
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
 	}
 
-	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
-		Log.d("testForeverBrick", "Execution Count:" + ++count);
 		final int twentyIsAlmostForever = 20;
 
 		testSprite.removeAllScripts();
@@ -82,7 +77,6 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 	@FlakyTest(tolerance = 3)
 	public void testLoopDelay() throws InterruptedException {
-		Log.d("testForeverBrick", "Execution Count:" + ++count);
 		final int deltaY = -10;
 		final int repeatTimes = 15;
 
