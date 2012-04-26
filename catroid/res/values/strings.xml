@@ -95,6 +95,7 @@
     <string name="copy_costume_addition">copy</string>
     <string name="select_image">Select Image</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
+    <string name="default_costume_name">costume</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
