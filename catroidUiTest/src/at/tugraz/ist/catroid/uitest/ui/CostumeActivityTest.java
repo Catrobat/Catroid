@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -416,5 +417,96 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("wrong number of checksum references of sunnglasses picture", 1,
 				projectManager.fileChecksumContainer.getUsage(md5ImageFile));
 
+	}
+
+	public void testCostumeNames() {
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity("CostumeActivity");
+		solo.clickOnText(solo.getString(R.string.copy_costume));
+		while (solo.scrollUpList(1)) {
+			;
+		}
+
+		String defaultCostumeName = solo.getString(R.string.default_costume_name);
+		String expectedCostumeName = "";
+
+		renameCostume(costumeName, defaultCostumeName);
+		renameCostume("costumeNameTest2", defaultCostumeName);
+		expectedCostumeName = defaultCostumeName + "1";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(1).getCostumeName());
+		renameCostume("costumeNametest_", defaultCostumeName);
+		expectedCostumeName = defaultCostumeName + "2";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(2).getCostumeName());
+
+		renameCostume(defaultCostumeName + "1", "a");
+		while (solo.scrollUpList(1)) {
+			;
+		}
+		solo.clickOnText(solo.getString(R.string.copy_costume));
+		renameCostume(defaultCostumeName + "_", defaultCostumeName);
+		expectedCostumeName = defaultCostumeName + "1";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(3).getCostumeName());
+
+		// test that Image from paintroid is correctly renamed
+		String fileName = defaultCostumeName;
+		try {
+			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Consts.DEFAULT_ROOT, fileName + ".png"),
+					RESOURCE_IMAGE2, getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Image was not created");
+		}
+		String checksumImageFile = Utils.md5Checksum(imageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		intent.putExtras(bundleForPaintroid);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		expectedCostumeName = defaultCostumeName + "3";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(4).getCostumeName());
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumImageFile));
+
+		// test that Image from gallery is correctly renamed
+		fileName = defaultCostumeName;
+		try {
+			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Consts.DEFAULT_ROOT, fileName + ".png"),
+					RESOURCE_IMAGE, getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Image was not created");
+		}
+		checksumImageFile = Utils.md5Checksum(imageFile);
+
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", imageFile.getAbsolutePath());
+		intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		expectedCostumeName = defaultCostumeName + "4";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(5).getCostumeName());
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumImageFile));
+
+	}
+
+	private void renameCostume(String currentCostumeName, String newCostumeName) {
+		solo.clickOnText(currentCostumeName);
+		EditText editTextCostumeName = (EditText) solo.getView(R.id.dialog_rename_costume_editText);
+		solo.clearEditText(editTextCostumeName);
+		solo.enterText(editTextCostumeName, newCostumeName);
+		solo.goBack();
+		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
+		solo.clickOnButton(buttonOKText);
+		solo.waitForDialogToClose(1000);
 	}
 }

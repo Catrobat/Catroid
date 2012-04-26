@@ -107,6 +107,7 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	public void updateCostumeAdapter(String name, String fileName) {
+		name = Utils.getUniqueCostumeName(name);
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(fileName);
 		costumeData.setCostumeName(name);
@@ -250,6 +251,8 @@ public class CostumeActivity extends ListActivity {
 
 				Bundle bundleForPaintroid = new Bundle();
 				bundleForPaintroid.putString(CostumeActivity.this.getString(R.string.extra_picture_path_paintroid), "");
+				bundleForPaintroid.putString(CostumeActivity.this.getString(R.string.extra_picture_name_paintroid),
+						CostumeActivity.this.getString(R.string.default_costume_name));
 
 				intent.setType("image/*");
 				intent.putExtras(bundleForPaintroid);
