@@ -33,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
@@ -64,6 +65,8 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
 
 public class Utils {
@@ -323,5 +326,46 @@ public class Utils {
 
 	public static String deleteSpecialCharactersInString(String stringToAdapt) {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
+	}
+
+	public static String getUniqueCostumeName(String name) {
+		return searchForNonExistingCostumeName(name, 0);
+	}
+
+	private static String searchForNonExistingCostumeName(String name, int nextNumber) {
+		String newName;
+		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		if (nextNumber == 0) {
+			newName = name;
+		} else {
+			newName = name + nextNumber;
+		}
+		for (CostumeData costumeData : costumeDataList) {
+			if (costumeData.getCostumeName().equals(newName)) {
+				return searchForNonExistingCostumeName(name, ++nextNumber);
+			}
+		}
+		return newName;
+	}
+
+	public static String getUniqueSoundName(String title) {
+		return searchForNonExistingSoundTitle(title, 0);
+	}
+
+	private static String searchForNonExistingSoundTitle(String title, int nextNumber) {
+		// search for sounds with the same title
+		String newTitle;
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		if (nextNumber == 0) {
+			newTitle = title;
+		} else {
+			newTitle = title + nextNumber;
+		}
+		for (SoundInfo soundInfo : soundInfoList) {
+			if (soundInfo.getTitle().equals(newTitle)) {
+				return searchForNonExistingSoundTitle(title, ++nextNumber);
+			}
+		}
+		return newTitle;
 	}
 }
