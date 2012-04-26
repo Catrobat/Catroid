@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -191,5 +192,24 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clickOnText(buttonOKText);
 		solo.sleep(100);
 		assertTrue("Sounds wasnt renamed", solo.searchText(newName));
+	}
+
+	public void testSoundNames() {
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		renameSound(soundName, "sound");
+		renameSound(soundName2, "sound");
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		assertEquals("sound not renamed correctly", "sound1", soundInfoList.get(1).getTitle());
+	}
+
+	private void renameSound(String currentSoundTitle, String newSoundTitle) {
+		solo.clickOnText(currentSoundTitle);
+		EditText editTextSoundTitle = (EditText) solo.getView(R.id.dialog_rename_sound_editText);
+		solo.clearEditText(editTextSoundTitle);
+		solo.enterText(editTextSoundTitle, newSoundTitle);
+		solo.goBack();
+		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
+		solo.clickOnButton(buttonOKText);
+		solo.waitForDialogToClose(1000);
 	}
 }
