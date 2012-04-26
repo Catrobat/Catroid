@@ -450,8 +450,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		// test that Image from paintroid is correctly renamed
 		String fileName = defaultCostumeName;
 		try {
-			imageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png", RESOURCE_IMAGE2,
-					getActivity());
+			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Consts.DEFAULT_ROOT, fileName + ".png"),
+					RESOURCE_IMAGE2, getActivity());
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Image was not created");
@@ -475,8 +475,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		// test that Image from gallery is correctly renamed
 		fileName = defaultCostumeName;
 		try {
-			imageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png", RESOURCE_IMAGE,
-					getActivity());
+			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Consts.DEFAULT_ROOT, fileName + ".png"),
+					RESOURCE_IMAGE, getActivity());
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Image was not created");
