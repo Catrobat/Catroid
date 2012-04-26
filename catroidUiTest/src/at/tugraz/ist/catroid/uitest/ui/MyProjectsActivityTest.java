@@ -23,7 +23,9 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -254,6 +256,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added", solo.searchText(UiTestUtils.PROJECTNAME2));
+	}
+
+	public void testDateFormat() {
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		Date resultDate = new Date();
+		assertTrue(sdf.format(resultDate), solo.searchText((sdf.format(resultDate))));
+
 	}
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription
