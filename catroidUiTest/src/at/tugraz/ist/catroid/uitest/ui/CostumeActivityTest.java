@@ -427,24 +427,28 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 			;
 		}
 
-		renameCostume(costumeName, "costume");
-		renameCostume("costumeNameTest2", "costume");
-		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
-		assertEquals("costume not renamed correctly", "costume1", costumeDataList.get(1).getCostumeName());
-		renameCostume("costumeNametest_", "costume");
-		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
-		assertEquals("costume not renamed correctly", "costume2", costumeDataList.get(2).getCostumeName());
+		String defaultCostumeName = solo.getString(R.string.default_costume_name);
+		String expectedCostumeName = "";
 
-		renameCostume("costume1", "a");
+		renameCostume(costumeName, defaultCostumeName);
+		renameCostume("costumeNameTest2", defaultCostumeName);
+		expectedCostumeName = defaultCostumeName + "1";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(1).getCostumeName());
+		renameCostume("costumeNametest_", defaultCostumeName);
+		expectedCostumeName = defaultCostumeName + "2";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(2).getCostumeName());
+
+		renameCostume(defaultCostumeName + "1", "a");
 		while (solo.scrollUpList(1)) {
 			;
 		}
 		solo.clickOnText(solo.getString(R.string.copy_costume));
-		renameCostume("costume_", "costume");
-		assertEquals("costume not renamed correctly", "costume1", costumeDataList.get(3).getCostumeName());
+		renameCostume(defaultCostumeName + "_", defaultCostumeName);
+		expectedCostumeName = defaultCostumeName + "1";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(3).getCostumeName());
 
 		// test that Image from paintroid is correctly renamed
-		String fileName = "costume";
+		String fileName = defaultCostumeName;
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png", RESOURCE_IMAGE2,
 					getActivity());
@@ -463,12 +467,13 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		assertEquals("costume not renamed correctly", "costume3", costumeDataList.get(4).getCostumeName());
+		expectedCostumeName = defaultCostumeName + "3";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(4).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
 				projectManager.fileChecksumContainer.containsChecksum(checksumImageFile));
 
 		// test that Image from gallery is correctly renamed
-		fileName = "costume";
+		fileName = defaultCostumeName;
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/" + fileName + ".png", RESOURCE_IMAGE,
 					getActivity());
@@ -487,7 +492,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		assertEquals("costume not renamed correctly", "costume4", costumeDataList.get(5).getCostumeName());
+		expectedCostumeName = defaultCostumeName + "4";
+		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(5).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
 				projectManager.fileChecksumContainer.containsChecksum(checksumImageFile));
 
