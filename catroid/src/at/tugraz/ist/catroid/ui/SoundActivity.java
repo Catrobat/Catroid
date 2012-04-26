@@ -111,7 +111,7 @@ public class SoundActivity extends ListActivity {
 
 	private void updateSoundAdapter(String title, String fileName) {
 
-		title = Utils.searchForNonExistingSoundTitle(title, 0);
+		title = Utils.getUniqueSoundName(title);
 
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);

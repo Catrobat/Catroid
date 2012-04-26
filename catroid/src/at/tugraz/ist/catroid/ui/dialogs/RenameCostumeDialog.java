@@ -94,7 +94,7 @@ public class RenameCostumeDialog {
 			return;
 		}
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
-			newCostumeName = Utils.searchForNonExistingCostumeName(newCostumeName, 0);
+			newCostumeName = Utils.getUniqueCostumeName(newCostumeName);
 			scriptTabActivity.selectedCostumeData.setCostumeName(newCostumeName);
 			((CostumeAdapter) ((CostumeActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
 					.notifyDataSetChanged(); //TODO: this is madness!
