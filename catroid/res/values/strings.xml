@@ -250,6 +250,12 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first project</string>
+    <string name="default_project_sprites_catroid_name">Catroid</string>
+    <string name="default_project_sprites_catroid_normalcat">normalCat</string>
+    <string name="default_project_sprites_catroid_banzaicat">banzaiCat</string>
+    <string name="default_project_sprites_catroid_chesirecat">chesireCat</string>
+    <string name="default_project_backgroundname">background</string>
+    <string name="default_project_backgroundcolor">#604fff</string>
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
@@ -282,7 +288,7 @@
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
 
-    <string name="notification_blueth_err">luetooth could not be enabled, closing stage</string>
+    <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
     <string name="title_paired_devices">Paired devices</string>
     <string name="title_other_devices">New devices</string>
     <string name="button_scan">Search Bluetooth devices</string>

@@ -19,7 +19,8 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.-->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
 
     <!-- General terms -->
@@ -248,6 +249,12 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
+    <string name="default_project_sprites_catroid_name">Catroid</string>
+    <string name="default_project_sprites_catroid_normalcat">Katze normal</string>
+    <string name="default_project_sprites_catroid_banzaicat">Banzai-Katze</string>
+    <string name="default_project_sprites_catroid_chesirecat">Grinsekatze</string>
+    <string name="default_project_backgroundname">Hintergrund</string>
+    <string name="default_project_backgroundcolor">#604fff</string>
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
