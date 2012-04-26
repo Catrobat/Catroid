@@ -103,7 +103,7 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
 
 		File projectXMLFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Consts.PROJECTCODE_NAME));
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 		Date resultDate = new Date(projectXMLFile.lastModified());
 		holder.dateChanged.setText(sdf.format(resultDate));
 
