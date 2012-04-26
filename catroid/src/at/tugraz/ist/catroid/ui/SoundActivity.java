@@ -111,7 +111,7 @@ public class SoundActivity extends ListActivity {
 
 	private void updateSoundAdapter(String title, String fileName) {
 
-		title = searchForNonExistingTitle(title, 0);
+		title = Utils.getUniqueSoundName(title);
 
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);
@@ -128,22 +128,6 @@ public class SoundActivity extends ListActivity {
 				}
 			});
 		}
-	}
-
-	private String searchForNonExistingTitle(String title, int nextNumber) {
-		// search for sounds with the same title
-		String newTitle;
-		if (nextNumber == 0) {
-			newTitle = title;
-		} else {
-			newTitle = title + nextNumber;
-		}
-		for (SoundInfo soundInfo : soundInfoList) {
-			if (soundInfo.getTitle().equals(newTitle)) {
-				return searchForNonExistingTitle(title, ++nextNumber);
-			}
-		}
-		return newTitle;
 	}
 
 	public void pauseSound(SoundInfo soundInfo) {
