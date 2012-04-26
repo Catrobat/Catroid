@@ -261,10 +261,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void testDateFormat() {
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-		Date resultDate = new Date();
-		assertTrue(sdf.format(resultDate), solo.searchText((sdf.format(resultDate))));
-
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		Date currentDate = new Date();
+		assertTrue("Date not correctly formatted", solo.searchText((dateFormat.format(currentDate))));
 	}
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription
