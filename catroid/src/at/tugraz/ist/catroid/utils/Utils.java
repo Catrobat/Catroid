@@ -328,7 +328,11 @@ public class Utils {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}
 
-	public static String searchForNonExistingCostumeName(String name, int nextNumber) {
+	public static String getUniqueCostumeName(String name) {
+		return searchForNonExistingCostumeName(name, 0);
+	}
+
+	private static String searchForNonExistingCostumeName(String name, int nextNumber) {
 		String newName;
 		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		if (nextNumber == 0) {
@@ -344,7 +348,11 @@ public class Utils {
 		return newName;
 	}
 
-	public static String searchForNonExistingSoundTitle(String title, int nextNumber) {
+	public static String getUniqueSoundName(String title) {
+		return searchForNonExistingSoundTitle(title, 0);
+	}
+
+	private static String searchForNonExistingSoundTitle(String title, int nextNumber) {
 		// search for sounds with the same title
 		String newTitle;
 		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
