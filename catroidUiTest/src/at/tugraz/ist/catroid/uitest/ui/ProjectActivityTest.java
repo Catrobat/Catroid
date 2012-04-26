@@ -458,48 +458,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(50);
 	}
 
-	public void testSpinnerUpdateAfterCommingBackFromProjectActivity() {
-		//		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
-		//		Project project = ProjectManager.getInstance().getCurrentProject();
-		//		Sprite sprite1 = project.getSpriteList().get(0);
-		//		Script script1 = project.getSpriteList().get(0).getScript(0);
-		//		script1.getBrickList().clear();
-		//		script1.addBrick(new PlaySoundBrick(sprite1));
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//
-		//		script1.getBrickList().clear();
-		//		script1.addBrick(new SetCostumeBrick(sprite1));
-		//		solo.goBack();
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//
-		//		BroadcastScript broadScript = new BroadcastScript("broadScript", sprite1);
-		//
-		//		broadScript.getBrickList().clear();
-		//		broadScript.addBrick(new BroadcastBrick(sprite1));
-		//		solo.goBack();
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//
-		//		broadScript.getBrickList().clear();
-		//		broadScript.addBrick(new BroadcastWaitBrick(sprite1));
-		//		solo.goBack();
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//
-		//		broadScript.getBrickList().clear();
-		//		broadScript.addBrick(new BroadcastReceiverBrick(sprite1, broadScript));
-		//		solo.goBack();
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-
-		//well if it doesn't dump the core here the test was successful (that was the problem)
-
-		//what does this test at all??? Don't see the point...
-
-	}
-
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 
