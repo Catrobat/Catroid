@@ -245,6 +245,12 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
+    <string name="default_project_sprites_catroid_name">Catroid</string>
+    <string name="default_project_sprites_catroid_normalcat">Katze normal</string>
+    <string name="default_project_sprites_catroid_banzaicat">Banzai-Katze</string>
+    <string name="default_project_sprites_catroid_chesirecat">Grinsekatze</string>
+    <string name="default_project_backgroundname">Hintergrund</string>
+    <string name="default_project_backgroundcolor">#604fff</string>
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
