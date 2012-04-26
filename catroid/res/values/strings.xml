@@ -249,7 +249,7 @@
     <string name="default_project_sprites_catroid_name">Catroid</string>
     <string name="default_project_sprites_catroid_normalcat">normalCat</string>
     <string name="default_project_sprites_catroid_banzaicat">banzaiCat</string>
-    <string name="default_project_sprites_catroid_chesirecat">chesireCat</string>
+    <string name="default_project_sprites_catroid_cheshirecat">cheshireCat</string>
     <string name="default_project_backgroundname">background</string>
     <string name="default_project_backgroundcolor">#604fff</string>
 
