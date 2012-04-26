@@ -238,14 +238,15 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testCheckMaxTextLines() {
 		String spriteName = "poor poor poor poor poor poor poor poor me me me me me me";
-		int expectedLineCount = 2;
+		int expectedLineCount = 1;
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		addNewSprite(spriteName);
-		TextView textView = solo.getText(5);
+		TextView textView = solo.getText(9);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
 		solo.clickLongOnText(spriteName);
+		expectedLineCount = 3;
 		TextView textView2 = solo.getText(0);
-		assertEquals("linecount is wrong", expectedLineCount + 1, textView2.getLineCount());
+		assertEquals("linecount is wrong", expectedLineCount, textView2.getLineCount());
 	}
 
 	public void testNewSpriteDialog() {
