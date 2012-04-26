@@ -96,12 +96,12 @@
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
 
     <!-- Sound activity -->
-    <string name="rename_sound_dialog">Sound umbenennen</string>
+    <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
     <string name="sound_delete">löschen</string>
-    <string name="sound_select_source">Sound auswählen</string>
+    <string name="sound_select_source">Klang auswählen</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
@@ -215,7 +215,7 @@
 
     <!-- Sound bricks -->
     <string name="brick_play_sound">Spiele Klang</string>
-    <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
+    <string name="brick_stop_all_sounds">Stoppe alle Klänge</string>
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
