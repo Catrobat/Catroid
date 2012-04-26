@@ -49,11 +49,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class StandardProjectHandler {
 
-	private static final String NORMAL_CAT = "normalCat";
-	private static final String BANZAI_CAT = "banzaiCat";
-	private static final String CHESHIRE_CAT = "cheshireCat";
-	private static final String BACKGROUND = "background";
-	private static final String BACKGROUND_COLOR = "#604fff";
+	private static final String FILENAME_SEPARATOR = "_";
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
@@ -61,36 +57,42 @@ public class StandardProjectHandler {
 	}
 
 	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException {
+		String normalCatName = context.getString(R.string.default_project_sprites_catroid_normalcat);
+		String banzaiCatName = context.getString(R.string.default_project_sprites_catroid_banzaicat);
+		String chesireCatName = context.getString(R.string.default_project_sprites_catroid_chesirecat);
+		String backgroundName = context.getString(R.string.default_project_backgroundname);
+
 		Project defaultProject = new Project(context, projectName);
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
-		Sprite sprite = new Sprite("Catroid");
+		Sprite sprite = new Sprite(context.getString(R.string.default_project_sprites_catroid_name));
 		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
 
 		Script backgroundStartScript = new StartScript(backgroundSprite);
 		Script startScript = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);
 
-		File backgroundFile = createBackgroundImage(projectName);
+		File backgroundFile = createBackgroundImage(projectName, backgroundName,
+				context.getString(R.string.default_project_backgroundcolor));
 
-		File normalCat = copyAndScaleImageToProject(projectName, context, NORMAL_CAT, R.drawable.catroid);
-		File banzaiCat = copyAndScaleImageToProject(projectName, context, BANZAI_CAT, R.drawable.catroid_banzai);
-		File cheshireCat = copyAndScaleImageToProject(projectName, context, CHESHIRE_CAT, R.drawable.catroid_cheshire);
+		File normalCat = copyAndScaleImageToProject(projectName, context, normalCatName, R.drawable.catroid);
+		File banzaiCat = copyAndScaleImageToProject(projectName, context, banzaiCatName, R.drawable.catroid_banzai);
+		File cheshireCat = copyAndScaleImageToProject(projectName, context, chesireCatName, R.drawable.catroid_cheshire);
 
 		CostumeData normalCatCostumeData = new CostumeData();
-		normalCatCostumeData.setCostumeName(NORMAL_CAT);
+		normalCatCostumeData.setCostumeName(normalCatName);
 		normalCatCostumeData.setCostumeFilename(normalCat.getName());
 
 		CostumeData banzaiCatCostumeData = new CostumeData();
-		banzaiCatCostumeData.setCostumeName(BANZAI_CAT);
+		banzaiCatCostumeData.setCostumeName(banzaiCatName);
 		banzaiCatCostumeData.setCostumeFilename(banzaiCat.getName());
 
 		CostumeData cheshireCatCostumeData = new CostumeData();
-		cheshireCatCostumeData.setCostumeName(CHESHIRE_CAT);
+		cheshireCatCostumeData.setCostumeName(chesireCatName);
 		cheshireCatCostumeData.setCostumeFilename(cheshireCat.getName());
 
 		CostumeData backgroundCostumeData = new CostumeData();
-		backgroundCostumeData.setCostumeName(BACKGROUND);
+		backgroundCostumeData.setCostumeName(backgroundName);
 		backgroundCostumeData.setCostumeFilename(backgroundFile.getName());
 
 		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
@@ -137,13 +139,14 @@ public class StandardProjectHandler {
 		return defaultProject;
 	}
 
-	private static File createBackgroundImage(String projectName) throws FileNotFoundException {
+	private static File createBackgroundImage(String projectName, String backgroundName, String backgroundColor)
+			throws FileNotFoundException {
 		String directoryName = Utils.buildPath(Utils.buildProjectPath(projectName), Consts.IMAGE_DIRECTORY);
-		File backgroundTemp = new File(Utils.buildPath(directoryName, BACKGROUND));
+		File backgroundTemp = new File(Utils.buildPath(directoryName, backgroundName));
 		Bitmap backgroundBitmap = ImageEditing.createSingleColorBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT,
-				Color.parseColor(BACKGROUND_COLOR));
+				Color.parseColor(backgroundColor));
 		StorageHandler.saveBitmapToImageFile(backgroundTemp, backgroundBitmap);
-		File backgroundFile = new File(directoryName, Utils.md5Checksum(backgroundTemp) + "_"
+		File backgroundFile = new File(directoryName, Utils.md5Checksum(backgroundTemp) + FILENAME_SEPARATOR
 				+ backgroundTemp.getName());
 		backgroundTemp.renameTo(backgroundFile);
 		return backgroundFile;
@@ -164,8 +167,8 @@ public class StandardProjectHandler {
 				Values.SCREEN_WIDTH / 3, (int) (Values.SCREEN_WIDTH / 3 * ratio), false);
 		StorageHandler.saveBitmapToImageFile(tempImageFile, tempBitmap);
 
-		String finalImageFileString = Utils.buildPath(directoryName, Utils.md5Checksum(tempImageFile) + "_"
-				+ tempImageFile.getName());
+		String finalImageFileString = Utils.buildPath(directoryName, Utils.md5Checksum(tempImageFile)
+				+ FILENAME_SEPARATOR + tempImageFile.getName());
 		File finalImageFile = new File(finalImageFileString);
 		tempImageFile.renameTo(finalImageFile);
 
