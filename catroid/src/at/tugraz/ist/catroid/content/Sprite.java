@@ -284,10 +284,6 @@ public class Sprite implements Serializable {
 		return name;
 	}
 
-	public int getScriptCount() {
-		return scriptList.size();
-	}
-
 	public synchronized boolean isAlive(Thread thread) {
 		if (activeThreads.containsKey(thread)) {
 			return activeThreads.get(thread);
