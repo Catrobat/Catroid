@@ -440,8 +440,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertTrue("Displayed wrong number of sound - should be 1",
 				solo.searchText(solo.getString(R.string.number_of_sounds) + " 1"));
-
-		solo.sleep(5000);
 	}
 
 	private void openNewSpriteDialog() {
@@ -513,9 +511,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		startScriptCat.addBrick(setYBrick);
 		startScriptCat.addBrick(setXBrick);
 		scriptTappedCat.addBrick(changeXBrick);
-
-		//		Sprite spriteDog = new Sprite("dog");
-		//		Script startScriptDog = new StartScript(spriteDog);
 
 		spriteCat.addScript(startScriptCat);
 		spriteCat.addScript(scriptTappedCat);
