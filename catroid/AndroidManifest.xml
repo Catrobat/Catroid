@@ -81,7 +81,8 @@
         <activity android:name=".ui.ScriptTabActivity" />
         <activity android:name=".ui.CostumeActivity" />
         <activity android:name=".ui.SoundActivity" />
-        <activity android:name=".ui.MyProjectsActivity" />
+        <activity android:name=".ui.MyProjectsActivity" 
+        	android:noHistory="true"/>
         <activity
             android:name=".ui.SettingsActivity"
             android:theme="@style/settings_activity" />
