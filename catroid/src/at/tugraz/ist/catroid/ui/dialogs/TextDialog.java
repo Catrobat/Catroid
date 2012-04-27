@@ -85,7 +85,7 @@ public abstract class TextDialog {
 
 		input.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
+				if (s.length() == 0) {
 					buttonPositive.setEnabled(false);
 				} else {
 					buttonPositive.setEnabled(true);
