@@ -59,7 +59,7 @@ public class StandardProjectHandler {
 	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException {
 		String normalCatName = context.getString(R.string.default_project_sprites_catroid_normalcat);
 		String banzaiCatName = context.getString(R.string.default_project_sprites_catroid_banzaicat);
-		String chesireCatName = context.getString(R.string.default_project_sprites_catroid_chesirecat);
+		String cheshireCatName = context.getString(R.string.default_project_sprites_catroid_cheshirecat);
 		String backgroundName = context.getString(R.string.default_project_backgroundname);
 
 		Project defaultProject = new Project(context, projectName);
@@ -77,7 +77,8 @@ public class StandardProjectHandler {
 
 		File normalCat = copyAndScaleImageToProject(projectName, context, normalCatName, R.drawable.catroid);
 		File banzaiCat = copyAndScaleImageToProject(projectName, context, banzaiCatName, R.drawable.catroid_banzai);
-		File cheshireCat = copyAndScaleImageToProject(projectName, context, chesireCatName, R.drawable.catroid_cheshire);
+		File cheshireCat = copyAndScaleImageToProject(projectName, context, cheshireCatName,
+				R.drawable.catroid_cheshire);
 
 		CostumeData normalCatCostumeData = new CostumeData();
 		normalCatCostumeData.setCostumeName(normalCatName);
@@ -88,7 +89,7 @@ public class StandardProjectHandler {
 		banzaiCatCostumeData.setCostumeFilename(banzaiCat.getName());
 
 		CostumeData cheshireCatCostumeData = new CostumeData();
-		cheshireCatCostumeData.setCostumeName(chesireCatName);
+		cheshireCatCostumeData.setCostumeName(cheshireCatName);
 		cheshireCatCostumeData.setCostumeFilename(cheshireCat.getName());
 
 		CostumeData backgroundCostumeData = new CostumeData();

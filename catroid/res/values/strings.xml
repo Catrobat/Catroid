@@ -99,6 +99,7 @@
     <string name="copy_costume_addition">copy</string>
     <string name="select_image">Select Image</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
+    <string name="default_costume_name">costume</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
@@ -106,7 +107,7 @@
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
-    <string name="sound_select_source">Select music</string>
+    <string name="sound_select_source">Select a sound</string>
 
     <!-- My Projects activity -->
     <string name="last_changed">Last changed:  </string>
@@ -253,7 +254,7 @@
     <string name="default_project_sprites_catroid_name">Catroid</string>
     <string name="default_project_sprites_catroid_normalcat">normalCat</string>
     <string name="default_project_sprites_catroid_banzaicat">banzaiCat</string>
-    <string name="default_project_sprites_catroid_chesirecat">chesireCat</string>
+    <string name="default_project_sprites_catroid_cheshirecat">cheshireCat</string>
     <string name="default_project_backgroundname">background</string>
     <string name="default_project_backgroundcolor">#604fff</string>
 
