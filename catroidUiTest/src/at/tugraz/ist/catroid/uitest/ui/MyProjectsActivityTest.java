@@ -26,7 +26,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -46,7 +48,9 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
-	private final int RESOURCE_IMAGE = R.drawable.catroid_sunglasses;
+	private final int IMAGE_RESOURCE_1 = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
+	private final int IMAGE_RESOURCE_2 = at.tugraz.ist.catroid.uitest.R.drawable.background_white;
+	private final int IMAGE_RESOURCE_3 = at.tugraz.ist.catroid.uitest.R.drawable.background_black;
 	private Solo solo;
 	private final String ZIPFILE_NAME = "testzip";
 	private File renameDirectory = null;
@@ -126,7 +130,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		zipFile.delete();
 	}
 
-	public void testProjectsVisible() {
+	public void testProjectsAndImagesVisible() {
 		createProjects();
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
@@ -134,6 +138,37 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
 		assertTrue("activity doesn't show the project " + UiTestUtils.PROJECTNAME1,
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
+
+		int currentViewID;
+		int pixelColor;
+		int imageViewID = R.id.my_projects_activity_project_image;
+		Bitmap viewBitmap;
+		int counter = 0;
+		for (View viewToTest : solo.getCurrentViews()) {
+			currentViewID = viewToTest.getId();
+			if (imageViewID == currentViewID) {
+				counter++;
+				viewToTest.buildDrawingCache();
+				viewBitmap = viewToTest.getDrawingCache();
+				switch (counter) {
+					case 1:
+						pixelColor = viewBitmap.getPixel(1, 1);
+						assertEquals("Image color should be white",
+								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
+						break;
+					case 2:
+						pixelColor = viewBitmap.getPixel(1, 1);
+						assertEquals("Image color should be black",
+								solo.getCurrentActivity().getResources().getColor(R.color.solid_black), pixelColor);
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		if (counter == 0) {
+			fail("no imageviews tested");
+		}
 	}
 
 	public void testDeleteProject() {
@@ -373,7 +408,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		projectManager.setCurrentSprite(testSprite);
 
 		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
-				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
 		ArrayList<CostumeData> costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		CostumeData costumeData = new CostumeData();
@@ -388,5 +423,11 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
 		StorageHandler.getInstance().saveProject(project2);
+
+		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png", IMAGE_RESOURCE_2,
+				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+
+		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, "screenshot.png", IMAGE_RESOURCE_3,
+				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 	}
 }
