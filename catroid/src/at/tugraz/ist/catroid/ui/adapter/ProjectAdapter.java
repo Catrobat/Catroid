@@ -88,9 +88,9 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
 
 		//set last changed:
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy HH:mm");
-		Date resultDate = new Date(projectData.lastChanged);
-		holder.dateChanged.setText(simpleDateFormat.format(resultDate));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+		Date projectLastModificationDate = new Date(projectData.lastChanged);
+		holder.dateChanged.setText(dateFormat.format(projectLastModificationDate));
 
 		//set project image (threaded):
 		screenshotLoader.loadAndShowScreenshot(projectName, holder.image);

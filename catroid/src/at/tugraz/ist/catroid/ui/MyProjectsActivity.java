@@ -57,7 +57,6 @@ public class MyProjectsActivity extends ListActivity {
 	public ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 	private CustomIconContextMenu iconContextMenu;
-	private CustomIconContextMenu iconContextMenu2;
 	private ActivityHelper activityHelper;
 
 	public static final int DIALOG_NEW_PROJECT = 0;
@@ -67,9 +66,10 @@ public class MyProjectsActivity extends ListActivity {
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
 	//	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
 	public static final int DIALOG_RENAME_PROJECT = 5;
+
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
 	//	public static final int DIALOG_SET_DESCRIPTION = 6;
-	public static final int DIALOG_CONTEXT_MENU2 = 7;
+	//public static final int DIALOG_CONTEXT_MENU2 = 7;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -185,27 +185,13 @@ public class MyProjectsActivity extends ListActivity {
 				}
 			}
 		});
-
-		iconContextMenu2 = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU2);
-		iconContextMenu2.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
-				CONTEXT_MENU_ITEM_DELETE);
-
-		iconContextMenu2.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-			public void onClick(int menuId) {
-				switch (menuId) {
-					case CONTEXT_MENU_ITEM_DELETE:
-						deleteProject();
-						break;
-				}
-			}
-		});
 	}
 
 	private void deleteProject() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
 
-		String project = (projectToEdit.projectName);
+		String project = projectToEdit.projectName;
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(project)));
 
 		if (!(currentProject != null && currentProject.getName().equalsIgnoreCase(project))) {
@@ -230,17 +216,12 @@ public class MyProjectsActivity extends ListActivity {
 		Dialog dialog = null;
 		String project = "";
 		if (projectToEdit != null) {
-			project = (projectToEdit.projectName);
+			project = projectToEdit.projectName;
 		}
 		switch (id) {
 			case DIALOG_CONTEXT_MENU:
 				if (iconContextMenu != null && projectToEdit != null) {
 					dialog = iconContextMenu.createMenu(project);
-				}
-				break;
-			case DIALOG_CONTEXT_MENU2:
-				if (iconContextMenu2 != null && projectToEdit != null) {
-					dialog = iconContextMenu2.createMenu(project);
 				}
 				break;
 			case DIALOG_RENAME_PROJECT:
@@ -290,13 +271,9 @@ public class MyProjectsActivity extends ListActivity {
 			//				break;
 			case DIALOG_NEW_PROJECT:
 				EditText newProjectEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-				newProjectEditText.setText("");
+				newProjectEditText.setText(null);
 				break;
 			case DIALOG_CONTEXT_MENU:
-				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
-				customTitleTextView.setText(projectToEdit.projectName);
-				break;
-			case DIALOG_CONTEXT_MENU2:
 				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
 				customTitleTextView.setText(projectToEdit.projectName);
 				break;

@@ -51,15 +51,18 @@ public class ProjectScreenshotLoader {
 		}
 	}
 
-	private static final int POOL_SIZE = 10;
+	private static final int POOL_SIZE = 5;
 	private static final int SCALING_LEVEL = 4; //1 = no scaling, 2 = half screen, 3 = to a third of screen size ...
 	private static final int CACHE_MAX_SIZE = 25;
+	private static final float LOAD_FACTOR = .75f;
+	private static final int INITIAL_VALUE = 13; // (N / LOAD_FACTOR) + 1
 
 	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
 	private ExecutorService executorService;
+	private Context context;
 
-	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(10, 1.5f,
-			true) {
+	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(
+			INITIAL_VALUE, LOAD_FACTOR, true) {
 
 		private static final long serialVersionUID = 1L;
 
@@ -71,6 +74,7 @@ public class ProjectScreenshotLoader {
 
 	public ProjectScreenshotLoader(Context context) {
 		executorService = Executors.newFixedThreadPool(POOL_SIZE);
+		this.context = context;
 	}
 
 	public void loadAndShowScreenshot(String projectName, ImageView imageView) {
