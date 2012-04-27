@@ -25,5 +25,7 @@
     <dimen name="actionbar_height">45dp</dimen>
     <dimen name="actionbar_catroid_logo">110dp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="project_thumbnail_height">133dp</dimen>
+    <dimen name="project_thumbnail_width">80dp</dimen>
 
 </resources>
