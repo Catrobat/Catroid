@@ -76,6 +76,10 @@
 
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
+    <string name="number_of_scripts">Scripts:</string>
+    <string name="number_of_bricks">Bricks:</string>
+    <string name="number_of_costumes">Costumes:</string>
+    <string name="number_of_sounds">Sounds:</string>
 
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
