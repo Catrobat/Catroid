@@ -82,7 +82,7 @@ public class UiTestUtils {
 	public static final String PROJECTNAME3 = "testproject3";
 
 	public static enum FileTypes {
-		IMAGE, SOUND
+		IMAGE, SOUND, ROOT
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
@@ -272,6 +272,7 @@ public class UiTestUtils {
 	 */
 	public static File saveFileToProject(String project, String name, int fileID, Context context, FileTypes type) {
 
+		boolean withChecksum = true;
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
 			filePath = Consts.DEFAULT_ROOT + "/";
@@ -282,6 +283,10 @@ public class UiTestUtils {
 					break;
 				case SOUND:
 					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.SOUND_DIRECTORY + "/";
+					break;
+				case ROOT:
+					filePath = Consts.DEFAULT_ROOT + "/" + project + "/";
+					withChecksum = false;
 					break;
 				default:
 					filePath = Consts.DEFAULT_ROOT + "/";
@@ -307,8 +312,14 @@ public class UiTestUtils {
 			out.flush();
 			out.close();
 
-			String checksum = Utils.md5Checksum(file);
-			File tempFile = new File(filePath + checksum + "_" + name);
+			String checksum;
+			if (withChecksum) {
+				checksum = Utils.md5Checksum(file) + "_";
+			} else {
+				checksum = "";
+			}
+
+			File tempFile = new File(filePath + checksum + name);
 			file.renameTo(tempFile);
 
 			return tempFile;
@@ -367,6 +378,16 @@ public class UiTestUtils {
 		}
 
 		directory = new File(Consts.DEFAULT_ROOT + "/" + "standardProjekt");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "My first project");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "Mein erstes Projekt");
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
