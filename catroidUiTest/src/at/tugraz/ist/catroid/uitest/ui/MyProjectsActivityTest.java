@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -55,6 +56,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	private final String ZIPFILE_NAME = "testzip";
 	private File renameDirectory = null;
 	private boolean unzip;
+	private boolean deleteCacheProjects = false;
+	private int numberOfCacheProjects = 27;
+	private String cacheProjectName = "cachetestProject";
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
 	//	private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
@@ -81,6 +85,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
 			renameDirectory = null;
+		}
+		if (deleteCacheProjects) {
+			for (int i = 0; i < numberOfCacheProjects; i++) {
+				File directory = new File(Utils.buildProjectPath(cacheProjectName + i));
+				UtilFile.deleteDirectory(directory);
+			}
+			deleteCacheProjects = false;
 		}
 
 		if (unzip) {
@@ -168,6 +179,72 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 		if (counter == 0) {
 			fail("no imageviews tested");
+		}
+	}
+
+	public void testImageCache() {
+		deleteCacheProjects = true;
+
+		//create first cache test project and set it as current project 
+		Project firstCacheTestProject = new Project(getActivity(), "cachetestProject" + 0);
+		StorageHandler.getInstance().saveProject(firstCacheTestProject);
+		UiTestUtils.saveFileToProject(cacheProjectName + 0, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
+				.getContext(), UiTestUtils.FileTypes.ROOT);
+		ProjectManager.getInstance().setProject(firstCacheTestProject);
+
+		for (int i = 1; i < numberOfCacheProjects; i++) {
+			StorageHandler.getInstance().saveProject(new Project(getActivity(), "cachetestProject" + i));
+			UiTestUtils.saveFileToProject(cacheProjectName + i, "screenshot.png", IMAGE_RESOURCE_2,
+					getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+		}
+
+		UiTestUtils.saveFileToProject(cacheProjectName + 24, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
+				.getContext(), UiTestUtils.FileTypes.ROOT);
+		ProjectManager.getInstance().setProject(firstCacheTestProject);
+		UiTestUtils.saveFileToProject(cacheProjectName + 26, "screenshot.png", IMAGE_RESOURCE_3, getInstrumentation()
+				.getContext(), UiTestUtils.FileTypes.ROOT);
+		solo.sleep(100);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+
+		while (solo.scrollDown()) {
+			;
+		}
+		while (solo.scrollUp()) {
+			;
+		}
+		solo.sleep(300);
+		int currentViewID;
+		int pixelColor;
+		int imageViewID = R.id.my_projects_activity_project_image;
+		Bitmap viewBitmap;
+		int counter = 0;
+		for (View viewToTest : solo.getCurrentViews()) {
+			currentViewID = viewToTest.getId();
+			if (imageViewID == currentViewID) {
+				counter++;
+				viewToTest.buildDrawingCache();
+				viewBitmap = viewToTest.getDrawingCache();
+				switch (counter) {
+					case 1:
+						pixelColor = viewBitmap.getPixel(1, 1);
+						assertEquals("Image color should be white",
+								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
+						break;
+					case 2:
+						pixelColor = viewBitmap.getPixel(1, 1);
+						assertEquals("Image color should be black",
+								solo.getCurrentActivity().getResources().getColor(R.color.solid_black), pixelColor);
+						break;
+					case 3:
+						pixelColor = viewBitmap.getPixel(1, 1);
+						assertEquals("Image color should be white",
+								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
+						break;
+					default:
+						break;
+				}
+			}
 		}
 	}
 
@@ -343,9 +420,18 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.sleep(200);
+		EditText addNewProjectEditText = solo.getEditText(0);
+		assertEquals("Not the proper hint set", getActivity().getString(R.string.new_project_dialog_hint),
+				addNewProjectEditText.getHint());
+		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
-		solo.goBack();
+		//		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(200);
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
