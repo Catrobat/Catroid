@@ -115,13 +115,11 @@ public class MyProjectsActivity extends ListActivity {
 
 	public void initAdapter() {
 		File rootDirectory = new File(Consts.DEFAULT_ROOT);
-		long projectChanged;
-		File projectFileChanged;
+		File projectCodeFile;
 		projectList = new ArrayList<ProjectData>();
 		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-			projectFileChanged = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Consts.PROJECTCODE_NAME));
-			projectChanged = projectFileChanged.lastModified();
-			projectList.add(new ProjectData(projectName, projectChanged));
+			projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Consts.PROJECTCODE_NAME));
+			projectList.add(new ProjectData(projectName, projectCodeFile.lastModified()));
 		}
 		Collections.sort(projectList, new Comparator<ProjectData>() {
 			public int compare(ProjectData project1, ProjectData project2) {
@@ -269,10 +267,6 @@ public class MyProjectsActivity extends ListActivity {
 			//					projectManager.loadProject(currentProjectName, this, false);
 			//				}
 			//				break;
-			case DIALOG_NEW_PROJECT:
-				EditText newProjectEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-				newProjectEditText.setText(null);
-				break;
 			case DIALOG_CONTEXT_MENU:
 				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
 				customTitleTextView.setText(projectToEdit.projectName);

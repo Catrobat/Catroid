@@ -81,8 +81,6 @@ public class UiTestUtils {
 	public static final String PROJECTNAME2 = "testproject2";
 	public static final String PROJECTNAME3 = "testproject3";
 
-	private boolean checksum;
-
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};

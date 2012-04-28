@@ -59,7 +59,7 @@ public class ProjectScreenshotLoader {
 
 	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
 	private ExecutorService executorService;
-	private Context context;
+	//private Context context;
 
 	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(
 			INITIAL_VALUE, LOAD_FACTOR, true) {
@@ -74,7 +74,7 @@ public class ProjectScreenshotLoader {
 
 	public ProjectScreenshotLoader(Context context) {
 		executorService = Executors.newFixedThreadPool(POOL_SIZE);
-		this.context = context;
+		//this.context = context;
 	}
 
 	public void loadAndShowScreenshot(String projectName, ImageView imageView) {
