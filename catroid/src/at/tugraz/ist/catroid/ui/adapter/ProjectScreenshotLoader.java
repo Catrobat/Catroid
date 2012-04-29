@@ -34,7 +34,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
-import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.stage.StageListener;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -52,14 +52,13 @@ public class ProjectScreenshotLoader {
 	}
 
 	private static final int POOL_SIZE = 5;
-	private static final int SCALING_LEVEL = 4; //1 = no scaling, 2 = half screen, 3 = to a third of screen size ...
 	private static final int CACHE_MAX_SIZE = 25;
 	private static final float LOAD_FACTOR = .75f;
 	private static final int INITIAL_VALUE = 13; // (N / LOAD_FACTOR) + 1
 
 	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
 	private ExecutorService executorService;
-	//private Context context;
+	private Context context;
 
 	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(
 			INITIAL_VALUE, LOAD_FACTOR, true) {
@@ -74,7 +73,7 @@ public class ProjectScreenshotLoader {
 
 	public ProjectScreenshotLoader(Context context) {
 		executorService = Executors.newFixedThreadPool(POOL_SIZE);
-		//this.context = context;
+		this.context = context;
 	}
 
 	public void loadAndShowScreenshot(String projectName, ImageView imageView) {
@@ -111,9 +110,9 @@ public class ProjectScreenshotLoader {
 			if (!projectImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
 				projectImage = null;
 			} else {
-				Utils.updateScreenWidthAndHeight(uiActivity);
-				projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, Values.SCREEN_WIDTH
-						/ SCALING_LEVEL, Values.SCREEN_HEIGHT / SCALING_LEVEL, true);
+				int width = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
+				int height = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
+				projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, width, height, true);
 			}
 
 			imageCache.put(projectScreenshotData.projectName, projectImage);

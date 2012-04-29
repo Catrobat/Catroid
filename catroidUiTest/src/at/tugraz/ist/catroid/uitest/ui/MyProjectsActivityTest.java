@@ -152,6 +152,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		int currentViewID;
 		int pixelColor;
+		int expectedImageWidth = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
+		int expectedImageHeigth = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
 		int imageViewID = R.id.my_projects_activity_project_image;
 		Bitmap viewBitmap;
 		int counter = 0;
@@ -166,11 +168,16 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 						pixelColor = viewBitmap.getPixel(1, 1);
 						assertEquals("Image color should be white",
 								solo.getCurrentActivity().getResources().getColor(R.color.white), pixelColor);
+
+						assertEquals("Image is not scaled right", expectedImageWidth, viewBitmap.getWidth());
+						assertEquals("Image is not scaled right", expectedImageHeigth, viewBitmap.getHeight());
 						break;
 					case 2:
 						pixelColor = viewBitmap.getPixel(1, 1);
 						assertEquals("Image color should be black",
 								solo.getCurrentActivity().getResources().getColor(R.color.solid_black), pixelColor);
+						assertEquals("Image is not scaled right", expectedImageWidth, viewBitmap.getWidth());
+						assertEquals("Image is not scaled right", expectedImageHeigth, viewBitmap.getHeight());
 						break;
 					default:
 						break;
