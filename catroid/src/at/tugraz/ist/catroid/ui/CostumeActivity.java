@@ -263,13 +263,10 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	public void handleDeleteCostumeButton(View v) {
-		//		int position = (Integer) v.getTag();
-		//		StorageHandler.getInstance().deleteFile(costumeDataList.get(position).getAbsolutePath());
-		//		costumeDataList.remove(position);
-		//		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
 		int position = (Integer) v.getTag();
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		scriptTabActivity.selectedCostumeData = costumeDataList.get(position);
+		scriptTabActivity.selectedCostumePosition = position;
 		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_DELETE_COSTUME);
 	}
 
