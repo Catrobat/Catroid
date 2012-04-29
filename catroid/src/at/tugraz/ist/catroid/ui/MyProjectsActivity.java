@@ -274,15 +274,6 @@ public class MyProjectsActivity extends ListActivity {
 		}
 	}
 
-	public boolean projectAlreadyExists(String projectName) {
-		for (ProjectData project : projectList) {
-			if (projectName.equalsIgnoreCase(project.projectName)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public void updateProjectTitle() {
 		TextView titleTextView = (TextView) MyProjectsActivity.this.findViewById(R.id.tv_title);
 		titleTextView.setText(MyProjectsActivity.this.getString(R.string.project_name) + " "

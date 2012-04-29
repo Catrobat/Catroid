@@ -81,7 +81,7 @@ public class RenameProjectDialog extends TextDialog {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					String newProjectName = (input.getText().toString()).trim();
 					String oldProjectName = (((MyProjectsActivity) activity).projectToEdit.projectName);
-					if (((MyProjectsActivity) activity).projectAlreadyExists(newProjectName)
+					if (StorageHandler.getInstance().projectExists(newProjectName)
 							&& !newProjectName.equalsIgnoreCase(oldProjectName)) {
 						Utils.displayErrorMessage(activity, activity.getString(R.string.error_project_exists));
 					} else if (newProjectName.equalsIgnoreCase("")) {
