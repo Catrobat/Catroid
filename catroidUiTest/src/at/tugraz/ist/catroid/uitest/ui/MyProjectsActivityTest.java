@@ -438,8 +438,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(100);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
-		//		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(200);
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.getInstance()
@@ -450,6 +449,27 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		assertTrue("project " + UiTestUtils.PROJECTNAME2 + " was not added",
 				solo.searchText(UiTestUtils.PROJECTNAME2, 1, true));
+	}
+
+	public void testAddNewProject2() {
+		createProjects();
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME1);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertTrue("No or wrong error message shown",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		solo.sleep(100);
+		solo.clickOnButton(getActivity().getString(R.string.close));
+		solo.goBack();
+		solo.sleep(100);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertTrue("No or wrong error message shown",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription
