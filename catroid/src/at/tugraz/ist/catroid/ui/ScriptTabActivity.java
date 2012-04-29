@@ -63,6 +63,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
 	public CostumeData selectedCostumeData;
+	public int selectedCostumePosition;
 	private RenameCostumeDialog renameCostumeDialog;
 	private DeleteCostumeDialog deleteCostumeDialog;
 	public String selectedCategory;
@@ -243,6 +244,14 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 	public void handleNegativeButtonRenameCostume(View v) {
 		dismissDialog(DIALOG_RENAME_COSTUME);
+	}
+
+	public void handlePositiveButtonDeleteCostume(View v) {
+		deleteCostumeDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonDeleteCostume(View v) {
+		dismissDialog(DIALOG_DELETE_COSTUME);
 	}
 
 	public void onDismiss(DialogInterface dialogInterface) {

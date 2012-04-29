@@ -22,22 +22,24 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 
 public class DeleteCostumeDialog {
 
 	private ScriptTabActivity scriptTabActivity;
-	private Button buttonPositive;
 
 	public DeleteCostumeDialog(ScriptTabActivity scriptTabActivity) {
 		this.scriptTabActivity = scriptTabActivity;
@@ -51,81 +53,24 @@ public class DeleteCostumeDialog {
 		LayoutInflater inflater = (LayoutInflater) scriptTabActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.dialog_delete_costume, null);
 
-		buttonPositive = (Button) view.findViewById(R.id.btn_delete_costume);
-
 		builder.setView(view);
-
-		initKeyListener(builder);
 
 		final Dialog deleteDialog = builder.create();
 		deleteDialog.setCanceledOnTouchOutside(true);
-
-		//initAlertDialogListener(renameDialog);
-
-		//		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-		//			public void onFocusChange(View v, boolean hasFocus) {
-		//				if (hasFocus) {
-		//					renameDialog.getWindow().setSoftInputMode(
-		//							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		//				}
-		//			}
-		//		});
 
 		return deleteDialog;
 	}
 
 	public void handleOkButton() {
-		//		String newSoundTitle = (input.getText().toString()).trim();
-		//		String oldSoundTitle = scriptTabActivity.selectedSoundInfo.getTitle();
-		//
-		//		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
-		//			scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
-		//			return;
-		//		}
-		//		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
-		//			newSoundTitle = Utils.getUniqueSoundName(newSoundTitle);
-		//			scriptTabActivity.selectedSoundInfo.setTitle(newSoundTitle);
-		//			((SoundAdapter) ((SoundActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
-		//					.notifyDataSetChanged(); //TODO: this is madness!
-		//		} else {
-		//			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.soundname_invalid));
-		//			return;
-		//		}
+
+		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		StorageHandler.getInstance().deleteFile(
+				costumeDataList.get(scriptTabActivity.selectedCostumePosition).getAbsolutePath());
+		costumeDataList.remove(scriptTabActivity.selectedCostumePosition);
+		((CostumeAdapter) ((CostumeActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
+				.notifyDataSetChanged();
+
 		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_DELETE_COSTUME);
 	}
-
-	private void initKeyListener(AlertDialog.Builder builder) {
-		builder.setOnKeyListener(new OnKeyListener() {
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					handleOkButton();
-					return true;
-				}
-				return false;
-			}
-		});
-	}
-
-	//	private void initAlertDialogListener(Dialog dialog) {
-	//
-	//		input.addTextChangedListener(new TextWatcher() {
-	//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-	//				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-	//					Toast.makeText(scriptTabActivity, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
-	//							.show();
-	//					buttonPositive.setEnabled(false);
-	//				} else {
-	//					buttonPositive.setEnabled(true);
-	//				}
-	//			}
-	//
-	//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-	//			}
-	//
-	//			public void afterTextChanged(Editable s) {
-	//			}
-	//		});
-	//	}
-	//}
 
 }
