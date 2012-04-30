@@ -35,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.io.ProjectScreenshotLoader;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -89,7 +90,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
 		//set last changed:
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-		Date projectLastModificationDate = new Date(projectData.lastChanged);
+		Date projectLastModificationDate = new Date(projectData.lastUsed);
 		holder.dateChanged.setText(dateFormat.format(projectLastModificationDate));
 
 		//set project image (threaded):

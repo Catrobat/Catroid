@@ -110,8 +110,8 @@
     <string name="sound_select_source">Select a sound</string>
 
     <!-- My Projects activity -->
-    <string name="last_changed">Last changed:  </string>
-    <string name="description">Description:     </string>
+    <string name="last_used">Last used:</string>
+    <string name="description">Description:</string>
     <string name="set_description">set Description</string>
     <string name="rename_project">Rename Project</string>
 
