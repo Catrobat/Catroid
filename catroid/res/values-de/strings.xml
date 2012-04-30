@@ -120,7 +120,7 @@
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
 
     <!-- My Projects activity -->
-    <string name="last_changed">Zuletzt geändert:</string>
+    <string name="last_used">Zuletzt benutzt:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projeckt umbenennen</string>

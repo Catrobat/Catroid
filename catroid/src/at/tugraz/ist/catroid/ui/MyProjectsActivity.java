@@ -123,7 +123,7 @@ public class MyProjectsActivity extends ListActivity {
 		}
 		Collections.sort(projectList, new Comparator<ProjectData>() {
 			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.valueOf(project2.lastChanged).compareTo(project1.lastChanged);
+				return Long.valueOf(project2.lastUsed).compareTo(project1.lastUsed);
 			}
 		});
 
@@ -282,11 +282,11 @@ public class MyProjectsActivity extends ListActivity {
 
 	public class ProjectData {
 		public String projectName;
-		public long lastChanged;
+		public long lastUsed;
 
-		public ProjectData(String projectName, long lastChanged) {
+		public ProjectData(String projectName, long lastUsed) {
 			this.projectName = projectName;
-			this.lastChanged = lastChanged;
+			this.lastUsed = lastUsed;
 		}
 	}
 }
