@@ -266,7 +266,7 @@ public class CostumeActivity extends ListActivity {
 		int position = (Integer) v.getTag();
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		scriptTabActivity.selectedCostumeData = costumeDataList.get(position);
-		scriptTabActivity.selectedCostumePosition = position;
+		scriptTabActivity.selectedPosition = position;
 		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_DELETE_COSTUME);
 	}
 

@@ -13,6 +13,7 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -137,7 +138,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	}
 
-	public void testeDeleteSounds() {
+	public void testDeleteSounds() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
@@ -145,7 +146,22 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertTrue("No ok button found", solo.searchButton(getActivity().getString(R.string.ok)));
 		assertTrue("No cancel button found", solo.searchButton(getActivity().getString(R.string.cancel_button)));
 
-		solo.sleep(5000);
+		ListAdapter adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
+		int oldCount = adapter.getCount();
+		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
+		int newCount = adapter.getCount();
+		assertEquals("The costume number not ok after canceling the deletion", newCount, oldCount);
+
+		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+
+		solo.sleep(1000);
+
+		newCount = adapter.getCount();
+		assertEquals("The sound was not deleted", oldCount - 1, newCount);
+		assertEquals("The sound was not deleted from costumeDataList", newCount, soundInfoList.size());
+
+		solo.sleep(2000);
 
 	}
 }
