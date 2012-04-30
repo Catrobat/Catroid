@@ -31,27 +31,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
+import at.tugraz.ist.catroid.ui.SoundActivity;
+import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 
-public class DeleteCostumeDialog {
+public class DeleteSoundDialog {
 
 	private ScriptTabActivity scriptTabActivity;
 
-	public DeleteCostumeDialog(ScriptTabActivity scriptTabActivity) {
+	public DeleteSoundDialog(ScriptTabActivity scriptTabActivity) {
 		this.scriptTabActivity = scriptTabActivity;
 
 	}
 
 	public Dialog createDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(scriptTabActivity);
-		builder.setTitle(R.string.delete_costume_dialog);
+		builder.setTitle(R.string.delete_sound_dialog);
 
 		LayoutInflater inflater = (LayoutInflater) scriptTabActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.dialog_delete_costume, null);
+		View view = inflater.inflate(R.layout.dialog_delete_sound, null);
 
 		builder.setView(view);
 
@@ -63,15 +63,15 @@ public class DeleteCostumeDialog {
 
 	public void handleOkButton() {
 
-		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		int position = scriptTabActivity.selectedPosition;
 
-		StorageHandler.getInstance().deleteFile(costumeDataList.get(position).getAbsolutePath());
-		costumeDataList.remove(position);
-		((CostumeAdapter) ((CostumeActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
+		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
+		soundInfoList.remove(position);
+		((SoundAdapter) ((SoundActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
 				.notifyDataSetChanged();
 
-		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_DELETE_COSTUME);
+		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_DELETE_SOUND);
 	}
 
 }
