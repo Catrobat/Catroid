@@ -120,7 +120,7 @@
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
 
     <!-- My Projects activity -->
-    <string name="last_changed">Zuletzt geändert:</string>
+    <string name="last_used">Zuletzt benutzt:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projeckt umbenennen</string>
@@ -132,13 +132,14 @@
     <string name="new_project_dialog_button">Erstellen</string>
     <string name="new_project_dialog_title">Name des Projekts</string>
     <string name="new_project_dialog_default_project_name">Projektname</string>
+    <string name="new_project_dialog_hint">Mein Projekt</string>
 
     <!-- Rename Dialog -->
     <string name="rename_hint">Name</string>
     <string name="rename_button">umbenennen</string>
 
     <!-- New sprite dialog -->
-    <string name="new_sprite_dialog_default_sprite_name">Objektname</string>
+    <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
     <string name="new_sprite_dialog_title">Name des Objekts</string>
     <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
     <string name="spritename_invalid">Dieser Objektname ist ungültig</string>

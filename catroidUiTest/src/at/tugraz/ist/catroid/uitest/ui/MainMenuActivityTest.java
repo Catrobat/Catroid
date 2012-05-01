@@ -247,9 +247,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		createTestProject(testProject3);
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
 		solo.clickOnText(testProject3);
+		solo.sleep(300);
 		solo.goBack();
-
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);

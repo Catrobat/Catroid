@@ -21,88 +21,89 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-        <LinearLayout 
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal" 
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/spritelist_item_background">
-                <ImageView 
-                        android:id="@+id/project_img" 
-                        android:layout_width="80dp"
-                        android:layout_height="133dp" 
-                        android:layout_marginRight="6dip" 
-                        android:layout_marginLeft="5dip"/>
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView 
-                                android:layout_width="fill_parent" 
-                                android:id="@+id/project_title"
-                                android:layout_height="wrap_content" 
-                                android:paddingLeft="8dp" 
-                                android:textSize="18sp" 
-                                android:textStyle="bold"
-                                android:textColor="@color/solid_black"
-                                android:ellipsize="end"
-                                android:maxLines="2"/>
-                        <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <TextView 
-                                        android:text="@string/last_changed" 
-                                        android:layout_width="wrap_content" 
-                                        android:layout_height="wrap_content" 
-                                        android:textSize="14sp"
-                                        android:paddingLeft="8dp"
-                                        android:textStyle="bold"/>
-                                <TextView 
-                                        android:id="@+id/my_projects_activity_changed" 
-                                        android:layout_width="wrap_content" 
-                                        android:layout_height="wrap_content" 
-                                        android:textSize="14sp"
-                                        android:layout_marginLeft="8dp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <TextView 
-                                        android:text="@string/size_of_project" 
-                                        android:layout_width="wrap_content" 
-                                        android:layout_height="wrap_content" 
-                                        android:textSize="14sp"
-                                        android:paddingLeft="8dp"
-                                        android:textStyle="bold"/>
-                                <TextView 
-                                        android:id="@+id/my_projects_activity_size_of_project" 
-                                        android:layout_width="wrap_content" 
-                                        android:layout_height="wrap_content" 
-                                        android:textSize="14sp"
-                                        android:layout_marginLeft="8dp"/>
-                        </LinearLayout>
-                        <!-- 
-                        temporarily removed - because of upcoming release, and bad performance of projectdescription
-                        <LinearLayout
-                                android:orientation="vertical"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <TextView 
-                                        android:text="@string/description" 
-                                        android:layout_width="wrap_content" 
-                                        android:layout_height="wrap_content" 
-                                        android:textSize="14sp"
-                                        android:paddingLeft="8dp"
-                                        android:textStyle="bold"/>
-                                <TextView 
-                                        android:id="@+id/my_projects_activity_description" 
-                                        android:layout_width="wrap_content" 
-                                        android:layout_height="wrap_content" 
-                                        android:textSize="14sp"
-                                        android:layout_marginLeft="8dp"/>"
-                        </LinearLayout> -->
-                </LinearLayout>
-        </LinearLayout>
+ 
+ 
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="133dp"
+	android:layout_width="fill_parent"
+	android:background="@color/spritelist_item_background">
+	       
+    <ImageView 
+        android:id="@+id/my_projects_activity_project_image"
+		android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" 
+		android:layout_width="@dimen/project_thumbnail_width"
+		android:layout_height="@dimen/project_thumbnail_height" 
+		android:layout_marginRight="6dp" 
+		android:layout_marginLeft="5dp" />
+    
+    <TextView 
+        android:id="@+id/my_projects_activity_project_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" 
+        android:layout_toRightOf="@+id/my_projects_activity_project_image" 
+        android:gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp" 
+        android:textStyle="bold"
+        android:textColor="@color/solid_black"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:layout_marginRight="6dp"/>
+    
+    <TextView 
+        android:id="@+id/my_projects_activity_project_changed_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_projects_activity_project_title"
+        android:layout_toRightOf="@+id/my_projects_activity_project_image"
+        android:layout_alignWithParentIfMissing="true" 
+        android:gravity="center_vertical"
+        android:textStyle="bold" 
+        android:textSize="14sp" 
+        android:text="@string/last_used"
+        android:layout_marginLeft="5dp" />
+    
+    <TextView 
+        android:id="@+id/my_projects_activity_size_of_project_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_projects_activity_project_changed_1"
+        android:layout_toRightOf="@+id/my_projects_activity_project_image"
+        android:layout_alignWithParentIfMissing="true" 
+        android:gravity="center_vertical"
+        android:textStyle="bold" 
+        android:textSize="14sp" 
+        android:text="@string/size_of_project"
+        android:layout_marginLeft="5dp" />
+    
+    <TextView 
+        android:id="@+id/my_projects_activity_project_changed_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/my_projects_activity_project_title"
+        android:layout_alignTop="@+id/my_projects_activity_project_changed_1"
+        android:layout_alignWithParentIfMissing="true" 
+        android:gravity="center_vertical"
+        android:textSize="14sp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="6dp" />
+    
+    <TextView 
+        android:id="@+id/my_projects_activity_size_of_project_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/my_projects_activity_project_changed_2"
+        android:layout_alignTop="@+id/my_projects_activity_size_of_project_1"
+        android:layout_alignWithParentIfMissing="true" 
+        android:gravity="center_vertical"
+        android:textSize="14sp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="6dp" />
+</RelativeLayout>
 
