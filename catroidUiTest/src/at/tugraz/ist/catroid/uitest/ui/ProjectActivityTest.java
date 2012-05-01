@@ -29,6 +29,7 @@ import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -83,6 +84,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 
 		solo.sleep(200);
+		EditText addNewSpriteEditText = solo.getEditText(0);
+		//check if hint is set
+		assertEquals("Not the proper hint set",
+				getActivity().getString(R.string.new_sprite_dialog_default_sprite_name), addNewSpriteEditText.getHint());
+		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
+		solo.sleep(100);
 		solo.enterText(0, spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
