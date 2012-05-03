@@ -43,7 +43,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 	private Solo solo;
 	private Project project;
 	private MoveNStepsBrick moveNStepsBrick;
-	private double stepsToMove;
+	private static final double STEPS_TO_MOVE = 23.0;
 
 	public MoveNStepsBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -62,7 +62,6 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	private void createProject() {
-		stepsToMove = 23.0;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
@@ -94,13 +93,13 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, stepsToMove + "");
+		solo.enterText(0, STEPS_TO_MOVE + "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong text in field.", stepsToMove, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
-		assertEquals("Value in Brick is not updated.", stepsToMove + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", STEPS_TO_MOVE, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
+		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {

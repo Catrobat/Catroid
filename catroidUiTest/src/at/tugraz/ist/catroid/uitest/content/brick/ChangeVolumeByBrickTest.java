@@ -43,7 +43,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 	private Solo solo;
 	private Project project;
 	private ChangeVolumeByBrick changeVolumeByBrick;
-	private float volumeToChange;
+	private static final float VOLUME_TO_CHANGE = 50.0f;
 
 	public ChangeVolumeByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -79,12 +79,12 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, volumeToChange + "");
+		solo.enterText(0, VOLUME_TO_CHANGE + "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Text not updated", volumeToChange, Float.parseFloat(solo.getEditText(0).getText().toString()));
+		assertEquals("Text not updated", VOLUME_TO_CHANGE, Float.parseFloat(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
@@ -95,7 +95,6 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 	}
 
 	private void createProject() {
-		volumeToChange = 50.0f;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

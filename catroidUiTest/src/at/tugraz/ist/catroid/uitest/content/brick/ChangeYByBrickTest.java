@@ -43,7 +43,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	private Solo solo;
 	private Project project;
 	private ChangeYByBrick changeYByBrick;
-	private int yToChange;
+	private static final int Y_TO_CHANGE = 17;
 
 	public ChangeYByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -78,14 +78,14 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, yToChange + "");
+		solo.enterText(0, Y_TO_CHANGE + "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
-		assertEquals("Wrong text in field.", yToChange, yMovementValue);
-		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", Y_TO_CHANGE, yMovementValue);
+		assertEquals("Value in Brick is not updated.", Y_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
@@ -96,7 +96,6 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	private void createProject() {
-		yToChange = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

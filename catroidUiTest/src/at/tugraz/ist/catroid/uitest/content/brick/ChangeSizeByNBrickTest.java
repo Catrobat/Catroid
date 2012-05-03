@@ -43,6 +43,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 	private Solo solo;
 	private Project project;
 	private ChangeSizeByNBrick changeSizeByNBrick;
+	private static final double SIZE_TO_CHANGE = 25;
 
 	public ChangeSizeByNBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -74,11 +75,9 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_change_size_by)));
 
-		double newSize = 25;
-
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, newSize + "");
+		solo.enterText(0, SIZE_TO_CHANGE + "");
 
 		solo.goBack();
 		solo.clickOnButton(0);
@@ -86,8 +85,8 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		double actualSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);
 
-		assertEquals("Wrong text in field", newSize, actualSize);
-		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Wrong text in field", SIZE_TO_CHANGE, actualSize);
+		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
