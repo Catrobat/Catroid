@@ -155,6 +155,8 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(300);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sleep(1000);
 		solo.clickOnText(getActivity().getString(R.string.scripts));
 		solo.sleep(300);
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
