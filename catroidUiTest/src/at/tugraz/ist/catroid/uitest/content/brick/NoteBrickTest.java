@@ -43,7 +43,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private Solo solo;
 	private Project project;
 	private NoteBrick noteBrick;
-	private String testString = "test";
+	private static final String TEST_STRING = "test";
 
 	public NoteBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -76,19 +76,21 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_note)));
 
+		String buttonPositiveText = solo.getString(R.string.ok);
+
 		solo.clickOnEditText(0);
-		solo.enterText(0, testString);
+		solo.enterText(0, TEST_STRING);
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(buttonPositiveText);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
-		assertEquals("Wrong text in field.", testString, note);
+		assertEquals("Wrong text in field.", TEST_STRING, note);
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(buttonPositiveText);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
@@ -96,13 +98,13 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		//used testString again, cause robotium can't find button otherwise....
 		solo.clickOnEditText(0);
-		solo.enterText(0, testString);
+		solo.enterText(0, TEST_STRING);
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(buttonPositiveText);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
-		assertEquals("Wrong text in field.", testString, note);
+		assertEquals("Wrong text in field.", TEST_STRING, note);
 
 	}
 

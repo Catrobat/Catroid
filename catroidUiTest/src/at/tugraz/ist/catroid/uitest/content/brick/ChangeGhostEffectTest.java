@@ -46,7 +46,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	private Solo solo;
 	private Project project;
 	private ChangeGhostEffectBrick changeGhostEffectBrick;
-	private double effectToChange;
+	private static final double EFFECT_TO_CHANGE = 11.2;
 
 	public ChangeGhostEffectTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -84,23 +84,23 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, effectToChange + "");
+		solo.enterText(0, EFFECT_TO_CHANGE + "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		assertEquals("Wrong text in field", effectToChange, changeGhostEffectBrick.getChangeGhostEffect());
-		assertEquals("Text not updated", effectToChange, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectBrick.getChangeGhostEffect());
+		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		createProject();
-		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1000);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
@@ -109,7 +109,6 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	private void createProject() {
-		effectToChange = 11.2;
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

@@ -46,7 +46,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	private Solo solo;
 	private Project project;
 	private ChangeBrightnessBrick changeBrightnessBrick;
-	private double brightnessToChange;
+	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
 
 	public ChangeBrightnessTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -84,24 +84,24 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, brightnessToChange + "");
+		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		assertEquals("Wrong text in field", brightnessToChange, changeBrightnessBrick.getChangeBrightness());
-		assertEquals("Text not updated", brightnessToChange,
+		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
+		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
 				Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		createProject();
-		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1000);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
@@ -110,7 +110,6 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	private void createProject() {
-		brightnessToChange = 56.6;
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
