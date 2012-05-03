@@ -61,13 +61,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -94,7 +88,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", setSpeed, speed);
 		assertEquals("Value in Brick is not updated.", setSpeed + "", solo.getEditText(0).getText().toString());
@@ -152,12 +146,16 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		solo.sleep(1500);
 		solo.pressSpinnerItem(0, 0);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}

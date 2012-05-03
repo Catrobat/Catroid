@@ -62,13 +62,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -83,8 +77,8 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_go_back)));
 
 		solo.clickOnEditText(0);
@@ -93,7 +87,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong text in field.", stepsToGoBack, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
 		assertEquals("Value in Brick is not updated.", stepsToGoBack + "", solo.getEditText(0).getText().toString());
 	}

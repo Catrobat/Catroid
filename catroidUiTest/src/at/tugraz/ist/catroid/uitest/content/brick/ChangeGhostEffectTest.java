@@ -34,6 +34,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -58,13 +60,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -92,19 +88,19 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(1000);
-
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("Wrong text in field", effectToChange, changeGhostEffectBrick.getChangeGhostEffect());
 		assertEquals("Text not updated", effectToChange, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		createProject();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1000);
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.sleep(100);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
