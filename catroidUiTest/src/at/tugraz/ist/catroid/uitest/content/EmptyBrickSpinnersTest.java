@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.uitest.util.XMLValidationUtil;
@@ -73,14 +74,8 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-
 		super.tearDown();
 	}
 
@@ -109,6 +104,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 
 		// go back that the project xml is saved
 		solo.goBack();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 5000);
 
 		String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(testProjectName), Consts.PROJECTCODE_NAME);
 		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);

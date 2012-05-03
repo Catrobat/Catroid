@@ -59,13 +59,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
-
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -79,7 +73,6 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.clickOnText(getActivity().getString(R.string.brick_set_costume));
 		assertTrue("Set size to brick was not added",
 				solo.searchText(getActivity().getString(R.string.brick_set_size_to)));
-
 	}
 
 	public void testDeleteScript() {

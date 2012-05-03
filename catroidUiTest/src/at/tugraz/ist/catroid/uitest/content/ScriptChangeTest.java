@@ -62,13 +62,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
-
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
