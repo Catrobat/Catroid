@@ -100,6 +100,9 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		ListAdapter adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(500);
 		adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not rigth", 2, oldCount);

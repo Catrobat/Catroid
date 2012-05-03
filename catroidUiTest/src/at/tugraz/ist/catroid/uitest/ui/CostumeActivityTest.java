@@ -120,6 +120,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(1000);
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not right", 2, oldCount);
