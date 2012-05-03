@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -56,13 +57,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -79,57 +74,57 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getItem(adapter
-				.getScriptId(groupCount - 1) + 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				adapter.getItem(adapter.getScriptId(groupCount - 1) + 1));
 
 		String testString = "test";
 		String testString2 = "test2";
 		String testString3 = "test3";
 
-		solo.clickOnButton(0);
+		String buttonNewBroadcastText = solo.getString(R.string.new_broadcast_message);
+
+		solo.clickOnText(buttonNewBroadcastText, 1);
 		solo.enterText(0, testString);
-		solo.sleep(600);
 
 		solo.sendKey(Solo.ENTER);
 		solo.sendKey(Solo.ENTER);
 
-		solo.sleep(500);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertNotSame("Wrong selection", testString, solo.getCurrentSpinners().get(1).getSelectedItem());
 
 		solo.pressSpinnerItem(1, 2);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
 
 		solo.pressSpinnerItem(2, 2);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
 
-		solo.clickOnButton(1);
+		solo.clickOnText(buttonNewBroadcastText, 2);
 		solo.enterText(0, testString2);
-		solo.sleep(600);
 
 		solo.sendKey(Solo.ENTER);
 		solo.sendKey(Solo.ENTER);
 
-		solo.sleep(500);
-
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
 
-		solo.clickOnButton(2);
+		solo.clickOnText(buttonNewBroadcastText, 3);
 		solo.enterText(0, testString3);
-		solo.sleep(600);
 
 		solo.sendKey(Solo.ENTER);
 		solo.sendKey(Solo.ENTER);
 
-		solo.sleep(500);
-
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
 		assertEquals("Wrong selection", testString3, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
 
 		solo.pressSpinnerItem(1, 4);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
 		assertEquals("Wrong selection", testString3, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
 
 	}

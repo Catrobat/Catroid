@@ -57,13 +57,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -88,7 +82,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(1000);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
 		assertEquals("Wrong text in field.", yToChange, yMovementValue);
 		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());

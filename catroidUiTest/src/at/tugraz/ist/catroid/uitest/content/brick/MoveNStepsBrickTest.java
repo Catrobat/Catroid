@@ -57,13 +57,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -104,8 +98,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
-
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong text in field.", stepsToMove, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
 		assertEquals("Value in Brick is not updated.", stepsToMove + "", solo.getEditText(0).getText().toString());
 	}

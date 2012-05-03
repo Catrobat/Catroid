@@ -56,13 +56,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -88,7 +82,8 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		solo.goBack();
 		solo.clickOnButton(0);
-		solo.sleep(1000);
+
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		double actualSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);
 
 		assertEquals("Wrong text in field", newSize, actualSize);

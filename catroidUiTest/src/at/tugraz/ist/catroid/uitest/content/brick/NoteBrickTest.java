@@ -57,13 +57,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -78,28 +72,26 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_note)));
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testString);
 		solo.goBack();
 		solo.clickOnButton(0);
-		solo.sleep(300);
 
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
-
 		assertEquals("Wrong text in field.", testString, note);
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
 		solo.goBack();
 		solo.clickOnButton(0);
-		solo.sleep(300);
 
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
-
 		assertEquals("Wrong text in field.", "", note);
 
 		//used testString again, cause robotium can't find button otherwise....
@@ -107,9 +99,9 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, testString);
 		solo.goBack();
 		solo.clickOnButton(0);
-		solo.sleep(300);
-		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", testString, note);
 
 	}

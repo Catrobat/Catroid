@@ -57,13 +57,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -89,7 +83,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Text not updated", volumeToChange, Float.parseFloat(solo.getEditText(0).getText().toString()));
 	}
 

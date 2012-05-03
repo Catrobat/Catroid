@@ -33,6 +33,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -53,13 +55,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -67,7 +63,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testNumberInput() {
 		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.sleep(1000);
+		solo.waitForDialogToClose(1000);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
@@ -80,7 +76,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
 		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
 
-		solo.sleep(1000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
@@ -95,11 +91,12 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	public void testResizeInputFields() {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		createProject();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1000);
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.sleep(100);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1000);
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, 1234.567, 60, true);
