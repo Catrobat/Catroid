@@ -99,6 +99,7 @@
     <string name="select_image">Bild auswählen</string>
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
     <string name="default_costume_name">Kostüm</string>
+    <string name="delete_costume_dialog">Kostüm löschen?</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
@@ -107,6 +108,7 @@
     <string name="sound_pause">pausieren</string>
     <string name="sound_delete">löschen</string>
     <string name="sound_select_source">Klang auswählen</string>
+    <string name="delete_sound_dialog">Klang löschen?</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
