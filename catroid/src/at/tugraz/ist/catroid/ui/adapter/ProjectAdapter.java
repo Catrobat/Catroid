@@ -27,9 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,14 +35,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.Values;
-import at.tugraz.ist.catroid.stage.StageListener;
-import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.io.ProjectScreenshotLoader;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectAdapter extends ArrayAdapter<File> {
+public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
 	public static class ViewHolder {
 		public TextView projectName;
@@ -56,12 +52,12 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 	}
 
 	private static LayoutInflater inflater;
-	private Context context;
+	private ProjectScreenshotLoader screenshotLoader;
 
-	public ProjectAdapter(Context context, int resource, int textViewResourceId, List<File> objects) {
+	public ProjectAdapter(Context context, int resource, int textViewResourceId, List<ProjectData> objects) {
 		super(context, resource, textViewResourceId, objects);
-		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		screenshotLoader = new ProjectScreenshotLoader(context);
 	}
 
 	@Override
@@ -71,10 +67,10 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.activity_my_projects_item, null);
 			holder = new ViewHolder();
-			holder.projectName = (TextView) convertView.findViewById(R.id.project_title);
-			holder.image = (ImageView) convertView.findViewById(R.id.project_img);
-			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project);
-			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_changed);
+			holder.projectName = (TextView) convertView.findViewById(R.id.my_projects_activity_project_title);
+			holder.image = (ImageView) convertView.findViewById(R.id.my_projects_activity_project_image);
+			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project_2);
+			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_project_changed_2);
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
 			//			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
 			convertView.setTag(holder);
@@ -83,29 +79,24 @@ public class ProjectAdapter extends ArrayAdapter<File> {
 		}
 
 		// ------------------------------------------------------------
-		String projectName = getItem(position).getName();
+		ProjectData projectData = getItem(position);
+		String projectName = projectData.projectName;
 
+		//set name of project:
 		holder.projectName.setText(projectName);
-		String pathOfScreenshot = Utils.buildPath(Utils.buildProjectPath(projectName),
-				StageListener.SCREENSHOT_FILE_NAME);
-		File projectImageFile = new File(pathOfScreenshot);
-		Bitmap projectImage;
-		if (!projectImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
-			projectImage = null;
-		} else {
-			Utils.updateScreenWidthAndHeight((Activity) context);
-			projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, Values.SCREEN_WIDTH / 3,
-					Values.SCREEN_HEIGHT / 3, true);
-		}
-		holder.image.setImageBitmap(projectImage);
 
 		// set size of project:
 		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
 
-		File projectXMLFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Consts.PROJECTCODE_NAME));
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
-		Date resultDate = new Date(projectXMLFile.lastModified());
-		holder.dateChanged.setText(sdf.format(resultDate));
+		//set last changed:
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+		Date projectLastModificationDate = new Date(projectData.lastUsed);
+		holder.dateChanged.setText(dateFormat.format(projectLastModificationDate));
+
+		//set project image (threaded):
+		screenshotLoader.loadAndShowScreenshot(projectName, holder.image);
+
+		//set project description:
 
 		// temporarily removed - because of upcoming release, and bad performance of projectdescription
 		//		ProjectManager projectManager = ProjectManager.getInstance();

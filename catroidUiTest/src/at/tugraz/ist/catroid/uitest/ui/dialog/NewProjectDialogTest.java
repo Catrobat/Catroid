@@ -23,6 +23,8 @@
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Button;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -72,6 +74,34 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
 				.equals(UiTestUtils.PROJECTNAME1));
 
+	}
+
+	public void testPositiveButtonDisabledOnCreate() {
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+
+		Button okButton = (Button) solo.getView(R.id.dialog_text_ok);
+		assertFalse("New project ok button is enabled!", okButton.isEnabled());
+
+	}
+
+	public void testPositiveButtonChangesState() {
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		Button okButton = (Button) solo.getView(R.id.dialog_text_ok);
+		EditText editText = (EditText) solo.getView(R.id.dialog_text_EditText);
+
+		assertTrue("EditText was not empty", editText.getText().length() == 0);
+
+		final String projectName = "MyTestProject";
+		UiTestUtils.enterText(solo, 0, projectName);
+
+		assertEquals("Wrong projectname in EditText - should be MyTestProject", projectName, editText.getText()
+				.toString());
+		assertTrue("New project ok button not enabled!", okButton.isEnabled());
+
+		UiTestUtils.enterText(solo, 0, "");
+
+		assertEquals("EditText was not empty", "", editText.getText().toString());
+		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
 
 }

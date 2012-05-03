@@ -22,15 +22,29 @@
  */
 package at.tugraz.ist.catroid.uitest.ui;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.WhenScript;
+import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
+import at.tugraz.ist.catroid.content.bricks.SetXBrick;
+import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -70,6 +84,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 
 		solo.sleep(200);
+		EditText addNewSpriteEditText = solo.getEditText(0);
+		//check if hint is set
+		assertEquals("Not the proper hint set",
+				getActivity().getString(R.string.new_sprite_dialog_default_sprite_name), addNewSpriteEditText.getHint());
+		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
+		solo.sleep(100);
 		solo.enterText(0, spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
@@ -225,14 +245,15 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testCheckMaxTextLines() {
 		String spriteName = "poor poor poor poor poor poor poor poor me me me me me me";
-		int expectedLineCount = 2;
+		int expectedLineCount = 1;
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		addNewSprite(spriteName);
-		TextView textView = solo.getText(5);
+		TextView textView = solo.getText(9);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
 		solo.clickLongOnText(spriteName);
+		expectedLineCount = 3;
 		TextView textView2 = solo.getText(0);
-		assertEquals("linecount is wrong", expectedLineCount + 1, textView2.getLineCount());
+		assertEquals("linecount is wrong", expectedLineCount, textView2.getLineCount());
 	}
 
 	public void testNewSpriteDialog() {
@@ -413,6 +434,22 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	}
 
+	public void testSpriteListDetails() {
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		createProject();
+		assertTrue("Displayed wrong number of scripts",
+				solo.searchText(solo.getString(R.string.number_of_scripts) + " 2"));
+
+		assertTrue("Displayed wrong number of bricks - should be 0",
+				solo.searchText(solo.getString(R.string.number_of_bricks) + " 3"));
+
+		assertTrue("Displayed wrong number of costumes - should be 1",
+				solo.searchText(solo.getString(R.string.number_of_costumes) + " 1"));
+
+		assertTrue("Displayed wrong number of sound - should be 1",
+				solo.searchText(solo.getString(R.string.number_of_sounds) + " 1"));
+	}
+
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
@@ -428,45 +465,48 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(50);
 	}
 
-	public void testSpinnerUpdateAfterCommingBackFromProjectActivity() {
-		//		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
-		//		Project project = ProjectManager.getInstance().getCurrentProject();
-		//		Sprite sprite1 = project.getSpriteList().get(0);
-		//		Script script1 = project.getSpriteList().get(0).getScript(0);
-		//		script1.getBrickList().clear();
-		//		script1.addBrick(new PlaySoundBrick(sprite1));
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//
-		//		script1.getBrickList().clear();
-		//		script1.addBrick(new SetCostumeBrick(sprite1));
-		//		solo.goBack();
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//
-		//		BroadcastScript broadScript = new BroadcastScript("broadScript", sprite1);
-		//
-		//		broadScript.getBrickList().clear();
-		//		broadScript.addBrick(new BroadcastBrick(sprite1));
-		//		solo.goBack();
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//
-		//		broadScript.getBrickList().clear();
-		//		broadScript.addBrick(new BroadcastWaitBrick(sprite1));
-		//		solo.goBack();
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//
-		//		broadScript.getBrickList().clear();
-		//		broadScript.addBrick(new BroadcastReceiverBrick(sprite1, broadScript));
-		//		solo.goBack();
-		//		solo.clickOnText("cat");
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+	private void createProject() {
+		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 
-		//well if it doesn't dump the core here the test was successful (that was the problem)
+		Sprite spriteCat = new Sprite("cat");
+		Script startScriptCat = new StartScript(spriteCat);
+		Script scriptTappedCat = new WhenScript(spriteCat);
+		Brick setXBrick = new SetXBrick(spriteCat, 50);
+		Brick setYBrick = new SetYBrick(spriteCat, 50);
+		Brick changeXBrick = new ChangeXByBrick(spriteCat, 50);
+		startScriptCat.addBrick(setYBrick);
+		startScriptCat.addBrick(setXBrick);
+		scriptTappedCat.addBrick(changeXBrick);
 
-		//what does this test at all??? Don't see the point...
+		spriteCat.addScript(startScriptCat);
+		spriteCat.addScript(scriptTappedCat);
+		project.addSprite(spriteCat);
 
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(spriteCat);
+		ProjectManager.getInstance().setCurrentScript(startScriptCat);
+
+		File imageFile = UiTestUtils.saveFileToProject(project.getName(), "catroid_sunglasses.png",
+				R.drawable.catroid_sunglasses, getActivity(), UiTestUtils.FileTypes.IMAGE);
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		ArrayList<CostumeData> costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(imageFile.getName());
+		costumeData.setCostumeName("Catroid sun");
+		costumeDataList.add(costumeData);
+		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+
+		File soundFile = UiTestUtils.saveFileToProject(project.getName(), "longsound.mp3",
+				at.tugraz.ist.catroid.uitest.R.raw.longsound, getInstrumentation().getContext(),
+				UiTestUtils.FileTypes.SOUND);
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle("longsound");
+
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList.add(soundInfo);
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(),
+				soundInfo.getAbsolutePath());
 	}
 }
