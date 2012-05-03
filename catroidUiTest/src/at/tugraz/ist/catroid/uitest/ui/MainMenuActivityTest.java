@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
@@ -41,6 +42,7 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -85,6 +87,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.sleep(200);
+		EditText addNewProjectEditText = solo.getEditText(0);
+		//check if hint is set
+		assertEquals("Not the proper hint set", getActivity().getString(R.string.new_project_dialog_hint),
+				addNewProjectEditText.getHint());
+		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
+		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.clearEditText(0);
@@ -94,10 +103,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		//solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(400);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + Consts.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
@@ -184,10 +193,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		//solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(400);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
 		assertTrue("Project with blacklisted characters was not created!", file.exists());
@@ -207,10 +216,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		//solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(400);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
@@ -246,9 +255,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		createTestProject(testProject3);
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
 		solo.clickOnText(testProject3);
+		solo.sleep(300);
 		solo.goBack();
-
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);

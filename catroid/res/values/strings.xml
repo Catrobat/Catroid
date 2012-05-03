@@ -76,6 +76,10 @@
 
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
+    <string name="number_of_scripts">Scripts:</string>
+    <string name="number_of_bricks">Bricks:</string>
+    <string name="number_of_costumes">Costumes:</string>
+    <string name="number_of_sounds">Sounds:</string>
 
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
@@ -95,6 +99,7 @@
     <string name="copy_costume_addition">copy</string>
     <string name="select_image">Select Image</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
+    <string name="default_costume_name">costume</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
@@ -102,11 +107,11 @@
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
-    <string name="sound_select_source">Select music</string>
+    <string name="sound_select_source">Select a sound</string>
 
     <!-- My Projects activity -->
-    <string name="last_changed">Last changed:  </string>
-    <string name="description">Description:     </string>
+    <string name="last_used">Last used:</string>
+    <string name="description">Description:</string>
     <string name="set_description">set Description</string>
     <string name="rename_project">Rename Project</string>
 
@@ -128,13 +133,14 @@
     <string name="new_project_dialog_button">Create</string>
     <string name="new_project_dialog_title">Name of new project</string>
     <string name="new_project_dialog_default_project_name">projectname</string>
+    <string name="new_project_dialog_hint">My Project</string>
 
     <!-- Rename Dialog -->
     <string name="rename_hint">Name</string>
     <string name="rename_button">Rename</string>
 
     <!-- New sprite dialog -->
-    <string name="new_sprite_dialog_default_sprite_name">spritename</string>
+    <string name="new_sprite_dialog_default_sprite_name">My Sprite</string>
     <string name="new_sprite_dialog_title">Name of new Sprite</string>
     <string name="spritename_already_exists">This spritename already exists</string>
     <string name="rename_sprite_dialog">Rename Sprite</string>
@@ -246,6 +252,12 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">My first project</string>
+    <string name="default_project_sprites_catroid_name">Catroid</string>
+    <string name="default_project_sprites_catroid_normalcat">normalCat</string>
+    <string name="default_project_sprites_catroid_banzaicat">banzaiCat</string>
+    <string name="default_project_sprites_catroid_cheshirecat">cheshireCat</string>
+    <string name="default_project_backgroundname">background</string>
+    <string name="default_project_backgroundcolor">#604fff</string>
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
@@ -278,7 +290,7 @@
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
 
-    <string name="notification_blueth_err">luetooth could not be enabled, closing stage</string>
+    <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
     <string name="title_paired_devices">Paired devices</string>
     <string name="title_other_devices">New devices</string>
     <string name="button_scan">Search Bluetooth devices</string>

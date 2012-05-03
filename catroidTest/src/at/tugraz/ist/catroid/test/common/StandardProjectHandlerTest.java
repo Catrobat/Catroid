@@ -66,8 +66,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 				.get(backgroundCostumeDataIndex);
 		assertEquals("wrong size of background image", Values.SCREEN_WIDTH, backgroundCostumeData.getResolution()[0]);
 		assertEquals("wrong size of background image", Values.SCREEN_HEIGHT, backgroundCostumeData.getResolution()[1]);
-		assertEquals("wrong number of scripts in the Catroid sprite", 2, testProject.getSpriteList().get(
-				catroidSpriteIndex).getScriptCount());
+		assertEquals("wrong number of scripts in the Catroid sprite", 2,
+				testProject.getSpriteList().get(catroidSpriteIndex).getNumberOfScripts());
 
 		int catroidOnTouchScriptIndex = 1;
 		Script whenScript = testProject.getSpriteList().get(catroidSpriteIndex).getScript(catroidOnTouchScriptIndex);
@@ -75,8 +75,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		assertEquals("wrong number of bricks in the touch script", 5, whenScript.getBrickList().size());
 
 		for (int cat_number = 0; cat_number < 3; ++cat_number) {
-			CostumeData catCostumeData = testProject.getSpriteList().get(catroidSpriteIndex).getCostumeDataList().get(
-					cat_number);
+			CostumeData catCostumeData = testProject.getSpriteList().get(catroidSpriteIndex).getCostumeDataList()
+					.get(cat_number);
 			assertEquals("wrong size of cat image", Values.SCREEN_WIDTH / 3, catCostumeData.getResolution()[0]);
 		}
 
