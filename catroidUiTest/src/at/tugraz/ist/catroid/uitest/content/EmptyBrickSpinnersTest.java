@@ -82,29 +82,31 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	public void testBricksWithEmptySpinner() throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException, IOException, JSONException {
 
+		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
+
 		assertTrue("costume " + costumeDataName + " is not selected", solo.searchText(costumeDataName));
 		solo.clickOnText(costumeDataName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(pointToSpriteName + " Sprite is not selected", solo.searchText(pointToSpriteName));
 		solo.clickOnText(pointToSpriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(testSoundTitle + " Sound is not selected", solo.searchText(testSoundTitle));
 		solo.clickOnText(testSoundTitle);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(testBroadcastWaitMessage + " Message is not selected", solo.searchText(testBroadcastWaitMessage));
 		solo.clickOnText(testBroadcastWaitMessage);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(testBroadcastMessage + " Mesage is not selected", solo.searchText(testBroadcastMessage));
 		solo.clickOnText(testBroadcastMessage);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		// go back that the project xml is saved
 		solo.goBack();
-		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 5000);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(testProjectName), Consts.PROJECTCODE_NAME);
 		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);

@@ -43,7 +43,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private Solo solo;
 	private Project project;
 	private SetYBrick setYBrick;
-	private int setY;
+	private static final int SET_Y = 17;
 
 	public SetYBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -57,13 +57,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -84,14 +78,13 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, setY + "");
+		solo.enterText(0, SET_Y + "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(300);
 		int yPosition = (Integer) UiTestUtils.getPrivateField("yPosition", setYBrick);
-		assertEquals("Wrong text in field.", setY, yPosition);
-		assertEquals("Value in Brick is not updated.", setY + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", SET_Y, yPosition);
+		assertEquals("Value in Brick is not updated.", SET_Y + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
@@ -102,7 +95,6 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	private void createProject() {
-		setY = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

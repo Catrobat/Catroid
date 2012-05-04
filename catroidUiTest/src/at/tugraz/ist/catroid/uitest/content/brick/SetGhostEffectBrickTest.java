@@ -56,13 +56,7 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -86,10 +80,9 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.clearEditText(0);
 		solo.enterText(0, newEffect + "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(1000);
-
+		solo.waitForDialogToClose(200);
 		assertEquals("Wrong text in field", newEffect, SetGhostEffectBrick.getGhostEffectValue());
 		assertEquals("Text not updated", newEffect, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
@@ -115,5 +108,4 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
