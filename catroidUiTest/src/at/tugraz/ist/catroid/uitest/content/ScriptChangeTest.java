@@ -71,20 +71,20 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		View testScriptBrick = parent.getChildAt(0);
 
 		solo.clickOnView(testScriptBrick);
-		solo.sleep(1500);
+		solo.sleep(300);
 
 		assertEquals("Current Script in List is not testScript", testScript, ProjectManager.getInstance()
 				.getCurrentScript());
 
 		View startBrick = parent.getChildAt(4);
 		solo.clickOnView(startBrick);
-		solo.sleep(1500);
+		solo.sleep(300);
 		assertEquals("Current Script in List is not testScript", testScript3, ProjectManager.getInstance()
 				.getCurrentScript());
 
 		startBrick = parent.getChildAt(5);
 		solo.clickOnView(startBrick);
-		solo.sleep(1500);
+		solo.sleep(300);
 		assertEquals("Current Script in List is not testScript", testScript2, ProjectManager.getInstance()
 				.getCurrentScript());
 
