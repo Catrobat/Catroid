@@ -125,7 +125,6 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.pressSpinnerItem(1, 4);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("Wrong selection", testString3, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
-
 	}
 
 	private void createProject() {

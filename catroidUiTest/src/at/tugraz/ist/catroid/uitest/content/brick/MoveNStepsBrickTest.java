@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final double STEPS_TO_MOVE = 23.0;
+
 	private Solo solo;
 	private Project project;
 	private MoveNStepsBrick moveNStepsBrick;
-	private static final double STEPS_TO_MOVE = 23.0;
 
 	public MoveNStepsBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -97,7 +98,6 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
 	}

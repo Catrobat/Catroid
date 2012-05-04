@@ -92,5 +92,4 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

@@ -90,32 +90,34 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	public void testBroadCastBrick() {
 		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		script.addBrick(broadcastBrick);
+		String buttonNewText = solo.getString(R.string.new_broadcast_message);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.new_broadcast_message));
+		solo.clickOnText(buttonNewText);
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.new_broadcast_message));
+		solo.clickOnText(buttonNewText);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
 	public void testBroadcastWaitBrick() {
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		script.addBrick(broadcastWaitBrick);
+		String buttonNewText = solo.getString(R.string.new_broadcast_message);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.new_broadcast_message));
+		solo.clickOnText(buttonNewText);
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.new_broadcast_message));
+		solo.clickOnText(buttonNewText);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 

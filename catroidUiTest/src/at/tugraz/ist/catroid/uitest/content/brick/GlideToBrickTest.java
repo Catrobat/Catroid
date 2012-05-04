@@ -63,7 +63,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testNumberInput() {
 		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.waitForDialogToClose(1000);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
@@ -76,7 +75,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
 		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);

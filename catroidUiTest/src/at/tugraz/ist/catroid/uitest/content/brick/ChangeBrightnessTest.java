@@ -88,7 +88,6 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
 		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
 				Double.parseDouble(solo.getEditText(0).getText().toString()));
