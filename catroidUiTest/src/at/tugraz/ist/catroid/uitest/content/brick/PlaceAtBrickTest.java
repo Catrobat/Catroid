@@ -104,7 +104,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
 		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
@@ -115,7 +114,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
 		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
@@ -171,5 +169,4 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

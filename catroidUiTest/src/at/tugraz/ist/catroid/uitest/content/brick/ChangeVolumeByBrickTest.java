@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final float VOLUME_TO_CHANGE = 50.0f;
+
 	private Solo solo;
 	private Project project;
 	private ChangeVolumeByBrick changeVolumeByBrick;
-	private static final float VOLUME_TO_CHANGE = 50.0f;
 
 	public ChangeVolumeByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);

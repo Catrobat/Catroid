@@ -82,7 +82,6 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.waitForDialogToClose(200);
 		assertEquals("Wrong text in field", newEffect, SetGhostEffectBrick.getGhostEffectValue());
 		assertEquals("Text not updated", newEffect, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}

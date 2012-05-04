@@ -41,11 +41,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final int SET_ANGLE = 135;
+
 	private Solo solo;
 	private Project project;
 	private NXTMotorTurnAngleBrick motorBrick;
-
-	private static final int SET_ANGLE = 135;
 
 	public NXTMotorTurnAngleBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -65,7 +65,6 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 
 	@Smoke
 	public void testMotorTurnAngleBrick() {
-
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -100,7 +99,6 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
 		assertEquals("Wrong text in field.", SET_ANGLE, angle);
 		assertEquals("Value in Brick is not updated.", SET_ANGLE + "", solo.getEditText(0).getText().toString());
@@ -117,7 +115,6 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertEquals("Wrong item in spinner!", array[2], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
 		assertEquals("Wrong item in spinner!", array[3], currentSpinner.getSelectedItem());
-
 	}
 
 	private void createProject() {
@@ -136,5 +133,4 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

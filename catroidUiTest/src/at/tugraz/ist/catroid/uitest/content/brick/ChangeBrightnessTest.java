@@ -43,10 +43,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
+
 	private Solo solo;
 	private Project project;
 	private ChangeBrightnessBrick changeBrightnessBrick;
-	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
 
 	public ChangeBrightnessTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);

@@ -82,7 +82,6 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.waitForDialogToClose(300);
 		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
 		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
@@ -108,5 +107,4 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

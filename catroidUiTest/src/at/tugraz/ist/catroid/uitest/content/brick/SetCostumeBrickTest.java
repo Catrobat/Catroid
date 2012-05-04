@@ -36,20 +36,22 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private final int RESOURCE_COSTUME = at.tugraz.ist.catroid.uitest.R.raw.icon;
+	private final int RESOURCE_COSTUME2 = at.tugraz.ist.catroid.uitest.R.raw.icon2;
+
 	private Solo solo;
 	private String costumeName = "testCostume1";
 	private String costumeName2 = "testCostume2";
 	private File costumeFile;
 	private File costumeFile2;
 	private ArrayList<CostumeData> costumeDataList;
-	private final int RESOURCE_COSTUME = at.tugraz.ist.catroid.uitest.R.raw.icon;
-	private final int RESOURCE_COSTUME2 = at.tugraz.ist.catroid.uitest.R.raw.icon2;
 
 	public SetCostumeBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -122,7 +124,6 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 		solo.goBack();
 
-		//changing le costume
 		solo.clickOnText(costumeName);
 		solo.clickOnText(costumeName2);
 		assertTrue(costumeName2 + " is not selected in Spinner", solo.searchText(costumeName2));
@@ -133,21 +134,24 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testSpinnerUpdates() {
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
+		solo.clickOnText(spinnerNothingText);
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.clickOnText(getActivity().getString(R.string.scripts));
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingText);
 		assertFalse(costumeName + " is still in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 	}
 
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
+
+		solo.clickOnText(spinnerNothingText);
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
@@ -157,9 +161,9 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(0, newName);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.waitForDialogToClose(300);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.scripts));
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingText);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 	}
@@ -189,6 +193,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(newCostume);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().costume.getImagePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costumeImagePath,
 				costumePath);
