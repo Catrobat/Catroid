@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final int Y_TO_CHANGE = 17;
+
 	private Solo solo;
 	private Project project;
 	private ChangeYByBrick changeYByBrick;
-	private static final int Y_TO_CHANGE = 17;
 
 	public ChangeYByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);

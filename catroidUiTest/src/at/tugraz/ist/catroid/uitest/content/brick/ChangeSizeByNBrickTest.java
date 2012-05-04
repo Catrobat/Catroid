@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final double SIZE_TO_CHANGE = 25;
+
 	private Solo solo;
 	private Project project;
 	private ChangeSizeByNBrick changeSizeByNBrick;
-	private static final double SIZE_TO_CHANGE = 25;
 
 	public ChangeSizeByNBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);

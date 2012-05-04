@@ -45,10 +45,11 @@ import com.jayway.android.robotium.solo.Solo;
  * 
  */
 public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final int STEPS_TO_GO_BACK = 17;
+
 	private Solo solo;
 	private Project project;
 	private GoNStepsBackBrick goNStepsBackBrick;
-	private static final int STEPS_TO_GO_BACK = 17;
 
 	public GoNStepsBackTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);

@@ -75,7 +75,7 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
 		solo.waitForText(spinnerNothingSelectedText);
 		solo.clickInList(0);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForText(spinnerNothingSelectedText);
 		assertEquals("Wrong selection", spinnerNothingSelectedText, solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 

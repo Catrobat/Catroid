@@ -62,7 +62,6 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 
 	@Smoke
 	public void testMotorActionBrick() {
-
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -90,7 +89,6 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
 		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
-
 	}
 
 	private void createProject() {
@@ -109,5 +107,4 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

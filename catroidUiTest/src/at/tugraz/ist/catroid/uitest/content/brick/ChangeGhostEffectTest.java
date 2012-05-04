@@ -43,10 +43,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final double EFFECT_TO_CHANGE = 11.2;
+
 	private Solo solo;
 	private Project project;
 	private ChangeGhostEffectBrick changeGhostEffectBrick;
-	private static final double EFFECT_TO_CHANGE = 11.2;
 
 	public ChangeGhostEffectTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);

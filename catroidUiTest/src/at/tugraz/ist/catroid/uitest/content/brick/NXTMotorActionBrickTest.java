@@ -41,14 +41,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-	private Solo solo;
-	private Project project;
-	private NXTMotorActionBrick motorBrick;
-
 	private static final int SET_SPEED = 30;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int MAX_SPEED = 100;
 	private static final int MIN_SPEED = -100;
+
+	private Solo solo;
+	private Project project;
+	private NXTMotorActionBrick motorBrick;
 
 	public NXTMotorActionBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -68,7 +68,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	@Smoke
 	public void testNXTMotorActionBrick() {
-
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -89,7 +88,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", SET_SPEED, speed);
 		assertEquals("Value in Brick is not updated.", SET_SPEED + "", solo.getEditText(0).getText().toString());
@@ -141,7 +139,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 4);
 
-		solo.sleep(200);
 		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
 		solo.pressSpinnerItem(0, 0);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -155,7 +152,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.pressSpinnerItem(0, 1);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
-
 	}
 
 	private void createProject() {
@@ -174,5 +170,4 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

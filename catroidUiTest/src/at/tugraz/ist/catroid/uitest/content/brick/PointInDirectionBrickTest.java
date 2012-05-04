@@ -40,7 +40,6 @@ import at.tugraz.ist.catroid.ui.ScriptActivity;
 import com.jayway.android.robotium.solo.Solo;
 
 public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
 	private Solo solo;
 	private Project project;
 	private PointInDirectionBrick pointInDirectionBrick;

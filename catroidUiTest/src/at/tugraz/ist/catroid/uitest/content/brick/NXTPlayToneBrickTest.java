@@ -68,7 +68,6 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Smoke
 	public void testNXTPlayToneBrick() {
-
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -90,7 +89,6 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		double duration = (Integer) UiTestUtils.getPrivateField("durationInMs", playToneBrick);
 		assertEquals("Wrong text in field.", SET_DURATION, duration / 1000);
 		assertEquals("Value in Brick is not updated.", SET_DURATION + "", solo.getEditText(0).getText().toString());
@@ -104,7 +102,6 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int hertz = (Integer) UiTestUtils.getPrivateField("hertz", playToneBrick);
 		assertEquals("Wrong text in field.", SET_FREQUENCY * 100, hertz);
 		assertEquals("Value in Brick is not updated.", SET_FREQUENCY + "", solo.getEditText(1).getText().toString());
@@ -136,6 +133,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		assertEquals("SeekBar is at wrong position", hertz / 100, solo.getCurrentProgressBars().get(0).getProgress());
 
 		solo.setProgressBar(0, MIN_FREQ / 100);
+		solo.sleep(200);
 		solo.clickOnButton(0);
 		solo.clickOnButton(0);
 
@@ -171,5 +169,4 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
