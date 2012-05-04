@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -69,12 +70,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
@@ -86,12 +82,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UtilFile.deleteDirectory(directory);
 		assertFalse("testProject was not deleted!", directory.exists());
 
+		String hintNewProjectText = solo.getString(R.string.new_project_dialog_hint);
+
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.sleep(200);
+		solo.waitForText(hintNewProjectText);
 		EditText addNewProjectEditText = solo.getEditText(0);
 		//check if hint is set
-		assertEquals("Not the proper hint set", getActivity().getString(R.string.new_project_dialog_hint),
-				addNewProjectEditText.getHint());
+		assertEquals("Not the proper hint set", hintNewProjectText, addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
@@ -177,7 +174,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
 		UtilFile.deleteDirectory(directory);
-
 	}
 
 	public void testCreateNewProjectWithBlacklistedCharacters() {
@@ -200,7 +196,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
 		assertTrue("Project with blacklisted characters was not created!", file.exists());
-
 	}
 
 	public void testCreateNewProjectWithWhitelistedCharacters() {
@@ -223,7 +218,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
-
 	}
 
 	public void testLoadProject() {
@@ -255,12 +249,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		createTestProject(testProject3);
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.sleep(300);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject3);
-		solo.sleep(300);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.goBack();
-		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -363,5 +358,4 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		storageHandler.saveProject(project);
 	}
-
 }
