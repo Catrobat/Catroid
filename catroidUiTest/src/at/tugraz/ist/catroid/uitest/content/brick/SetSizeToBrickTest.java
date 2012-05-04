@@ -56,6 +56,9 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final int SCREEN_WIDTH = 480;
+	private static final int SCREEN_HEIGHT = 800;
+
 	private static final String TAG = SetSizeToBrickTest.class.getSimpleName();
 	private String projectName = "SetSizeToBrickTestProject";
 	private Solo solo;
@@ -63,8 +66,6 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	private SetSizeToBrick setSizeToBrick;
 	private SetCostumeBrick setCostumeBrick;
 	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.red_quad;
-	private static final int SCREEN_WIDTH = 480;
-	private static final int SCREEN_HEIGHT = 800;
 
 	public SetSizeToBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -107,7 +108,6 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		UiTestUtils.clickEnterClose(solo, 0, newSize + "");
 
-		solo.waitForDialogToClose(200);
 		double size = (Double) UiTestUtils.getPrivateField("size", setSizeToBrick);
 		assertEquals("Wrong text in field", newSize, size);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
@@ -172,7 +172,6 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	private void createProject() {
-
 		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
 		Values.SCREEN_WIDTH = SCREEN_WIDTH;
 
