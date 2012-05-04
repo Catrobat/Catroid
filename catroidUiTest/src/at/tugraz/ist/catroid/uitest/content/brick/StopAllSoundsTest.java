@@ -39,7 +39,6 @@ import at.tugraz.ist.catroid.ui.ScriptActivity;
 import com.jayway.android.robotium.solo.Solo;
 
 public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
 	private Solo solo;
 	private Project project;
 
@@ -87,5 +86,4 @@ public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptAc
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
