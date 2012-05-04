@@ -88,7 +88,6 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectBrick.getChangeGhostEffect());
 		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}

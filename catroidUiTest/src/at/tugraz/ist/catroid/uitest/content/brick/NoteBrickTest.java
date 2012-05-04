@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final String TEST_STRING = "test";
+
 	private Solo solo;
 	private Project project;
 	private NoteBrick noteBrick;
-	private static final String TEST_STRING = "test";
 
 	public NoteBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -83,7 +84,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
 
@@ -92,7 +92,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", "", note);
 
@@ -102,10 +101,8 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
-
 	}
 
 	private void createProject() {
@@ -121,6 +118,5 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-
 	}
 }
