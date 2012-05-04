@@ -65,13 +65,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -102,15 +96,15 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		int xPosition = 987;
 		int yPosition = 654;
+		String buttonPositiveText = solo.getString(R.string.ok);
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, xPosition + "");
 		solo.goBack();
-		solo.sleep(300);
-		solo.clickOnButton(0);
+		solo.clickOnButton(buttonPositiveText);
 
-		solo.sleep(300);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
 		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
@@ -119,9 +113,9 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clearEditText(0);
 		solo.enterText(0, yPosition + "");
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(buttonPositiveText);
 
-		solo.sleep(300);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
 		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
