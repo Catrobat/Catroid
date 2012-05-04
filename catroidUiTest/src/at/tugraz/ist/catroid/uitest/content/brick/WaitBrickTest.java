@@ -63,7 +63,6 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Smoke
 	public void testWaitBrick() {
-
 		BrickAdapter adapter = getActivity().getAdapter();
 		int childrenCount = adapter.getBrickCount(adapter.getScriptCount() - 1);
 		int groupCount = adapter.getScriptCount();

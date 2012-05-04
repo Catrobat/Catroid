@@ -61,8 +61,6 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private Solo solo;
 	private Project project;
 
-	//private static final String TAG = WhenBrickTest.class.getSimpleName();
-
 	public WhenBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
@@ -115,5 +113,4 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

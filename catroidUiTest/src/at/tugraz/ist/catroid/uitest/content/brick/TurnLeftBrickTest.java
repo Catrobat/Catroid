@@ -40,7 +40,6 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
 	private Solo solo;
 	private Project project;
 	private TurnLeftBrick turnLeftBrick;
