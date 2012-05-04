@@ -251,7 +251,7 @@
     <string name="default_project_sprites_catroid_name">"キャットロイド"</string>
     <string name="default_project_sprites_catroid_normalcat">"ネコ"</string>
     <string name="default_project_sprites_catroid_banzaicat">"万歳ネコ"</string>
-    <string name="default_project_sprites_catroid_chesirecat">"チェシャーネコ"</string>
+    <string name="default_project_sprites_catroid_cheshirecat">"チェシャーネコ"</string>
     <string name="default_project_backgroundname">"背景"</string>
     <string name="default_project_backgroundcolor">"#604fff"</string>
 
