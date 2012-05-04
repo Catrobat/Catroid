@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final float VOLUME = 50.0f;
+
 	private Solo solo;
 	private Project project;
 	private SetVolumeToBrick setVolumeToBrick;
-	private static final float VOLUME = 50.0f;
 
 	public SetVolumeToBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -106,5 +107,4 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
