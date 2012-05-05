@@ -487,7 +487,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		ProjectManager.getInstance().setCurrentScript(startScriptCat);
 
 		File imageFile = UiTestUtils.saveFileToProject(project.getName(), "catroid_sunglasses.png",
-				R.drawable.catroid_sunglasses, getActivity(), UiTestUtils.FileTypes.IMAGE);
+				at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		ArrayList<CostumeData> costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
