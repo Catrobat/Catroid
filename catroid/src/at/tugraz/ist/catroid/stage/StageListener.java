@@ -56,7 +56,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class StageListener implements ApplicationListener {
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
 	private FPSLogger fpsLogger;
 
