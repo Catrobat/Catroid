@@ -19,23 +19,16 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-				  >
-  
-	<PreferenceCategory 
-		android:title="@string/pref_category_mindstorm" 
- 	>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
- 		<CheckBoxPreference 
- 			android:key="setting_mindstorm_bricks"
- 			android:title="@string/pref_enable_ms_bricks"
- 			android:summary="@string/pref_descr_ms_bricks" 
- 			android:defaultValue="false"
- 		/>
+    <PreferenceCategory android:title="@string/pref_category_mindstorm" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="setting_mindstorm_bricks"
+            android:summary="@string/pref_descr_ms_bricks"
+            android:title="@string/pref_enable_ms_bricks" />
+    </PreferenceCategory>
 
-	</PreferenceCategory>
-
-  
 </PreferenceScreen>
