@@ -46,6 +46,7 @@ import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -67,23 +68,16 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	public void tearDown() throws Exception {
 		ProjectManager.getInstance().deleteCurrentProject();
-
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	private void addNewSprite(String spriteName) {
-		solo.sleep(500);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
-		solo.sleep(200);
 		EditText addNewSpriteEditText = solo.getEditText(0);
 		//check if hint is set
 		assertEquals("Not the proper hint set",
@@ -95,9 +89,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		//solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(100);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 	}
 
 	public void testBackgroundSprite() {
