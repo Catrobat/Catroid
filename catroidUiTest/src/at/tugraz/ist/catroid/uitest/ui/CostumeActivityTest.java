@@ -499,6 +499,5 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
-		solo.waitForDialogToClose(1000);
 	}
 }

@@ -38,14 +38,15 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
+	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
+
 	private Solo solo;
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
 	private File soundFile;
 	private File soundFile2;
 	private ArrayList<SoundInfo> soundInfoList;
-	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
-	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
 
 	public SoundActivityTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -82,16 +83,9 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.sleep(500);
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-
 	}
 
 	public void testDeleteSound() {
@@ -100,6 +94,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		ListAdapter adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(200);
 		adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not rigth", 2, oldCount);
@@ -120,6 +115,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.waitForText(buttonOKText);
@@ -139,10 +135,10 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		SoundInfo soundInfo = soundInfoList.get(0);
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
 		solo.clickOnButton(getActivity().getString(R.string.sound_play));
-		solo.sleep(20);
+		solo.sleep(100);
 		assertTrue("Mediaplayer is not playing", soundInfo.isPlaying);
 		solo.clickOnButton(getActivity().getString(R.string.sound_pause));
-		solo.sleep(40);
+		solo.sleep(100);
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 	}
 
@@ -184,7 +180,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-
+		solo.sleep(300);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
@@ -210,6 +206,5 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.goBack();
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
-		solo.waitForDialogToClose(1000);
 	}
 }
