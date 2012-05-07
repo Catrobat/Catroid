@@ -46,12 +46,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -60,6 +55,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		String background = getActivity().getString(R.string.background);
 		String settings = getActivity().getString(R.string.settings);
 		String prefMsBricks = getActivity().getString(R.string.pref_enable_ms_bricks);
+		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		//disable mindstorm bricks, if enabled at start
@@ -72,8 +68,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(currentProject);
 		solo.clickOnText(background);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-		assertFalse("Lego brick category is showing!",
-				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
+		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
@@ -84,8 +79,6 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(currentProject);
 		solo.clickOnText(background);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-		assertTrue("Lego brick category is not showing!",
-				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
-
+		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 }

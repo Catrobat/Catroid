@@ -32,6 +32,7 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
@@ -72,25 +73,21 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testMainMenuButton() {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
 				solo.getCurrentActivity() instanceof MainMenuActivity);
 	}
 
 	public void testScriptTab() {
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
-		solo.clickOnText("Script");
+		solo.clickOnText(solo.getString(R.string.script));
 		solo.sleep(100);
 		assertTrue("Clicking on Script Tab did not cause ScriptActivity to be displayed",
 				solo.getCurrentActivity() instanceof ScriptActivity);
@@ -104,7 +101,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	public void testSoundsTab() {
-		solo.clickOnText("Sounds");
+		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.sleep(100);
 		assertTrue("Clicking on Sounds Tab did not cause SoundActivity to be displayed",
 				solo.getCurrentActivity() instanceof SoundActivity);
@@ -117,8 +114,9 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String spriteToTest = "";
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteDog);
 		addNewSprite(spriteBear);
 		addNewSprite(spriteFrog);
@@ -127,7 +125,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		ListView spriteList = listViews.get(0);
 		spriteToTest = spriteList.getItemAtPosition(0).toString();
 		solo.clickOnText(spriteToTest);
-		solo.sleep(100);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"",
 				solo.searchText(getActivity().getString(R.string.backgrounds)));
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
@@ -148,9 +146,9 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	public void testTabImagesAndLabelColor() {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.sleep(100);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
-		solo.sleep(100);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("Sprite1");
 		solo.clickInList(0);
 		solo.sleep(100);
@@ -169,12 +167,12 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		testTabIcons(new int[] { scriptsSelector, backgroundsSelector, soundsSelector });
 
 		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.clickOnText(backgroundsLabel);
 		testTabText(new String[] { backgroundsLabel, scriptsLabel, soundsLabel });
 		testTabIcons(new int[] { backgroundsSelector, scriptsSelector, soundsSelector });
 
 		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.clickOnText(soundsLabel);
 		testTabText(new String[] { soundsLabel, scriptsLabel, backgroundsLabel });
 		testTabIcons(new int[] { soundsSelector, scriptsSelector, backgroundsSelector });
 
@@ -185,7 +183,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		testTabIcons(new int[] { scriptsSelector, costumesSelector, soundsSelector });
 
 		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(costumesLabel);
 		testTabText(new String[] { costumesLabel, scriptsLabel, soundsLabel });
 		testTabIcons(new int[] { costumesSelector, scriptsSelector, soundsSelector });
 	}
@@ -196,7 +194,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.sleep(200);
 		solo.enterText(0, spriteName);
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
 	}
 
