@@ -31,7 +31,6 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -49,52 +48,35 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
-
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
-
 		createTestProject(testingproject);
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testingproject);
 
-		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
+		int spriteEditTextId = solo.getCurrentEditTexts().size();
 		UiTestUtils.enterText(solo, spriteEditTextId, "testingsprite");
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(1000);
 		solo.clickOnText(testingsprite);
-		solo.sleep(1000);
-
-		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
-
 	}
 
 	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
-
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
-
 		project.addSprite(firstSprite);
-
 		storageHandler.saveProject(project);
 	}
-
 }

@@ -32,6 +32,8 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -52,12 +54,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -65,7 +62,9 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 	public void testLoadProjectDialog() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -83,7 +82,6 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 
 		//assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
 		//+ testProject, currentProject.getText());
-
 	}
 
 	public void createTestProject(String projectName) {
