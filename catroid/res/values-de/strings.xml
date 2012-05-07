@@ -19,11 +19,12 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
     <!-- General terms -->
+    <string name="app_name">Catroid</string>
     <string name="project">Projekt</string>
     <string name="sprite">Objekt</string>
     <string name="script">Skript</string>
@@ -178,6 +179,7 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
+    <string name="category_lego_nxt">Lego NXT</string>
 
     <!-- Motion bricks -->
     <string name="brick_place_at">Setze Position</string>
