@@ -161,8 +161,8 @@
     <string name="restart_current_project">"再起動"</string>
     <string name="stage_dialog_title">"ステージ オプション"</string>
     <string name="stagemenu_screen_size">"最大/\nストレッチ"</string>
-    <string name="stagemenu_axes_on">"軸　オン"</string>
-    <string name="stagemenu_axes_off">"軸　オフ"</string>
+    <string name="stagemenu_axes_on">"軸 オン"</string>
+    <string name="stagemenu_axes_off">"軸 オフ"</string>
     <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
 
     <!-- Broadcast spinner -->
