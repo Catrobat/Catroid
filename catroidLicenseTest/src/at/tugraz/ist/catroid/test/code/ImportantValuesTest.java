@@ -23,12 +23,12 @@
 package at.tugraz.ist.catroid.test.code;
 
 import junit.framework.TestCase;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 
 public class ImportantValuesTest extends TestCase {
 
 	public void testPaintroidDownloadLink() {
 		assertEquals("wrong paintroid download link", "http://code.google.com/p/catroid/downloads",
-				Consts.PAINTROID_DOWNLOAD_LINK);
+				Constants.PAINTROID_DOWNLOAD_LINK);
 	}
 }

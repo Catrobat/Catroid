@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
@@ -71,7 +71,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void setUp() {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
@@ -204,7 +204,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		String projectName = "myProject";
 
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
 		}
@@ -248,7 +248,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", storageHandler, false);
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
 
-		projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
 		}

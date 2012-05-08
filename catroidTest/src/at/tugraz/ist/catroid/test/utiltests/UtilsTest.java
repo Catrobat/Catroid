@@ -30,7 +30,7 @@ import java.io.PrintWriter;
 
 import junit.framework.TestCase;
 import android.util.Log;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -75,10 +75,10 @@ public class UtilsTest extends TestCase {
 
 		PrintWriter printWriter = null;
 
-		File tempDir = new File(Consts.TMP_PATH);
+		File tempDir = new File(Constants.TMP_PATH);
 		tempDir.mkdirs();
 
-		File md5TestFile = new File(Utils.buildPath(Consts.TMP_PATH, "catroid.txt"));
+		File md5TestFile = new File(Utils.buildPath(Constants.TMP_PATH, "catroid.txt"));
 
 		if (md5TestFile.exists()) {
 			md5TestFile.delete();

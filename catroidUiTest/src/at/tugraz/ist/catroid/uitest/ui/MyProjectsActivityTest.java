@@ -32,7 +32,7 @@ import android.view.View;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -104,7 +104,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void saveProjectsToZip() {
 		File directory;
-		File rootDirectory = new File(Consts.DEFAULT_ROOT);
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		String[] paths = rootDirectory.list();
 
 		if (paths == null) {
@@ -115,7 +115,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
 		}
 		try {
-			String zipFileString = Utils.buildPath(Consts.DEFAULT_ROOT, ZIPFILE_NAME);
+			String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
 			File zipFile = new File(zipFileString);
 			if (!zipFile.exists()) {
 				zipFile.getParentFile().mkdirs();
@@ -128,7 +128,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 
 		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-			directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+			directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 			if (directory.exists()) {
 				UtilFile.deleteDirectory(directory);
 			}
@@ -136,9 +136,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void unzipProjects() {
-		String zipFileString = Utils.buildPath(Consts.DEFAULT_ROOT, ZIPFILE_NAME);
+		String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
 		File zipFile = new File(zipFileString);
-		UtilZip.unZipFile(zipFileString, Consts.DEFAULT_ROOT);
+		UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
 		zipFile.delete();
 	}
 
@@ -265,7 +265,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
-		File rootDirectory = new File(Consts.DEFAULT_ROOT);
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		ArrayList<String> projectList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
 		boolean projectDeleted = true;
 		for (String project : projectList) {

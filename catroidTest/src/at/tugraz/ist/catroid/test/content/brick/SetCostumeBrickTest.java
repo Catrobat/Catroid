@@ -27,7 +27,7 @@ import java.io.File;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -50,7 +50,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
@@ -73,7 +73,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);

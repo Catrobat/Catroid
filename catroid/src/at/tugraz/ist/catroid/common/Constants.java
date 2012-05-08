@@ -24,7 +24,7 @@ package at.tugraz.ist.catroid.common;
 
 import android.os.Environment;
 
-public final class Consts {
+public final class Constants {
 
 	public static final String PROJECTCODE_NAME = "projectcode.xml";
 	public static final String CATROID_EXTENTION = ".catroid";

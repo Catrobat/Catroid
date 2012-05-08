@@ -24,7 +24,7 @@ package at.tugraz.ist.catroid.test.content.sprite;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -86,7 +86,7 @@ public class CostumeTest extends InstrumentationTestCase {
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(fileName);
 		costume.setCostumeData(costumeData);
-		assertEquals("Wrong image path!", Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY + "/"
+		assertEquals("Wrong image path!", Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY + "/"
 				+ fileName, costume.getImagePath());
 	}
 
