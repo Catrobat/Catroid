@@ -101,8 +101,13 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks) + " "
 				+ sprite.getNumberOfBricks());
 
-		holder.costumes.setText(context.getResources().getString(R.string.number_of_costumes) + " "
-				+ sprite.getCostumeDataList().size());
+		if (position == 0) {
+			holder.costumes.setText(context.getResources().getString(R.string.number_of_backgrounds) + " "
+					+ sprite.getCostumeDataList().size());
+		} else {
+			holder.costumes.setText(context.getResources().getString(R.string.number_of_costumes) + " "
+					+ sprite.getCostumeDataList().size());
+		}
 
 		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds) + " "
 				+ sprite.getSoundList().size());
