@@ -93,6 +93,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		solo.finishInactiveActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		paintroidImageFile.delete();
 		super.tearDown();
