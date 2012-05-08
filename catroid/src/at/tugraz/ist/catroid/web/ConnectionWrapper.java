@@ -37,7 +37,7 @@ import java.util.Map.Entry;
 
 import android.util.Log;
 import android.webkit.MimeTypeMap;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 
 public class ConnectionWrapper {
 
@@ -50,7 +50,7 @@ public class ConnectionWrapper {
 		}
 		try {
 			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr, Consts.BUFFER_8K);
+			BufferedReader br = new BufferedReader(isr, Constants.BUFFER_8K);
 
 			String line;
 			String response = "";
@@ -105,7 +105,7 @@ public class ConnectionWrapper {
 		file.getParentFile().mkdirs();
 		FileOutputStream fos = new FileOutputStream(file);
 
-		byte[] buffer = new byte[Consts.BUFFER_8K];
+		byte[] buffer = new byte[Constants.BUFFER_8K];
 		int length = 0;
 		while ((length = input.read(buffer)) != -1) {
 			fos.write(buffer, 0, length);

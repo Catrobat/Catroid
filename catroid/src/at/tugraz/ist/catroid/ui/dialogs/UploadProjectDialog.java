@@ -41,7 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -148,7 +148,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 				projectManager.saveProject();
 
 				dismiss();
-				String projectPath = Consts.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
+				String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
 				String projectDescription;
 
 				if (projectDescriptionField.length() != 0) {
@@ -158,7 +158,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 				}
 
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-				String token = prefs.getString(Consts.TOKEN, "0");
+				String token = prefs.getString(Constants.TOKEN, "0");
 				new ProjectUploadTask(context, uploadName, projectDescription, projectPath, token).execute();
 				break;
 

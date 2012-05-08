@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.soundrecorder.SoundRecorderActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -109,8 +109,8 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 	}
 
 	private void assertSoundRecording(int recordNumber) {
-		String recordPath = Utils.buildPath(Consts.TMP_PATH,
-				getActivity().getString(R.string.soundrecorder_recorded_filename) + Consts.RECORDING_EXTENTION);
+		String recordPath = Utils.buildPath(Constants.TMP_PATH,
+				getActivity().getString(R.string.soundrecorder_recorded_filename) + Constants.RECORDING_EXTENTION);
 		File recordedFile = new File(recordPath);
 		assertTrue("recorded sound file not found in file system", recordedFile.exists());
 

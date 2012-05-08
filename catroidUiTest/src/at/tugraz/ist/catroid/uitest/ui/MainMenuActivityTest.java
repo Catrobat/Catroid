@@ -30,7 +30,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -82,7 +82,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testCreateNewProject() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
 		assertFalse("testProject was not deleted!", directory.exists());
 
@@ -108,7 +108,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + Consts.PROJECTCODE_NAME);
+		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
 	}
 
@@ -134,7 +134,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnButton(0);
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
 		solo.sleep(50);
 
@@ -198,7 +198,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
+		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
 		assertTrue("Project with blacklisted characters was not created!", file.exists());
 
 	}
@@ -221,13 +221,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		File file = new File(Utils.buildPath(directoryPath, Consts.PROJECTCODE_NAME));
+		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
 
 	}
 
 	public void testLoadProject() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject2);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject2 + " was not deleted!", directory.exists());
 
@@ -248,7 +248,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testResume() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject3);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject3);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject3 + " was not deleted!", directory.exists());
 
@@ -307,7 +307,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	//	}
 
 	//	public void testDefaultProject() throws IOException {
-	//		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+	//		File directory = new File(Constants.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
 	//		UtilFile.deleteDirectory(directory);
 	//
 	//		StorageHandler handler = StorageHandler.getInstance();
@@ -319,7 +319,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	//		assertNotNull("Bitmap is null", bitmap);
 	//		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
 	//
-	//		directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+	//		directory = new File(Constants.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
 	//		UtilFile.deleteDirectory(directory);
 	//	}
 

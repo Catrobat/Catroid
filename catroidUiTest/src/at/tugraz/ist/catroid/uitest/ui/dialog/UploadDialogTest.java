@@ -30,7 +30,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -56,13 +56,13 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		saveToken = prefs.getString(Consts.TOKEN, "0");
+		saveToken = prefs.getString(Constants.TOKEN, "0");
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
+		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
 		UiTestUtils.clearAllUtilTestProjects();
 		try {
 			solo.finalize();
@@ -131,7 +131,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	private void createTestProject() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
@@ -143,7 +143,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnButton(0);
 		solo.sleep(2000);
 
-		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + Consts.PROJECTCODE_NAME);
+		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 	}

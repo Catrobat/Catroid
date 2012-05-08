@@ -28,7 +28,7 @@ import java.io.IOException;
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -47,7 +47,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 		UtilFile.deleteDirectory(directory);
 		this.createTestProject();
 	}

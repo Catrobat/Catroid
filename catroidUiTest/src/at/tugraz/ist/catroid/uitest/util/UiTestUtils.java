@@ -48,7 +48,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -275,34 +275,34 @@ public class UiTestUtils {
 		boolean withChecksum = true;
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
-			filePath = Consts.DEFAULT_ROOT + "/";
+			filePath = Constants.DEFAULT_ROOT + "/";
 		} else {
 			switch (type) {
 				case IMAGE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.IMAGE_DIRECTORY + "/";
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + Constants.IMAGE_DIRECTORY + "/";
 					break;
 				case SOUND:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.SOUND_DIRECTORY + "/";
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + Constants.SOUND_DIRECTORY + "/";
 					break;
 				case ROOT:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + "/";
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/";
 					withChecksum = false;
 					break;
 				default:
-					filePath = Consts.DEFAULT_ROOT + "/";
+					filePath = Constants.DEFAULT_ROOT + "/";
 					break;
 			}
 		}
 		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID),
-				Consts.BUFFER_8K);
+				Constants.BUFFER_8K);
 
 		try {
 			File file = new File(filePath + name);
 			file.getParentFile().mkdirs();
 			file.createNewFile();
 
-			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Consts.BUFFER_8K);
-			byte[] buffer = new byte[Consts.BUFFER_8K];
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Constants.BUFFER_8K);
+			byte[] buffer = new byte[Constants.BUFFER_8K];
 			int length = 0;
 			while ((length = in.read(buffer)) > 0) {
 				out.write(buffer, 0, length);
@@ -330,7 +330,7 @@ public class UiTestUtils {
 	}
 
 	public static boolean clearProject(String projectname) {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectname);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectname);
 		if (directory.exists()) {
 			return UtilFile.deleteDirectory(directory);
 		}
@@ -352,42 +352,42 @@ public class UiTestUtils {
 
 	public static void clearAllUtilTestProjects() {
 		projectManager.fileChecksumContainer = new FileChecksumContainer();
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME1);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + PROJECTNAME1);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
 
-		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME2);
+		directory = new File(Constants.DEFAULT_ROOT + "/" + PROJECTNAME2);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
 
-		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME3);
+		directory = new File(Constants.DEFAULT_ROOT + "/" + PROJECTNAME3);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
 
-		directory = new File(Consts.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
+		directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
 
-		directory = new File(Consts.DEFAULT_ROOT + "/" + "defaultProject");
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "defaultProject");
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
 
-		directory = new File(Consts.DEFAULT_ROOT + "/" + "standardProjekt");
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "standardProjekt");
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
 
-		directory = new File(Consts.DEFAULT_ROOT + "/" + "My first project");
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "My first project");
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
 
-		directory = new File(Consts.DEFAULT_ROOT + "/" + "Mein erstes Projekt");
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "Mein erstes Projekt");
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
@@ -445,9 +445,9 @@ public class UiTestUtils {
 		}
 
 		InputStream in = context.getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Constants.BUFFER_8K);
 
-		byte[] buffer = new byte[Consts.BUFFER_8K];
+		byte[] buffer = new byte[Constants.BUFFER_8K];
 		int length = 0;
 
 		while ((length = in.read(buffer)) > 0) {
@@ -474,7 +474,7 @@ public class UiTestUtils {
 			assert (userRegistered);
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			sharedPreferences.edit().putString(Consts.TOKEN, token).commit();
+			sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();

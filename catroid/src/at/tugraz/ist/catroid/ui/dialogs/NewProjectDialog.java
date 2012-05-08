@@ -33,7 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -67,7 +67,7 @@ public class NewProjectDialog extends TextDialog {
 			activity.dismissDialog(MainMenuActivity.DIALOG_NEW_PROJECT);
 		}
 
-		Utils.saveToPreferences(activity, Consts.PREF_PROJECTNAME_KEY, projectName);
+		Utils.saveToPreferences(activity, Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent = new Intent(activity, ProjectActivity.class);
 		activity.startActivity(intent);
 		input.setText(null);

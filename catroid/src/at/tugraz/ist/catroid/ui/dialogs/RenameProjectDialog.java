@@ -29,7 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -61,7 +61,7 @@ public class RenameProjectDialog extends TextDialog {
 			if (oldProjectName.equalsIgnoreCase(currentProjectName)) {
 				projectManager.renameProject(newProjectName, activity);
 				((MyProjectsActivity) activity).updateProjectTitle();
-				Utils.saveToPreferences(activity, Consts.PREF_PROJECTNAME_KEY, newProjectName);
+				Utils.saveToPreferences(activity, Constants.PREF_PROJECTNAME_KEY, newProjectName);
 			} else {
 				projectManager.loadProject(oldProjectName, activity, false);
 				projectManager.renameProject(newProjectName, activity);

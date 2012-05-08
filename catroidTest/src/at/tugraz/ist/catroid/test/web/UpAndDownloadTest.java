@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
@@ -47,7 +47,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		projectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave" + Consts.CATROID_EXTENTION);
+		projectZipOnMockServer = new File(Constants.TMP_PATH + "/projectSave" + Constants.CATROID_EXTENTION);
 	}
 
 	@Override
@@ -60,9 +60,9 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		// service not ready now
 
 		//		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
-		//		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
+		//		String pathToDefaultProject = Constants.DEFAULT_ROOT + "/uploadtestProject";
 		//		new File(pathToDefaultProject).mkdirs();
-		//		String projectFilename = "test" + Consts.PROJECT_EXTENTION;
+		//		String projectFilename = "test" + Constants.PROJECT_EXTENTION;
 		//		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
 		//		String projectDescription = "this is just a testproject";
 		//
@@ -83,9 +83,9 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	public void testUpAndDownload() throws Throwable {
 		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
-		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
+		String pathToDefaultProject = Constants.DEFAULT_ROOT + "/uploadtestProject";
 		new File(pathToDefaultProject).mkdirs();
-		String projectFilename = Consts.PROJECTCODE_NAME;
+		String projectFilename = Constants.PROJECTCODE_NAME;
 		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
 		String projectDescription = "this is just a testproject";
 
@@ -100,9 +100,9 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		new ProjectDownloadTask(null, "", testProjectName).execute();
 		Thread.sleep(3000);
 
-		File downloadProjectRoot = new File(Consts.DEFAULT_ROOT + "/" + testProjectName);
+		File downloadProjectRoot = new File(Constants.DEFAULT_ROOT + "/" + testProjectName);
 		assertTrue("Project does not exist after download", downloadProjectRoot.exists());
-		File testProjectFile = new File(Consts.DEFAULT_ROOT + "/" + testProjectName + "/" + projectFilename);
+		File testProjectFile = new File(Constants.DEFAULT_ROOT + "/" + testProjectName + "/" + projectFilename);
 		assertTrue("Project file does not exist after download", testProjectFile.exists());
 
 		UtilFile.deleteDirectory(downloadProjectRoot);
