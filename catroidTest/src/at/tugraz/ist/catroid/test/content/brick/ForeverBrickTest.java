@@ -44,6 +44,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		testSprite = new Sprite("testSprite");
 	}
 
+	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
 		final int twentyIsAlmostForever = 20;
 
