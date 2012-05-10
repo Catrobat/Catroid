@@ -93,7 +93,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		solo.finishInactiveActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		paintroidImageFile.delete();
 		super.tearDown();
@@ -124,28 +123,28 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("the count of the costumeDataList is not right", 1, costumeDataList.size());
 	}
 
-	//	public void testRenameCostume() {
-	//		String newName = "newName";
-	//		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-	//		solo.waitForActivity(CostumeActivity.class.getSimpleName());
-	//		solo.clickOnView(solo.getView(R.id.costume_name));
-	//		solo.setActivityOrientation(Solo.PORTRAIT);
-	//		solo.sleep(300);
-	//		solo.clearEditText(0);
-	//		solo.enterText(0, newName);
-	//		solo.setActivityOrientation(Solo.LANDSCAPE);
-	//
-	//		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-	//		solo.sleep(600);
-	//		solo.setActivityOrientation(Solo.PORTRAIT);
-	//		solo.clickOnButton(solo.getString(R.string.ok));
-	//		solo.sleep(100);
-	//		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
-	//		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
-	//		if (!solo.searchText(newName)) {
-	//			fail("costume not renamed in actual view");
-	//		}
-	//	}
+	public void testRenameCostume() {
+		String newName = "newName";
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.clickOnView(solo.getView(R.id.costume_name));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, newName);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(100);
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
+		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
+		if (!solo.searchText(newName)) {
+			fail("costume not renamed in actual view");
+		}
+	}
 
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
