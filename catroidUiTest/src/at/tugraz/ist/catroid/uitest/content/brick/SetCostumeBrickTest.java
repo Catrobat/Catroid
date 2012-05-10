@@ -130,6 +130,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName2 + " is not selected in Spinner", solo.searchText(costumeName2));
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(1).getAbsolutePath());
 	}
