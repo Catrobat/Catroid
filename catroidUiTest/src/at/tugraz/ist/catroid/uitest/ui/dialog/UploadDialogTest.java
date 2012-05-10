@@ -39,10 +39,10 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
+	private Solo solo;
 	private String saveToken;
 
 	public UploadDialogTest() {
@@ -64,13 +64,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
 		UiTestUtils.clearAllUtilTestProjects();
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
-		UiTestUtils.clearAllUtilTestProjects();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
@@ -109,7 +103,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
-
 	}
 
 	public void testOrientationChange() throws Throwable {
@@ -140,7 +133,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.enterText(0, testProject);
 		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + Consts.PROJECTCODE_NAME);

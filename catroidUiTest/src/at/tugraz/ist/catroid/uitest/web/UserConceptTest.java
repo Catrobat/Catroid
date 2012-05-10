@@ -58,12 +58,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), null, false);
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -80,7 +75,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertNotNull("Upload Dialog is not shown.",
 				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
-		solo.sleep(2000);
 	}
 
 	public void testRegisterWithValidTokenSaved() throws Throwable {
@@ -92,7 +86,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertNotNull("Upload Dialog is not shown.",
 				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
-		solo.sleep(2000);
 	}
 
 	public void testTokenPersistance() throws Throwable {
@@ -113,7 +106,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertNotNull("Upload Dialog is not shown.",
 				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
-		solo.sleep(2000);
 	}
 
 	public void testRegisterWithWrongToken() throws Throwable {
@@ -129,7 +121,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertNotNull("Login Dialog is not shown.",
 				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
-		solo.sleep(2000);
 	}
 
 	public void testRegisterWithShortPassword() throws Throwable {
@@ -146,7 +137,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(0);
 		assertNotNull("Login Dialog is not shown.",
 				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
-		solo.sleep(2000);
 	}
 
 	public void testOrientationChange() throws Throwable {
@@ -218,7 +208,5 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.setActivityOrientation(Solo.PORTRAIT);
 
 		solo.clickOnButton(0);
-
-		solo.waitForDialogToClose(10000);
 	}
 }
