@@ -101,6 +101,7 @@
     <string name="select_image">Select Image</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
     <string name="default_costume_name">costume</string>
+    <string name="delete_costume_dialog">Delete costume?</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
@@ -109,6 +110,7 @@
     <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
     <string name="sound_select_source">Select a sound</string>
+    <string name="delete_sound_dialog">Delete sound?</string>
 
     <!-- My Projects activity -->
     <string name="last_used">Last used:</string>
