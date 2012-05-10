@@ -71,7 +71,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		solo.finishInactiveActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
