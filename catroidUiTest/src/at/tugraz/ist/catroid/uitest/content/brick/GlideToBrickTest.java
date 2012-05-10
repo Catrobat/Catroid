@@ -97,9 +97,9 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1234.567, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.67, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, -1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1234.5678, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.678, 60, false);
 
 		for (int i = 1; i < 3; i++) {
 			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
