@@ -47,7 +47,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private File imageFile;
 	private File imageFile2;
 	private ArrayList<CostumeData> costumeDataList;
-	private final int RESOURCE_IMAGE = R.drawable.catroid_sunglasses;
+	private final int RESOURCE_IMAGE = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 
 	private String soundName = "testSound1";
