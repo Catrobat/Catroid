@@ -58,6 +58,11 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		super.tearDown();
 	}
 
