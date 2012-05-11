@@ -24,17 +24,22 @@ package at.tugraz.ist.catroid;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.LoadingDaemon;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
+
+import com.badlogic.gdx.graphics.Pixmap;
 
 public class ProjectManager {
 
@@ -49,6 +54,8 @@ public class ProjectManager {
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
+		LoadingDaemon daemon = LoadingDaemon.getInstance();
+		daemon.startDaemon();
 	}
 
 	public static ProjectManager getInstance() {
@@ -62,6 +69,7 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
+			LoadingDaemon.getInstance().clear();
 
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
@@ -78,6 +86,7 @@ public class ProjectManager {
 
 			currentSprite = null;
 			currentScript = null;
+			loadCurrentCostumesInDaemon();
 
 			Utils.saveToPreferences(context, Consts.PREF_PROJECTNAME_KEY, project.getName());
 
@@ -241,5 +250,15 @@ public class ProjectManager {
 		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
 
 		return true;
+	}
+
+	private void loadCurrentCostumesInDaemon() {
+		Iterator<Sprite> spriteIter = project.getSpriteList().iterator();
+		while (spriteIter.hasNext()) {
+			Iterator<CostumeData> costumeDataIter = spriteIter.next().getCostumeDataList().iterator();
+			while (costumeDataIter.hasNext()) {
+				LoadingDaemon.getInstance().load(costumeDataIter.next().getAbsolutePath(), Pixmap.class);
+			}
+		}
 	}
 }
