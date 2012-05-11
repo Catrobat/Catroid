@@ -62,6 +62,11 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}

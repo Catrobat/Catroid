@@ -59,6 +59,11 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		super.tearDown();
 	}
 
