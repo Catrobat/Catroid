@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -37,7 +38,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -126,12 +126,19 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void testRenameCostume() {
 		String newName = "newName";
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		Log.v("BLA", "1");
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		Log.v("BLA", "2");
 		solo.clickOnView(solo.getView(R.id.costume_name));
+		Log.v("BLA", "3");
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		Log.v("BLA", "4");
 		solo.sleep(300);
+		Log.v("BLA", "5");
 		solo.clearEditText(0);
+		Log.v("BLA", "6");
 		solo.enterText(0, newName);
+		Log.v("BLA", "7");
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
@@ -146,14 +153,14 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	public void testMainMenuButton() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.waitForActivity(CostumeActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-				MainMenuActivity.class);
-	}
+	//	public void testMainMenuButton() {
+	//		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+	//		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+	//		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+	//		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+	//				MainMenuActivity.class);
+	//	}
 
 	public void testDialogsOnChangeOrientation() {
 		String newName = "newTestName";
