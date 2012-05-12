@@ -51,7 +51,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-
 	private Solo solo;
 	private String testProjectName = UiTestUtils.PROJECTNAME1;
 	private String costumeDataName = "blubb";
@@ -75,11 +74,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}

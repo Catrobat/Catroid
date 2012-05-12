@@ -49,6 +49,7 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -64,18 +65,14 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void setUp() throws Exception {
-		createProject("testProject");
+		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.clearAllUtilTestProjects();
 		solo.finishOpenedActivities();
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 		super.tearDown();
 	}
 
@@ -135,26 +132,20 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 				getActivity().dispatchTouchEvent(upEvent);
 			}
 		});
-
 		solo.sleep(1000);
-
 	}
 
 	@Smoke
 	public void testMoveBrickAcrossScript() {
-
 		ArrayList<Integer> yPositionList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
-
 		longClickAndDrag(10, yPositionList.get(7), 10, yPositionList.get(2), 20);
-
 		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks + 1) == ProjectManager
 				.getInstance().getCurrentScript().getBrickList().size());
 
 		Adapter adapter = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter();
-
 		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(2) instanceof WaitBrick,
 				true);
 	}
