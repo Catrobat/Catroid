@@ -34,8 +34,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessBrick;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -100,14 +98,6 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
-		createProject();
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
