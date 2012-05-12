@@ -117,10 +117,8 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
-		solo.waitForText(buttonOKText);
-		solo.clickOnText(buttonOKText);
-		solo.sleep(100);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		solo.sleep(500);
 		assertEquals("sound is not renamed in SoundList", newName, soundInfoList.get(0).getTitle());
