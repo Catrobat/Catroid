@@ -432,8 +432,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testSpriteListDetails() {
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		createProject();
+		solo.sleep(500);
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertTrue("Displayed wrong number of scripts",
 				solo.searchText(solo.getString(R.string.number_of_scripts) + " 2"));
