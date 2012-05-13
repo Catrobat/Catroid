@@ -58,7 +58,9 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.sleep(100);
 		solo.clickOnEditText(0);
+		solo.sleep(200);
 		solo.clearEditText(0);
+		solo.sleep(200);
 		solo.enterText(0, testingproject);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(1000);
