@@ -109,7 +109,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testRegisterWithWrongToken() throws Throwable {
-
 		setTestUrl();
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -166,6 +165,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clearEditText(passwordField);
 		solo.enterText(1, testText2);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
 	}
@@ -179,7 +179,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	private void fillLoginDialog(boolean correct) {
-
 		assertNotNull("Login Dialog is not shown.",
 				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
 
