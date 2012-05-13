@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -58,17 +59,12 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	@Smoke
 	public void testBroadcastBricks() {
-
 		BrickAdapter adapter = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter();
 
 		int childrenCount = adapter.getBrickCount(adapter.getScriptCount() - 1);
@@ -93,7 +89,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.sendKey(Solo.ENTER);
 		solo.sendKey(Solo.ENTER);
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		boolean test = solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1);
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertNotSame("Wrong selection", testString, solo.getCurrentSpinners().get(1).getSelectedItem());
 
@@ -133,7 +129,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new BroadcastScript(sprite);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);

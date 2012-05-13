@@ -59,6 +59,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -96,7 +97,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		setYBrick = new SetYBrick(sprite, 0);

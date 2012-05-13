@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -60,6 +61,7 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -80,7 +82,7 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		script.addBrick(new HideBrick(sprite));
@@ -92,5 +94,4 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

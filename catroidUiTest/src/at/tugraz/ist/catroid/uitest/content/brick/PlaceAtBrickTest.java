@@ -99,10 +99,12 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		String buttonPositiveText = solo.getString(R.string.ok);
 
 		solo.clickOnEditText(0);
+		solo.waitForText(buttonPositiveText);
 		solo.clearEditText(0);
 		solo.enterText(0, xPosition + "");
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
+		solo.sleep(100);
 
 		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
@@ -132,7 +134,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		script.addBrick(new HideBrick(sprite));

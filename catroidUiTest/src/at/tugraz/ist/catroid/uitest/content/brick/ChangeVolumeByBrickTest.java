@@ -59,11 +59,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -100,7 +96,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		changeVolumeByBrick = new ChangeVolumeByBrick(sprite, 100);

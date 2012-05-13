@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -56,6 +57,7 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -80,7 +82,7 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		Sprite sprite2 = new Sprite("cat2");
 		Script startScript2 = new StartScript(sprite2);

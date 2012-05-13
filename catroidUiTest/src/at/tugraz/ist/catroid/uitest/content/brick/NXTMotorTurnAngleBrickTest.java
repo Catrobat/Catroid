@@ -60,6 +60,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -98,6 +99,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		solo.enterText(0, SET_ANGLE + "");
 		solo.goBack();
 		solo.clickOnButton(0);
+		solo.sleep(100);
 
 		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
 		assertEquals("Wrong text in field.", SET_ANGLE, angle);
@@ -118,7 +120,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 

@@ -71,8 +71,8 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.clearAllUtilTestProjects();
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 

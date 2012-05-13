@@ -59,6 +59,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -94,7 +95,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		setVolumeToBrick = new SetVolumeToBrick(sprite, 0);

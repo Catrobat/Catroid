@@ -57,6 +57,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -94,7 +95,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		SetBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
