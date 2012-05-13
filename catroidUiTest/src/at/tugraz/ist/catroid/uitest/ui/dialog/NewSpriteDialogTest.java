@@ -31,6 +31,8 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -61,9 +63,11 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testingproject);
-		solo.sleep(200);
+		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testingproject);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.sleep(100);
