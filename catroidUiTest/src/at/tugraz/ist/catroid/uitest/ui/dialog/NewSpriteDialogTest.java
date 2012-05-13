@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -70,6 +71,8 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(1000);
 		solo.clickOnText(testingsprite);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
 	}
 
 	public void createTestProject(String projectName) {

@@ -91,5 +91,4 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("EditText was not empty", "", editText.getText().toString());
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
-
 }
