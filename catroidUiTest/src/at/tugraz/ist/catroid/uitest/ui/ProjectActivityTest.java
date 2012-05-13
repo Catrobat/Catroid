@@ -437,17 +437,21 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testSpriteListDetails() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		createProject();
+		addNewSprite("testSprite");
 		assertTrue("Displayed wrong number of scripts",
 				solo.searchText(solo.getString(R.string.number_of_scripts) + " 2"));
 
 		assertTrue("Displayed wrong number of bricks - should be 0",
 				solo.searchText(solo.getString(R.string.number_of_bricks) + " 3"));
 
-		assertTrue("Displayed wrong number of costumes - should be 1",
-				solo.searchText(solo.getString(R.string.number_of_costumes) + " 1"));
+		assertTrue("Displayed wrong number of costumes - should be 0",
+				solo.searchText(solo.getString(R.string.number_of_costumes) + " 0"));
 
 		assertTrue("Displayed wrong number of sound - should be 1",
 				solo.searchText(solo.getString(R.string.number_of_sounds) + " 1"));
+
+		assertTrue("Displayed wrong number of costumes - should be 1",
+				solo.searchText(solo.getString(R.string.number_of_backgrounds) + " 1"));
 	}
 
 	private void openNewSpriteDialog() {
