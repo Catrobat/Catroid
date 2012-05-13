@@ -47,8 +47,7 @@ public class LoadingDaemon implements AssetErrorListener {
 			public void run() {
 				while (true) {
 					try {
-						boolean test = manager.update();
-						if (test) {
+						if (manager.update()) {
 							Thread.yield();
 						}
 					} catch (Exception e) {
@@ -80,10 +79,9 @@ public class LoadingDaemon implements AssetErrorListener {
 		manager.clear();
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Class get(String fileName, Class<?> type) {
+	public Object get(String fileName, Class<?> type) {
 		if (manager.isLoaded(fileName, type)) {
-			return (Class) manager.get(fileName, type);
+			return type.cast(manager.get(fileName, type));
 		}
 		return null;
 	}
@@ -96,7 +94,7 @@ public class LoadingDaemon implements AssetErrorListener {
 
 	@SuppressWarnings("rawtypes")
 	public void error(String fileName, Class type, Throwable t) {
-		Gdx.app.error("LoadingDaemon", "couldn't load asset '" + fileName + "'", t);
+		Gdx.app.error("LoadingDaemon", "couldn't load asset '" + fileName + "'" + type.toString(), t);
 
 	}
 

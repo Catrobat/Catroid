@@ -25,10 +25,10 @@ package at.tugraz.ist.catroid.content;
 import java.util.concurrent.Semaphore;
 
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.io.LoadingDaemon;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -50,6 +50,7 @@ public class Costume extends Image {
 	protected boolean internalPath;
 	public boolean show;
 	public int zPosition;
+	protected Pixmap pixmap;
 
 	public Costume(Sprite sprite) {
 		this.sprite = sprite;
@@ -85,7 +86,10 @@ public class Costume extends Image {
 		xYWidthHeightLock.release();
 
 		if (x >= 0 && x <= width && y >= 0 && y <= height) {
-			if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
+			//int test = (currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF);
+			//int test2 = (pixmap.getPixel((int) x, (int) y) & 0x000000FF);
+			//if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
+			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				sprite.startWhenScripts("Tapped");
 				return true;
 			}
@@ -129,11 +133,13 @@ public class Costume extends Image {
 				return;
 			}
 
-			Pixmap pixmap;
+			//Pixmap pixmap;
 			if (internalPath) {
 				pixmap = new Pixmap(Gdx.files.internal(costumeData.getAbsolutePath()));
+				pixmap = (Pixmap) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Pixmap.class);
 			} else {
 				pixmap = new Pixmap(Gdx.files.absolute(costumeData.getAbsolutePath()));
+				pixmap = (Pixmap) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Pixmap.class);
 			}
 
 			xYWidthHeightLock.acquireUninterruptibly();
@@ -147,8 +153,9 @@ public class Costume extends Image {
 			this.originY = this.height / 2f;
 			xYWidthHeightLock.release();
 
-			currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
-			currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
+			//currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
+			//currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
+			//pixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
 
 			brightnessLock.acquireUninterruptibly();
 			if (brightnessValue != 1f) {
@@ -157,7 +164,7 @@ public class Costume extends Image {
 			brightnessLock.release();
 
 			Texture texture = new Texture(pixmap);
-			pixmap.dispose();
+			//pixmap.dispose();
 
 			this.setRegion(new TextureRegion(texture));
 
