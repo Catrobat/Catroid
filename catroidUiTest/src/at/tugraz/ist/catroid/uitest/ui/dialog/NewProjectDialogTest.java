@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -56,12 +57,10 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testNewProjectDialog() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.sleep(100);
-		solo.clickOnEditText(0);
-		solo.sleep(200);
-		solo.clearEditText(0);
-		solo.sleep(200);
-		solo.enterText(0, testingproject);
+		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
+		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
+		Log.v("testNewProjectDialog", "" + nameEditTextId);
+		UiTestUtils.enterText(solo, nameEditTextId, testingproject);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(1000);
 
