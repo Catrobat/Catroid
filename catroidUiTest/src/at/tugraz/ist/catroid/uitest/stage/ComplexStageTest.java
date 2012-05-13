@@ -304,8 +304,6 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		blackCostumeData.setCostumeFilename(blackImageFile.getName());
 
 		StorageHandler.getInstance().saveProject(project);
-
 		ProjectManager.getInstance().setProject(project);
-
 	}
 }

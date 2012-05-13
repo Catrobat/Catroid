@@ -89,7 +89,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.sendKey(Solo.ENTER);
 		solo.sendKey(Solo.ENTER);
 
-		boolean test = solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 1);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertNotSame("Wrong selection", testString, solo.getCurrentSpinners().get(1).getSelectedItem());
 
