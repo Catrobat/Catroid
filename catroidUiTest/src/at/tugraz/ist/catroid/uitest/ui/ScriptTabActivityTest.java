@@ -87,7 +87,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	public void testScriptTab() {
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
-		solo.clickOnText(solo.getString(R.string.script));
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(100);
 		assertTrue("Clicking on Script Tab did not cause ScriptActivity to be displayed",
 				solo.getCurrentActivity() instanceof ScriptActivity);
