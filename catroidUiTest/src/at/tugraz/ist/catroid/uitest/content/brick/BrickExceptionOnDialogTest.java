@@ -84,12 +84,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -209,32 +204,34 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	}
 
 	public void testPlaySoundBrick() {
+		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(sprite);
 		script.addBrick(playSoundBrick);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
 	public void testSetCostumeBrick() {
+		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		script.addBrick(setCostumeBrick);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 

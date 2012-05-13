@@ -59,6 +59,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -83,6 +84,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, TEST_STRING);
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
+		solo.sleep(100);
 
 		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
@@ -91,6 +93,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, "");
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
+		solo.sleep(100);
 
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", "", note);
@@ -100,13 +103,14 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, TEST_STRING);
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
+		solo.sleep(100);
 
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		noteBrick = new NoteBrick(sprite);

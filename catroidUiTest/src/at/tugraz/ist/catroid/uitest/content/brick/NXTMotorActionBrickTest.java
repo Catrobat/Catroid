@@ -63,6 +63,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -82,11 +83,14 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_motor_action)));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_speed)));
 
+		String buttonOkText = solo.getString(R.string.ok);
 		solo.clickOnEditText(0);
+		solo.waitForText(buttonOkText);
 		solo.clearEditText(0);
 		solo.enterText(0, SET_SPEED + "");
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnButton(buttonOkText);
+		solo.sleep(300);
 
 		int speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", SET_SPEED, speed);
@@ -155,7 +159,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 

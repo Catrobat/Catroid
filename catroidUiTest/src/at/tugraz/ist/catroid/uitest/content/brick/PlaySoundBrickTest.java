@@ -171,6 +171,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(500);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
 
 		String buttonPositiveText = solo.getString(R.string.ok);
 		solo.waitForText(buttonPositiveText);

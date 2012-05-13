@@ -64,6 +64,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -93,7 +94,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		goNStepsBackBrick = new GoNStepsBackBrick(sprite, 0);
