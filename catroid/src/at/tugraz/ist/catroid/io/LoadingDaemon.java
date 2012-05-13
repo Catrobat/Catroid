@@ -18,19 +18,26 @@
  */
 package at.tugraz.ist.catroid.io;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetErrorListener;
-import com.badlogic.gdx.assets.AssetManager;
+import java.util.Stack;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * @author Markus
  * 
  */
-public class LoadingDaemon implements AssetErrorListener {
+public class LoadingDaemon {
 
 	private static LoadingDaemon instance;
-	private AssetManager manager;
-	private Thread daemon;
+	final Thread daemon;
+	final ObjectMap<Class<?>, ObjectMap<String, Object>> objectMap;
+	final Array<ObjectDescriptor> preloadQueue;
+	final Stack<LoadingTask> tasks;
+	final ExecutorService threadPool;
 
 	public static LoadingDaemon getInstance() {
 		if (instance == null) {
@@ -40,14 +47,22 @@ public class LoadingDaemon implements AssetErrorListener {
 	}
 
 	private LoadingDaemon() {
-		manager = new AssetManager();
-		manager.setErrorListener(this);
+		objectMap = new ObjectMap<Class<?>, ObjectMap<String, Object>>();
+		preloadQueue = new Array<LoadingDaemon.ObjectDescriptor>();
+		tasks = new Stack<LoadingTask>();
+		threadPool = Executors.newFixedThreadPool(1, new ThreadFactory() {
+			public Thread newThread(Runnable r) {
+				Thread thread = new Thread(r);
+				thread.setDaemon(true);
+				return thread;
+			}
+		});
 		daemon = new Thread(new Runnable() {
 
 			public void run() {
 				while (true) {
 					try {
-						if (manager.update()) {
+						if (instance.update()) {
 							Thread.yield();
 						}
 					} catch (Exception e) {
@@ -59,43 +74,54 @@ public class LoadingDaemon implements AssetErrorListener {
 
 			@Override
 			public void finalize() {
-				manager.clear();
+				instance.clear();
+
 			}
-		});
+		}, "Loading Daemon");
 		daemon.setDaemon(true);
 	}
 
-	public void load(String fileName, Class<?> type) {
-		manager.load(fileName, type);
+	public synchronized boolean update() {
+		return false;
+	}
+
+	public synchronized void load(String fileName, Class<?> type) {
 
 	}
 
-	public void unload(String fileName) {
-		manager.unload(fileName);
+	public synchronized void unload(String fileName) {
 
 	}
 
-	public void clear() {
-		manager.clear();
+	public synchronized void clear() {
+
 	}
 
-	public Object get(String fileName, Class<?> type) {
-		if (manager.isLoaded(fileName, type)) {
-			return type.cast(manager.get(fileName, type));
-		}
+	public synchronized Object get(String fileName, Class<?> type) {
+
 		return null;
 	}
 
-	public void startDaemon() {
+	public synchronized void startDaemon() {
 		if (!daemon.isAlive()) {
 			daemon.start();
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	public void error(String fileName, Class type, Throwable t) {
-		Gdx.app.error("LoadingDaemon", "couldn't load asset '" + fileName + "'" + type.toString(), t);
+	public class ObjectDescriptor {
+		final String fileName;
+		final Class<?> type;
 
+		public ObjectDescriptor(String fileName, Class<?> type) {
+			this.fileName = fileName;
+			this.type = type;
+
+		}
+
+		@Override
+		public String toString() {
+			return fileName;
+		}
 	}
 
 }
