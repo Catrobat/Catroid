@@ -84,7 +84,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	@Override
 	public void setUp() throws Exception {
 		UiTestUtils.clearAllUtilTestProjects();
-
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
@@ -267,7 +266,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	}
 
 	public void createTestproject(String projectName) {
-
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript(firstSprite);
 		Script whenScript = new WhenScript(firstSprite);
@@ -321,5 +319,4 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		storageHandler.saveProject(project);
 	}
-
 }
