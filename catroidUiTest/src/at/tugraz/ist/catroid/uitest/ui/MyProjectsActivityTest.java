@@ -253,6 +253,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testDeleteProject() {
 		createProjects();
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
@@ -273,6 +274,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testDeleteCurrentProject() {
 		createProjects();
+		solo.sleep(200);
 		//current project is UiTestUtils.DEFAULT_TEST_PROJECT_NAME
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -337,6 +339,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testRenameProject() {
 		createProjects();
+		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
