@@ -90,7 +90,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		//check if hint is set
 		assertEquals("Not the proper hint set", hintNewProjectText, addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
-		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.clearEditText(0);
@@ -98,7 +97,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
-		solo.sleep(600);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
@@ -120,7 +119,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(300);
 
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(""));
-		solo.sleep(600);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.goBack();
 		solo.sendKey(Solo.ENTER);
@@ -144,7 +143,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
-		solo.sleep(600);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clickOnButton(0);
 		solo.sleep(100);
@@ -165,7 +164,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(name));
-		solo.sleep(600);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clickOnButton(0);
 		solo.sleep(100);
@@ -187,7 +186,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clearEditText(0);
 		solo.enterText(0, projectNameWithBlacklistedCharacters);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(600);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
@@ -209,7 +208,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clearEditText(0);
 		solo.enterText(0, projectNameWithWhitelistedCharacters);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(600);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
@@ -228,6 +227,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		createTestProject(testProject2);
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject2);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -270,6 +270,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testAboutCatroid() {
 		solo.clickOnButton(getActivity().getString(R.string.about));
+		solo.sleep(200);
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
 
 		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0)

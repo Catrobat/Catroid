@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -126,26 +125,20 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void testRenameCostume() {
 		String newName = "newName";
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		Log.v("BLA", "1");
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
-		Log.v("BLA", "2");
 		solo.clickOnView(solo.getView(R.id.costume_name));
-		Log.v("BLA", "3");
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		Log.v("BLA", "4");
-		solo.sleep(300);
-		Log.v("BLA", "5");
+		solo.sleep(200);
 		solo.clearEditText(0);
-		Log.v("BLA", "6");
 		solo.enterText(0, newName);
-		Log.v("BLA", "7");
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-
+		solo.sleep(300);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.sleep(600);
+
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
 		if (!solo.searchText(newName)) {
@@ -172,12 +165,13 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(300);
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(200);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
