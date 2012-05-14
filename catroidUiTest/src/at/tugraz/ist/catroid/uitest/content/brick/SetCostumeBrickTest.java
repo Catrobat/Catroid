@@ -124,6 +124,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(0).getAbsolutePath());
 		solo.goBack();
 		solo.goBack();
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		solo.clickOnText(costumeName);
 		solo.clickOnText(costumeName2);

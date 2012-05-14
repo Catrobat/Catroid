@@ -108,7 +108,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 				.getProgress());
 
 		solo.clickOnButton(0);
-
 		int speedCounter = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speedCounter, speed - 1);
 		assertEquals("Value in Brick is not updated.", speed - 1 + "", solo.getEditText(0).getText().toString());
@@ -116,7 +115,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 				.getProgress());
 
 		solo.clickOnButton(1);
-
 		speedCounter = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speedCounter, speed);
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
@@ -125,7 +123,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.setProgressBar(0, 1);
 		solo.clickOnButton(0);
 		solo.clickOnButton(0);
-
 		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed, MIN_SPEED);
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
@@ -134,7 +131,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.setProgressBar(0, MAX_SPEED + 100);
 		solo.clickOnButton(1);
 		solo.clickOnButton(1);
-
 		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed, MAX_SPEED);
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
