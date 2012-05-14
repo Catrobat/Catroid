@@ -116,16 +116,13 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 							MotionEvent.ACTION_MOVE, x, y, 0);
 					getActivity().dispatchTouchEvent(moveEvent);
-
 					solo.sleep(20);
 				}
 			}
 		});
 
 		solo.sleep(steps * 20 + 200);
-
 		handler.post(new Runnable() {
-
 			public void run() {
 				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
