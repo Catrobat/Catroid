@@ -38,22 +38,21 @@
     android:layout_marginRight="0dip"
     android:windowFullscreen="true"
 	android:theme="@android:style/Theme.Light">
-
-	<ImageView
-	    android:id="@+id/imageView1"
+
+	<LinearLayout
+	    android:id="@+id/formula_editor_brick_space"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:src="@drawable/brick_yellow" />
+	    android:layout_height="68dp" />
 
 	<ListView
-	    android:id="@+id/listView1"
+	    android:id="@+id/formula_editor_list_view"
 	    android:layout_width="match_parent"
 	    android:layout_height="131dp" >
 
 	</ListView>
 	
 	<EditText
-		android:id="@+id/project_upload_name"
+		android:id="@+id/formula_editor_edit_text"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:maxLines="1"
@@ -65,13 +64,13 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 		<Button
-			android:id="@+id/ok_button"
+			android:id="@+id/formula_editor_ok_button"
 			android:text="foo"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_weight=".5" />
 		<Button
-			android:id="@+id/cancel_button"
+			android:id="@+id/formula_editor_cancel_button"
 			android:text="@string/cancel_button"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

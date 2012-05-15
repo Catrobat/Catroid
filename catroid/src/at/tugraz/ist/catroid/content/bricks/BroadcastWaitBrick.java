@@ -189,4 +189,12 @@ public class BroadcastWaitBrick implements Brick {
 	public Brick clone() {
 		return new BroadcastWaitBrick(sprite);
 	}
+
+	/* (non-Javadoc)
+	 * @see at.tugraz.ist.catroid.content.bricks.Brick#getEditorView(android.content.Context)
+	 */
+	public View getEditorView(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

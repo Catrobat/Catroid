@@ -69,4 +69,12 @@ public class HideBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_hide, null);
 	}
+
+	/* (non-Javadoc)
+	 * @see at.tugraz.ist.catroid.content.bricks.Brick#getEditorView(android.content.Context)
+	 */
+	public View getEditorView(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

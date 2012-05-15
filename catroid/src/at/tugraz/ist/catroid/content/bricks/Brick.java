@@ -42,6 +42,8 @@ public interface Brick extends Serializable {
 
 	public Sprite getSprite();
 
+	public View getEditorView(Context context);
+
 	public View getView(Context context, int brickId, BaseAdapter adapter);
 
 	public View getPrototypeView(Context context);

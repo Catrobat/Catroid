@@ -246,4 +246,12 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 		finishedDialog.show();
 	}
+
+	/* (non-Javadoc)
+	 * @see at.tugraz.ist.catroid.content.bricks.Brick#getEditorView(android.content.Context)
+	 */
+	public View getEditorView(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

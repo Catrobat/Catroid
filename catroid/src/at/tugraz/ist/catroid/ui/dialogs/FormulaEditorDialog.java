@@ -28,16 +28,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener {
 
 	private final Context context;
 	private Button okButton;
+	private Brick currentBrick;
+	private EditText edit;
 
-	public FormulaEditorDialog(Context context) {
+	public FormulaEditorDialog(Context context, Brick brick) {
+
 		super(context, R.style.dialog_fullscreen);
+		currentBrick = brick;
 		this.context = context;
 	}
 
@@ -46,26 +53,39 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_formula_editor);
+		LinearLayout brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
+		brickSpace.addView(currentBrick.getEditorView(context));
 
 		setTitle("Editor testyyyy");
 		setCanceledOnTouchOutside(true);
 
-		okButton = (Button) findViewById(R.id.ok_button);
+		okButton = (Button) findViewById(R.id.formula_editor_ok_button);
 		okButton.setOnClickListener(this);
 
-		Button cancelButton = (Button) findViewById(R.id.cancel_button);
+		Button cancelButton = (Button) findViewById(R.id.formula_editor_cancel_button);
 		cancelButton.setOnClickListener(this);
+
+		okButton = (Button) findViewById(R.id.formula_editor_ok_button);
+		okButton.setOnClickListener(this);
+
+		edit = (EditText) findViewById(R.id.formula_editor_edit_text);
+		edit.setOnClickListener(this);
+	}
+
+	public void setInputFocusAndText(String text) {
+		edit.setText("12344");
+
 	}
 
 	public void onClick(View v) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		switch (v.getId()) {
-			case R.id.ok_button:
+			case R.id.formula_editor_ok_button:
 				dismiss();
 				break;
 
-			case R.id.cancel_button:
+			case R.id.formula_editor_cancel_button:
 				dismiss();
 				break;
 		}
