@@ -37,6 +37,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -146,14 +147,15 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	//	public void testMainMenuButton() {
-	//		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-	//		solo.waitForActivity(CostumeActivity.class.getSimpleName());
-	//		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-	//		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-	//				MainMenuActivity.class);
-	//	}
+	public void testMainMenuButton() {
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
+		solo.finishInactiveActivities();
+	}
 
 	public void testDialogsOnChangeOrientation() {
 		String newName = "newTestName";
