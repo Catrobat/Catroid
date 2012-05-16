@@ -88,21 +88,21 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	public void testScriptTab() {
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.sleep(100);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Clicking on Script Tab did not cause ScriptActivity to be displayed",
 				solo.getCurrentActivity() instanceof ScriptActivity);
 	}
 
 	public void testCostumesTab() {
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
-		solo.sleep(100);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		assertTrue("Clicking on Costumes Tab did not cause CostumeActivity to be displayed",
 				solo.getCurrentActivity() instanceof CostumeActivity);
 	}
 
 	public void testSoundsTab() {
 		solo.clickOnText(solo.getString(R.string.sounds));
-		solo.sleep(100);
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		assertTrue("Clicking on Sounds Tab did not cause SoundActivity to be displayed",
 				solo.getCurrentActivity() instanceof SoundActivity);
 	}
@@ -112,6 +112,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String spriteBear = "bear";
 		String spriteFrog = "frog";
 		String spriteToTest = "";
+		String backgroundTabLabel = solo.getString(R.string.backgrounds);
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -126,19 +127,17 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		spriteToTest = spriteList.getItemAtPosition(0).toString();
 		solo.clickOnText(spriteToTest);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		assertTrue("Wrong label - Tab should be named \"Backgrounds\"",
-				solo.searchText(getActivity().getString(R.string.backgrounds)));
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(100);
-		assertTrue("Wrong label - Tab should be named \"Backgrounds\"",
-				solo.searchText(getActivity().getString(R.string.backgrounds)));
+		assertTrue("Wrong label - Tab should be named \"Backgrounds\"", solo.searchText(backgroundTabLabel));
+		solo.clickOnText(backgroundTabLabel);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		assertTrue("Wrong label - Tab should be named \"Backgrounds\"", solo.searchText(backgroundTabLabel));
 
 		for (int i = 1; i < 3; i++) {
 			solo.goBack();
 			solo.sleep(100);
 			spriteToTest = spriteList.getItemAtPosition(i).toString();
 			solo.clickOnText(spriteToTest);
-			solo.sleep(100);
+			solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 			assertTrue("Wrong label - Tab should be named \"Costumes\"",
 					solo.searchText(getActivity().getString(R.string.costumes)));
 		}
@@ -151,7 +150,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("Sprite1");
 		solo.clickInList(0);
-		solo.sleep(100);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		String scriptsLabel = getActivity().getString(R.string.scripts);
 		String backgroundsLabel = getActivity().getString(R.string.backgrounds);
