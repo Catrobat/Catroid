@@ -87,11 +87,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.enterText(0, spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
-		solo.sleep(600);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		String buttonPositiveText = solo.getString(R.string.ok);
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
+		solo.sleep(300);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
 	}
 
 	public void testBackgroundSprite() {
@@ -120,8 +120,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
 		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteName);
-		solo.sleep(200);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite secondSprite = (Sprite) spritesList.getItemAtPosition(1);
@@ -148,7 +148,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		addNewSprite(spriteName);
 		addNewSprite(spriteName2);
-		solo.sleep(200);
 
 		// Rename sprite
 		final String newSpriteName = "baz";
@@ -161,9 +160,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(500);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		String buttonPositiveText = solo.getString(R.string.ok);
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(300);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -209,9 +206,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 
 		addNewSprite(spriteName);
-		solo.sleep(200);
 		solo.clickLongOnText(spriteName); //opening context menu
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
 		assertTrue("Context menu dialog not visible after changing orientation", solo.searchText(contextMenuRenameText)
 				&& solo.searchText(getActivity().getString(R.string.delete)));
 
@@ -240,7 +237,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteName);
-		solo.sleep(200);
 		TextView textView = solo.getText(9);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
 		solo.clickLongOnText(spriteName);
@@ -265,7 +261,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName1));
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(300);
 
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName1));
@@ -291,9 +287,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		String buttonPositiveText = solo.getString(R.string.ok);
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
+		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(300);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
@@ -302,11 +296,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		openNewSpriteDialog();
 		UiTestUtils.enterText(solo, 0, spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
-		solo.sleep(600);
+		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
 
 		String errorSpriteAlreadyExists = solo.getString(R.string.spritename_already_exists);
 		String buttonCloseText = solo.getString(R.string.close);
@@ -331,8 +326,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
+		solo.clickOnButton(0);
 		solo.sleep(200);
 		assertTrue("not in NewSpriteDialog", solo.searchText(getActivity().getString(R.string.new_sprite_dialog_title)));
 	}
@@ -344,11 +338,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteName);
 		addNewSprite(spriteName2);
-		solo.sleep(200);
 
 		//trying to rename sprite to name which already exists:
 		//------------ OK Button:
-		String buttonPositiveText = solo.getString(R.string.ok);
 		String buttonCloseText = solo.getString(R.string.close);
 		String errorSpriteAlreadyExists = solo.getString(R.string.spritename_already_exists);
 		String dialogRenameSpriteText = solo.getString(R.string.rename_sprite_dialog);
@@ -358,8 +350,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(600);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
+		solo.sleep(200);
+		solo.goBack();
+		sendKeys(KeyEvent.KEYCODE_ENTER);
 
 		solo.sleep(200);
 		assertTrue("ErrorMessage not visible", solo.searchText(errorSpriteAlreadyExists));
@@ -381,8 +374,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		assertTrue("ErrorMessage not visible", solo.searchText(getActivity().getString(R.string.spritename_invalid)));
 		solo.clickOnButton(buttonCloseText);
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
+		solo.clickOnButton(0);
 		assertTrue("not in RenameSpriteDialog", solo.searchText(dialogRenameSpriteText));
 	}
 
@@ -395,7 +387,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		addNewSprite(spriteName);
 		addNewSprite(spriteName2);
 		addNewSprite(spriteName3);
-		solo.sleep(200);
 
 		assertTrue("ListView divider should be null", solo.getCurrentListViews().get(0).getDivider() == null);
 		assertTrue("Listview dividerheight should be 0", solo.getCurrentListViews().get(0).getDividerHeight() == 0);
