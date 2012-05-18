@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -52,6 +53,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	private final int IMAGE_RESOURCE_1 = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int IMAGE_RESOURCE_2 = at.tugraz.ist.catroid.uitest.R.drawable.background_white;
 	private final int IMAGE_RESOURCE_3 = at.tugraz.ist.catroid.uitest.R.drawable.background_black;
+	private final static String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
 	private final String ZIPFILE_NAME = "testzip";
 
 	private Solo solo;
@@ -207,16 +209,23 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 		UiTestUtils.saveFileToProject(cacheProjectName + 26, "screenshot.png", IMAGE_RESOURCE_3, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.ROOT);
+
+		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "before sleep");
 		solo.sleep(100);
+		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after sleep");
 		solo.clickOnButton(solo.getString(R.string.my_projects));
+		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after intent");
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "activity visible");
 
 		while (solo.scrollDown()) {
 			;
 		}
+		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
 		while (solo.scrollUp()) {
 			;
 		}
+		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll up");
 		solo.sleep(300);
 		int currentViewID;
 		int pixelColor;
