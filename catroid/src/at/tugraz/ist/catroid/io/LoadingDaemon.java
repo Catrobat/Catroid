@@ -18,26 +18,19 @@
  */
 package at.tugraz.ist.catroid.io;
 
-import java.util.Stack;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetErrorListener;
+import com.badlogic.gdx.assets.AssetManager;
 
 /**
  * @author Markus
  * 
  */
-public class LoadingDaemon {
+public class LoadingDaemon implements AssetErrorListener {
 
 	private static LoadingDaemon instance;
-	final Thread daemon;
-	final ObjectMap<Class<?>, ObjectMap<String, Object>> objectMap;
-	final Array<ObjectDescriptor> preloadQueue;
-	final Stack<LoadingTask> tasks;
-	final ExecutorService threadPool;
+	private AssetManager manager;
+	private Thread daemon;
 
 	public static LoadingDaemon getInstance() {
 		if (instance == null) {
@@ -47,23 +40,17 @@ public class LoadingDaemon {
 	}
 
 	private LoadingDaemon() {
-		objectMap = new ObjectMap<Class<?>, ObjectMap<String, Object>>();
-		preloadQueue = new Array<LoadingDaemon.ObjectDescriptor>();
-		tasks = new Stack<LoadingTask>();
-		threadPool = Executors.newFixedThreadPool(1, new ThreadFactory() {
-			public Thread newThread(Runnable r) {
-				Thread thread = new Thread(r);
-				thread.setDaemon(true);
-				return thread;
-			}
-		});
+		manager = new AssetManager(new AbsoluteFileHandleResolver());
+		manager.setErrorListener(this);
+		//manager.setLoader(Pixmap.class, new SdCardPixmapLoader(new AbsoluteFileHandleResolver()));
 		daemon = new Thread(new Runnable() {
 
 			public void run() {
 				while (true) {
 					try {
-						if (instance.update()) {
-							Thread.yield();
+						boolean test = manager.update();
+						if (test) {
+							//Thread.yield();
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -74,35 +61,37 @@ public class LoadingDaemon {
 
 			@Override
 			public void finalize() {
-				instance.clear();
+				manager.clear();
 
 			}
-		}, "Loading Daemon");
+		});
 		daemon.setDaemon(true);
 	}
 
-	public synchronized boolean update() {
-		return false;
+	public boolean update() {
+		return manager.update();
 	}
 
-	public synchronized void load(String fileName, Class<?> type) {
-
-	}
-
-	public synchronized void unload(String fileName) {
+	public void load(String fileName, Class<?> type) {
+		manager.load(fileName, type);
 
 	}
 
-	public synchronized void clear() {
+	public void unload(String fileName) {
+		manager.unload(fileName);
 
 	}
 
-	public synchronized Object get(String fileName, Class<?> type) {
+	public void clear() {
+		manager.clear();
 
-		return null;
 	}
 
-	public synchronized void startDaemon() {
+	public Object get(String fileName, Class<?> type) {
+		return manager.get(fileName, type);
+	}
+
+	public void startDaemon() {
 		if (!daemon.isAlive()) {
 			daemon.start();
 		}
@@ -122,6 +111,11 @@ public class LoadingDaemon {
 		public String toString() {
 			return fileName;
 		}
+	}
+
+	public void error(String arg0, Class arg1, Throwable arg2) {
+		Gdx.app.error("Error: ", arg0, arg2);
+
 	}
 
 }
