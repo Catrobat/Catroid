@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.content;
 import java.util.concurrent.Semaphore;
 
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.io.LoadingDaemon;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -136,10 +135,10 @@ public class Costume extends Image {
 			//Pixmap pixmap;
 			if (internalPath) {
 				pixmap = new Pixmap(Gdx.files.internal(costumeData.getAbsolutePath()));
-				pixmap = (Pixmap) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Pixmap.class);
+				//pixmap = (Pixmap) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Pixmap.class);
 			} else {
 				pixmap = new Pixmap(Gdx.files.absolute(costumeData.getAbsolutePath()));
-				pixmap = (Pixmap) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Pixmap.class);
+				//pixmap = (Pixmap) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Pixmap.class);
 			}
 
 			xYWidthHeightLock.acquireUninterruptibly();
