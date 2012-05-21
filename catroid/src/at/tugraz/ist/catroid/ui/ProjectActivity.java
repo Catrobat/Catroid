@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.ui;
 import java.util.ArrayList;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -43,18 +42,24 @@ import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectActivity extends ListActivity {
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class ProjectActivity extends SherlockListActivity {
 
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
-	private ActivityHelper activityHelper;
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
+
+	private ActionBar actionBar;
+
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
 	public static final int DIALOG_NEW_SPRITE = 0;
@@ -123,7 +128,6 @@ public class ProjectActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
 		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
@@ -140,22 +144,10 @@ public class ProjectActivity extends ListActivity {
 		super.onPostCreate(savedInstanceState);
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName();
-		activityHelper.setupActionBar(false, title);
 
-		activityHelper.addActionButton(R.id.btn_action_add_button, R.drawable.ic_plus_black, R.string.add,
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						showDialog(DIALOG_NEW_SPRITE);
-					}
-				}, false);
-
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
-						startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-					}
-				}, false);
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(title);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -171,6 +163,34 @@ public class ProjectActivity extends ListActivity {
 		super.onStart();
 		initListeners();
 		initCustomContextMenu();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home: {
+				Intent intent = new Intent(this, MainMenuActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				return true;
+			}
+			case R.id.menu_add: {
+				showDialog(DIALOG_NEW_SPRITE);
+				return true;
+			}
+			case R.id.menu_start: {
+				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+				return true;
+			}
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

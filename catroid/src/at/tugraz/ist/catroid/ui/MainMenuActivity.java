@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.ui;
 import java.io.File;
 import java.net.URLDecoder;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,15 +48,21 @@ import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class MainMenuActivity extends Activity {
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class MainMenuActivity extends SherlockFragmentActivity {
+
 	private static final String PROJECTNAME_TAG = "fname=";
 	private ProjectManager projectManager;
-	private ActivityHelper activityHelper;
-	private TextView titleText;
+
+	private ActionBar actionBar;
+
 	public static final int DIALOG_NEW_PROJECT = 0;
 	private static final int DIALOG_LOAD_PROJECT = 1;
 	public static final int DIALOG_UPLOAD_PROJECT = 2;
@@ -73,11 +78,13 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		activityHelper = new ActivityHelper(this);
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
 		projectManager = ProjectManager.getInstance();
+
+		actionBar = getSupportActionBar();
+		actionBar.setDisplayUseLogoEnabled(true);
 
 		Utils.loadProjectIfNeeded(this);
 
@@ -104,19 +111,28 @@ public class MainMenuActivity extends Activity {
 
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ projectManager.getCurrentProject().getName();
-		activityHelper.setupActionBar(true, title);
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						if (projectManager.getCurrentProject() != null) {
-							Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-							ignoreResume = true;
-							startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-						}
-					}
-				}, false);
-		this.titleText = (TextView) findViewById(R.id.tv_title);
+		actionBar.setTitle(title);
+	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_start: {
+				if (projectManager.getCurrentProject() != null) {
+					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+					ignoreResume = true;
+					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+				}
+				return true;
+			}
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -169,8 +185,8 @@ public class MainMenuActivity extends Activity {
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
 				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
 				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile
-						.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/" + currentProjectName)));
+				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
+						+ currentProjectName)));
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
@@ -209,7 +225,7 @@ public class MainMenuActivity extends Activity {
 	public void writeProjectTitleInTextfield() {
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ projectManager.getCurrentProject().getName();
-		titleText.setText(title);
+		actionBar.setTitle(title);
 	}
 
 	@Override
