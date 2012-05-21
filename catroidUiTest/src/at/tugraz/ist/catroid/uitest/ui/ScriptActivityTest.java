@@ -31,6 +31,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -145,6 +146,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	public void testDeleteItem() {
 		ArrayList<Integer> yPositionList = getListItemYPositions();
+		Log.v("testDeleteItem", "size: " + yPositionList.size());
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
