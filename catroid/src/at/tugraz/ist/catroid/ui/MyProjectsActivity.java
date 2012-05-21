@@ -29,7 +29,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -48,17 +47,22 @@ import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.SetDescriptionDialog;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class MyProjectsActivity extends ListActivity {
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class MyProjectsActivity extends SherlockListActivity {
 
 	private List<ProjectData> projectList;
 	public ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 	private CustomIconContextMenu iconContextMenu;
-	private ActivityHelper activityHelper;
+
+	private ActionBar actionBar;
 
 	public static final int DIALOG_NEW_PROJECT = 0;
 	private static final int DIALOG_CONTEXT_MENU = 1;
@@ -96,19 +100,36 @@ public class MyProjectsActivity extends ListActivity {
 		initCustomContextMenu();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_myprojects, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home: {
+				Intent intent = new Intent(this, MainMenuActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				return true;
+			}
+			case R.id.menu_add: {
+				showDialog(DIALOG_NEW_PROJECT);
+				return true;
+			}
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	private void setUpActionBar() {
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName();
 
-		activityHelper = new ActivityHelper(this);
-		activityHelper.setupActionBar(false, title);
-
-		activityHelper.addActionButton(R.id.btn_action_add_button, R.drawable.ic_plus_black, R.string.add,
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						showDialog(DIALOG_NEW_PROJECT);
-					}
-				}, false);
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(title);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	public void initAdapter() {
@@ -269,9 +290,9 @@ public class MyProjectsActivity extends ListActivity {
 	}
 
 	public void updateProjectTitle() {
-		TextView titleTextView = (TextView) MyProjectsActivity.this.findViewById(R.id.tv_title);
-		titleTextView.setText(MyProjectsActivity.this.getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName());
+		String title = getString(R.string.project_name) + " "
+				+ ProjectManager.getInstance().getCurrentProject().getName();
+		actionBar.setTitle(title);
 	}
 
 	public class ProjectData {

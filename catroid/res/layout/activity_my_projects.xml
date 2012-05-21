@@ -26,25 +26,20 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/website_blue"
->
+        android:background="@color/website_blue" >
 
-        <!-- Action bar -->
-        <include layout="@layout/actionbar"/>
         <!-- Projects list -->
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-        >
+                android:layout_weight="1" >
                 <ListView
                         android:id="@android:id/list"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:fadingEdge="none"
                         android:divider="@color/divider"
-                        android:dividerHeight="2px"
-                ></ListView>
+                        android:dividerHeight="2px" />
         </LinearLayout>
 </LinearLayout>
