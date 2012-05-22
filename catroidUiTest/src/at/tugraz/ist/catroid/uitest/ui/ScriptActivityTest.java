@@ -144,7 +144,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(4));
 	}
 
-	public void testDeleteItem() {
+	public void testCaDeleteItem() {
 		ArrayList<Integer> yPositionList = getListItemYPositions();
 		Log.v("testDeleteItem", "size: " + yPositionList.size());
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
