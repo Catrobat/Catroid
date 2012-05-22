@@ -130,6 +130,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	public void testSimpleDragNDrop() {
 		ArrayList<Integer> yPositionList = getListItemYPositions();
+		Log.v("testSimpleDragNDrop", "size: " + yPositionList.size());
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		longClickAndDrag(10, yPositionList.get(4), 10, yPositionList.get(2), 20);
