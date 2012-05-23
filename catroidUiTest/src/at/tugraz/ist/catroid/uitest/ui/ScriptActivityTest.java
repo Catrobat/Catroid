@@ -31,7 +31,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -41,6 +40,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -130,7 +130,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	public void testSimpleDragNDrop() {
 		ArrayList<Integer> yPositionList = getListItemYPositions();
-		Log.v("testSimpleDragNDrop", "size: " + yPositionList.size());
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		longClickAndDrag(10, yPositionList.get(4), 10, yPositionList.get(2), 20);
@@ -145,15 +144,14 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(4));
 	}
 
-	public void testCaDeleteItem() {
+	public void testDeleteItem() {
 		ArrayList<Integer> yPositionList = getListItemYPositions();
-		Log.v("testDeleteItem", "size: " + yPositionList.size());
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
 
 		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2) + 500, 40);
-		solo.sleep(2000);
+		solo.sleep(1000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,
@@ -179,6 +177,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(currentProject);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(background);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
