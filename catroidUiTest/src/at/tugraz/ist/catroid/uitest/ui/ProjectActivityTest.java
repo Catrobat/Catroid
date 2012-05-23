@@ -437,17 +437,30 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testSpriteListDetails() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		createProject();
-		assertTrue("Displayed wrong number of scripts",
-				solo.searchText(solo.getString(R.string.number_of_scripts) + " 2"));
 
-		assertTrue("Displayed wrong number of bricks - should be 0",
-				solo.searchText(solo.getString(R.string.number_of_bricks) + " 3"));
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		int scriptCount = sprite.getNumberOfScripts();
+		int brickCount = sprite.getNumberOfBricks();
+		int costumeCount = sprite.getCostumeDataList().size();
+		int soundCount = sprite.getSoundList().size();
 
-		assertTrue("Displayed wrong number of costumes - should be 1",
-				solo.searchText(solo.getString(R.string.number_of_costumes) + " 1"));
+		String scriptCountString = ((TextView) solo.getView(R.id.textView_number_of_scripts)).getText().toString();
+		int scriptCountActual = Integer.parseInt(scriptCountString.substring(scriptCountString.lastIndexOf(' ') + 1));
+		assertEquals("Displayed wrong number of scripts", scriptCount, scriptCountActual);
 
-		assertTrue("Displayed wrong number of sound - should be 1",
-				solo.searchText(solo.getString(R.string.number_of_sounds) + " 1"));
+		String brickCountString = ((TextView) solo.getView(R.id.textView_number_of_bricks)).getText().toString();
+		int brickCountActual = Integer.parseInt(brickCountString.substring(brickCountString.lastIndexOf(' ') + 1));
+		int brickCountExpected = scriptCount + brickCount;
+		assertEquals("Displayed the wrong number of bricks", brickCountExpected, brickCountActual);
+
+		String costumeCountString = ((TextView) solo.getView(R.id.textView_number_of_costumes)).getText().toString();
+		int costumeCountActual = Integer
+				.parseInt(costumeCountString.substring(costumeCountString.lastIndexOf(' ') + 1));
+		assertEquals("Displayed wrong number of costumes", costumeCount, costumeCountActual);
+
+		String soundCountString = ((TextView) solo.getView(R.id.textView_number_of_sounds)).getText().toString();
+		int soundCountActual = Integer.parseInt(soundCountString.substring(soundCountString.lastIndexOf(' ') + 1));
+		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
 
 	private void openNewSpriteDialog() {
