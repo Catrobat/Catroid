@@ -104,7 +104,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.enterText(0, xPosition + "");
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
-		solo.sleep(100);
 
 		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
