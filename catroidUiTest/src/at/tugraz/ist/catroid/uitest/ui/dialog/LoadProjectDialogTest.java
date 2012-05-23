@@ -61,6 +61,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 
 	public void testLoadProjectDialog() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject);
@@ -75,13 +76,6 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		assertEquals("Sprite at index 3 is not \"horse\"!", "horse", third.getName());
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
-
-		solo.goBack();
-
-		//TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
-
-		//assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
-		//+ testProject, currentProject.getText());
 	}
 
 	public void createTestProject(String projectName) {

@@ -61,16 +61,17 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject);
 		solo.clickLongOnText(cat);
 
-		solo.sleep(1000);
 		solo.clickOnText(solo.getString(R.string.rename));
-		solo.sleep(1000);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, kat);
 		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = ((Sprite) spritesList.getItemAtPosition(1)).getName();

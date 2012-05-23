@@ -63,7 +63,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testingproject);
-		solo.sleep(500);
+		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testingproject);
@@ -74,7 +74,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(1000);
+		solo.sleep(300);
 		solo.clickOnText(testingsprite);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
