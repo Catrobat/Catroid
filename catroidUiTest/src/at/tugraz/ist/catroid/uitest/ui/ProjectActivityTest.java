@@ -446,21 +446,21 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		String scriptCountString = ((TextView) solo.getView(R.id.textView_number_of_scripts)).getText().toString();
 		int scriptCountActual = Integer.parseInt(scriptCountString.substring(scriptCountString.lastIndexOf(' ') + 1));
-		assertEquals("Displayed wrong number of scripts ", scriptCount, scriptCountActual);
+		assertEquals("Displayed wrong number of scripts", scriptCount, scriptCountActual);
 
 		String brickCountString = ((TextView) solo.getView(R.id.textView_number_of_bricks)).getText().toString();
 		int brickCountActual = Integer.parseInt(brickCountString.substring(brickCountString.lastIndexOf(' ') + 1));
 		int brickCountExpected = scriptCount + brickCount;
-		assertEquals("Displayed the wrong number of bricks ", brickCountExpected, brickCountActual);
+		assertEquals("Displayed the wrong number of bricks", brickCountExpected, brickCountActual);
 
 		String costumeCountString = ((TextView) solo.getView(R.id.textView_number_of_costumes)).getText().toString();
 		int costumeCountActual = Integer
 				.parseInt(costumeCountString.substring(costumeCountString.lastIndexOf(' ') + 1));
-		assertEquals("Displayed wrong number of costumes ", costumeCount, costumeCountActual);
+		assertEquals("Displayed wrong number of costumes", costumeCount, costumeCountActual);
 
 		String soundCountString = ((TextView) solo.getView(R.id.textView_number_of_sounds)).getText().toString();
 		int soundCountActual = Integer.parseInt(soundCountString.substring(soundCountString.lastIndexOf(' ') + 1));
-		assertEquals("Displayed wrong number of sound ", soundCount, soundCountActual);
+		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
 
 	private void openNewSpriteDialog() {
