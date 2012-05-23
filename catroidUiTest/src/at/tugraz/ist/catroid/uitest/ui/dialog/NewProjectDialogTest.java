@@ -60,15 +60,13 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, nameEditTextId, testingproject);
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(1000);
-
+		solo.sleep(300);
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
 				.equals(UiTestUtils.PROJECTNAME1));
 	}
 
 	public void testPositiveButtonDisabledOnCreate() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
 		Button okButton = (Button) solo.getView(R.id.dialog_text_ok);
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
 	}

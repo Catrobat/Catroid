@@ -27,6 +27,9 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.SettingsActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -56,10 +59,10 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		String settings = getActivity().getString(R.string.settings);
 		String prefMsBricks = getActivity().getString(R.string.pref_enable_ms_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences preferances = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		//disable mindstorm bricks, if enabled at start
-		if (prefs.getBoolean("setting_mindstorm_bricks", false)) {
+		if (preferances.getBoolean("setting_mindstorm_bricks", false)) {
 			solo.clickOnText(settings);
 			solo.clickOnText(prefMsBricks);
 			solo.goBack();
@@ -72,12 +75,17 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		solo.clickOnText(settings);
+		solo.waitForActivity(SettingsActivity.class.getSimpleName());
 		solo.clickOnText(prefMsBricks);
 		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(currentProject);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(background);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.finishInactiveActivities();
