@@ -79,12 +79,10 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_note)));
 
 		String buttonPositiveText = solo.getString(R.string.ok);
-
 		solo.clickOnEditText(0);
 		solo.enterText(0, TEST_STRING);
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
-		solo.sleep(100);
 
 		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
@@ -93,7 +91,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, "");
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
-		solo.sleep(100);
 
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", "", note);
@@ -103,7 +100,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, TEST_STRING);
 		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
-		solo.sleep(100);
 
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
