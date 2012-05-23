@@ -145,20 +145,16 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-
-		solo.sleep(1000);
 		solo.goBack();
-		solo.sleep(1000);
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(1000);
-
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Program is not in stage activity", StageActivity.class);
 
 		solo.sleep(500);
 		solo.goBack();
-		solo.sleep(500);
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.back));
-		solo.sleep(500);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("Returned to wrong Activity", currentActivity, solo.getCurrentActivity());
 	}
@@ -171,7 +167,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
+		solo.sleep(1000);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project projectStart = projectManager.getCurrentProject();
@@ -190,11 +186,11 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		spriteList.clear();
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		solo.sleep(500);
+		solo.sleep(200);
 		solo.goBack();
-		solo.sleep(500);
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(1000);
+		solo.sleep(300);
 
 		//scriptPositions in between
 		Project projectRestart = ProjectManager.getInstance().getCurrentProject();
@@ -249,14 +245,14 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(3000);
+		solo.sleep(1000);
 		assertTrue("Sound not playing.", mediaPlayer.isPlaying());
 		int positionBeforeRestart = mediaPlayer.getCurrentPosition();
 		solo.goBack();
 		solo.sleep(500);
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(1000);
+		solo.sleep(500);
 		@SuppressWarnings("unchecked")
 		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) UiTestUtils.getPrivateField(
 				"mediaPlayers", SoundManager.getInstance());
