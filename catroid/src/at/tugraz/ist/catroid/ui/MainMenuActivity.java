@@ -169,8 +169,8 @@ public class MainMenuActivity extends Activity {
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
 				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
 				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile
-						.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/" + currentProjectName)));
+				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
+						+ currentProjectName)));
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
