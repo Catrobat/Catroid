@@ -86,6 +86,7 @@ public class ProjectManager {
 
 			currentSprite = null;
 			currentScript = null;
+
 			loadCurrentCostumesInDaemon();
 
 			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());

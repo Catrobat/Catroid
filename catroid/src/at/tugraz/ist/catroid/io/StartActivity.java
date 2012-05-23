@@ -18,37 +18,43 @@
  */
 package at.tugraz.ist.catroid.io;
 
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.PixmapLoader.PixmapParameter;
-import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.utils.Array;
+import android.content.Intent;
+import android.os.Bundle;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
+
+import com.badlogic.gdx.backends.android.AndroidApplication;
 
 /**
  * @author Markus
  * 
  */
-public class SdCardPixmapLoader extends SynchronousAssetLoader<Pixmap, PixmapParameter> {
+public class StartActivity extends AndroidApplication {
 
-	public SdCardPixmapLoader(FileHandleResolver resolver) {
-		super(resolver);
-	}
+	public static LoadingDaemon daemon;
 
-	Pixmap pixmap;
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
-	public Pixmap load(AssetManager manager, String fileName, PixmapParameter parameter) {
-		Pixmap pixmap = new Pixmap(resolve(fileName));
-		return pixmap;
-
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		daemon = LoadingDaemon.getInstance();
+		initialize(daemon, false);
 	}
 
-	@SuppressWarnings("rawtypes")
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onPostCreate(android.os.Bundle)
+	 */
 	@Override
-	public Array<AssetDescriptor> getDependencies(String fileName, PixmapParameter parameter) {
-		return null;
+	protected void onPostCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onPostCreate(savedInstanceState);
+		Intent intent = new Intent(StartActivity.this, MainMenuActivity.class);
+		startActivity(intent);
 	}
-
 }

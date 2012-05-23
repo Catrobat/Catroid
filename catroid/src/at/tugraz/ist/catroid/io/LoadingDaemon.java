@@ -18,6 +18,7 @@
  */
 package at.tugraz.ist.catroid.io;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
@@ -26,10 +27,10 @@ import com.badlogic.gdx.assets.AssetManager;
  * @author Markus
  * 
  */
-public class LoadingDaemon implements AssetErrorListener {
+public class LoadingDaemon implements ApplicationListener, AssetErrorListener {
 
 	private static LoadingDaemon instance;
-	private AssetManager manager;
+	AssetManager manager;
 	private Thread daemon;
 
 	public static LoadingDaemon getInstance() {
@@ -42,15 +43,15 @@ public class LoadingDaemon implements AssetErrorListener {
 	private LoadingDaemon() {
 		manager = new AssetManager(new AbsoluteFileHandleResolver());
 		manager.setErrorListener(this);
-		//manager.setLoader(Pixmap.class, new SdCardPixmapLoader(new AbsoluteFileHandleResolver()));
+
 		daemon = new Thread(new Runnable() {
 
 			public void run() {
 				while (true) {
 					try {
-						boolean test = manager.update();
+						boolean test = update();
 						if (test) {
-							//Thread.yield();
+							Thread.yield();
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -66,10 +67,18 @@ public class LoadingDaemon implements AssetErrorListener {
 			}
 		});
 		daemon.setDaemon(true);
+
 	}
 
 	public boolean update() {
-		return manager.update();
+
+		try {
+			boolean result = manager.update();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public void load(String fileName, Class<?> type) {
@@ -97,24 +106,71 @@ public class LoadingDaemon implements AssetErrorListener {
 		}
 	}
 
-	public class ObjectDescriptor {
-		final String fileName;
-		final Class<?> type;
+	@SuppressWarnings("rawtypes")
+	public void error(String fileName, Class arg1, Throwable t) {
+		Gdx.app.error("AssetManagerTest", "couldn't load asset '" + fileName + "'", t);
 
-		public ObjectDescriptor(String fileName, Class<?> type) {
-			this.fileName = fileName;
-			this.type = type;
-
-		}
-
-		@Override
-		public String toString() {
-			return fileName;
-		}
 	}
 
-	public void error(String arg0, Class arg1, Throwable arg2) {
-		Gdx.app.error("Error: ", arg0, arg2);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.ApplicationListener#create()
+	 */
+	public void create() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.ApplicationListener#resize(int, int)
+	 */
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.ApplicationListener#render()
+	 */
+	public void render() {
+		// TODO Auto-generated method stub
+		int i = 0;
+		i = i + 1;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.ApplicationListener#pause()
+	 */
+	public void pause() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.ApplicationListener#resume()
+	 */
+	public void resume() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.ApplicationListener#dispose()
+	 */
+	public void dispose() {
+		// TODO Auto-generated method stub
 
 	}
 
