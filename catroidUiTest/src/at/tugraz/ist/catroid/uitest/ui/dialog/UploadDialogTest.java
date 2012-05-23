@@ -79,6 +79,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testUploadDialog() throws Throwable {
 		setServerURLToTestURL();
 		createTestProject();
+		solo.sleep(200);
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.waitForDialogToClose(5000);
@@ -108,16 +109,19 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testOrientationChange() throws Throwable {
 		setServerURLToTestURL();
 		createTestProject();
+		solo.sleep(200);
 		String testText1 = "testText1";
 		String testText2 = "testText2";
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
-		solo.sleep(500);
+		solo.sleep(200);
 		solo.clearEditText(0);
 		solo.enterText(0, testText1);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
 		solo.enterText(1, testText2);
 
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
