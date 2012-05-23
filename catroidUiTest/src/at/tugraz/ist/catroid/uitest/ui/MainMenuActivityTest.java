@@ -91,14 +91,15 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Not the proper hint set", hintNewProjectText, addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
 		solo.sleep(200);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
+		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -110,47 +111,41 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, "");
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(""));
 		solo.sleep(200);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(""));
+		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
 		solo.goBack();
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(100);
 
 		assertTrue("No error message was displayed upon creating a project with an empty name.",
 				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
-
 		solo.clickOnButton(0);
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
 		solo.sleep(50);
 
-		//solo.clickOnEditText(0);
-
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
 		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnButton(0);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
 		solo.sleep(100);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
+		solo.clickOnButton(0);
 
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
-
 		solo.clickOnButton(0);
 
 		directory = new File(Utils.buildProjectPath("te?st"));
@@ -158,16 +153,16 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		directory.mkdirs();
 		solo.sleep(50);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, name);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(name));
 		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnButton(0);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(name));
 		solo.sleep(100);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
+		solo.clickOnButton(0);
 
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
@@ -182,12 +177,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, projectNameWithBlacklistedCharacters);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -204,12 +200,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, projectNameWithWhitelistedCharacters);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -225,6 +222,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertFalse(testProject2 + " was not deleted!", directory.exists());
 
 		createTestProject(testProject2);
+		solo.sleep(200);
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -238,7 +236,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Sprite at index 3 is not \"horse\"!", "horse", third.getName());
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
-		solo.goBack();
 	}
 
 	public void testResume() {
@@ -247,6 +244,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertFalse(testProject3 + " was not deleted!", directory.exists());
 
 		createTestProject(testProject3);
+		solo.sleep(200);
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
