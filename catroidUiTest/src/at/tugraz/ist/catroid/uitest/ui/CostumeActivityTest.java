@@ -116,7 +116,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
-		solo.sleep(500);
+		solo.sleep(300);
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not right", 2, oldCount);
 		assertEquals("the new count is not right - all costumes should be deleted", 1, newCount);
@@ -133,13 +133,13 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+		solo.sleep(100);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-
+		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
+		solo.sleep(200);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
 		if (!solo.searchText(newName)) {
@@ -164,19 +164,19 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+		solo.sleep(100);
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
+		solo.sleep(100);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(100);
+		solo.sleep(200);
 		assertTrue("Costume wasnt renamed", solo.searchText(newName));
 	}
 
