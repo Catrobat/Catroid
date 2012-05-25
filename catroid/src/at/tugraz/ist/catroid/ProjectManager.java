@@ -54,8 +54,6 @@ public class ProjectManager {
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
-		LoadingDaemon daemon = LoadingDaemon.getInstance();
-		daemon.startDaemon();
 	}
 
 	public static ProjectManager getInstance() {
@@ -69,6 +67,7 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
+			LoadingDaemon.getInstance().stopDaemon();
 			LoadingDaemon.getInstance().clear();
 
 			project = StorageHandler.getInstance().loadProject(projectName);
@@ -88,6 +87,7 @@ public class ProjectManager {
 			currentScript = null;
 
 			loadCurrentCostumesInDaemon();
+			LoadingDaemon.getInstance().startDaemon();
 
 			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
 
@@ -259,6 +259,7 @@ public class ProjectManager {
 			Iterator<CostumeData> costumeDataIter = spriteIter.next().getCostumeDataList().iterator();
 			while (costumeDataIter.hasNext()) {
 				LoadingDaemon.getInstance().load(costumeDataIter.next().getAbsolutePath(), Pixmap.class);
+				//LoadingDaemon.getInstance().load(costumeDataIter.next().getAbsolutePath(), Texture.class);
 			}
 		}
 	}

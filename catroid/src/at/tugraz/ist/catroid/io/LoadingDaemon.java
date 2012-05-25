@@ -106,6 +106,12 @@ public class LoadingDaemon implements ApplicationListener, AssetErrorListener {
 		}
 	}
 
+	public void stopDaemon() {
+		if (daemon.isAlive()) {
+			daemon.stop();
+		}
+	}
+
 	@SuppressWarnings("rawtypes")
 	public void error(String fileName, Class arg1, Throwable t) {
 		Gdx.app.error("AssetManagerTest", "couldn't load asset '" + fileName + "'", t);

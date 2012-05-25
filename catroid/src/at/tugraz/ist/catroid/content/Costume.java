@@ -137,7 +137,7 @@ public class Costume extends Image {
 				//pixmap = new Pixmap(Gdx.files.internal(costumeData.getAbsolutePath()));
 				pixmap = (Pixmap) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Pixmap.class);
 			} else {
-				//pixmap = new Pixmap(Gdx.files.absolute(costumeData.getAbsolutePath()));
+				//ixmap = new Pixmap(Gdx.files.absolute(costumeData.getAbsolutePath()));
 				pixmap = (Pixmap) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Pixmap.class);
 			}
 
@@ -164,6 +164,7 @@ public class Costume extends Image {
 
 			Texture texture = new Texture(pixmap);
 			//pixmap.dispose();
+			//Texture texture = (Texture) LoadingDaemon.getInstance().get(costumeData.getAbsolutePath(), Texture.class);
 
 			this.setRegion(new TextureRegion(texture));
 
