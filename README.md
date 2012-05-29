@@ -1,4 +1,4 @@
 Catroid
 =======
 
-An Catrobat IDE for Android.
+A Catrobat IDE for Android.
