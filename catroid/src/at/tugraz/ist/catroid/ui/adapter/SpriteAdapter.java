@@ -99,7 +99,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				+ sprite.getNumberOfScripts());
 
 		holder.bricks.setText(context.getResources().getString(R.string.number_of_bricks) + " "
-				+ sprite.getNumberOfBricks());
+				+ (sprite.getNumberOfBricks() + sprite.getNumberOfScripts()));
 
 		if (position == 0) {
 			holder.costumes.setText(context.getResources().getString(R.string.number_of_backgrounds) + " "
