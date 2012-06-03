@@ -355,7 +355,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
 		solo.goBack();
 		solo.clickOnText(buttonPositiveText, 1, true);
-		boolean test = solo.waitForDialogToClose(500);
+		solo.waitForDialogToClose(500);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
 		assertFalse("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
