@@ -24,6 +24,8 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,12 +36,13 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 
-public class FormulaEditorDialog extends Dialog implements OnClickListener {
+public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener {
 
 	private final Context context;
 	private Button okButton;
 	private Brick currentBrick;
 	private EditText edit;
+	private int value1 = 33;
 
 	public FormulaEditorDialog(Context context, Brick brick) {
 
@@ -77,6 +80,10 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener {
 
 	}
 
+	public int getReturnValue() {
+		return value1;
+	}
+
 	public void onClick(View v) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -89,5 +96,9 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener {
 				dismiss();
 				break;
 		}
+	}
+
+	public void onDismiss(DialogInterface dialog) {
+		this.dismiss();
 	}
 }

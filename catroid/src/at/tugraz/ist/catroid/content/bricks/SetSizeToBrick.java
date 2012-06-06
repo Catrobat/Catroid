@@ -23,6 +23,8 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -110,6 +112,12 @@ public class SetSizeToBrick implements Brick {
 				final Context context = view.getContext();
 
 				formulaEditor = new FormulaEditorDialog(context, instance);
+				formulaEditor.setOnDismissListener(new OnDismissListener() {
+					public void onDismiss(DialogInterface whatever) {
+						size = formulaEditor.getReturnValue();
+						formulaEditor.dismiss();
+					}
+				});
 				formulaEditor.show();
 
 			}
