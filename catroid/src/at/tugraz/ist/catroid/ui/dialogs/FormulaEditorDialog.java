@@ -29,8 +29,8 @@ import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -39,7 +39,6 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener {
 
 	private final Context context;
-	private Button okButton;
 	private Brick currentBrick;
 	private EditText edit;
 	private int value1 = 33;
@@ -59,16 +58,16 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		LinearLayout brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
 		brickSpace.addView(currentBrick.getEditorView(context));
 
-		setTitle("Editor testyyyy");
+		setTitle(R.string.dialog_formula_editor_title);
 		setCanceledOnTouchOutside(true);
 
-		okButton = (Button) findViewById(R.id.formula_editor_ok_button);
+		ImageButton okButton = (ImageButton) findViewById(R.id.formula_editor_ok_button);
 		okButton.setOnClickListener(this);
 
-		Button cancelButton = (Button) findViewById(R.id.formula_editor_cancel_button);
+		ImageButton cancelButton = (ImageButton) findViewById(R.id.formula_editor_cancel_button);
 		cancelButton.setOnClickListener(this);
 
-		okButton = (Button) findViewById(R.id.formula_editor_ok_button);
+		okButton = (ImageButton) findViewById(R.id.formula_editor_ok_button);
 		okButton.setOnClickListener(this);
 
 		edit = (EditText) findViewById(R.id.formula_editor_edit_text);
@@ -76,7 +75,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	}
 
 	public void setInputFocusAndText(String text) {
-		edit.setText("12344");
+		edit.setText(text);
 
 	}
 
@@ -89,10 +88,15 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		switch (v.getId()) {
 			case R.id.formula_editor_ok_button:
+
 				dismiss();
 				break;
 
 			case R.id.formula_editor_cancel_button:
+				dismiss();
+				break;
+
+			case R.id.formula_editor_back_button:
 				dismiss();
 				break;
 		}

@@ -93,11 +93,13 @@ public class SetSizeToBrick implements Brick {
 	private OnClickListener getEditorListener() {
 		OnClickListener editorListener = new OnClickListener() {
 
-			public void onClick(View v) {
-				//if (view.getId() == R.id.brick_set_size_to_edit_text) {
-				formulaEditor.setInputFocusAndText(String.valueOf(size));
+			public void onClick(View editorView) {
 
-				//}
+				if (editorView.getId() == R.id.brick_set_size_to_edit_text) {
+					formulaEditor.setInputFocusAndText(String.valueOf(size));
+					//EditText editText = (EditText) editorView.findViewById(R.id.brick_set_size_to_edit_text);
+					//editText.setBackgroundColor(R.color.egg_yellow);
+				}
 			}
 		};
 

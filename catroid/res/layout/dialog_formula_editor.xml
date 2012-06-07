@@ -58,24 +58,35 @@
 		android:maxLines="1"
 		android:inputType="text"
 		android:selectAllOnFocus="true" />
+
 	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-		<Button
-			android:id="@+id/formula_editor_ok_button"
-			android:text="foo"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight=".5" />
-		<Button
-			android:id="@+id/formula_editor_cancel_button"
-			android:text="@string/cancel_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight=".5" />
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+
+	    <ImageButton
+	        android:id="@+id/formula_editor_ok_button"
+	        android:layout_width="73dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="166.08"
+	        android:src="@drawable/ok_button" />
+
+	    <ImageButton
+	        android:id="@+id/formula_editor_back_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="250.19"
+	        android:src="@drawable/back_button" />
+
+	    <ImageButton
+	        android:id="@+id/formula_editor_cancel_button"
+	        android:layout_width="112dp"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/cancel_button" />
+
 	</LinearLayout>
+
 </LinearLayout>
 </LinearLayout>
 

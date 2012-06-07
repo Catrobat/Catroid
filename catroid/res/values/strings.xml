@@ -317,5 +317,8 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
+    
+    <!-- Formula Editor Strings -->
+    <string name="dialog_formula_editor_title">Formula Editor</string>
 
 </resources>
