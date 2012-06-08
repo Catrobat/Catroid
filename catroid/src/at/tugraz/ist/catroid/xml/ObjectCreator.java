@@ -18,7 +18,7 @@
  */
 package at.tugraz.ist.catroid.xml;
 
-import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -33,9 +33,9 @@ public class ObjectCreator {
 	 * @param XMLFile
 	 * @return
 	 */
-	public ProjectProxy setterSet(File XMLFile) {
+	public ProjectProxy setterSet(InputStream XMLFile) {
 		SimpleParser parser = new SimpleParser();
-		List<String> headerVlaues = parser.Parse(XMLFile);
+		List<String> headerVlaues = parser.parse(XMLFile);
 		ProjectProxy newProject = new ProjectProxy();
 
 		newProject.setAndroidVersion(Integer.valueOf(headerVlaues.get(HeaderTags.ANDROIDVERSION.ordinal())));
@@ -59,12 +59,12 @@ public class ObjectCreator {
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
-	public ProjectProxy reflectionSet(File XMLFile) {
+	public ProjectProxy reflectionSet(InputStream XMLFile) {
 		SimpleParser parser = new SimpleParser();
-		List<String> headerVlaues = parser.Parse(XMLFile);
+		List<String> headerVlaues = parser.parse(XMLFile);
 		Class projectClass;
 		ProjectProxy project = null;
-		Object retObj = null;
+
 		SetterNames[] setterIndexes = SetterNames.values();
 		try {
 			projectClass = Class.forName("at.tugraz.ist.catroid.xml.ProjectProxy");

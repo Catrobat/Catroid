@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,32 +49,11 @@ public class SimpleParser extends DefaultHandler {
 	HeaderTags[] tagIndexes = HeaderTags.values();
 
 	/**
-	 * @param XMLFile
+	 * @param xmlFileStream
 	 * @return
 	 */
-	public List<String> Parse(File XMLfile) {
-
-		/*
-		 * Class cls;
-		 * try {
-		 * cls = Class.forName("at.tugraz.ist.catroid.content.Project");
-		 * Field fieldlist[] = cls.getDeclaredFields();
-		 * for (int i = 0; i < fieldlist.length; i++) {
-		 * Field fld = fieldlist[i];
-		 * System.out.println("name = " + fld.getName());
-		 * System.out.println("decl class = " + fld.getDeclaringClass());
-		 * System.out.println("type = " + fld.getType());
-		 * int mod = fld.getModifiers();
-		 * System.out.println("modifiers = " + Modifier.toString(mod));
-		 * System.out.println("-----");
-		 * }
-		 * } catch (ClassNotFoundException e) {
-		 * // TODO Auto-generated catch block
-		 * e.printStackTrace();
-		 * }
-		 */
-		//return stringParser(XMLfile);
-		return saxParser(XMLfile);
+	public List<String> parse(InputStream xmlFileStream) {
+		return saxParser(xmlFileStream);
 	}
 
 	private List<String> stringParser(File XMLFileStream) {
@@ -119,20 +99,20 @@ public class SimpleParser extends DefaultHandler {
 
 	}
 
-	private List<String> saxParser(File projectCodeXML) {
+	private List<String> saxParser(InputStream projectCodeXMLStream) {
 		parsedStrings = new ArrayList<String>();
 		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
 		try {
 			SAXParser parser = parserFactory.newSAXParser();
 
-			parser.parse(projectCodeXML, this);
+			parser.parse(projectCodeXMLStream, this);
 
 		} catch (ParserConfigurationException e) {
 			Log.e("SimpleParser.saxparser", "parserConfiguration exception");
 			e.printStackTrace();
 		} catch (SAXException e) {
-			//Log.e("SimpleParser.saxparser", "SAX exception");
+
 			return parsedStrings;
 		} catch (IOException e) {
 			Log.e("SimpleParser.saxparser", "IO exception");
@@ -177,10 +157,11 @@ public class SimpleParser extends DefaultHandler {
 	 * @param XMLFile
 	 * @return The String value of the headerTag of the given xml file
 	 */
-	public String getvalueof(HeaderTags tag, File XMLFile) {
-		List<String> parsedValues = this.Parse(XMLFile);
+	public String getvalueof(HeaderTags tag, InputStream XMLFile) {
+		List<String> parsedValues = this.parse(XMLFile);
 
 		return parsedValues.get(tag.ordinal());
 
 	}
+
 }

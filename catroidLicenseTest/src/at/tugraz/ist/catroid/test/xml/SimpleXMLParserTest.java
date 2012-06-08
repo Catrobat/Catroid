@@ -19,6 +19,9 @@
 package at.tugraz.ist.catroid.test.xml;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -36,7 +39,16 @@ public class SimpleXMLParserTest extends TestCase {
 		File testStandardXML = new File("res/catroidXMLsToValidate/standardProjekt.xml");
 		File testComplexXML = new File("res/catroidXMLsToValidate/complexProject.xml");
 
-		List<String> testStrings = parser.Parse(testStandardXML);
+		InputStream standardFileStream = null;
+		InputStream complexFileStream = null;
+		try {
+			standardFileStream = new FileInputStream(testStandardXML);
+			complexFileStream = new FileInputStream(testComplexXML);
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		}
+		List<String> testStrings = parser.parse(standardFileStream);
 		assertEquals("androidVersion tag not parsed", testStrings.get(0), "10");
 		assertEquals("catroidVersionCode tag not parsed", testStrings.get(1), "10");
 		assertEquals("catroidVersionName tag not parsed", testStrings.get(2), "0.5.6a");
@@ -45,7 +57,7 @@ public class SimpleXMLParserTest extends TestCase {
 		assertEquals("screenHeight tag not parsed", testStrings.get(5), "800");
 		assertEquals("screenWidth tag not parsed", testStrings.get(6), "480");
 
-		testStrings = parser.Parse(testComplexXML);
+		testStrings = parser.parse(complexFileStream);
 		assertEquals("androidVersion tag not parsed", testStrings.get(0), "10");
 		assertEquals("catroidVersionCode tag not parsed", testStrings.get(1), "308");
 		assertEquals("catroidVersionName tag not parsed", testStrings.get(2), "0.5.308");
@@ -59,7 +71,14 @@ public class SimpleXMLParserTest extends TestCase {
 	public void testFindingElement() {
 		SimpleParser parser = new SimpleParser();
 		File testStandardXML = new File("res/catroidXMLsToValidate/standardProjekt.xml");
-		String value = parser.getvalueof(HeaderTags.ANDROIDVERSION, testStandardXML);
+		InputStream fileStream = null;
+		try {
+			fileStream = new FileInputStream(testStandardXML);
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		}
+		String value = parser.getvalueof(HeaderTags.ANDROIDVERSION, fileStream);
 		assertEquals("The returned value does not match", "10", value);
 
 	}
