@@ -18,12 +18,11 @@
  */
 package at.tugraz.ist.catroid.test.xml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
+import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 import at.tugraz.ist.catroid.xml.ProjectProxy;
 
@@ -31,53 +30,51 @@ import at.tugraz.ist.catroid.xml.ProjectProxy;
  * @author Samitha
  * 
  */
-public class ReflectionTest extends TestCase {
+public class ReflectionTest extends InstrumentationTestCase {
 
 	public void testFillingClassfromSetter() {
 		ObjectCreator populator = new ObjectCreator();
-		File testStandardXML = new File("res/catroidXMLsToValidate/standardProjekt.xml");
-		InputStream standardFileStream = null;
+		NativeAppActivity.setContext(getInstrumentation().getContext());
+		InputStream xmlFileStream = null;
 		try {
-			standardFileStream = new FileInputStream(testStandardXML);
-
-		} catch (FileNotFoundException e) {
+			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
+		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
 		ProjectProxy createdProject = null;
 		//for (int i = 0; i < 100; i++) {
-		createdProject = populator.setterSet(standardFileStream);
+		createdProject = populator.setterSet(xmlFileStream);
 		//}
 		assertEquals("androidVersion tag not set", createdProject.getAndroidVersion(), 10);
-		assertEquals("catroidVersionCode tag not set", createdProject.getCatroidVersionCode(), 10);
+		assertEquals("catroidVersionCode tag not set", createdProject.getCatroidVersionCode(), 8);
 		assertEquals("catroidVersionName tag not set", createdProject.getCatroidVersionName(), "0.5.6a");
-		assertEquals("deviceName tag not set", createdProject.getDeviceName(), "GT-I9100");
-		assertEquals("ProjectName tag not set", createdProject.getProjectName(), "standardProjekt");
+		assertEquals("deviceName tag not set", createdProject.getDeviceName(), "HTC Desire");
+		assertEquals("ProjectName tag not set", createdProject.getProjectName(), "testProject");
 		assertEquals("screenHeight tag not set", createdProject.getVirtualScreenHeight(), 800);
 		assertEquals("screenWidth tag not set", createdProject.getVirtualScreenWidth(), 480);
 	}
 
 	public void testFillingClassfromReflection() {
-		ObjectCreator populator = new ObjectCreator();
-		File testStandardXML = new File("res/catroidXMLsToValidate/standardProjekt.xml");
-		InputStream standardFileStream = null;
-
+		NativeAppActivity.setContext(getInstrumentation().getContext());
+		InputStream xmlFileStream = null;
 		try {
-			standardFileStream = new FileInputStream(testStandardXML);
-
-		} catch (FileNotFoundException e) {
+			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
+		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
+		ObjectCreator populator = new ObjectCreator();
+
 		ProjectProxy createdProject = null;
 		//for (int i = 0; i < 100; i++) {
-		createdProject = populator.reflectionSet(standardFileStream);
+		createdProject = populator.reflectionSet(xmlFileStream);
 		//}
 		assertEquals("androidVersion tag not set", createdProject.getAndroidVersion(), 10);
-		assertEquals("catroidVersionCode tag not set", createdProject.getCatroidVersionCode(), 10);
+		assertEquals("catroidVersionCode tag not set", createdProject.getCatroidVersionCode(), 8);
 		assertEquals("catroidVersionName tag not set", createdProject.getCatroidVersionName(), "0.5.6a");
-		assertEquals("deviceName tag not set", createdProject.getDeviceName(), "GT-I9100");
-		assertEquals("ProjectName tag not set", createdProject.getProjectName(), "standardProjekt");
+		assertEquals("deviceName tag not set", createdProject.getDeviceName(), "HTC Desire");
+		assertEquals("ProjectName tag not set", createdProject.getProjectName(), "testProject");
 		assertEquals("screenHeight tag not set", createdProject.getVirtualScreenHeight(), 800);
 		assertEquals("screenWidth tag not set", createdProject.getVirtualScreenWidth(), 480);
 
