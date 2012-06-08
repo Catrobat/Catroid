@@ -26,14 +26,10 @@ import java.util.ArrayList;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
-import android.widget.ListView;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
@@ -42,14 +38,12 @@ import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.fragment.SpritesListFragment;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockListActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class ProjectActivity extends SherlockListActivity {
+public class ProjectActivity extends SherlockFragmentActivity {
 
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
@@ -66,89 +60,89 @@ public class ProjectActivity extends SherlockListActivity {
 	public static final int DIALOG_RENAME_SPRITE = 1;
 	private static final int DIALOG_CONTEXT_MENU = 2;
 
-	private void initListeners() {
-		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		spriteAdapter = new SpriteAdapter(this, R.layout.activity_project_spritelist_item, R.id.sprite_title,
-				spriteList);
+//	private void initListeners() {
+//		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+//		spriteAdapter = new SpriteAdapter(this, R.layout.activity_project_spritelist_item, R.id.sprite_title,
+//				spriteList);
+//
+//		setListAdapter(spriteAdapter);
+//		getListView().setTextFilterEnabled(true);
+//		getListView().setDivider(null);
+//		getListView().setDividerHeight(0);
+//
+//		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+//				Intent intent = new Intent(ProjectActivity.this, ScriptTabActivity.class);
+//				startActivity(intent);
+//			}
+//		});
+//		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+//			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//				spriteToEdit = spriteList.get(position);
+//
+//				//as long as background sprite is always the first one, we're fine
+//				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
+//					return true;
+//				}
+//				removeDialog(DIALOG_CONTEXT_MENU);
+//				showDialog(DIALOG_CONTEXT_MENU);
+//				return true;
+//			}
+//		});
+//	}
 
-		setListAdapter(spriteAdapter);
-		getListView().setTextFilterEnabled(true);
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
-
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				Intent intent = new Intent(ProjectActivity.this, ScriptTabActivity.class);
-				startActivity(intent);
-			}
-		});
-		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				spriteToEdit = spriteList.get(position);
-
-				//as long as background sprite is always the first one, we're fine
-				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
-					return true;
-				}
-				removeDialog(DIALOG_CONTEXT_MENU);
-				showDialog(DIALOG_CONTEXT_MENU);
-				return true;
-			}
-		});
-	}
-
-	private void initCustomContextMenu() {
-		Resources resources = getResources();
-		iconContextMenu = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU);
-		iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
-				CONTEXT_MENU_ITEM_RENAME);
-		iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
-				CONTEXT_MENU_ITEM_DELETE);
-
-		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-			public void onClick(int menuId) {
-				switch (menuId) {
-					case CONTEXT_MENU_ITEM_RENAME:
-						showDialog(DIALOG_RENAME_SPRITE);
-						break;
-					case CONTEXT_MENU_ITEM_DELETE:
-						ProjectManager projectManager = ProjectManager.getInstance();
-						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-						if (projectManager.getCurrentSprite() != null
-								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
-							projectManager.setCurrentSprite(null);
-						}
-						break;
-				}
-			}
-		});
-	}
+//	private void initCustomContextMenu() {
+//		Resources resources = getResources();
+//		iconContextMenu = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU);
+//		iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
+//				CONTEXT_MENU_ITEM_RENAME);
+//		iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
+//				CONTEXT_MENU_ITEM_DELETE);
+//
+//		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+//			public void onClick(int menuId) {
+//				switch (menuId) {
+//					case CONTEXT_MENU_ITEM_RENAME:
+//						showDialog(DIALOG_RENAME_SPRITE);
+//						break;
+//					case CONTEXT_MENU_ITEM_DELETE:
+//						ProjectManager projectManager = ProjectManager.getInstance();
+//						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+//						if (projectManager.getCurrentSprite() != null
+//								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
+//							projectManager.setCurrentSprite(null);
+//						}
+//						break;
+//				}
+//			}
+//		});
+//	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
-		Utils.loadProjectIfNeeded(this);
-		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
+//		Utils.loadProjectIfNeeded(this);
+//		spriteToEdit = (Sprite) getLastNonConfigurationInstance(); 
 	}
 
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		final Sprite savedSelectedSprite = spriteToEdit;
-		return savedSelectedSprite;
-	}
+//	@Override
+//	public Object onRetainNonConfigurationInstance() {
+//		final Sprite savedSelectedSprite = spriteToEdit;
+//		return savedSelectedSprite;
+//	}
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName();
-
-		actionBar = getSupportActionBar();
-		actionBar.setTitle(title);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-	}
+//	@Override
+//	protected void onPostCreate(Bundle savedInstanceState) {
+//		super.onPostCreate(savedInstanceState);
+//		String title = this.getResources().getString(R.string.project_name) + " "
+//				+ ProjectManager.getInstance().getCurrentProject().getName();
+//
+//		actionBar = getSupportActionBar();
+//		actionBar.setTitle(title);
+//		actionBar.setDisplayHomeAsUpEnabled(true);
+//	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -158,40 +152,40 @@ public class ProjectActivity extends SherlockListActivity {
 		}
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		initListeners();
-		initCustomContextMenu();
-	}
+//	@Override
+//	protected void onStart() {
+//		super.onStart();
+//		initListeners();
+//		initCustomContextMenu();
+//	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home: {
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				return true;
-			}
-			case R.id.menu_add: {
-				showDialog(DIALOG_NEW_SPRITE);
-				return true;
-			}
-			case R.id.menu_start: {
-				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
-				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				return true;
-			}
-		}
-		return super.onOptionsItemSelected(item);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+//		return super.onCreateOptionsMenu(menu);
+//	}
+//
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch (item.getItemId()) {
+//			case android.R.id.home: {
+//				Intent intent = new Intent(this, MainMenuActivity.class);
+//				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				startActivity(intent);
+//				return true;
+//			}
+//			case R.id.menu_add: {
+//				showDialog(DIALOG_NEW_SPRITE);
+//				return true;
+//			}
+//			case R.id.menu_start: {
+//				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
+//				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+//				return true;
+//			}
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -236,35 +230,41 @@ public class ProjectActivity extends SherlockListActivity {
 		}
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
-			return;
-		}
-		spriteAdapter.notifyDataSetChanged();
-	}
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		if (!Utils.checkForSdCard(this)) {
+//			return;
+//		}
+//		spriteAdapter.notifyDataSetChanged();
+//	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			spriteAdapter.notifyDataSetChanged();
+			notifySpritesAdapterDataChanged();
 		}
 	}
 
+	public void notifySpritesAdapterDataChanged() {
+		FragmentManager fm = getSupportFragmentManager();
+		SpritesListFragment spritesListFragment = (SpritesListFragment) fm.findFragmentById(R.id.fr_sprites_list);
+		spritesListFragment.notifySpriteAdapter();
+	}
+	
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-		}
-	}
+//	@Override
+//	public void onPause() {
+//		super.onPause();
+//		ProjectManager projectManager = ProjectManager.getInstance();
+//		if (projectManager.getCurrentProject() != null) {
+//			projectManager.saveProject();
+//		}
+//	}
 
 	public void handleProjectActivityItemLongClick(View view) {
 	}
