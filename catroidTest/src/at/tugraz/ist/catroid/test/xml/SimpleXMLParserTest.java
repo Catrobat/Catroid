@@ -27,10 +27,6 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.xml.HeaderTags;
 import at.tugraz.ist.catroid.xml.SimpleParser;
 
-/**
- * @author Samitha
- * 
- */
 public class SimpleXMLParserTest extends InstrumentationTestCase {
 
 	@Override

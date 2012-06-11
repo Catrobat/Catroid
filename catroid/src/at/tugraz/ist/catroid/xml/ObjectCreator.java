@@ -19,21 +19,13 @@
 package at.tugraz.ist.catroid.xml;
 
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-/**
- * @author Sam
- * 
- */
 public class ObjectCreator {
 
-	/**
-	 * @param XMLFile
-	 * @return
-	 */
 	public ProjectProxy setterSet(InputStream XMLFile) {
+
 		SimpleParser parser = new SimpleParser();
 		List<String> headerVlaues = parser.parse(XMLFile);
 		ProjectProxy newProject = new ProjectProxy();
@@ -45,20 +37,11 @@ public class ObjectCreator {
 		newProject.setProjectName(headerVlaues.get(HeaderTags.PROJECTNAME.ordinal()));
 		newProject.setVirtualScreenHeight(Integer.valueOf(headerVlaues.get(HeaderTags.SCREENHEIGHT.ordinal())));
 		newProject.setVirtualScreenWidth(Integer.valueOf(headerVlaues.get(HeaderTags.SCREENWIDTH.ordinal())));
+
 		return newProject;
 
 	}
 
-	/**
-	 * @param XMLFile
-	 * @return
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws ClassNotFoundException
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 */
 	public ProjectProxy reflectionSet(InputStream XMLFile) {
 		SimpleParser parser = new SimpleParser();
 		List<String> headerVlaues = parser.parse(XMLFile);
@@ -97,18 +80,6 @@ public class ObjectCreator {
 		}
 
 		return project;
-	}
-
-	/**
-	 * @param xmlTagString
-	 * @return
-	 */
-	private String getSetterName(String xmlTagString) {
-
-		char c = (char) (xmlTagString.charAt(0) - 32);
-		Character d = c;
-
-		return "set" + (d.toString().concat(xmlTagString.substring(1)));
 	}
 
 }

@@ -28,10 +28,6 @@ import junit.framework.TestCase;
 import at.tugraz.ist.catroid.xml.HeaderTags;
 import at.tugraz.ist.catroid.xml.SimpleParser;
 
-/**
- * @author Samitha
- * 
- */
 public class SimpleXMLParserTest extends TestCase {
 
 	public void testParseHeader() {
