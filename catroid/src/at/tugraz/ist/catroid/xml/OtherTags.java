@@ -18,10 +18,6 @@
  */
 package at.tugraz.ist.catroid.xml;
 
-/**
- * @author Sam
- * 
- */
 public enum OtherTags {
 
 	CONTENTPROJECT("<Content.Project>"), SPRITELIST("<spriteList>");
@@ -32,17 +28,10 @@ public enum OtherTags {
 		setOtherXMLTag(xmlTag);
 	}
 
-	/**
-	 * @param otherXMLTag
-	 *            the otherXMLTag to set
-	 */
 	public void setOtherXMLTag(String otherXMLTag) {
 		this.XMLTagString = otherXMLTag;
 	}
 
-	/**
-	 * @return the otherXMLTag
-	 */
 	public String getOtherXMLTagString() {
 		return XMLTagString;
 	}

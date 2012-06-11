@@ -18,10 +18,6 @@
  */
 package at.tugraz.ist.catroid.xml;
 
-/**
- * @author Samitha
- * 
- */
 public enum SetterNames {
 
 	ANDROIDVERSION("setAndroidVersion"), CATROIDVERSIONCODE("setCatroidVersionCode"), CATROIDVERSIONNAME(
@@ -34,17 +30,10 @@ public enum SetterNames {
 		setName(name);
 	}
 
-	/**
-	 * @param givenName
-	 * 
-	 */
 	public void setName(String givenName) {
 		this.setterName = givenName;
 	}
 
-	/**
-	 * @return the setterName
-	 */
 	public String getsetterName() {
 		return setterName;
 	}

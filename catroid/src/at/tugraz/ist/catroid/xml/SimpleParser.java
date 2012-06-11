@@ -1,5 +1,4 @@
-/**
- *  Catroid: An on-device graphical programming language for Android devices
+/** 
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
@@ -18,10 +17,6 @@
  */
 package at.tugraz.ist.catroid.xml;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -48,55 +43,8 @@ public class SimpleParser extends DefaultHandler {
 	private String tempVal;
 	HeaderTags[] tagIndexes = HeaderTags.values();
 
-	/**
-	 * @param xmlFileStream
-	 * @return
-	 */
 	public List<String> parse(InputStream xmlFileStream) {
 		return saxParser(xmlFileStream);
-	}
-
-	private List<String> stringParser(File XMLFileStream) {
-		FileReader fReader = null;
-		parsedStrings = new ArrayList<String>();
-		try {
-			fReader = new FileReader(XMLFileStream);
-			BufferedReader bReader = new BufferedReader(fReader);
-
-			String currentLine = "";
-			boolean inHeader = true;
-			boolean tagCheck = false;
-
-			while (inHeader) {
-				currentLine = bReader.readLine();
-
-				if (currentLine.trim().equals(OtherTags.CONTENTPROJECT.getOtherXMLTagString())) {
-					tagCheck = true;
-				}
-				if (tagCheck) {
-					if (currentLine.trim().equals(OtherTags.SPRITELIST.getOtherXMLTagString())) {
-						inHeader = false;
-						tagCheck = false;
-					} else {
-						for (int i = 0; i < 7; i++) {
-							String currentTag = tagIndexes[i].getXmlTagString();
-							if (currentLine.contains(currentTag)) {
-								parsedStrings.add(currentLine.trim().replace("<" + currentTag + ">", "")
-										.replace("</" + currentTag + ">", ""));
-							}
-						}
-					}
-				}
-
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return parsedStrings;
-
 	}
 
 	private List<String> saxParser(InputStream projectCodeXMLStream) {
@@ -105,14 +53,12 @@ public class SimpleParser extends DefaultHandler {
 
 		try {
 			SAXParser parser = parserFactory.newSAXParser();
-
 			parser.parse(projectCodeXMLStream, this);
 
 		} catch (ParserConfigurationException e) {
 			Log.e("SimpleParser.saxparser", "parserConfiguration exception");
 			e.printStackTrace();
 		} catch (SAXException e) {
-
 			return parsedStrings;
 		} catch (IOException e) {
 			Log.e("SimpleParser.saxparser", "IO exception");
@@ -123,12 +69,9 @@ public class SimpleParser extends DefaultHandler {
 
 	}
 
-	/*
-	 * 
-	 */
 	@Override
-	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		if (OtherTags.SPRITELIST.getOtherXMLTagString().contains(qName)) {
+	public void startElement(String uri, String localName, String tagName, Attributes attributes) throws SAXException {
+		if (OtherTags.SPRITELIST.getOtherXMLTagString().contains(tagName)) {
 			throw new SAXException("Header parsing done!");
 		}
 	}
@@ -140,26 +83,19 @@ public class SimpleParser extends DefaultHandler {
 	}
 
 	@Override
-	public void endElement(String uri, String localName, String qName) throws SAXException {
+	public void endElement(String uri, String localName, String tagName) throws SAXException {
 
-		for (int i = 0; i < 7; i++) {
-			String currentTag = tagIndexes[i].getXmlTagString();
-			if (qName.equalsIgnoreCase(currentTag)) {
+		for (int i = 0; i < tagIndexes.length; i++) {
+			String currentHeaderTag = tagIndexes[i].getXmlTagString();
+			if (tagName.equalsIgnoreCase(currentHeaderTag)) {
 				parsedStrings.add(tempVal);
 				break;
 			}
 		}
-
 	}
 
-	/**
-	 * @param HeaderTag
-	 * @param XMLFile
-	 * @return The String value of the headerTag of the given xml file
-	 */
 	public String getvalueof(HeaderTags tag, InputStream XMLFile) {
 		List<String> parsedValues = this.parse(XMLFile);
-
 		return parsedValues.get(tag.ordinal());
 
 	}

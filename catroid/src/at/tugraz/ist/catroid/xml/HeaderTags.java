@@ -18,10 +18,6 @@
  */
 package at.tugraz.ist.catroid.xml;
 
-/**
- * @author Sam
- * 
- */
 public enum HeaderTags {
 
 	ANDROIDVERSION("androidVersion"), CATROIDVERSIONCODE("catroidVersionCode"), CATROIDVERSIONNAME("catroidVersionName"), DEVICENAME(
@@ -33,17 +29,10 @@ public enum HeaderTags {
 		setXmlTagString(xmlTag);
 	}
 
-	/**
-	 * @param xmlTagString
-	 *            the xmlTagString to set
-	 */
 	public void setXmlTagString(String xmlTagString) {
 		this.xmlTagString = xmlTagString;
 	}
 
-	/**
-	 * @return the xmlTagString
-	 */
 	public String getXmlTagString() {
 		return xmlTagString;
 	}

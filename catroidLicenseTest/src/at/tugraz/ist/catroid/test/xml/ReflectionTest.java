@@ -27,10 +27,6 @@ import junit.framework.TestCase;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 import at.tugraz.ist.catroid.xml.ProjectProxy;
 
-/**
- * @author Samitha
- * 
- */
 public class ReflectionTest extends TestCase {
 
 	public void testFillingClassfromSetter() {
