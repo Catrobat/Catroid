@@ -32,20 +32,15 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.stage.PreStageActivity;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
-import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
-import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 public class SpritesListFragment extends SherlockListFragment {
 
@@ -53,11 +48,8 @@ public class SpritesListFragment extends SherlockListFragment {
     private ArrayList<Sprite> spriteList;
     private Sprite spriteToEdit;
     private CustomIconContextMenu iconContextMenu;
-    private RenameSpriteDialog renameDialog;
-    private NewSpriteDialog newSpriteDialog;
 
     private ActionBar actionBar;
-    private ListView spritesList;
 
     private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
     private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
@@ -131,15 +123,6 @@ public class SpritesListFragment extends SherlockListFragment {
         });
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setRetainInstance(true);
-//        setContentView(R.layout.activity_project);
-//        
-//        spriteToEdit = (Sprite) savedInstanceState.getSerializable(STATE_SELECTED_SPRITE);
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View rootView = inflater.inflate(R.layout.fragment_sprites_list, null);
@@ -153,12 +136,6 @@ public class SpritesListFragment extends SherlockListFragment {
     	super.onSaveInstanceState(outState);
     }
     
-//    @Override
-//    public Object onRetainNonConfigurationInstance() {
-//        final Sprite savedSelectedSprite = spriteToEdit;
-//        return savedSelectedSprite;
-//    }
-    
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
     	super.onActivityCreated(savedInstanceState);
@@ -168,29 +145,11 @@ public class SpritesListFragment extends SherlockListFragment {
     	actionBar = getSherlockActivity().getSupportActionBar();
     	actionBar.setTitle(title);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        setHasOptionsMenu(true);
         
         Utils.loadProjectIfNeeded(getActivity());
     }
     
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        String title = this.getResources().getString(R.string.project_name) + " "
-//                + ProjectManager.getInstance().getCurrentProject().getName();
-//
-//        actionBar = getSupportActionBar();
-//        actionBar.setTitle(title);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//    }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-//            Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
-//            startActivity(intent);
-//        }
-//    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -200,80 +159,9 @@ public class SpritesListFragment extends SherlockListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    	inflater.inflate(R.menu.menu_current_project, menu);
-    	super.onCreateOptionsMenu(menu, inflater);
+      inflater.inflate(R.menu.menu_current_project, menu);
+      super.onCreateOptionsMenu(menu, inflater);
     }
-    
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            }
-            case R.id.menu_add: {
-                getActivity().showDialog(DIALOG_NEW_SPRITE);
-                return true;
-            }
-            case R.id.menu_start: {
-                Intent intent = new Intent(getActivity(), PreStageActivity.class);
-                startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    
-//    @Override
-//    protected Dialog onCreateDialog(int id) {
-//        final Dialog dialog;
-//        switch (id) {
-//            case DIALOG_NEW_SPRITE:
-//                newSpriteDialog = new NewSpriteDialog(this);
-//                dialog = newSpriteDialog.dialog;
-//                break;
-//            case DIALOG_RENAME_SPRITE:
-//                if (spriteToEdit == null) {
-//                    dialog = null;
-//                } else {
-//                    renameDialog = new RenameSpriteDialog(this);
-//                    dialog = renameDialog.dialog;
-//                }
-//                break;
-//            case DIALOG_CONTEXT_MENU:
-//                if (iconContextMenu == null || spriteToEdit == null) {
-//                    dialog = null;
-//                } else {
-//                    dialog = iconContextMenu.createMenu(spriteToEdit.getName());
-//                }
-//                break;
-//            default:
-//                dialog = null;
-//                break;
-//        }
-//
-//        return dialog;
-//    }
-
-//    @Override
-//    protected void onPrepareDialog(int id, Dialog dialog) {
-//        switch (id) {
-//            case DIALOG_RENAME_SPRITE:
-//                if (dialog != null && spriteToEdit != null) {
-//                    EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-//                    spriteTitleInput.setText(spriteToEdit.getName());
-//                }
-//                break;
-//        }
-//    }
 
     @Override
     public void onResume() {
@@ -283,14 +171,6 @@ public class SpritesListFragment extends SherlockListFragment {
         }
         spriteAdapter.notifyDataSetChanged();
     }
-
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        if (hasFocus) {
-//            spriteAdapter.notifyDataSetChanged();
-//        }
-//    }
 
     public Sprite getSpriteToEdit() {
         return spriteToEdit;
