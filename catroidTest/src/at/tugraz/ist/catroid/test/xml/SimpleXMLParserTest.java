@@ -74,7 +74,19 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 
 	}
 
-	public void testSAXparserStoppingAfterHeader() {
+	public void testParserNewHeaderTag() {
+		NativeAppActivity.setContext(getInstrumentation().getContext());
+		InputStream xmlFileStream = null;
+		try {
+			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project_new_header.xml");
+		} catch (IOException e) {
 
+			e.printStackTrace();
+		}
+		SimpleParser parser = new SimpleParser();
+
+		List<String> values = parser.parse(xmlFileStream);
+		int indexOfNewtag = 5;
+		assertEquals("The new tag is not parsed correctly", "headerValue", values.get(indexOfNewtag));
 	}
 }
