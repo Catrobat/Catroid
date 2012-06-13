@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.test.xml;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
@@ -62,6 +63,7 @@ public class ReflectionTest extends InstrumentationTestCase {
 		}
 		ObjectCreator populator = new ObjectCreator();
 
+		Context testContext = this.getInstrumentation().getContext();
 		ProjectProxy createdProject = null;
 		//for (int i = 0; i < 100; i++) {
 		createdProject = populator.reflectionSet(xmlFileStream);

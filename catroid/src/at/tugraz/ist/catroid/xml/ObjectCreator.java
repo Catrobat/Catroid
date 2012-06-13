@@ -50,6 +50,7 @@ public class ObjectCreator {
 
 		SetterNames[] setterIndexes = SetterNames.values();
 		try {
+			//projectClass = Class.forName("at.tugraz.ist.catroid.content.Project");
 			projectClass = Class.forName("at.tugraz.ist.catroid.xml.ProjectProxy");
 			project = new ProjectProxy();
 			Method methodList[] = projectClass.getDeclaredMethods();
