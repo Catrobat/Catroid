@@ -70,7 +70,7 @@ public class SoundInfo implements Comparable<SoundInfo> {
 
 	private String getPathToSoundDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				Consts.SOUND_DIRECTORY);
+				Constants.SOUND_DIRECTORY);
 	}
 
 	public int compareTo(SoundInfo soundInfo) {

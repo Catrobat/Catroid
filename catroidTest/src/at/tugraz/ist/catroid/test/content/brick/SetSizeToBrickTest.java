@@ -26,7 +26,7 @@ import java.io.File;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
@@ -47,7 +47,7 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
@@ -63,7 +63,7 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);

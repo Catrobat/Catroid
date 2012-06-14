@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 
 import android.content.Context;
 import android.util.Log;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
@@ -65,17 +65,17 @@ public class TestUtils {
 
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
-			filePath = Consts.DEFAULT_ROOT + "/" + name;
+			filePath = Constants.DEFAULT_ROOT + "/" + name;
 		} else {
 			switch (type) {
 				case TYPE_IMAGE_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.IMAGE_DIRECTORY + "/" + name;
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + Constants.IMAGE_DIRECTORY + "/" + name;
 					break;
 				case TYPE_SOUND_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.SOUND_DIRECTORY + "/" + name;
+					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + Constants.SOUND_DIRECTORY + "/" + name;
 					break;
 				default:
-					filePath = Consts.DEFAULT_ROOT + "/" + name;
+					filePath = Constants.DEFAULT_ROOT + "/" + name;
 					break;
 			}
 		}
@@ -84,7 +84,7 @@ public class TestUtils {
 	}
 
 	public static boolean clearProject(String projectname) {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectname);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectname);
 		if (directory.exists()) {
 			return UtilFile.deleteDirectory(directory);
 		}
@@ -100,9 +100,9 @@ public class TestUtils {
 		}
 
 		InputStream in = context.getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Constants.BUFFER_8K);
 
-		byte[] buffer = new byte[Consts.BUFFER_8K];
+		byte[] buffer = new byte[Constants.BUFFER_8K];
 		int length = 0;
 
 		while ((length = in.read(buffer)) > 0) {
@@ -117,14 +117,14 @@ public class TestUtils {
 	}
 
 	public static String getProjectfileAsString(String projectName) {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.PROJECTCODE_NAME);
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.PROJECTCODE_NAME);
 		if (!projectFile.exists()) {
 			return null;
 		}
 		StringBuilder contents = new StringBuilder();
 
 		try {
-			BufferedReader input = new BufferedReader(new FileReader(projectFile), Consts.BUFFER_8K);
+			BufferedReader input = new BufferedReader(new FileReader(projectFile), Constants.BUFFER_8K);
 			try {
 				String line = null;
 				while ((line = input.readLine()) != null) {

@@ -48,6 +48,8 @@ import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
+import at.tugraz.ist.catroid.ui.dialogs.DeleteCostumeDialog;
+import at.tugraz.ist.catroid.ui.dialogs.DeleteSoundDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -62,12 +64,18 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
 	public CostumeData selectedCostumeData;
+	public int selectedPosition;
 	private RenameCostumeDialog renameCostumeDialog;
+	private DeleteCostumeDialog deleteCostumeDialog;
+	private DeleteSoundDialog deleteSoundDialog;
 	public String selectedCategory;
 	public static final int DIALOG_RENAME_COSTUME = 0;
 	public static final int DIALOG_RENAME_SOUND = 1;
 	public static final int DIALOG_BRICK_CATEGORY = 2;
 	public static final int DIALOG_ADD_BRICK = 3;
+	public static final int DIALOG_DELETE_COSTUME = 4;
+	public static final int DIALOG_DELETE_SOUND = 5;
+
 	private boolean dontcreateNewBrick;
 
 	private void setupTabHost() {
@@ -198,6 +206,18 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 					dialog = new AddBrickDialog(this, selectedCategory);
 				}
 				break;
+			case DIALOG_DELETE_COSTUME:
+				if (selectedCostumeData != null) {
+					deleteCostumeDialog = new DeleteCostumeDialog(this);
+					dialog = deleteCostumeDialog.createDialog();
+				}
+				break;
+			case DIALOG_DELETE_SOUND:
+				if (selectedSoundInfo != null) {
+					deleteSoundDialog = new DeleteSoundDialog(this);
+					dialog = deleteSoundDialog.createDialog();
+				}
+				break;
 			default:
 				dialog = null;
 				break;
@@ -233,6 +253,22 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 	public void handleNegativeButtonRenameCostume(View v) {
 		dismissDialog(DIALOG_RENAME_COSTUME);
+	}
+
+	public void handlePositiveButtonDeleteCostume(View v) {
+		deleteCostumeDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonDeleteCostume(View v) {
+		dismissDialog(DIALOG_DELETE_COSTUME);
+	}
+
+	public void handlePositiveButtonDeleteSound(View v) {
+		deleteSoundDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonDeleteSound(View v) {
+		dismissDialog(DIALOG_DELETE_SOUND);
 	}
 
 	public void onDismiss(DialogInterface dialogInterface) {

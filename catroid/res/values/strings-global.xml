@@ -25,8 +25,9 @@
 <!-- Strings that need no translation -->
 <resources>
 
-    <!-- Brick categories -->
-    <string name="category_lego_nxt">LegoNXT</string>
+    <!-- Language independent -->
+    <string name="percent">%</string>
+    <string name="catroid_extension_pathPattern">.*\\.catroid</string>
 
     <!-- Lego Mindstorms -->
     <string name="minus_symbol">-</string>
@@ -34,10 +35,10 @@
     <string name="just_a_v">v</string>
     <string name="degree">°</string>
 
-    <!-- Extras -->
-    <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
-    <string name="extra_picture_name_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_NAME</string>
-    <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
-    <string name="extra_y_value_paintroid">at.tugraz.ist.extra.PAINTROID_Y</string>
+    <!-- Website URLs -->
+    <string name="catroid_website">http://www.catroid.org</string>
+    <string name="about_catroid_url">http://code.google.com/p/catroid/</string>
+    <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
+    <string name="catroid_forum">https://groups.google.com/group/catroid</string>
 
 </resources>

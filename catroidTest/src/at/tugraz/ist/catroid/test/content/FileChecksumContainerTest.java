@@ -31,7 +31,7 @@ import java.io.OutputStream;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -63,15 +63,15 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		storageHandler.saveProject(testCopyFile);
 		projectManager.setProject(testCopyFile);
 
-		final String imagePath = Consts.DEFAULT_ROOT + "/testImage.png";
+		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
 		testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
 		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Constants.BUFFER_8K);
 
-		byte[] buffer = new byte[Consts.BUFFER_8K];
+		byte[] buffer = new byte[Constants.BUFFER_8K];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -81,14 +81,14 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		out.flush();
 		out.close();
 
-		final String soundPath = Consts.DEFAULT_ROOT + "/testsound.mp3";
+		final String soundPath = Constants.DEFAULT_ROOT + "/testsound.mp3";
 		testSound = new File(soundPath);
 		if (!testSound.exists()) {
 			testSound.createNewFile();
 		}
 		in = getInstrumentation().getContext().getResources().openRawResource(R.raw.testsound);
-		out = new BufferedOutputStream(new FileOutputStream(testSound), Consts.BUFFER_8K);
-		buffer = new byte[Consts.BUFFER_8K];
+		out = new BufferedOutputStream(new FileOutputStream(testSound), Constants.BUFFER_8K);
+		buffer = new byte[Constants.BUFFER_8K];
 		length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -123,7 +123,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		Thread.sleep(2000);
 
 		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + "/" + Consts.IMAGE_DIRECTORY
+		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + Constants.IMAGE_DIRECTORY
 				+ "/");
 		File[] filesImage = imageDirectory.listFiles();
 
@@ -133,7 +133,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		String checksumSound = Utils.md5Checksum(testSound);
 		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumSound));
-		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + "/" + Consts.SOUND_DIRECTORY);
+		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + Constants.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
 
 		//nomedia file is also in sounds folder
@@ -153,14 +153,14 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		Thread.sleep(2000);
 
 		storageHandler.deleteFile(newTestImage1.getAbsolutePath());
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + "/" + Consts.IMAGE_DIRECTORY);
+		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + Constants.IMAGE_DIRECTORY);
 		File[] filesImage = imageDirectory.listFiles();
 		assertEquals("Wrong amount of files in folder", 1, filesImage.length);
 
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		storageHandler.deleteFile(newTestSound.getAbsolutePath());
 
-		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + "/" + Consts.SOUND_DIRECTORY);
+		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + Constants.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
 
 		assertEquals("Wrong amount of files in folder", 1, filesSound.length);

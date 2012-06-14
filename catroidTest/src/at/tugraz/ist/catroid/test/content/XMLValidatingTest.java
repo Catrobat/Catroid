@@ -33,7 +33,7 @@ import org.json.JSONException;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -67,7 +67,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 	public void testSerializeProjectWithAllBricks() throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException, IOException, JSONException {
 
-		File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + testProjectName);
+		File projectDirectory = new File(Constants.DEFAULT_ROOT + "/" + testProjectName);
 		if (projectDirectory.exists()) {
 			UtilFile.deleteDirectory(projectDirectory);
 		}

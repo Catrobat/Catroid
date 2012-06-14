@@ -41,12 +41,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.ui.adapter.ProjectAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog;
+import at.tugraz.ist.catroid.ui.dialogs.SetDescriptionDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -63,13 +64,10 @@ public class MyProjectsActivity extends ListActivity {
 	private static final int DIALOG_CONTEXT_MENU = 1;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 2;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 3;
-	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
-	//	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
+	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
 	public static final int DIALOG_RENAME_PROJECT = 5;
 
-	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
-	//	public static final int DIALOG_SET_DESCRIPTION = 6;
-	//public static final int DIALOG_CONTEXT_MENU2 = 7;
+	public static final int DIALOG_SET_DESCRIPTION = 6;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -114,11 +112,11 @@ public class MyProjectsActivity extends ListActivity {
 	}
 
 	public void initAdapter() {
-		File rootDirectory = new File(Consts.DEFAULT_ROOT);
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
 		projectList = new ArrayList<ProjectData>();
 		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-			projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Consts.PROJECTCODE_NAME));
+			projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Constants.PROJECTCODE_NAME));
 			projectList.add(new ProjectData(projectName, projectCodeFile.lastModified()));
 		}
 		Collections.sort(projectList, new Comparator<ProjectData>() {
@@ -161,9 +159,8 @@ public class MyProjectsActivity extends ListActivity {
 		iconContextMenu = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU);
 		iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
 				CONTEXT_MENU_ITEM_RENAME);
-		// temporarily removed - because of upcoming release, and bad performance of projectdescription
-		//		iconContextMenu.addItem(resources, this.getString(R.string.set_description), R.drawable.ic_menu_description,
-		//				CONTEXT_MENU_ITEM_DESCRIPTION);
+		iconContextMenu.addItem(resources, this.getString(R.string.set_description), R.drawable.ic_menu_description,
+				CONTEXT_MENU_ITEM_DESCRIPTION);
 		iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
 				CONTEXT_MENU_ITEM_DELETE);
 
@@ -173,10 +170,9 @@ public class MyProjectsActivity extends ListActivity {
 					case CONTEXT_MENU_ITEM_RENAME:
 						showDialog(DIALOG_RENAME_PROJECT);
 						break;
-					// temporarily removed - because of upcoming release, and bad performance of projectdescription						
-					//					case CONTEXT_MENU_ITEM_DESCRIPTION:
-					//						showDialog(DIALOG_SET_DESCRIPTION);
-					//						break;
+					case CONTEXT_MENU_ITEM_DESCRIPTION:
+						showDialog(DIALOG_SET_DESCRIPTION);
+						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						deleteProject();
 						break;
@@ -227,12 +223,11 @@ public class MyProjectsActivity extends ListActivity {
 					dialog = (new RenameProjectDialog(this, project)).dialog;
 				}
 				break;
-			// temporarily removed - because of upcoming release, and bad performance of projectdescription
-			//			case DIALOG_SET_DESCRIPTION:
-			//				if (projectToEdit != null) {
-			//					dialog = (new SetDescriptionDialog(this)).dialog;
-			//				}
-			//				break;
+			case DIALOG_SET_DESCRIPTION:
+				if (projectToEdit != null) {
+					dialog = (new SetDescriptionDialog(this)).dialog;
+				}
+				break;
 			case DIALOG_NEW_PROJECT:
 				dialog = (new NewProjectDialog(this)).dialog;
 				break;
@@ -252,21 +247,20 @@ public class MyProjectsActivity extends ListActivity {
 				EditText renameProjectEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
 				renameProjectEditText.setText(projectToEdit.projectName);
 				break;
-			// temporarily removed - because of upcoming release, and bad performance of projectdescription
-			//			case DIALOG_SET_DESCRIPTION:
-			//				EditText descriptionEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-			//
-			//				ProjectManager projectManager = ProjectManager.getInstance();
-			//				String currentProjectName = projectManager.getCurrentProject().getName();
-			//
-			//				if (project.equalsIgnoreCase(currentProjectName)) {
-			//					descriptionEditText.setText(projectManager.getCurrentProject().description);
-			//				} else {
-			//					projectManager.loadProject(project, this, false); //TODO: check something
-			//					descriptionEditText.setText(projectManager.getCurrentProject().description);
-			//					projectManager.loadProject(currentProjectName, this, false);
-			//				}
-			//				break;
+			case DIALOG_SET_DESCRIPTION:
+				EditText descriptionEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
+
+				ProjectManager projectManager = ProjectManager.getInstance();
+				String currentProjectName = projectManager.getCurrentProject().getName();
+
+				if (projectToEdit.projectName.equalsIgnoreCase(currentProjectName)) {
+					descriptionEditText.setText(projectManager.getCurrentProject().description);
+				} else {
+					projectManager.loadProject(projectToEdit.projectName, this, false); //TODO: check something
+					descriptionEditText.setText(projectManager.getCurrentProject().description);
+					projectManager.loadProject(currentProjectName, this, false);
+				}
+				break;
 			case DIALOG_CONTEXT_MENU:
 				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
 				customTitleTextView.setText(projectToEdit.projectName);

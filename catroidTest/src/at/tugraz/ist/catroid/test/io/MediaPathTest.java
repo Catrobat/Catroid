@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
@@ -117,9 +117,9 @@ public class MediaPathTest extends InstrumentationTestCase {
 		fillProjectWithAllBricksAndMediaFiles();
 		String project = TestUtils.getProjectfileAsString(projectName);
 
-		assertFalse("project contains DEFAULT_ROOT", project.contains(Consts.DEFAULT_ROOT));
-		assertFalse("project contains IMAGE_DIRECTORY", project.contains(Consts.IMAGE_DIRECTORY));
-		assertFalse("project contains SOUND_DIRECTORY", project.contains(Consts.SOUND_DIRECTORY));
+		assertFalse("project contains DEFAULT_ROOT", project.contains(Constants.DEFAULT_ROOT));
+		assertFalse("project contains IMAGE_DIRECTORY", project.contains(Constants.IMAGE_DIRECTORY));
+		assertFalse("project contains SOUND_DIRECTORY", project.contains(Constants.SOUND_DIRECTORY));
 		assertFalse("project contains sdcard/", project.contains("sdcard/"));
 	}
 
@@ -156,7 +156,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 				.md5Checksum(testSoundCopy));
 
 		//check if copy doesn't save more instances of the same file:
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -169,7 +169,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
 		fillProjectWithAllBricksAndMediaFiles();
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -188,7 +188,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("checksum in project although file should not exist", container.containsChecksum(Utils
 				.md5Checksum(testImageCopy2)));
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
