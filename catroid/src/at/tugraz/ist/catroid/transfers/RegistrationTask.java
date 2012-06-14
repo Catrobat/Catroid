@@ -31,7 +31,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilToken;
@@ -83,7 +83,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 					country, token);
 
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-			prefs.edit().putString(Consts.TOKEN, token).commit();
+			prefs.edit().putString(Constants.TOKEN, token).commit();
 
 			return true;
 

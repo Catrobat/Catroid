@@ -33,7 +33,7 @@ import android.view.View;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -65,6 +65,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription	
 	//	private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
+	private final String lorem = "Lorem ipsum dolor sit amet";
 
 	public MyProjectsActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -101,7 +102,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void saveProjectsToZip() {
 		File directory;
-		File rootDirectory = new File(Consts.DEFAULT_ROOT);
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		String[] paths = rootDirectory.list();
 
 		if (paths == null) {
@@ -112,7 +113,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
 		}
 		try {
-			String zipFileString = Utils.buildPath(Consts.DEFAULT_ROOT, ZIPFILE_NAME);
+			String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
 			File zipFile = new File(zipFileString);
 			if (!zipFile.exists()) {
 				zipFile.getParentFile().mkdirs();
@@ -125,7 +126,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 
 		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-			directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+			directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 			if (directory.exists()) {
 				UtilFile.deleteDirectory(directory);
 			}
@@ -133,9 +134,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void unzipProjects() {
-		String zipFileString = Utils.buildPath(Consts.DEFAULT_ROOT, ZIPFILE_NAME);
+		String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
 		File zipFile = new File(zipFileString);
-		UtilZip.unZipFile(zipFileString, Consts.DEFAULT_ROOT);
+		UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
 		zipFile.delete();
 	}
 
@@ -270,7 +271,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		assertFalse("project " + UiTestUtils.PROJECTNAME1 + " is still visible",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
-		File rootDirectory = new File(Consts.DEFAULT_ROOT);
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		ArrayList<String> projectList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
 		boolean projectDeleted = true;
 		for (String project : projectList) {
@@ -484,43 +485,63 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 	}
 
-	// temporarily removed - because of upcoming release, and bad performance of projectdescription
-	//	public void testSetDescriptionCurrentProject() {
-	//      createProjects();
-	//		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-	//		solo.sleep(200);
-	//		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
-	//		solo.sleep(200);
-	//		solo.clickOnText(getActivity().getString(R.string.set_description));
-	//		solo.sleep(200);
-	//		UiTestUtils.enterText(solo, 0, lorem);
-	//		solo.clickOnButton(0);
-	//		solo.sleep(500);
-	//		ProjectManager projectManager = ProjectManager.getInstance();
-	//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
-	//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
-	//		assertTrue("description is not set in project",
-	//				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
-	//	}
-	//
-	//	public void testSetDescription() {
-	//		createProjects();
-	//		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-	//		solo.sleep(200);
-	//		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
-	//		solo.sleep(200);
-	//		solo.clickOnText(getActivity().getString(R.string.set_description));
-	//		solo.sleep(200);
-	//		UiTestUtils.enterText(solo, 0, lorem);
-	//		solo.clickOnButton(0);
-	//		solo.sleep(500);
-	//		ProjectManager projectManager = ProjectManager.getInstance();
-	//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
-	//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
-	//		projectManager.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
-	//		assertTrue("description is not set in project",
-	//				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
-	//	}
+	public void testSetDescriptionCurrentProject() {
+		createProjects();
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		UiTestUtils.enterText(solo, 0, lorem);
+		solo.clickOnButton(0);
+		solo.sleep(500);
+		ProjectManager projectManager = ProjectManager.getInstance();
+		// temporarily removed - should be added when displaying projectdescription
+		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
+		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.sleep(200);
+		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
+		assertTrue("description is not set in project",
+				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
+	}
+
+	public void testSetDescription() {
+		createProjects();
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		UiTestUtils.enterText(solo, 0, lorem);
+		solo.sleep(300);
+		solo.clickOnButton(0);
+		solo.sleep(500);
+		ProjectManager projectManager = ProjectManager.getInstance();
+		// temporarily removed - should be added when displaying projectdescription
+		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
+		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.sleep(200);
+		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
+		projectManager.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
+		assertTrue("description is not set in project",
+				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
+	}
 
 	public void createProjects() {
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);

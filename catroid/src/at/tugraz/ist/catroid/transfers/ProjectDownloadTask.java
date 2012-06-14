@@ -30,7 +30,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -45,7 +45,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	private String url;
 	private ProgressDialog progressDialog;
 	private boolean result;
-	private static final String DOWNLOAD_FILE_NAME = "down" + Consts.CATROID_EXTENTION;
+	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROID_EXTENTION;
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	// mock object testing
@@ -56,7 +56,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	public ProjectDownloadTask(MainMenuActivity mainMenuActivity, String url, String projectName) {
 		this.activity = mainMenuActivity;
 		this.projectName = projectName;
-		this.zipFileString = Utils.buildPath(Consts.TMP_PATH, DOWNLOAD_FILE_NAME);
+		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
 		this.url = url;
 	}
 

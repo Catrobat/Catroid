@@ -33,7 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
@@ -44,7 +44,7 @@ public class XMLValidationUtil {
 
 	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException, JSONException {
 		String projectName = projectToValidate.getName();
-		String fullPathFilename = Utils.buildPath(Utils.buildProjectPath(projectName), Consts.PROJECTCODE_NAME);
+		String fullPathFilename = Utils.buildPath(Utils.buildProjectPath(projectName), Constants.PROJECTCODE_NAME);
 		sendProjectXMLToServerForValidating(fullPathFilename);
 	}
 

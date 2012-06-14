@@ -150,6 +150,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.waitForText(buttonDeleteText);
 		solo.clickOnButton(buttonDeleteText);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.clickOnText(getActivity().getString(R.string.scripts));
 		solo.clickOnText(spinnerNothingText);
 		assertFalse(soundName + " is still in Spinner", solo.searchText(soundName));

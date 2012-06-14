@@ -24,9 +24,8 @@ package at.tugraz.ist.catroid.common;
 
 import android.os.Environment;
 
-public final class Consts {
+public final class Constants {
 
-	//public static final String PROJECT_EXTENTION = ".xml";
 	public static final String PROJECTCODE_NAME = "projectcode.xml";
 	public static final String CATROID_EXTENTION = ".catroid";
 	public static final String RECORDING_EXTENTION = ".mp3";
@@ -40,6 +39,12 @@ public final class Consts {
 
 	//Web:
 	public static final String TOKEN = "token";
+
+	// Paintroid
+	public static final String EXTRA_PICTURE_PATH_PAINTROID = "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH";
+	public static final String EXTRA_PICTURE_NAME_PAINTROID = "at.tugraz.ist.extra.PAINTROID_PICTURE_NAME";
+	public static final String EXTRA_X_VALUE_PAINTROID = "at.tugraz.ist.extra.PAINTROID_X";
+	public static final String EXTRA_Y_VALUE_PAINTROID = "at.tugraz.ist.extra.PAINTROID_Y";
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;

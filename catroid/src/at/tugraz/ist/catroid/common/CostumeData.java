@@ -48,7 +48,7 @@ public class CostumeData {
 
 	public String getInternalPath() {
 		if (fileName != null) {
-			return Consts.IMAGE_DIRECTORY + "/" + fileName;
+			return Constants.IMAGE_DIRECTORY + "/" + fileName;
 		} else {
 			return null;
 		}
@@ -79,7 +79,7 @@ public class CostumeData {
 
 	private String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				Consts.IMAGE_DIRECTORY);
+				Constants.IMAGE_DIRECTORY);
 	}
 
 	public Bitmap getThumbnailBitmap() {

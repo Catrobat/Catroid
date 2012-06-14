@@ -30,7 +30,7 @@ import org.json.JSONException;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
@@ -107,7 +107,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		solo.goBack();
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(testProjectName), Consts.PROJECTCODE_NAME);
+		String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(testProjectName), Constants.PROJECTCODE_NAME);
 		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);
 	}
 

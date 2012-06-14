@@ -248,11 +248,12 @@ public class SoundActivity extends ListActivity {
 
 	public void handleDeleteSoundButton(View v) {
 		final int position = (Integer) v.getTag();
-
 		stopSound(null);
-		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
-		soundInfoList.remove(position);
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		scriptTabActivity.selectedSoundInfo = soundInfoList.get(position);
+		scriptTabActivity.selectedPosition = position;
+		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_DELETE_SOUND);
+
 	}
 
 }
