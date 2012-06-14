@@ -76,7 +76,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		//test comment
 	}
 
 	public void testBricksWithEmptySpinner() throws IllegalArgumentException, IllegalAccessException,
