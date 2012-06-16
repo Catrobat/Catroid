@@ -42,6 +42,7 @@ public class SimpleParser extends DefaultHandler {
 	private List<String> parsedStrings;
 	private String tempVal;
 	HeaderTags[] tagIndexes = HeaderTags.values();
+	public Boolean newheaderFound = false;
 
 	public List<String> parse(InputStream xmlFileStream) {
 		return saxParser(xmlFileStream);
@@ -72,6 +73,8 @@ public class SimpleParser extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String tagName, Attributes attributes) throws SAXException {
 		if (OtherTags.SPRITELIST.getOtherXMLTagString().contains(tagName)) {
+			newheaderFound = false;
+
 			throw new SAXException("Header parsing done!");
 		}
 	}
@@ -84,13 +87,29 @@ public class SimpleParser extends DefaultHandler {
 
 	@Override
 	public void endElement(String uri, String localName, String tagName) throws SAXException {
+		//		if (OtherTags.CONTENTPROJECT.getOtherXMLTagString().contains(tagName)) {
+		//			headerStarted = true;
+		//		}
+		//		if (headerStarted) {
+		//		if (!newheaderFound) {
+		//			for (int i = 0; i < tagIndexes.length; i++) {
+		//				String currentHeaderTag = tagIndexes[i].getXmlTagString();
+		//				if (tagName.equalsIgnoreCase(currentHeaderTag)) {
+		//					parsedStrings.add(tempVal);
+		//					if (i == tagIndexes.length - 1) {
+		//						newheaderFound = true;
+		//					}
+		//					break;
+		//				}
+		//			}
+		//		} else {
+		//			parsedStrings.add(tempVal);
+		//		}
+		//		//	}
 
-		for (int i = 0; i < tagIndexes.length; i++) {
-			String currentHeaderTag = tagIndexes[i].getXmlTagString();
-			if (tagName.equalsIgnoreCase(currentHeaderTag)) {
-				parsedStrings.add(tempVal);
-				break;
-			}
+		parsedStrings.add(tempVal);
+		if (parsedStrings.size() > 7) {
+			newheaderFound = true;
 		}
 	}
 
