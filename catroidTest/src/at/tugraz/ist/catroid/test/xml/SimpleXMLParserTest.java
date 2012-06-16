@@ -86,7 +86,16 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 		SimpleParser parser = new SimpleParser();
 
 		List<String> values = parser.parse(xmlFileStream);
-		int indexOfNewtag = 5;
-		assertEquals("The new tag is not parsed correctly", "headerValue", values.get(indexOfNewtag));
+		boolean testBool = parser.newheaderFound;
+		assertEquals("the full headers not added", values.size(), 8);
+		//assertEquals("the new header not found", true, testBool);
+		assertEquals("androidVersion tag not parsed", values.get(0), "10");
+		assertEquals("catroidVersionCode tag not parsed", values.get(1), "8");
+		assertEquals("catroidVersionName tag not parsed", values.get(2), "0.5.6a");
+		assertEquals("deviceName tag not parsed", values.get(3), "HTC Desire");
+		assertEquals("ProjectName tag not parsed", values.get(4), "testProject");
+		assertEquals("ProjectName tag not parsed", values.get(5), "headerValue");
+		assertEquals("screenHeight tag not parsed", values.get(6), "800");
+		assertEquals("screenWidth tag not parsed", values.get(7), "480");
 	}
 }
