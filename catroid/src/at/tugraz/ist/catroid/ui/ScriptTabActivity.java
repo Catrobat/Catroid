@@ -25,19 +25,18 @@ package at.tugraz.ist.catroid.ui;
 import java.util.ArrayList;
 
 import android.app.Dialog;
-import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -46,18 +45,33 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
+import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
+import at.tugraz.ist.catroid.ui.adapter.TabsPagerAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteSoundDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ScriptTabActivity extends TabActivity implements OnDismissListener, OnCancelListener {
-	protected ActivityHelper activityHelper;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
+public class ScriptTabActivity extends SherlockFragmentActivity implements OnDismissListener, OnCancelListener {
+	
+	public static final String ACTION_BRICKS_LIST_CHANGED = "at.tugraz.ist.catroid.BRICKS_LIST_CHANGED";
+	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
+	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
+	
+	private ActionBar actionBar;
+	private ViewPager viewPager;
+	private TabsPagerAdapter tabsAdapter;
+	
 	private TabHost tabHost;
 	private boolean addScript;
 	private boolean isCanceled;
@@ -94,13 +108,12 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		Utils.loadProjectIfNeeded(this);
 
 		setupTabHost();
+		viewPager = (ViewPager) findViewById(R.id.pager);
 		tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
 
-		Intent intent; // Reusable Intent for each tab
-
-		intent = new Intent().setClass(this, ScriptActivity.class);
-		setupTab(R.drawable.ic_tab_scripts_selector, this.getString(R.string.scripts), intent);
-		intent = new Intent().setClass(this, CostumeActivity.class);
+		tabsAdapter = new TabsPagerAdapter(this, tabHost, viewPager);
+		setupTab(R.drawable.ic_tab_scripts_selector, getString(R.string.scripts), ScriptActivity.class, null);
+		
 		int costumeIcon;
 		String costumeLabel;
 
@@ -112,20 +125,20 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 			costumeIcon = R.drawable.ic_tab_costumes_selector;
 			costumeLabel = this.getString(R.string.costumes);
 		}
-		setupTab(costumeIcon, costumeLabel, intent);
-		intent = new Intent().setClass(this, SoundActivity.class);
-		setupTab(R.drawable.ic_tab_sounds_selector, this.getString(R.string.sounds), intent);
+		
+		setupTab(costumeIcon, costumeLabel, CostumeActivity.class, null);
+		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundActivity.class, null);
 
 		setUpActionBar();
-		if (getLastNonConfigurationInstance() != null) {
-			selectedCategory = (String) ((ArrayList<?>) getLastNonConfigurationInstance()).get(0);
-			selectedCostumeData = (CostumeData) ((ArrayList<?>) getLastNonConfigurationInstance()).get(1);
-			selectedSoundInfo = (SoundInfo) ((ArrayList<?>) getLastNonConfigurationInstance()).get(2);
+		if (getLastCustomNonConfigurationInstance() != null) {
+			selectedCategory = (String) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(0);
+			selectedCostumeData = (CostumeData) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(1);
+			selectedSoundInfo = (SoundInfo) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(2);
 		}
 	}
 
 	@Override
-	public ArrayList<Object> onRetainNonConfigurationInstance() {
+	public ArrayList<Object> onRetainCustomNonConfigurationInstance() {
 		ArrayList<Object> savedMember = new ArrayList<Object>();
 		savedMember.add(selectedCategory);
 		savedMember.add(selectedCostumeData);
@@ -133,38 +146,56 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		return savedMember;
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_scripttab, menu);
+
+		final MenuItem startItem = menu.findItem(R.id.menu_start);
+		startItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(ScriptTabActivity.this, PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+				return true;
+			}
+		});
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				Intent intent = new Intent(this, ProjectActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+	
 	private void setUpActionBar() {
-		activityHelper = new ActivityHelper(this);
+		actionBar = getSupportActionBar();
 
 		String title = this.getResources().getString(R.string.sprite_name) + " "
 				+ ProjectManager.getInstance().getCurrentSprite().getName();
-		activityHelper.setupActionBar(false, title);
-
-		activityHelper.addActionButton(R.id.btn_action_add_button, R.drawable.ic_plus_black, R.string.add, null, false);
-
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						Intent intent = new Intent(ScriptTabActivity.this, PreStageActivity.class);
-						startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-					}
-				}, false);
+		actionBar.setTitle(title);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
 			startActivity(intent);
 		}
 	}
 
-	private void setupTab(Integer drawableId, final String tag, Intent intent) {
-		View tabview = createTabView(drawableId, tabHost.getContext(), tag);
-
-		TabSpec setContent = tabHost.newTabSpec(tag).setIndicator(tabview).setContent(intent);
-		tabHost.addTab(setContent);
-
+	private void setupTab(Integer drawableId, final String tag, Class<?> clss, Bundle args) {
+		tabsAdapter.addTab(tabHost.newTabSpec(tag).setIndicator(createTabView(drawableId, this, tag)), clss, args);
 	}
 
 	private static View createTabView(Integer id, final Context context, final String text) {
@@ -240,19 +271,31 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	}
 
 	public void handlePositiveButtonRenameSound(View v) {
-		renameSoundDialog.handleOkButton();
-	}
+		String newSoundTitle = renameSoundDialog.handleOkButton();
 
+		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
+			selectedSoundInfo.setTitle(newSoundTitle);
+			SoundAdapter adapter = (SoundAdapter) ((SoundActivity) tabsAdapter.getItem(2)).getListAdapter();
+			adapter.notifyDataSetChanged();
+		} else {
+			Utils.displayErrorMessage(this, getString(R.string.soundname_invalid));
+		}
+	}
+	
 	public void handleNegativeButtonRenameSound(View v) {
 		dismissDialog(DIALOG_RENAME_SOUND);
 	}
 
 	public void handlePositiveButtonRenameCostume(View v) {
-		renameCostumeDialog.handleOkButton();
-	}
+		String newCostumeName = renameCostumeDialog.handleOkButton();
 
-	public void handleNegativeButtonRenameCostume(View v) {
-		dismissDialog(DIALOG_RENAME_COSTUME);
+		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
+			selectedCostumeData.setCostumeName(newCostumeName);
+			CostumeAdapter adapter = (CostumeAdapter) ((CostumeActivity) tabsAdapter.getItem(1)).getListAdapter();
+			adapter.notifyDataSetChanged();
+		} else {
+			Utils.displayErrorMessage(this, getString(R.string.costumename_invalid));
+		}
 	}
 
 	public void handlePositiveButtonDeleteCostume(View v) {
@@ -276,13 +319,12 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		if (!dontcreateNewBrick) {
 			if (!isCanceled) {
 				if (addScript) {
-
-					((ScriptActivity) getCurrentActivity()).setAddNewScript();
+					//TODO this should be refactored
+					((ScriptActivity) tabsAdapter.getItem(0)).setAddNewScript();
 					addScript = false;
 				}
 
-				((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(dialogInterface);
-
+				sendBroadcast(new Intent(ACTION_BRICKS_LIST_CHANGED));
 			}
 			isCanceled = false;
 		}
@@ -291,6 +333,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 	public void onCancel(DialogInterface dialog) {
 		isCanceled = true;
+		sendBroadcast(new Intent(ACTION_BRICKS_LIST_CHANGED));
 	}
 
 	public void setNewScript() {

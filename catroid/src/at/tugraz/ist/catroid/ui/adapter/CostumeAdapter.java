@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,16 +33,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class CostumeAdapter extends ArrayAdapter<CostumeData> {
+	
 	protected ArrayList<CostumeData> costumeDataItems;
-	protected CostumeActivity activity;
+	protected Context context;
 
-	public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<CostumeData> items) {
-		super(activity, textViewResourceId, items);
-		this.activity = activity;
+	public CostumeAdapter(final Context context, int textViewResourceId, ArrayList<CostumeData> items) {
+		super(context, textViewResourceId, items);
+		this.context = context;
 		costumeDataItems = items;
 	}
 
@@ -49,7 +50,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = View.inflate(activity, R.layout.activity_costume_costumelist_item, null);
+			convertView = View.inflate(context, R.layout.activity_costume_costumelist_item, null);
 		}
 
 		convertView.findViewById(R.id.btn_costume_copy).setTag(position);

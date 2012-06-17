@@ -27,15 +27,14 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 
 public class DeleteCostumeDialog {
 
@@ -68,10 +67,8 @@ public class DeleteCostumeDialog {
 
 		StorageHandler.getInstance().deleteFile(costumeDataList.get(position).getAbsolutePath());
 		costumeDataList.remove(position);
-		((CostumeAdapter) ((CostumeActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
-				.notifyDataSetChanged();
-
+		scriptTabActivity.sendBroadcast(new Intent(ScriptTabActivity.ACTION_COSTUME_DELETED));
+		
 		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_DELETE_COSTUME);
 	}
-
 }

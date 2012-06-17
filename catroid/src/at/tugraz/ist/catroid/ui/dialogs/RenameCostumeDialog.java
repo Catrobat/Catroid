@@ -38,12 +38,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameCostumeDialog {
+	
 	private ScriptTabActivity scriptTabActivity;
 	private EditText input;
 	private Button buttonPositive;
@@ -85,25 +84,27 @@ public class RenameCostumeDialog {
 		return renameDialog;
 	}
 
-	public void handleOkButton() {
+	public String handleOkButton() {
 		String newCostumeName = (input.getText().toString()).trim();
 		String oldCostumeName = scriptTabActivity.selectedCostumeData.getCostumeName();
 
 		if (newCostumeName.equalsIgnoreCase(oldCostumeName)) {
 			scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
-			return;
+			return null;
 		}
+		
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 			newCostumeName = Utils.getUniqueCostumeName(newCostumeName);
-			scriptTabActivity.selectedCostumeData.setCostumeName(newCostumeName);
-			((CostumeAdapter) ((CostumeActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
-					.notifyDataSetChanged(); //TODO: this is madness!
+//			scriptTabActivity.selectedCostumeData.setCostumeName(newCostumeName);
+//			((CostumeAdapter) ((CostumeActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
+//					.notifyDataSetChanged(); //TODO: this is madness!
 		} else {
 			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.costumename_invalid));
-			return;
+			return null;
 		}
 
 		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
+		return newCostumeName;
 	}
 
 	private void initKeyListener(AlertDialog.Builder builder) {

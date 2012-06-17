@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +36,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> {
+	
 	protected ArrayList<SoundInfo> soundInfoItems;
-	protected SoundActivity activity;
+	protected Context context;
 
-	public SoundAdapter(final SoundActivity activity, int textViewResourceId, ArrayList<SoundInfo> items) {
-		super(activity, textViewResourceId, items);
-		this.activity = activity;
+	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
+		super(context, textViewResourceId, items);
+		this.context = context;
 		soundInfoItems = items;
 	}
 
@@ -52,7 +53,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = View.inflate(activity, R.layout.activity_sound_soundlist_item, null);
+			convertView = View.inflate(context, R.layout.activity_sound_soundlist_item, null);
 		}
 
 		final SoundInfo soundInfo = soundInfoItems.get(position);
@@ -71,15 +72,15 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
 
 			if (soundInfo.isPlaying) {
-				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker_playing));
+				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker_playing));
 				playSoundButton.setVisibility(Button.GONE);
 				pauseSoundButton.setVisibility(Button.VISIBLE);
 			} else if (soundInfo.isPaused) {
-				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker));
 				playSoundButton.setVisibility(Button.VISIBLE);
 				pauseSoundButton.setVisibility(Button.GONE);
 			} else {
-				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker));
 				playSoundButton.setVisibility(Button.VISIBLE);
 				pauseSoundButton.setVisibility(Button.GONE);
 			}

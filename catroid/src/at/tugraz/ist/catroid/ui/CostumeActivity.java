@@ -29,10 +29,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -40,7 +42,9 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -49,63 +53,106 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class CostumeActivity extends ListActivity {
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+
+public class CostumeActivity extends SherlockListFragment {
+	
+	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
+	
+	private CostumeDeletedReceiver costumeDeletedReceiver;
 
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_costume);
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-
-		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.activity_costume, null);
+		return rootView;
 	}
-
+	
 	@Override
-	protected void onResume() {
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
+		setListAdapter(adapter);
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
+	public void onResume() {
 		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
+		if (!Utils.checkForSdCard(getActivity())) {
 			return;
 		}
-
-		reloadAdapter();
-
-		//change actionbar:
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
-		ActivityHelper activityHelper = scriptTabActivity.activityHelper;
-		if (activityHelper != null) {
-			//set new functionality for actionbar add button:
-			activityHelper.changeClickListener(R.id.btn_action_add_button, createAddCostumeClickListener());
-			//set new icon for actionbar plus button:
-			int addButtonIcon;
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
-				addButtonIcon = R.drawable.ic_background;
-			} else {
-				addButtonIcon = R.drawable.ic_actionbar_shirt;
-			}
-			activityHelper.changeButtonIcon(R.id.btn_action_add_button, addButtonIcon);
+		
+		if (costumeDeletedReceiver == null) {
+			costumeDeletedReceiver = new CostumeDeletedReceiver();
 		}
-
+		
+		IntentFilter intentFilter = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_DELETED);
+		getActivity().registerReceiver(costumeDeletedReceiver, intentFilter);
+		
+		reloadAdapter();
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
+		
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
+		
+		if (costumeDeletedReceiver != null) {
+			getActivity().unregisterReceiver(costumeDeletedReceiver);
+		}
 	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
 
+		final MenuItem addItem = menu.findItem(R.id.menu_add);
+
+		int addButtonIcon;
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
+			addButtonIcon = R.drawable.ic_background;
+		} else {
+			addButtonIcon = R.drawable.ic_actionbar_shirt;
+		}
+		addItem.setIcon(addButtonIcon);
+
+		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+				Bundle bundleForPaintroid = new Bundle();
+				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
+				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
+						CostumeActivity.this.getString(R.string.default_costume_name));
+
+				intent.setType("image/*");
+				intent.putExtras(bundleForPaintroid);
+				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
+				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
+
+				return true;
+			}
+		});
+	}
+	
 	public void updateCostumeAdapter(String name, String fileName) {
 		name = Utils.getUniqueCostumeName(name);
 		CostumeData costumeData = new CostumeData();
@@ -125,12 +172,13 @@ public class CostumeActivity extends ListActivity {
 
 	private void reloadAdapter() {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
+		setListAdapter(new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList));
 		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) { //TODO refactor this mess! (please)
+	public void onActivityResult(int requestCode, int resultCode, Intent data) { 
+		//TODO refactor this mess! (please)
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (resultCode != Activity.RESULT_OK) {
@@ -148,6 +196,8 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	private void loadImageIntoCatroid(Intent intent) {
+		Activity parent = getActivity();
+		
 		String originalImagePath = "";
 		//get path of image - will work for most applications
 		Bundle bundle = intent.getExtras();
@@ -158,7 +208,7 @@ public class CostumeActivity extends ListActivity {
 			Uri imageUri = intent.getData();
 
 			String[] projection = { MediaStore.MediaColumns.DATA };
-			Cursor cursor = managedQuery(imageUri, projection, null, null, null);
+			Cursor cursor = parent.managedQuery(imageUri, projection, null, null, null);
 			if (cursor == null) {
 				originalImagePath = imageUri.getPath();
 			} else {
@@ -167,13 +217,13 @@ public class CostumeActivity extends ListActivity {
 				try {
 					originalImagePath = cursor.getString(columnIndex);
 				} catch (CursorIndexOutOfBoundsException e) {
-					Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+					Utils.displayErrorMessage(parent, this.getString(R.string.error_load_image));
 					return;
 				}
 			}
 
 			if (cursor == null && originalImagePath.equals("")) {
-				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+				Utils.displayErrorMessage(parent, this.getString(R.string.error_load_image));
 				return;
 			}
 
@@ -182,7 +232,7 @@ public class CostumeActivity extends ListActivity {
 
 		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+			Utils.displayErrorMessage(parent, this.getString(R.string.error_load_image));
 			return;
 		}
 
@@ -207,7 +257,7 @@ public class CostumeActivity extends ListActivity {
 			String imageFileName = imageFile.getName();
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
-			Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+			Utils.displayErrorMessage(parent, this.getString(R.string.error_load_image));
 		}
 	}
 
@@ -217,11 +267,11 @@ public class CostumeActivity extends ListActivity {
 
 		int[] imageDimensions = ImageEditing.getImageDimensions(pathOfPaintroidImage);
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+			Utils.displayErrorMessage(getActivity(), this.getString(R.string.error_load_image));
 			return;
 		}
 
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getActivity();
 		CostumeData selectedCostumeData = scriptTabActivity.selectedCostumeData;
 		String actualChecksum = Utils.md5Checksum(new File(pathOfPaintroidImage));
 
@@ -244,27 +294,9 @@ public class CostumeActivity extends ListActivity {
 		}
 	}
 
-	private View.OnClickListener createAddCostumeClickListener() {
-		return new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-
-				Bundle bundleForPaintroid = new Bundle();
-				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
-				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
-						CostumeActivity.this.getString(R.string.default_costume_name));
-
-				intent.setType("image/*");
-				intent.putExtras(bundleForPaintroid);
-				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
-				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
-			}
-		};
-	}
-
 	public void handleDeleteCostumeButton(View v) {
 		int position = (Integer) v.getTag();
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getActivity();
 		scriptTabActivity.selectedCostumeData = costumeDataList.get(position);
 		scriptTabActivity.selectedPosition = position;
 		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_DELETE_COSTUME);
@@ -272,7 +304,7 @@ public class CostumeActivity extends ListActivity {
 
 	public void handleRenameCostumeButton(View v) {
 		int position = (Integer) v.getTag();
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getActivity();
 		scriptTabActivity.selectedCostumeData = costumeDataList.get(position);
 		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
 	}
@@ -287,7 +319,7 @@ public class CostumeActivity extends ListActivity {
 			String imageFileName = costumeData.getCostumeFileName();
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
-			Utils.displayErrorMessage(this, getString(R.string.error_load_image));
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 			e.printStackTrace();
 		}
 	}
@@ -297,11 +329,11 @@ public class CostumeActivity extends ListActivity {
 		intent.setComponent(new ComponentName("at.tugraz.ist.paintroid", "at.tugraz.ist.paintroid.MainActivity"));
 
 		// Confirm if paintroid is installed else start dialog --------------------------
-		List<ResolveInfo> packageList = getPackageManager().queryIntentActivities(intent,
+		List<ResolveInfo> packageList = getActivity().getPackageManager().queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 
 		if (packageList.size() <= 0) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setMessage(getString(R.string.paintroid_not_installed)).setCancelable(false)
 					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
@@ -321,7 +353,7 @@ public class CostumeActivity extends ListActivity {
 		//-------------------------------------------------------------------------------
 
 		int position = (Integer) v.getTag();
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getActivity();
 		scriptTabActivity.selectedCostumeData = costumeDataList.get(position);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -332,5 +364,17 @@ public class CostumeActivity extends ListActivity {
 		intent.putExtras(bundleForPaintroid);
 		intent.addCategory("android.intent.category.LAUNCHER");
 		startActivityForResult(intent, REQUEST_PAINTROID_EDIT_IMAGE);
+	}
+	
+	private class CostumeDeletedReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_DELETED)) {
+				if (adapter != null) {
+					adapter.notifyDataSetChanged();
+				}
+			}
+		}
 	}
 }
