@@ -18,13 +18,13 @@
  */
 package at.tugraz.ist.catroid.xml;
 
-public enum OtherTags {
+public enum HeaderStarterAndEndTags {
 
 	CONTENTPROJECT("<Content.Project>"), SPRITELIST("<spriteList>");
 
 	private String XMLTagString;
 
-	OtherTags(String xmlTag) {
+	HeaderStarterAndEndTags(String xmlTag) {
 		setOtherXMLTag(xmlTag);
 	}
 

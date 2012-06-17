@@ -31,12 +31,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 
-public class SimpleParser extends DefaultHandler {
+public class HeaderTagsParser extends DefaultHandler {
 
 	private List<String> parsedStrings;
 	private String tempVal;
 	HeaderTags[] tagIndexes = HeaderTags.values();
-	public Boolean newheaderFound = false;
 
 	public List<String> parse(InputStream xmlFileStream) {
 		return saxParser(xmlFileStream);
@@ -67,8 +66,7 @@ public class SimpleParser extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String tagName, org.xml.sax.Attributes attributes)
 			throws SAXException {
-		if (OtherTags.SPRITELIST.getOtherXMLTagString().contains(tagName)) {
-			newheaderFound = false;
+		if (HeaderStarterAndEndTags.SPRITELIST.getOtherXMLTagString().contains(tagName)) {
 			throw new SAXException("Header parsing done!");
 		}
 	}
@@ -102,9 +100,7 @@ public class SimpleParser extends DefaultHandler {
 		//		//	}
 
 		parsedStrings.add(tempVal);
-		if (parsedStrings.size() > 7) {
-			newheaderFound = true;
-		}
+
 	}
 
 	public String getvalueof(HeaderTags tag, InputStream XMLFile) {

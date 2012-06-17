@@ -26,12 +26,12 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import at.tugraz.ist.catroid.xml.HeaderTags;
-import at.tugraz.ist.catroid.xml.SimpleParser;
+import at.tugraz.ist.catroid.xml.HeaderTagsParser;
 
 public class SimpleXMLParserTest extends TestCase {
 
 	public void testParseHeader() {
-		SimpleParser parser = new SimpleParser();
+		HeaderTagsParser parser = new HeaderTagsParser();
 		File testStandardXML = new File("res/catroidXMLsToValidate/standardProjekt.xml");
 		File testComplexXML = new File("res/catroidXMLsToValidate/complexProject.xml");
 
@@ -65,7 +65,7 @@ public class SimpleXMLParserTest extends TestCase {
 	}
 
 	public void testFindingElement() {
-		SimpleParser parser = new SimpleParser();
+		HeaderTagsParser parser = new HeaderTagsParser();
 		File testStandardXML = new File("res/catroidXMLsToValidate/standardProjekt.xml");
 		InputStream fileStream = null;
 		try {
