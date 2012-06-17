@@ -26,7 +26,7 @@ public class ObjectCreator {
 
 	public ProjectProxy setterSet(InputStream XMLFile) {
 
-		SimpleParser parser = new SimpleParser();
+		HeaderTagsParser parser = new HeaderTagsParser();
 		List<String> headerVlaues = parser.parse(XMLFile);
 		ProjectProxy newProject = new ProjectProxy();
 
@@ -43,7 +43,7 @@ public class ObjectCreator {
 	}
 
 	public ProjectProxy reflectionSet(InputStream XMLFile) {
-		SimpleParser parser = new SimpleParser();
+		HeaderTagsParser parser = new HeaderTagsParser();
 		List<String> headerVlaues = parser.parse(XMLFile);
 		Class projectClass;
 		ProjectProxy project = null;
@@ -60,7 +60,7 @@ public class ObjectCreator {
 					for (int j = 0; j < setterIndexes.length; j++) {
 						if (methodName.equalsIgnoreCase(setterIndexes[j].getsetterName())) {
 							Class params[] = methodList[i].getParameterTypes();
-							Method setterMehod = projectClass.getMethod(methodName, params);
+							Method setterMethod = projectClass.getMethod(methodName, params);
 							Object arg = null;
 
 							if (params[0].getCanonicalName().equals("int")) {
@@ -68,7 +68,7 @@ public class ObjectCreator {
 							} else if (params[0].getCanonicalName().equals("java.lang.String")) {
 								arg = new String(headerVlaues.get(j));
 							}
-							setterMehod.invoke(project, arg);
+							setterMethod.invoke(project, arg);
 							j = setterIndexes.length;
 						}
 					}

@@ -25,7 +25,7 @@ import java.util.List;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.xml.HeaderTags;
-import at.tugraz.ist.catroid.xml.SimpleParser;
+import at.tugraz.ist.catroid.xml.HeaderTagsParser;
 
 public class SimpleXMLParserTest extends InstrumentationTestCase {
 
@@ -35,7 +35,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 	}
 
 	public void testParseHeader() {
-		SimpleParser parser = new SimpleParser();
+		HeaderTagsParser parser = new HeaderTagsParser();
 		NativeAppActivity.setContext(getInstrumentation().getContext());
 		InputStream xmlFileStream = null;
 
@@ -67,7 +67,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 
 			e.printStackTrace();
 		}
-		SimpleParser parser = new SimpleParser();
+		HeaderTagsParser parser = new HeaderTagsParser();
 
 		String value = parser.getvalueof(HeaderTags.ANDROIDVERSION, xmlFileStream);
 		assertEquals("The returned value does not match", "10", value);
@@ -83,10 +83,10 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 
 			e.printStackTrace();
 		}
-		SimpleParser parser = new SimpleParser();
+		HeaderTagsParser parser = new HeaderTagsParser();
 
 		List<String> values = parser.parse(xmlFileStream);
-		boolean testBool = parser.newheaderFound;
+
 		assertEquals("the full headers not added. still have" + values.size() + "values", values.size(), 8);
 		//assertEquals("the new header not found", true, testBool);
 		assertEquals("androidVersion tag not parsed", values.get(0), "10");
