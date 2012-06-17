@@ -22,45 +22,58 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter.BrickInteractionListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ScriptActivity extends Activity implements OnCancelListener {
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+
+public class ScriptActivity extends SherlockFragment implements BrickInteractionListener {
+	
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
 	private boolean addNewScript;
+	
+	private NewBrickAddedReceiver brickAddedReceiver;
+	
 	private static final int DIALOG_ADD_BRICK = 2;
-
+	
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		if (sprite == null) {
 			return;
 		}
-		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
-		adapter = new BrickAdapter(this, sprite, listView);
+		
+		adapter = new BrickAdapter(getActivity(), sprite, listView);
+		adapter.setBrickInteractionListener(this);
 		if (adapter.getScriptCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
 			adapter.setCurrentScriptPosition(0);
 		}
 
-		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
@@ -70,64 +83,79 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_script);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.activity_script, null);
+		
+		listView = (DragAndDropListView) rootView.findViewById(R.id.brick_list_view);
+		listView.setTrashView((ImageView) rootView.findViewById(R.id.trash));
+		setHasOptionsMenu(true);
+		
+		return rootView;
 	}
-
+	
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
+		
+		if (brickAddedReceiver != null) {
+			getActivity().unregisterReceiver(brickAddedReceiver);
+		}
 	}
 
 	@Override
-	protected void onStart() {
+	public void onStart() {
 		super.onStart();
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		if (sprite == null) {
 			return;
 		}
+		
 		initListeners();
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
+		
+		if (!Utils.checkForSdCard(getActivity())) {
 			return;
 		}
 
-		initListeners();
-
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
-		if (scriptTabActivity != null && scriptTabActivity.activityHelper != null) {
-			//set new functionality for actionbar add button:
-			scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_button,
-					createAddBrickClickListener());
-			//set new icon for actionbar plus button:
-			scriptTabActivity.activityHelper.changeButtonIcon(R.id.btn_action_add_button, R.drawable.ic_plus_black);
+		if (brickAddedReceiver == null) {
+			brickAddedReceiver = new NewBrickAddedReceiver();
 		}
+
+		IntentFilter filter = new IntentFilter(ScriptTabActivity.ACTION_BRICKS_LIST_CHANGED);
+		getActivity().registerReceiver(brickAddedReceiver, filter);
+
+		initListeners();
 	}
 
-	private View.OnClickListener createAddBrickClickListener() {
-		return new View.OnClickListener() {
-			public void onClick(View v) {
-				getParent().showDialog(DIALOG_ADD_BRICK);
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		final MenuItem addItem = menu.findItem(R.id.menu_add);
+		addItem.setIcon(R.drawable.ic_plus_black);
+		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				getActivity().showDialog(DIALOG_ADD_BRICK);
+				return true;
 			}
-		};
+		});
 	}
-
+	
 	public void setAddNewScript() {
 		addNewScript = true;
 	}
 
 	public void updateAdapterAfterAddNewBrick(DialogInterface dialog) {
-
 		if (addNewScript) {
 			addNewScript = false;
 		} else {
@@ -139,10 +167,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 			adapter.setInsertedBrickpos(pos);
 			listView.setInsertedBrick(pos);
 		}
-		adapter.notifyDataSetChanged();
-	}
-
-	public void onCancel(DialogInterface arg0) {
+		
 		adapter.notifyDataSetChanged();
 	}
 
@@ -158,14 +183,14 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 			if (adapter.getItem(listView.getTouchedListPosition()) instanceof Script) {
 				scriptToEdit = (Script) adapter.getItem(listView.getTouchedListPosition());
-				MenuInflater inflater = getMenuInflater();
+				MenuInflater inflater = getActivity().getMenuInflater();
 				inflater.inflate(R.menu.script_menu, menu);
 			}
 		}
 	}
-
+	
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+	public boolean onContextItemSelected(android.view.MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
 				sprite.removeScript(scriptToEdit);
@@ -183,5 +208,26 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		}
 		return true;
 	}
+	
+	@Override
+	public void onInsertedBrickChanged(int position) {
+		listView.setInsertedBrick(position);
+	}
 
+	@Override
+	public void onBrickLongClick(View brickView) {
+		listView.onLongClick(brickView);
+	}
+	
+	private class NewBrickAddedReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICKS_LIST_CHANGED)) {
+				if (adapter != null) {
+					adapter.notifyDataSetChanged();
+				}
+			}
+		}
+	}
 }

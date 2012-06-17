@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -34,8 +35,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.SoundActivity;
-import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 
 public class DeleteSoundDialog {
 
@@ -68,10 +67,8 @@ public class DeleteSoundDialog {
 
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 		soundInfoList.remove(position);
-		((SoundAdapter) ((SoundActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
-				.notifyDataSetChanged();
-
+		scriptTabActivity.sendBroadcast(new Intent(ScriptTabActivity.ACTION_SOUND_DELETED));
+		
 		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_DELETE_SOUND);
 	}
-
 }

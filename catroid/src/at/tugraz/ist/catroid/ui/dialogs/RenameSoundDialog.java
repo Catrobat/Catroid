@@ -39,8 +39,6 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.SoundActivity;
-import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSoundDialog {
@@ -85,24 +83,26 @@ public class RenameSoundDialog {
 		return renameDialog;
 	}
 
-	public void handleOkButton() {
+	public String handleOkButton() {
 		String newSoundTitle = (input.getText().toString()).trim();
 		String oldSoundTitle = scriptTabActivity.selectedSoundInfo.getTitle();
 
 		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
 			scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
-			return;
+			return null;
 		}
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			newSoundTitle = Utils.getUniqueSoundName(newSoundTitle);
-			scriptTabActivity.selectedSoundInfo.setTitle(newSoundTitle);
-			((SoundAdapter) ((SoundActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
-					.notifyDataSetChanged(); //TODO: this is madness! No, this is SPARTA!!!11
+//			scriptTabActivity.selectedSoundInfo.setTitle(newSoundTitle);
+//			((SoundAdapter) ((SoundActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
+//					.notifyDataSetChanged(); //TODO: this is madness! No, this is SPARTA!!!11
 		} else {
 			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.soundname_invalid));
-			return;
+			return null;
 		}
+		
 		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
+		return newSoundTitle;
 	}
 
 	private void initKeyListener(AlertDialog.Builder builder) {

@@ -27,8 +27,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.ListActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -36,77 +38,103 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class SoundActivity extends ListActivity {
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+
+public class SoundActivity extends SherlockListFragment {
+	
 	private static final String TAG = SoundActivity.class.getSimpleName();
 
 	public MediaPlayer mediaPlayer;
+	private SoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
+	
+	private SoundDeletedReceiver soundDeletedReceiver;
 
 	private final int REQUEST_SELECT_MUSIC = 0;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_sound);
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-
-		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
-
-		mediaPlayer = new MediaPlayer();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.activity_sound, null);
+		return rootView;
 	}
 
 	@Override
-	protected void onResume() {
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
+		setListAdapter(adapter);
+
+		mediaPlayer = new MediaPlayer();
+		setHasOptionsMenu(true);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		final MenuItem addItem = menu.findItem(R.id.menu_add);
+		addItem.setIcon(R.drawable.ic_music);
+		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setType("audio/*");
+				startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+						REQUEST_SELECT_MUSIC);
+
+				return true;
+			}
+		});
+	}
+	
+	@Override
+	public void onResume() {
 		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
+		
+		if (!Utils.checkForSdCard(getActivity())) {
 			return;
 		}
 
 		stopSound(null);
 		reloadAdapter();
-
-		//change actionbar:
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
-		ActivityHelper activityHelper = scriptTabActivity.activityHelper;
-		if (activityHelper != null) {
-			//set new functionality for actionbar add button:
-			activityHelper.changeClickListener(R.id.btn_action_add_button, createAddSoundClickListener());
-			//set new icon for actionbar plus button:
-			activityHelper.changeButtonIcon(R.id.btn_action_add_button, R.drawable.ic_music);
+		
+		if (soundDeletedReceiver == null) {
+			soundDeletedReceiver = new SoundDeletedReceiver();
 		}
-
-	}
-
-	private View.OnClickListener createAddSoundClickListener() {
-		return new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
-						REQUEST_SELECT_MUSIC);
-			}
-		};
+		
+		IntentFilter intentFilter = new IntentFilter(ScriptTabActivity.ACTION_SOUND_DELETED);
+		getActivity().registerReceiver(soundDeletedReceiver, intentFilter);
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
+		
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
 		stopSound(null);
+		
+		if (soundDeletedReceiver != null) {
+			getActivity().unregisterReceiver(soundDeletedReceiver);
+		}
 	}
 
 	private void updateSoundAdapter(String title, String fileName) {
@@ -167,7 +195,7 @@ public class SoundActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC) {
@@ -180,7 +208,7 @@ public class SoundActivity extends ListActivity {
 				{
 					Uri audioUri = data.getData();
 					String[] proj = { MediaStore.Audio.Media.DATA };
-					Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
+					Cursor actualSoundCursor = getActivity().managedQuery(audioUri, proj, null, null, null);
 
 					if (actualSoundCursor != null) {
 						int actualSoundColumnIndex = actualSoundCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
@@ -203,21 +231,21 @@ public class SoundActivity extends ListActivity {
 				updateSoundAdapter(soundTitle, soundFileName);
 			} catch (Exception e) {
 				e.printStackTrace();
-				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
+				Utils.displayErrorMessage(getActivity(), getActivity().getString(R.string.error_load_sound));
 			}
 		}
 	}
 
 	private void reloadAdapter() {
 		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
+		setListAdapter(new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList));
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
 	// Does not rename the actual file, only the title in the SoundInfo
 	public void handleSoundRenameButton(View v) {
 		int position = (Integer) v.getTag();
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getActivity();
 		scriptTabActivity.selectedSoundInfo = soundInfoList.get(position);
 		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
 	}
@@ -249,11 +277,22 @@ public class SoundActivity extends ListActivity {
 	public void handleDeleteSoundButton(View v) {
 		final int position = (Integer) v.getTag();
 		stopSound(null);
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getActivity();
 		scriptTabActivity.selectedSoundInfo = soundInfoList.get(position);
 		scriptTabActivity.selectedPosition = position;
 		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_DELETE_SOUND);
 
 	}
+	
+	private class SoundDeletedReceiver extends BroadcastReceiver {
 
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_DELETED)) {
+				if (adapter != null) {
+					adapter.notifyDataSetChanged();
+				}
+			}
+		}
+	}
 }
