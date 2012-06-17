@@ -87,7 +87,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 
 		List<String> values = parser.parse(xmlFileStream);
 		boolean testBool = parser.newheaderFound;
-		assertEquals("the full headers not added", values.size(), 8);
+		assertEquals("the full headers not added. still have" + values.size() + "values", values.size(), 8);
 		//assertEquals("the new header not found", true, testBool);
 		assertEquals("androidVersion tag not parsed", values.get(0), "10");
 		assertEquals("catroidVersionCode tag not parsed", values.get(1), "8");

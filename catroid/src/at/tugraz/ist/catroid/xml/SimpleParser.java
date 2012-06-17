@@ -26,17 +26,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 
-/**
- * @author Sam
- *         This XML parser have methods to read from the header part of a projectCode.xml
- *         file and instantiate a project object
- */
 public class SimpleParser extends DefaultHandler {
 
 	private List<String> parsedStrings;
@@ -71,10 +65,10 @@ public class SimpleParser extends DefaultHandler {
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String tagName, Attributes attributes) throws SAXException {
+	public void startElement(String uri, String localName, String tagName, org.xml.sax.Attributes attributes)
+			throws SAXException {
 		if (OtherTags.SPRITELIST.getOtherXMLTagString().contains(tagName)) {
 			newheaderFound = false;
-
 			throw new SAXException("Header parsing done!");
 		}
 	}
