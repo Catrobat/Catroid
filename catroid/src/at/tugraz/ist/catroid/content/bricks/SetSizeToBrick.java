@@ -115,7 +115,7 @@ public class SetSizeToBrick implements Brick {
 
 				formulaEditor = new FormulaEditorDialog(context, instance);
 				formulaEditor.setOnDismissListener(new OnDismissListener() {
-					public void onDismiss(DialogInterface whatever) {
+					public void onDismiss(DialogInterface editor) {
 						size = formulaEditor.getReturnValue();
 						formulaEditor.dismiss();
 					}

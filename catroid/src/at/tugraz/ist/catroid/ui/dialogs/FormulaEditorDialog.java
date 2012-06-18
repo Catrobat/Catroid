@@ -56,7 +56,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		setContentView(R.layout.dialog_formula_editor);
 		LinearLayout brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
-		brickSpace.addView(currentBrick.getEditorView(context));
+		brickSpace.addView(currentBrick.getView(context, 0, null));
 
 		setTitle(R.string.dialog_formula_editor_title);
 		setCanceledOnTouchOutside(true);
