@@ -19,8 +19,10 @@
 package at.tugraz.ist.catroid.xml;
 
 import java.io.InputStream;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.List;
+
+import at.tugraz.ist.catroid.content.Project;
 
 public class ObjectCreator {
 
@@ -42,38 +44,58 @@ public class ObjectCreator {
 
 	}
 
-	public ProjectProxy reflectionSet(InputStream XMLFile) {
+	public Project reflectionSet(InputStream XMLFile) {
 		HeaderTagsParser parser = new HeaderTagsParser();
 		List<String> headerVlaues = parser.parse(XMLFile);
 		Class projectClass;
-		ProjectProxy project = null;
+		Project project = null;
 
-		SetterNames[] setterIndexes = SetterNames.values();
+		HeaderTags[] headerTag = HeaderTags.values();
 		try {
+			project = new Project();
 			//projectClass = Class.forName("at.tugraz.ist.catroid.content.Project");
-			projectClass = Class.forName("at.tugraz.ist.catroid.xml.ProjectProxy");
-			project = new ProjectProxy();
-			Method methodList[] = projectClass.getDeclaredMethods();
-			for (int i = 0; i < methodList.length; i++) {
-				String methodName = methodList[i].getName();
-				if (methodName.startsWith("set")) {
-					for (int j = 0; j < setterIndexes.length; j++) {
-						if (methodName.equalsIgnoreCase(setterIndexes[j].getsetterName())) {
-							Class params[] = methodList[i].getParameterTypes();
-							Method setterMethod = projectClass.getMethod(methodName, params);
-							Object arg = null;
-
-							if (params[0].getCanonicalName().equals("int")) {
-								arg = new Integer(Integer.valueOf(headerVlaues.get(j)));
-							} else if (params[0].getCanonicalName().equals("java.lang.String")) {
-								arg = new String(headerVlaues.get(j));
-							}
-							setterMethod.invoke(project, arg);
-							j = setterIndexes.length;
-						}
-					}
+			//projectClass = Class.forName("at.tugraz.ist.catroid.xml.ProjectProxy");
+			projectClass = project.getClass();
+			for (int i = 0; i < 5; i++) {
+				Field projectNameField = projectClass.getDeclaredField(headerTag[i].getXmlTagString());
+				projectNameField.setAccessible(true);
+				Object arg = null;
+				String canName = projectNameField.getType().getCanonicalName();
+				if (projectNameField.getType().getCanonicalName().equals("int")) {
+					arg = new Integer(Integer.valueOf(headerVlaues.get(i)));
+				} else if (projectNameField.getType().getCanonicalName().equals("java.lang.String")) {
+					arg = new String(headerVlaues.get(i));
 				}
+
+				projectNameField.set(project, arg);
 			}
+			Field projectNameField = projectClass.getDeclaredField("virtualScreenWidth");
+			projectNameField.setAccessible(true);
+			projectNameField.set(project, Integer.valueOf(headerVlaues.get(5)));
+			projectNameField = projectClass.getDeclaredField("virtualScreenHeight");
+			projectNameField.setAccessible(true);
+			projectNameField.set(project, Integer.valueOf(headerVlaues.get(6)));
+			//			Method methodList[] = projectClass.getDeclaredMethods();
+			//			for (int i = 0; i < methodList.length; i++) {
+			//				String methodName = methodList[i].getName();
+			//				if (methodName.startsWith("set")) {
+			//					for (int j = 0; j < setterIndexes.length; j++) {
+			//						if (methodName.equalsIgnoreCase(setterIndexes[j].getsetterName())) {
+			//							Class params[] = methodList[i].getParameterTypes();
+			//							Method setterMethod = projectClass.getMethod(methodName, params);
+			//							Object arg = null;
+			//
+			//							if (params[0].getCanonicalName().equals("int")) {
+			//								arg = new Integer(Integer.valueOf(headerVlaues.get(j)));
+			//							} else if (params[0].getCanonicalName().equals("java.lang.String")) {
+			//								arg = new String(headerVlaues.get(j));
+			//							}
+			//							setterMethod.invoke(project, arg);
+			//							j = setterIndexes.length;
+			//						}
+			//					}
+			//				}
+			//			}
 
 		} catch (Throwable e) {
 			System.err.println(e);
@@ -82,5 +104,4 @@ public class ObjectCreator {
 
 		return project;
 	}
-
 }
