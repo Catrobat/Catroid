@@ -19,8 +19,8 @@ package at.tugraz.ist.catroid.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -33,16 +33,16 @@ import android.util.Log;
 
 public class HeaderTagsParser extends DefaultHandler {
 
-	private List<String> parsedStrings;
+	private Map<String, String> parsedStrings;
 	private String tempVal;
 	HeaderTags[] tagIndexes = HeaderTags.values();
 
-	public List<String> parse(InputStream xmlFileStream) {
+	public Map<String, String> parse(InputStream xmlFileStream) {
 		return saxParser(xmlFileStream);
 	}
 
-	private List<String> saxParser(InputStream projectCodeXMLStream) {
-		parsedStrings = new ArrayList<String>();
+	private Map<String, String> saxParser(InputStream projectCodeXMLStream) {
+		parsedStrings = new HashMap<String, String>();
 		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
 		try {
@@ -79,33 +79,14 @@ public class HeaderTagsParser extends DefaultHandler {
 
 	@Override
 	public void endElement(String uri, String localName, String tagName) throws SAXException {
-		//		if (OtherTags.CONTENTPROJECT.getOtherXMLTagString().contains(tagName)) {
-		//			headerStarted = true;
-		//		}
-		//		if (headerStarted) {
-		//		if (!newheaderFound) {
-		//			for (int i = 0; i < tagIndexes.length; i++) {
-		//				String currentHeaderTag = tagIndexes[i].getXmlTagString();
-		//				if (tagName.equalsIgnoreCase(currentHeaderTag)) {
-		//					parsedStrings.add(tempVal);
-		//					if (i == tagIndexes.length - 1) {
-		//						newheaderFound = true;
-		//					}
-		//					break;
-		//				}
-		//			}
-		//		} else {
-		//			parsedStrings.add(tempVal);
-		//		}
-		//		//	}
 
-		parsedStrings.add(tempVal);
+		parsedStrings.put(tagName, tempVal);
 
 	}
 
 	public String getvalueof(HeaderTags tag, InputStream XMLFile) {
-		List<String> parsedValues = this.parse(XMLFile);
-		return parsedValues.get(tag.ordinal());
+		Map<String, String> parsedValues = this.parse(XMLFile);
+		return parsedValues.get(tag.getXmlTagString());
 
 	}
 
