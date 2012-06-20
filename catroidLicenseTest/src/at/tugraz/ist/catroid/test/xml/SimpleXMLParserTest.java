@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 import at.tugraz.ist.catroid.xml.HeaderTags;
@@ -44,23 +44,24 @@ public class SimpleXMLParserTest extends TestCase {
 
 			e.printStackTrace();
 		}
-		List<String> testStrings = parser.parse(standardFileStream);
-		assertEquals("androidVersion tag not parsed", testStrings.get(0), "10");
-		assertEquals("catroidVersionCode tag not parsed", testStrings.get(1), "10");
-		assertEquals("catroidVersionName tag not parsed", testStrings.get(2), "0.5.6a");
-		assertEquals("deviceName tag not parsed", testStrings.get(3), "GT-I9100");
-		assertEquals("ProjectName tag not parsed", testStrings.get(4), "standardProjekt");
-		assertEquals("screenHeight tag not parsed", testStrings.get(5), "800");
-		assertEquals("screenWidth tag not parsed", testStrings.get(6), "480");
+
+		Map<String, String> testStrings = parser.parse(standardFileStream);
+		assertEquals("androidVersion tag not parsed", testStrings.get("androidVersion"), "10");
+		assertEquals("catroidVersionCode tag not parsed", testStrings.get("catroidVersionCode"), "10");
+		assertEquals("catroidVersionName tag not parsed", testStrings.get("catroidVersionName"), "0.5.6a");
+		assertEquals("deviceName tag not parsed", testStrings.get("deviceName"), "GT-I9100");
+		assertEquals("ProjectName tag not parsed", testStrings.get("projectName"), "standardProjekt");
+		assertEquals("screenHeight tag not parsed", testStrings.get("screenHeight"), "800");
+		assertEquals("screenWidth tag not parsed", testStrings.get("screenWidth"), "480");
 
 		testStrings = parser.parse(complexFileStream);
-		assertEquals("androidVersion tag not parsed", testStrings.get(0), "10");
-		assertEquals("catroidVersionCode tag not parsed", testStrings.get(1), "308");
-		assertEquals("catroidVersionName tag not parsed", testStrings.get(2), "0.5.308");
-		assertEquals("deviceName tag not parsed", testStrings.get(3), "HTC Sensation Z710e");
-		assertEquals("ProjectName tag not parsed", testStrings.get(4), "fruit catcher 2");
-		assertEquals("screenHeight tag not parsed", testStrings.get(5), "800");
-		assertEquals("screenWidth tag not parsed", testStrings.get(6), "480");
+		assertEquals("androidVersion tag not parsed", testStrings.get("androidVersion"), "10");
+		assertEquals("catroidVersionCode tag not parsed", testStrings.get("catroidVersionCode"), "308");
+		assertEquals("catroidVersionName tag not parsed", testStrings.get("catroidVersionName"), "0.5.308");
+		assertEquals("deviceName tag not parsed", testStrings.get("deviceName"), "HTC Sensation Z710e");
+		assertEquals("ProjectName tag not parsed", testStrings.get("projectName"), "fruit catcher 2");
+		assertEquals("screenHeight tag not parsed", testStrings.get("screenHeight"), "800");
+		assertEquals("screenWidth tag not parsed", testStrings.get("screenWidth"), "480");
 
 	}
 

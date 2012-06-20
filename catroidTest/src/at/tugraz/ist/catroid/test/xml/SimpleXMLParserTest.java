@@ -20,7 +20,7 @@ package at.tugraz.ist.catroid.test.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.Map;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
@@ -46,14 +46,14 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 			e.printStackTrace();
 		}
 
-		List<String> testStrings = parser.parse(xmlFileStream);
-		assertEquals("androidVersion tag not parsed", testStrings.get(0), "10");
-		assertEquals("catroidVersionCode tag not parsed", testStrings.get(1), "8");
-		assertEquals("catroidVersionName tag not parsed", testStrings.get(2), "0.5.6a");
-		assertEquals("deviceName tag not parsed", testStrings.get(3), "HTC Desire");
-		assertEquals("ProjectName tag not parsed", testStrings.get(4), "testProject");
-		assertEquals("screenHeight tag not parsed", testStrings.get(5), "800");
-		assertEquals("screenWidth tag not parsed", testStrings.get(6), "480");
+		Map<String, String> testStrings = parser.parse(xmlFileStream);
+		assertEquals("androidVersion tag not parsed", testStrings.get("androidVersion"), "10");
+		assertEquals("catroidVersionCode tag not parsed", testStrings.get("catroidVersionCode"), "8");
+		assertEquals("catroidVersionName tag not parsed", testStrings.get("catroidVersionName"), "0.5.6a");
+		assertEquals("deviceName tag not parsed", testStrings.get("deviceName"), "HTC Desire");
+		assertEquals("ProjectName tag not parsed", testStrings.get("projectName"), "testProject");
+		assertEquals("screenHeight tag not parsed", testStrings.get("screenHeight"), "800");
+		assertEquals("screenWidth tag not parsed", testStrings.get("screenWidth"), "480");
 
 	}
 
@@ -85,17 +85,17 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 		}
 		HeaderTagsParser parser = new HeaderTagsParser();
 
-		List<String> values = parser.parse(xmlFileStream);
+		Map<String, String> values = parser.parse(xmlFileStream);
 
 		assertEquals("the full headers not added. still have" + values.size() + "values", values.size(), 8);
 		//assertEquals("the new header not found", true, testBool);
-		assertEquals("androidVersion tag not parsed", values.get(0), "10");
-		assertEquals("catroidVersionCode tag not parsed", values.get(1), "8");
-		assertEquals("catroidVersionName tag not parsed", values.get(2), "0.5.6a");
-		assertEquals("deviceName tag not parsed", values.get(3), "HTC Desire");
-		assertEquals("ProjectName tag not parsed", values.get(4), "testProject");
-		assertEquals("ProjectName tag not parsed", values.get(5), "headerValue");
-		assertEquals("screenHeight tag not parsed", values.get(6), "800");
-		assertEquals("screenWidth tag not parsed", values.get(7), "480");
+		assertEquals("androidVersion tag not parsed", values.get("androidVersion"), "10");
+		assertEquals("catroidVersionCode tag not parsed", values.get("catroidVersionCode"), "8");
+		assertEquals("catroidVersionName tag not parsed", values.get("catroidVersionName"), "0.5.6a");
+		assertEquals("deviceName tag not parsed", values.get("deviceName"), "HTC Desire");
+		assertEquals("ProjectName tag not parsed", values.get("projectName"), "testProject");
+		assertEquals("dummy tag not parsed", values.get("dummy"), "headerValue");
+		assertEquals("screenHeight tag not parsed", values.get("screenHeight"), "800");
+		assertEquals("screenWidth tag not parsed", values.get("screenWidth"), "480");
 	}
 }

@@ -26,32 +26,8 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
-import at.tugraz.ist.catroid.xml.ProjectProxy;
 
 public class ReflectionTest extends InstrumentationTestCase {
-
-	public void testFillingClassfromSetter() {
-		ObjectCreator populator = new ObjectCreator();
-		NativeAppActivity.setContext(getInstrumentation().getContext());
-		InputStream xmlFileStream = null;
-		try {
-			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-		ProjectProxy createdProject = null;
-		//for (int i = 0; i < 100; i++) {
-		createdProject = populator.setterSet(xmlFileStream);
-		//}
-		assertEquals("androidVersion tag not set", createdProject.getAndroidVersion(), 10);
-		assertEquals("catroidVersionCode tag not set", createdProject.getCatroidVersionCode(), 8);
-		assertEquals("catroidVersionName tag not set", createdProject.getCatroidVersionName(), "0.5.6a");
-		assertEquals("deviceName tag not set", createdProject.getDeviceName(), "HTC Desire");
-		assertEquals("ProjectName tag not set", createdProject.getProjectName(), "testProject");
-		assertEquals("screenHeight tag not set", createdProject.getVirtualScreenHeight(), 800);
-		assertEquals("screenWidth tag not set", createdProject.getVirtualScreenWidth(), 480);
-	}
 
 	public void testFillingClassfromReflection() {
 		NativeAppActivity.setContext(getInstrumentation().getContext());
@@ -66,16 +42,12 @@ public class ReflectionTest extends InstrumentationTestCase {
 
 		Context testContext = this.getInstrumentation().getContext();
 		Project createdProject = null;
-		//for (int i = 0; i < 100; i++) {
+
 		createdProject = populator.reflectionSet(xmlFileStream);
-		//}
-		//		assertEquals("androidVersion tag not set", createdProject.getAndroidVersion(), 10);
-		//		assertEquals("catroidVersionCode tag not set", createdProject.getCatroidVersionCode(), 8);
-		//		assertEquals("catroidVersionName tag not set", createdProject.getCatroidVersionName(), "0.5.6a");
-		//		assertEquals("deviceName tag not set", createdProject.getDeviceName(), "HTC Desire");
-		//		assertEquals("ProjectName tag not set", createdProject.getProjectName(), "testProject");
-		//		assertEquals("screenHeight tag not set", createdProject.getVirtualScreenHeight(), 800);
-		//		assertEquals("screenWidth tag not set", createdProject.getVirtualScreenWidth(), 480);
+
+		assertEquals("ProjectName tag not set", createdProject.getName(), "testProject");
+		assertEquals("screenHeight tag not set", createdProject.virtualScreenHeight, 800);
+		assertEquals("screenWidth tag not set", createdProject.virtualScreenWidth, 480);
 
 	}
 

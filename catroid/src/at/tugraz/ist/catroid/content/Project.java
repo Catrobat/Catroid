@@ -31,8 +31,7 @@ import android.os.Build;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.Utils;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import at.tugraz.ist.catroid.xml.XMLAlias;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -49,9 +48,9 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private int catroidVersionCode;
 
-	@XStreamAlias("screenWidth")
+	@XMLAlias("screenWidth")
 	public int virtualScreenWidth = 0;
-	@XStreamAlias("screenHeight")
+	@XMLAlias("screenHeight")
 	public int virtualScreenHeight = 0;
 
 	public String description;
