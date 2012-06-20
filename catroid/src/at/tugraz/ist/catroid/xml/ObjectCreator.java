@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.xml;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import at.tugraz.ist.catroid.content.Project;
@@ -38,6 +39,11 @@ public class ObjectCreator {
 			Field[] projectClassFields = Project.class.getDeclaredFields();
 
 			for (Field field : projectClassFields) {
+				boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+
+				if (isCurrentFieldTransient) {
+					continue;
+				}
 				String tagName = extractTagName(field);
 				Object value = null;
 				String canName = field.getType().getCanonicalName();
