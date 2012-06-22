@@ -37,17 +37,13 @@ public class HeaderTagsParser extends DefaultHandler {
 	private String tempVal;
 	HeaderTags[] tagIndexes = HeaderTags.values();
 
-	public Map<String, String> parse(InputStream xmlFileStream) {
-		return saxParser(xmlFileStream);
-	}
-
-	private Map<String, String> saxParser(InputStream projectCodeXMLStream) {
+	public Map<String, String> parseHeader(InputStream xmlFileStream) {
 		parsedStrings = new HashMap<String, String>();
 		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
 		try {
 			SAXParser parser = parserFactory.newSAXParser();
-			parser.parse(projectCodeXMLStream, this);
+			parser.parse(xmlFileStream, this);
 
 		} catch (ParserConfigurationException e) {
 			Log.e("SimpleParser.saxparser", "parserConfiguration exception");
@@ -85,7 +81,7 @@ public class HeaderTagsParser extends DefaultHandler {
 	}
 
 	public String getvalueof(HeaderTags tag, InputStream XMLFile) {
-		Map<String, String> parsedValues = this.parse(XMLFile);
+		Map<String, String> parsedValues = this.parseHeader(XMLFile);
 		return parsedValues.get(tag.getXmlTagString());
 
 	}

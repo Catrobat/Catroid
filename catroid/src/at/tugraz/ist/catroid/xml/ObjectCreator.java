@@ -29,7 +29,7 @@ public class ObjectCreator {
 
 	public Project reflectionSet(InputStream XMLFile) {
 		HeaderTagsParser parser = new HeaderTagsParser();
-		Map<String, String> headerValues = parser.parse(XMLFile);
+		Map<String, String> headerValues = parser.parseHeader(XMLFile);
 
 		Project project = null;
 
@@ -46,8 +46,8 @@ public class ObjectCreator {
 				}
 				String tagName = extractTagName(field);
 				Object value = null;
-				String canName = field.getType().getCanonicalName();
-				if (field.getType().getCanonicalName().equals("int")) {
+				String className = field.getType().getCanonicalName();
+				if (className.equals("int")) {
 					value = new Integer(Integer.valueOf(headerValues.get(tagName)));
 				} else if (field.getType().getCanonicalName().equals("java.lang.String")) {
 					value = headerValues.get(tagName);

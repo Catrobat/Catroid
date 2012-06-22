@@ -30,13 +30,18 @@ import at.tugraz.ist.catroid.xml.HeaderTagsParser;
 public class SimpleXMLParserTest extends InstrumentationTestCase {
 
 	@Override
+	protected void setUp() throws Exception {
+		NativeAppActivity.setContext(getInstrumentation().getContext());
+	}
+
+	@Override
 	protected void tearDown() throws Exception {
 		NativeAppActivity.setContext(null);
 	}
 
 	public void testParseHeader() {
 		HeaderTagsParser parser = new HeaderTagsParser();
-		NativeAppActivity.setContext(getInstrumentation().getContext());
+
 		InputStream xmlFileStream = null;
 
 		try {
@@ -44,28 +49,31 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 		} catch (IOException e) {
 
 			e.printStackTrace();
+			fail("Exception caught at getting filestream");
 		}
 
-		Map<String, String> testStrings = parser.parse(xmlFileStream);
-		assertEquals("androidVersion tag not parsed", testStrings.get("androidVersion"), "10");
-		assertEquals("catroidVersionCode tag not parsed", testStrings.get("catroidVersionCode"), "8");
-		assertEquals("catroidVersionName tag not parsed", testStrings.get("catroidVersionName"), "0.5.6a");
-		assertEquals("deviceName tag not parsed", testStrings.get("deviceName"), "HTC Desire");
-		assertEquals("ProjectName tag not parsed", testStrings.get("projectName"), "testProject");
-		assertEquals("screenHeight tag not parsed", testStrings.get("screenHeight"), "800");
-		assertEquals("screenWidth tag not parsed", testStrings.get("screenWidth"), "480");
+		Map<String, String> values = parser.parseHeader(xmlFileStream);
+		assertEquals("androidVersion tag not parsed", values.get(HeaderTags.ANDROIDVERSION.getXmlTagString()), "10");
+		assertEquals("catroidVersionCode tag not parsed", values.get(HeaderTags.CATROIDVERSIONCODE.getXmlTagString()),
+				"8");
+		assertEquals("catroidVersionName tag not parsed", values.get(HeaderTags.CATROIDVERSIONNAME.getXmlTagString()),
+				"0.5.6a");
+		assertEquals("deviceName tag not parsed", values.get(HeaderTags.DEVICENAME.getXmlTagString()), "HTC Desire");
+		assertEquals("ProjectName tag not parsed", values.get(HeaderTags.PROJECTNAME.getXmlTagString()), "testProject");
+		assertEquals("screenHeight tag not parsed", values.get(HeaderTags.SCREENHEIGHT.getXmlTagString()), "800");
+		assertEquals("screenWidth tag not parsed", values.get(HeaderTags.SCREENWIDTH.getXmlTagString()), "480");
 
 	}
 
 	public void testFindingElement() {
 
-		NativeAppActivity.setContext(getInstrumentation().getContext());
 		InputStream xmlFileStream = null;
 		try {
 			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
+			fail("Exception caught at getting filestream");
 		}
 		HeaderTagsParser parser = new HeaderTagsParser();
 
@@ -75,27 +83,28 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 	}
 
 	public void testParserNewHeaderTag() {
-		NativeAppActivity.setContext(getInstrumentation().getContext());
 		InputStream xmlFileStream = null;
 		try {
 			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project_new_header.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
+			fail("Exception caught at getting filestream");
 		}
 		HeaderTagsParser parser = new HeaderTagsParser();
 
-		Map<String, String> values = parser.parse(xmlFileStream);
+		Map<String, String> values = parser.parseHeader(xmlFileStream);
 
 		assertEquals("the full headers not added. still have" + values.size() + "values", values.size(), 8);
-		//assertEquals("the new header not found", true, testBool);
-		assertEquals("androidVersion tag not parsed", values.get("androidVersion"), "10");
-		assertEquals("catroidVersionCode tag not parsed", values.get("catroidVersionCode"), "8");
-		assertEquals("catroidVersionName tag not parsed", values.get("catroidVersionName"), "0.5.6a");
-		assertEquals("deviceName tag not parsed", values.get("deviceName"), "HTC Desire");
-		assertEquals("ProjectName tag not parsed", values.get("projectName"), "testProject");
+		assertEquals("androidVersion tag not parsed", values.get(HeaderTags.ANDROIDVERSION.getXmlTagString()), "10");
+		assertEquals("catroidVersionCode tag not parsed", values.get(HeaderTags.CATROIDVERSIONCODE.getXmlTagString()),
+				"8");
+		assertEquals("catroidVersionName tag not parsed", values.get(HeaderTags.CATROIDVERSIONNAME.getXmlTagString()),
+				"0.5.6a");
+		assertEquals("deviceName tag not parsed", values.get(HeaderTags.DEVICENAME.getXmlTagString()), "HTC Desire");
+		assertEquals("ProjectName tag not parsed", values.get(HeaderTags.PROJECTNAME.getXmlTagString()), "testProject");
 		assertEquals("dummy tag not parsed", values.get("dummy"), "headerValue");
-		assertEquals("screenHeight tag not parsed", values.get("screenHeight"), "800");
-		assertEquals("screenWidth tag not parsed", values.get("screenWidth"), "480");
+		assertEquals("screenHeight tag not parsed", values.get(HeaderTags.SCREENHEIGHT.getXmlTagString()), "800");
+		assertEquals("screenWidth tag not parsed", values.get(HeaderTags.SCREENWIDTH.getXmlTagString()), "480");
 	}
 }
