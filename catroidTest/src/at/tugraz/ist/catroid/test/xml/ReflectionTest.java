@@ -21,10 +21,11 @@ package at.tugraz.ist.catroid.test.xml;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.xml.HeaderTags;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class ReflectionTest extends InstrumentationTestCase {
@@ -35,16 +36,30 @@ public class ReflectionTest extends InstrumentationTestCase {
 		try {
 			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
 		} catch (IOException e) {
-
 			e.printStackTrace();
+			fail("IOexceptiona which can be FileNotFoundException");
 		}
+
 		ObjectCreator populator = new ObjectCreator();
 
-		Context testContext = this.getInstrumentation().getContext();
 		Project createdProject = null;
 
 		createdProject = populator.reflectionSet(xmlFileStream);
 
+		int androidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.ANDROIDVERSION.getXmlTagString(),
+				createdProject, false);
+		int catroidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.CATROIDVERSIONCODE.getXmlTagString(),
+				createdProject, false);
+		String catroidVersionNameResult = (String) TestUtils.getPrivateField(
+				HeaderTags.CATROIDVERSIONNAME.getXmlTagString(), createdProject, false);
+		String deviceNameresult = (String) TestUtils.getPrivateField(HeaderTags.DEVICENAME.getXmlTagString(),
+				createdProject, false);
+
+		assertEquals("the Android version is wrong", 10, androidVersionResult);
+		assertEquals("catroidversionCode wrong", 8, catroidVersionResult);
+		assertEquals("catroidVersionName wrong", "0.5.6a", catroidVersionNameResult);
+		assertEquals("DeviceName wrong", "HTC Desire", deviceNameresult);
+		assertNotNull("createdProject is null", createdProject);
 		assertEquals("ProjectName tag not set", createdProject.getName(), "testProject");
 		assertEquals("screenHeight tag not set", createdProject.virtualScreenHeight, 800);
 		assertEquals("screenWidth tag not set", createdProject.virtualScreenWidth, 480);
