@@ -27,6 +27,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.xml.HeaderTags;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
+import at.tugraz.ist.catroid.xml.ParseException;
 
 public class ReflectionTest extends InstrumentationTestCase {
 
@@ -44,7 +45,12 @@ public class ReflectionTest extends InstrumentationTestCase {
 
 		Project createdProject = null;
 
-		createdProject = populator.reflectionSet(xmlFileStream);
+		try {
+			createdProject = populator.reflectionSet(xmlFileStream);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			fail("Excption when parsing");
+		}
 
 		int androidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.ANDROIDVERSION.getXmlTagString(),
 				createdProject, false);

@@ -22,21 +22,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.xml.HeaderTags;
 import at.tugraz.ist.catroid.xml.HeaderTagsParser;
+import at.tugraz.ist.catroid.xml.ParseException;
 
 public class SimpleXMLParserTest extends InstrumentationTestCase {
 
+	Context androidContext;
+
 	@Override
 	protected void setUp() throws Exception {
-		NativeAppActivity.setContext(getInstrumentation().getContext());
+		androidContext = getInstrumentation().getContext();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		NativeAppActivity.setContext(null);
+		androidContext = null;
 	}
 
 	public void testParseHeader() {
@@ -45,14 +48,21 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 		InputStream xmlFileStream = null;
 
 		try {
-			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
+			xmlFileStream = androidContext.getAssets().open("test_project.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
 			fail("Exception caught at getting filestream");
 		}
 
-		Map<String, String> values = parser.parseHeader(xmlFileStream);
+		Map<String, String> values = null;
+		try {
+			values = parser.parseHeader(xmlFileStream);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		}
+		assertNotNull(values);
 		assertEquals("androidVersion tag not parsed", values.get(HeaderTags.ANDROIDVERSION.getXmlTagString()), "10");
 		assertEquals("catroidVersionCode tag not parsed", values.get(HeaderTags.CATROIDVERSIONCODE.getXmlTagString()),
 				"8");
@@ -69,7 +79,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 
 		InputStream xmlFileStream = null;
 		try {
-			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
+			xmlFileStream = androidContext.getAssets().open("test_project.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -77,7 +87,14 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 		}
 		HeaderTagsParser parser = new HeaderTagsParser();
 
-		String value = parser.getvalueof(HeaderTags.ANDROIDVERSION, xmlFileStream);
+		String value = null;
+		try {
+			value = parser.getvalueof(HeaderTags.ANDROIDVERSION, xmlFileStream);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			fail("Exception when parsing");
+		}
+		assertNotNull(value);
 		assertEquals("The returned value does not match", "10", value);
 
 	}
@@ -85,7 +102,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 	public void testParserNewHeaderTag() {
 		InputStream xmlFileStream = null;
 		try {
-			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project_new_header.xml");
+			xmlFileStream = androidContext.getAssets().open("test_project_new_header.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -93,7 +110,13 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 		}
 		HeaderTagsParser parser = new HeaderTagsParser();
 
-		Map<String, String> values = parser.parseHeader(xmlFileStream);
+		Map<String, String> values = null;
+		try {
+			values = parser.parseHeader(xmlFileStream);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			fail("Exception When parsing");
+		}
 
 		assertEquals("the full headers not added. still have" + values.size() + "values", values.size(), 8);
 		assertEquals("androidVersion tag not parsed", values.get(HeaderTags.ANDROIDVERSION.getXmlTagString()), "10");
