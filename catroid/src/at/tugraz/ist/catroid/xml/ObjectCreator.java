@@ -27,13 +27,13 @@ import at.tugraz.ist.catroid.content.Project;
 
 public class ObjectCreator {
 
-	public Project reflectionSet(InputStream XMLFile) {
+	public Project reflectionSet(InputStream XMLFile) throws ParseException {
 		HeaderTagsParser parser = new HeaderTagsParser();
-		Map<String, String> headerValues = parser.parseHeader(XMLFile);
 
 		Project project = null;
 
 		try {
+			Map<String, String> headerValues = parser.parseHeader(XMLFile);
 			project = Project.class.newInstance();
 
 			Field[] projectClassFields = Project.class.getDeclaredFields();
@@ -59,7 +59,7 @@ public class ObjectCreator {
 			}
 
 		} catch (Throwable e) {
-			System.err.println(e);
+			throw new ParseException("Exception when creating object", e);
 
 		}
 
