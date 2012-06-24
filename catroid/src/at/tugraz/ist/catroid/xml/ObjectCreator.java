@@ -38,23 +38,20 @@ public class ObjectCreator {
 
 			Field[] projectClassFields = Project.class.getDeclaredFields();
 
-			for (Field field : projectClassFields) {
-				boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+			for (Field fieldinProject : projectClassFields) {
+				boolean isCurrentFieldTransient = Modifier.isTransient(fieldinProject.getModifiers());
 
 				if (isCurrentFieldTransient) {
 					continue;
 				}
-				String tagName = extractTagName(field);
-				Object value = null;
-				String className = field.getType().getCanonicalName();
-				if (className.equals("int")) {
-					value = new Integer(Integer.valueOf(headerValues.get(tagName)));
-				} else if (field.getType().getCanonicalName().equals("java.lang.String")) {
-					value = headerValues.get(tagName);
-				}
-				if (value != null) {
-					field.setAccessible(true);
-					field.set(project, value);
+				String tagName = extractTagName(fieldinProject);
+
+				String valueInString = headerValues.get(tagName);
+
+				if (valueInString != null) {
+					Object finalObject = getObjectWithValue(fieldinProject, valueInString);
+					fieldinProject.setAccessible(true);
+					fieldinProject.set(project, finalObject);
 				}
 			}
 
@@ -64,6 +61,20 @@ public class ObjectCreator {
 		}
 
 		return project;
+	}
+
+	private Object getObjectWithValue(Field field, String valueInString) {
+		String fieldClassCannonicalName = field.getType().getCanonicalName();
+		if (fieldClassCannonicalName.equals("int") || fieldClassCannonicalName.equals("java.lang.Integer")) {
+			return new Integer(valueInString);
+		} else if (fieldClassCannonicalName.equals("java.lang.String")) {
+			return valueInString;
+		} else if (fieldClassCannonicalName.equals("java.lang.Double") || fieldClassCannonicalName.equals("double")) {
+			return new Double(valueInString);
+		} else if (fieldClassCannonicalName.equals("java.lang.Float") || fieldClassCannonicalName.equals("float")) {
+			return new Float(valueInString);
+		}
+		return null;
 	}
 
 	private String extractTagName(Field field) {
