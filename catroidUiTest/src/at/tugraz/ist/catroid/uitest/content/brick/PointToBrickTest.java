@@ -35,16 +35,16 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptFragment> {
 	private Solo solo;
 	private Project project;
 
 	public PointToBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptFragment.class);
 	}
 
 	@Override

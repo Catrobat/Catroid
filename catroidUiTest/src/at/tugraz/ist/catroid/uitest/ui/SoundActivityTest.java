@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.SoundActivity;
+import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -97,13 +97,13 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 	public void testDeleteSound() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(1000);
-		ListAdapter adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
+		ListAdapter adapter = ((SoundFragment) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);
-		adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
+		adapter = ((SoundFragment) solo.getCurrentActivity()).getListAdapter();
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not rigth", 2, oldCount);
 		assertEquals("the new count is not rigth - one costume should be deleted", 1, newCount);

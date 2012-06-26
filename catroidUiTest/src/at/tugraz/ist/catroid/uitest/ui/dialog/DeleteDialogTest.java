@@ -32,9 +32,9 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.SoundActivity;
+import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
+import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -136,7 +136,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertTrue("No ok button found", solo.searchButton(getActivity().getString(R.string.ok)));
 		assertTrue("No cancel button found", solo.searchButton(getActivity().getString(R.string.cancel_button)));
 
-		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
+		ListAdapter adapter = ((CostumeFragment) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
 		int newCount = adapter.getCount();
@@ -161,7 +161,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertTrue("No ok button found", solo.searchButton(getActivity().getString(R.string.ok)));
 		assertTrue("No cancel button found", solo.searchButton(getActivity().getString(R.string.cancel_button)));
 
-		ListAdapter adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
+		ListAdapter adapter = ((SoundFragment) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
 		int newCount = adapter.getCount();

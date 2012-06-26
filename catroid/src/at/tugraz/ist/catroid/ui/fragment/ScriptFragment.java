@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.ui;
+package at.tugraz.ist.catroid.ui.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter.BrickInteractionListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
@@ -49,7 +50,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class ScriptActivity extends SherlockFragment implements BrickInteractionListener {
+public class ScriptFragment extends SherlockFragment implements BrickInteractionListener {
 	
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;

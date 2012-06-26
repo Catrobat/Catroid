@@ -35,18 +35,18 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<ScriptFragment> {
 
 	private Solo solo;
 	private Project project;
 	private PointInDirectionBrick pointInDirectionBrick;
 
 	public PointInDirectionBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptFragment.class);
 	}
 
 	@Override

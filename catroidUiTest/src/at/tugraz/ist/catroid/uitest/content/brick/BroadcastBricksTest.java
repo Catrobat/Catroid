@@ -34,9 +34,9 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -69,7 +69,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	@Smoke
 	public void testBroadcastBricks() {
 
-		BrickAdapter adapter = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter();
+		BrickAdapter adapter = ((ScriptFragment) getActivity().getCurrentActivity()).getAdapter();
 
 		int childrenCount = adapter.getBrickCount(adapter.getScriptCount() - 1);
 		int groupCount = adapter.getScriptCount();
