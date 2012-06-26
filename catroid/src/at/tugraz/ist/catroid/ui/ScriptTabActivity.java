@@ -54,6 +54,9 @@ import at.tugraz.ist.catroid.ui.dialogs.DeleteCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteSoundDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
+import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
+import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -112,7 +115,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 		tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
 
 		tabsAdapter = new TabsPagerAdapter(this, tabHost, viewPager);
-		setupTab(R.drawable.ic_tab_scripts_selector, getString(R.string.scripts), ScriptActivity.class, null);
+		setupTab(R.drawable.ic_tab_scripts_selector, getString(R.string.scripts), ScriptFragment.class, null);
 		
 		int costumeIcon;
 		String costumeLabel;
@@ -126,8 +129,8 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 			costumeLabel = this.getString(R.string.costumes);
 		}
 		
-		setupTab(costumeIcon, costumeLabel, CostumeActivity.class, null);
-		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundActivity.class, null);
+		setupTab(costumeIcon, costumeLabel, CostumeFragment.class, null);
+		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundFragment.class, null);
 
 		setUpActionBar();
 		if (getLastCustomNonConfigurationInstance() != null) {
@@ -275,7 +278,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			selectedSoundInfo.setTitle(newSoundTitle);
-			SoundAdapter adapter = (SoundAdapter) ((SoundActivity) tabsAdapter.getItem(2)).getListAdapter();
+			SoundAdapter adapter = (SoundAdapter) ((SoundFragment) tabsAdapter.getItem(2)).getListAdapter();
 			adapter.notifyDataSetChanged();
 		} else {
 			Utils.displayErrorMessage(this, getString(R.string.soundname_invalid));
@@ -291,7 +294,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 			selectedCostumeData.setCostumeName(newCostumeName);
-			CostumeAdapter adapter = (CostumeAdapter) ((CostumeActivity) tabsAdapter.getItem(1)).getListAdapter();
+			CostumeAdapter adapter = (CostumeAdapter) ((CostumeFragment) tabsAdapter.getItem(1)).getListAdapter();
 			adapter.notifyDataSetChanged();
 		} else {
 			Utils.displayErrorMessage(this, getString(R.string.costumename_invalid));
@@ -320,7 +323,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 			if (!isCanceled) {
 				if (addScript) {
 					//TODO this should be refactored
-					((ScriptActivity) tabsAdapter.getItem(0)).setAddNewScript();
+					((ScriptFragment) tabsAdapter.getItem(0)).setAddNewScript();
 					addScript = false;
 				}
 

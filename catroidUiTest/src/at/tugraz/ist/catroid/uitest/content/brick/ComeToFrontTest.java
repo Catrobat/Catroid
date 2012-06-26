@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -43,12 +43,12 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptFragment> {
 	private Solo solo;
 	private Project project;
 
 	public ComeToFrontTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptFragment.class);
 	}
 
 	@Override

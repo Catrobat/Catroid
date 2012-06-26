@@ -34,19 +34,19 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<ScriptFragment> {
 	private Solo solo;
 	private Project project;
 	private MoveNStepsBrick moveNStepsBrick;
 	private double stepsToMove;
 
 	public MoveNStepsBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptFragment.class);
 	}
 
 	@Override

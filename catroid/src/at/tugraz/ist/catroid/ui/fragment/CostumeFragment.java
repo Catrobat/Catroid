@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.ui;
+package at.tugraz.ist.catroid.ui.fragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +52,7 @@ import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -61,7 +62,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class CostumeActivity extends SherlockListFragment {
+public class CostumeFragment extends SherlockListFragment {
 	
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
@@ -141,7 +142,7 @@ public class CostumeActivity extends SherlockListFragment {
 				Bundle bundleForPaintroid = new Bundle();
 				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
 				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
-						CostumeActivity.this.getString(R.string.default_costume_name));
+						CostumeFragment.this.getString(R.string.default_costume_name));
 
 				intent.setType("image/*");
 				intent.putExtras(bundleForPaintroid);

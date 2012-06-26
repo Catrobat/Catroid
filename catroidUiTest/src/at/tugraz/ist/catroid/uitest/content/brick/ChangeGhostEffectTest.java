@@ -34,8 +34,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -71,9 +71,9 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 	@Smoke
 	public void testChangeGhostEffectBrick() {
-		int childrenCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter()
+		int childrenCount = ((ScriptFragment) getActivity().getCurrentActivity()).getAdapter()
 				.getChildCountFromLastGroup();
-		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
+		int groupCount = ((ScriptFragment) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
 
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
@@ -81,7 +81,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptFragment) getActivity()
 				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist",
 				solo.getText(getActivity().getString(R.string.brick_change_ghost_effect)));

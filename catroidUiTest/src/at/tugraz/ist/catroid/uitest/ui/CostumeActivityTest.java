@@ -36,9 +36,9 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -117,7 +117,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void testDeleteCostume() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(700);
-		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
+		ListAdapter adapter = ((CostumeFragment) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(200);
@@ -195,7 +195,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
 
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
@@ -229,7 +229,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(5000);
 
 		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
@@ -263,7 +263,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(200);
 
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
@@ -288,7 +288,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(200);
 
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
@@ -310,7 +310,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
 
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
@@ -329,7 +329,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 
@@ -366,7 +366,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 		solo.sleep(500);
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
 
 		assertNotSame("Picture did not change", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
@@ -406,7 +406,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 		solo.sleep(500);
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
 
 		assertEquals("wrong number of costumedatas", 3, costumeDataList.size());
@@ -460,7 +460,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		expectedCostumeName = defaultCostumeName + "3";
@@ -485,7 +485,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		expectedCostumeName = defaultCostumeName + "4";

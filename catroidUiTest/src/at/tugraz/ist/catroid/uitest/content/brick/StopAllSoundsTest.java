@@ -34,17 +34,17 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptFragment> {
 
 	private Solo solo;
 	private Project project;
 
 	public StopAllSoundsTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptFragment.class);
 		// TODO Auto-generated constructor stub
 	}
 

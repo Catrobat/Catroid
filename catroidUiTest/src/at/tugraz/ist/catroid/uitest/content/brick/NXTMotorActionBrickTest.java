@@ -34,12 +34,12 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptFragment> {
 	private Solo solo;
 	private Project project;
 	private NXTMotorActionBrick motorBrick;
@@ -50,7 +50,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 	private static final int MIN_SPEED = -100;
 
 	public NXTMotorActionBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptFragment.class);
 	}
 
 	@Override
