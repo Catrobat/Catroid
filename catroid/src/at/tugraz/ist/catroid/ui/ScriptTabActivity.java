@@ -31,6 +31,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -345,5 +346,9 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 
 	public void setDontcreateNewBrick() {
 		dontcreateNewBrick = true;
+	}
+	
+	public Fragment getTabFragment(int position) {
+		return tabsAdapter.getItem(position);
 	}
 }
