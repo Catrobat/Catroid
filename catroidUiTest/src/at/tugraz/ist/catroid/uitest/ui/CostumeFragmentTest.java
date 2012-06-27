@@ -511,6 +511,6 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	private CostumeFragment getCostumeFragment() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		return (CostumeFragment) activity.getTabFragment(2);
+		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
 	}
 }

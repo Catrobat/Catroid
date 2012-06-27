@@ -72,6 +72,10 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
 	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
 	
+	public static final int INDEX_TAB_SRIPTS = 0;
+	public static final int INDEX_TAB_COSTUMES = 1;
+	public static final int INDEX_TAB_SOUNDS = 2;
+	
 	private ActionBar actionBar;
 	private ViewPager viewPager;
 	private TabsPagerAdapter tabsAdapter;
@@ -279,7 +283,8 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			selectedSoundInfo.setTitle(newSoundTitle);
-			SoundAdapter adapter = (SoundAdapter) ((SoundFragment) tabsAdapter.getItem(2)).getListAdapter();
+			SoundAdapter adapter = (SoundAdapter) 
+					((SoundFragment) tabsAdapter.getItem(INDEX_TAB_SOUNDS)).getListAdapter();
 			adapter.notifyDataSetChanged();
 		} else {
 			Utils.displayErrorMessage(this, getString(R.string.soundname_invalid));
@@ -295,7 +300,8 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 			selectedCostumeData.setCostumeName(newCostumeName);
-			CostumeAdapter adapter = (CostumeAdapter) ((CostumeFragment) tabsAdapter.getItem(1)).getListAdapter();
+			CostumeAdapter adapter = (CostumeAdapter) 
+					((CostumeFragment) tabsAdapter.getItem(INDEX_TAB_COSTUMES)).getListAdapter();
 			adapter.notifyDataSetChanged();
 		} else {
 			Utils.displayErrorMessage(this, getString(R.string.costumename_invalid));
@@ -324,7 +330,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 			if (!isCanceled) {
 				if (addScript) {
 					//TODO this should be refactored
-					((ScriptFragment) tabsAdapter.getItem(0)).setAddNewScript();
+					((ScriptFragment) tabsAdapter.getItem(INDEX_TAB_SRIPTS)).setAddNewScript();
 					addScript = false;
 				}
 

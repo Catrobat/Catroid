@@ -37,7 +37,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
@@ -47,7 +47,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
 
-	public SoundActivityTest() {
+	public SoundFragmentTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
@@ -97,13 +97,13 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 	public void testDeleteSound() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(1000);
-		ListAdapter adapter = ((SoundFragment) solo.getCurrentActivity()).getListAdapter();
+		ListAdapter adapter = getSoundFragment().getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);
-		adapter = ((SoundFragment) solo.getCurrentActivity()).getListAdapter();
+		adapter = getSoundFragment().getListAdapter();
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not rigth", 2, oldCount);
 		assertEquals("the new count is not rigth - one costume should be deleted", 1, newCount);
@@ -214,5 +214,10 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
 		solo.waitForDialogToClose(1000);
+	}
+
+	private SoundFragment getSoundFragment() {
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		return (SoundFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SOUNDS);
 	}
 }
