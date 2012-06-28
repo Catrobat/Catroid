@@ -23,11 +23,11 @@
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptFragment> {
+public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 
 	//	private Project project;
@@ -37,7 +37,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptFragm
 	//	private String testString2 = "";
 
 	public SpeakBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptFragment.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override

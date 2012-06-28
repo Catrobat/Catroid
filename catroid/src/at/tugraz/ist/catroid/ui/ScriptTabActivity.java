@@ -72,7 +72,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
 	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
 	
-	public static final int INDEX_TAB_SRIPTS = 0;
+	public static final int INDEX_TAB_SCRIPTS = 0;
 	public static final int INDEX_TAB_COSTUMES = 1;
 	public static final int INDEX_TAB_SOUNDS = 2;
 	
@@ -330,7 +330,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 			if (!isCanceled) {
 				if (addScript) {
 					//TODO this should be refactored
-					((ScriptFragment) tabsAdapter.getItem(INDEX_TAB_SRIPTS)).setAddNewScript();
+					((ScriptFragment) tabsAdapter.getItem(INDEX_TAB_SCRIPTS)).setAddNewScript();
 					addScript = false;
 				}
 
