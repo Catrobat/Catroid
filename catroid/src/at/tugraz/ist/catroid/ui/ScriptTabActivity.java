@@ -357,4 +357,8 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	public Fragment getTabFragment(int position) {
 		return tabsAdapter.getItem(position);
 	}
+	
+	public Fragment getCurrentTabFragment() {
+		return tabsAdapter.getItem(tabHost.getCurrentTab());
+	}
 }
