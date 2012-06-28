@@ -92,22 +92,28 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
 		solo.clickOnText("Script");
 		solo.sleep(100);
-		assertTrue("Clicking on Script Tab did not cause ScriptActivity to be displayed",
-				solo.getCurrentActivity() instanceof ScriptFragment);
+
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		assertTrue("Clicking on Script Tab did not cause ScriptFragment to be displayed",
+				activity.getCurrentTabFragment() instanceof ScriptFragment);
 	}
 
 	public void testCostumesTab() {
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
 		solo.sleep(100);
-		assertTrue("Clicking on Costumes Tab did not cause CostumeActivity to be displayed",
-				solo.getCurrentActivity() instanceof CostumeFragment);
+
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		assertTrue("Clicking on Costumes Tab did not cause CostumeFragment to be displayed",
+				activity.getCurrentTabFragment() instanceof CostumeFragment);
 	}
 
 	public void testSoundsTab() {
 		solo.clickOnText("Sounds");
 		solo.sleep(100);
-		assertTrue("Clicking on Sounds Tab did not cause SoundActivity to be displayed",
-				solo.getCurrentActivity() instanceof SoundFragment);
+
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		assertTrue("Clicking on Sounds Tab did not cause SoundFragment to be displayed",
+				activity.getCurrentTabFragment() instanceof SoundFragment);
 	}
 
 	public void testTabCostumeOrBackgroundLabel() {
