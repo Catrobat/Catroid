@@ -34,18 +34,20 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<ScriptFragment> {
+public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private Project project;
 	private SetGhostEffectBrick SetGhostEffectBrick;
 
 	public SetGhostEffectBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptFragment.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
@@ -68,16 +70,19 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	@Smoke
 	public void testSetGhostEffectBrick() {
-		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		int groupCount = getActivity().getAdapter().getGroupCount();
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		BrickAdapter adapter = fragment.getAdapter();
+
+		int childrenCount = adapter.getChildCountFromLastGroup();
+		int groupCount = adapter.getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_set_ghost_effect)));
 
 		double newEffect = 65.9;
@@ -115,5 +120,4 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

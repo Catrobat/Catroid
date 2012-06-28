@@ -136,7 +136,9 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertTrue("No ok button found", solo.searchButton(getActivity().getString(R.string.ok)));
 		assertTrue("No cancel button found", solo.searchButton(getActivity().getString(R.string.cancel_button)));
 
-		ListAdapter adapter = ((CostumeFragment) solo.getCurrentActivity()).getListAdapter();
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		CostumeFragment fragment = (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		ListAdapter adapter = fragment.getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
 		int newCount = adapter.getCount();
@@ -161,7 +163,9 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertTrue("No ok button found", solo.searchButton(getActivity().getString(R.string.ok)));
 		assertTrue("No cancel button found", solo.searchButton(getActivity().getString(R.string.cancel_button)));
 
-		ListAdapter adapter = ((SoundFragment) solo.getCurrentActivity()).getListAdapter();
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		SoundFragment fragment = (SoundFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SOUNDS);
+		ListAdapter adapter = fragment.getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
 		int newCount = adapter.getCount();
