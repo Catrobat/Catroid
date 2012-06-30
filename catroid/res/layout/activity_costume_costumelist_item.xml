@@ -39,7 +39,6 @@
             android:layout_width="110dip"
             android:layout_height="110dip"
             android:clickable="true"
-            android:onClick="handleEditCostumeButton"
             android:scaleType="centerCrop" />
 
         <RelativeLayout
@@ -60,7 +59,6 @@
                 android:focusable="false"
                 android:gravity="center_vertical"
                 android:longClickable="false"
-                android:onClick="handleRenameCostumeButton"
                 android:paddingLeft="10dip"
                 android:paddingRight="8dip"
                 android:singleLine="true"
@@ -119,7 +117,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_paintroid_logo"
-            android:onClick="handleEditCostumeButton"
             android:text="@string/edit_costume_paintroid" />
 
         <Button
@@ -128,7 +125,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_copy"
-            android:onClick="handleCopyCostumeButton"
             android:text="@string/copy_costume" />
 
         <Button
@@ -138,7 +134,6 @@
             android:layout_gravity="right"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_menu_delete"
-            android:onClick="handleDeleteCostumeButton"
             android:text="@string/sound_delete" />
     </LinearLayout>
 

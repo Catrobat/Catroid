@@ -85,7 +85,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.activity_script, null);
+		View rootView = inflater.inflate(R.layout.fragment_script, null);
 		
 		listView = (DragAndDropListView) rootView.findViewById(R.id.brick_list_view);
 		listView.setTrashView((ImageView) rootView.findViewById(R.id.trash));

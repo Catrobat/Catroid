@@ -93,9 +93,6 @@ public class RenameSoundDialog {
 		}
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			newSoundTitle = Utils.getUniqueSoundName(newSoundTitle);
-//			scriptTabActivity.selectedSoundInfo.setTitle(newSoundTitle);
-//			((SoundAdapter) ((SoundActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
-//					.notifyDataSetChanged(); //TODO: this is madness! No, this is SPARTA!!!11
 		} else {
 			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.soundname_invalid));
 			return null;
