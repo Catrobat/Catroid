@@ -52,6 +52,7 @@ public class GetXListTest extends TestCase {
 			}
 			++lineCount;
 		}
+		reader.close();
 	}
 
 	public void testGetXListAddNotPresent() throws IOException {

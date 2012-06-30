@@ -46,11 +46,13 @@ public class CheckForAssertionsTest extends TestCase {
 
 		while ((line = reader.readLine()) != null) {
 			if (line.matches("[^(//)]*assert[A-Za-z]+\\(.*")) {
+				reader.close();
 				return;
 			}
 		}
 		errorMessages.append(file.getName() + " does not seem to contain assertions\n");
 		assertionNotFound = true;
+		reader.close();
 	}
 
 	public void testForAssertions() throws IOException {
