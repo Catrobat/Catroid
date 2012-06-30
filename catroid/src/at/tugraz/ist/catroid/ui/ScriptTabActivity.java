@@ -283,8 +283,8 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			selectedSoundInfo.setTitle(newSoundTitle);
-			SoundAdapter adapter = (SoundAdapter) 
-					((SoundFragment) tabsAdapter.getItem(INDEX_TAB_SOUNDS)).getListAdapter();
+			SoundFragment fragment = (SoundFragment) getTabFragment(INDEX_TAB_SOUNDS);
+			SoundAdapter adapter = (SoundAdapter) fragment.getListAdapter();
 			adapter.notifyDataSetChanged();
 		} else {
 			Utils.displayErrorMessage(this, getString(R.string.soundname_invalid));
@@ -300,14 +300,18 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 			selectedCostumeData.setCostumeName(newCostumeName);
-			CostumeAdapter adapter = (CostumeAdapter) 
-					((CostumeFragment) tabsAdapter.getItem(INDEX_TAB_COSTUMES)).getListAdapter();
+			CostumeFragment fragment = (CostumeFragment) getTabFragment(INDEX_TAB_COSTUMES);
+			CostumeAdapter adapter = (CostumeAdapter) fragment.getListAdapter();
 			adapter.notifyDataSetChanged();
 		} else {
 			Utils.displayErrorMessage(this, getString(R.string.costumename_invalid));
 		}
 	}
 
+	public void handleNegativeButtonRenameCostume(View v) {
+		dismissDialog(DIALOG_RENAME_COSTUME);
+	}
+	
 	public void handlePositiveButtonDeleteCostume(View v) {
 		deleteCostumeDialog.handleOkButton();
 	}
@@ -355,10 +359,14 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	}
 	
 	public Fragment getTabFragment(int position) {
-		return tabsAdapter.getItem(position);
+		if (position < 0 || position > 2) {
+			throw new IllegalArgumentException("There is no tab Fragment with index: " + position);
+		}
+		
+		return getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + position);
 	}
 	
 	public Fragment getCurrentTabFragment() {
-		return tabsAdapter.getItem(tabHost.getCurrentTab());
+		return getTabFragment(tabHost.getCurrentTab());
 	}
 }

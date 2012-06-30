@@ -54,6 +54,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
+import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter.OnCostumeEditListener;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -62,7 +63,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class CostumeFragment extends SherlockListFragment {
+public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener {
 	
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
@@ -74,7 +75,7 @@ public class CostumeFragment extends SherlockListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.activity_costume, null);
+		View rootView = inflater.inflate(R.layout.fragment_costume, null);
 		return rootView;
 	}
 	
@@ -84,6 +85,7 @@ public class CostumeFragment extends SherlockListFragment {
 		
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
+		adapter.setOnCostumeEditListener(this);
 		setListAdapter(adapter);
 		setHasOptionsMenu(true);
 	}
@@ -173,13 +175,15 @@ public class CostumeFragment extends SherlockListFragment {
 
 	private void reloadAdapter() {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		setListAdapter(new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList));
+		CostumeAdapter adapter = new CostumeAdapter(getActivity(), 
+				R.layout.activity_costume_costumelist_item, costumeDataList);
+		adapter.setOnCostumeEditListener(this);
+		setListAdapter(adapter);
 		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) { 
-		//TODO refactor this mess! (please)
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (resultCode != Activity.RESULT_OK) {
@@ -367,14 +371,33 @@ public class CostumeFragment extends SherlockListFragment {
 		startActivityForResult(intent, REQUEST_PAINTROID_EDIT_IMAGE);
 	}
 	
+
+	@Override
+	public void onCostumeEdit(View v) {
+		handleEditCostumeButton(v);
+	}
+
+	@Override
+	public void onCostumeRename(View v) {
+		handleRenameCostumeButton(v);
+	}
+
+	@Override
+	public void onCostumeDelete(View v) {
+		handleDeleteCostumeButton(v);
+	}
+
+	@Override
+	public void onCostumeCopy(View v) {
+		handleCopyCostumeButton(v);
+	}
+	
 	private class CostumeDeletedReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_DELETED)) {
-				if (adapter != null) {
-					adapter.notifyDataSetChanged();
-				}
+				reloadAdapter();
 			}
 		}
 	}

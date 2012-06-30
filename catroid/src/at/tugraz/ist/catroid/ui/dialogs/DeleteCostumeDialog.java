@@ -28,6 +28,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -67,6 +68,7 @@ public class DeleteCostumeDialog {
 
 		StorageHandler.getInstance().deleteFile(costumeDataList.get(position).getAbsolutePath());
 		costumeDataList.remove(position);
+		Log.v("DeleteCostumeDialog", "sending remove costume broadcast");
 		scriptTabActivity.sendBroadcast(new Intent(ScriptTabActivity.ACTION_COSTUME_DELETED));
 		
 		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_DELETE_COSTUME);

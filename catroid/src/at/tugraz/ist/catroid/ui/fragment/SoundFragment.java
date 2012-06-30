@@ -48,6 +48,7 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
+import at.tugraz.ist.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -55,7 +56,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class SoundFragment extends SherlockListFragment {
+public class SoundFragment extends SherlockListFragment implements OnSoundEditListener {
 	
 	private static final String TAG = SoundFragment.class.getSimpleName();
 
@@ -69,7 +70,7 @@ public class SoundFragment extends SherlockListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.activity_sound, null);
+		View rootView = inflater.inflate(R.layout.fragment_sound, null);
 		return rootView;
 	}
 
@@ -79,6 +80,7 @@ public class SoundFragment extends SherlockListFragment {
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
+		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 
 		mediaPlayer = new MediaPlayer();
@@ -239,7 +241,9 @@ public class SoundFragment extends SherlockListFragment {
 
 	private void reloadAdapter() {
 		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		setListAdapter(new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList));
+		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
+		adapter.setOnSoundEditListener(this);
+		setListAdapter(adapter);
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
@@ -282,7 +286,26 @@ public class SoundFragment extends SherlockListFragment {
 		scriptTabActivity.selectedSoundInfo = soundInfoList.get(position);
 		scriptTabActivity.selectedPosition = position;
 		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_DELETE_SOUND);
+	}
+	
+	@Override
+	public void onSoundRename(View v) {
+		handleSoundRenameButton(v);
+	}
 
+	@Override
+	public void onSoundPlay(View v) {
+		handlePlaySoundButton(v);
+	}
+
+	@Override
+	public void onSoundPause(View v) {
+		handlePauseSoundButton(v);
+	}
+
+	@Override
+	public void onSoundDelete(View v) {
+		handleDeleteSoundButton(v);
 	}
 	
 	private class SoundDeletedReceiver extends BroadcastReceiver {
@@ -290,9 +313,7 @@ public class SoundFragment extends SherlockListFragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_DELETED)) {
-				if (adapter != null) {
-					adapter.notifyDataSetChanged();
-				}
+				reloadAdapter();
 			}
 		}
 	}

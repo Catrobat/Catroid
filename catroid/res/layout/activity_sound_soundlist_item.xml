@@ -50,7 +50,6 @@
             android:focusable="false"
             android:gravity="center_vertical"
             android:longClickable="false"
-            android:onClick="handleSoundRenameButton"
             android:paddingLeft="10dp"
             android:paddingRight="8dip"
             android:singleLine="true"
@@ -107,7 +106,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/ic_media_play"
-                android:onClick="handlePlaySoundButton"
                 android:text="@string/sound_play" />
 
             <Button
@@ -116,7 +114,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/ic_media_pause"
-                android:onClick="handlePauseSoundButton"
                 android:text="@string/sound_pause" />
 
             <Button
@@ -126,7 +123,6 @@
                 android:layout_gravity="right"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/ic_menu_delete"
-                android:onClick="handleDeleteSoundButton"
                 android:text="@string/sound_delete" >
             </Button>
         </LinearLayout>
