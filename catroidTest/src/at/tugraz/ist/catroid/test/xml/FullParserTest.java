@@ -29,6 +29,7 @@ import java.util.List;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
 
@@ -73,6 +74,9 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("All the sprites are not captures or incorrect", 3, values.size());
 		assertEquals("Sprite name not correct", "second", values.get(2).getName());
 		assertEquals("Scripts not parsed", 2, values.get(1).getNumberOfScripts());
+		StartScript testScript = (StartScript) values.get(1).getScript(0);
+		assertNotNull("Script is null", testScript);
+		assertEquals("Script number of brick incorrect", 5, testScript.getBrickList().size());
 		//assertEq
 
 	}
