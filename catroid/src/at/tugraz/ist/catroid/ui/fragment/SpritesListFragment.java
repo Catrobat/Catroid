@@ -20,8 +20,8 @@ package at.tugraz.ist.catroid.ui.fragment;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +32,9 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
-import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -43,21 +43,12 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
 public class SpritesListFragment extends SherlockListFragment {
-
+	
     private SpriteAdapter spriteAdapter;
     private ArrayList<Sprite> spriteList;
-    private Sprite spriteToEdit;
-    private CustomIconContextMenu iconContextMenu;
 
     private ActionBar actionBar;
-
-    private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
-    private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
-    public static final int DIALOG_NEW_SPRITE = 0;
-    public static final int DIALOG_RENAME_SPRITE = 1;
-    private static final int DIALOG_CONTEXT_MENU = 2;
-    
-    private static final String STATE_SELECTED_SPRITE = "selected_sprite";
+    private OnSpriteToEditSelectedListener onSpriteToEditSelectedListener;
 
     private void initListeners() {
         spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -77,63 +68,44 @@ public class SpritesListFragment extends SherlockListFragment {
                 startActivity(intent);
             }
         });
+        
         getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                spriteToEdit = spriteList.get(position);
+                Sprite spriteToEdit = spriteList.get(position);
 
-                // as long as background sprite is always the first one, we're
-                // fine
+                // as long as background sprite is always the first one, we're fine
                 if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
                     return true;
                 }
-
-                getActivity().removeDialog(DIALOG_CONTEXT_MENU);
-                getActivity().showDialog(DIALOG_CONTEXT_MENU);
+                
+                if (onSpriteToEditSelectedListener != null) {
+                	onSpriteToEditSelectedListener.onSpriteToEditSelected(spriteToEdit);
+                }
+                
+                getActivity().removeDialog(ProjectActivity.DIALOG_CONTEXT_MENU);
+                getActivity().showDialog(ProjectActivity.DIALOG_CONTEXT_MENU);
                 return true;
             }
         });
     }
 
-    private void initCustomContextMenu() {
-        Resources resources = getResources();
-        iconContextMenu = new CustomIconContextMenu(getActivity(), DIALOG_CONTEXT_MENU);
-        iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
-                CONTEXT_MENU_ITEM_RENAME);
-        iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
-                CONTEXT_MENU_ITEM_DELETE);
-
-        iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-            @Override
-            public void onClick(int menuId) {
-                switch (menuId) {
-                    case CONTEXT_MENU_ITEM_RENAME:
-                        getActivity().showDialog(DIALOG_RENAME_SPRITE);
-                        break;
-                    case CONTEXT_MENU_ITEM_DELETE:
-                        ProjectManager projectManager = ProjectManager.getInstance();
-                        projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-                        if (projectManager.getCurrentSprite() != null
-                                && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-                            projectManager.setCurrentSprite(null);
-                        }
-                        break;
-                }
-            }
-        });
+    @Override
+    public void onAttach(Activity activity) {
+    	try {
+    		onSpriteToEditSelectedListener = (OnSpriteToEditSelectedListener) activity;
+    	} catch (ClassCastException ex) {
+    		throw new IllegalStateException(activity.getClass().getSimpleName()
+                    + " does not implement SpriteListFragment's OnSpriteToEditListener interface.", ex);
+    	}
+    	
+    	super.onAttach(activity);
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View rootView = inflater.inflate(R.layout.fragment_sprites_list, null);
     	return rootView;
-    }
-    
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-    	final Sprite savedSelectedSprite = spriteToEdit;
-    	outState.putSerializable(STATE_SELECTED_SPRITE, savedSelectedSprite);
-    	super.onSaveInstanceState(outState);
     }
     
     @Override
@@ -154,7 +126,6 @@ public class SpritesListFragment extends SherlockListFragment {
     public void onStart() {
         super.onStart();
         initListeners();
-        initCustomContextMenu();
     }
 
     @Override
@@ -172,10 +143,6 @@ public class SpritesListFragment extends SherlockListFragment {
         spriteAdapter.notifyDataSetChanged();
     }
 
-    public Sprite getSpriteToEdit() {
-        return spriteToEdit;
-    }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -190,4 +157,10 @@ public class SpritesListFragment extends SherlockListFragment {
     }
     
     public void handleProjectActivityItemLongClick(View view) {}
+    
+    public interface OnSpriteToEditSelectedListener {
+    	
+    	public void onSpriteToEditSelected(Sprite sprite);
+    	
+    }
 }

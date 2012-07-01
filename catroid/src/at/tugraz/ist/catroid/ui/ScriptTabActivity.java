@@ -64,7 +64,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class ScriptTabActivity extends SherlockFragmentActivity implements OnDismissListener, OnCancelListener {
 	
@@ -157,27 +156,23 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_scripttab, menu);
-
-		final MenuItem startItem = menu.findItem(R.id.menu_start);
-		startItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				Intent intent = new Intent(ScriptTabActivity.this, PreStageActivity.class);
-				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				return true;
-			}
-		});
-
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
+			case android.R.id.home: {
 				Intent intent = new Intent(this, MainMenuActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
+				return true;
+			}
+			case R.id.menu_start: {
+				Intent intent = new Intent(ScriptTabActivity.this, PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+				return true;
+			}
 		}
 
 		return super.onOptionsItemSelected(item);

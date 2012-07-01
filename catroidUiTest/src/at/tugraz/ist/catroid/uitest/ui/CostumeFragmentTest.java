@@ -45,6 +45,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private ProjectManager projectManager = ProjectManager.getInstance();
 	private Solo solo;
 	private String costumeName = "costumeNametest";
@@ -62,8 +63,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
+
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
@@ -86,7 +89,18 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
+
 		solo = new Solo(getInstrumentation(), getActivity());
+
+		// HACK ScriptTabActivity is opened with the Intent because original activity does not create
+		// a test project and does not display costumes list.
+		// Have not found another workaround.
+		// When modifying this test case be careful with calls to getActivity():
+		// - getActivity() - obtains a link to the original ScriptTabActivity, which does not create test project
+		// - solo.getCurrentActivity() - obtains a link to the Activity started by Intent.
+		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		getActivity().startActivity(intent);
 	}
 
 	@Override
@@ -157,8 +171,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
@@ -222,7 +235,8 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(800);
 
 		CostumeData costumeData = costumeDataList.get(0);
-		(getActivity()).selectedCostumeData = costumeData;
+		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
+
 		String md5PaintroidImage = Utils.md5Checksum(paintroidImageFile);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
@@ -232,7 +246,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
+
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+
 		solo.sleep(5000);
 
 		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
@@ -258,7 +274,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
-		(getActivity()).selectedCostumeData = costumeData;
+		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -283,7 +299,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
-		(getActivity()).selectedCostumeData = costumeData;
+		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -357,7 +373,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
-		(getActivity()).selectedCostumeData = costumeData;
+		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
@@ -397,7 +413,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(900);
 
 		CostumeData costumeData = costumeDataList.get(0);
-		(getActivity()).selectedCostumeData = costumeData;
+		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 		//		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 

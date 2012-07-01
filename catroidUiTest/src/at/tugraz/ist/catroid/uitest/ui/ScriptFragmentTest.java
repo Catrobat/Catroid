@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.uitest.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -38,6 +39,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -89,14 +91,14 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 	public void testBrickCategoryDialog() {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
-			UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+			goToHomeActivity();
 			solo.clickOnText(getActivity().getString(R.string.settings));
 			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
 			solo.goBack();
 			solo.clickOnText(getActivity().getString(R.string.current_project_button));
 			solo.clickOnText(getActivity().getString(R.string.background));
 		}
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_motion)));
@@ -125,6 +127,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.goBack();
 		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
 				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
+
+		goToScripTabActivity();
 	}
 
 	public void testSimpleDragNDrop() {
@@ -171,31 +175,33 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		String comeToFront = getActivity().getString(R.string.brick_come_to_front);
 		String goNStepsBack = getActivity().getString(R.string.brick_go_back_layers);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.sleep(200);
+		goToHomeActivity();
+
 		solo.clickOnText(currentProject);
 		solo.clickOnText(background);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.clickOnText(categoryLooks);
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 		solo.clickOnText(nextBackground);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
+
+		goToScripTabActivity();
 	}
 
 	public void testSelectCategoryDialogOnOrientationChange() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_motion)));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
@@ -225,7 +231,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testAddBrickDialogOnOrientationChange() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.clickOnText(getActivity().getString(R.string.category_motion));
 		assertTrue("Not in AddBrickDialog - category motion",
 				solo.searchText(getActivity().getString(R.string.brick_place_at)));
@@ -324,6 +330,15 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		});
 
 		solo.sleep(1000);
+	}
 
+	private void goToHomeActivity() {
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
+	}
+
+	private void goToScripTabActivity() {
+		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		getActivity().startActivity(intent);
 	}
 }

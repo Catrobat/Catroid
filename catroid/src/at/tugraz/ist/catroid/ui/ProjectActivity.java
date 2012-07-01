@@ -24,10 +24,12 @@ package at.tugraz.ist.catroid.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.EditText;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
@@ -36,27 +38,45 @@ import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.ui.fragment.SpritesListFragment;
+import at.tugraz.ist.catroid.ui.fragment.SpritesListFragment.OnSpriteToEditSelectedListener;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ProjectActivity extends SherlockFragmentActivity {
-
+public class ProjectActivity extends SherlockFragmentActivity implements OnSpriteToEditSelectedListener {
+	
 	private Sprite spriteToEdit;
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
+	
+	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
+	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
 
 	public static final int DIALOG_NEW_SPRITE = 0;
 	public static final int DIALOG_RENAME_SPRITE = 1;
-	private static final int DIALOG_CONTEXT_MENU = 2;
+	public static final int DIALOG_CONTEXT_MENU = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
+		
+		spriteToEdit = (Sprite) getLastCustomNonConfigurationInstance();
 	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		initCustomContextMenu();
+	}
+	
+	@Override
+	public Object onRetainCustomNonConfigurationInstance() {
+		final Sprite savedSelectedSprite = spriteToEdit;
+		return savedSelectedSprite;
+	}
+	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -149,5 +169,38 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+	
+	@Override
+	public void onSpriteToEditSelected(Sprite sprite) {
+		spriteToEdit = sprite;
+	}
+	
+	private void initCustomContextMenu() {
+		Resources resources = getResources();
+		iconContextMenu = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU);
+		iconContextMenu.addItem(resources, getString(R.string.rename), R.drawable.ic_context_rename,
+				CONTEXT_MENU_ITEM_RENAME);
+		iconContextMenu.addItem(resources, getString(R.string.delete), R.drawable.ic_context_delete,
+				CONTEXT_MENU_ITEM_DELETE);
+
+		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+			@Override
+			public void onClick(int menuId) {
+				switch (menuId) {
+					case CONTEXT_MENU_ITEM_RENAME:
+						showDialog(DIALOG_RENAME_SPRITE);
+						break;
+					case CONTEXT_MENU_ITEM_DELETE:
+						ProjectManager projectManager = ProjectManager.getInstance();
+						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+						if (projectManager.getCurrentSprite() != null
+								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
+							projectManager.setCurrentSprite(null);
+						}
+						break;
+				}
+			}
+		});
 	}
 }
