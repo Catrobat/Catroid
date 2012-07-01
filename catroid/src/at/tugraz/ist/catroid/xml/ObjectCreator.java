@@ -67,7 +67,7 @@ public class ObjectCreator {
 		return project;
 	}
 
-	private Object getObjectWithValue(Field field, String valueInString) {
+	public Object getObjectWithValue(Field field, String valueInString) {
 		String fieldClassCannonicalName = field.getType().getCanonicalName();
 		if (fieldClassCannonicalName.equals("int") || fieldClassCannonicalName.equals("java.lang.Integer")) {
 			return new Integer(valueInString);

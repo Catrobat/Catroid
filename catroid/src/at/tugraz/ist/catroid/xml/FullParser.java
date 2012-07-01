@@ -24,6 +24,10 @@ package at.tugraz.ist.catroid.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,11 +46,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.WhenScript;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class FullParser extends DefaultHandler {
 
@@ -93,19 +95,15 @@ public class FullParser extends DefaultHandler {
 							String scriptImplName = scriptName.substring(8);
 
 							System.out.println(scriptImplName);
+							foundScript = getScriptObject(scriptImplName, foundSprite);
 
-							if (scriptImplName.equals("StartScript")) {
-								foundScript = new StartScript(foundSprite);
-							} else if (scriptImplName.equals("WhenScript")) {
-								foundScript = new WhenScript(foundSprite);
-							} else if (scriptImplName.equals("BroadcastScript")) {
-								foundScript = new BroadcastScript(foundSprite);
-							}
 							Element el = (Element) scriptElement;
 							Node brickListNode = el.getElementsByTagName("brickList").item(0);
 							if (brickListNode != null) {
 								NodeList brickListNodes = brickListNode.getChildNodes();
+
 								for (int k = 0; k < brickListNodes.getLength(); k++) {
+									Brick brickImpleObj = null;
 									Node currentBrickNode = brickListNodes.item(k);
 									if (currentBrickNode.getNodeType() != Node.TEXT_NODE) {
 										String brickName = currentBrickNode.getNodeName();
@@ -124,14 +122,10 @@ public class FullParser extends DefaultHandler {
 											}
 										}
 										NodeList brickValueNodes = brickElement.getChildNodes();
-										for (int l = 0; l < brickValueNodes.getLength(); l++) {
-											Node brickValue = brickValueNodes.item(l);
-											if (brickValue.getNodeType() != Node.TEXT_NODE) {
-												String brickvalueName = brickValue.getNodeName();
-												System.out.println(brickName);
-											}
-										}
+										brickImpleObj = getBrickObject(brickName, foundSprite, brickValueNodes);
+										foundScript.addBrick(brickImpleObj);
 									}
+
 								}
 							}
 						}
@@ -174,6 +168,121 @@ public class FullParser extends DefaultHandler {
 
 		return sprites;
 
+	}
+
+	private Brick getBrickObject(String brickName, Sprite foundSprite, NodeList valueNodes) {
+		String brickImplName = brickName.substring(7);
+		Brick brickObject = null;
+		Map<String, Field> brickFieldsToSet = new HashMap<String, Field>();
+		try {
+			Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickImplName);
+
+			Field[] brickFields = brickClass.getFields();
+			for (Field field : brickFields) {
+				boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+
+				if (isCurrentFieldTransient) {
+					continue;
+				}
+
+				String tagName = field.getName();
+				brickFieldsToSet.put(tagName, field);
+			}
+
+			Constructor[] brickConstructorsArray = brickClass.getConstructors();
+			for (Constructor constructor : brickConstructorsArray) {
+				Class[] constructorParams = constructor.getParameterTypes();
+
+				Object argList[] = new Object[constructorParams.length];
+				int index = 0;
+				for (Class cls : constructorParams) {
+
+					if (cls.equals(Sprite.class)) {
+						Object spriteOb = foundSprite;
+						argList[index] = spriteOb;
+					} else if (cls.equals(double.class)) {
+						Object dblObj = new Double(0.0);
+						argList[index] = dblObj;
+					}
+
+					index++;
+				}
+				brickObject = (Brick) constructor.newInstance(argList);
+
+			}
+
+			for (int l = 0; l < valueNodes.getLength(); l++) {
+				Node brickValue = valueNodes.item(l);
+				if (brickValue.getNodeType() != Node.TEXT_NODE) {
+					String brickvalueName = brickValue.getNodeName();
+					System.out.println(brickName);
+					Field valueField = brickFieldsToSet.get(brickvalueName);
+					if (valueField != null) {
+						valueField.setAccessible(true);
+						String valueOfValue = brickValue.getNodeValue();
+						Object valueObject = setFieldValue(valueField, valueOfValue);
+						valueField.set(brickObject, valueObject);
+					}
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return brickObject;
+	}
+
+	private Object setFieldValue(Field valueField, String valueOfValue) {
+		ObjectCreator objectCreator = new ObjectCreator();
+		return objectCreator.getObjectWithValue(valueField, valueOfValue);
+
+	}
+
+	private Script getScriptObject(String scriptImplName, Sprite foundSprite) {
+		Script scriptObject = null;
+		try {
+			Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptImplName);
+			Constructor scriptConstructor = scriptClass.getConstructor(Sprite.class);
+			scriptObject = (Script) scriptConstructor.newInstance(foundSprite);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return scriptObject;
 	}
 
 	@Override
