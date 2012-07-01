@@ -46,6 +46,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
@@ -65,6 +66,26 @@ public class FullParser extends DefaultHandler {
 	Stack<TagData> parsingTagsstack = new Stack<TagData>();
 	int index = 0;
 	List<TagData> parsedTagsList = new ArrayList<TagData>();
+
+	public Project fullParser(InputStream xmlFile) {
+		ObjectCreator projectInit = new ObjectCreator();
+		Project parsedProject = null;
+
+		try {
+
+			List<Sprite> spriteList = this.parseSprites(xmlFile);
+			parsedProject = projectInit.reflectionSet(xmlFile);
+
+			for (int i = 0; i < spriteList.size(); i++) {
+				parsedProject.addSprite(spriteList.get(i));
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return parsedProject;
+
+	}
 
 	public List<Sprite> parseSprites(InputStream fXmlFile) throws ParseException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -177,7 +198,7 @@ public class FullParser extends DefaultHandler {
 		try {
 			Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickImplName);
 
-			Field[] brickFields = brickClass.getFields();
+			Field[] brickFields = brickClass.getDeclaredFields();
 			for (Field field : brickFields) {
 				boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
 
@@ -186,7 +207,9 @@ public class FullParser extends DefaultHandler {
 				}
 
 				String tagName = field.getName();
-				brickFieldsToSet.put(tagName, field);
+				if (tagName != "sprite") {
+					brickFieldsToSet.put(tagName, field);
+				}
 			}
 
 			Constructor[] brickConstructorsArray = brickClass.getConstructors();
@@ -219,9 +242,12 @@ public class FullParser extends DefaultHandler {
 					Field valueField = brickFieldsToSet.get(brickvalueName);
 					if (valueField != null) {
 						valueField.setAccessible(true);
-						String valueOfValue = brickValue.getNodeValue();
-						Object valueObject = setFieldValue(valueField, valueOfValue);
-						valueField.set(brickObject, valueObject);
+						Node valueNode = brickValue.getChildNodes().item(0);
+						if (valueNode != null) {
+							String valueOfValue = valueNode.getNodeValue();
+							Object valueObject = setFieldValue(valueField, valueOfValue);
+							valueField.set(brickObject, valueObject);
+						}
 					}
 				}
 			}

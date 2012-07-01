@@ -28,8 +28,12 @@ import java.util.List;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.WhenScript;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
 
@@ -47,7 +51,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		androidContext = null;
 	}
 
-	public void testFullParsing() {
+	public void testSpriteListParsing() {
 		FullParser parser = new FullParser();
 
 		InputStream xmlFileStream = null;
@@ -74,11 +78,37 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("All the sprites are not captures or incorrect", 3, values.size());
 		assertEquals("Sprite name not correct", "second", values.get(2).getName());
 		assertEquals("Scripts not parsed", 2, values.get(1).getNumberOfScripts());
-		StartScript testScript = (StartScript) values.get(1).getScript(0);
+		WhenScript testScript = (WhenScript) values.get(1).getScript(1);
 		assertNotNull("Script is null", testScript);
-		assertEquals("Script number of brick incorrect", 5, testScript.getBrickList().size());
-		//assertEq
+		assertEquals("Script number of brick incorrect", 2, testScript.getBrickList().size());
+		SetSizeToBrick testBrick = (SetSizeToBrick) testScript.getBrick(2);
+		double sizeFormBrick = (Double) TestUtils.getPrivateField("size", testBrick, false);
+		assertEquals("SETSizetoBrick size incorrect", 0.8, sizeFormBrick);
 
+	}
+
+	public void testParsingFullProject() {
+		FullParser parser = new FullParser();
+		InputStream xmlFileStream = null;
+
+		try {
+			xmlFileStream = androidContext.getAssets().open("test_project.xml");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			fail("Exception caught at getting filestream");
+		}
+		Project testProject = parser.fullParser(xmlFileStream);
+
+		assertNotNull("Project is null", testProject);
+		assertEquals("Project sprite List size incorrect", 3, testProject.getSpriteList().size());
+		List<Sprite> sprites = testProject.getSpriteList();
+		ShowBrick testBrick = (ShowBrick) sprites.get(1).getScript(0).getBrick(1);
+		assertNotNull("Brick is null", testBrick);
+		assertNotNull("sprite of brick is null", testBrick.getSprite());
+		assertEquals("Script number of 3rd sprite wrong", 1, testProject.getSpriteList().get(2).getNumberOfScripts());
+		assertEquals("Number of bricks for the script of 3rd sprite is wrong", 7, testProject.getSpriteList().get(2)
+				.getNumberOfBricks());
 	}
 
 }
