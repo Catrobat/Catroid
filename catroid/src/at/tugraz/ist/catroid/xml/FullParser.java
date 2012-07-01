@@ -80,7 +80,6 @@ public class FullParser extends DefaultHandler {
 				parsedProject.addSprite(spriteList.get(i));
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return parsedProject;
@@ -117,8 +116,8 @@ public class FullParser extends DefaultHandler {
 
 							System.out.println(scriptImplName);
 							foundScript = getScriptObject(scriptImplName, foundSprite);
-
 							Element el = (Element) scriptElement;
+							foundScript = getAdditionalScriptInfo(el, foundScript);
 							Node brickListNode = el.getElementsByTagName("brickList").item(0);
 							if (brickListNode != null) {
 								NodeList brickListNodes = brickListNode.getChildNodes();
@@ -167,6 +166,12 @@ public class FullParser extends DefaultHandler {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		//		parsedStrings = new HashMap<String, TagData>();
@@ -189,6 +194,32 @@ public class FullParser extends DefaultHandler {
 
 		return sprites;
 
+	}
+
+	private Script getAdditionalScriptInfo(Element el, Script foundScript) throws IllegalArgumentException,
+			IllegalAccessException {
+
+		Field[] scriptClassFields = foundScript.getClass().getDeclaredFields();
+		for (Field field : scriptClassFields) {
+			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+
+			if (isCurrentFieldTransient) {
+				continue;
+			}
+
+			String tagName = field.getName();
+			NodeList nl = el.getElementsByTagName(tagName);
+			if (nl.item(0) != null) {
+				String valueInString = nl.item(0).getChildNodes().item(0).getNodeValue();
+				if (valueInString != null) {
+					Object finalObject = setFieldValue(field, valueInString);
+					field.setAccessible(true);
+					field.set(foundScript, finalObject);
+				}
+			}
+		}
+
+		return foundScript;
 	}
 
 	private Brick getBrickObject(String brickName, Sprite foundSprite, NodeList valueNodes) {
@@ -223,11 +254,17 @@ public class FullParser extends DefaultHandler {
 					if (cls.equals(Sprite.class)) {
 						Object spriteOb = foundSprite;
 						argList[index] = spriteOb;
-					} else if (cls.equals(double.class)) {
-						Object dblObj = new Double(0.0);
-						argList[index] = dblObj;
 					}
-
+					//					else if (cls.equals(double.class)) {
+					//						Object dblObj = new Double(0.0);
+					//						argList[index] = dblObj;
+					//					} else if (cls.equals(int.class)) {
+					//						Object intobj = new Integer(0);
+					//						argList[index] = intobj;
+					//					}
+					else {
+						argList[index] = getobjectOfClass(cls);
+					}
 					index++;
 				}
 				brickObject = (Brick) constructor.newInstance(argList);
@@ -269,8 +306,42 @@ public class FullParser extends DefaultHandler {
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return brickObject;
+	}
+
+	private Object getobjectOfClass(Class cls) throws IllegalArgumentException, SecurityException,
+			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		Constructor clsConstructor = null;
+		Object obj = null;
+		if (cls == int.class) {
+			cls = Integer.class;
+		} else if (cls == float.class) {
+			cls = Float.class;
+		} else if (cls == double.class) {
+			cls = Double.class;
+		} else if (cls == boolean.class) {
+			cls = Boolean.class;
+		} else if (cls == byte.class) {
+			cls = Byte.class;
+		} else if (cls == short.class) {
+			cls = Short.class;
+		} else if (cls == long.class) {
+			cls = Long.class;
+		} else if (cls == char.class) {
+			cls = Character.class;
+			obj = cls.getConstructor(char.class).newInstance('a');
+			return obj;
+		}
+
+		clsConstructor = cls.getConstructor(String.class);
+		obj = clsConstructor.newInstance("0");
+
+		return obj;
+
 	}
 
 	private Object setFieldValue(Field valueField, String valueOfValue) {

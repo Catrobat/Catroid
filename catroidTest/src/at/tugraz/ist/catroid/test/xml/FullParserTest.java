@@ -30,7 +30,9 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
+import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -77,13 +79,25 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertNotNull("Values are null", values);
 		assertEquals("All the sprites are not captures or incorrect", 3, values.size());
 		assertEquals("Sprite name not correct", "second", values.get(2).getName());
-		assertEquals("Scripts not parsed", 2, values.get(1).getNumberOfScripts());
-		WhenScript testScript = (WhenScript) values.get(1).getScript(1);
+		assertEquals("Scripts not parsed", 1, values.get(2).getNumberOfScripts());
+		StartScript testScript = (StartScript) values.get(1).getScript(0);
 		assertNotNull("Script is null", testScript);
-		assertEquals("Script number of brick incorrect", 2, testScript.getBrickList().size());
+		assertEquals("Script number of brick incorrect", 5, testScript.getBrickList().size());
 		SetSizeToBrick testBrick = (SetSizeToBrick) testScript.getBrick(2);
 		double sizeFormBrick = (Double) TestUtils.getPrivateField("size", testBrick, false);
 		assertEquals("SETSizetoBrick size incorrect", 0.8, sizeFormBrick);
+
+		WhenScript testWhnScript = (WhenScript) values.get(1).getScript(1);
+		assertEquals("When Script action incorrect", "Tapped", testWhnScript.getAction());
+
+		StartScript testScript2 = (StartScript) values.get(2).getScript(0);
+		GlideToBrick testBrick2 = (GlideToBrick) testScript2.getBrick(5);
+		int xpos = (Integer) TestUtils.getPrivateField("xDestination", testBrick2, false);
+		int ypos = (Integer) TestUtils.getPrivateField("xDestination", testBrick2, false);
+		int dur = (Integer) TestUtils.getPrivateField("durationInMilliSeconds", testBrick2, false);
+		assertEquals("place at position x wrong", 500, xpos);
+		assertEquals("place at position y wrong", 500, ypos);
+		assertEquals("place at position y wrong", 3000, dur);
 
 	}
 
