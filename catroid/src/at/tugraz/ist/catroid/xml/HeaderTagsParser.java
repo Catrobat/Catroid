@@ -40,7 +40,6 @@ public class HeaderTagsParser extends DefaultHandler {
 
 	private Map<String, String> parsedStrings;
 	private String tempVal;
-	HeaderTags[] tagIndexes = HeaderTags.values();
 
 	public Map<String, String> parseHeader(InputStream xmlFileStream) throws ParseException {
 		parsedStrings = new HashMap<String, String>();
@@ -70,6 +69,7 @@ public class HeaderTagsParser extends DefaultHandler {
 		if (HeaderStarterAndEndTags.SPRITELIST.getOtherXMLTagString().contains(tagName)) {
 			throw new SAXException("Header parsing done!");
 		}
+
 	}
 
 	@Override
