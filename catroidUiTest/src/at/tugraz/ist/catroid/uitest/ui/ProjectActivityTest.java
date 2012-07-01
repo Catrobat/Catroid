@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -81,7 +82,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 
 		solo.sleep(200);
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -175,6 +176,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
+		Log.v("ProjectActivityTest", sprite.getName());
 		assertEquals("Sprite on position wasn't renamed correctly", newSpriteName, sprite.getName());
 
 		// Delete sprite
@@ -465,7 +467,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(50);
 	}
 

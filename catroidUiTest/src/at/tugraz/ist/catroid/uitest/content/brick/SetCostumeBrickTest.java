@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.uitest.content.brick;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -95,6 +96,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 				costumeData2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
+
+		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		getActivity().startActivity(intent);
 	}
 
 	@Override
@@ -122,7 +127,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(costumeName);
 		solo.sleep(100);
 		assertTrue(costumeName + " is not selected in Spinner", solo.searchText(costumeName));
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.sleep(7000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(0).getAbsolutePath());
@@ -193,20 +198,19 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
 		solo.sleep(100);
 		solo.clickOnText(costumeName);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
-		solo.sleep(5000);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList().get(0)
 				.getAbsolutePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costume1ImagePath,
 				costumePath);
 		solo.goBack();
+		solo.sleep(500);
 		solo.goBack();
-		solo.sleep(300);
+
 		for (int i = 0; i < 5; i++) {
 			selectCostume(costumeName2, costumeName, costume2ImagePath);
 			selectCostume(costumeName, costumeName2, costume1ImagePath);
 		}
-
 	}
 
 	public void selectCostume(String newCostume, String oldName, String costumeImagePath) {
@@ -214,7 +218,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(oldName);
 		solo.sleep(100);
 		solo.clickOnText(newCostume);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.sleep(5000);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().costume.getImagePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costumeImagePath,

@@ -201,7 +201,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId) {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 	}
