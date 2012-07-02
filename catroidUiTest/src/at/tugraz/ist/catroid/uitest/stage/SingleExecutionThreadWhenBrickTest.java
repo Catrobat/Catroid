@@ -46,6 +46,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationTestCase2<StageActivity> {
+
 	private Solo solo;
 	private Project projectWhenBrick;
 	Sprite yellowSprite;
@@ -57,7 +58,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 	String broadcastMessage = "broadcastMessage";
 
 	public SingleExecutionThreadWhenBrickTest() {
-		super("at.tugraz.ist.catroid", StageActivity.class);
+		super(StageActivity.class);
 	}
 
 	@Override

@@ -25,6 +25,8 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.content.Intent;
+import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
@@ -61,7 +63,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private ProjectManager projectManager = ProjectManager.getInstance();
 
 	public DeleteDialogTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -85,6 +87,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private void createTestProject() throws Exception {
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
+
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
@@ -102,8 +105,11 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
-		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
+
+		Point displaySize = new Point();
+		display.getSize(displaySize);
+		projectManager.getCurrentProject().virtualScreenWidth = displaySize.x;
+		projectManager.getCurrentProject().virtualScreenHeight = displaySize.y;
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
@@ -125,10 +131,13 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 				soundInfo.getAbsolutePath());
 		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(),
 				soundInfo2.getAbsolutePath());
-
 	}
 
 	public void testDeleteCostumes() {
+		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		getActivity().startActivity(intent);
+
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
@@ -139,6 +148,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		CostumeFragment fragment = (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
 		ListAdapter adapter = fragment.getListAdapter();
+
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
 		int newCount = adapter.getCount();
@@ -152,7 +162,6 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		newCount = adapter.getCount();
 		assertEquals("The costume was not deleted", oldCount - 1, newCount);
 		assertEquals("The costume was not deleted from costumeDataList", newCount, costumeDataList.size());
-
 	}
 
 	public void testDeleteSounds() {
@@ -179,6 +188,5 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		newCount = adapter.getCount();
 		assertEquals("The sound was not deleted", oldCount - 1, newCount);
 		assertEquals("The sound was not deleted from costumeDataList", newCount, soundInfoList.size());
-
 	}
 }

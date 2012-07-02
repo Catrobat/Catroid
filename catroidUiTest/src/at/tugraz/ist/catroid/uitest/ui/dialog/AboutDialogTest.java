@@ -30,10 +30,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 
 	public AboutDialogTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override

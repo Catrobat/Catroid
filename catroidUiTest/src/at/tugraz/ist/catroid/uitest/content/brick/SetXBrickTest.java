@@ -42,13 +42,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private Project project;
 	private SetXBrick setXBrick;
 	private int setX;
 
 	public SetXBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -121,5 +122,4 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

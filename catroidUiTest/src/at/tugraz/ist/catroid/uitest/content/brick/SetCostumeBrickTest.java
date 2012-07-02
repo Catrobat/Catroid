@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private String costumeName = "testCostume1";
 	private String costumeName2 = "testCostume2";
@@ -52,7 +53,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	private final int RESOURCE_COSTUME2 = at.tugraz.ist.catroid.uitest.R.raw.icon2;
 
 	public SetCostumeBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

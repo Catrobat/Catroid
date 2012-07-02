@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
@@ -57,7 +58,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 
 	public CostumeFragmentTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -86,9 +87,12 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		costumeData.setCostumeName("costumeNameTest2");
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
-		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
+		Point displaySize = new Point();
+		display.getSize(displaySize);
+		projectManager.getCurrentProject().virtualScreenWidth = displaySize.x;
+		projectManager.getCurrentProject().virtualScreenHeight = displaySize.y;
 
 		solo = new Solo(getInstrumentation(), getActivity());
 

@@ -59,7 +59,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 	private Sprite firstSprite;
 
 	public MoveBrickAcrossScriptTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

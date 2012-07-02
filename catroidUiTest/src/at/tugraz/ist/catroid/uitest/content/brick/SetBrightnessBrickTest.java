@@ -42,12 +42,13 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private Project project;
 	private SetBrightnessBrick SetBrightnessBrick;
 
 	public SetBrightnessBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

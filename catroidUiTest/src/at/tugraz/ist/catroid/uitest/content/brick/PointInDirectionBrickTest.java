@@ -48,7 +48,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 	private PointInDirectionBrick pointInDirectionBrick;
 
 	public PointInDirectionBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

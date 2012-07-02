@@ -57,6 +57,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 
 	private static final String TAG = SetSizeToBrickTest.class.getSimpleName();
+
 	private String projectName = "SetSizeToBrickTestProject";
 	private Solo solo;
 	private Project project;
@@ -67,7 +68,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	private final int screenHeight = 800;
 
 	public SetSizeToBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

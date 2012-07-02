@@ -46,11 +46,12 @@ import com.jayway.android.robotium.solo.Solo;
  * 
  */
 public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private Project project;
 
 	public ComeToFrontTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

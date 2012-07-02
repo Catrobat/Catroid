@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String newTestProject = UiTestUtils.PROJECTNAME2;
@@ -46,7 +47,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private String saveToken;
 
 	public UploadDialogTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -109,7 +110,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
-
 	}
 
 	public void testOrientationChange() throws Throwable {

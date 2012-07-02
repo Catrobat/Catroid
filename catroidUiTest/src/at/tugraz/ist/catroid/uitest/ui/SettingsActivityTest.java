@@ -32,10 +32,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 
 	public SettingsActivityTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -86,6 +87,5 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		assertTrue("Lego brick category is not showing!",
 				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
-
 	}
 }

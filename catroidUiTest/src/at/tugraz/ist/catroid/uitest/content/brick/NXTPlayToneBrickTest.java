@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private static final int MIN_FREQ = 200;
 	private static final int MAX_FREQ = 14000;
 	private Solo solo;
@@ -54,7 +55,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	private int setFrequencyInitially;
 
 	public NXTPlayToneBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

@@ -38,10 +38,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 
 	public SoundRecorderTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -64,7 +65,6 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		UiTestUtils.clearAllUtilTestProjects();
 
 		super.tearDown();
-
 	}
 
 	public void testRecordMultipleSounds() throws InterruptedException {
@@ -76,7 +76,6 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		prepareRecording();
 		recordSoundGoBackWhileRecording();
 		assertSoundRecording(2);
-
 	}
 
 	public void recordSoundWithChangingOrientation() throws InterruptedException {
@@ -128,6 +127,5 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 		File lastAddedSoundFile = new File(lastAddedSoundInfo.getAbsolutePath());
 		assertTrue("recorded sound file not found in project", lastAddedSoundFile.exists());
-
 	}
 }

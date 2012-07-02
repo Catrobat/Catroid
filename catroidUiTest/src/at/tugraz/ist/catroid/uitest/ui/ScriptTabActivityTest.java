@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private final String[] scriptsTabHexValues = { "ff1a1a1a", "ff090909", "ff2f2f2f", "ffe5e5e5", "fff6f6f6",
 			"ffd0d0d0" };
@@ -60,7 +61,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	private final int[] costumesYCoords = { 21, 5, 8 };
 
 	public ScriptTabActivityTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

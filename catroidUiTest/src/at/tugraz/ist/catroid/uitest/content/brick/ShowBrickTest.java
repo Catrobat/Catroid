@@ -46,11 +46,12 @@ import com.jayway.android.robotium.solo.Solo;
  * 
  */
 public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private Project project;
 
 	public ShowBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

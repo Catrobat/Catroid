@@ -54,7 +54,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private int stepsToGoBack;
 
 	public GoNStepsBackTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

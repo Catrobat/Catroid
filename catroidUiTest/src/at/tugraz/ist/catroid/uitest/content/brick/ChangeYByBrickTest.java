@@ -49,7 +49,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	private int yToChange;
 
 	public ChangeYByBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
