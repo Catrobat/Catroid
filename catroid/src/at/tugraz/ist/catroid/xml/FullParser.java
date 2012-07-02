@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -55,19 +54,9 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class FullParser extends DefaultHandler {
 
-	private Map<String, TagData> parsedStrings = new HashMap<String, TagData>();
-	private String tempVal;
-	List<TagData> tagsCollection = new ArrayList<TagData>();
-	TagData tag;
-	Sprite spriteInParsing;
-	Script scriptInParsing;
 	List<Sprite> sprites = new ArrayList<Sprite>();
 	List<Script> scripts = new ArrayList<Script>();
-	Map<String, String> brickValues = new HashMap<String, String>();
-	boolean newBrick = false;
-	Stack<TagData> parsingTagsstack = new Stack<TagData>();
 	int index = 0;
-	List<TagData> parsedTagsList = new ArrayList<TagData>();
 
 	public Project fullParser(InputStream xmlFile) {
 		ObjectCreator projectInit = new ObjectCreator();
@@ -243,6 +232,9 @@ public class FullParser extends DefaultHandler {
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return sprites;
@@ -276,86 +268,67 @@ public class FullParser extends DefaultHandler {
 		return foundScript;
 	}
 
-	private Brick getBrickObject(String brickName, Sprite foundSprite, NodeList valueNodes) {
+	private Brick getBrickObject(String brickName, Sprite foundSprite, NodeList valueNodes)
+			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
+			InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
 		String brickImplName = brickName.substring(7);
 		Brick brickObject = null;
 		Map<String, Field> brickFieldsToSet = new HashMap<String, Field>();
-		try {
-			Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickImplName);
 
-			Field[] brickFields = brickClass.getDeclaredFields();
-			for (Field field : brickFields) {
-				boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+		Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickImplName);
 
-				if (isCurrentFieldTransient) {
-					continue;
-				}
+		Field[] brickFields = brickClass.getDeclaredFields();
+		for (Field field : brickFields) {
+			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
 
-				String tagName = field.getName();
-				if (tagName != "sprite") {
-					brickFieldsToSet.put(tagName, field);
-				}
+			if (isCurrentFieldTransient) {
+				continue;
 			}
 
-			Constructor[] brickConstructorsArray = brickClass.getConstructors();
-			for (Constructor constructor : brickConstructorsArray) {
-				Class[] constructorParams = constructor.getParameterTypes();
-
-				Object argList[] = new Object[constructorParams.length];
-				int index = 0;
-				for (Class cls : constructorParams) {
-
-					if (cls.equals(Sprite.class)) {
-						Object spriteOb = foundSprite;
-						argList[index] = spriteOb;
-					} else {
-						argList[index] = getobjectOfClass(cls, "0");
-					}
-					index++;
-				}
-				brickObject = (Brick) constructor.newInstance(argList);
-
+			String tagName = field.getName();
+			if (tagName != "sprite") {
+				brickFieldsToSet.put(tagName, field);
 			}
-
-			for (int l = 0; l < valueNodes.getLength(); l++) {
-				Node brickValue = valueNodes.item(l);
-				if (brickValue.getNodeType() != Node.TEXT_NODE) {
-					String brickvalueName = brickValue.getNodeName();
-					System.out.println(brickName);
-					Field valueField = brickFieldsToSet.get(brickvalueName);
-					if (valueField != null) {
-						valueField.setAccessible(true);
-						Node valueNode = brickValue.getChildNodes().item(0);
-						if (valueNode != null) {
-							String valueOfValue = valueNode.getNodeValue();
-							Object valueObject = getobjectOfClass(valueField.getType(), valueOfValue);
-							valueField.set(brickObject, valueObject);
-						}
-					}
-				}
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
+		Constructor[] brickConstructorsArray = brickClass.getConstructors();
+		for (Constructor constructor : brickConstructorsArray) {
+			Class[] constructorParams = constructor.getParameterTypes();
+
+			Object argList[] = new Object[constructorParams.length];
+			int index = 0;
+			for (Class cls : constructorParams) {
+
+				if (cls.equals(Sprite.class)) {
+					Object spriteOb = foundSprite;
+					argList[index] = spriteOb;
+				} else {
+					argList[index] = getobjectOfClass(cls, "0");
+				}
+				index++;
+			}
+			brickObject = (Brick) constructor.newInstance(argList);
+
+		}
+
+		for (int l = 0; l < valueNodes.getLength(); l++) {
+			Node brickValue = valueNodes.item(l);
+			if (brickValue.getNodeType() != Node.TEXT_NODE) {
+				String brickvalueName = brickValue.getNodeName();
+				System.out.println(brickName);
+				Field valueField = brickFieldsToSet.get(brickvalueName);
+				if (valueField != null) {
+					valueField.setAccessible(true);
+					Node valueNode = brickValue.getChildNodes().item(0);
+					if (valueNode != null) {
+						String valueOfValue = valueNode.getNodeValue();
+						Object valueObject = getobjectOfClass(valueField.getType(), valueOfValue);
+						valueField.set(brickObject, valueObject);
+					}
+				}
+			}
+		}
+
 		return brickObject;
 	}
 
@@ -390,150 +363,16 @@ public class FullParser extends DefaultHandler {
 
 	}
 
-	private Object setFieldValue(Field valueField, String valueOfValue) {
-		ObjectCreator objectCreator = new ObjectCreator();
-		return objectCreator.getObjectWithValue(valueField, valueOfValue);
-
-	}
-
-	private Script getScriptObject(String scriptImplName, Sprite foundSprite) {
+	private Script getScriptObject(String scriptImplName, Sprite foundSprite) throws ClassNotFoundException,
+			SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
+			IllegalAccessException, InvocationTargetException {
 		Script scriptObject = null;
-		try {
-			Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptImplName);
-			Constructor scriptConstructor = scriptClass.getConstructor(Sprite.class);
-			scriptObject = (Script) scriptConstructor.newInstance(foundSprite);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptImplName);
+		Constructor scriptConstructor = scriptClass.getConstructor(Sprite.class);
+		scriptObject = (Script) scriptConstructor.newInstance(foundSprite);
 
 		return scriptObject;
 	}
-
-	@Override
-	public void startElement(String uri, String localName, String tagName, org.xml.sax.Attributes attributes)
-			throws SAXException {
-		//		if (tagName.startsWith("Bricks")) {
-		//			brickValues.clear();
-		//			newBrick = true;
-		//		}
-		//
-		//		if (tagName.equals("Content.Sprite")) {
-		//			spriteInParsing = new Sprite("");
-		//
-		//		}
-		//
-		//		if (tagName.equals("sprite")) {
-		//			tag = new TagData(tagName, attributes);
-		//			System.out.println("start el attr" + tag.attributes);
-		//		}
-
-		String lname = localName;
-		tag = new TagData(tagName, attributes);
-		parsingTagsstack.push(tag);
-		//		if (!parsedStrings.containsKey(tagName)) {
-		//			parsedStrings.put(tagName, tag);
-		//		} else {
-		//			parsedStrings.put(tagName + index++, tag);
-		//		}
-
-	}
-
-	@Override
-	public void characters(char[] ch, int start, int length) throws SAXException {
-		tempVal = new String(ch, start, length);
-
-	}
-
-	@Override
-	public void endElement(String uri, String localName, String tagName) throws SAXException {
-		//		if (tagName.startsWith("sprite")) {
-		//			System.out.println("endEl temName" + tempVal);
-		//		}
-		//		if (tagName.equals("name")) {
-		//			spriteInParsing.setName(tempVal);
-		//		}
-		//		if (tagName.equals("Content.Sprite")) {
-		//
-		//			sprites.add(spriteInParsing);
-		//			spriteInParsing = null;
-		//
-		//		}
-		//		if (tagName.equals("Content.StartScript")) {
-		//			scriptInParsing = new StartScript(spriteInParsing);
-		//			spriteInParsing.addScript(scriptInParsing);
-		//			scriptInParsing = null;
-		//
-		//		}
-		//		try {
-		//			Class brickClass= Class.forName(tagName);
-		//			Brick brick= (Brick) brickClass.newInstance();
-		//			Field[] brickClassField = brickClass.getFields();
-		//			
-		//			for (Field fieldinProject : brickClassField) {
-		//				boolean isCurrentFieldTransient = Modifier.isTransient(fieldinProject.getModifiers());
-		//
-		//				if (isCurrentFieldTransient) {
-		//					continue;
-		//				}
-		//				String tagName = extractTagName(fieldinProject);
-		//
-		//				String valueInString = headerValues.get(tagName);
-		//
-		//				if (valueInString != null) {
-		//					Object finalObject = getObjectWithValue(fieldinProject, valueInString);
-		//					fieldinProject.setAccessible(true);
-		//					fieldinProject.set(project, finalObject);
-		//				}
-		//			}
-		//			
-		//		} catch (ClassNotFoundException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		} catch (IllegalAccessException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		} catch (InstantiationException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
-		TagData topOfStacktag = parsingTagsstack.peek();
-		if (tagName.equals(topOfStacktag.tagName)) {
-			TagData addingtag = parsingTagsstack.pop();
-			addingtag.value = tempVal;
-			parsedTagsList.add(addingtag);
-		}
-
-		//		parsedStrings.put(tagName, tag);
-		//		tag.value = tempVal;
-		//		tagsCollection.add(tag);
-		//		int tagsno= tagsCollection.size();
-		//		Log.i("tag amount", ""+tagsno);
-
-	}
-
-	//	public String getvalueof(HeaderTags tag, InputStream XMLFile) throws ParseException {
-	//		Map<String, TagData> parsedValues = this.parseHeader(XMLFile);
-	//		return parsedValues.get(tag.getXmlTagString());
-	//
-	//	}
 
 }
