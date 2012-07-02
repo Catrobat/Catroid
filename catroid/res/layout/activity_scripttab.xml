@@ -40,10 +40,11 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/tab_widget_height"
                 android:layout_marginLeft="0dip"
                 android:layout_marginRight="0dip"
-                android:layout_weight="0" />
+                android:layout_weight="0"
+                android:background="@color/tab_backgound_gray" />
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
