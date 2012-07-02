@@ -49,7 +49,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	private double turnDegrees;
 
 	public TurnRightBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

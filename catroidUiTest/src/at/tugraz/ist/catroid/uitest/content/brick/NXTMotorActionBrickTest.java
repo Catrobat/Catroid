@@ -53,7 +53,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 	private static final int MIN_SPEED = -100;
 
 	public NXTMotorActionBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

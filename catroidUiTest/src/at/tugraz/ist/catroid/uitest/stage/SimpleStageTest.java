@@ -33,10 +33,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActivity> {
+
 	private Solo solo;
 
 	public SimpleStageTest() {
-		super("at.tugraz.ist.catroid", StageActivity.class);
+		super(StageActivity.class);
 	}
 
 	@Override
@@ -82,5 +83,4 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		ProjectManager.getInstance().setProject(project);
 		StorageHandler.getInstance().saveProject(project);
 	}
-
 }

@@ -49,7 +49,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 	private String testString = "test";
 
 	public NoteBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

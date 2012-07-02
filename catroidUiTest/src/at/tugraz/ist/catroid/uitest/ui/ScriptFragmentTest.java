@@ -27,11 +27,13 @@ import java.util.List;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -46,11 +48,12 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private List<Brick> brickListToCheck;
 
 	public ScriptFragmentTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -151,7 +154,10 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		ArrayList<Integer> yPositionList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
-		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		Point displaySize = new Point();
+		display.getSize(displaySize);
+		int displayWidth = displaySize.x;
 
 		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2) + 500, 40);
 		solo.sleep(2000);

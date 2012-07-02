@@ -60,7 +60,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	private String testBroadcastWaitMessage = "broadcastWaitMessage";
 
 	public EmptyBrickSpinnersTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

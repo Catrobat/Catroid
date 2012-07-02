@@ -41,13 +41,12 @@ import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import com.jayway.android.robotium.solo.Solo;
 
 public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private Project project;
 
-	//private static final String TAG = WhenBrickTest.class.getSimpleName();
-
 	public WhenBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

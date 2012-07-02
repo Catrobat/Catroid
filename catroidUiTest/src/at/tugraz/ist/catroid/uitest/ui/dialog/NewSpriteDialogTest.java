@@ -37,12 +37,13 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 	private String testingproject = UiTestUtils.PROJECTNAME1;
 	private String testingsprite = "testingsprite";
 
 	public NewSpriteDialogTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -83,7 +84,6 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(1000);
 
 		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
-
 	}
 
 	public void createTestProject(String projectName) {
@@ -96,5 +96,4 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 		storageHandler.saveProject(project);
 	}
-
 }

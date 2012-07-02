@@ -46,13 +46,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActivity> {
+
 	private Solo solo;
 	private Project project;
 	private final int screenWidth = 480;
 	private final int screenHeight = 800;
 
 	public ComplexStageTest() {
-		super("at.tugraz.ist.catroid", StageActivity.class);
+		super(StageActivity.class);
 	}
 
 	@Override
@@ -310,6 +311,5 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		StorageHandler.getInstance().saveProject(project);
 
 		ProjectManager.getInstance().setProject(project);
-
 	}
 }

@@ -48,7 +48,7 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptTa
 	private TurnLeftBrick turnLeftBrick;
 
 	public TurnLeftBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

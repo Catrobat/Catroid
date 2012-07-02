@@ -41,12 +41,12 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
 
 	public ScriptDeleteTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
-
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -137,5 +137,4 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 	}
-
 }

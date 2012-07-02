@@ -48,7 +48,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 	private ChangeSizeByNBrick changeSizeByNBrick;
 
 	public ChangeSizeByNBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

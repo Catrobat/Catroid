@@ -46,8 +46,7 @@ public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptTa
 	private Project project;
 
 	public StopAllSoundsTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
-		// TODO Auto-generated constructor stub
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -100,5 +99,4 @@ public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptTa
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

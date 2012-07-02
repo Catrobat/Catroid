@@ -37,13 +37,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String cat = "cat";
 	private String kat = "kat";
 
 	public RenameSpriteDialogTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -83,7 +84,6 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		String first = ((Sprite) spritesList.getItemAtPosition(1)).getName();
 
 		assertEquals("The first sprite is NOT rename!", first, kat);
-
 	}
 
 	public void createTestProject(String projectName) {

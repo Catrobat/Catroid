@@ -41,11 +41,12 @@ import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ClearGraphicEffectBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private Project project;
 
 	public ClearGraphicEffectBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

@@ -55,6 +55,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 	private StorageHandler storageHandler;
 	private final String projectName = UiTestUtils.PROJECTNAME1;
@@ -75,7 +76,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
 	public LegoNXTTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 		storageHandler = StorageHandler.getInstance();
 	}
 
@@ -235,8 +236,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
-		assertTrue("I should be on the bluetooth device choosing screen, but am not!", solo
-				.searchText(KITTYROID_MAC_ADDRESS));
+		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
+				solo.searchText(KITTYROID_MAC_ADDRESS));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
@@ -325,5 +326,4 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		storageHandler.saveProject(project);
 	}
-
 }

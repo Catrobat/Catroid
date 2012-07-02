@@ -33,11 +33,12 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 	private String testingproject = UiTestUtils.PROJECTNAME1;
 
 	public NewProjectDialogTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -103,5 +104,4 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("EditText was not empty", "", editText.getText().toString());
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
-
 }

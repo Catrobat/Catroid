@@ -46,7 +46,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	private Project project;
 
 	public BroadcastBricksTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

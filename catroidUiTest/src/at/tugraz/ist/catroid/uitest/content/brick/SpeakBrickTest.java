@@ -28,6 +28,7 @@ import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 
 	//	private Project project;
@@ -37,7 +38,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	//	private String testString2 = "";
 
 	public SpeakBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

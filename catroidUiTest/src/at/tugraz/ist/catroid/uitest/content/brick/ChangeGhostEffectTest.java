@@ -49,7 +49,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	private double effectToChange;
 
 	public ChangeGhostEffectTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

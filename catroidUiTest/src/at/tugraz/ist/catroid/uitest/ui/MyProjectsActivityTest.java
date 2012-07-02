@@ -65,7 +65,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	private final String lorem = "Lorem ipsum dolor sit amet";
 
 	public MyProjectsActivityTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override

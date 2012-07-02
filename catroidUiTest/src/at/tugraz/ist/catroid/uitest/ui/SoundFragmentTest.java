@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
@@ -48,7 +49,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
 
 	public SoundFragmentTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

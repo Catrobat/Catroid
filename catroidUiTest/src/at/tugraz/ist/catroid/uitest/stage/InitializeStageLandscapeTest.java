@@ -32,10 +32,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 
 	public InitializeStageLandscapeTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -79,7 +80,6 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 		solo.goBack();
 		solo.goBack();
 		assertTrue("Just for FileTest", true);
-
 	}
 
 	private void createProject() {
@@ -88,5 +88,4 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 
 		UiTestUtils.createEmptyProject();
 	}
-
 }

@@ -51,7 +51,7 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptTabActivity
 	private Project project;
 
 	public HideTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
