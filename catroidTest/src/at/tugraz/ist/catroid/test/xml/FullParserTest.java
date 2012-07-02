@@ -116,6 +116,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		Project testProject = parser.fullParser(xmlFileStream);
 
 		assertNotNull("Project is null", testProject);
+		assertEquals("Project name not correct", "testProject", testProject.getName());
 		assertEquals("Project sprite List size incorrect", 3, testProject.getSpriteList().size());
 		List<Sprite> sprites = testProject.getSpriteList();
 		ShowBrick testBrick = (ShowBrick) sprites.get(1).getScript(0).getBrick(1);

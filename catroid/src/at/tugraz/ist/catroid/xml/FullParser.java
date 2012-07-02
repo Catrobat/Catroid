@@ -22,6 +22,8 @@
  */
 package at.tugraz.ist.catroid.xml;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -62,15 +64,35 @@ public class FullParser extends DefaultHandler {
 		ObjectCreator projectInit = new ObjectCreator();
 		Project parsedProject = null;
 
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		// Fake code simulating the copy
+		// You can generally do better with nio if you need...
+		// And please, unlike me, do something about the Exceptions :D
+		byte[] buffer = new byte[1024];
+		int len;
+
 		try {
 
-			List<Sprite> spriteList = this.parseSprites(xmlFile);
-			parsedProject = projectInit.reflectionSet(xmlFile);
+			while ((len = xmlFile.read(buffer)) > -1) {
+				baos.write(buffer, 0, len);
+			}
+			baos.flush();
+
+			// Open new InputStreams using the recorded bytes
+			// Can be repeated as many times as you wish
+			InputStream is1 = new ByteArrayInputStream(baos.toByteArray());
+			InputStream is2 = new ByteArrayInputStream(baos.toByteArray());
+			parsedProject = projectInit.reflectionSet(is1);
+
+			List<Sprite> spriteList = this.parseSprites(is2);
 
 			for (int i = 0; i < spriteList.size(); i++) {
 				parsedProject.addSprite(spriteList.get(i));
 			}
 		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return parsedProject;
@@ -89,8 +111,19 @@ public class FullParser extends DefaultHandler {
 			for (int i = 0; i < spritesNodes.getLength(); i++) {
 				Node sprite = spritesNodes.item(i);
 				Element spriteElement = (Element) sprite;
-				String spriteName = spriteElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
-						.getNodeValue();
+				NodeList spriteChildren = spriteElement.getChildNodes();
+				String spriteName = null;
+				for (int o = 0; o < spriteChildren.getLength(); o++) {
+					Node child = spriteChildren.item(o);
+					if (child.getNodeType() != Node.TEXT_NODE) {
+						String childNodeName = child.getNodeName();
+						if (childNodeName.equals("name")) {
+							spriteName = child.getChildNodes().item(0).getNodeValue();
+							break;
+						}
+					}
+				}
+
 				Sprite foundSprite = new Sprite(spriteName);
 				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
 				if (costumeListItem != null) {
