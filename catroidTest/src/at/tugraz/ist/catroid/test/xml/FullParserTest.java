@@ -28,6 +28,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
@@ -123,6 +124,30 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Script number of 3rd sprite wrong", 1, testProject.getSpriteList().get(2).getNumberOfScripts());
 		assertEquals("Number of bricks for the script of 3rd sprite is wrong", 7, testProject.getSpriteList().get(2)
 				.getNumberOfBricks());
+	}
+
+	public void testCostumeListParsing() {
+		FullParser parser = new FullParser();
+		InputStream xmlFileStream = null;
+
+		try {
+			xmlFileStream = androidContext.getAssets().open("test_standard_project.xml");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			fail("Exception caught at getting filestream");
+		}
+		Project testProject = parser.fullParser(xmlFileStream);
+		assertNotNull("project not created", testProject);
+		List<Sprite> sprites = testProject.getSpriteList();
+		assertEquals("all sprites not given", 2, sprites.size());
+		Sprite testSprite = sprites.get(1);
+		List<CostumeData> givenCostumes = (List<CostumeData>) TestUtils.getPrivateField("costumeDataList", testSprite,
+				false);
+		assertEquals("costumes number wrong", 3, givenCostumes.size());
+		CostumeData testData = givenCostumes.get(1);
+		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
+		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 	}
 
 }

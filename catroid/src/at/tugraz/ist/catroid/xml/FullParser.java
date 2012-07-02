@@ -46,6 +46,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -101,7 +102,32 @@ public class FullParser extends DefaultHandler {
 				String spriteName = spriteElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
 						.getNodeValue();
 				Sprite foundSprite = new Sprite(spriteName);
-
+				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
+				if (costumeListItem != null) {
+					List<CostumeData> costumeList = new ArrayList<CostumeData>();
+					NodeList costumeNodes = costumeListItem.getChildNodes();
+					for (int m = 0; m < costumeNodes.getLength(); m++) {
+						CostumeData foundCostumeData = null;
+						Node costumeElement = costumeNodes.item(m);
+						if (costumeElement.getNodeType() != Node.TEXT_NODE) {
+							Element cel = (Element) costumeElement;
+							Node costumeFileNameNode = cel.getElementsByTagName("fileName").item(0);
+							String costumeFileName = null;
+							if (costumeFileNameNode != null) {
+								costumeFileName = costumeFileNameNode.getChildNodes().item(0).getNodeValue();
+							}
+							String costumeName = cel.getElementsByTagName("name").item(0).getChildNodes().item(0)
+									.getNodeValue();
+							foundCostumeData = new CostumeData();
+							foundCostumeData.setCostumeFilename(costumeFileName);
+							foundCostumeData.setCostumeName(costumeName);
+							costumeList.add(foundCostumeData);
+						}
+					}
+					Field costumeListField = foundSprite.getClass().getDeclaredField("costumeDataList");
+					costumeListField.setAccessible(true);
+					costumeListField.set(foundSprite, costumeList);
+				}
 				Node scriptListItem = spriteElement.getElementsByTagName("scriptList").item(0);
 				if (scriptListItem != null) {
 
@@ -170,6 +196,12 @@ public class FullParser extends DefaultHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -254,16 +286,8 @@ public class FullParser extends DefaultHandler {
 					if (cls.equals(Sprite.class)) {
 						Object spriteOb = foundSprite;
 						argList[index] = spriteOb;
-					}
-					//					else if (cls.equals(double.class)) {
-					//						Object dblObj = new Double(0.0);
-					//						argList[index] = dblObj;
-					//					} else if (cls.equals(int.class)) {
-					//						Object intobj = new Integer(0);
-					//						argList[index] = intobj;
-					//					}
-					else {
-						argList[index] = getobjectOfClass(cls);
+					} else {
+						argList[index] = getobjectOfClass(cls, "0");
 					}
 					index++;
 				}
@@ -313,7 +337,7 @@ public class FullParser extends DefaultHandler {
 		return brickObject;
 	}
 
-	private Object getobjectOfClass(Class cls) throws IllegalArgumentException, SecurityException,
+	private Object getobjectOfClass(Class cls, String val) throws IllegalArgumentException, SecurityException,
 			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Constructor clsConstructor = null;
 		Object obj = null;
@@ -333,7 +357,7 @@ public class FullParser extends DefaultHandler {
 			cls = Long.class;
 		} else if (cls == char.class) {
 			cls = Character.class;
-			obj = cls.getConstructor(char.class).newInstance('a');
+			obj = cls.getConstructor(char.class).newInstance(val.charAt(0));
 			return obj;
 		}
 
