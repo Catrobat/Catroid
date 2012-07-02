@@ -47,6 +47,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -128,6 +129,35 @@ public class FullParser extends DefaultHandler {
 					costumeListField.setAccessible(true);
 					costumeListField.set(foundSprite, costumeList);
 				}
+				Node soundListItem = spriteElement.getElementsByTagName("soundList").item(0);
+				if (soundListItem != null) {
+					List<SoundInfo> soundList = new ArrayList<SoundInfo>();
+					NodeList soundNodes = soundListItem.getChildNodes();
+					for (int n = 0; n < soundNodes.getLength(); n++) {
+						SoundInfo foundSoundInfo = null;
+						Node soundElement = soundNodes.item(n);
+						if (soundElement.getNodeType() != Node.TEXT_NODE) {
+							Element cel = (Element) soundElement;
+							Node soundFileNameNode = cel.getElementsByTagName("fileName").item(0);
+							String soundFileName = null;
+							if (soundFileNameNode != null) {
+								soundFileName = soundFileNameNode.getChildNodes().item(0).getNodeValue();
+							}
+							Node soundNameNode = cel.getElementsByTagName("name").item(0);
+							String soundName = null;
+							if (soundNameNode != null) {
+								soundName = soundNameNode.getChildNodes().item(0).getNodeValue();
+							}
+							foundSoundInfo = new SoundInfo();
+							foundSoundInfo.setSoundFileName(soundFileName);
+							foundSoundInfo.setTitle(soundName);
+							soundList.add(foundSoundInfo);
+						}
+					}
+					Field soundListField = foundSprite.getClass().getDeclaredField("soundList");
+					soundListField.setAccessible(true);
+					soundListField.set(foundSprite, soundList);
+				}
 				Node scriptListItem = spriteElement.getElementsByTagName("scriptList").item(0);
 				if (scriptListItem != null) {
 
@@ -204,32 +234,24 @@ public class FullParser extends DefaultHandler {
 		} catch (NoSuchFieldException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		//		parsedStrings = new HashMap<String, TagData>();
-		//		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-		//
-		//		try {
-		//			SAXParser parser = parserFactory.newSAXParser();
-		//			parser.parse(fXmlFile, this);
-		//
-		//		} catch (ParserConfigurationException e) {
-		//			Log.e("SimpleParser.saxparser", "parserConfiguration exception");
-		//			throw new ParseException(e);
-		//		} catch (SAXException e) {
-		//			Log.e("SimpleParser.saxparser", "parserConfiguration exception");
-		//			throw new ParseException(e);
-		//		} catch (IOException e) {
-		//			Log.e("SimpleParser.saxparser", "IO exception");
-		//			throw new ParseException(e);
-		//		}
 
 		return sprites;
 
 	}
 
 	private Script getAdditionalScriptInfo(Element el, Script foundScript) throws IllegalArgumentException,
-			IllegalAccessException {
+			IllegalAccessException, SecurityException, InstantiationException, InvocationTargetException,
+			NoSuchMethodException {
 
 		Field[] scriptClassFields = foundScript.getClass().getDeclaredFields();
 		for (Field field : scriptClassFields) {
@@ -244,7 +266,7 @@ public class FullParser extends DefaultHandler {
 			if (nl.item(0) != null) {
 				String valueInString = nl.item(0).getChildNodes().item(0).getNodeValue();
 				if (valueInString != null) {
-					Object finalObject = setFieldValue(field, valueInString);
+					Object finalObject = getobjectOfClass(field.getType(), valueInString);
 					field.setAccessible(true);
 					field.set(foundScript, finalObject);
 				}
@@ -306,7 +328,7 @@ public class FullParser extends DefaultHandler {
 						Node valueNode = brickValue.getChildNodes().item(0);
 						if (valueNode != null) {
 							String valueOfValue = valueNode.getNodeValue();
-							Object valueObject = setFieldValue(valueField, valueOfValue);
+							Object valueObject = getobjectOfClass(valueField.getType(), valueOfValue);
 							valueField.set(brickObject, valueObject);
 						}
 					}
@@ -362,7 +384,7 @@ public class FullParser extends DefaultHandler {
 		}
 
 		clsConstructor = cls.getConstructor(String.class);
-		obj = clsConstructor.newInstance("0");
+		obj = clsConstructor.newInstance(val);
 
 		return obj;
 
