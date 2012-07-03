@@ -177,14 +177,32 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
-		assertNotNull("Download not successful.",
+		assertTrue("OverwriteRenameDialog not showed.",
+				solo.searchText(getActivity().getString(R.string.overwrite_text)));
+
+		solo.clickOnText(getActivity().getString(R.string.overwrite_rename));
+		assertTrue("No text field to enter new name.", solo.searchEditText(newTestProject));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertTrue("No error showed because of duplicate names.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
+		solo.clearEditText(0);
+		solo.enterText(0, testProject);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertTrue("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
 
-		String projectPath = Constants.DEFAULT_ROOT + "/" + newTestProject;
+		String projectPath = Constants.DEFAULT_ROOT + "/" + testProject;
 		File downloadedDirectory = new File(projectPath);
 		File downloadedProjectFile = new File(projectPath + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
-		assertTrue("Project File does not exist.", downloadedProjectFile.exists());
+		assertTrue("Downloaded Project File does not exist.", downloadedProjectFile.exists());
+
+		projectPath = Constants.DEFAULT_ROOT + "/" + newTestProject;
+		downloadedDirectory = new File(projectPath);
+		downloadedProjectFile = new File(projectPath + "/" + Constants.PROJECTCODE_NAME);
+		assertTrue("Original Directory does not exist.", downloadedDirectory.exists());
+		assertTrue("Original Project File does not exist.", downloadedProjectFile.exists());
 
 	}
 
