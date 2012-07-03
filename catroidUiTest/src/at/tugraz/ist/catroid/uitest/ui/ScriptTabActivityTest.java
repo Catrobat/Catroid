@@ -192,7 +192,6 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.sleep(200);
 		solo.enterText(0, spriteName);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
 	}

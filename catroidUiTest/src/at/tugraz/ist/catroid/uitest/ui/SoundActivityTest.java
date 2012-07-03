@@ -186,6 +186,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.sleep(200);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
 		solo.sleep(100);
@@ -205,7 +206,6 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		EditText editTextSoundTitle = (EditText) solo.getView(R.id.dialog_rename_sound_editText);
 		solo.clearEditText(editTextSoundTitle);
 		solo.enterText(editTextSoundTitle, newSoundTitle);
-		solo.goBack();
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
 	}
