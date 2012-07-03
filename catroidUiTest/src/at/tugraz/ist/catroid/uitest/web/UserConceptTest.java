@@ -186,7 +186,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		String testUser = "testUser" + System.currentTimeMillis();
 		solo.clearEditText(0);
 		solo.enterText(0, testUser);
-		solo.goBack();
 		// enter a password
 		String testPassword;
 		if (correct) {
