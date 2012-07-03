@@ -81,7 +81,6 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, SET_Y + "");
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		int yPosition = (Integer) UiTestUtils.getPrivateField("yPosition", setYBrick);

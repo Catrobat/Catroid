@@ -86,7 +86,6 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, STEPS_TO_GO_BACK + "");
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));

@@ -121,7 +121,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
-		solo.goBack();
 		solo.sendKey(Solo.ENTER);
 
 		assertTrue("No error message was displayed upon creating a project with an empty name.",

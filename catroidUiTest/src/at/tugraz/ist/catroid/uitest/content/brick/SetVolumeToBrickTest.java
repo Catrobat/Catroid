@@ -81,7 +81,6 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, VOLUME + "");
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		assertEquals("Value in Brick is not updated.", VOLUME + "", solo.getEditText(0).getText().toString());

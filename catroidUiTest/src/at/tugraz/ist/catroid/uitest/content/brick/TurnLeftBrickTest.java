@@ -80,7 +80,6 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, turnDegrees + "");
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);

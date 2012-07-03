@@ -81,7 +81,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		String buttonPositiveText = solo.getString(R.string.ok);
 		solo.clickOnEditText(0);
 		solo.enterText(0, TEST_STRING);
-		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
 		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
@@ -89,7 +88,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
-		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
@@ -98,7 +96,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		//used testString again, cause robotium can't find button otherwise....
 		solo.clickOnEditText(0);
 		solo.enterText(0, TEST_STRING);
-		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();

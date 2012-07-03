@@ -80,7 +80,6 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, SIZE_TO_CHANGE + "");
-		solo.goBack();
 		solo.clickOnButton(0);
 
 		double actualSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);

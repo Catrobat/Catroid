@@ -80,7 +80,6 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, newEffect + "");
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		assertEquals("Wrong text in field", newEffect, SetGhostEffectBrick.getGhostEffectValue());

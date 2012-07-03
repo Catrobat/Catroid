@@ -88,7 +88,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.waitForText(buttonOkText);
 		solo.clearEditText(0);
 		solo.enterText(0, SET_SPEED + "");
-		solo.goBack();
 		solo.clickOnButton(buttonOkText);
 
 		int speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);

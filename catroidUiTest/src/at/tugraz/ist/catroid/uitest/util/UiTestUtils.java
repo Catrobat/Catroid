@@ -122,13 +122,11 @@ public class UiTestUtils {
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
-		solo.goBack();
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
 		enterText(solo, 0, value);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(50);
 	}

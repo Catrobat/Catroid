@@ -80,7 +80,6 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, newBrightness + "");
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());

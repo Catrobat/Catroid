@@ -61,11 +61,12 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	}
 
 	public void testNumberInput() {
-		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
+		String whenStartedText = solo.getString(R.string.brick_when_started);
+		solo.clickLongOnText(whenStartedText);
 		solo.clickOnText(getActivity().getString(R.string.delete));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(whenStartedText);
 
 		double duration = 1.5;
 		int xPosition = 123;
