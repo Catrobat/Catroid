@@ -347,14 +347,14 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		createProjects();
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
+		String actionRenameText = solo.getString(R.string.rename);
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
-		solo.clickOnText(getActivity().getString(R.string.rename), 1, true);
+		solo.clickOnText(actionRenameText, 1, true);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
-		solo.goBack();
 		solo.clickOnText(buttonPositiveText, 1, true);
 		solo.waitForDialogToClose(500);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
@@ -367,10 +367,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
-		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.clickOnText(actionRenameText);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME1);
-		solo.goBack();
 		solo.clickOnText(buttonPositiveText, 1, true);
 		solo.waitForDialogToClose(500);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
@@ -388,7 +387,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
-		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
 		solo.waitForDialogToClose(500);
 		assertTrue("rename wasnt successfull", solo.searchText(UiTestUtils.PROJECTNAME3, 1, true));
@@ -407,7 +405,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, renameString);
-		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
 		solo.waitForDialogToClose(500);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
@@ -424,7 +421,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, renameString);
-		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.ok));
 		solo.waitForDialogToClose(500);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
@@ -440,18 +436,19 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.sleep(200);
 		EditText addNewProjectEditText = solo.getEditText(0);
+		String buttonOkText = solo.getString(R.string.ok);
 		assertEquals("Not the proper hint set", getActivity().getString(R.string.new_project_dialog_hint),
 				addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(100);
-		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		assertTrue("Dialog is not visible", solo.searchText(buttonOkText));
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.getInstance()
@@ -479,7 +476,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.close));
-		solo.goBack();
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
@@ -487,18 +483,19 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testSetDescriptionCurrentProject() {
 		createProjects();
+		String actionSetDescriptionText = solo.getString(R.string.set_description);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
 		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.clickOnText(actionSetDescriptionText);
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		UiTestUtils.enterText(solo, 0, lorem);
-		solo.clickOnButton(0);
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
 		ProjectManager projectManager = ProjectManager.getInstance();
 		// temporarily removed - should be added when displaying projectdescription
@@ -506,7 +503,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
 		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.clickOnText(actionSetDescriptionText);
 		solo.sleep(200);
 		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		assertTrue("description is not set in project",
@@ -515,11 +512,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testSetDescription() {
 		createProjects();
+		String actionSetDescriptionText = solo.getString(R.string.set_description);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
 		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.clickOnText(actionSetDescriptionText);
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
@@ -527,7 +525,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(300);
 		UiTestUtils.enterText(solo, 0, lorem);
 		solo.sleep(300);
-		solo.clickOnButton(0);
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
 		ProjectManager projectManager = ProjectManager.getInstance();
 		// temporarily removed - should be added when displaying projectdescription
@@ -535,7 +533,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
 		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.set_description));
+		solo.clickOnText(actionSetDescriptionText);
 		solo.sleep(200);
 		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		projectManager.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);

@@ -222,6 +222,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Dialog is not visible after orientation change", solo.searchText(buttonPositiveText));
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testText));
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.waitForText(buttonPositiveText);
 		solo.clickOnButton(buttonPositiveText);
 		solo.sleep(100);
@@ -283,7 +284,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
+		solo.goBack();
+		solo.clickOnButton(0);
 		solo.sleep(200);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
 
@@ -321,6 +323,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(200);
 		assertTrue("not in NewSpriteDialog", solo.searchText(getActivity().getString(R.string.new_sprite_dialog_title)));
@@ -422,7 +425,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		
+
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = sprite.getNumberOfScripts();
 		int brickCount = sprite.getNumberOfBricks();
