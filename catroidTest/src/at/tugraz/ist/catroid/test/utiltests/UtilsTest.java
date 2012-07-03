@@ -47,19 +47,19 @@ public class UtilsTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		OutputStream stream = null;
+		OutputStream outputStream = null;
 		try {
 			mTestFile = File.createTempFile("testCopyFiles", ".txt");
 			if (mTestFile.canWrite()) {
-				stream = new FileOutputStream(mTestFile);
-				stream.write(testFileContent.getBytes());
-				stream.flush();
+				outputStream = new FileOutputStream(mTestFile);
+				outputStream.write(testFileContent.getBytes());
+				outputStream.flush();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (stream != null) {
-				stream.close();
+			if (outputStream != null) {
+				outputStream.close();
 			}
 		}
 
