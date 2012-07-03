@@ -170,6 +170,11 @@
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
+    
+    <!--  OverwriteRenameDialog Strings -->
+    <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
+    <string name="overwrite_replace">ersetze bestehendes Projekt</string>
+    <string name="overwrite_rename">benenne heruntergeladenes Projekt um</string>
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">Neu...</string>
