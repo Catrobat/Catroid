@@ -26,9 +26,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -337,6 +339,7 @@ public class FullParser extends DefaultHandler {
 					argList[index] = spriteOb;
 				} else {
 					argList[index] = getobjectOfClass(cls, "0");
+					//argList[index] = newInstanceSkippingConstructor(cls);
 				}
 				index++;
 			}
@@ -365,6 +368,15 @@ public class FullParser extends DefaultHandler {
 		return brickObject;
 	}
 
+	private Object newInstanceSkippingConstructor(final Class clazz) throws SecurityException, NoSuchMethodException,
+			IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+
+		Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
+		newInstance.setAccessible(true);
+		return newInstance.invoke(null, clazz, Object.class);
+
+	}
+
 	private Object getobjectOfClass(Class cls, String val) throws IllegalArgumentException, SecurityException,
 			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Constructor clsConstructor = null;
@@ -387,6 +399,12 @@ public class FullParser extends DefaultHandler {
 			cls = Character.class;
 			obj = cls.getConstructor(char.class).newInstance(val.charAt(0));
 			return obj;
+		} else if (cls == String.class) {
+			return new String(val);
+		} else {
+			Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
+			newInstance.setAccessible(true);
+			return newInstance.invoke(null, cls, Object.class);
 		}
 
 		clsConstructor = cls.getConstructor(String.class);
