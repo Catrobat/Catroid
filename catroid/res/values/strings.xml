@@ -320,5 +320,12 @@
     
     <!-- Formula Editor Strings -->
     <string name="dialog_formula_editor_title">Formula Editor</string>
-
+    
+    <!-- Num Pad Strings -->
+    <string name="ime_name">Num Pad</string>
+    <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+    <string name="label_go_key">Go</string>
+    <string name="label_next_key">Next</string>
+    <string name="label_send_key">Send</string>
+    
 </resources>
