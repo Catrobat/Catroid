@@ -89,7 +89,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("SETSizetoBrick size incorrect", 0.8, sizeFormBrick);
 
 		WhenScript testWhnScript = (WhenScript) values.get(1).getScript(1);
-		assertEquals("When Script action incorrect", "Tapped", testWhnScript.getAction());
+		assertEquals("WhenScript action incorrect", "Tapped", testWhnScript.getAction());
 
 		StartScript testScript2 = (StartScript) values.get(2).getScript(0);
 		GlideToBrick testBrick2 = (GlideToBrick) testScript2.getBrick(5);
