@@ -161,6 +161,11 @@
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
+    
+    <!--  OverwriteRenameDialog Strings -->
+    <string name="overwrite_text">Project with same name already exists!</string>
+    <string name="overwrite_replace">replace existing Project</string>
+    <string name="overwrite_rename">rename downloaded Project</string>
 
     <!-- Stage menu dialog -->
     <string name="back">Back</string>
