@@ -83,6 +83,10 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 				showOverwriteDialog = true;
 			}
 
+			if (!showOverwriteDialog) {
+				UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
+			}
+
 			return true;
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
@@ -110,8 +114,6 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 			//Toast.makeText(mActivity, R.string.error_project_download, Toast.LENGTH_SHORT).show();
 			showDialog(R.string.error_project_download);
 			return;
-		} else {
-			UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 		}
 
 		if (activity == null) {
