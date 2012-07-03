@@ -174,7 +174,8 @@ public class StorageHandler {
 
 	public File copySoundFile(String path) throws IOException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject), Constants.SOUND_DIRECTORY));
+		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject),
+				Constants.SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -270,8 +271,10 @@ public class StorageHandler {
 	}
 
 	private File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
-		FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
-		FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
+		FileInputStream inputStream = new FileInputStream(sourceFile);
+		FileChannel inputChannel = inputStream.getChannel();
+		FileOutputStream outputStream = new FileOutputStream(destinationFile);
+		FileChannel outputChannel = outputStream.getChannel();
 
 		String checksumSource = Utils.md5Checksum(sourceFile);
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
@@ -287,8 +290,14 @@ public class StorageHandler {
 			if (inputChannel != null) {
 				inputChannel.close();
 			}
+			if (inputStream != null) {
+				inputStream.close();
+			}
 			if (outputChannel != null) {
 				outputChannel.close();
+			}
+			if (outputStream != null) {
+				outputStream.close();
 			}
 		}
 	}

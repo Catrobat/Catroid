@@ -168,6 +168,7 @@ public class StringsTest extends TestCase {
 			while ((currentLine = reader.readLine()) != null) {
 				javaSourceCodeBuilder.append(currentLine + "\n");
 			}
+			reader.close();
 		}
 		String javaSourceCode = javaSourceCodeBuilder.toString();
 
@@ -186,6 +187,7 @@ public class StringsTest extends TestCase {
 				while ((currentLine = reader.readLine()) != null) {
 					xmlSourceCodeBuilder.append(currentLine + "\n");
 				}
+				reader.close();
 			}
 		}
 		String xmlSourceCode = xmlSourceCodeBuilder.toString();
@@ -244,6 +246,7 @@ public class StringsTest extends TestCase {
 				}
 			}
 		}
+		reader.close();
 		return usedStrings;
 	}
 
@@ -272,6 +275,7 @@ public class StringsTest extends TestCase {
 			while ((currentLine = reader.readLine()) != null) {
 				stringXmlSourceCodeBuilder.append(currentLine + "\n");
 			}
+			reader.close();
 		}
 
 		String stringXmlSourceCode = stringXmlSourceCodeBuilder.toString();
