@@ -81,7 +81,6 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, waitTime + "");
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		int actualWaitTime = (Integer) UiTestUtils.getPrivateField("timeToWaitInMilliSeconds", waitBrick);

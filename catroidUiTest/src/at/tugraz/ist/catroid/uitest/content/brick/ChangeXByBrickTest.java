@@ -81,7 +81,6 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, X_TO_CHANGE + "");
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		int xMovementValue = (Integer) UiTestUtils.getPrivateField("xMovement", changeXByBrick);

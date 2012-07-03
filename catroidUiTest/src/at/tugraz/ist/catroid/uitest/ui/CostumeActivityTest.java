@@ -175,8 +175,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
+		solo.sleep(300);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
+		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 		assertTrue("Costume wasnt renamed", solo.searchText(newName));
@@ -495,7 +496,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		EditText editTextCostumeName = (EditText) solo.getView(R.id.dialog_rename_costume_editText);
 		solo.clearEditText(editTextCostumeName);
 		solo.enterText(editTextCostumeName, newCostumeName);
-		solo.goBack();
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
 	}

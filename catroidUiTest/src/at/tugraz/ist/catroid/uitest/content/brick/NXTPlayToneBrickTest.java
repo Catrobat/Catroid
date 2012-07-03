@@ -87,7 +87,6 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, SET_DURATION + "");
-		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
 		double duration = (Integer) UiTestUtils.getPrivateField("durationInMs", playToneBrick);
@@ -100,7 +99,6 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.clickOnEditText(1);
 		solo.clearEditText(0);
 		solo.enterText(0, SET_FREQUENCY + "");
-		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
 		int hertz = (Integer) UiTestUtils.getPrivateField("hertz", playToneBrick);

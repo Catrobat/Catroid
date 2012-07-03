@@ -102,7 +102,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.waitForText(buttonPositiveText);
 		solo.clearEditText(0);
 		solo.enterText(0, xPosition + "");
-		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
 		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
@@ -112,7 +111,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnEditText(1);
 		solo.clearEditText(0);
 		solo.enterText(0, yPosition + "");
-		solo.goBack();
 		solo.clickOnButton(buttonPositiveText);
 
 		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);

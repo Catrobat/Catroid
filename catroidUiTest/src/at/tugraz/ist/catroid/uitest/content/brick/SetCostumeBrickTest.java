@@ -163,7 +163,6 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.scripts));
