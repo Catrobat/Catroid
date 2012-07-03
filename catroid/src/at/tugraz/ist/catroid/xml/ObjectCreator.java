@@ -23,7 +23,10 @@
 package at.tugraz.ist.catroid.xml;
 
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
@@ -79,6 +82,14 @@ public class ObjectCreator {
 			return new Float(valueInString);
 		}
 		return null;
+	}
+
+	public static Object createWithoutConstructor(final Class clazz) throws IllegalArgumentException,
+			IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
+		Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
+		newInstance.setAccessible(true);
+		return newInstance.invoke(null, clazz, Object.class);
+
 	}
 
 	private String extractTagName(Field field) {
