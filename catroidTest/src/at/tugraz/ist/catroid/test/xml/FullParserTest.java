@@ -34,6 +34,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -149,6 +150,15 @@ public class FullParserTest extends InstrumentationTestCase {
 		CostumeData testData = givenCostumes.get(1);
 		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
+
+		WhenScript script = (WhenScript) testSprite.getScript(1);
+		SetCostumeBrick costBrick = (SetCostumeBrick) script.getBrick(0);
+		assertNotNull("Costume brick is null", costBrick);
+		CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
+		assertNotNull("Costume data null", testCostData);
+		String setCostumeFileName = testCostData.getCostumeFileName();
+		assertEquals("Costume set file name incorrect", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat",
+				setCostumeFileName);
 	}
 
 }
