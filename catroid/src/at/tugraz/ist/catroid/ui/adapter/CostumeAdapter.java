@@ -87,7 +87,9 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 				costumeResolution.setText(resolution[0] + " x " + resolution[1]);
 
 				//setting size
-				costumeSize.setText(UtilFile.getSizeAsString(new File(costumeData.getAbsolutePath())));
+				if (costumeData.getAbsolutePath() != null) {
+					costumeSize.setText(UtilFile.getSizeAsString(new File(costumeData.getAbsolutePath())));
+				}
 			}
 			
 			costumeImage.setOnClickListener(new OnClickListener() {

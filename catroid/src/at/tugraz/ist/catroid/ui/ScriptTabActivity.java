@@ -328,8 +328,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 		if (!dontcreateNewBrick) {
 			if (!isCanceled) {
 				if (addScript) {
-					//TODO this should be refactored
-					((ScriptFragment) tabsAdapter.getItem(INDEX_TAB_SCRIPTS)).setAddNewScript();
+					((ScriptFragment) getTabFragment(INDEX_TAB_SCRIPTS)).setAddNewScript();
 					addScript = false;
 				}
 
