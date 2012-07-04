@@ -374,8 +374,14 @@ public class FullParser extends DefaultHandler {
 		Map<String, Field> brickFieldsToSet = new HashMap<String, Field>();
 		Log.i("brick parsing, getBrickObject", "getting brick object of " + brickName);
 		Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickImplName);
-
+		Field[] superClassFields = brickClass.getSuperclass().getDeclaredFields();
 		Field[] brickFields = brickClass.getDeclaredFields();
+		if (superClassFields.length > 0) {
+			Field[] combined = new Field[superClassFields.length + brickFields.length];
+			System.arraycopy(brickFields, 0, combined, 0, brickFields.length);
+			System.arraycopy(superClassFields, 0, combined, brickFields.length, superClassFields.length);
+			brickFields = combined;
+		}
 		for (Field field : brickFields) {
 			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
 
