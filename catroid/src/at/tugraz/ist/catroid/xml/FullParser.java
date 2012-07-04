@@ -168,7 +168,8 @@ public class FullParser extends DefaultHandler {
 							costumeList.add(foundCostumeData);
 							String costumeindexString = "";
 							if (costumeIndex > 0) {
-								costumeindexString = "[" + costumeIndex + "]";
+								int showNo = costumeIndex + 1;
+								costumeindexString = "[" + showNo + "]";
 							}
 							referencedLists.put("Common.CostumeData" + costumeindexString, foundCostumeData);
 							costumeIndex++;
@@ -438,6 +439,11 @@ public class FullParser extends DefaultHandler {
 						XPathExpression exp = xpath.compile(referenceAttr);
 						Element refList = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
 						String nodeLocalName = refList.getNodeName();
+						if (referenceAttr.endsWith("]")) {
+							int bracketIndex = referenceAttr.lastIndexOf('[');
+							nodeLocalName = nodeLocalName + referenceAttr.substring(bracketIndex);
+						}
+
 						Object valueObject = referencedLists.get(nodeLocalName);
 						if (valueObject != null) {
 							valueField.set(brickObject, valueObject);
