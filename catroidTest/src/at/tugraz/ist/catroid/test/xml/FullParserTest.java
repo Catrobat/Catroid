@@ -152,12 +152,12 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 
 		WhenScript script = (WhenScript) testSprite.getScript(1);
-		SetCostumeBrick costBrick = (SetCostumeBrick) script.getBrick(0);
+		SetCostumeBrick costBrick = (SetCostumeBrick) script.getBrick(4);
 		assertNotNull("Costume brick is null", costBrick);
 		CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
 		assertNotNull("Costume data null", testCostData);
 		String setCostumeFileName = testCostData.getCostumeFileName();
-		assertEquals("Costume set file name incorrect", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat",
+		assertEquals("Costume set file name incorrect", "143780EBC24495149123CCAF3A1CDC35_normalCat",
 				setCostumeFileName);
 	}
 
