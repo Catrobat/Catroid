@@ -40,6 +40,11 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -61,6 +66,8 @@ public class FullParser extends DefaultHandler {
 
 	List<Sprite> sprites = new ArrayList<Sprite>();
 	List<Script> scripts = new ArrayList<Script>();
+	List<CostumeData> costumeList = new ArrayList<CostumeData>();
+	Map<String, Object> referencedLists = new HashMap<String, Object>();
 	int index = 0;
 
 	public Project fullParser(InputStream xmlFile) {
@@ -134,10 +141,11 @@ public class FullParser extends DefaultHandler {
 				Sprite foundSprite = new Sprite(spriteName);
 				Log.i("sprite parsing", "Sprite created, costume parsing");
 				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
-				if (costumeListItem != null) {
-					List<CostumeData> costumeList = new ArrayList<CostumeData>();
-					NodeList costumeNodes = costumeListItem.getChildNodes();
 
+				if (costumeListItem != null) {
+					costumeList = new ArrayList<CostumeData>();
+					NodeList costumeNodes = costumeListItem.getChildNodes();
+					int costumeIndex = 0;
 					for (int m = 0; m < costumeNodes.getLength(); m++) {
 
 						CostumeData foundCostumeData = null;
@@ -158,12 +166,19 @@ public class FullParser extends DefaultHandler {
 							foundCostumeData.setCostumeFilename(costumeFileName);
 							foundCostumeData.setCostumeName(costumeName);
 							costumeList.add(foundCostumeData);
+							String costumeindexString = "";
+							if (costumeIndex > 0) {
+								costumeindexString = "[" + costumeIndex + "]";
+							}
+							referencedLists.put("Common.CostumeData" + costumeindexString, foundCostumeData);
+							costumeIndex++;
 							Log.i("costume parsing", "costume created");
 						}
 					}
 					Field costumeListField = foundSprite.getClass().getDeclaredField("costumeDataList");
 					costumeListField.setAccessible(true);
 					costumeListField.set(foundSprite, costumeList);
+
 					Log.i("costume parsing", costumeList.size() + " costumes added");
 				}
 				Node soundListItem = spriteElement.getElementsByTagName("soundList").item(0);
@@ -297,6 +312,9 @@ public class FullParser extends DefaultHandler {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		Log.i("sprite parsing", "no of sprites returned:" + sprites.size());
 		return sprites;
@@ -345,7 +363,11 @@ public class FullParser extends DefaultHandler {
 
 	private Brick getBrickObject(String brickName, Sprite foundSprite, NodeList valueNodes)
 			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+			InvocationTargetException, NoSuchMethodException, ClassNotFoundException, XPathExpressionException {
+
+		XPathFactory xpathFactory = XPathFactory.newInstance();
+		XPath xpath = xpathFactory.newXPath();
+
 		String brickImplName = brickName.substring(7);
 		Brick brickObject = null;
 		Map<String, Field> brickFieldsToSet = new HashMap<String, Field>();
@@ -397,6 +419,7 @@ public class FullParser extends DefaultHandler {
 
 				Field valueField = brickFieldsToSet.get(brickvalueName);
 				if (valueField != null) {
+
 					Log.i("brick parsing, getBrickObject, value parsing", "value field found, type:"
 							+ valueField.getType().getCanonicalName());
 					valueField.setAccessible(true);
@@ -408,11 +431,40 @@ public class FullParser extends DefaultHandler {
 						valueField.set(brickObject, valueObject);
 
 					}
+					String referenceAttr = getReferenceAttribute(brickValue);
+					if (referenceAttr != null) {
+						Log.i("brick parsing, getBrickObject, value parsing", "brick value name:" + brickvalueName
+								+ "reference: " + referenceAttr);
+						XPathExpression exp = xpath.compile(referenceAttr);
+						Element refList = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
+						String nodeLocalName = refList.getNodeName();
+						Object valueObject = referencedLists.get(nodeLocalName);
+						if (valueObject != null) {
+							valueField.set(brickObject, valueObject);
+						}
+					}
 				}
 			}
 		}
 
 		return brickObject;
+	}
+
+	private String getReferenceAttribute(Node brickValue) {
+		Element brickElement = (Element) brickValue;
+		String spriteAttr = null;
+		if (brickElement != null) {
+			NamedNodeMap attributes = brickElement.getAttributes();
+			if (attributes != null) {
+				Node referenceNode = attributes.getNamedItem("reference");
+				if (referenceNode != null) {
+					spriteAttr = referenceNode.getTextContent();
+					Log.i("brick parsing", "Brick sprite attribute " + spriteAttr);
+				}
+			}
+		}
+
+		return spriteAttr;
 	}
 
 	private Object getobjectOfClass(Class cls, String val) throws IllegalArgumentException, SecurityException,
