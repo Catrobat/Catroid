@@ -23,7 +23,9 @@
 package at.tugraz.ist.catroid.nativetest.io;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
@@ -35,6 +37,7 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.xml.FullParser;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
 	private StorageHandler storageHandler;
@@ -64,10 +67,22 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		String firstSpriteName = "Stage";
 		String secondSpriteName = "first";
 		String thirdSpriteName = "second";
-
+		FullParser parser = new FullParser();
 		NativeAppActivity.setContext(getInstrumentation().getContext());
-		Project loadedProject = storageHandler.loadProject("test_project.xml");
 
+		InputStream xmlFileStream = null;
+
+		Context androidContext;
+		androidContext = getInstrumentation().getContext();
+		try {
+			xmlFileStream = androidContext.getAssets().open("test_project.xml");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			fail("Exception caught at getting filestream");
+		}
+		//Project loadedProject = storageHandler.loadProject("test_project.xml");
+		Project loadedProject = parser.fullParser(xmlFileStream);
 		assertEquals("Project title missmatch.", projectName, loadedProject.getName());
 
 		assertEquals("Name of first sprite does not match.", firstSpriteName, loadedProject.getSpriteList().get(0)
