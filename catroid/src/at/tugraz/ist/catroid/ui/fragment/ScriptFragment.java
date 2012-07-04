@@ -24,7 +24,6 @@ package at.tugraz.ist.catroid.ui.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -156,7 +155,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		addNewScript = true;
 	}
 
-	public void updateAdapterAfterAddNewBrick(DialogInterface dialog) {
+	public void updateAdapterAfterAddNewBrick() {
 		if (addNewScript) {
 			addNewScript = false;
 		} else {
@@ -225,9 +224,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICKS_LIST_CHANGED)) {
-				if (adapter != null) {
-					adapter.notifyDataSetChanged();
-				}
+				updateAdapterAfterAddNewBrick();
 			}
 		}
 	}

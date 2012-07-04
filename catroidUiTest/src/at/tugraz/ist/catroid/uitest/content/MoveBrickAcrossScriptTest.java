@@ -143,7 +143,6 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 
 	@Smoke
 	public void testMoveBrickAcrossScript() {
-
 		ArrayList<Integer> yPositionList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -158,7 +157,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
-		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(2) instanceof WaitBrick,
+		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(3) instanceof WaitBrick,
 				true);
 	}
 
