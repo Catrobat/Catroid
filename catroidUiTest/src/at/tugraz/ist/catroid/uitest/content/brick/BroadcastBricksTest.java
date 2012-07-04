@@ -85,11 +85,13 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		String buttonNewBroadcastText = solo.getString(R.string.new_broadcast_message);
 		solo.clickOnText(buttonNewBroadcastText, 1);
 		solo.enterText(0, testString);
+		solo.clickOnButton(0);
+		solo.sleep(400);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(600);
 
-		solo.sendKey(Solo.ENTER);
-		solo.sendKey(Solo.ENTER);
-
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertNotSame("Wrong selection", testString, solo.getCurrentSpinners().get(1).getSelectedItem());
 
@@ -103,22 +105,26 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 		solo.clickOnText(buttonNewBroadcastText, 2);
 		solo.enterText(0, testString2);
+		solo.clickOnButton(0);
+		solo.sleep(400);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(600);
 
-		solo.sendKey(Solo.ENTER);
-		solo.sendKey(Solo.ENTER);
-
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
 
 		solo.clickOnText(buttonNewBroadcastText, 3);
 		solo.enterText(0, testString3);
+		solo.clickOnButton(0);
+		solo.sleep(400);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(600);
 
-		solo.sendKey(Solo.ENTER);
-		solo.sendKey(Solo.ENTER);
-
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
 		assertEquals("Wrong selection", testString3, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
