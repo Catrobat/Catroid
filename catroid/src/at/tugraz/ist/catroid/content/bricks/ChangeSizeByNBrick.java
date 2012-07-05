@@ -145,8 +145,4 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		return true;
 	}
 
-	public View getEditorView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

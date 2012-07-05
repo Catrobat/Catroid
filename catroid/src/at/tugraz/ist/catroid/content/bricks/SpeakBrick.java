@@ -146,12 +146,4 @@ public class SpeakBrick implements Brick {
 		return new SpeakBrick(this.sprite, this.text);
 	}
 
-	/* (non-Javadoc)
-	 * @see at.tugraz.ist.catroid.content.bricks.Brick#getEditorView(android.content.Context)
-	 */
-	public View getEditorView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -255,12 +255,4 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see at.tugraz.ist.catroid.content.bricks.Brick#getEditorView(android.content.Context)
-	 */
-	public View getEditorView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
