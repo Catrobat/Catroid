@@ -24,103 +24,101 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
+import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnShowListener;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class RenameSoundDialog {
-	protected ScriptTabActivity scriptTabActivity;
+public class RenameSoundDialog extends DialogFragment {
+	
+	private static final String ARGS_OLD_SOUND_NAME = "old_sound_name";
+	public static final String EXTRA_NEW_SOUND_TITLE = "new_sound_name";
+	
 	private EditText input;
-	private Button buttonPositive;
-
-	public RenameSoundDialog(ScriptTabActivity scriptTabActivity) {
-		this.scriptTabActivity = scriptTabActivity;
+	
+	public static RenameSoundDialog newInstance(String oldSoundName) {
+		RenameSoundDialog dialog = new RenameSoundDialog();
+		
+		Bundle args = new Bundle();
+		args.putString(ARGS_OLD_SOUND_NAME, oldSoundName);
+		dialog.setArguments(args);
+		
+		return dialog;
 	}
+	
 
-	public Dialog createDialog(SoundInfo soundInfoToEdit) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(scriptTabActivity);
-		builder.setTitle(R.string.rename_sound_dialog);
-
-		LayoutInflater inflater = (LayoutInflater) scriptTabActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.dialog_rename_sound, null);
-
-		input = (EditText) view.findViewById(R.id.dialog_rename_sound_editText);
-		input.setText(soundInfoToEdit.getTitle());
-
-		buttonPositive = (Button) view.findViewById(R.id.btn_rename_sound);
-
-		builder.setView(view);
-
-		initKeyListener(builder);
-
-		final Dialog renameDialog = builder.create();
-		renameDialog.setCanceledOnTouchOutside(true);
-
-		initAlertDialogListener(renameDialog);
-
-		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					renameDialog.getWindow().setSoftInputMode(
-							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-				}
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		final String oldSoundTitle = getArguments().getString(ARGS_OLD_SOUND_NAME);
+		
+		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_rename_sound, null);
+		input = (EditText) dialogView.findViewById(R.id.dialog_rename_sound_editText);
+		input.setText(oldSoundTitle);
+		
+		Dialog dialog = new AlertDialog.Builder(getActivity())
+		.setView(dialogView)
+		.setTitle(R.string.rename_sound_dialog)
+		.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dismiss();
+			}
+		})
+		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				handleRenameSound(oldSoundTitle);
+			}
+		}).create();
+		
+		dialog.setOnShowListener(new OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				initAlertDialogListener();
 			}
 		});
-
-		return renameDialog;
+		
+		return dialog;
 	}
-
-	public String handleOkButton() {
+	
+	private void handleRenameSound(String oldSoundTitle) {
 		String newSoundTitle = (input.getText().toString()).trim();
-		String oldSoundTitle = scriptTabActivity.selectedSoundInfo.getTitle();
 
 		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
-			scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
-			return null;
+			dismiss();
 		}
+		
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			newSoundTitle = Utils.getUniqueSoundName(newSoundTitle);
 		} else {
-			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.soundname_invalid));
-			return null;
+			Utils.displayErrorMessage(getActivity(), getString(R.string.soundname_invalid));
 		}
 		
-		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
-		return newSoundTitle;
+		Intent intent = new Intent(ScriptTabActivity.ACTION_SOUND_RENAMED);
+		intent.putExtra(EXTRA_NEW_SOUND_TITLE, newSoundTitle);
+		getActivity().sendBroadcast(intent);
 	}
-
-	private void initKeyListener(AlertDialog.Builder builder) {
-		builder.setOnKeyListener(new OnKeyListener() {
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					handleOkButton();
-					return true;
-				}
-				return false;
-			}
-		});
-	}
-
-	private void initAlertDialogListener(Dialog dialog) {
-
+	
+	private void initAlertDialogListener() {
+		final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
+		
 		input.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					Toast.makeText(scriptTabActivity, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(getActivity(), 
+							R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT).show();
 					buttonPositive.setEnabled(false);
 				} else {
 					buttonPositive.setEnabled(true);

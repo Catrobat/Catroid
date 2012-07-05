@@ -35,22 +35,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 import at.tugraz.ist.catroid.ui.adapter.TabsPagerAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
-import at.tugraz.ist.catroid.ui.dialogs.DeleteSoundDialog;
-import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
@@ -67,6 +62,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
 	public static final String ACTION_COSTUME_RENAMED = "at.tugraz.ist.catroid.COSTUME_RENAMED";
 	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
+	public static final String ACTION_SOUND_RENAMED = "at.tugraz.ist.catroid.SOUND_RENAMED";
 	
 	public static final int INDEX_TAB_SCRIPTS = 0;
 	public static final int INDEX_TAB_COSTUMES = 1;
@@ -79,11 +75,8 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	private TabHost tabHost;
 	private boolean addScript;
 	private boolean isCanceled;
-	public SoundInfo selectedSoundInfo;
-	private RenameSoundDialog renameSoundDialog;
-	public int selectedPosition;
-	private DeleteSoundDialog deleteSoundDialog;
 	public String selectedCategory;
+	
 	public static final int DIALOG_RENAME_SOUND = 1;
 	public static final int DIALOG_BRICK_CATEGORY = 2;
 	public static final int DIALOG_ADD_BRICK = 3;
@@ -131,7 +124,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 		setUpActionBar();
 		if (getLastCustomNonConfigurationInstance() != null) {
 			selectedCategory = (String) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(0);
-			selectedSoundInfo = (SoundInfo) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(2);
 		}
 	}
 
@@ -139,7 +131,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	public ArrayList<Object> onRetainCustomNonConfigurationInstance() {
 		ArrayList<Object> savedMember = new ArrayList<Object>();
 		savedMember.add(selectedCategory);
-		savedMember.add(selectedSoundInfo);
 		return savedMember;
 	}
 
@@ -208,12 +199,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
 		switch (id) {
-			case DIALOG_RENAME_SOUND:
-				if (selectedSoundInfo != null) {
-					renameSoundDialog = new RenameSoundDialog(this);
-					dialog = renameSoundDialog.createDialog(selectedSoundInfo);
-				}
-				break;
 			case DIALOG_BRICK_CATEGORY:
 				dialog = new BrickCategoryDialog(this);
 				dialog.setOnDismissListener(this);
@@ -224,12 +209,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 					dialog = new AddBrickDialog(this, selectedCategory);
 				}
 				break;
-			case DIALOG_DELETE_SOUND:
-				if (selectedSoundInfo != null) {
-					deleteSoundDialog = new DeleteSoundDialog(this);
-					dialog = deleteSoundDialog.createDialog();
-				}
-				break;
 			default:
 				dialog = null;
 				break;
@@ -237,43 +216,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 		return dialog;
 	}
 
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		switch (id) {
-			case DIALOG_RENAME_SOUND:
-				EditText soundTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sound_editText);
-				soundTitleInput.setText(selectedSoundInfo.getTitle());
-				break;
-		}
-	}
-
-	public void handlePositiveButtonRenameSound(View v) {
-		String newSoundTitle = renameSoundDialog.handleOkButton();
-
-		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
-			selectedSoundInfo.setTitle(newSoundTitle);
-			SoundFragment fragment = (SoundFragment) getTabFragment(INDEX_TAB_SOUNDS);
-			SoundAdapter adapter = (SoundAdapter) fragment.getListAdapter();
-			adapter.notifyDataSetChanged();
-		} else {
-			Utils.displayErrorMessage(this, getString(R.string.soundname_invalid));
-		}
-	}
-	
-	public void handleNegativeButtonRenameSound(View v) {
-		dismissDialog(DIALOG_RENAME_SOUND);
-	}
-
-	public void handlePositiveButtonDeleteSound(View v) {
-		deleteSoundDialog.handleOkButton();
-	}
-
-	public void handleNegativeButtonDeleteSound(View v) {
-		dismissDialog(DIALOG_DELETE_SOUND);
-	}
-
 	public void onDismiss(DialogInterface dialogInterface) {
-
 		if (!dontcreateNewBrick) {
 			if (!isCanceled) {
 				if (addScript) {

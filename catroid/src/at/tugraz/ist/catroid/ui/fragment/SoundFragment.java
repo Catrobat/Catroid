@@ -49,6 +49,8 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
+import at.tugraz.ist.catroid.ui.dialogs.DeleteSoundDialog;
+import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -59,12 +61,16 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 public class SoundFragment extends SherlockListFragment implements OnSoundEditListener {
 	
 	private static final String TAG = SoundFragment.class.getSimpleName();
+	
+	private static final String ARGS_SELECTED_SOUND = "selected_sound";
 
 	public MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
+	public SoundInfo selectedSoundInfo;
 	
 	private SoundDeletedReceiver soundDeletedReceiver;
+	private SoundRenamedReceiver soundRenamedReceiver;
 
 	private final int REQUEST_SELECT_MUSIC = 0;
 
@@ -78,6 +84,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		if (savedInstanceState !=null) {
+			selectedSoundInfo = (SoundInfo) savedInstanceState.get(ARGS_SELECTED_SOUND);
+		}
+		
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundEditListener(this);
@@ -114,15 +124,22 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			return;
 		}
 
-		stopSound(null);
-		reloadAdapter();
-		
 		if (soundDeletedReceiver == null) {
 			soundDeletedReceiver = new SoundDeletedReceiver();
 		}
 		
-		IntentFilter intentFilter = new IntentFilter(ScriptTabActivity.ACTION_SOUND_DELETED);
-		getActivity().registerReceiver(soundDeletedReceiver, intentFilter);
+		if (soundRenamedReceiver == null) {
+			soundRenamedReceiver = new SoundRenamedReceiver();
+		}
+		
+		IntentFilter intentFilterDeleteSound = new IntentFilter(ScriptTabActivity.ACTION_SOUND_DELETED);
+		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
+		
+		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptTabActivity.ACTION_SOUND_RENAMED);
+		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
+		
+		stopSound(null);
+		reloadAdapter();
 	}
 
 	@Override
@@ -138,10 +155,19 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		if (soundDeletedReceiver != null) {
 			getActivity().unregisterReceiver(soundDeletedReceiver);
 		}
+		
+		if (soundRenamedReceiver != null) {
+			getActivity().unregisterReceiver(soundRenamedReceiver);
+		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putParcelable(ARGS_SELECTED_SOUND, selectedSoundInfo);
+		super.onSaveInstanceState(outState);
 	}
 
 	private void updateSoundAdapter(String title, String fileName) {
-
 		title = Utils.getUniqueSoundName(title);
 
 		SoundInfo newSoundInfo = new SoundInfo();
@@ -239,55 +265,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 	}
 
-	private void reloadAdapter() {
-		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
-		adapter.setOnSoundEditListener(this);
-		setListAdapter(adapter);
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
-	}
-
-	// Does not rename the actual file, only the title in the SoundInfo
-	public void handleSoundRenameButton(View v) {
-		int position = (Integer) v.getTag();
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getActivity();
-		scriptTabActivity.selectedSoundInfo = soundInfoList.get(position);
-		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
-	}
-
-	public void handlePlaySoundButton(View v) {
-		final int position = (Integer) v.getTag();
-		final SoundInfo soundInfo = soundInfoList.get(position);
-
-		stopSound(soundInfo);
-		startSound(soundInfo);
-
-		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
-			public void onCompletion(MediaPlayer mp) {
-				soundInfo.isPlaying = false;
-				soundInfo.isPaused = false;
-				((SoundAdapter) getListAdapter()).notifyDataSetChanged();
-			}
-		});
-
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
-	}
-
-	public void handlePauseSoundButton(View v) {
-		final int position = (Integer) v.getTag();
-		pauseSound(soundInfoList.get(position));
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
-	}
-
-	public void handleDeleteSoundButton(View v) {
-		final int position = (Integer) v.getTag();
-		stopSound(null);
-		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getActivity();
-		scriptTabActivity.selectedSoundInfo = soundInfoList.get(position);
-		scriptTabActivity.selectedPosition = position;
-		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_DELETE_SOUND);
-	}
-	
 	@Override
 	public void onSoundRename(View v) {
 		handleSoundRenameButton(v);
@@ -308,12 +285,79 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		handleDeleteSoundButton(v);
 	}
 	
+	private void reloadAdapter() {
+		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
+		adapter.setOnSoundEditListener(this);
+		setListAdapter(adapter);
+		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
+	// Does not rename the actual file, only the title in the SoundInfo
+	private void handleSoundRenameButton(View v) {
+		int position = (Integer) v.getTag();
+		selectedSoundInfo = soundInfoList.get(position);
+		
+		RenameSoundDialog renameSoundDialog = RenameSoundDialog.newInstance(selectedSoundInfo.getTitle());
+		renameSoundDialog.show(getFragmentManager(), "dialog_rename_sound");
+	}
+
+	private void handlePlaySoundButton(View v) {
+		final int position = (Integer) v.getTag();
+		final SoundInfo soundInfo = soundInfoList.get(position);
+
+		stopSound(soundInfo);
+		startSound(soundInfo);
+
+		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+			public void onCompletion(MediaPlayer mp) {
+				soundInfo.isPlaying = false;
+				soundInfo.isPaused = false;
+				((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+			}
+		});
+
+		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
+	private void handlePauseSoundButton(View v) {
+		final int position = (Integer) v.getTag();
+		pauseSound(soundInfoList.get(position));
+		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
+	private void handleDeleteSoundButton(View v) {
+		final int position = (Integer) v.getTag();
+		stopSound(null);
+		selectedSoundInfo = soundInfoList.get(position);
+		
+		DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(position);
+		deleteSoundDialog.show(getFragmentManager(), "dialog_delete_sound");
+	}
+	
 	private class SoundDeletedReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_DELETED)) {
 				reloadAdapter();
+			}
+		}
+	}
+	
+	private class SoundRenamedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_RENAMED)) {
+				String newSoundTitle = intent.getExtras().getString(RenameSoundDialog.EXTRA_NEW_SOUND_TITLE);
+				
+				Log.v(TAG, "new sound title is : " + newSoundTitle);
+				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
+					selectedSoundInfo.setTitle(newSoundTitle);
+					adapter.notifyDataSetChanged();
+				} else {
+					Utils.displayErrorMessage(getActivity(), getString(R.string.soundname_invalid));
+				}
 			}
 		}
 	}
