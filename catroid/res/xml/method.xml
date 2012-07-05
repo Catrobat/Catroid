@@ -21,23 +21,9 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources>
-    <color name="solid_red">#f00</color>
-    <color name="solid_blue">#0000ff</color>
-    <color name="solid_green">#f0f0</color>
-    <color name="solid_black">#000</color>
-    <color name="solid_white">#FFFFFF</color>
-    <color name="backbrown">#59361b</color>
-    <color name="white">#FFFFFF</color>
-    <color name="darkblue">#011526</color>
-    <color name="egg_yellow">#FA0</color>
-    <color name="silver">#CDCDCD</color>
-    <color name="light_black">#A000</color>
-    <color name="dark_gray">#5a5858</color>
-    <color name="gray">#808080</color>
-    <color name="website_blue">#d8e0f5</color>
-    <color name="candidate_normal">#FF000000</color>
-    <color name="candidate_recommended">#FFE35900</color>
-    <color name="candidate_other">#ff808080</color>
-    <color name="candidate_background">#bbffffff</color>
-</resources>
+ 
+ 
+<!-- The attributes in this XML file provide configuration information -->
+<!-- for the Search Manager. -->
+
+<input-method xmlns:android="http://schemas.android.com/apk/res/android" />
