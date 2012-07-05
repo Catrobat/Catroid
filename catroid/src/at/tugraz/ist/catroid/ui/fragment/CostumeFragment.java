@@ -71,7 +71,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
-	
 	private CostumeData selectedCostumeData;
 	
 	private CostumeDeletedReceiver costumeDeletedReceiver;
@@ -228,6 +227,26 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		}
 	}
 
+	@Override
+	public void onCostumeEdit(View v) {
+		handleEditCostumeButton(v);
+	}
+
+	@Override
+	public void onCostumeRename(View v) {
+		handleRenameCostumeButton(v);
+	}
+
+	@Override
+	public void onCostumeDelete(View v) {
+		handleDeleteCostumeButton(v);
+	}
+
+	@Override
+	public void onCostumeCopy(View v) {
+		handleCopyCostumeButton(v);
+	}
+	
 	private void loadImageIntoCatroid(Intent intent) {
 		Activity parent = getActivity();
 		
@@ -325,7 +344,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		}
 	}
 
-	public void handleDeleteCostumeButton(View v) {
+	private void handleDeleteCostumeButton(View v) {
 		int position = (Integer) v.getTag();
 		selectedCostumeData = costumeDataList.get(position);
 		
@@ -333,7 +352,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		deleteCostumeDialog.show(getFragmentManager(), "dialog_delete_costume");
 	}
 
-	public void handleRenameCostumeButton(View v) {
+	private void handleRenameCostumeButton(View v) {
 		int position = (Integer) v.getTag();
 		selectedCostumeData = costumeDataList.get(position);
 		
@@ -342,7 +361,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		renameCostumeDialog.show(getFragmentManager(), "dialog_rename_costume");
 	}
 
-	public void handleCopyCostumeButton(View v) {
+	private void handleCopyCostumeButton(View v) {
 		int position = (Integer) v.getTag();
 		CostumeData costumeData = costumeDataList.get(position);
 		try {
@@ -357,7 +376,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		}
 	}
 
-	public void handleEditCostumeButton(View v) {
+	private void handleEditCostumeButton(View v) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName("at.tugraz.ist.paintroid", "at.tugraz.ist.paintroid.MainActivity"));
 
@@ -396,27 +415,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		intent.putExtras(bundleForPaintroid);
 		intent.addCategory("android.intent.category.LAUNCHER");
 		startActivityForResult(intent, REQUEST_PAINTROID_EDIT_IMAGE);
-	}
-	
-
-	@Override
-	public void onCostumeEdit(View v) {
-		handleEditCostumeButton(v);
-	}
-
-	@Override
-	public void onCostumeRename(View v) {
-		handleRenameCostumeButton(v);
-	}
-
-	@Override
-	public void onCostumeDelete(View v) {
-		handleDeleteCostumeButton(v);
-	}
-
-	@Override
-	public void onCostumeCopy(View v) {
-		handleCopyCostumeButton(v);
 	}
 	
 	private class CostumeDeletedReceiver extends BroadcastReceiver {

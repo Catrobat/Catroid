@@ -22,10 +22,12 @@
  */
 package at.tugraz.ist.catroid.common;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class SoundInfo implements Comparable<SoundInfo> {
+public class SoundInfo implements Comparable<SoundInfo>, Parcelable {
 
 	private String name;
 	private String fileName;
@@ -80,5 +82,31 @@ public class SoundInfo implements Comparable<SoundInfo> {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public static final Parcelable.Creator<SoundInfo> CREATOR = new Parcelable.Creator<SoundInfo>() {
+		public SoundInfo createFromParcel(Parcel in) {
+			return new SoundInfo(in);
+		}
+
+		public SoundInfo[] newArray(int size) {
+			return new SoundInfo[size];
+		}
+	};
+
+	private SoundInfo(Parcel in) {
+		name = in.readString();
+		fileName = in.readString();
+	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(name);
+		dest.writeString(fileName);
 	}
 }
