@@ -81,8 +81,8 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 			e.printStackTrace();
 			fail("Exception caught at getting filestream");
 		}
-		//Project loadedProject = storageHandler.loadProject("test_project.xml");
-		Project loadedProject = parser.fullParser(xmlFileStream);
+		Project loadedProject = storageHandler.loadProject("test_project.xml");
+		//Project loadedProject = parser.fullParser(xmlFileStream);
 		assertEquals("Project title missmatch.", projectName, loadedProject.getName());
 
 		assertEquals("Name of first sprite does not match.", firstSpriteName, loadedProject.getSpriteList().get(0)
