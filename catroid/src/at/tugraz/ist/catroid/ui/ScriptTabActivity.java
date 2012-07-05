@@ -41,19 +41,15 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 import at.tugraz.ist.catroid.ui.adapter.TabsPagerAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
-import at.tugraz.ist.catroid.ui.dialogs.DeleteCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteSoundDialog;
-import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -69,6 +65,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	
 	public static final String ACTION_BRICKS_LIST_CHANGED = "at.tugraz.ist.catroid.BRICKS_LIST_CHANGED";
 	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
+	public static final String ACTION_COSTUME_RENAMED = "at.tugraz.ist.catroid.COSTUME_RENAMED";
 	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
 	
 	public static final int INDEX_TAB_SCRIPTS = 0;
@@ -84,17 +81,12 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	private boolean isCanceled;
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
-	public CostumeData selectedCostumeData;
 	public int selectedPosition;
-	private RenameCostumeDialog renameCostumeDialog;
-	private DeleteCostumeDialog deleteCostumeDialog;
 	private DeleteSoundDialog deleteSoundDialog;
 	public String selectedCategory;
-	public static final int DIALOG_RENAME_COSTUME = 0;
 	public static final int DIALOG_RENAME_SOUND = 1;
 	public static final int DIALOG_BRICK_CATEGORY = 2;
 	public static final int DIALOG_ADD_BRICK = 3;
-	public static final int DIALOG_DELETE_COSTUME = 4;
 	public static final int DIALOG_DELETE_SOUND = 5;
 
 	private boolean dontcreateNewBrick;
@@ -139,7 +131,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 		setUpActionBar();
 		if (getLastCustomNonConfigurationInstance() != null) {
 			selectedCategory = (String) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(0);
-			selectedCostumeData = (CostumeData) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(1);
 			selectedSoundInfo = (SoundInfo) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(2);
 		}
 	}
@@ -148,7 +139,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	public ArrayList<Object> onRetainCustomNonConfigurationInstance() {
 		ArrayList<Object> savedMember = new ArrayList<Object>();
 		savedMember.add(selectedCategory);
-		savedMember.add(selectedCostumeData);
 		savedMember.add(selectedSoundInfo);
 		return savedMember;
 	}
@@ -224,12 +214,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 					dialog = renameSoundDialog.createDialog(selectedSoundInfo);
 				}
 				break;
-			case DIALOG_RENAME_COSTUME:
-				if (selectedCostumeData != null) {
-					renameCostumeDialog = new RenameCostumeDialog(this);
-					dialog = renameCostumeDialog.createDialog(selectedCostumeData);
-				}
-				break;
 			case DIALOG_BRICK_CATEGORY:
 				dialog = new BrickCategoryDialog(this);
 				dialog.setOnDismissListener(this);
@@ -238,12 +222,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 			case DIALOG_ADD_BRICK:
 				if (selectedCategory != null) {
 					dialog = new AddBrickDialog(this, selectedCategory);
-				}
-				break;
-			case DIALOG_DELETE_COSTUME:
-				if (selectedCostumeData != null) {
-					deleteCostumeDialog = new DeleteCostumeDialog(this);
-					dialog = deleteCostumeDialog.createDialog();
 				}
 				break;
 			case DIALOG_DELETE_SOUND:
@@ -266,10 +244,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 				EditText soundTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sound_editText);
 				soundTitleInput.setText(selectedSoundInfo.getTitle());
 				break;
-			case DIALOG_RENAME_COSTUME:
-				EditText costumeTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_costume_editText);
-				costumeTitleInput.setText(selectedCostumeData.getCostumeName());
-				break;
 		}
 	}
 
@@ -288,31 +262,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	
 	public void handleNegativeButtonRenameSound(View v) {
 		dismissDialog(DIALOG_RENAME_SOUND);
-	}
-
-	public void handlePositiveButtonRenameCostume(View v) {
-		String newCostumeName = renameCostumeDialog.handleOkButton();
-
-		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
-			selectedCostumeData.setCostumeName(newCostumeName);
-			CostumeFragment fragment = (CostumeFragment) getTabFragment(INDEX_TAB_COSTUMES);
-			CostumeAdapter adapter = (CostumeAdapter) fragment.getListAdapter();
-			adapter.notifyDataSetChanged();
-		} else {
-			Utils.displayErrorMessage(this, getString(R.string.costumename_invalid));
-		}
-	}
-
-	public void handleNegativeButtonRenameCostume(View v) {
-		dismissDialog(DIALOG_RENAME_COSTUME);
-	}
-	
-	public void handlePositiveButtonDeleteCostume(View v) {
-		deleteCostumeDialog.handleOkButton();
-	}
-
-	public void handleNegativeButtonDeleteCostume(View v) {
-		dismissDialog(DIALOG_DELETE_COSTUME);
 	}
 
 	public void handlePositiveButtonDeleteSound(View v) {

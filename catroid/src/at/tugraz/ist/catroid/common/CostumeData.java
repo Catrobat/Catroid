@@ -24,11 +24,13 @@ package at.tugraz.ist.catroid.common;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class CostumeData {
+public class CostumeData implements Parcelable {
 
 	private String name;
 	private String fileName;
@@ -38,6 +40,9 @@ public class CostumeData {
 	private transient static final int THUMBNAIL_WIDTH = 150;
 	private transient static final int THUMBNAIL_HEIGHT = 150;
 
+	public CostumeData() {
+	}
+	
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToImageDirectory(), fileName);
@@ -110,5 +115,31 @@ public class CostumeData {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public static final Parcelable.Creator<CostumeData> CREATOR = new Parcelable.Creator<CostumeData>() {
+		public CostumeData createFromParcel(Parcel in) {
+			return new CostumeData(in);
+		}
+
+		public CostumeData[] newArray(int size) {
+			return new CostumeData[size];
+		}
+	};
+
+	private CostumeData(Parcel in) {
+		name = in.readString();
+		fileName = in.readString();
+	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(name);
+		dest.writeString(fileName);
 	}
 }
