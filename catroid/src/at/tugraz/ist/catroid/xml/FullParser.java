@@ -69,6 +69,7 @@ public class FullParser extends DefaultHandler {
 	List<CostumeData> costumeList = new ArrayList<CostumeData>();
 	Map<String, Object> referencedLists = new HashMap<String, Object>();
 	int index = 0;
+	XPathFactory xpathFactory = XPathFactory.newInstance();
 
 	public Project fullParser(InputStream xmlFile) {
 		ObjectCreator projectInit = new ObjectCreator();
@@ -112,10 +113,12 @@ public class FullParser extends DefaultHandler {
 	public List<Sprite> parseSprites(InputStream fXmlFile) throws ParseException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
+
 		try {
 			dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
 			doc.getDocumentElement().normalize();
+
 			Log.i("Sprite parse method begin", "Sprite parsing started");
 			NodeList spritesNodes = doc.getElementsByTagName("Content.Sprite");
 			Log.i("sprite parsing", "no of sprites: " + spritesNodes.getLength());
@@ -263,6 +266,24 @@ public class FullParser extends DefaultHandler {
 										NodeList brickValueNodes = brickElement.getChildNodes();
 										brickImpleObj = getBrickObject(brickName, foundSprite, brickValueNodes);
 										Log.i("brick parsing", "Brick object: " + brickImpleObj.toString() + " added");
+										String brickReferenceAttr = getReferenceAttribute(brickElement);
+
+										if (brickReferenceAttr != null) {
+											XPath xpath = xpathFactory.newXPath();
+											Log.i("brick parsing", "brick reference: " + brickReferenceAttr);
+											XPathExpression exp = xpath.compile(brickReferenceAttr);
+											Element refList = (Element) exp.evaluate(brickElement, XPathConstants.NODE);
+											String nodeLocalName = refList.getNodeName();
+											//											if (referenceAttr.endsWith("]")) {
+											//												int bracketIndex = referenceAttr.lastIndexOf('[');
+											//												nodeLocalName = nodeLocalName + referenceAttr.substring(bracketIndex);
+											//											}
+
+											Object valueObject = referencedLists.get(nodeLocalName);
+											//											if (valueObject != null) {
+											//												valueField.set(brickObject, valueObject);
+											//											}
+										}
 										foundScript.addBrick(brickImpleObj);
 
 									}
@@ -366,9 +387,6 @@ public class FullParser extends DefaultHandler {
 			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException, ClassNotFoundException, XPathExpressionException {
 
-		XPathFactory xpathFactory = XPathFactory.newInstance();
-		XPath xpath = xpathFactory.newXPath();
-
 		String brickImplName = brickName.substring(7);
 		Brick brickObject = null;
 		Map<String, Field> brickFieldsToSet = new HashMap<String, Field>();
@@ -442,6 +460,7 @@ public class FullParser extends DefaultHandler {
 					if (referenceAttr != null) {
 						Log.i("brick parsing, getBrickObject, value parsing", "brick value name:" + brickvalueName
 								+ "reference: " + referenceAttr);
+						XPath xpath = xpathFactory.newXPath();
 						XPathExpression exp = xpath.compile(referenceAttr);
 						Element refList = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
 						String nodeLocalName = refList.getNodeName();
