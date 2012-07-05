@@ -61,7 +61,6 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 
 public class FullParser extends DefaultHandler {
 
@@ -444,50 +443,7 @@ public class FullParser extends DefaultHandler {
 		Map<String, Field> brickFieldsToSet = new HashMap<String, Field>();
 		Log.i("brick parsing, getBrickObject", "getting brick object of " + brickName);
 		Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickImplName);
-		Field[] superClassFields = brickClass.getSuperclass().getDeclaredFields();
-		Field[] brickFields = brickClass.getDeclaredFields();
-		if (superClassFields.length > 0) {
-			Field[] combined = new Field[superClassFields.length + brickFields.length];
-			System.arraycopy(brickFields, 0, combined, 0, brickFields.length);
-			System.arraycopy(superClassFields, 0, combined, brickFields.length, superClassFields.length);
-			brickFields = combined;
-		}
-		for (Field field : brickFields) {
-			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
-
-			if (isCurrentFieldTransient) {
-				continue;
-			}
-
-			String tagName = field.getName();
-			//if (!(tagName.equals("sprite"))) {
-			brickFieldsToSet.put(tagName, field);
-			//}
-		}
-
-		//		Constructor[] brickConstructorsArray = brickClass.getConstructors();
-		//		for (Constructor constructor : brickConstructorsArray) {
-		//			Class[] constructorParams = constructor.getParameterTypes();
-		//			Log.i("brick parsing, getBrickObject", "brick constructor no of parameters: " + constructorParams.length);
-		//			Object argList[] = new Object[constructorParams.length];
-		//			int index = 0;
-		//			for (Class cls : constructorParams) {
-		//				Log.i("brick parsing, getBrickObject", "param class " + cls.getCanonicalName());
-		//				if (cls.equals(Sprite.class)) {
-		//					Object spriteOb = foundSprite;
-		//					argList[index] = spriteOb;
-		//					Log.i("brick parsing, getBrickObject", "sprite set " + foundSprite.getName());
-		//				} else {
-		//					argList[index] = getobjectOfClass(cls, "0");
-		//					//argList[index] = newInstanceSkippingConstructor(cls);
-		//				}
-		//				index++;
-		//			}
-		//			Log.i("brick parsing, getBrickObject", "no of args " + argList.length);
-		//			//brickObject = (Brick) constructor.newInstance(argList);
-		//			
-		//			Log.i("brick parsing, getBrickObject", "Brick constructed");
-		//		}
+		brickFieldsToSet = getFieldMap(brickClass);
 		brickObject = (Brick) getobjectOfClass(brickClass, "0");
 		Log.i("brick parsing, getBrickObject", "brick value nodes:" + valueNodes.getLength());
 		for (int l = 0; l < valueNodes.getLength(); l++) {
@@ -499,19 +455,40 @@ public class FullParser extends DefaultHandler {
 				Field valueField = brickFieldsToSet.get(brickvalueName);
 				if (valueField != null) {
 					valueField.setAccessible(true);
-					if (brickvalueName.endsWith("Brick") && brickValue.getChildNodes().getLength() > 0) {
-						char c = (brickvalueName.toUpperCase().charAt(0));
-						Character d = c;
-						brickvalueName = d.toString().concat(brickvalueName.substring(1));
-						String prefix = "Bricks.";
-						brickvalueName = prefix.concat(brickvalueName);
-						Brick valueBrick = getBrickObject(brickvalueName, foundSprite, brickValue.getChildNodes(),
-								(Element) brickValue);
-						valueField.set(brickObject, valueBrick);
-						RepeatBrick rb = new RepeatBrick(foundSprite, 1);
-
-					} else if (brickvalueName.equals("sprite")) {
+					if (brickvalueName.equals("sprite")) {
 						valueField.set(brickObject, foundSprite);
+					} else if (brickValue.getChildNodes().getLength() > 1) {
+						if (brickvalueName.endsWith("Brick")) {
+							char c = (brickvalueName.toUpperCase().charAt(0));
+							Character d = c;
+							brickvalueName = d.toString().concat(brickvalueName.substring(1));
+							String prefix = "Bricks.";
+							brickvalueName = prefix.concat(brickvalueName);
+							Brick valueBrick = getBrickObject(brickvalueName, foundSprite, brickValue.getChildNodes(),
+									(Element) brickValue);
+							valueField.set(brickObject, valueBrick);
+						} else {
+							NodeList valueChildren = brickValue.getChildNodes();
+							Map<String, Field> fieldMap = getFieldMap(valueField.getClass());
+							Object valueObj = getobjectOfClass(valueField.getClass(), "0");
+							for (int m = 0; m < valueChildren.getLength(); m++) {
+								Node valueChild = valueChildren.item(m);
+								if (valueChild.getNodeType() != Node.TEXT_NODE) {
+									String childValueName = valueChild.getNodeName();
+									Field valF = fieldMap.get(childValueName);
+									if (valF != null) {
+										valF.setAccessible(true);
+										Node valueChildValue = valueChild.getChildNodes().item(0);
+										if (valueChildValue != null) {
+											String valStr = valueChildValue.getNodeValue();
+											Object valobj = getobjectOfClass(valF.getType(), valStr);
+											valF.set(valueObj, valobj);
+										}
+									}
+								}
+							}
+							valueField.set(brickObject, valueObj);
+						}
 					} else {
 						Log.i("brick parsing, getBrickObject, value parsing", "value field found, type:"
 								+ valueField.getType().getCanonicalName());
@@ -525,6 +502,7 @@ public class FullParser extends DefaultHandler {
 
 						}
 					}
+
 					String referenceAttr = getReferenceAttribute(brickValue);
 					if (referenceAttr != null) {
 
@@ -547,6 +525,32 @@ public class FullParser extends DefaultHandler {
 		String xp = getElementXpath(brickElement);
 		referencedLists.put(xp, brickObject);
 		return brickObject;
+	}
+
+	private Map<String, Field> getFieldMap(Class cls) {
+		Map<String, Field> fieldsToSet = new HashMap<String, Field>();
+
+		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
+		Field[] brickFields = cls.getDeclaredFields();
+		if (superClassFields.length > 0) {
+			Field[] combined = new Field[superClassFields.length + brickFields.length];
+			System.arraycopy(brickFields, 0, combined, 0, brickFields.length);
+			System.arraycopy(superClassFields, 0, combined, brickFields.length, superClassFields.length);
+			brickFields = combined;
+		}
+		for (Field field : brickFields) {
+			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+
+			if (isCurrentFieldTransient) {
+				continue;
+			}
+
+			String tagName = field.getName();
+			//if (!(tagName.equals("sprite"))) {
+			fieldsToSet.put(tagName, field);
+			//}
+		}
+		return fieldsToSet;
 	}
 
 	public String getElementXpath(Element elt) {
