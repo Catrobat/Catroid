@@ -34,7 +34,9 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
+import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -151,14 +153,20 @@ public class FullParserTest extends InstrumentationTestCase {
 		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 
-		WhenScript script = (WhenScript) testSprite.getScript(1);
-		SetCostumeBrick costBrick = (SetCostumeBrick) script.getBrick(4);
+		StartScript script = (StartScript) testSprite.getScript(0);
+		RepeatBrick costBrick = (RepeatBrick) script.getBrick(1);
 		assertNotNull("Costume brick is null", costBrick);
-		CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
-		assertNotNull("Costume data null", testCostData);
-		String setCostumeFileName = testCostData.getCostumeFileName();
-		assertEquals("Costume set file name incorrect", "143780EBC24495149123CCAF3A1CDC35_normalCat",
-				setCostumeFileName);
+		LoopEndBrick leb = costBrick.getLoopEndBrick();
+		//CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
+		assertNotNull("Costume data null", leb);
+		LoopEndBrick lebFromXML = (LoopEndBrick) script.getBrick(3);
+		assertNotNull(lebFromXML);
+		LoopBeginBrick rb = lebFromXML.getLoopBeginBrick();
+		assertNotNull(rb);
+		//		int ttorepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", rrr, false);
+		//		assertEquals(3, ttorepeat);
+		//		String setCostumeFileName = testCostData.getCostumeFileName();
+		//		assertEquals("Costume set file name incorrect", "143780EBC24495149123CCAF3A1CDC35_normalCat",
+		//				setCostumeFileName);
 	}
-
 }
