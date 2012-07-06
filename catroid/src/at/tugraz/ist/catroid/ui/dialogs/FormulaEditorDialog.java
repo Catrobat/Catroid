@@ -22,6 +22,8 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import java.util.List;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +31,8 @@ import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -41,13 +45,19 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private final Context context;
 	private Brick currentBrick;
 	private EditText edit;
-	private int value1 = 33;
+	private int value;
+
+	//	EditorInfo ei;
 
 	public FormulaEditorDialog(Context context, Brick brick) {
 
 		super(context, R.style.dialog_fullscreen);
 		currentBrick = brick;
 		this.context = context;
+		this.value = 33;
+		//		this.ei = new EditorInfo();
+		//		ei.fieldName += "FormulaEditorInfo";
+
 	}
 
 	@Override
@@ -72,6 +82,31 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		edit = (EditText) findViewById(R.id.formula_editor_edit_text);
 		edit.setOnClickListener(this);
+
+		/*
+		 * For the rare people amongst us writing their own text editors, you will need to implement
+		 * onCreateInputConnection(EditorInfo)
+		 * to return a new instance of your own InputConnection interface allowing the IME to interact with your editor.
+		 * http://developer.android.com/reference/android/view/inputmethod/InputMethodManager.html
+		 */
+		//getWindow().set
+		//WindowManager.LayoutParams.
+		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		imm.showInputMethodPicker();
+		List<InputMethodInfo> inputMethodInfo = imm.getInputMethodList();
+
+		//		imm.setInputMethod(, "NumPad");
+
+		//		for(int i =0; i < inputMethodInfo.size(); i++){
+		//			inputMethodInfo.get(i).s
+		//		}
+
+		//imm.setInputMethod(, id)
+		//this.show();
+
+		//imm.setInputMethod(token, id);
+
 	}
 
 	public void setInputFocusAndText(String text) {
@@ -80,7 +115,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	}
 
 	public int getReturnValue() {
-		return value1;
+		return value;
 	}
 
 	public void onClick(View v) {
@@ -88,7 +123,9 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		switch (v.getId()) {
 			case R.id.formula_editor_ok_button:
-
+				//				final EditText input = new EditText(context);
+				//				InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+				//				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
 				dismiss();
 				break;
 
@@ -105,4 +142,10 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	public void onDismiss(DialogInterface dialog) {
 		this.dismiss();
 	}
+
+	//	public void onShow(DialogInterface dialog) {
+	//		final EditText input = new EditText(context);
+	//		InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+	//		inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+	//	}
 }
