@@ -241,34 +241,13 @@ public class FullParser extends DefaultHandler {
 											Element refList = (Element) exp.evaluate(brickElement, XPathConstants.NODE);
 
 											String brickXPath = getElementXpath(refList);
+
+											brickImpleObj = (Brick) referencedLists.get(brickXPath);
+
 											ForwardReferences forwardRef = new ForwardReferences(brickImpleObj,
 													brickXPath, null);
 											forwardRefs.add(forwardRef);
-											brickImpleObj = (Brick) referencedLists.get(brickXPath);
-											//											if (valueObject != null) {
-											//												String brickImplName = brickName.substring(7);
-											//												Class brickClass = Class
-											//														.forName("at.tugraz.ist.catroid.content.bricks."
-											//																+ brickImplName);
-											//
-											//												Field[] superClassFields = brickClass.getSuperclass()
-											//														.getDeclaredFields();
-											//												Field[] brickFields = brickClass.getDeclaredFields();
-											//												if (superClassFields.length > 0) {
-											//													Field[] combined = new Field[superClassFields.length
-											//															+ brickFields.length];
-											//													System.arraycopy(brickFields, 0, combined, 0, brickFields.length);
-											//													System.arraycopy(superClassFields, 0, combined, brickFields.length,
-											//															superClassFields.length);
-											//													brickFields = combined;
-											//												}
-											//												for (Field fl : brickFields) {
-											//													if (fl.getDeclaringClass().equals(valueObject.getClass())) {
-											//														fl.set(brickImpleObj, valueObject);
-											//													}
-											//												}
-											//
-											//											}
+
 										}
 										String brickXPath = getElementXpath(brickElement);
 										referencedLists.put(brickXPath, brickImpleObj);
@@ -287,10 +266,6 @@ public class FullParser extends DefaultHandler {
 
 					}
 				}
-				Log.i("sprite parsing", "Sprite added");
-				String brickXPath = getElementXpath(spriteElement);
-				referencedLists.put(brickXPath, foundSprite);
-				sprites.add(foundSprite);
 
 				Node soundListItem = spriteElement.getElementsByTagName("soundList").item(0);
 				if (soundListItem != null) {
@@ -302,24 +277,43 @@ public class FullParser extends DefaultHandler {
 						SoundInfo foundSoundInfo = null;
 						Node soundElement = soundNodes.item(n);
 						if (soundElement.getNodeType() != Node.TEXT_NODE) {
-							Log.i("sound parsing", "current sound node:" + n);
-							Element cel = (Element) soundElement;
-							Node soundFileNameNode = cel.getElementsByTagName("fileName").item(0);
-							String soundFileName = null;
-							if (soundFileNameNode != null) {
-								soundFileName = soundFileNameNode.getChildNodes().item(0).getNodeValue();
-								Log.i("sound parsing", "sound fileName " + soundFileName);
+							String soundRef = getReferenceAttribute(soundElement);
+							if (soundRef != null) {
+								foundSoundInfo = (SoundInfo) resolveReference(soundRef, soundElement);
+								soundList.add(foundSoundInfo);
+								String soundInfoXPath = getElementXpath((Element) soundElement);
+								referencedLists.put(soundInfoXPath, foundSoundInfo);
+								if (foundSoundInfo == null) {
+									foundSoundInfo = (SoundInfo) getobjectOfClass(SoundInfo.class, "0");
+									XPath xpath = xpathFactory.newXPath();
+									XPathExpression exp = xpath.compile(soundRef);
+									Element refList = (Element) exp.evaluate(soundElement, XPathConstants.NODE);
+									String xp = getElementXpath(refList);
+									ForwardReferences forwardRef = new ForwardReferences(foundSoundInfo, xp, null);
+									forwardRefs.add(forwardRef);
+								}
+							} else {
+								Log.i("sound parsing", "current sound node:" + n);
+								Element cel = (Element) soundElement;
+								Node soundFileNameNode = cel.getElementsByTagName("fileName").item(0);
+								String soundFileName = null;
+								if (soundFileNameNode != null) {
+									soundFileName = soundFileNameNode.getChildNodes().item(0).getNodeValue();
+									Log.i("sound parsing", "sound fileName " + soundFileName);
+								}
+								Node soundNameNode = cel.getElementsByTagName("name").item(0);
+								String soundName = null;
+								if (soundNameNode != null) {
+									soundName = soundNameNode.getChildNodes().item(0).getNodeValue();
+									Log.i("sound parsing", "sound fileName " + soundName);
+								}
+								foundSoundInfo = new SoundInfo();
+								foundSoundInfo.setSoundFileName(soundFileName);
+								foundSoundInfo.setTitle(soundName);
+								soundList.add(foundSoundInfo);
+								String soundInfoXPath = getElementXpath(cel);
+								referencedLists.put(soundInfoXPath, foundSoundInfo);
 							}
-							Node soundNameNode = cel.getElementsByTagName("name").item(0);
-							String soundName = null;
-							if (soundNameNode != null) {
-								soundName = soundNameNode.getChildNodes().item(0).getNodeValue();
-								Log.i("sound parsing", "sound fileName " + soundName);
-							}
-							foundSoundInfo = new SoundInfo();
-							foundSoundInfo.setSoundFileName(soundFileName);
-							foundSoundInfo.setTitle(soundName);
-							soundList.add(foundSoundInfo);
 						}
 					}
 					Field soundListField = foundSprite.getClass().getDeclaredField("soundList");
@@ -327,6 +321,11 @@ public class FullParser extends DefaultHandler {
 					soundListField.set(foundSprite, soundList);
 					Log.i("sound parsing", "sound List added with size: " + soundList.size());
 				}
+
+				Log.i("sprite parsing", "Sprite added");
+				String brickXPath = getElementXpath(spriteElement);
+				referencedLists.put(brickXPath, foundSprite);
+				sprites.add(foundSprite);
 			}
 
 			resolveForwardReferences();
@@ -371,6 +370,25 @@ public class FullParser extends DefaultHandler {
 
 		return sprites;
 
+	}
+
+	/**
+	 * @param soundRef
+	 * @param soundElement
+	 * @return
+	 * @throws XPathExpressionException
+	 */
+	private Object resolveReference(String refString, Node element) throws XPathExpressionException {
+		XPath xpath = xpathFactory.newXPath();
+		XPathExpression exp = xpath.compile(refString);
+		Element refList = (Element) exp.evaluate(element, XPathConstants.NODE);
+		String xp = getElementXpath(refList);
+		Object object = referencedLists.get(xp);
+
+		if (object != null) {
+			return object;
+		}
+		return null;
 	}
 
 	/**
@@ -423,6 +441,7 @@ public class FullParser extends DefaultHandler {
 							Object finalObject = getobjectOfClass(field.getType(), valueInString);
 							field.setAccessible(true);
 							field.set(foundScript, finalObject);
+
 							Log.i("script parsing, additionals", "additional script info set");
 
 						}
@@ -467,27 +486,17 @@ public class FullParser extends DefaultHandler {
 							Brick valueBrick = getBrickObject(brickvalueName, foundSprite, brickValue.getChildNodes(),
 									(Element) brickValue);
 							valueField.set(brickObject, valueBrick);
+							String childBrickXPath = getElementXpath((Element) brickValue);
+							referencedLists.put(childBrickXPath, valueBrick);
 						} else {
-							NodeList valueChildren = brickValue.getChildNodes();
-							Map<String, Field> fieldMap = getFieldMap(valueField.getClass());
-							Object valueObj = getobjectOfClass(valueField.getClass(), "0");
-							for (int m = 0; m < valueChildren.getLength(); m++) {
-								Node valueChild = valueChildren.item(m);
-								if (valueChild.getNodeType() != Node.TEXT_NODE) {
-									String childValueName = valueChild.getNodeName();
-									Field valF = fieldMap.get(childValueName);
-									if (valF != null) {
-										valF.setAccessible(true);
-										Node valueChildValue = valueChild.getChildNodes().item(0);
-										if (valueChildValue != null) {
-											String valStr = valueChildValue.getNodeValue();
-											Object valobj = getobjectOfClass(valF.getType(), valStr);
-											valF.set(valueObj, valobj);
-										}
-									}
-								}
-							}
+
+							Map<String, Field> fieldMap = getFieldMap(valueField.getType());
+							Object valueObj = getobjectOfClass(valueField.getType(), "0");
+							valfoo(valueObj, brickValue, fieldMap);
+
 							valueField.set(brickObject, valueObj);
+							String childBrickXPath = getElementXpath((Element) brickValue);
+							referencedLists.put(childBrickXPath, valueObj);
 						}
 					} else {
 						Log.i("brick parsing, getBrickObject, value parsing", "value field found, type:"
@@ -512,11 +521,13 @@ public class FullParser extends DefaultHandler {
 						XPathExpression exp = xpath.compile(referenceAttr);
 						Element refList = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
 						String xp = getElementXpath(refList);
-						ForwardReferences forwardRef = new ForwardReferences(brickObject, xp, valueField);
-						forwardRefs.add(forwardRef);
 						Object valueObject = referencedLists.get(xp);
+
 						if (valueObject != null) {
 							valueField.set(brickObject, valueObject);
+						} else {
+							ForwardReferences forwardRef = new ForwardReferences(brickObject, xp, valueField);
+							forwardRefs.add(forwardRef);
 						}
 					}
 				}
@@ -525,6 +536,55 @@ public class FullParser extends DefaultHandler {
 		String xp = getElementXpath(brickElement);
 		referencedLists.put(xp, brickObject);
 		return brickObject;
+	}
+
+	@SuppressWarnings("unused")
+	private void valfoo(Object nodeObj, Node node, Map<String, Field> nodeClassFieldsToSet)
+			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
+			InvocationTargetException, NoSuchMethodException, XPathExpressionException {
+		NodeList children = node.getChildNodes();
+		if (children.getLength() > 1) {
+			for (int i = 0; i < children.getLength(); i++) {
+				Node child = children.item(i);
+				if (child.getNodeType() != Node.TEXT_NODE) {
+					String childNodeName = child.getNodeName();
+					Field fieldWithNodeName = nodeClassFieldsToSet.get(childNodeName);
+					if (fieldWithNodeName != null) {
+						fieldWithNodeName.setAccessible(true);
+						if (child.getChildNodes().getLength() > 1) {
+							Map<String, Field> fieldMap = getFieldMap(fieldWithNodeName.getClass());
+							Object valueObj = getobjectOfClass(fieldWithNodeName.getClass(), "0");
+							valfoo(valueObj, child, fieldMap);
+							String childXPath = getElementXpath((Element) node);
+							referencedLists.put(childXPath, valueObj);
+						} else {
+							Node valueChildValue = child.getChildNodes().item(0);
+							if (valueChildValue != null) {
+								String valStr = valueChildValue.getNodeValue();
+								Object valobj = getobjectOfClass(fieldWithNodeName.getType(), valStr);
+								fieldWithNodeName.set(nodeObj, valobj);
+							}
+						}
+						String refattr = getReferenceAttribute(child);
+						if (refattr != null) {
+							XPath xpath = xpathFactory.newXPath();
+							XPathExpression exp = xpath.compile(refattr);
+							Element refList = (Element) exp.evaluate(child, XPathConstants.NODE);
+							String xp = getElementXpath(refList);
+							Object valueObject = referencedLists.get(xp);
+							if (valueObject == null) {
+								ForwardReferences forwardRef = new ForwardReferences(nodeObj, xp, fieldWithNodeName);
+								forwardRefs.add(forwardRef);
+							} else {
+								fieldWithNodeName.set(nodeObj, valueObject);
+							}
+						}
+					}
+
+				}
+			}
+		}
+
 	}
 
 	private Map<String, Field> getFieldMap(Class cls) {
