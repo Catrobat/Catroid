@@ -101,6 +101,12 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	}
 	
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putParcelable(ARGS_SELECTED_COSTUME, selectedCostumeData);
+		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
 	public void onResume() {
 		super.onResume();
 		if (!Utils.checkForSdCard(getActivity())) {
@@ -140,12 +146,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		if (costumeRenamedReceiver != null) {
 			getActivity().unregisterReceiver(costumeRenamedReceiver);
 		}
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putParcelable(ARGS_SELECTED_COSTUME, selectedCostumeData);
-		super.onSaveInstanceState(outState);
 	}
 	
 	@Override

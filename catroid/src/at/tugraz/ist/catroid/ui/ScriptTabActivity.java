@@ -22,13 +22,7 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-import java.util.ArrayList;
-
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,8 +38,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.TabsPagerAdapter;
-import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
-import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
@@ -56,7 +48,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ScriptTabActivity extends SherlockFragmentActivity implements OnDismissListener, OnCancelListener {
+public class ScriptTabActivity extends SherlockFragmentActivity {
 	
 	public static final String ACTION_BRICKS_LIST_CHANGED = "at.tugraz.ist.catroid.BRICKS_LIST_CHANGED";
 	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
@@ -73,28 +65,10 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 	private TabsPagerAdapter tabsAdapter;
 	
 	private TabHost tabHost;
-	private boolean addScript;
-	private boolean isCanceled;
-	public String selectedCategory;
-	
-	public static final int DIALOG_RENAME_SOUND = 1;
-	public static final int DIALOG_BRICK_CATEGORY = 2;
-	public static final int DIALOG_ADD_BRICK = 3;
-	public static final int DIALOG_DELETE_SOUND = 5;
-
-	private boolean dontcreateNewBrick;
-
-	private void setupTabHost() {
-		tabHost = (TabHost) findViewById(android.R.id.tabhost);
-		tabHost.setup();
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addScript = false;
-		isCanceled = false;
-		dontcreateNewBrick = false;
 
 		setContentView(R.layout.activity_scripttab);
 		Utils.loadProjectIfNeeded(this);
@@ -122,16 +96,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundFragment.class, null);
 
 		setUpActionBar();
-		if (getLastCustomNonConfigurationInstance() != null) {
-			selectedCategory = (String) ((ArrayList<?>) getLastCustomNonConfigurationInstance()).get(0);
-		}
-	}
-
-	@Override
-	public ArrayList<Object> onRetainCustomNonConfigurationInstance() {
-		ArrayList<Object> savedMember = new ArrayList<Object>();
-		savedMember.add(selectedCategory);
-		return savedMember;
 	}
 
 	@Override
@@ -159,15 +123,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private void setUpActionBar() {
-		actionBar = getSupportActionBar();
-
-		String title = this.getResources().getString(R.string.sprite_name) + " "
-				+ ProjectManager.getInstance().getCurrentSprite().getName();
-		actionBar.setTitle(title);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-	}
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -177,7 +132,21 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 			startActivity(intent);
 		}
 	}
+	
+	private void setupTabHost() {
+		tabHost = (TabHost) findViewById(android.R.id.tabhost);
+		tabHost.setup();
+	}
 
+	private void setUpActionBar() {
+		actionBar = getSupportActionBar();
+
+		String title = this.getResources().getString(R.string.sprite_name) + " "
+				+ ProjectManager.getInstance().getCurrentSprite().getName();
+		actionBar.setTitle(title);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+	
 	private void setupTab(Integer drawableId, final String tag, Class<?> clss, Bundle args) {
 		tabsAdapter.addTab(tabHost.newTabSpec(tag).setIndicator(createTabView(drawableId, this, tag)), clss, args);
 	}
@@ -195,55 +164,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements OnDis
 		return view;
 	}
 
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog = null;
-		switch (id) {
-			case DIALOG_BRICK_CATEGORY:
-				dialog = new BrickCategoryDialog(this);
-				dialog.setOnDismissListener(this);
-				dialog.setOnCancelListener(this);
-				break;
-			case DIALOG_ADD_BRICK:
-				if (selectedCategory != null) {
-					dialog = new AddBrickDialog(this, selectedCategory);
-				}
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-		return dialog;
-	}
-
-	public void onDismiss(DialogInterface dialogInterface) {
-		if (!dontcreateNewBrick) {
-			if (!isCanceled) {
-				if (addScript) {
-					((ScriptFragment) getTabFragment(INDEX_TAB_SCRIPTS)).setAddNewScript();
-					addScript = false;
-				}
-
-				sendBroadcast(new Intent(ACTION_BRICKS_LIST_CHANGED));
-			}
-			isCanceled = false;
-		}
-		dontcreateNewBrick = false;
-	}
-
-	public void onCancel(DialogInterface dialog) {
-		isCanceled = true;
-		sendBroadcast(new Intent(ACTION_BRICKS_LIST_CHANGED));
-	}
-
-	public void setNewScript() {
-		addScript = true;
-	}
-
-	public void setDontcreateNewBrick() {
-		dontcreateNewBrick = true;
-	}
-	
 	public Fragment getTabFragment(int position) {
 		if (position < 0 || position > 2) {
 			throw new IllegalArgumentException("There is no tab Fragment with index: " + position);

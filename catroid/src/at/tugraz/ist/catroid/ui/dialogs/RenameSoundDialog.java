@@ -57,7 +57,6 @@ public class RenameSoundDialog extends DialogFragment {
 		
 		return dialog;
 	}
-	
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
