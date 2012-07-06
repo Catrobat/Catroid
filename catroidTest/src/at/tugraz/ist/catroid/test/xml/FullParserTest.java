@@ -169,4 +169,32 @@ public class FullParserTest extends InstrumentationTestCase {
 		//		assertEquals("Costume set file name incorrect", "143780EBC24495149123CCAF3A1CDC35_normalCat",
 		//				setCostumeFileName);
 	}
+
+	public void testSoundListParsing() {
+		FullParser parser = new FullParser();
+		InputStream xmlFileStream = null;
+
+		try {
+			xmlFileStream = androidContext.getAssets().open("test_sound_project.xml");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			fail("Exception caught at getting filestream");
+		}
+		Project testProject = parser.fullParser(xmlFileStream);
+		assertNotNull("project not created", testProject);
+		//		List<Sprite> sprites = testProject.getSpriteList();
+		//		assertEquals("all sprites not given", 6, sprites.size());
+		//		Sprite testSprite = sprites.get(1);
+		//		List<SoundInfo> soundList = (List<SoundInfo>) TestUtils.getPrivateField("soundList", testSprite, false);
+		//		assertNotNull(soundList);
+		//		assertEquals(2, soundList.size());
+		//		SoundInfo si = soundList.get(0);
+		//		assertEquals("B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3", si.getSoundFileName());
+		//		WhenScript ws = (WhenScript) testSprite.getScript(1);
+		//		PlaySoundBrick psb = (PlaySoundBrick) ws.getBrick(4);
+		//		assertNotNull(psb);
+		//		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", psb, false);
+		//		assertEquals("Geige", si2.getTitle());
+	}
 }
