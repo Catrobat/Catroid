@@ -98,6 +98,12 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putParcelable(ARGS_SELECTED_SOUND, selectedSoundInfo);
+		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
@@ -161,12 +167,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 	}
 	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putParcelable(ARGS_SELECTED_SOUND, selectedSoundInfo);
-		super.onSaveInstanceState(outState);
-	}
-
 	private void updateSoundAdapter(String title, String fileName) {
 		title = Utils.getUniqueSoundName(title);
 

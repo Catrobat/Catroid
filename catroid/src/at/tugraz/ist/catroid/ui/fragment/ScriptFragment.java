@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -41,6 +43,10 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter.BrickInteractionListener;
+import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
+import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
+import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog.OnBrickCategoryDialogDismissCancelListener;
+import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog.OnCategorySelectedListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -49,39 +55,25 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class ScriptFragment extends SherlockFragment implements BrickInteractionListener {
+public class ScriptFragment extends SherlockFragment 
+		implements BrickInteractionListener, OnCategorySelectedListener, OnBrickCategoryDialogDismissCancelListener {
+	
+	private static final String ARGS_SELECTED_CATEGORY = "selected_category";
 	
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
+	
 	private Sprite sprite;
 	private Script scriptToEdit;
+	public String selectedCategory;
+	
 	private boolean addNewScript;
+	private boolean dontCreateNewBrick;
+	private boolean addScript;
+	private boolean isCanceled;
 	
 	private NewBrickAddedReceiver brickAddedReceiver;
 	
-	private static final int DIALOG_ADD_BRICK = 2;
-	
-	private void initListeners() {
-		sprite = ProjectManager.getInstance().getCurrentSprite();
-		if (sprite == null) {
-			return;
-		}
-		
-		adapter = new BrickAdapter(getActivity(), sprite, listView);
-		adapter.setBrickInteractionListener(this);
-		if (adapter.getScriptCount() > 0) {
-			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
-			adapter.setCurrentScriptPosition(0);
-		}
-
-		listView.setOnCreateContextMenuListener(this);
-		listView.setOnDragAndDropListener(adapter);
-		listView.setAdapter(adapter);
-
-		registerForContextMenu(listView);
-		addNewScript = false;
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_script, null);
@@ -91,6 +83,25 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		setHasOptionsMenu(true);
 		
 		return rootView;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		dontCreateNewBrick = false;
+		addScript = false;
+		isCanceled = false;
+		
+		if (savedInstanceState !=null) {
+			selectedCategory = savedInstanceState.getString(ARGS_SELECTED_CATEGORY);
+		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putString(ARGS_SELECTED_CATEGORY, selectedCategory);
+		super.onSaveInstanceState(outState);
 	}
 	
 	@Override
@@ -145,40 +156,18 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				getActivity().showDialog(DIALOG_ADD_BRICK);
+				BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
+				brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
+				brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
+				brickCategoryDialog.show(getFragmentManager(), "dialog_brick_category");
 				return true;
 			}
 		});
 	}
 	
-	public void setAddNewScript() {
-		addNewScript = true;
-	}
-
-	public void updateAdapterAfterAddNewBrick() {
-		if (addNewScript) {
-			addNewScript = false;
-		} else {
-			int visibleF = listView.getFirstVisiblePosition();
-			int visibleL = listView.getLastVisiblePosition();
-			int pos = ((visibleL - visibleF) / 2);
-			pos += visibleF;
-			pos = adapter.rearangeBricks(pos);
-			adapter.setInsertedBrickpos(pos);
-			listView.setInsertedBrick(pos);
-		}
-		
-		adapter.notifyDataSetChanged();
-	}
-
-	public BrickAdapter getAdapter() {
-		return adapter;
-	}
-
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brick_list_view) {
-
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
 			if (adapter.getItem(listView.getTouchedListPosition()) instanceof Script) {
@@ -206,7 +195,24 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 				adapter.notifyDataSetChanged();
 			}
 		}
+		
 		return true;
+	}
+	
+	public void setDontCreateNewBrick(boolean dontCreateNewBrick) {
+		this.dontCreateNewBrick = dontCreateNewBrick;
+	}
+	
+	public void setAddNewScript() {
+		addNewScript = true;
+	}
+	
+	public void setNewScript() {
+		addScript = true;
+	}
+
+	public BrickAdapter getAdapter() {
+		return adapter;
 	}
 	
 	@Override
@@ -219,8 +225,81 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		listView.onLongClick(brickView);
 	}
 	
-	private class NewBrickAddedReceiver extends BroadcastReceiver {
+	@Override
+	public void onCategorySelected(String category) {
+		selectedCategory = category;
+		
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = (AddBrickDialog) getFragmentManager().findFragmentByTag("dialog_add_brick");
+		if  (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+		
+		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory);
+		addBrickDialog.show(ft, "dialog_add_brick");
+	}
+	
+	@Override
+	public void onBrickCategoryDialogDismiss() {
+		if (!dontCreateNewBrick) {
+			if (!isCanceled) {
+				if (addScript) {
+					setAddNewScript();
+					addScript = false;
+				}
 
+				updateAdapterAfterAddNewBrick();
+			}
+			isCanceled = false;
+		}
+		dontCreateNewBrick = false;
+	}
+
+	@Override
+	public void onBrickCategoryDialogCancel() {
+		isCanceled = true;
+		updateAdapterAfterAddNewBrick();
+	}
+	
+	private void updateAdapterAfterAddNewBrick() {
+		if (addNewScript) {
+			addNewScript = false;
+		} else {
+			int visibleF = listView.getFirstVisiblePosition();
+			int visibleL = listView.getLastVisiblePosition();
+			int pos = ((visibleL - visibleF) / 2);
+			pos += visibleF;
+			pos = adapter.rearangeBricks(pos);
+			adapter.setInsertedBrickpos(pos);
+			listView.setInsertedBrick(pos);
+		}
+		
+		adapter.notifyDataSetChanged();
+	}
+	
+	private void initListeners() {
+		sprite = ProjectManager.getInstance().getCurrentSprite();
+		if (sprite == null) {
+			return;
+		}
+		
+		adapter = new BrickAdapter(getActivity(), sprite, listView);
+		adapter.setBrickInteractionListener(this);
+		if (adapter.getScriptCount() > 0) {
+			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
+			adapter.setCurrentScriptPosition(0);
+		}
+
+		listView.setOnCreateContextMenuListener(this);
+		listView.setOnDragAndDropListener(adapter);
+		listView.setAdapter(adapter);
+
+		registerForContextMenu(listView);
+		addNewScript = false;
+	}
+	
+	private class NewBrickAddedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICKS_LIST_CHANGED)) {

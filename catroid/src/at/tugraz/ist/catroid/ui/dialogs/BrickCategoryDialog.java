@@ -25,12 +25,15 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -40,48 +43,105 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickCategoryAdapter;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
-public class BrickCategoryDialog extends Dialog {
-	private ScriptTabActivity activity;
+public class BrickCategoryDialog extends DialogFragment {
+	
+	private ListView listView;
 	private BrickCategoryAdapter adapter;
-
-	public BrickCategoryDialog(ScriptTabActivity activity) {
-		super(activity, R.style.brick_dialog);
-		this.activity = activity;
-
-		Window window = getWindow();
-		window.requestFeature(Window.FEATURE_NO_TITLE);
-		//window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		window.setGravity(Gravity.CENTER | Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL);
-
-		setContentView(R.layout.dialog_categories);
-		window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-
-		ImageButton closeButton = (ImageButton) findViewById(R.id.btn_close_dialog);
+	
+	private OnCategorySelectedListener onCategorySelectedListener;
+	private OnBrickCategoryDialogDismissCancelListener onBrickCategoryDialogDismissCancelListener;
+	
+	public BrickCategoryDialog() {
+	}
+	
+	public void setOnBrickCategoryDialogDismissCancelListener(OnBrickCategoryDialogDismissCancelListener listener) {
+		onBrickCategoryDialogDismissCancelListener = listener;
+	}
+	
+	public void setOnCategorySelectedListener(OnCategorySelectedListener listener) {
+		onCategorySelectedListener = listener;
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setStyle(STYLE_NORMAL, R.style.brick_dialog);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.dialog_categories, null);
+		
+		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.btn_close_dialog);
+		TextView textView = (TextView) rootView.findViewById(R.id.tv_dialog_title);
+		listView = (ListView) rootView.findViewById(R.id.categoriesListView);
+		
 		closeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				abort();
 				dismiss();
 			}
 		});
-
-		TextView textView = (TextView) findViewById(R.id.tv_dialog_title);
-		textView.setText(activity.getString(R.string.categories));
+		
+		textView.setText(getString(R.string.categories));
+		
+		setupBrickCategories(listView, inflater);
+		
+		Window window = getDialog().getWindow();
+		window.requestFeature(Window.FEATURE_NO_TITLE);
+		window.setGravity(Gravity.CENTER | Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL);
+		window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+		
+		return rootView;
 	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
 
+		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if (onCategorySelectedListener != null) {
+					onCategorySelectedListener.onCategorySelected(adapter.getItem(position));
+				}
+			}
+		});
+	}
+	
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		if (onBrickCategoryDialogDismissCancelListener != null) {
+			onBrickCategoryDialogDismissCancelListener.onBrickCategoryDialogDismiss();
+		}
+		
+		super.onDismiss(dialog);
+	}
+	
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		if (onBrickCategoryDialogDismissCancelListener != null) {
+			onBrickCategoryDialogDismissCancelListener.onBrickCategoryDialogCancel();
+		}
+		
+		super.onCancel(dialog);
+	}
+	
 	private void abort() {
-		activity.setDontcreateNewBrick();
+		ScriptTabActivity activity = ((ScriptTabActivity) getActivity());
+		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		fragment.setDontCreateNewBrick(true);
 	}
 
-	private void setupBrickCategories(ListView listView) {
-		LayoutInflater inflater = activity.getLayoutInflater();
+	private void setupBrickCategories(ListView listView, LayoutInflater inflater) {
 		List<View> categories = new ArrayList<View>();
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (prefs.getBoolean("setting_mindstorm_bricks", false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
@@ -89,20 +149,16 @@ public class BrickCategoryDialog extends Dialog {
 		listView.setAdapter(adapter);
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-
-		ListView listView = (ListView) findViewById(R.id.categoriesListView);
-		setupBrickCategories(listView);
-
-		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				activity.selectedCategory = adapter.getItem(position);
-				activity.removeDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
-				activity.showDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
-			}
-		});
+	public interface OnCategorySelectedListener {
+		
+		public void onCategorySelected(String category);
+		
+	}
+	
+	public interface OnBrickCategoryDialogDismissCancelListener {
+		
+		public void onBrickCategoryDialogDismiss();
+		public void onBrickCategoryDialogCancel();
+		
 	}
 }
