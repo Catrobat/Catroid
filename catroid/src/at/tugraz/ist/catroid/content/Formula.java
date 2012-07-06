@@ -20,34 +20,33 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.bricks;
+package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
+import java.util.List;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.content.Sprite;
+public class Formula implements Serializable {
 
-public interface Brick extends Serializable {
+	private static final long serialVersionUID = 1L;
+	private FormulaElement root;
+	private int numberOfElements = 0;
 
-	//use bitwise | for using multiple ressources in a brick
-	public static final int NO_RESOURCES = 0x0;
-	//public static final int SOUND_MANAGER = 0x1;
-	public static final int TEXT_TO_SPEECH = 0x2;
-	public static final int BLUETOOTH_LEGO_NXT = 0x4;
-	public static final int BLUETOOTH_ARDUINO = 0x8;
+	public Formula() {
+		root = new FormulaElement(0, -1, "root");
+	}
 
-	public void execute();
+	public void addChild(int id, int type, String name, int parentId) {
+		numberOfElements++;
+		FormulaElement parentItem = findItem(parentId);
+		parentItem.addChild(new FormulaElement(numberOfElements, type, name));
+	}
 
-	public Sprite getSprite();
+	public FormulaElement findItem(int parentID) {
+		return root.getItemWithId(parentID);
+	}
 
-	public View getView(Context context, int brickId, BaseAdapter adapter);
-
-	public View getPrototypeView(Context context);
-
-	public Brick clone();
-
-	public int getRequiredResources();
+	public List<FormulaElement> getAllChildren(int parentID) {
+		return root.getAllChildren(parentID);
+	}
 
 }

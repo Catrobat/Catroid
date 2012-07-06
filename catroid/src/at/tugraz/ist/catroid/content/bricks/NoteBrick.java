@@ -115,11 +115,4 @@ public class NoteBrick implements Brick {
 		return new NoteBrick(this.sprite, this.note);
 	}
 
-	/* (non-Javadoc)
-	 * @see at.tugraz.ist.catroid.content.bricks.Brick#getEditorView(android.content.Context)
-	 */
-	public View getEditorView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

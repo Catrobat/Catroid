@@ -189,7 +189,4 @@ public class BroadcastBrick implements Brick {
 		return new BroadcastBrick(sprite);
 	}
 
-	public View getEditorView(Context context) {
-		return null;
-	}
 }

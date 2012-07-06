@@ -67,11 +67,4 @@ public class ForeverBrick extends LoopBeginBrick {
 		return View.inflate(context, R.layout.brick_forever, null);
 	}
 
-	/* (non-Javadoc)
-	 * @see at.tugraz.ist.catroid.content.bricks.Brick#getEditorView(android.content.Context)
-	 */
-	public View getEditorView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
