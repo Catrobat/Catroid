@@ -30,15 +30,20 @@ package at.tugraz.ist.catroid.ui.dragndrop;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.View.OnLongClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -70,6 +75,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private int originalTrashWidth;
 	private int originalTrashHeight;
 	private int touchedListPosition;
+
+	private boolean isDragging;
+	private boolean onDeleting;
 
 	private DragAndDropListener dragAndDropListener;
 
@@ -104,6 +112,21 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 
 		return super.onInterceptTouchEvent(event);
+	}
+
+	@Override
+	public void draw(Canvas canvas) {
+		super.draw(canvas);
+
+		if (isDragging) {
+			Rect rect = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
+			Paint paint = new Paint();
+			paint.setColor(Color.BLACK);
+			paint.setStyle(Style.FILL);
+			paint.setAlpha(128);
+
+			canvas.drawRect(rect, paint);
+		}
 	}
 
 	@Override
@@ -152,6 +175,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 						//						}
 						dragAndDropListener.drop(itemPosition);
 					}
+					isDragging = false;
 
 					break;
 
@@ -185,6 +209,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 						if ((y > lowerDragBound || y < upperDragBound)) {
 							dragAndDropListener.drag(previousItemPosition, itemPosition);
+							isDragging = true;
 							previousItemPosition = itemPosition;
 
 						}
@@ -225,8 +250,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		view.setDrawingCacheEnabled(true);
 
-		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
-				.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
+		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
+				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
 		view.layout(0, 0, Values.SCREEN_WIDTH, view.getMeasuredHeight());
 
 		view.buildDrawingCache(true);
@@ -241,6 +266,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		startDragging(bitmap, touchPointY);
 
 		dragAndDropListener.drag(itemPosition, itemPosition);
+		isDragging = true;
 
 		trashView.setVisibility(View.VISIBLE);
 		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
@@ -281,9 +307,22 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			trashViewParameters.width = (int) (originalTrashWidth * (1 + rate));
 			trashViewParameters.height = (int) (originalTrashHeight * (1 + rate));
 			trashView.setLayoutParams(trashViewParameters);
+			trashView.bringToFront();
+		}
 
-			dragViewParameters.alpha = alpha;
-			dragViewParameters.width = getWidth() - trashViewParameters.width + 2;
+		if (x > getWidth() * 3 / 4 && !onDeleting) {
+			onDeleting = true;
+			Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+			long[] pattern = { 0, 100, 200 };
+			if (v != null) {
+				v.vibrate(pattern, 0);
+			}
+		} else if (x <= getWidth() * 3 / 4) {
+			onDeleting = false;
+			Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+			if (v != null) {
+				v.cancel();
+			}
 		}
 
 		dragViewParameters.y = y - dragView.getHeight() / 2;
@@ -299,6 +338,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			windowManager.removeView(dragView);
 			dragView.setImageDrawable(null);
 			dragView = null;
+		}
+
+		Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+		if (v != null) {
+			v.cancel();
 		}
 	}
 
