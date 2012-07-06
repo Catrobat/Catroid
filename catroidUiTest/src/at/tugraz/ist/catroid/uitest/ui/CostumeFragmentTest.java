@@ -239,7 +239,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(800);
 
 		CostumeData costumeData = costumeDataList.get(0);
-		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
+		getCostumeFragment().setSelectedCostumeData(costumeData);
 
 		String md5PaintroidImage = Utils.md5Checksum(paintroidImageFile);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
@@ -278,7 +278,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
-		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
+		getCostumeFragment().setSelectedCostumeData(costumeData);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -303,7 +303,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
-		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
+		getCostumeFragment().setSelectedCostumeData(costumeData);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -377,7 +377,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
-		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
+		getCostumeFragment().setSelectedCostumeData(costumeData);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
@@ -417,7 +417,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(900);
 
 		CostumeData costumeData = costumeDataList.get(0);
-		((ScriptTabActivity) solo.getCurrentActivity()).selectedCostumeData = costumeData;
+		getCostumeFragment().setSelectedCostumeData(costumeData);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 		//		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 

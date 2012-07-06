@@ -200,6 +200,10 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		});
 	}
 
+	public void setSelectedCostumeData(CostumeData costumeData) {
+		selectedCostumeData = costumeData;
+	}
+	
 	private void reloadAdapter() {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		CostumeAdapter adapter = new CostumeAdapter(getActivity(), 
