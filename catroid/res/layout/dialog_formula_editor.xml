@@ -28,28 +28,19 @@
 	android:layout_marginLeft="0dip" 
     android:layout_marginRight="0dip"
     android:windowFullscreen="true"
-	android:orientation="vertical">
-	
-<LinearLayout
 	android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:layout_marginLeft="0dip" 
-    android:layout_marginRight="0dip"
-    android:windowFullscreen="true"
-	android:theme="@android:style/Theme.Light">
-
+	android:theme="@android:style/Theme.Light">
 	<LinearLayout
 	    android:id="@+id/formula_editor_brick_space"
 	    android:layout_width="match_parent"
-	    android:layout_height="68dp" />
-
-	<ListView
-	    android:id="@+id/formula_editor_list_view"
+	    android:layout_height="68dp" />
+	<EditText
 	    android:layout_width="match_parent"
-	    android:layout_height="131dp" >
-
-	</ListView>
+	    android:layout_height="wrap_content"
+	    android:gravity="top"
+	    android:inputType="textMultiLine"
+	    android:lines="5"
+	    android:singleLine="false" />
 	
 	<EditText
 		android:id="@+id/formula_editor_edit_text"
@@ -64,7 +55,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal" >
-
+
 	    <ImageButton
 	        android:id="@+id/formula_editor_ok_button"
 	        android:layout_width="73dp"
@@ -87,6 +78,5 @@
 
 	</LinearLayout>
 
-</LinearLayout>
 </LinearLayout>
 

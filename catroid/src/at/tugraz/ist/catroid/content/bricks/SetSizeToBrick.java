@@ -37,8 +37,8 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double size;
-	public boolean editorActive = false;
-	private SetSizeToBrick instance = null;
+	public transient boolean editorActive = false;
+	private transient SetSizeToBrick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
 
 	private transient View view;

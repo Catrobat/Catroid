@@ -1,5 +1,5 @@
 /**
- *  Catroid: An on-device graphical programming language for Android devices
++ *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *  
@@ -32,10 +32,10 @@ public class Formula implements Serializable {
 	private int numberOfElements = 0;
 
 	public Formula() {
-		root = new FormulaElement(0, -1, "root");
+		root = new FormulaElement(0, FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root");
 	}
 
-	public void addChild(int id, int type, String name, int parentId) {
+	public void addChild(int type, String name, int parentId) {
 		numberOfElements++;
 		FormulaElement parentItem = findItem(parentId);
 		parentItem.addChild(new FormulaElement(numberOfElements, type, name));

@@ -30,19 +30,21 @@ public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final int ELEMENT_REPLACED_BY_CHILDREN = -1;
 	public static final int ELEMENT_FUNCTION = 0;
 	public static final int ELEMENT_VALUE = 1;
 	public static final int ELEMENT_OPERATOR = 2;
 
-	public int id;
-	public int type;
-	public String value;
+	private int id;
+	private int type;
+	private String value;
 	private List<FormulaElement> children = null;
 
 	public FormulaElement(int id, int type, String value) {
 		this.id = id;
 		this.type = type;
 		this.value = value;
+
 	}
 
 	public FormulaElement getItemWithId(int searchedId) {
@@ -66,7 +68,7 @@ public class FormulaElement implements Serializable {
 		if (children == null) {
 			children = new ArrayList<FormulaElement>();
 		}
-
+		this.type = ELEMENT_REPLACED_BY_CHILDREN;
 		children.add(element);
 	}
 
