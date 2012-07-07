@@ -29,6 +29,7 @@ import java.util.List;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
@@ -36,6 +37,7 @@ import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -163,11 +165,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertNotNull(lebFromXML);
 		LoopBeginBrick rb = lebFromXML.getLoopBeginBrick();
 		assertNotNull(rb);
-		//		int ttorepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", rrr, false);
-		//		assertEquals(3, ttorepeat);
-		//		String setCostumeFileName = testCostData.getCostumeFileName();
-		//		assertEquals("Costume set file name incorrect", "143780EBC24495149123CCAF3A1CDC35_normalCat",
-		//				setCostumeFileName);
+
 	}
 
 	public void testSoundListParsing() {
@@ -183,18 +181,42 @@ public class FullParserTest extends InstrumentationTestCase {
 		}
 		Project testProject = parser.fullParser(xmlFileStream);
 		assertNotNull("project not created", testProject);
-		//		List<Sprite> sprites = testProject.getSpriteList();
-		//		assertEquals("all sprites not given", 6, sprites.size());
-		//		Sprite testSprite = sprites.get(1);
-		//		List<SoundInfo> soundList = (List<SoundInfo>) TestUtils.getPrivateField("soundList", testSprite, false);
-		//		assertNotNull(soundList);
-		//		assertEquals(2, soundList.size());
-		//		SoundInfo si = soundList.get(0);
-		//		assertEquals("B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3", si.getSoundFileName());
-		//		WhenScript ws = (WhenScript) testSprite.getScript(1);
-		//		PlaySoundBrick psb = (PlaySoundBrick) ws.getBrick(4);
-		//		assertNotNull(psb);
-		//		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", psb, false);
-		//		assertEquals("Geige", si2.getTitle());
+		List<Sprite> sprites = testProject.getSpriteList();
+		assertEquals("all sprites not given", 6, sprites.size());
+		Sprite testSprite = sprites.get(1);
+		List<SoundInfo> soundList = (List<SoundInfo>) TestUtils.getPrivateField("soundList", testSprite, false);
+		assertNotNull(soundList);
+		assertEquals(2, soundList.size());
+		SoundInfo si = soundList.get(0);
+		assertEquals("B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3", si.getSoundFileName());
+		WhenScript ws = (WhenScript) testSprite.getScript(1);
+		PlaySoundBrick psb = (PlaySoundBrick) ws.getBrick(4);
+		assertNotNull(psb);
+		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", psb, false);
+		assertEquals("Geige", si2.getTitle());
 	}
+
+	public void testPerformanceTest() {
+		FullParser parser = new FullParser();
+		InputStream xmlFileStream = null;
+
+		try {
+			xmlFileStream = androidContext.getAssets().open("test_aquarium_project.xml");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			fail("Exception caught at getting filestream");
+		}
+		//		Project testProject = parser.fullParser(xmlFileStream);
+		//		assertNotNull("project not created", testProject);
+		List<Sprite> sprites = null;
+		try {
+			sprites = parser.parseSprites(xmlFileStream);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("all sprites not given", 11, sprites.size());
+	}
+
 }

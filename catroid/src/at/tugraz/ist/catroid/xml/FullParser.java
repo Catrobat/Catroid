@@ -39,7 +39,6 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -51,7 +50,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
@@ -67,32 +65,32 @@ public class FullParser extends DefaultHandler {
 	List<Sprite> sprites = new ArrayList<Sprite>();
 	List<Script> scripts = new ArrayList<Script>();
 	List<CostumeData> costumeList = new ArrayList<CostumeData>();
-	Map<String, Object> referencedLists = new HashMap<String, Object>();
-	int index = 0;
+	Map<String, Object> referencedObjects = new HashMap<String, Object>();
 	XPathFactory xpathFactory = XPathFactory.newInstance();
+	XPath xpath = xpathFactory.newXPath();
 	List<ForwardReferences> forwardRefs = new ArrayList<ForwardReferences>();
 
 	public Project fullParser(InputStream xmlFile) {
-		ObjectCreator projectInit = new ObjectCreator();
+		ObjectCreator projectCreator = new ObjectCreator();
 		Project parsedProject = null;
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ByteArrayOutputStream inputStreamStore = new ByteArrayOutputStream();
 
 		byte[] buffer = new byte[1024];
-		int len;
+		int length;
 
 		try {
 
-			while ((len = xmlFile.read(buffer)) > -1) {
-				baos.write(buffer, 0, len);
+			while ((length = xmlFile.read(buffer)) > -1) {
+				inputStreamStore.write(buffer, 0, length);
 			}
-			baos.flush();
+			inputStreamStore.flush();
 
-			InputStream is1 = new ByteArrayInputStream(baos.toByteArray());
-			InputStream is2 = new ByteArrayInputStream(baos.toByteArray());
-			parsedProject = projectInit.reflectionSet(is1);
+			InputStream inputStreamCopy1 = new ByteArrayInputStream(inputStreamStore.toByteArray());
+			InputStream inputStreamCopy2 = new ByteArrayInputStream(inputStreamStore.toByteArray());
+			parsedProject = projectCreator.reflectionSet(inputStreamCopy1);
 
-			List<Sprite> spriteList = this.parseSprites(is2);
+			List<Sprite> spriteList = this.parseSprites(inputStreamCopy2);
 
 			for (int i = 0; i < spriteList.size(); i++) {
 				parsedProject.addSprite(spriteList.get(i));
@@ -100,83 +98,39 @@ public class FullParser extends DefaultHandler {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return parsedProject;
 
 	}
 
-	public List<Sprite> parseSprites(InputStream fXmlFile) throws ParseException {
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder;
+	public List<Sprite> parseSprites(InputStream xnlInputStream) throws ParseException {
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder;
 
 		try {
-			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
+			docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(xnlInputStream);
 			doc.getDocumentElement().normalize();
 
 			Log.i("Sprite parse method begin", "Sprite parsing started");
-			NodeList spritesNodes = doc.getElementsByTagName("Content.Sprite");
-			Log.i("sprite parsing", "no of sprites: " + spritesNodes.getLength());
-			for (int i = 0; i < spritesNodes.getLength(); i++) {
-				Log.i("sprite parsing", "current Sprite no " + i);
-				Node sprite = spritesNodes.item(i);
-				Element spriteElement = (Element) sprite;
-				NodeList spriteChildren = spriteElement.getChildNodes();
-				String spriteName = null;
-				for (int o = 0; o < spriteChildren.getLength(); o++) {
-					Node child = spriteChildren.item(o);
-					if (child.getNodeType() != Node.TEXT_NODE) {
-						String childNodeName = child.getNodeName();
-						Log.i("sprite parsing", "current Sprite child node " + childNodeName);
-						if (childNodeName.equals("name")) {
-							spriteName = child.getChildNodes().item(0).getNodeValue();
-							Log.i("sprite parsing", "current Sprite name " + spriteName);
-							break;
-						}
-					}
-				}
+			NodeList spriteNodes = doc.getElementsByTagName("Content.Sprite");
+			Log.i("sprite parsing", "no of sprites: " + spriteNodes.getLength());
+			for (int i = 0; i < spriteNodes.getLength(); i++) {
 
+				Log.i("sprite parsing", "current Sprite no " + i);
+				Element spriteElement = (Element) spriteNodes.item(i);
+				String spriteName = spriteElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
+						.getNodeValue();
+				Log.i("sprite parsing", "current Sprite name " + spriteName);
 				Sprite foundSprite = new Sprite(spriteName);
 				Log.i("sprite parsing", "Sprite created, costume parsing");
-				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
 
+				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
 				if (costumeListItem != null) {
 					costumeList = new ArrayList<CostumeData>();
 					NodeList costumeNodes = costumeListItem.getChildNodes();
-					int costumeIndex = 0;
-					for (int m = 0; m < costumeNodes.getLength(); m++) {
-
-						CostumeData foundCostumeData = null;
-						Node costumeElement = costumeNodes.item(m);
-						if (costumeElement.getNodeType() != Node.TEXT_NODE) {
-							Log.i("costume parsing", "current costume no " + m);
-							Element cel = (Element) costumeElement;
-							Node costumeFileNameNode = cel.getElementsByTagName("fileName").item(0);
-							String costumeFileName = null;
-							if (costumeFileNameNode != null) {
-								costumeFileName = costumeFileNameNode.getChildNodes().item(0).getNodeValue();
-								Log.i("costume parsing", "current costume filename " + costumeFileName);
-							}
-							String costumeName = cel.getElementsByTagName("name").item(0).getChildNodes().item(0)
-									.getNodeValue();
-							Log.i("costume parsing", "current costume name " + costumeName);
-							foundCostumeData = new CostumeData();
-							foundCostumeData.setCostumeFilename(costumeFileName);
-							foundCostumeData.setCostumeName(costumeName);
-							costumeList.add(foundCostumeData);
-							String costumeindexString = "";
-							if (costumeIndex > 0) {
-								int showNo = costumeIndex + 1;
-								costumeindexString = "[" + showNo + "]";
-							}
-							String xp = getElementXpath(cel);
-							referencedLists.put(xp, foundCostumeData);
-							costumeIndex++;
-							Log.i("costume parsing", "costume created");
-						}
-					}
+					costumeList = parseCostumeList(costumeNodes);
 					Field costumeListField = foundSprite.getClass().getDeclaredField("costumeDataList");
 					costumeListField.setAccessible(true);
 					costumeListField.set(foundSprite, costumeList);
@@ -184,82 +138,63 @@ public class FullParser extends DefaultHandler {
 					Log.i("costume parsing", costumeList.size() + " costumes added");
 				}
 
-				Log.i("script parsing", "Script parsing started ");
+				//	Log.i("script parsing", "Script parsing started ");
 				Node scriptListItem = spriteElement.getElementsByTagName("scriptList").item(0);
 				if (scriptListItem != null) {
-
 					NodeList scriptListNodes = scriptListItem.getChildNodes();
-
 					for (int j = 0; j < scriptListNodes.getLength(); j++) {
 						Script foundScript = null;
-						Node scriptElement = scriptListNodes.item(j);
-						if (scriptElement.getNodeType() != Node.TEXT_NODE) {
-							Log.i("script parsing", "parsing a script indexed " + j);
-							String scriptName = scriptElement.getNodeName();
-							String scriptImplName = scriptName.substring(8);
+						Node scriptNode = scriptListNodes.item(j);
+						if (scriptNode.getNodeType() != Node.TEXT_NODE) {
+							//Log.i("script parsing", "parsing a script indexed " + j);
 
-							Log.i("script parsing", "Script implementation " + scriptImplName);
-							foundScript = getScriptObject(scriptImplName, foundSprite);
-							Element el = (Element) scriptElement;
-							foundScript = getAdditionalScriptInfo(el, foundScript);
-							Node brickListNode = el.getElementsByTagName("brickList").item(0);
+							//	Log.i("script parsing", "Script implementation " + scriptClassName);
+							Element scriptElement = (Element) scriptNode;
+							foundScript = getpopulatedScript(scriptElement, foundSprite);
+							Node brickListNode = scriptElement.getElementsByTagName("brickList").item(0);
 							if (brickListNode != null) {
-								NodeList brickListNodes = brickListNode.getChildNodes();
-								Log.i("brick parsing", "Brick parsing started");
-								for (int k = 0; k < brickListNodes.getLength(); k++) {
-									Brick brickImpleObj = null;
-									Node currentBrickNode = brickListNodes.item(k);
+								NodeList brickNodes = brickListNode.getChildNodes();
+								//Log.i("brick parsing", "Brick parsing started");
+								for (int k = 0; k < brickNodes.getLength(); k++) {
+									Node currentBrickNode = brickNodes.item(k);
 									if (currentBrickNode.getNodeType() != Node.TEXT_NODE) {
-										String brickName = currentBrickNode.getNodeName();
-										Log.i("brick parsing", "current brick name " + brickName);
-
+										Brick foundBrickObj = null;
 										Element brickElement = (Element) currentBrickNode;
-										NodeList spriteNodesList = brickElement.getElementsByTagName("sprite");
-										if (spriteNodesList != null) {
-											Log.i("brick parsing", "brick sprite element found");
-											Node sni = spriteNodesList.item(0);
-											if (sni != null) {
-												NamedNodeMap attributes = sni.getAttributes();
-												if (attributes != null) {
-													String spriteAttr = attributes.getNamedItem("reference")
-															.getTextContent();
-													Log.i("brick parsing", "Brick sprite attribute " + spriteAttr);
-												}
-											}
-										}
-										NodeList brickValueNodes = brickElement.getChildNodes();
-										brickImpleObj = getBrickObject(brickName, foundSprite, brickValueNodes,
-												brickElement);
-										Log.i("brick parsing", "Brick object: " + brickImpleObj.toString() + " added");
 										String brickReferenceAttr = getReferenceAttribute(brickElement);
-
 										if (brickReferenceAttr != null) {
 
-											XPath xpath = xpathFactory.newXPath();
 											Log.i("brick parsing", "brick reference: " + brickReferenceAttr);
 											XPathExpression exp = xpath.compile(brickReferenceAttr);
-											Element refList = (Element) exp.evaluate(brickElement, XPathConstants.NODE);
+											Element referencedElement = (Element) exp.evaluate(brickElement,
+													XPathConstants.NODE);
+											String brickXPathFromRoot = getElementXpath(referencedElement);
+											foundBrickObj = (Brick) referencedObjects.get(brickXPathFromRoot);
+											if (foundBrickObj == null) {
+												ForwardReferences forwardRef = new ForwardReferences(foundBrickObj,
+														brickXPathFromRoot, null);
+												forwardRefs.add(forwardRef);
+											}
 
-											String brickXPath = getElementXpath(refList);
+										} else {
 
-											brickImpleObj = (Brick) referencedLists.get(brickXPath);
-
-											ForwardReferences forwardRef = new ForwardReferences(brickImpleObj,
-													brickXPath, null);
-											forwardRefs.add(forwardRef);
-
+											String brickName = currentBrickNode.getNodeName();
+											Log.i("brick parsing", "current brick name " + brickName);
+											NodeList brickValueNodes = brickElement.getChildNodes();
+											foundBrickObj = getBrickObject(brickName, foundSprite, brickValueNodes,
+													brickElement);
 										}
+										Log.i("brick parsing", "Brick object: " + foundBrickObj.toString() + " added");
 										String brickXPath = getElementXpath(brickElement);
-										referencedLists.put(brickXPath, brickImpleObj);
-										foundScript.addBrick(brickImpleObj);
+										referencedObjects.put(brickXPath, foundBrickObj);
+										foundScript.addBrick(foundBrickObj);
 
 									}
 
 								}
 							}
 							Log.i("script parsing", "no of bricks added : " + foundScript.getBrickList().size());
-							String brickXPath = getElementXpath((Element) scriptElement);
-							referencedLists.put(brickXPath, foundScript);
+							String brickXPath = getElementXpath((Element) scriptNode);
+							referencedObjects.put(brickXPath, foundScript);
 							foundSprite.addScript(foundScript);
 							Log.i("script parsing", "script added to Sprite: " + foundSprite.getName());
 						}
@@ -280,17 +215,18 @@ public class FullParser extends DefaultHandler {
 							String soundRef = getReferenceAttribute(soundElement);
 							if (soundRef != null) {
 								foundSoundInfo = (SoundInfo) resolveReference(soundRef, soundElement);
-								soundList.add(foundSoundInfo);
-								String soundInfoXPath = getElementXpath((Element) soundElement);
-								referencedLists.put(soundInfoXPath, foundSoundInfo);
+
 								if (foundSoundInfo == null) {
 									foundSoundInfo = (SoundInfo) getobjectOfClass(SoundInfo.class, "0");
-									XPath xpath = xpathFactory.newXPath();
 									XPathExpression exp = xpath.compile(soundRef);
 									Element refList = (Element) exp.evaluate(soundElement, XPathConstants.NODE);
 									String xp = getElementXpath(refList);
 									ForwardReferences forwardRef = new ForwardReferences(foundSoundInfo, xp, null);
 									forwardRefs.add(forwardRef);
+								} else {
+									soundList.add(foundSoundInfo);
+									String soundInfoXPath = getElementXpath((Element) soundElement);
+									referencedObjects.put(soundInfoXPath, foundSoundInfo);
 								}
 							} else {
 								Log.i("sound parsing", "current sound node:" + n);
@@ -312,7 +248,7 @@ public class FullParser extends DefaultHandler {
 								foundSoundInfo.setTitle(soundName);
 								soundList.add(foundSoundInfo);
 								String soundInfoXPath = getElementXpath(cel);
-								referencedLists.put(soundInfoXPath, foundSoundInfo);
+								referencedObjects.put(soundInfoXPath, foundSoundInfo);
 							}
 						}
 					}
@@ -324,47 +260,14 @@ public class FullParser extends DefaultHandler {
 
 				Log.i("sprite parsing", "Sprite added");
 				String brickXPath = getElementXpath(spriteElement);
-				referencedLists.put(brickXPath, foundSprite);
+				referencedObjects.put(brickXPath, foundSprite);
 				sprites.add(foundSprite);
 			}
 
 			resolveForwardReferences();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
 			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XPathExpressionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ParseException(e);
 		}
 		Log.i("sprite parsing", "no of sprites returned:" + sprites.size());
 
@@ -372,18 +275,11 @@ public class FullParser extends DefaultHandler {
 
 	}
 
-	/**
-	 * @param soundRef
-	 * @param soundElement
-	 * @return
-	 * @throws XPathExpressionException
-	 */
 	private Object resolveReference(String refString, Node element) throws XPathExpressionException {
-		XPath xpath = xpathFactory.newXPath();
 		XPathExpression exp = xpath.compile(refString);
 		Element refList = (Element) exp.evaluate(element, XPathConstants.NODE);
 		String xp = getElementXpath(refList);
-		Object object = referencedLists.get(xp);
+		Object object = referencedObjects.get(xp);
 
 		if (object != null) {
 			return object;
@@ -391,78 +287,74 @@ public class FullParser extends DefaultHandler {
 		return null;
 	}
 
-	/**
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * 
-	 */
 	@SuppressWarnings("unused")
 	private void resolveForwardReferences() throws IllegalArgumentException, IllegalAccessException {
 		for (ForwardReferences ref : forwardRefs) {
 			Field refField = ref.getFieldWithReference();
 			if (refField == null) {
 				Object objref = ref.getObjectWithReferencedField();
-				objref = referencedLists.get(ref.getReferenceString());
+				objref = referencedObjects.get(ref.getReferenceString());
 			} else {
 				Object parentObj = ref.getObjectWithReferencedField();
-				Object valueObj = referencedLists.get(ref.getReferenceString());
+				Object valueObj = referencedObjects.get(ref.getReferenceString());
 				refField.set(parentObj, valueObj);
 			}
 		}
 
 	}
 
-	private Script getAdditionalScriptInfo(Element el, Script foundScript) throws IllegalArgumentException,
+	@SuppressWarnings("rawtypes")
+	private Script getpopulatedScript(Element el, Sprite sprite) throws IllegalArgumentException,
 			IllegalAccessException, SecurityException, InstantiationException, InvocationTargetException,
-			NoSuchMethodException {
-		Log.i("script parsing, additionals", "getting additional script info ");
-		Field[] scriptClassFields = foundScript.getClass().getDeclaredFields();
-		for (Field field : scriptClassFields) {
-			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+			NoSuchMethodException, ClassNotFoundException {
+		String scriptClassName = el.getNodeName().substring(8);
 
-			if (isCurrentFieldTransient) {
-				continue;
-			}
-
-			String tagName = field.getName();
-
-			NodeList scriptChildren = el.getChildNodes();
-			String valueInString = null;
-			for (int o = 0; o < scriptChildren.getLength(); o++) {
-				Node child = scriptChildren.item(o);
-				if (child.getNodeType() != Node.TEXT_NODE) {
-					String childNodeName = child.getNodeName();
-
-					if (childNodeName.equals(tagName)) {
-						Log.i("script parsing, additionals", "getting additional script info of" + childNodeName);
-						valueInString = child.getChildNodes().item(0).getNodeValue();
-						if (valueInString != null) {
-							Log.i("script parsing, additionals", "value of" + childNodeName + ": " + valueInString);
-							Object finalObject = getobjectOfClass(field.getType(), valueInString);
-							field.setAccessible(true);
-							field.set(foundScript, finalObject);
-
-							Log.i("script parsing, additionals", "additional script info set");
-
-						}
-					}
+		Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptClassName);
+		Script newScript = getScriptObject(scriptClassName, sprite);
+		//Log.i("script parsing, additionals", "getting additional script info ");
+		Map<String, Field> scriptClassFieldMap = getFieldMap(scriptClass);
+		NodeList scriptChildren = el.getChildNodes();
+		String valueInString = null;
+		for (int o = 0; o < scriptChildren.getLength(); o++) {
+			Node child = scriptChildren.item(o);
+			if (child.getNodeType() != Node.TEXT_NODE) {
+				String childNodeName = child.getNodeName();
+				if (childNodeName.equals("brickList")) {
+					continue;
 				}
+				if (childNodeName.equals("sprite")) {
+					continue;
+				}
+				Field scriptClassField = scriptClassFieldMap.get(childNodeName);
+				//Log.i("script parsing, additionals", "getting additional script info of" + childNodeName);
+				valueInString = child.getChildNodes().item(0).getNodeValue();
+				if (valueInString != null) {
+					//Log.i("script parsing, additionals", "value of" + childNodeName + ": " + valueInString);
+					Object fieldValue = getobjectOfClass(scriptClassField.getType(), valueInString);
+					scriptClassField.setAccessible(true);
+					scriptClassField.set(newScript, fieldValue);
+
+					Log.i("script parsing, additionals", "additional script info set");
+
+				}
+
 			}
+
 		}
 
-		return foundScript;
+		return newScript;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private Brick getBrickObject(String brickName, Sprite foundSprite, NodeList valueNodes, Element brickElement)
 			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException, ClassNotFoundException, XPathExpressionException {
 
 		String brickImplName = brickName.substring(7);
 		Brick brickObject = null;
-		Map<String, Field> brickFieldsToSet = new HashMap<String, Field>();
 		Log.i("brick parsing, getBrickObject", "getting brick object of " + brickName);
 		Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickImplName);
-		brickFieldsToSet = getFieldMap(brickClass);
+		Map<String, Field> brickFieldsToSet = getFieldMap(brickClass);
 		brickObject = (Brick) getobjectOfClass(brickClass, "0");
 		Log.i("brick parsing, getBrickObject", "brick value nodes:" + valueNodes.getLength());
 		for (int l = 0; l < valueNodes.getLength(); l++) {
@@ -474,12 +366,33 @@ public class FullParser extends DefaultHandler {
 				Field valueField = brickFieldsToSet.get(brickvalueName);
 				if (valueField != null) {
 					valueField.setAccessible(true);
+
 					if (brickvalueName.equals("sprite")) {
 						valueField.set(brickObject, foundSprite);
-					} else if (brickValue.getChildNodes().getLength() > 1) {
+						continue;
+					}
+					String referenceAttribute = getReferenceAttribute(brickValue);
+					if (referenceAttribute != null) {
+
+						Log.i("brick parsing, getBrickObject, value parsing", "brick value name:" + brickvalueName
+								+ "reference: " + referenceAttribute);
+						XPathExpression exp = xpath.compile(referenceAttribute);
+						Element referencedElement = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
+						String xp = getElementXpath(referencedElement);
+						Object valueObject = referencedObjects.get(xp);
+
+						if (valueObject != null) {
+							valueField.set(brickObject, valueObject);
+						} else {
+							ForwardReferences forwardRef = new ForwardReferences(brickObject, xp, valueField);
+							forwardRefs.add(forwardRef);
+						}
+						continue;
+					}
+
+					if (brickValue.getChildNodes().getLength() > 1) {
 						if (brickvalueName.endsWith("Brick")) {
-							char c = (brickvalueName.toUpperCase().charAt(0));
-							Character d = c;
+							Character d = (brickvalueName.toUpperCase().charAt(0));
 							brickvalueName = d.toString().concat(brickvalueName.substring(1));
 							String prefix = "Bricks.";
 							brickvalueName = prefix.concat(brickvalueName);
@@ -487,16 +400,16 @@ public class FullParser extends DefaultHandler {
 									(Element) brickValue);
 							valueField.set(brickObject, valueBrick);
 							String childBrickXPath = getElementXpath((Element) brickValue);
-							referencedLists.put(childBrickXPath, valueBrick);
+							referencedObjects.put(childBrickXPath, valueBrick);
 						} else {
 
 							Map<String, Field> fieldMap = getFieldMap(valueField.getType());
 							Object valueObj = getobjectOfClass(valueField.getType(), "0");
-							valfoo(valueObj, brickValue, fieldMap);
+							getValueObject(valueObj, brickValue, fieldMap);
 
 							valueField.set(brickObject, valueObj);
 							String childBrickXPath = getElementXpath((Element) brickValue);
-							referencedLists.put(childBrickXPath, valueObj);
+							referencedObjects.put(childBrickXPath, valueObj);
 						}
 					} else {
 						Log.i("brick parsing, getBrickObject, value parsing", "value field found, type:"
@@ -512,34 +425,15 @@ public class FullParser extends DefaultHandler {
 						}
 					}
 
-					String referenceAttr = getReferenceAttribute(brickValue);
-					if (referenceAttr != null) {
-
-						Log.i("brick parsing, getBrickObject, value parsing", "brick value name:" + brickvalueName
-								+ "reference: " + referenceAttr);
-						XPath xpath = xpathFactory.newXPath();
-						XPathExpression exp = xpath.compile(referenceAttr);
-						Element refList = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
-						String xp = getElementXpath(refList);
-						Object valueObject = referencedLists.get(xp);
-
-						if (valueObject != null) {
-							valueField.set(brickObject, valueObject);
-						} else {
-							ForwardReferences forwardRef = new ForwardReferences(brickObject, xp, valueField);
-							forwardRefs.add(forwardRef);
-						}
-					}
 				}
 			}
 		}
 		String xp = getElementXpath(brickElement);
-		referencedLists.put(xp, brickObject);
+		referencedObjects.put(xp, brickObject);
 		return brickObject;
 	}
 
-	@SuppressWarnings("unused")
-	private void valfoo(Object nodeObj, Node node, Map<String, Field> nodeClassFieldsToSet)
+	private void getValueObject(Object nodeObj, Node node, Map<String, Field> nodeClassFieldsToSet)
 			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException, XPathExpressionException {
 		NodeList children = node.getChildNodes();
@@ -551,12 +445,26 @@ public class FullParser extends DefaultHandler {
 					Field fieldWithNodeName = nodeClassFieldsToSet.get(childNodeName);
 					if (fieldWithNodeName != null) {
 						fieldWithNodeName.setAccessible(true);
+						String refattr = getReferenceAttribute(child);
+						if (refattr != null) {
+							XPathExpression exp = xpath.compile(refattr);
+							Element refList = (Element) exp.evaluate(child, XPathConstants.NODE);
+							String xp = getElementXpath(refList);
+							Object valueObject = referencedObjects.get(xp);
+							if (valueObject == null) {
+								ForwardReferences forwardRef = new ForwardReferences(nodeObj, xp, fieldWithNodeName);
+								forwardRefs.add(forwardRef);
+							} else {
+								fieldWithNodeName.set(nodeObj, valueObject);
+							}
+							continue;
+						}
 						if (child.getChildNodes().getLength() > 1) {
 							Map<String, Field> fieldMap = getFieldMap(fieldWithNodeName.getClass());
 							Object valueObj = getobjectOfClass(fieldWithNodeName.getClass(), "0");
-							valfoo(valueObj, child, fieldMap);
+							getValueObject(valueObj, child, fieldMap);
 							String childXPath = getElementXpath((Element) node);
-							referencedLists.put(childXPath, valueObj);
+							referencedObjects.put(childXPath, valueObj);
 						} else {
 							Node valueChildValue = child.getChildNodes().item(0);
 							if (valueChildValue != null) {
@@ -565,20 +473,7 @@ public class FullParser extends DefaultHandler {
 								fieldWithNodeName.set(nodeObj, valobj);
 							}
 						}
-						String refattr = getReferenceAttribute(child);
-						if (refattr != null) {
-							XPath xpath = xpathFactory.newXPath();
-							XPathExpression exp = xpath.compile(refattr);
-							Element refList = (Element) exp.evaluate(child, XPathConstants.NODE);
-							String xp = getElementXpath(refList);
-							Object valueObject = referencedLists.get(xp);
-							if (valueObject == null) {
-								ForwardReferences forwardRef = new ForwardReferences(nodeObj, xp, fieldWithNodeName);
-								forwardRefs.add(forwardRef);
-							} else {
-								fieldWithNodeName.set(nodeObj, valueObject);
-							}
-						}
+
 					}
 
 				}
@@ -587,6 +482,35 @@ public class FullParser extends DefaultHandler {
 
 	}
 
+	private List<CostumeData> parseCostumeList(NodeList costumeNodes) {
+
+		for (int m = 0; m < costumeNodes.getLength(); m++) {
+			CostumeData foundCostumeData = null;
+			if (costumeNodes.item(m).getNodeType() != Node.TEXT_NODE) {
+				Log.i("costume parsing", "current costume no " + m);
+				Element costumeElement = (Element) costumeNodes.item(m);
+				String costumeFileName = null;
+				Node costumeFileNameNode = costumeElement.getElementsByTagName("fileName").item(0);
+				if (costumeFileNameNode != null) {
+					costumeFileName = costumeFileNameNode.getChildNodes().item(0).getNodeValue();
+					Log.i("costume parsing", "current costume filename " + costumeFileName);
+				}
+				String costumeName = costumeElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
+						.getNodeValue();
+				Log.i("costume parsing", "current costume name " + costumeName);
+				foundCostumeData = new CostumeData();
+				foundCostumeData.setCostumeFilename(costumeFileName);
+				foundCostumeData.setCostumeName(costumeName);
+				costumeList.add(foundCostumeData);
+				String xp = getElementXpath(costumeElement);
+				referencedObjects.put(xp, foundCostumeData);
+				Log.i("costume parsing", "costume created");
+			}
+		}
+		return costumeList;
+	}
+
+	@SuppressWarnings("rawtypes")
 	private Map<String, Field> getFieldMap(Class cls) {
 		Map<String, Field> fieldsToSet = new HashMap<String, Field>();
 
@@ -657,8 +581,6 @@ public class FullParser extends DefaultHandler {
 			if (attributes != null) {
 				Node referenceNode = attributes.getNamedItem("reference");
 				if (referenceNode != null) {
-					String refNodeName = referenceNode.getNodeName();
-
 					spriteAttr = referenceNode.getTextContent();
 					Log.i("brick parsing", "Brick sprite attribute " + spriteAttr);
 
@@ -668,6 +590,7 @@ public class FullParser extends DefaultHandler {
 		return spriteAttr;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private Object getobjectOfClass(Class cls, String val) throws IllegalArgumentException, SecurityException,
 			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Constructor clsConstructor = null;
@@ -708,6 +631,7 @@ public class FullParser extends DefaultHandler {
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	private Script getScriptObject(String scriptImplName, Sprite foundSprite) throws ClassNotFoundException,
 			SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
 			IllegalAccessException, InvocationTargetException {
@@ -715,6 +639,9 @@ public class FullParser extends DefaultHandler {
 		Log.i("script parsing, getScriptObj", "retrieving script object");
 		Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptImplName);
 		Constructor scriptConstructor = scriptClass.getConstructor(Sprite.class);
+		if (scriptConstructor == null) {
+			return (Script) getobjectOfClass(scriptClass, "0");
+		}
 		scriptObject = (Script) scriptConstructor.newInstance(foundSprite);
 
 		return scriptObject;
