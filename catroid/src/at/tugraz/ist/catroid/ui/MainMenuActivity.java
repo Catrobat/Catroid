@@ -63,7 +63,6 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 
 	private ActionBar actionBar;
 
-	public static final int DIALOG_NEW_PROJECT = 0;
 	private static final int DIALOG_LOAD_PROJECT = 1;
 	public static final int DIALOG_UPLOAD_PROJECT = 2;
 	private static final int DIALOG_ABOUT = 3;
@@ -152,9 +151,6 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 		}
 
 		switch (id) {
-			case DIALOG_NEW_PROJECT:
-				dialog = new NewProjectDialog(this).dialog;
-				break;
 			case DIALOG_LOAD_PROJECT:
 				dialog = new LoadProjectDialog(this);
 				break;
@@ -257,7 +253,8 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleNewProjectButton(View v) {
-		showDialog(DIALOG_NEW_PROJECT);
+		NewProjectDialog dialog = new NewProjectDialog();
+		dialog.show(getSupportFragmentManager(), "dialog_new_project");
 	}
 
 	public void handleLoadProjectButton(View v) {
@@ -302,5 +299,4 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 
 		return projectName;
 	}
-
 }
