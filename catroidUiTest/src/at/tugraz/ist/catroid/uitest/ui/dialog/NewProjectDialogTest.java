@@ -22,12 +22,16 @@
  */
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -79,15 +83,25 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testPositiveButtonDisabledOnCreate() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.sleep(1000);
 
-		Button okButton = (Button) solo.getView(R.id.dialog_text_ok);
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		NewProjectDialog dialogFragment = (NewProjectDialog) fm.findFragmentByTag("dialog_new_project");
+		AlertDialog dialog = (AlertDialog) dialogFragment.getDialog();
+
+		Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
-
 	}
 
 	public void testPositiveButtonChangesState() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		Button okButton = (Button) solo.getView(R.id.dialog_text_ok);
+		solo.sleep(1000);
+
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		NewProjectDialog dialogFragment = (NewProjectDialog) fm.findFragmentByTag("dialog_new_project");
+		AlertDialog dialog = (AlertDialog) dialogFragment.getDialog();
+
+		Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
 		EditText editText = (EditText) solo.getView(R.id.dialog_text_EditText);
 
 		assertTrue("EditText was not empty", editText.getText().length() == 0);
