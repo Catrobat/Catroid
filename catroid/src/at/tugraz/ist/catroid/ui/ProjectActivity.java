@@ -23,12 +23,14 @@
 package at.tugraz.ist.catroid.ui;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -45,16 +47,16 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class ProjectActivity extends SherlockFragmentActivity implements OnSpriteToEditSelectedListener {
 	
+	public static final String ACTION_SPRITE_RENAMED = "at.tugraz.ist.catroid.SPRITE_RENAMED";
+	
 	private Sprite spriteToEdit;
 	private CustomIconContextMenu iconContextMenu;
-	private RenameSpriteDialog renameDialog;
-	private NewSpriteDialog newSpriteDialog;
+	
+	private SpriteRenamedReceiver spriteRenamedReceiver;
 	
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
 
-	public static final int DIALOG_NEW_SPRITE = 0;
-	public static final int DIALOG_RENAME_SPRITE = 1;
 	public static final int DIALOG_CONTEXT_MENU = 2;
 
 	@Override
@@ -78,6 +80,27 @@ public class ProjectActivity extends SherlockFragmentActivity implements OnSprit
 	}
 	
 	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		if (spriteRenamedReceiver == null) {
+			spriteRenamedReceiver = new SpriteRenamedReceiver();
+		}
+		
+		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ACTION_SPRITE_RENAMED);
+		registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		if (spriteRenamedReceiver != null) {
+			unregisterReceiver(spriteRenamedReceiver);
+		}
+	}
+	
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         	case android.R.id.home: {
@@ -87,7 +110,8 @@ public class ProjectActivity extends SherlockFragmentActivity implements OnSprit
                 return true;
             }
             case R.id.menu_add: {
-                showDialog(DIALOG_NEW_SPRITE);
+            	NewSpriteDialog dialog = new NewSpriteDialog();
+            	dialog.show(getSupportFragmentManager(), "dialog_new_sprite");
                 return true;
             }
             case R.id.menu_start: {
@@ -111,18 +135,6 @@ public class ProjectActivity extends SherlockFragmentActivity implements OnSprit
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
 		switch (id) {
-			case DIALOG_NEW_SPRITE:
-				newSpriteDialog = new NewSpriteDialog(this);
-				dialog = newSpriteDialog.dialog;
-				break;
-			case DIALOG_RENAME_SPRITE:
-				if (spriteToEdit == null) {
-					dialog = null;
-				} else {
-					renameDialog = new RenameSpriteDialog(this);
-					dialog = renameDialog.dialog;
-				}
-				break;
 			case DIALOG_CONTEXT_MENU:
 				if (iconContextMenu == null || spriteToEdit == null) {
 					dialog = null;
@@ -136,18 +148,6 @@ public class ProjectActivity extends SherlockFragmentActivity implements OnSprit
 		}
 
 		return dialog;
-	}
-
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		switch (id) {
-			case DIALOG_RENAME_SPRITE:
-				if (dialog != null && spriteToEdit != null) {
-					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-					spriteTitleInput.setText(spriteToEdit.getName());
-				}
-				break;
-		}
 	}
 
 	@Override
@@ -189,7 +189,8 @@ public class ProjectActivity extends SherlockFragmentActivity implements OnSprit
 			public void onClick(int menuId) {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
-						showDialog(DIALOG_RENAME_SPRITE);
+						RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
+						dialog.show(getSupportFragmentManager(), "dialog_rename_sprite");
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						ProjectManager projectManager = ProjectManager.getInstance();
@@ -202,5 +203,15 @@ public class ProjectActivity extends SherlockFragmentActivity implements OnSprit
 				}
 			}
 		});
+	}
+	
+	private class SpriteRenamedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ACTION_SPRITE_RENAMED)) {
+				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
+				spriteToEdit.setName(newSpriteName);
+			}
+		}
 	}
 }

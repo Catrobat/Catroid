@@ -22,66 +22,95 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnKeyListener;
+import android.content.DialogInterface.OnShowListener;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 
 /**
- * simple dialog for entering text with ok and cancel button will not permit to
- * enter empty strings you have to implement the key listener in the subclass
+ * Simple dialog for entering text with ok and cancel button will not permit to
+ * enter empty strings you have to implement the key listener in the subclass.
  */
-public abstract class TextDialog {
-	protected Activity activity;
+public abstract class TextDialog extends DialogFragment {
+	
 	protected EditText input;
-	protected Button buttonPositive;
-	protected Button buttonNegative;
-	protected ProjectManager projectManager;
-	public Dialog dialog;
-
-	public TextDialog(Activity activityFromChild, String title, String hint) {
-		this.activity = activityFromChild;
-		projectManager = ProjectManager.getInstance();
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-		builder.setTitle(title);
-
-		LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.dialog_text_dialog, null);
-
-		input = (EditText) view.findViewById(R.id.dialog_text_EditText);
-		if (hint != null) {
-			input.setHint(hint);
+	
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_text_dialog, null);
+		input = (EditText) dialogView.findViewById(R.id.dialog_text_EditText);
+		
+		if (getHint() != null) {
+			input.setHint(getHint());
 		}
-
-		buttonPositive = (Button) view.findViewById(R.id.dialog_text_ok);
-		buttonNegative = (Button) view.findViewById(R.id.dialog_text_cancel);
+		
+		initialize();
+		
+		Dialog dialog = new AlertDialog.Builder(getActivity())
+		.setView(dialogView)
+		.setTitle(getTitle())
+		.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dismiss();
+			}
+		})
+		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				handleOkButton();
+			}
+		}).create();
+		
+		dialog.setOnKeyListener(new OnKeyListener() {
+			@Override
+			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+					boolean okButtonResult = handleOkButton();
+					if (okButtonResult) dismiss();
+					return okButtonResult;
+				}
+				
+				return false;
+			}
+		});
+		
+		dialog.setOnShowListener(new OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				initTextChangedListener();
+			}
+		});
+		
+		return dialog;
+	}
+	
+	protected abstract void initialize();
+	
+	protected abstract boolean handleOkButton();
+	
+	protected abstract String getTitle();
+	
+	protected abstract String getHint();
+	
+	private void initTextChangedListener() {
+		final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 
 		if (input.getText().toString().length() == 0) {
 			buttonPositive.setEnabled(false);
 		}
-
-		builder.setView(view);
-
-		dialog = builder.create();
-		dialog.setCanceledOnTouchOutside(true);
-
-		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-				}
-			}
-		});
 
 		input.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {

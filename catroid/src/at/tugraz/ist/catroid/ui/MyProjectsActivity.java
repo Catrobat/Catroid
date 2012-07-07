@@ -35,7 +35,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -46,16 +45,19 @@ import at.tugraz.ist.catroid.ui.adapter.ProjectAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog;
+import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import at.tugraz.ist.catroid.ui.dialogs.SetDescriptionDialog;
+import at.tugraz.ist.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MyProjectsActivity extends SherlockListActivity {
+public class MyProjectsActivity extends SherlockFragmentActivity 
+		implements OnProjectRenameListener, OnUpdateProjectDescriptionListener {
 
 	private List<ProjectData> projectList;
 	public ProjectData projectToEdit;
@@ -63,20 +65,20 @@ public class MyProjectsActivity extends SherlockListActivity {
 	private CustomIconContextMenu iconContextMenu;
 
 	private ActionBar actionBar;
+	private ListView projectsListView;
 
-	public static final int DIALOG_NEW_PROJECT = 0;
 	private static final int DIALOG_CONTEXT_MENU = 1;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 2;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 3;
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
-	public static final int DIALOG_RENAME_PROJECT = 5;
-
-	public static final int DIALOG_SET_DESCRIPTION = 6;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_my_projects);
+		projectsListView = (ListView) findViewById(R.id.projects_list);
+		
 		projectToEdit = (ProjectData) getLastNonConfigurationInstance();
 	}
 
@@ -87,7 +89,7 @@ public class MyProjectsActivity extends SherlockListActivity {
 	}
 
 	@Override
-	public Object onRetainNonConfigurationInstance() {
+	public Object onRetainCustomNonConfigurationInstance() {
 		final ProjectData savedSelectedProject = projectToEdit;
 		return savedSelectedProject;
 	}
@@ -116,7 +118,8 @@ public class MyProjectsActivity extends SherlockListActivity {
 				return true;
 			}
 			case R.id.menu_add: {
-				showDialog(DIALOG_NEW_PROJECT);
+				NewProjectDialog dialog = new NewProjectDialog();
+				dialog.show(getSupportFragmentManager(), "dialog_new_project");
 				return true;
 			}
 		}
@@ -148,11 +151,11 @@ public class MyProjectsActivity extends SherlockListActivity {
 
 		adapter = new ProjectAdapter(this, R.layout.activity_my_projects_item, R.id.my_projects_activity_project_title,
 				projectList);
-		setListAdapter(adapter);
+		projectsListView.setAdapter(adapter);
 	}
 
 	private void initClickListener() {
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
+		projectsListView.setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
 						MyProjectsActivity.this, true)) {
@@ -163,7 +166,7 @@ public class MyProjectsActivity extends SherlockListActivity {
 				MyProjectsActivity.this.startActivity(intent);
 			}
 		});
-		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+		projectsListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				projectToEdit = projectList.get(position);
 				if (projectToEdit == null) {
@@ -189,10 +192,18 @@ public class MyProjectsActivity extends SherlockListActivity {
 			public void onClick(int menuId) {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
-						showDialog(DIALOG_RENAME_PROJECT);
+						RenameProjectDialog dialogRenameProject = 
+							RenameProjectDialog.newInstance(projectToEdit.projectName);
+						dialogRenameProject.setOnProjectRenameListener(MyProjectsActivity.this);
+						dialogRenameProject.show(getSupportFragmentManager(), "dialog_rename_project");
+//						showDialog(DIALOG_RENAME_PROJECT);
 						break;
 					case CONTEXT_MENU_ITEM_DESCRIPTION:
-						showDialog(DIALOG_SET_DESCRIPTION);
+						SetDescriptionDialog dialogSetDescription = 
+							SetDescriptionDialog.newInstance(projectToEdit.projectName);
+						dialogSetDescription.setOnUpdateProjectDescriptionListener(MyProjectsActivity.this);
+						dialogSetDescription.show(getSupportFragmentManager(), "dialog_set_description");
+//						showDialog(DIALOG_SET_DESCRIPTION);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						deleteProject();
@@ -239,19 +250,6 @@ public class MyProjectsActivity extends SherlockListActivity {
 					dialog = iconContextMenu.createMenu(project);
 				}
 				break;
-			case DIALOG_RENAME_PROJECT:
-				if (projectToEdit != null) {
-					dialog = (new RenameProjectDialog(this, project)).dialog;
-				}
-				break;
-			case DIALOG_SET_DESCRIPTION:
-				if (projectToEdit != null) {
-					dialog = (new SetDescriptionDialog(this)).dialog;
-				}
-				break;
-			case DIALOG_NEW_PROJECT:
-				dialog = (new NewProjectDialog(this)).dialog;
-				break;
 			default:
 				dialog = null;
 				break;
@@ -264,24 +262,6 @@ public class MyProjectsActivity extends SherlockListActivity {
 		super.onPrepareDialog(id, dialog);
 		TextView customTitleTextView = null;
 		switch (id) {
-			case DIALOG_RENAME_PROJECT:
-				EditText renameProjectEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-				renameProjectEditText.setText(projectToEdit.projectName);
-				break;
-			case DIALOG_SET_DESCRIPTION:
-				EditText descriptionEditText = (EditText) dialog.findViewById(R.id.dialog_text_EditText);
-
-				ProjectManager projectManager = ProjectManager.getInstance();
-				String currentProjectName = projectManager.getCurrentProject().getName();
-
-				if (projectToEdit.projectName.equalsIgnoreCase(currentProjectName)) {
-					descriptionEditText.setText(projectManager.getCurrentProject().description);
-				} else {
-					projectManager.loadProject(projectToEdit.projectName, this, false); //TODO: check something
-					descriptionEditText.setText(projectManager.getCurrentProject().description);
-					projectManager.loadProject(currentProjectName, this, false);
-				}
-				break;
 			case DIALOG_CONTEXT_MENU:
 				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
 				customTitleTextView.setText(projectToEdit.projectName);
@@ -289,7 +269,7 @@ public class MyProjectsActivity extends SherlockListActivity {
 		}
 	}
 
-	public void updateProjectTitle() {
+	private void updateProjectTitle() {
 		String title = getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar.setTitle(title);
@@ -303,5 +283,19 @@ public class MyProjectsActivity extends SherlockListActivity {
 			this.projectName = projectName;
 			this.lastUsed = lastUsed;
 		}
+	}
+
+	@Override
+	public void onProjectRename(boolean isCurrentProject) {
+		if (isCurrentProject) {
+			updateProjectTitle();
+		}
+		
+		initAdapter();
+	}
+
+	@Override
+	public void onUpdateProjectDescription() {
+		initAdapter();
 	}
 }
