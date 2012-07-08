@@ -28,7 +28,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -36,11 +35,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.ProjectAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
@@ -62,12 +61,10 @@ public class MyProjectsActivity extends SherlockFragmentActivity
 	private List<ProjectData> projectList;
 	public ProjectData projectToEdit;
 	private ProjectAdapter adapter;
-	private CustomIconContextMenu iconContextMenu;
 
 	private ActionBar actionBar;
 	private ListView projectsListView;
 
-	private static final int DIALOG_CONTEXT_MENU = 1;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 2;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 3;
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
@@ -79,7 +76,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity
 		setContentView(R.layout.activity_my_projects);
 		projectsListView = (ListView) findViewById(R.id.projects_list);
 		
-		projectToEdit = (ProjectData) getLastNonConfigurationInstance();
+		projectToEdit = (ProjectData) getLastCustomNonConfigurationInstance();
 	}
 
 	@Override
@@ -99,7 +96,6 @@ public class MyProjectsActivity extends SherlockFragmentActivity
 		super.onStart();
 		initAdapter();
 		initClickListener();
-		initCustomContextMenu();
 	}
 
 	@Override
@@ -135,7 +131,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
-	public void initAdapter() {
+	private void initAdapter() {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
 		projectList = new ArrayList<ProjectData>();
@@ -172,22 +168,27 @@ public class MyProjectsActivity extends SherlockFragmentActivity
 				if (projectToEdit == null) {
 					return true;
 				}
-				showDialog(DIALOG_CONTEXT_MENU);
+				
+				CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
+				initCustomContextMenu(dialog);
+				dialog.show(getSupportFragmentManager(), "dialog_custom_icon_context_menu");
 				return true;
 			}
 		});
 	}
-
-	private void initCustomContextMenu() {
+	
+	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
 		Resources resources = getResources();
-		iconContextMenu = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU);
-		iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
+		
+		IconMenuAdapter adapter = new IconMenuAdapter(this);
+		adapter.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
 				CONTEXT_MENU_ITEM_RENAME);
-		iconContextMenu.addItem(resources, this.getString(R.string.set_description), R.drawable.ic_menu_description,
+		adapter.addItem(resources, this.getString(R.string.set_description), R.drawable.ic_menu_description,
 				CONTEXT_MENU_ITEM_DESCRIPTION);
-		iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
+		adapter.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
 				CONTEXT_MENU_ITEM_DELETE);
-
+		iconContextMenu.setAdapter(adapter);
+		
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
 			public void onClick(int menuId) {
 				switch (menuId) {
@@ -196,14 +197,12 @@ public class MyProjectsActivity extends SherlockFragmentActivity
 							RenameProjectDialog.newInstance(projectToEdit.projectName);
 						dialogRenameProject.setOnProjectRenameListener(MyProjectsActivity.this);
 						dialogRenameProject.show(getSupportFragmentManager(), "dialog_rename_project");
-//						showDialog(DIALOG_RENAME_PROJECT);
 						break;
 					case CONTEXT_MENU_ITEM_DESCRIPTION:
 						SetDescriptionDialog dialogSetDescription = 
 							SetDescriptionDialog.newInstance(projectToEdit.projectName);
 						dialogSetDescription.setOnUpdateProjectDescriptionListener(MyProjectsActivity.this);
 						dialogSetDescription.show(getSupportFragmentManager(), "dialog_set_description");
-//						showDialog(DIALOG_SET_DESCRIPTION);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						deleteProject();
@@ -235,38 +234,6 @@ public class MyProjectsActivity extends SherlockFragmentActivity
 
 		updateProjectTitle();
 		initAdapter();
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog = null;
-		String project = "";
-		if (projectToEdit != null) {
-			project = projectToEdit.projectName;
-		}
-		switch (id) {
-			case DIALOG_CONTEXT_MENU:
-				if (iconContextMenu != null && projectToEdit != null) {
-					dialog = iconContextMenu.createMenu(project);
-				}
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-		return dialog;
-	}
-
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		super.onPrepareDialog(id, dialog);
-		TextView customTitleTextView = null;
-		switch (id) {
-			case DIALOG_CONTEXT_MENU:
-				customTitleTextView = (TextView) dialog.findViewById(R.id.alert_dialog_title);
-				customTitleTextView.setText(projectToEdit.projectName);
-				break;
-		}
 	}
 
 	private void updateProjectTitle() {
