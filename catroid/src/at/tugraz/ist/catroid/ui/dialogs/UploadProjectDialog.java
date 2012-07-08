@@ -31,9 +31,9 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,7 +66,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		setContentView(R.layout.dialog_upload_project);
 		setTitle(R.string.upload_project_dialog_title);
 		setCanceledOnTouchOutside(true);
-		getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		projectRename = (TextView) findViewById(R.id.tv_project_rename);

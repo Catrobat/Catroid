@@ -67,20 +67,20 @@ public class RenameCostumeDialog extends DialogFragment {
 		input.setText(oldCostumeName);
 		
 		Dialog dialog = new AlertDialog.Builder(getActivity())
-		.setView(dialogView)
-		.setTitle(R.string.rename_costume_dialog)
-		.setNegativeButton(R.string.cancel_button, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dismiss();
-			}
-		})
-		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				handleRenameCostume(oldCostumeName);
-			}
-		}).create();
+			.setView(dialogView)
+			.setTitle(R.string.rename_costume_dialog)
+			.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dismiss();
+				}
+			})
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					handleRenameCostume(oldCostumeName);
+				}
+			}).create();
 		
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
