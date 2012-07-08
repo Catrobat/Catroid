@@ -23,14 +23,18 @@
 package at.tugraz.ist.catroid.nativetest.io;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
+import at.tugraz.ist.catroid.content.bricks.HideBrick;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
-import at.tugraz.ist.catroid.xml.FullParser;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
 	private StorageHandler storageHandler;
@@ -60,101 +64,89 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		String firstSpriteName = "Stage";
 		String secondSpriteName = "first";
 		String thirdSpriteName = "second";
-		FullParser parser = new FullParser();
 		NativeAppActivity.setContext(getInstrumentation().getContext());
 
-		InputStream xmlFileStream = null;
+		Project loadedProject = storageHandler.loadProject("test_project.xml");
 
-		Context androidContext;
-		androidContext = getInstrumentation().getContext();
-		try {
-			xmlFileStream = androidContext.getAssets().open("test_project.xml");
-		} catch (IOException e) {
+		assertEquals("Project title missmatch.", projectName, loadedProject.getName());
 
-			e.printStackTrace();
-			fail("Exception caught at getting filestream");
-		}
-		Project loadedProject = storageHandler.loadProject("test_aquarium_project.xml");
-		//Project loadedProject = parser.fullParser(xmlFileStream);
-		//		assertEquals("Project title missmatch.", projectName, loadedProject.getName());
-		//
-		//		assertEquals("Name of first sprite does not match.", firstSpriteName, loadedProject.getSpriteList().get(0)
-		//				.getName());
-		//		assertEquals("Name of second sprite does not match.", secondSpriteName, loadedProject.getSpriteList().get(1)
-		//				.getName());
-		//		assertEquals("Name of third sprite does not match.", thirdSpriteName, loadedProject.getSpriteList().get(2)
-		//				.getName());
-		//
-		//		assertEquals("HideBrick was not loaded right", HideBrick.class,
-		//				loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(0).getClass());
-		//		assertEquals("ShowBrick was not loaded right", ShowBrick.class,
-		//				loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(1).getClass());
-		//		assertEquals(
-		//				"ScaleBrick was not loaded right",
-		//				scaleValue,
-		//				TestUtils.getPrivateField("size",
-		//						loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(2), false));
-		//		assertEquals("ComeToFrontBrick was not loaded right", ComeToFrontBrick.class, loadedProject.getSpriteList()
-		//				.get(1).getScript(0).getBrickList().get(3).getClass());
-		//		assertEquals("SetCostumeBrick was not loaded right", SetCostumeBrick.class, loadedProject.getSpriteList()
-		//				.get(1).getScript(0).getBrickList().get(4).getClass());
-		//
-		//		assertEquals(
-		//				"WaitBrick was not loaded right",
-		//				timeToWaitInMilliSeconds,
-		//				TestUtils.getPrivateField("timeToWaitInMilliSeconds", loadedProject.getSpriteList().get(1).getScript(1)
-		//						.getBrickList().get(0), false));
-		//		assertEquals("PlaySoundBrick was not loaded right", PlaySoundBrick.class, loadedProject.getSpriteList().get(1)
-		//				.getScript(1).getBrickList().get(1).getClass());
-		//
-		//		assertEquals(
-		//				"PlaceAtBrick was not loaded right",
-		//				xPosition,
-		//				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
-		//						.get(0), false));
-		//		assertEquals(
-		//				"PlaceAtBrick was not loaded right",
-		//				yPosition,
-		//				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
-		//						.get(0), false));
-		//
-		//		assertEquals(
-		//				"SetXBrick was not loaded right",
-		//				xPosition,
-		//				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
-		//						.get(1), false));
-		//		assertEquals(
-		//				"SetYBrick was not loaded right",
-		//				yPosition,
-		//				TestUtils.getPrivateField("yPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
-		//						.get(2), false));
-		//		assertEquals(
-		//				"ChangeXByBrick was not loaded right",
-		//				xMovement,
-		//				TestUtils.getPrivateField("xMovement", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
-		//						.get(3), false));
-		//		assertEquals(
-		//				"ChangeYByBrick was not loaded right",
-		//				yMovement,
-		//				TestUtils.getPrivateField("yMovement", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
-		//						.get(4), false));
-		//		assertEquals(
-		//				"GlideToBrick was not loaded right",
-		//				xDestination,
-		//				TestUtils.getPrivateField("xDestination", loadedProject.getSpriteList().get(2).getScript(0)
-		//						.getBrickList().get(5), false));
-		//		assertEquals(
-		//				"GlideToBrick was not loaded right",
-		//				yDestination,
-		//				TestUtils.getPrivateField("yDestination", loadedProject.getSpriteList().get(2).getScript(0)
-		//						.getBrickList().get(5), false));
-		//		assertEquals("GlideToBrick was not loaded right", durationInMilliSeconds, ((GlideToBrick) (loadedProject
-		//				.getSpriteList().get(2).getScript(0).getBrickList().get(5))).getDurationInMilliSeconds());
-		//		assertEquals(
-		//				"GoNStepsBackBrick was not loaded right",
-		//				steps,
-		//				TestUtils.getPrivateField("steps", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
-		//						.get(6), false));
+		assertEquals("Name of first sprite does not match.", firstSpriteName, loadedProject.getSpriteList().get(0)
+				.getName());
+		assertEquals("Name of second sprite does not match.", secondSpriteName, loadedProject.getSpriteList().get(1)
+				.getName());
+		assertEquals("Name of third sprite does not match.", thirdSpriteName, loadedProject.getSpriteList().get(2)
+				.getName());
+
+		assertEquals("HideBrick was not loaded right", HideBrick.class,
+				loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(0).getClass());
+		assertEquals("ShowBrick was not loaded right", ShowBrick.class,
+				loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(1).getClass());
+		assertEquals(
+				"ScaleBrick was not loaded right",
+				scaleValue,
+				TestUtils.getPrivateField("size",
+						loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(2), false));
+		assertEquals("ComeToFrontBrick was not loaded right", ComeToFrontBrick.class, loadedProject.getSpriteList()
+				.get(1).getScript(0).getBrickList().get(3).getClass());
+		assertEquals("SetCostumeBrick was not loaded right", SetCostumeBrick.class, loadedProject.getSpriteList()
+				.get(1).getScript(0).getBrickList().get(4).getClass());
+
+		assertEquals(
+				"WaitBrick was not loaded right",
+				timeToWaitInMilliSeconds,
+				TestUtils.getPrivateField("timeToWaitInMilliSeconds", loadedProject.getSpriteList().get(1).getScript(1)
+						.getBrickList().get(0), false));
+		assertEquals("PlaySoundBrick was not loaded right", PlaySoundBrick.class, loadedProject.getSpriteList().get(1)
+				.getScript(1).getBrickList().get(1).getClass());
+
+		assertEquals(
+				"PlaceAtBrick was not loaded right",
+				xPosition,
+				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(0), false));
+		assertEquals(
+				"PlaceAtBrick was not loaded right",
+				yPosition,
+				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(0), false));
+
+		assertEquals(
+				"SetXBrick was not loaded right",
+				xPosition,
+				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(1), false));
+		assertEquals(
+				"SetYBrick was not loaded right",
+				yPosition,
+				TestUtils.getPrivateField("yPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(2), false));
+		assertEquals(
+				"ChangeXByBrick was not loaded right",
+				xMovement,
+				TestUtils.getPrivateField("xMovement", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(3), false));
+		assertEquals(
+				"ChangeYByBrick was not loaded right",
+				yMovement,
+				TestUtils.getPrivateField("yMovement", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(4), false));
+		assertEquals(
+				"GlideToBrick was not loaded right",
+				xDestination,
+				TestUtils.getPrivateField("xDestination", loadedProject.getSpriteList().get(2).getScript(0)
+						.getBrickList().get(5), false));
+		assertEquals(
+				"GlideToBrick was not loaded right",
+				yDestination,
+				TestUtils.getPrivateField("yDestination", loadedProject.getSpriteList().get(2).getScript(0)
+						.getBrickList().get(5), false));
+		assertEquals("GlideToBrick was not loaded right", durationInMilliSeconds, ((GlideToBrick) (loadedProject
+				.getSpriteList().get(2).getScript(0).getBrickList().get(5))).getDurationInMilliSeconds());
+		assertEquals(
+				"GoNStepsBackBrick was not loaded right",
+				steps,
+				TestUtils.getPrivateField("steps", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(6), false));
 
 	}
 
