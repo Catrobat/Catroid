@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
@@ -52,11 +53,13 @@ public class FullParserTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		androidContext = getInstrumentation().getContext();
+		NativeAppActivity.setContext(androidContext);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		androidContext = null;
+		NativeAppActivity.setContext(androidContext);
 	}
 
 	public void testSpriteListParsing() {
@@ -110,16 +113,18 @@ public class FullParserTest extends InstrumentationTestCase {
 	public void testParsingFullProject() {
 		FullParser parser = new FullParser();
 		InputStream xmlFileStream = null;
-
+		Project testProject = null;
 		try {
 			xmlFileStream = androidContext.getAssets().open("test_project.xml");
+			testProject = parser.fullParser("test_project.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
 			fail("Exception caught at getting filestream");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			fail("Unexpected parse Exception");
 		}
-		Project testProject = parser.fullParser(xmlFileStream);
-
 		assertNotNull("Project is null", testProject);
 		assertEquals("Project name not correct", "testProject", testProject.getName());
 		assertEquals("Project sprite List size incorrect", 3, testProject.getSpriteList().size());
@@ -135,15 +140,19 @@ public class FullParserTest extends InstrumentationTestCase {
 	public void testCostumeListParsing() {
 		FullParser parser = new FullParser();
 		InputStream xmlFileStream = null;
-
+		Project testProject = null;
 		try {
 			xmlFileStream = androidContext.getAssets().open("test_standard_project.xml");
+			testProject = parser.fullParser("test_standard_project.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
 			fail("Exception caught at getting filestream");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			fail("Unexpected parser Exception");
 		}
-		Project testProject = parser.fullParser(xmlFileStream);
+
 		assertNotNull("project not created", testProject);
 		List<Sprite> sprites = testProject.getSpriteList();
 		assertEquals("all sprites not given", 2, sprites.size());
@@ -162,60 +171,66 @@ public class FullParserTest extends InstrumentationTestCase {
 		//CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
 		assertNotNull("Costume data null", leb);
 		LoopEndBrick lebFromXML = (LoopEndBrick) script.getBrick(3);
-		assertNotNull(lebFromXML);
+		assertNotNull("The LoopEndBrick is null", lebFromXML);
 		LoopBeginBrick rb = lebFromXML.getLoopBeginBrick();
-		assertNotNull(rb);
+		assertNotNull("The Loop BeginBrick is null", rb);
 
 	}
 
 	public void testSoundListParsing() {
 		FullParser parser = new FullParser();
 		InputStream xmlFileStream = null;
+		Project testProject = null;
 
 		try {
 			xmlFileStream = androidContext.getAssets().open("test_sound_project.xml");
+			testProject = parser.fullParser("test_sound_project.xml");
 		} catch (IOException e) {
-
 			e.printStackTrace();
 			fail("Exception caught at getting filestream");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			fail("Unexpected parse exception");
 		}
-		Project testProject = parser.fullParser(xmlFileStream);
+
 		assertNotNull("project not created", testProject);
 		List<Sprite> sprites = testProject.getSpriteList();
 		assertEquals("all sprites not given", 6, sprites.size());
 		Sprite testSprite = sprites.get(1);
 		List<SoundInfo> soundList = (List<SoundInfo>) TestUtils.getPrivateField("soundList", testSprite, false);
-		assertNotNull(soundList);
-		assertEquals(2, soundList.size());
+		assertNotNull("Sound List is null", soundList);
+		assertEquals("All soundInfo items not created", 2, soundList.size());
 		SoundInfo si = soundList.get(0);
-		assertEquals("B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3", si.getSoundFileName());
+		assertEquals("SoundInfo file name not correct",
+				"B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3", si.getSoundFileName());
 		WhenScript ws = (WhenScript) testSprite.getScript(1);
 		PlaySoundBrick psb = (PlaySoundBrick) ws.getBrick(4);
-		assertNotNull(psb);
+		assertNotNull("The PlaySoundBrick is null", psb);
 		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", psb, false);
-		assertEquals("Geige", si2.getTitle());
+		assertEquals("SoundInfo name is not correct", "Geige", si2.getTitle());
 	}
 
 	public void testPerformanceTest() {
 		FullParser parser = new FullParser();
 		InputStream xmlFileStream = null;
-
+		Project testProject = null;
+		//		StorageHandler sh = StorageHandler.getInstance();
+		//		testProject = sh.loadProject("test_aquarium_project.xml");
 		try {
 			xmlFileStream = androidContext.getAssets().open("test_aquarium_project.xml");
-		} catch (IOException e) {
+			testProject = parser.fullParser("test_aquarium_project.xml");
 
+		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Exception caught at getting filestream");
-		}
-		//		Project testProject = parser.fullParser(xmlFileStream);
-		//		assertNotNull("project not created", testProject);
-		List<Sprite> sprites = null;
-		try {
-			sprites = parser.parseSprites(xmlFileStream);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			fail("Unexpected parser exception");
 		}
+
+		assertNotNull("project not created", testProject);
+		List<Sprite> sprites = null;
+		sprites = testProject.getSpriteList();
 		assertEquals("all sprites not given", 11, sprites.size());
 	}
 
