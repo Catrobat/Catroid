@@ -26,7 +26,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.ui.fragment.SpritesListFragment;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSpriteDialog extends TextDialog {
@@ -68,7 +68,7 @@ public class RenameSpriteDialog extends TextDialog {
 		}
 		
 		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
-			Intent intent = new Intent(ProjectActivity.ACTION_SPRITE_RENAMED);
+			Intent intent = new Intent(SpritesListFragment.ACTION_SPRITE_RENAMED);
 			intent.putExtra(EXTRA_NEW_SPRITE_NAME, newSpriteName);
 			getActivity().sendBroadcast(intent);
 		} else {

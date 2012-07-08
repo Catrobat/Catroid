@@ -59,20 +59,20 @@ public abstract class TextDialog extends DialogFragment {
 		initialize();
 		
 		Dialog dialog = new AlertDialog.Builder(getActivity())
-		.setView(dialogView)
-		.setTitle(getTitle())
-		.setNegativeButton(R.string.cancel_button, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dismiss();
-			}
-		})
-		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				handleOkButton();
-			}
-		}).create();
+			.setView(dialogView)
+			.setTitle(getTitle())
+			.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dismiss();
+				}
+			})
+			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					handleOkButton();
+				}
+			}).create();
 		
 		dialog.setOnKeyListener(new OnKeyListener() {
 			@Override
