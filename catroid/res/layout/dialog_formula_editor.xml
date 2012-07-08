@@ -33,50 +33,55 @@
 	<LinearLayout
 	    android:id="@+id/formula_editor_brick_space"
 	    android:layout_width="match_parent"
-	    android:layout_height="68dp" />
-	<EditText
-	    android:layout_width="match_parent"
+	    android:layout_height="68dp" />
+	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:gravity="top"
-	    android:inputType="textMultiLine"
-	    android:lines="5"
-	    android:singleLine="false" />
-	
-	<EditText
-		android:id="@+id/formula_editor_edit_text"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:maxLines="1"
-		android:inputType="text"
-		android:selectAllOnFocus="true" />
-
-	<LinearLayout
+	    android:paddingLeft="16dp"
+	    android:paddingRight="16dp" >
+    
+    <at.tugraz.ist.catroid.io.FormulaEditorEditText
+        android:id="@+id/formula_editor_edit_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:singleLine="false"/>
+    
+   <!-- <View 
+        android:id="@+id/formula_editor_edit_field_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        /> -->
+    
+    </RelativeLayout>
+        
+    
+	<RelativeLayout
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" >
+	    android:layout_height="wrap_content" >
 
 	    <ImageButton
 	        android:id="@+id/formula_editor_ok_button"
-	        android:layout_width="73dp"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_weight="166.08"
-	        android:src="@drawable/ok_button" />
-
+	        android:src="@drawable/ok_button" />
 	    <ImageButton
 	        android:id="@+id/formula_editor_back_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_weight="250.19"
-	        android:src="@drawable/back_button" />
-
+	        android:src="@drawable/back_button" 
+	        android:layout_toRightOf="@id/formula_editor_ok_button"/>
 	    <ImageButton
 	        android:id="@+id/formula_editor_cancel_button"
-	        android:layout_width="112dp"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:src="@drawable/cancel_button" />
+	        android:src="@drawable/cancel_button" 
+	        android:layout_toRightOf="@id/formula_editor_back_button"/>
 
-	</LinearLayout>
+	</RelativeLayout>
 
 </LinearLayout>
 

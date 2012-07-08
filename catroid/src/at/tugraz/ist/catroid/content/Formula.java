@@ -23,30 +23,47 @@
 package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
-import java.util.List;
+
+import android.util.Log;
 
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final int ROOT_ELEMENT = 0;
 	private FormulaElement root;
-	private int numberOfElements = 0;
 
 	public Formula() {
-		root = new FormulaElement(0, FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root");
+		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root");
 	}
 
-	public void addChild(int type, String name, int parentId) {
-		numberOfElements++;
-		FormulaElement parentItem = findItem(parentId);
-		parentItem.addChild(new FormulaElement(numberOfElements, type, name));
+	public void addChildByTextPosition(int position, String functionName, String value1, String operator, String value2) {
+		Log.i("info", "F: Add child by pos ");
+		FormulaElement parentItem = findItemByPosition(position);
+		parentItem.replaceWithChildren(functionName, value1, operator, value2);
 	}
 
-	public FormulaElement findItem(int parentID) {
-		return root.getItemWithId(parentID);
+	public FormulaElement findItemByPosition(int position) {
+		Log.i("info", "F: Find item by pos " + position);
+		MutableInteger searchPosition = new MutableInteger(position);
+		return root.getItemByPosition(searchPosition);
 	}
 
-	public List<FormulaElement> getAllChildren(int parentID) {
-		return root.getAllChildren(parentID);
+	public FormulaElement getParentOfItemByPosition(int position) {
+		Log.i("info", "F: Find parent by pos " + position);
+		MutableInteger searchPosition = new MutableInteger(position);
+		return root.getParentByPosition(searchPosition);
 	}
 
+	public String addToFormula(String keyboardInput, int itemPosition) {
+
+		FormulaElement parent = findItemByPosition(itemPosition);
+		String textOutput = "";
+		if (keyboardInput.equals("+")) {
+			Log.i("info", "F: Add to formula ");
+			parent.replaceWithChildren(null, "0", "+", "0");
+			textOutput = "0 + 0";
+		}
+
+		return textOutput;
+	}
 }
