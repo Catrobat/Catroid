@@ -67,6 +67,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	//highlight the selected word
 	public synchronized void updateSelectionIndices() {
 
+		//TODO: Interpreter Test
+		Log.i("info", "Formula Interpretation: " + formula.interpret());
+
 		String currentInput = this.getText().toString();
 		int cursorPos = this.getSelectionStart();
 		Log.i("info", "cursor: " + cursorPos);
