@@ -44,10 +44,12 @@ public class FormulaElement implements Serializable {
 	private int type;
 	private String value;
 	private List<FormulaElement> children = null;
+	private FormulaElement parent = null;
 
-	public FormulaElement(int type, String value) {
+	public FormulaElement(int type, String value, FormulaElement parent) {
 		this.type = type;
 		this.value = value;
+		this.parent = parent;
 	}
 
 	public int getType() {
@@ -65,7 +67,6 @@ public class FormulaElement implements Serializable {
 			return null;
 		}
 
-		Log.i("info", "Get Child not null");
 		for (FormulaElement item : children) {
 			if (item != null) {
 				if (item.type == type) {
@@ -120,11 +121,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	public FormulaElement getItemByPosition(MutableInteger position) {
-		//Log.i("info", "FE: get item by position: " + position.i);
 		FormulaElement result = null;
 		if (children == null) {
 			if (position.i == 0) {
-				//Log.i("info", "You were looking for:  " + value);
 				return this;
 			} else {
 				position.i--;
@@ -133,7 +132,6 @@ public class FormulaElement implements Serializable {
 
 		} else {
 			for (FormulaElement nextChild : children) {
-				//Log.i("info", "Searching childs ");
 				result = nextChild.getItemByPosition(position);
 				if (result != null) {
 					break;
@@ -144,13 +142,11 @@ public class FormulaElement implements Serializable {
 	}
 
 	public int getNumberOfRecursiveChildren() {
-		Log.i("info", "FE: get num of children");
 		if (children == null) {
 			return 1;
 
 		} else {
 			int result = 0;
-			Log.i("info", "FE: get num of children, children available");
 			for (FormulaElement nextChild : children) {
 				result += nextChild.getNumberOfRecursiveChildren();
 			}
@@ -158,36 +154,40 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public FormulaElement getParentByPosition(MutableInteger position) {
-
-		Log.i("info", "FE: get parent by position: " + position.i);
-		FormulaElement result = null;
-		if (children == null) {
-			Log.i("info", "FE: get parent by position, null " + position.i);
-			if (position.i == 0) {
-				return new FormulaElement(SEARCHING_FOR_PARENT_HACK, "");
-			} else {
-				position.i--;
-				return null;
-			}
-
-		} else {
-			for (FormulaElement nextChild : children) {
-				Log.i("info", "FE: get parent by position, iterating children " + position.i);
-				result = nextChild.getParentByPosition(position);
-				if (result != null) {
-					if (result.type == SEARCHING_FOR_PARENT_HACK) {
-						result = this;
-						break;
-					}
-				}
-			}
-		}
-		return result;
-	}
+	//	public FormulaElement getParentByPosition(MutableInteger position) {
+	//
+	//		Log.i("info", "FE: get parent by position: " + position.i);
+	//		FormulaElement result = null;
+	//		if (children == null) {
+	//			Log.i("info", "FE: get parent by position, null " + position.i);
+	//			if (position.i == 0) {
+	//				return new FormulaElement(SEARCHING_FOR_PARENT_HACK, "", null);
+	//			} else {
+	//				position.i--;
+	//				return null;
+	//			}
+	//
+	//		} else {
+	//			for (FormulaElement nextChild : children) {
+	//				Log.i("info", "FE: get parent by position, iterating children " + position.i);
+	//				result = nextChild.getParentByPosition(position);
+	//				if (result != null) {
+	//					if (result.type == SEARCHING_FOR_PARENT_HACK) {
+	//						result = this;
+	//						break;
+	//					}
+	//				}
+	//			}
+	//		}
+	//		return result;
+	//	}
 
 	public void replaceValue(String value) {
 		this.value = value;
+	}
+
+	public FormulaElement getParent() {
+		return parent;
 	}
 
 	/**
@@ -203,8 +203,8 @@ public class FormulaElement implements Serializable {
 	 * @param value2
 	 *            second value, usually a number, can be null
 	 */
-	public void replaceWithChildren(String functionName, String value1, String operator, String value2) {
-		Log.i("info", "FE: Replacing with children, old value: " + value);
+	public void replaceWithChildren(String functionName, String value1, String operator, String value2,
+			FormulaElement parent) {
 		this.value = null;
 		if (this.type == ELEMENT_FIRST_VALUE) {
 			this.type = ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN;
@@ -217,18 +217,17 @@ public class FormulaElement implements Serializable {
 			Log.i("info", "Uh-oh, thats bad!");
 		}
 		if (functionName != null) {
-			addChild(new FormulaElement(ELEMENT_FUNCTION, functionName));
+			addChild(new FormulaElement(ELEMENT_FUNCTION, functionName, parent));
 		}
 		if (value1 != null) {
-			addChild(new FormulaElement(ELEMENT_FIRST_VALUE, value1));
+			addChild(new FormulaElement(ELEMENT_FIRST_VALUE, value1, parent));
 		}
 		if (operator != null) {
-			addChild(new FormulaElement(ELEMENT_OPERATOR, operator));
+			addChild(new FormulaElement(ELEMENT_OPERATOR, operator, parent));
 		}
 		if (value2 != null) {
-			addChild(new FormulaElement(ELEMENT_SECOND_VALUE, value2));
+			addChild(new FormulaElement(ELEMENT_SECOND_VALUE, value2, parent));
 		}
-		Log.i("info", "For test: " + getChildOfType(ELEMENT_FIRST_VALUE).toString());
 	}
 
 	@Override

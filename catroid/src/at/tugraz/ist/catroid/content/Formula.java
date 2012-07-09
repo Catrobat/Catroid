@@ -24,8 +24,6 @@ package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
 
-import android.util.Log;
-
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,34 +31,39 @@ public class Formula implements Serializable {
 	private FormulaElement root;
 
 	public Formula() {
-		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root");
+		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root", null);
+	}
+
+	public Formula(String value) {
+		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root", null);
+		root.replaceWithChildren(null, value, null, null, root);
 	}
 
 	public void addChildByTextPosition(int position, String functionName, String value1, String operator, String value2) {
-		Log.i("info", "F: Add child by pos ");
 		FormulaElement parentItem = findItemByPosition(position);
-		parentItem.replaceWithChildren(functionName, value1, operator, value2);
+		parentItem.replaceWithChildren(functionName, value1, operator, value2, parentItem);
 	}
 
 	public FormulaElement findItemByPosition(int position) {
-		Log.i("info", "F: Find item by pos " + position);
-		MutableInteger searchPosition = new MutableInteger(position);
+		if (position == 0) {
+			return root;
+		}
+		MutableInteger searchPosition = new MutableInteger(position - 1);
 		return root.getItemByPosition(searchPosition);
 	}
 
-	public FormulaElement getParentOfItemByPosition(int position) {
-		Log.i("info", "F: Find parent by pos " + position);
-		MutableInteger searchPosition = new MutableInteger(position);
-		return root.getParentByPosition(searchPosition);
-	}
+	//	public FormulaElement getParentOfItemByPosition(int position) {
+	//		Log.i("info", "F: Find parent by pos " + position);
+	//		MutableInteger searchPosition = new MutableInteger(position);
+	//		return root.getParentByPosition(searchPosition);
+	//	}
 
 	public String addToFormula(String keyboardInput, int itemPosition) {
 
 		FormulaElement parent = findItemByPosition(itemPosition);
 		String textOutput = "";
 		if (keyboardInput.equals("+")) {
-			Log.i("info", "F: Add to formula ");
-			parent.replaceWithChildren(null, "0", "+", "0");
+			parent.replaceWithChildren(null, "0", "+", "0", parent);
 			textOutput = "0 + 0";
 		}
 

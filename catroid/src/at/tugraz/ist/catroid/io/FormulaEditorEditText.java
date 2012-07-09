@@ -27,7 +27,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
 	private static final BackgroundColorSpan COLOR_NORMAL = new BackgroundColorSpan(0xFFFFFFFF);
 	private Formula formula;
-	FormulaElement selectedElement;
+
+	//FormulaElement selectedElement;
 
 	public FormulaEditorEditText(Context context) {
 		super(context);
@@ -68,7 +69,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		String currentInput = this.getText().toString();
 		int cursorPos = this.getSelectionStart();
 		Log.i("info", "cursor: " + cursorPos);
-		currentlySelectedElementNumber = -1;
+		currentlySelectedElementNumber = 0;
 
 		if (currentInput.length() == 0) {
 			return;
@@ -104,10 +105,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	//What have we actually selected in the Formula? We might need to add items belonging to the FormulaElement
 	private void checkSelectedTextType() {
-		FormulaElement fe = formula.findItemByPosition(currentlySelectedElementNumber);
+		FormulaElement selectedElement = formula.findItemByPosition(currentlySelectedElementNumber);
 		Log.i("info", "FEEditText: check selected Type ");
-		selectedElement = null;
-		switch (fe.getType()) {
+		FormulaElement parentElement = null;
+		switch (selectedElement.getType()) {
 			case FormulaElement.ELEMENT_FIRST_VALUE:
 			case FormulaElement.ELEMENT_SECOND_VALUE:
 				break;
@@ -115,10 +116,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 				break;
 			case FormulaElement.ELEMENT_OPERATOR:
 				Log.i("info", "Search pos for child " + currentlySelectedElementNumber);
-				selectedElement = formula.getParentOfItemByPosition(currentlySelectedElementNumber);
-				FormulaElement el1 = selectedElement
+				//selectedElement = formula.getParentOfItemByPosition(currentlySelectedElementNumber);
+				parentElement = selectedElement.getParent();
+				FormulaElement el1 = parentElement
 						.getChildOfType(FormulaElement.ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN);
-				FormulaElement el2 = selectedElement
+				FormulaElement el2 = parentElement
 						.getChildOfType(FormulaElement.ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN);
 				int childCount1 = 1;
 				int childCount2 = 1;
@@ -146,7 +148,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 				selectionEndIndex = currentInput.length();
 			}
 		}
-		left = currentlySelectedElementNumber - left;
+		left = currentlySelectedElementNumber - 1 - left;
 		int newSelectionStart = 0;
 		while (left > 0) {
 			newSelectionStart = currentInput.indexOf(ELEMENT_SEPERATOR, newSelectionStart);

@@ -104,7 +104,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
 		//TODO save in in the brick
-		textArea.setFormula(new Formula());
+		Formula data = new Formula("0");
+		textArea.setFormula(data);
 
 		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
