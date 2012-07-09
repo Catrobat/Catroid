@@ -390,7 +390,15 @@ public class FullParser extends DefaultHandler {
 				}
 				String referenceAttribute = getReferenceAttribute(brickValue);
 				if (referenceAttribute != null) {
+					if (brickvalueName.equals("costumeData")) {
+						int lastIndex = referenceAttribute.lastIndexOf('[');
+						if (lastIndex != -1) {
+							char referenceNo = referenceAttribute.charAt(referenceAttribute.lastIndexOf('[') + 1);
+						} else {
 
+						}
+						Log.i("get brick obj", "xpath evaluated");
+					}
 					//			Log.i("brick parsing, getBrickObject, value parsing", "brick value name:" + brickvalueName
 					//			+ "reference: " + referenceAttribute);
 					XPathExpression exp = xpath.compile(referenceAttribute);
