@@ -332,10 +332,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	public void setHoveringBrick() {
-		if (dragAndDropListener != null) {
-			dragAndDropListener.setTouchedScript(position);
-		}
 		if (dragAndDropListener != null && dragView != null) {
+			dragAndDropListener.setTouchedScript(position);
 			stopDragging();
 			dragAndDropListener.drop(position);
 			trashView.setVisibility(GONE);
