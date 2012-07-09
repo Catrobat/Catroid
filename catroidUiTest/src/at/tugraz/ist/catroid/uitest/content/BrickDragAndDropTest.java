@@ -22,8 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
+import android.widget.ImageView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.SetXBrick;
+import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -31,7 +36,6 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
-	private List<Brick> brickListToCheck;
 
 	public BrickDragAndDropTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -57,16 +61,33 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	public void testPutHoveringBrickDown() {
-		String brickStopSoundsText = solo.getString(R.string.brick_stop_all_sounds);
+		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
+		String spriteName = solo.getString(R.string.sprite_name);
+
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
+		solo.clickOnText(spriteName);
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
+		solo.clickOnText(spriteName);
 
-		assertTrue("Brick " + brickStopSoundsText + " should be hovering", solo.searchText(brickStopSoundsText));
+		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		assertEquals("One Brick should be in bricklist, one hovering", 2, brickListToCheck.size());
+		assertTrue("First brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
+		assertTrue("First brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof StopAllSoundsBrick);
+
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
-		solo.drag(10, 10, yPositionList.get(2), 400, 30);
-		//		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
-		//		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(7), 10, yPositionList.get(2), 20);
+		solo.drag(10, 10, yPositionList.get(1), yPositionList.get(2) + 100, 30);
+		solo.sleep(200);
+		assertEquals("Two Bricks should be in bricklist", 2, brickListToCheck.size());
+		assertTrue("First brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
+		assertTrue("First brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof StopAllSoundsBrick);
 
-		solo.sleep(10000);
+		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+		solo.clickOnText(spriteName);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.goBack();
+
+		solo.clickOnText(spriteName);
+		ImageView trash = (ImageView) solo.getView(R.id.trash);
+		assertEquals("Trash should be GONE", View.GONE, trash.getVisibility());
 	}
 }
