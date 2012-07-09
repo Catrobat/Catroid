@@ -76,7 +76,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private int originalTrashHeight;
 	private int touchedListPosition;
 
-	private boolean isDragging;
+	private boolean dimBackground;
 	private boolean onDeleting;
 
 	private DragAndDropListener dragAndDropListener;
@@ -104,6 +104,16 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		dragAndDropListener = listener;
 	}
 
+	public int getTouchedListPosition() {
+		return touchedListPosition;
+	}
+
+	public void setInsertedBrick(int pos) {
+
+		this.position = pos;
+		newView = true;
+	}
+
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
 
@@ -118,7 +128,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 
-		if (isDragging) {
+		if (dimBackground) {
 			Rect rect = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
 			Paint paint = new Paint();
 			paint.setColor(Color.BLACK);
@@ -137,8 +147,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		if (y < 0) {
 			y = 0;
-		}
-		if (y > getHeight()) {
+		} else if (y > getHeight()) {
 			y = getHeight();
 		}
 
@@ -158,63 +167,29 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 				case MotionEvent.ACTION_CANCEL:
 
 					stopDragging();
-
-					ViewGroup.LayoutParams layoutParamemters = trashView.getLayoutParams();
-					layoutParamemters.width = originalTrashWidth;
-					layoutParamemters.height = originalTrashHeight;
-					trashView.setLayoutParams(layoutParamemters);
-					trashView.setVisibility(View.GONE);
+					resetTrashView();
 
 					if (x > getWidth() * 3 / 4) {
 						dragAndDropListener.remove(itemPosition);
+						onDeleting = false;
 					} else {
-						//						if (itemPosition < 0) {
-						//							Log.d("TESTING", "Itemposition: " + itemPosition);
-						//							itemPosition = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() - 1;
-						//							Log.d("TESTING", "Itemposition: " + itemPosition);
-						//						}
 						dragAndDropListener.drop(itemPosition);
 					}
-					isDragging = false;
 
+					dimBackground = false;
 					break;
 
 				case MotionEvent.ACTION_MOVE:
 
-					if (y > lowerScrollBound) {
-						smoothScrollBy(SCROLL_SPEED, 0);
-					} else if (y < upperScrollBound) {
-						smoothScrollBy(-SCROLL_SPEED, 0);
-					}
+					scrollListWithDraggedItem(y);
 
-					dragView(x, (int) event.getRawY());
+					dragTouchedListItem(x, (int) event.getRawY());
 
 					if (itemPosition != INVALID_POSITION) {
-
-						int index = previousItemPosition - getFirstVisiblePosition();
-
-						if (index > 0) {
-							View upperChild = getChildAt(index - 1);
-							upperDragBound = upperChild.getBottom() - upperChild.getHeight() / 2;
-						} else {
-							upperDragBound = 0;
-						}
-
-						if (index < getChildCount() - 1) {
-							View lowerChild = getChildAt(index + 1);
-							lowerDragBound = lowerChild.getTop() + lowerChild.getHeight() / 2;
-						} else {
-							lowerDragBound = getHeight();
-						}
-
-						if ((y > lowerDragBound || y < upperDragBound)) {
-							dragAndDropListener.drag(previousItemPosition, itemPosition);
-							isDragging = true;
-							previousItemPosition = itemPosition;
-
-						}
+						dragItemInList(y, itemPosition);
 					}
 
+					dimBackground = true;
 					break;
 			}
 			return true;
@@ -232,24 +207,13 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	public boolean onLongClick(View view) {
-		int itemPosition = -1;
-		int[] location = new int[2];
-		if (newView) {
-			itemPosition = this.position;
-			(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
-			touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
-			newView = false;
-		} else {
-			itemPosition = pointToPosition(view.getLeft(), view.getTop());
-			int visiblePosition = itemPosition - getFirstVisiblePosition();
-			(getChildAt(visiblePosition)).getLocationOnScreen(location);
-			touchPointY = location[1] + (getChildAt(visiblePosition)).getHeight() / 2;
-		}
+		int itemPosition = calculateItemPositionAndTouchPointY(view);
 
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
 
+		// TODO purpose?
 		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
 				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
 		view.layout(0, 0, Values.SCREEN_WIDTH, view.getMeasuredHeight());
@@ -266,11 +230,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		startDragging(bitmap, touchPointY);
 
 		dragAndDropListener.drag(itemPosition, itemPosition);
-		isDragging = true;
+		dimBackground = true;
 
-		trashView.setVisibility(View.VISIBLE);
-		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
-		trashView.startAnimation(animation);
+		enableTrashView();
 
 		previousItemPosition = itemPosition;
 
@@ -296,7 +258,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		dragView = imageView;
 	}
 
-	private void dragView(int x, int y) {
+	private void dragTouchedListItem(int x, int y) {
 
 		ViewGroup.LayoutParams trashViewParameters = trashView.getLayoutParams();
 		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
@@ -307,7 +269,12 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			trashViewParameters.width = (int) (originalTrashWidth * (1 + rate));
 			trashViewParameters.height = (int) (originalTrashHeight * (1 + rate));
 			trashView.setLayoutParams(trashViewParameters);
-			trashView.bringToFront();
+		} else if (x >= getWidth() - 100) {
+			float alpha = 100.0f / (getWidth() - 100);
+			float rate = 1 - alpha;
+			trashViewParameters.width = (int) (originalTrashWidth * (1 + rate));
+			trashViewParameters.height = (int) (originalTrashHeight * (1 + rate));
+			trashView.setLayoutParams(trashViewParameters);
 		}
 
 		if (x > getWidth() * 3 / 4 && !onDeleting) {
@@ -365,14 +332,68 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		return (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
 	}
 
-	public int getTouchedListPosition() {
-		return touchedListPosition;
+	private int calculateItemPositionAndTouchPointY(View view) {
+		int itemPosition = -1;
+		int[] location = new int[2];
+		if (newView) {
+			itemPosition = this.position;
+			(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
+			touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
+			newView = false;
+		} else {
+			itemPosition = pointToPosition(view.getLeft(), view.getTop());
+			int visiblePosition = itemPosition - getFirstVisiblePosition();
+			(getChildAt(visiblePosition)).getLocationOnScreen(location);
+			touchPointY = location[1] + (getChildAt(visiblePosition)).getHeight() / 2;
+		}
+
+		return itemPosition;
 	}
 
-	public void setInsertedBrick(int pos) {
+	private void enableTrashView() {
+		trashView.setVisibility(View.VISIBLE);
+		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
+		trashView.startAnimation(animation);
+	}
 
-		this.position = pos;
-		newView = true;
+	private void resetTrashView() {
+		ViewGroup.LayoutParams layoutParamemters = trashView.getLayoutParams();
+		layoutParamemters.width = originalTrashWidth;
+		layoutParamemters.height = originalTrashHeight;
+		trashView.setLayoutParams(layoutParamemters);
+		trashView.setVisibility(View.GONE);
+	}
+
+	private void scrollListWithDraggedItem(int y) {
+		if (y > lowerScrollBound) {
+			smoothScrollBy(SCROLL_SPEED, 0);
+		} else if (y < upperScrollBound) {
+			smoothScrollBy(-SCROLL_SPEED, 0);
+		}
+	}
+
+	private void dragItemInList(int y, int itemPosition) {
+		int index = previousItemPosition - getFirstVisiblePosition();
+
+		if (index > 0) {
+			View upperChild = getChildAt(index - 1);
+			upperDragBound = upperChild.getBottom() - upperChild.getHeight() / 2;
+		} else {
+			upperDragBound = 0;
+		}
+
+		if (index < getChildCount() - 1) {
+			View lowerChild = getChildAt(index + 1);
+			lowerDragBound = lowerChild.getTop() + lowerChild.getHeight() / 2;
+		} else {
+			lowerDragBound = getHeight();
+		}
+
+		if ((y > lowerDragBound || y < upperDragBound)) {
+			dragAndDropListener.drag(previousItemPosition, itemPosition);
+			previousItemPosition = itemPosition;
+
+		}
 	}
 
 }
