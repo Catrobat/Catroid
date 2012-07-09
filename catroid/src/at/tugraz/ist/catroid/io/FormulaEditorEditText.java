@@ -26,7 +26,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private int previousSelectionEndIndex = 0;
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
 	private static final BackgroundColorSpan COLOR_NORMAL = new BackgroundColorSpan(0xFFFFFFFF);
-	private Formula formula;
+	private Formula formula = null;
+	private FormulaElement selectedElement = null;
 
 	//FormulaElement selectedElement;
 
@@ -105,7 +106,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	//What have we actually selected in the Formula? We might need to add items belonging to the FormulaElement
 	private void checkSelectedTextType() {
-		FormulaElement selectedElement = formula.findItemByPosition(currentlySelectedElementNumber);
+		selectedElement = formula.findItemByPosition(currentlySelectedElementNumber);
 		Log.i("info", "FEEditText: check selected Type ");
 		FormulaElement parentElement = null;
 		switch (selectedElement.getType()) {
@@ -229,15 +230,17 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	};
 
 	public void onClick(View v) {
+		Log.i("info", "Click");
 		updateSelectionIndices();
 
 	}
 
 	public boolean onTouch(View v, MotionEvent motion) {
 		if (motion.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-			updateSelectionIndices();
+			//updateSelectionIndices();
 		} else if (motion.getAction() == android.view.MotionEvent.ACTION_UP) {
-			updateSelectionIndices();
+			//Log.i("info", "Act up");
+			//updateSelectionIndices();
 		}
 		gestureDetector.onTouchEvent(motion);
 		return false;
