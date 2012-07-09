@@ -24,6 +24,8 @@ package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
 
+import android.util.Log;
+
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -69,4 +71,11 @@ public class Formula implements Serializable {
 
 		return textOutput;
 	}
+
+	public int interpret() {
+
+		Log.i("info", root.getTreeString());
+		return root.interpretRecursive();
+	}
+
 }

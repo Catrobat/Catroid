@@ -154,6 +154,83 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
+	public String getTreeString() {
+		String text = "";
+
+		if (children == null) {
+			text = "(" + type + "/" + value + ")";
+
+		} else {
+			text = "(" + type + "/" + value + " [";
+			for (FormulaElement nextChild : children) {
+				text += nextChild.getTreeString();
+			}
+
+			text += "] )";
+		}
+		return text;
+	}
+
+	public int interpretRecursive() {
+
+		switch (type) {
+			case ELEMENT_FIRST_VALUE:
+				return Integer.parseInt(value);
+
+			case ELEMENT_SECOND_VALUE:
+				return Integer.parseInt(value);
+
+			case ELEMENT_FUNCTION:
+				//TODO: Implement Functions
+				break;
+
+			case ELEMENT_REPLACED_BY_CHILDREN:
+			case ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN:
+			case ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN:
+
+				if (children == null) { //TODO: should not happen!
+					return 0;
+				}
+
+				if (children.size() == 1) {
+					return children.get(0).interpretRecursive();
+				}
+
+				if (children.size() != 3) {
+					return -1;
+				}
+
+				FormulaElement firstElement;
+				FormulaElement secondElement;
+				FormulaElement operator;
+				firstElement = children.get(0);
+				operator = children.get(1);
+				secondElement = children.get(2);
+
+				int firstElementResult = firstElement.interpretRecursive();
+				int secondElementResult = secondElement.interpretRecursive();
+
+				if (operator.value.equals("+")) {
+					return firstElementResult + secondElementResult;
+				}
+				if (operator.value.equals("-")) {
+					return firstElementResult - secondElementResult;
+				}
+				if (operator.value.equals("*")) {
+					return firstElementResult * secondElementResult;
+				}
+				if (operator.value.equals("/")) {
+					return firstElementResult / secondElementResult;
+				}
+
+				break;
+
+		}
+
+		return -1;
+
+	}
+
 	//	public FormulaElement getParentByPosition(MutableInteger position) {
 	//
 	//		Log.i("info", "FE: get parent by position: " + position.i);
