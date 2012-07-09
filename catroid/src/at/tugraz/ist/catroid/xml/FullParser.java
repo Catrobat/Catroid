@@ -57,6 +57,8 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class FullParser extends DefaultHandler {
@@ -68,6 +70,7 @@ public class FullParser extends DefaultHandler {
 	XPathFactory xpathFactory = XPathFactory.newInstance();
 	XPath xpath = xpathFactory.newXPath();
 	List<ForwardReferences> forwardRefs = new ArrayList<ForwardReferences>();
+	LoopEndBrick scriptLoopEndBrick = null;
 
 	public Project fullParser(String xmlFile) throws ParseException {
 		ObjectCreator projectCreator = new ObjectCreator();
@@ -103,20 +106,20 @@ public class FullParser extends DefaultHandler {
 			Document doc = docBuilder.parse(xnlInputStream);
 			doc.getDocumentElement().normalize();
 
-			Log.i("Sprite parse method begin", "Sprite parsing started");
+			//Log.i("Sprite parse method begin", "Sprite parsing started");
 			NodeList spriteNodes = doc.getElementsByTagName("Content.Sprite");
 			//Log.i("sprite parsing", "no of sprites: " + spriteNodes.getLength());
 			for (int i = 0; i < spriteNodes.getLength(); i++) {
 				final Element spriteElement = (Element) spriteNodes.item(i);
 
-				Log.i("sprite parsing", "current Sprite no " + i);
+				//Log.i("sprite parsing", "current Sprite no " + i);
 
 				String spriteName = spriteElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
 						.getNodeValue();
-				//Log.i("sprite parsing", "current Sprite name " + spriteName);
+				Log.i("sprite parsing", "current Sprite name " + spriteName);
 				Sprite foundSprite = new Sprite(spriteName);
 
-				Log.i("sprite parsing", "Sprite created, costume parsing");
+				//	Log.i("sprite parsing", "Sprite created, costume parsing started");
 
 				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
 				if (costumeListItem != null) {
@@ -127,21 +130,28 @@ public class FullParser extends DefaultHandler {
 					costumeListField.setAccessible(true);
 					costumeListField.set(foundSprite, costumeList);
 
-					//Log.i("costume parsing", costumeList.size() + " costumes added");
+					//		Log.i("costume parsing", costumeList.size() + " costumes added");
 				}
 
-				Log.i("script parsing", "Script parsing started ");
+				//	Log.i("script parsing", "new script list");
 				Node scriptListItem = spriteElement.getElementsByTagName("scriptList").item(0);
 				if (scriptListItem != null) {
 					NodeList scriptListNodes = scriptListItem.getChildNodes();
 					for (int j = 0; j < scriptListNodes.getLength(); j++) {
+						//Log.i("script parsing", "Script parsing started new script ");
 						Script foundScript = null;
-						Node scriptNode = scriptListNodes.item(j);
-						if (scriptNode.getNodeType() != Node.TEXT_NODE) {
-							//Log.i("script parsing", "parsing a script indexed " + j);
-							Element scriptElement = (Element) scriptNode;
+
+						if (scriptListNodes.item(j).getNodeType() != Node.TEXT_NODE) {
+							//Log.i("script parsing", "parsing a script node");
+							Element scriptElement = (Element) scriptListNodes.item(j);
+							NodeList loopEndBricksInThisScript = scriptElement
+									.getElementsByTagName("Bricks.LoopEndBrick");
+
+							//Log.i("script parsing", "getting script obj: " + scriptElement.getNodeName());
 							foundScript = getpopulatedScript(scriptElement, foundSprite);
+							//Log.i("script parsing", "getting script obj");
 							Node brickListNode = scriptElement.getElementsByTagName("brickList").item(0);
+							scriptLoopEndBrick = null;
 							if (brickListNode != null) {
 								NodeList brickNodes = brickListNode.getChildNodes();
 								//	Log.i("brick parsing", "Brick parsing started");
@@ -150,47 +160,58 @@ public class FullParser extends DefaultHandler {
 									if (currentBrickNode.getNodeType() != Node.TEXT_NODE) {
 										Brick foundBrickObj = null;
 										Element brickElement = (Element) currentBrickNode;
+										String brickName = currentBrickNode.getNodeName();
 										String brickReferenceAttr = getReferenceAttribute(brickElement);
 										if (brickReferenceAttr != null) {
-
-											//	Log.i("brick parsing", "brick reference: " + brickReferenceAttr);
-											XPathExpression exp = xpath.compile(brickReferenceAttr);
-											Element referencedElement = (Element) exp.evaluate(brickElement,
-													XPathConstants.NODE);
-											String brickXPathFromRoot = getElementXpath(referencedElement);
-											foundBrickObj = (Brick) referencedObjects.get(brickXPathFromRoot);
-											if (foundBrickObj == null) {
-												ForwardReferences forwardRef = new ForwardReferences(foundBrickObj,
-														brickXPathFromRoot, null);
-												forwardRefs.add(forwardRef);
+											if (brickName.equals("Bricks.LoopEndBrick")
+													&& (loopEndBricksInThisScript.getLength() == 1)) {
+												foundBrickObj = scriptLoopEndBrick;
+												//Log.i("Brick inline", "loopendBrick one");
+											} else {
+												//Log.i("brick parsing", "getting xpath node " + brickElement.getNodeName());
+												XPathExpression exp = xpath.compile(brickReferenceAttr);
+												//Log.i("Brick inline", "xpath evaluated");
+												Element referencedElement = (Element) exp.evaluate(brickElement,
+														XPathConstants.NODE);
+												//Log.i("brick parsing", "node created");
+												//Log.i("brick parsing", "brick reference:, getting xpath ");
+												String brickXPathFromRoot = getElementXpath(referencedElement);
+												//Log.i("brick parsing", "brick reference:, xpath taken ");
+												foundBrickObj = (Brick) referencedObjects.get(brickXPathFromRoot);
+												if (foundBrickObj == null) {
+													ForwardReferences forwardRef = new ForwardReferences(foundBrickObj,
+															brickXPathFromRoot, null);
+													forwardRefs.add(forwardRef);
+												}
+												//Log.i("brick parsing", "brick reference resolved");
 											}
-
 										} else {
 
-											String brickName = currentBrickNode.getNodeName();
 											//	Log.i("brick parsing", "current brick name " + brickName);
 											NodeList brickValueNodes = brickElement.getChildNodes();
 											foundBrickObj = getBrickObject(brickName, foundSprite, brickValueNodes,
 													brickElement);
 										}
 										//	Log.i("brick parsing", "Brick object: " + foundBrickObj.toString() + " added");
-										String brickXPath = getElementXpath(brickElement);
-										referencedObjects.put(brickXPath, foundBrickObj);
-										foundScript.addBrick(foundBrickObj);
-
+										if (foundBrickObj != null) {
+											String brickXPath = getElementXpath(brickElement);
+											referencedObjects.put(brickXPath, foundBrickObj);
+											foundScript.addBrick(foundBrickObj);
+										}
 									}
 
 								}
 							}
-							//	Log.i("script parsing", "no of bricks added : " + foundScript.getBrickList().size());
-							String brickXPath = getElementXpath((Element) scriptNode);
+							//Log.i("script parsing", "adding script to ref list ");
+							String brickXPath = getElementXpath(scriptElement);
 							referencedObjects.put(brickXPath, foundScript);
 							foundSprite.addScript(foundScript);
-							//	Log.i("script parsing", "script added to Sprite: " + foundSprite.getName());
+							//Log.i("script parsing", "script added to script ref list");
 						}
 
 					}
 				}
+				//Log.i("sprite parsing", "script parsing ended");
 
 				Node soundListItem = spriteElement.getElementsByTagName("soundList").item(0);
 				if (soundListItem != null) {
@@ -202,50 +223,13 @@ public class FullParser extends DefaultHandler {
 						SoundInfo foundSoundInfo = null;
 						Node soundElement = soundNodes.item(n);
 						if (soundElement.getNodeType() != Node.TEXT_NODE) {
-							String soundRef = getReferenceAttribute(soundElement);
-							if (soundRef != null) {
-								foundSoundInfo = (SoundInfo) resolveReference(soundRef, soundElement);
-
-								if (foundSoundInfo == null) {
-									foundSoundInfo = (SoundInfo) getobjectOfClass(SoundInfo.class, "0");
-									XPathExpression exp = xpath.compile(soundRef);
-									Element refList = (Element) exp.evaluate(soundElement, XPathConstants.NODE);
-									String xp = getElementXpath(refList);
-									ForwardReferences forwardRef = new ForwardReferences(foundSoundInfo, xp, null);
-									forwardRefs.add(forwardRef);
-								} else {
-									soundList.add(foundSoundInfo);
-									String soundInfoXPath = getElementXpath((Element) soundElement);
-									referencedObjects.put(soundInfoXPath, foundSoundInfo);
-								}
-							} else {
-								//Log.i("sound parsing", "current sound node:" + n);
-								Element cel = (Element) soundElement;
-								Node soundFileNameNode = cel.getElementsByTagName("fileName").item(0);
-								String soundFileName = null;
-								if (soundFileNameNode != null) {
-									soundFileName = soundFileNameNode.getChildNodes().item(0).getNodeValue();
-									//Log.i("sound parsing", "sound fileName " + soundFileName);
-								}
-								Node soundNameNode = cel.getElementsByTagName("name").item(0);
-								String soundName = null;
-								if (soundNameNode != null) {
-									soundName = soundNameNode.getChildNodes().item(0).getNodeValue();
-									//Log.i("sound parsing", "sound fileName " + soundName);
-								}
-								foundSoundInfo = new SoundInfo();
-								foundSoundInfo.setSoundFileName(soundFileName);
-								foundSoundInfo.setTitle(soundName);
-								soundList.add(foundSoundInfo);
-								String soundInfoXPath = getElementXpath(cel);
-								referencedObjects.put(soundInfoXPath, foundSoundInfo);
-							}
+							parseSoundInfo(soundList, soundElement);
 						}
 					}
 					Field soundListField = foundSprite.getClass().getDeclaredField("soundList");
 					soundListField.setAccessible(true);
 					soundListField.set(foundSprite, soundList);
-					//	Log.i("sound parsing", "sound List added with size: " + soundList.size());
+					//Log.i("sound parsing", "sound List added");
 				}
 
 				//	Log.i("sprite parsing", "Sprite added");
@@ -253,8 +237,9 @@ public class FullParser extends DefaultHandler {
 				referencedObjects.put(brickXPath, foundSprite);
 				sprites.add(foundSprite);
 			}
-
+			//Log.i("sprite parsing", "resolving references started");
 			resolveForwardReferences();
+			//Log.i("sprite parsing", "resolving references done");
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new ParseException(e);
@@ -265,17 +250,56 @@ public class FullParser extends DefaultHandler {
 
 	}
 
-	private Object resolveReference(String refString, Node element) throws XPathExpressionException {
-		XPathExpression exp = xpath.compile(refString);
-		Element refList = (Element) exp.evaluate(element, XPathConstants.NODE);
-		String xp = getElementXpath(refList);
-		Object object = referencedObjects.get(xp);
-
-		if (object != null) {
-			return object;
+	private void parseSoundInfo(List<SoundInfo> soundList, Node soundElement) throws XPathExpressionException,
+			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		SoundInfo foundSoundInfo;
+		String soundRef = getReferenceAttribute(soundElement);
+		if (soundRef != null) {
+			XPathExpression exp = xpath.compile(soundRef);
+			//Log.i("soundinfo parsing methodparsing", "xpath evaluated");
+			Element refList = (Element) exp.evaluate(soundElement, XPathConstants.NODE);
+			String xp = getElementXpath(refList);
+			foundSoundInfo = (SoundInfo) referencedObjects.get(xp);
+			if (foundSoundInfo == null) {
+				ForwardReferences forwardRef = new ForwardReferences(foundSoundInfo, xp, null);
+				forwardRefs.add(forwardRef);
+			} else {
+				soundList.add(foundSoundInfo);
+				String soundInfoXPath = getElementXpath((Element) soundElement);
+				referencedObjects.put(soundInfoXPath, foundSoundInfo);
+			}
+		} else {
+			//Log.i("sound parsing", "current sound node:" + n);
+			Element cel = (Element) soundElement;
+			Node soundFileNameNode = cel.getElementsByTagName("fileName").item(0);
+			String soundFileName = null;
+			if (soundFileNameNode != null) {
+				soundFileName = soundFileNameNode.getChildNodes().item(0).getNodeValue();
+				//Log.i("sound parsing", "sound fileName " + soundFileName);
+			}
+			Node soundNameNode = cel.getElementsByTagName("name").item(0);
+			String soundName = null;
+			if (soundNameNode != null) {
+				soundName = soundNameNode.getChildNodes().item(0).getNodeValue();
+				//Log.i("sound parsing", "sound fileName " + soundName);
+			}
+			foundSoundInfo = new SoundInfo();
+			foundSoundInfo.setSoundFileName(soundFileName);
+			foundSoundInfo.setTitle(soundName);
+			soundList.add(foundSoundInfo);
+			String soundInfoXPath = getElementXpath(cel);
+			referencedObjects.put(soundInfoXPath, foundSoundInfo);
 		}
-		return null;
 	}
+
+	//	private Object resolveReference(String refString, Node element) throws XPathExpressionException {
+	//	
+	//
+	//		if (object != null) {
+	//			return object;
+	//		}
+	//		return null;
+	//	}
 
 	@SuppressWarnings("unused")
 	private void resolveForwardReferences() throws IllegalArgumentException, IllegalAccessException {
@@ -370,6 +394,7 @@ public class FullParser extends DefaultHandler {
 					//			Log.i("brick parsing, getBrickObject, value parsing", "brick value name:" + brickvalueName
 					//			+ "reference: " + referenceAttribute);
 					XPathExpression exp = xpath.compile(referenceAttribute);
+					//Log.i("get brick obj", "xpath evaluated");
 					Element referencedElement = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
 					String xp = getElementXpath(referencedElement);
 					Object valueObject = referencedObjects.get(xp);
@@ -385,6 +410,26 @@ public class FullParser extends DefaultHandler {
 
 				if (brickValue.getChildNodes().getLength() > 1) {
 					if (brickvalueName.endsWith("Brick")) {
+
+						if (brickvalueName.equals("loopEndBrick")) {
+							//Log.i("Brick value", "loopend brick evaluated");
+							Element brickValueElement = (Element) brickValue;
+							Element brickLoopBeginElement = (Element) brickValueElement.getElementsByTagName(
+									"loopBeginBrick").item(0);
+							String loopBeginRef = getReferenceAttribute(brickLoopBeginElement);
+							if (loopBeginRef.equals("../..")) {
+								//Log.i("Brick value", "loopend brick evaluated reference match");
+								LoopEndBrick foundLoopEndBrick = new LoopEndBrick(foundSprite,
+										(LoopBeginBrick) brickObject);
+								valueField.set(brickObject, foundLoopEndBrick);
+								String childBrickXPath = getElementXpath((Element) brickValue);
+								referencedObjects.put(childBrickXPath, foundLoopEndBrick);
+								scriptLoopEndBrick = foundLoopEndBrick;
+								//Log.i("Brick value", "loopend brick done");
+								continue;
+							}
+						}
+
 						Character d = (brickvalueName.toUpperCase().charAt(0));
 						brickvalueName = d.toString().concat(brickvalueName.substring(1));
 						String prefix = "Bricks.";
@@ -440,6 +485,7 @@ public class FullParser extends DefaultHandler {
 						String refattr = getReferenceAttribute(child);
 						if (refattr != null) {
 							XPathExpression exp = xpath.compile(refattr);
+							//	Log.i("parsing get value object method", "xpath evaluated");
 							Element refList = (Element) exp.evaluate(child, XPathConstants.NODE);
 							String xp = getElementXpath(refList);
 							Object valueObject = referencedObjects.get(xp);
