@@ -36,9 +36,9 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.View.OnLongClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -225,8 +225,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		view.setDrawingCacheEnabled(true);
 
-		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
-				.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
+		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
+				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
 		view.layout(0, 0, Values.SCREEN_WIDTH, view.getMeasuredHeight());
 
 		view.buildDrawingCache(true);
@@ -331,4 +331,14 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		newView = true;
 	}
 
+	public void setHoveringBrick() {
+		if (dragAndDropListener != null) {
+			dragAndDropListener.setTouchedScript(position);
+		}
+		if (dragAndDropListener != null && dragView != null) {
+			stopDragging();
+			dragAndDropListener.drop(position);
+			trashView.setVisibility(GONE);
+		}
+	}
 }
