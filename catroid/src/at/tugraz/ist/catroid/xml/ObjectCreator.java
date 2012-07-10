@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.xml;
 
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -31,6 +32,8 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
 
 public class ObjectCreator {
 
@@ -101,5 +104,63 @@ public class ObjectCreator {
 			tagName = field.getName();
 		}
 		return tagName;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public Script getScriptObject(String scriptImplName, Sprite foundSprite) throws ClassNotFoundException,
+			SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
+			IllegalAccessException, InvocationTargetException {
+		Script scriptObject = null;
+		Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptImplName);
+		Constructor scriptConstructor = scriptClass.getConstructor(Sprite.class);
+		if (scriptConstructor == null) {
+			return (Script) getobjectOfClass(scriptClass, "0");
+		}
+		scriptObject = (Script) scriptConstructor.newInstance(foundSprite);
+
+		return scriptObject;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public Object getobjectOfClass(Class cls, String val) throws IllegalArgumentException, SecurityException,
+			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		Constructor clsConstructor = null;
+		Object obj = null;
+		if (cls == int.class) {
+			cls = Integer.class;
+		} else if (cls == float.class) {
+			cls = Float.class;
+		} else if (cls == double.class) {
+			cls = Double.class;
+		} else if (cls == boolean.class) {
+			cls = Boolean.class;
+		} else if (cls == byte.class) {
+			cls = Byte.class;
+		} else if (cls == short.class) {
+			cls = Short.class;
+		} else if (cls == long.class) {
+			cls = Long.class;
+		} else if (cls == char.class) {
+			cls = Character.class;
+			obj = cls.getConstructor(char.class).newInstance(val.charAt(0));
+			return obj;
+		} else if (cls == String.class) {
+			return new String(val);
+		} else {
+			Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
+			newInstance.setAccessible(true);
+			return newInstance.invoke(null, cls, Object.class);
+		}
+
+		clsConstructor = cls.getConstructor(String.class);
+		obj = clsConstructor.newInstance(val);
+		return obj;
+
+	}
+
+	public void setFieldOfObject(Field field, Object ObjectWithField, Object objectOfField)
+			throws IllegalAccessException {
+		field.setAccessible(true);
+		field.set(ObjectWithField, objectOfField);
 	}
 }

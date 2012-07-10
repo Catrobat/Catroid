@@ -97,7 +97,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("SETSizetoBrick size incorrect", 0.8, sizeFormBrick);
 
 		WhenScript testWhnScript = (WhenScript) values.get(1).getScript(1);
-		assertEquals("WhenScript action incorrect", "Tapped", testWhnScript.getAction());
+		assertEquals("WhenScript action incorrect", "TappedChanged", testWhnScript.getAction());
 
 		StartScript testScript2 = (StartScript) values.get(2).getScript(0);
 		GlideToBrick testBrick2 = (GlideToBrick) testScript2.getBrick(5);
@@ -212,17 +212,14 @@ public class FullParserTest extends InstrumentationTestCase {
 
 	public void testPerformanceTest() {
 		FullParser parser = new FullParser();
-		InputStream xmlFileStream = null;
+		//		InputStream xmlFileStream = null;
 		Project testProject = null;
 		//		StorageHandler sh = StorageHandler.getInstance();
 		//		testProject = sh.loadProject("test_aquarium_project.xml");
 		try {
-			xmlFileStream = androidContext.getAssets().open("test_aquarium_project.xml");
+			//			xmlFileStream = androidContext.getAssets().open("test_aquarium_project.xml");
 			testProject = parser.fullParser("test_aquarium_project.xml");
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail("Exception caught at getting filestream");
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parser exception");
