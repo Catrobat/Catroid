@@ -31,7 +31,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -41,7 +40,6 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.CatKeyboard;
 import at.tugraz.ist.catroid.io.CatKeyboardView;
 import at.tugraz.ist.catroid.io.FormulaEditorEditText;
-import at.tugraz.ist.catroid.io.NumPad;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener {
 
@@ -49,18 +47,14 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private Brick currentBrick;
 	private FormulaEditorEditText textArea;
 	private int value;
-	NumPad numPad;
 	private Formula formula;
 
-	private CatKeyboardView datview;
-	private CatKeyboard dat;
+	private CatKeyboardView catKeyboardView;
+	private CatKeyboard catKeyboard;
 
 	//private View overlay;
-
 	//	private int selectionStartIndex = 0;
 	//	private int selectionEndIndex = 0;
-
-	//	EditorInfo ei;
 
 	public FormulaEditorDialog(Context context, Brick brick) {
 
@@ -68,10 +62,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		currentBrick = brick;
 		this.context = context;
 		this.value = 33;
-
-		//		this.ei = new EditorInfo();
-		//		ei.fieldName += "FormulaEditorInfo";
-
 	}
 
 	@Override
@@ -114,48 +104,15 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		//TODO save in in the brick
 		Formula data = new Formula("0");
 		textArea.setFormula(data);
-		textArea.setInputType(0);
+		textArea.setInputType(0);// turn off default input method
 
-		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//		imm.showInputMethodPicker();
 
-		//		numPad = new NumPad();
-		//		numPad.switchInputMethod("NumPad");
-		//		ims = new InputMethodService();
-		//		ims.switchInputMethod("NumPad");
-		//		IBinder token = numPad.getCurrentInputBinding().getConnectionToken();
-		//List<InputMethodInfo> a = imm.getInputMethodList();
-		imm.showInputMethodPicker();
+		catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
 
-		//		List<InputMethodInfo> inputMethodInfo = imm.getInputMethodList();
-		//
-		//		Binder binder = new Binder();
-		//
-		//		imm.setInputMethod(token, "NumPad");
-
-		//						for(int i =0; i < inputMethodInfo.size(); i++){
-		//							inputMethodInfo.get(i)
-		//						}
-
-		//imm.setInputMethod(, id)
-		//this.show();
-
-		//imm.setInputMethod(token, id);
-		//		Binder binder = new Binder();
-		//		imm.setInputMethod(binder, "at.tugraz.ist.catroid/.io.NumPad");
-
-		//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-		//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		//        imm.hideSoftInputFromInputMethod(editTextField.getWindowToken(), 0);
-
-		dat = new CatKeyboard(this.getContext(), R.xml.symbols);
-
-		//        LatinKeyboardView datview = (LatinKeyboardView) findViewById(R.layout.input);
-		//        LatinKeyboardView datview = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
 		textArea.datview = (CatKeyboardView) findViewById(R.id.keyboardcat);
-		textArea.datview.setKeyboard(dat);
-
-		//      datview.setOnKeyboardActionListener((OnKeyboardActionListener) this);
+		textArea.datview.setKeyboard(catKeyboard);
 
 	}
 
@@ -173,9 +130,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		switch (v.getId()) {
 			case R.id.formula_editor_ok_button:
-				//				final EditText input = new EditText(context);
-				//				InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-				//				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
 				dismiss();
 				break;
 
@@ -193,11 +147,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		this.dismiss();
 	}
 
-	//	@Override
-	//	public boolean onTouchEvent(MotionEvent event) {
-	//		Log.i("info", "onTouch()");
-	//		return super.onTouchEvent(event);
-	//	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		return textArea.datview.onKeyDown(keyCode, event);
