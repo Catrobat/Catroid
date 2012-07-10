@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.FormulaEditorEditText;
+import at.tugraz.ist.catroid.io.NumPad;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener {
 
@@ -46,6 +47,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private Brick currentBrick;
 	private FormulaEditorEditText textArea;
 	private int value;
+	NumPad numPad;
+	private Formula formula;
 
 	//private View overlay;
 
@@ -60,6 +63,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		currentBrick = brick;
 		this.context = context;
 		this.value = 33;
+
 		//		this.ei = new EditorInfo();
 		//		ei.fieldName += "FormulaEditorInfo";
 
@@ -108,9 +112,28 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
+		//		numPad = new NumPad();
+		//		numPad.switchInputMethod("NumPad");
+		//		ims = new InputMethodService();
+		//		ims.switchInputMethod("NumPad");
+		//		IBinder token = numPad.getCurrentInputBinding().getConnectionToken();
 		//List<InputMethodInfo> a = imm.getInputMethodList();
 		imm.showInputMethodPicker();
 
+		//		List<InputMethodInfo> inputMethodInfo = imm.getInputMethodList();
+		//
+		//		Binder binder = new Binder();
+		//
+		//		imm.setInputMethod(token, "NumPad");
+
+		//						for(int i =0; i < inputMethodInfo.size(); i++){
+		//							inputMethodInfo.get(i)
+		//						}
+
+		//imm.setInputMethod(, id)
+		//this.show();
+
+		//imm.setInputMethod(token, id);
 		//		Binder binder = new Binder();
 		//		imm.setInputMethod(binder, "at.tugraz.ist.catroid/.io.NumPad");
 
