@@ -82,6 +82,14 @@
 	        android:layout_toRightOf="@id/formula_editor_back_button"/>
 
 	</RelativeLayout>
+	
+	    <at.tugraz.ist.catroid.io.CatKeyboardView
+        android:id="@+id/keyboardcat"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>
 
