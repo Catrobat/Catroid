@@ -77,7 +77,8 @@ public class FullParserTest extends InstrumentationTestCase {
 
 		List<Sprite> values = null;
 		try {
-			values = parser.parseSprites(xmlFileStream);
+			Project testProject = parser.parseSpritesWithProject(xmlFileStream);
+			values = testProject.getSpriteList();
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Exception when parsing the headers");
@@ -212,12 +213,12 @@ public class FullParserTest extends InstrumentationTestCase {
 
 	public void testPerformanceTest() {
 		FullParser parser = new FullParser();
-		//		InputStream xmlFileStream = null;
+
 		Project testProject = null;
 		//		StorageHandler sh = StorageHandler.getInstance();
 		//		testProject = sh.loadProject("test_aquarium_project.xml");
 		try {
-			//			xmlFileStream = androidContext.getAssets().open("test_aquarium_project.xml");
+
 			testProject = parser.fullParser("test_aquarium_project.xml");
 
 		} catch (ParseException e) {

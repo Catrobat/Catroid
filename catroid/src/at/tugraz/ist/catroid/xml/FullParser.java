@@ -45,7 +45,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 import at.tugraz.ist.catroid.common.CostumeData;
@@ -58,7 +57,7 @@ import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
-public class FullParser extends DefaultHandler {
+public class FullParser {
 
 	List<Sprite> sprites = new ArrayList<Sprite>();
 	List<Script> scripts = new ArrayList<Script>();
@@ -72,19 +71,15 @@ public class FullParser extends DefaultHandler {
 	ObjectCreator objectGetter = new ObjectCreator();
 
 	public Project fullParser(String xmlFile) throws ParseException {
-		ObjectCreator projectCreator = new ObjectCreator();
+
 		Project parsedProject = null;
 
 		try {
 
-			InputStream inputStreamForHeaders = NativeAppActivity.getContext().getAssets().open(xmlFile);
-			parsedProject = projectCreator.reflectionSet(inputStreamForHeaders);
 			InputStream inputStreamForSprites = NativeAppActivity.getContext().getAssets().open(xmlFile);
-			List<Sprite> spriteList = this.parseSprites(inputStreamForSprites);
 
-			for (int i = 0; i < spriteList.size(); i++) {
-				parsedProject.addSprite(spriteList.get(i));
-			}
+			parsedProject = this.parseSpritesWithProject(inputStreamForSprites);
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 			throw e;
@@ -96,13 +91,13 @@ public class FullParser extends DefaultHandler {
 
 	}
 
-	public List<Sprite> parseSprites(InputStream xnlInputStream) throws ParseException {
+	public Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException {
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder;
-
+		Project parsedProject = null;
 		try {
 			docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(xnlInputStream);
+			Document doc = docBuilder.parse(xmlInputStream);
 			doc.getDocumentElement().normalize();
 
 			NodeList spriteNodes = doc.getElementsByTagName("Content.Sprite");
@@ -139,13 +134,40 @@ public class FullParser extends DefaultHandler {
 				sprites.add(foundSprite);
 			}
 			resolveForwardReferences();
+			parsedProject = getProjectObject(doc, sprites);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new ParseException(e);
 		}
 
-		return sprites;
+		return parsedProject;
 
+	}
+
+	private Project getProjectObject(Document doc, List<Sprite> sprites2) throws IllegalArgumentException,
+			SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException,
+			NoSuchMethodException {
+		Project newProject = (Project) objectGetter.getobjectOfClass(Project.class, "0");
+		Map<String, Field> projectFieldsToSet = getFieldMap(Project.class);
+		NodeList projectNodes = doc.getElementsByTagName("Content.Project");
+		NodeList projectNodeChildren = projectNodes.item(0).getChildNodes();
+		for (int i = 0; i < projectNodeChildren.getLength(); i++) {
+			if (projectNodeChildren.item(i).getNodeType() != Node.TEXT_NODE) {
+				Element projectChildElement = (Element) projectNodeChildren.item(i);
+				Field projectField = projectFieldsToSet.get(projectChildElement.getNodeName());
+				if (projectChildElement.getNodeName().equals("spriteList")) {
+					objectGetter.setFieldOfObject(projectField, newProject, sprites2);
+					continue;
+				}
+
+				if (projectField != null) {
+					String valueInString = projectChildElement.getChildNodes().item(0).getNodeValue();
+					Object valueObject = objectGetter.getobjectOfClass(projectField.getType(), valueInString);
+					objectGetter.setFieldOfObject(projectField, newProject, valueObject);
+				}
+			}
+		}
+		return newProject;
 	}
 
 	private void parseScripts(NodeList scriptListNodes, Sprite foundSprite) throws IllegalAccessException,
@@ -268,14 +290,16 @@ public class FullParser extends DefaultHandler {
 
 	}
 
+	@SuppressWarnings("unused")
 	private void resolveForwardReferences() throws IllegalArgumentException, IllegalAccessException {
-		for (ForwardReferences ref : forwardRefs) {
-			Field refField = ref.getFieldWithReference();
+		for (ForwardReferences reference : forwardRefs) {
+			Field refField = reference.getFieldWithReference();
 			if (refField == null) {
-				ref.setObjectWithReferencedField(referencedObjects.get(ref.getReferenceString()));
+				Object objectWithReference = reference.getObjectWithReferencedField();
+				objectWithReference = referencedObjects.get(reference.getReferenceString());
 			} else {
-				Object parentObj = ref.getObjectWithReferencedField();
-				Object valueObj = referencedObjects.get(ref.getReferenceString());
+				Object parentObj = reference.getObjectWithReferencedField();
+				Object valueObj = referencedObjects.get(reference.getReferenceString());
 				refField.set(parentObj, valueObj);
 			}
 		}
