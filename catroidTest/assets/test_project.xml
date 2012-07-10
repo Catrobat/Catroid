@@ -66,7 +66,7 @@
             </Bricks.PlaySoundBrick>
           </brickList>
           <sprite reference="../../.."/>
-          <action>Tapped</action>
+          <action>TappedChanged</action>
         </Content.WhenScript>
       </scriptList>
     </Content.Sprite>
