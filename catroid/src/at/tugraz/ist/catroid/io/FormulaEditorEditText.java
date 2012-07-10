@@ -234,6 +234,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	};
 
 	public void onClick(View v) {
+		Log.i("info", "FormulaEditorDialogEditText.onClick()");
 		if (datview.getVisibility() == KeyboardView.GONE) {
 			datview.setEnabled(true);
 			datview.setVisibility(KeyboardView.VISIBLE);

@@ -45,14 +45,40 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 			getOnKeyboardActionListener().onKey(KEYCODE_OPTIONS, null);
 			return true;
 		} else {
-			Log.i("info", "CatKeyboard.onLongPress() called");
+			//Log.i("info", "CatKeyboard.onLongPress() called");
 			return super.onLongPress(key);
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.inputmethodservice.KeyboardView.OnKeyboardActionListener#onKey(int, int[])
+	 */
+	public void onKey(int primaryCode, int[] keyCodes) {
+		Log.i("info", "CatKeyboarView.onKey(), primaryCode:" + String.valueOf(primaryCode));
+
+		switch (primaryCode) {
+			case KeyEvent.KEYCODE_GRAVE:
+				if (this.getVisibility() == KeyboardView.VISIBLE) {
+					this.setVisibility(KeyboardView.GONE);
+				}
+				//TODO: Use KeyEvents ^_^
+
+				//		KeyEvent.KEYCODE_DEL	
+				//		KeyEvent.KEYCODE_ENTER
+				//		KeyEvent.KEYCODE_SPACE
+				//		KeyEvent.KEYCODE_GRAVE == done
+				//		KeyEvent.KEYCODE_SHIFT_RIGHT
+				//		KeyEvent.KEYCODE_COMMA				
+
+		}
+
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.i("info", "onKeyDown(), keyCode:" + String.valueOf(keyCode));
+		Log.i("info", "CatKeyboarView.onKeyDown(), keyCode:" + String.valueOf(keyCode));
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				if (this.getVisibility() == KeyboardView.VISIBLE) {
@@ -68,7 +94,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-
+		Log.i("info", "CatKeyboarView.onKeyUp(), keyCode:" + String.valueOf(keyCode));
 		return super.onKeyUp(keyCode, event);
 
 	}
@@ -95,16 +121,6 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	public void swipeUp() {
 		// TODO Auto-generated method stub
 		super.swipeUp();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.inputmethodservice.KeyboardView.OnKeyboardActionListener#onKey(int, int[])
-	 */
-	public void onKey(int primaryCode, int[] keyCodes) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/*

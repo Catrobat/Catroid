@@ -149,6 +149,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.i("info", "FormulaEditorDialog.onKeyDown(), keyCode:" + String.valueOf(keyCode));
 		return textArea.datview.onKeyDown(keyCode, event);
 
 	}
