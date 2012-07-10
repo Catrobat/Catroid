@@ -166,6 +166,14 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	}
 
+	public void selectNewlyAddedOperator() {
+		currentlySelectedElementNumber++;
+		selectionStartIndex = selectionEndIndex + 1;
+		selectionEndIndex += 2;
+		extendSelection(1, 1);
+		highlightSelection();
+	}
+
 	public void extendSelection(int left, int right) {
 		Log.i("info", "extendSelection" + left + " " + right);
 		String currentInput = getText().toString();
@@ -279,6 +287,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		Editable text = getText();
 		text.replace(selectionStartIndex, selectionEndIndex, textOutput);
 		setText(text);
+		selectNewlyAddedOperator();
 	}
 
 	public void setPossibleInput(int type) {
