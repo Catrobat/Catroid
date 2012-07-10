@@ -1,6 +1,7 @@
 package at.tugraz.ist.catroid.io;
 
 import android.content.Context;
+import android.inputmethodservice.KeyboardView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
@@ -25,6 +26,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private static final int INPUT_TYPE_NUMBERS = 1;
 	private static final int INPUT_TYPE_OPERATORS = 2;
 	private static final int INPUT_TYPE_FUNCTIONS = 4;
+	public CatKeyboardView datview;
 	private int currentlySelectedElementNumber = 0;
 	private int selectionStartIndex = 0;
 	private int selectionEndIndex = 0;
@@ -336,6 +338,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void onClick(View v) {
 		Log.i("info", "Click");
+		datview.setEnabled(true);
+		if (datview.getVisibility() == KeyboardView.GONE) {
+			datview.setVisibility(KeyboardView.VISIBLE);
+		}
 		updateSelectionIndices();
 
 	}
