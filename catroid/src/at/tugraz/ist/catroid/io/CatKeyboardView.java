@@ -74,20 +74,6 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	}
 
 	@Override
-	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-		Log.i("info", "onKeyPreIme(), keyCode:" + String.valueOf(keyCode));
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_BACK:
-				if (this.getVisibility() == KeyboardView.VISIBLE) {
-					this.setVisibility(KeyboardView.GONE);
-					return true;
-				}
-			default:
-				return super.onKeyPreIme(keyCode, event);
-		}
-	}
-
-	@Override
 	public void swipeDown() {
 		// TODO Auto-generated method stub
 		super.swipeDown();
