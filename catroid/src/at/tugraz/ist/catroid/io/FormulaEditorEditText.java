@@ -39,6 +39,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private String valueToBeEdited = "";
 	private int allowedAction = 0;
 	private boolean deleteElementOnInsert = false;
+	private Spannable highlightSpan = null;
 
 	//FormulaElement selectedElement;
 
@@ -190,15 +191,18 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void highlightSelection() {
-		Spannable str = this.getText();
+		highlightSpan = this.getText();
 
-		if (previousSelectionEndIndex > str.length()) {
-			previousSelectionEndIndex = str.length();
-		}
-
-		str.setSpan(COLOR_NORMAL, previousSelectionStartIndex, previousSelectionEndIndex,
+		//if (previousSelectionEndIndex > str.length()) {
+		//	previousSelectionEndIndex = str.length();
+		//}
+		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
+		highlightSpan.removeSpan(COLOR_EDITING);
+		//highlightSpan.setSpan(COLOR_NORMAL, 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		//		str.setSpan(COLOR_NORMAL, previousSelectionStartIndex, previousSelectionEndIndex,
+		//				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		highlightSpan.setSpan(COLOR_HIGHLIGHT, selectionStartIndex, selectionEndIndex,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		str.setSpan(COLOR_HIGHLIGHT, selectionStartIndex, selectionEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		previousSelectionStartIndex = selectionStartIndex;
 		previousSelectionEndIndex = selectionEndIndex;
@@ -351,7 +355,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void onClick(View v) {
 		Log.i("info", "FormulaEditorDialogEditText.onClick()");
-		Log.i("info", "Click");
 		if (catKeyboardView.getVisibility() == KeyboardView.GONE) {
 			catKeyboardView.setEnabled(true);
 			catKeyboardView.setVisibility(KeyboardView.VISIBLE);
