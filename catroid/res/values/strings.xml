@@ -322,7 +322,7 @@
     <string name="dialog_formula_editor_title">Formula Editor</string>
     
     <!-- Num Pad Strings -->
-    <string name="ime_name">NumPad</string>
+    <string name="ime_name">CatKeyboard</string>
     <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
     <string name="label_go_key">Go</string>
     <string name="label_next_key">Next</string>
