@@ -24,9 +24,9 @@ import android.text.TextWatcher;
 public class FormulaEditorTextWatcher implements TextWatcher {
 
 	FormulaEditorEditText editText;
+	private boolean ignoreNextChange = false;
 
 	public FormulaEditorTextWatcher(FormulaEditorEditText editText) {
-		// TODO Auto-generated constructor stub
 		this.editText = editText;
 	}
 
@@ -35,12 +35,22 @@ public class FormulaEditorTextWatcher implements TextWatcher {
 	}
 
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		//	editText.deleteSelectionIfNeeded();
 	}
 
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		//Log.i("info", "text: " + s + " " + start + " " + count);
+		if (ignoreNextChange) {
+			//ignoreNextChange = false;
+			return;
+		}
 		String newElement = "" + s.subSequence(start, start + count);
-		editText.replaceSelection(newElement);
+		editText.checkAndModifyKeyInput(newElement);
+		//firstEditToElement = false;
+	}
+
+	public void setIgnoreNextChange(boolean ignore) {
+		ignoreNextChange = ignore;
 	}
 
 }

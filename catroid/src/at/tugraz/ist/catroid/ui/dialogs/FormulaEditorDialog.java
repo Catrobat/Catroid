@@ -46,7 +46,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private Brick currentBrick;
 	private FormulaEditorEditText textArea;
 	private int value;
-	private Formula formula;
 
 	//private View overlay;
 
