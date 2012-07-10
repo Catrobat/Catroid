@@ -50,14 +50,102 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 			getOnKeyboardActionListener().onKey(KEYCODE_OPTIONS, null);
 			return true;
 		} else {
-			Log.i("info", "CatKeyboard.onLongPress() called");
+			//Log.i("info", "CatKeyboard.onLongPress() called");
 			return super.onLongPress(key);
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.inputmethodservice.KeyboardView.OnKeyboardActionListener#onKey(int, int[])
+	 */
+	public void onKey(int primaryCode, int[] keyCodes) {
+		Log.i("info", "CatKeyboarView.onKey(), primaryCode:" + String.valueOf(primaryCode));
+
+		CatKeyEvent cKE = null;
+
+		switch (primaryCode) {
+			case KeyEvent.KEYCODE_GRAVE:
+				if (this.getVisibility() == KeyboardView.VISIBLE) {
+					this.setVisibility(KeyboardView.GONE);
+				}
+				break;
+			case KeyEvent.KEYCODE_0:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_0));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_1:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_1));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_2:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_2));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_3:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_3));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_4:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_4));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_5:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_5));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_6:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_6));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_7:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_7));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_8:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_8));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_9:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_9));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_DEL:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_COMMA:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_COMMA));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_PLUS:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_PLUS));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_MINUS:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MINUS));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_STAR:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_STAR));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_SLASH:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SLASH));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+		//TODO: Use KeyEvents ^_^	
+		//		KeyEvent.KEYCODE_ENTER
+		//		KeyEvent.KEYCODE_SPACE
+		//		KeyEvent.KEYCODE_SHIFT_RIGHT
+		}
+
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.i("info", "onKeyDown(), keyCode:" + String.valueOf(keyCode));
+		Log.i("info", "CatKeyboarView.onKeyDown(), keyCode:" + String.valueOf(keyCode));
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				if (this.getVisibility() == KeyboardView.VISIBLE) {
@@ -73,7 +161,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-
+		Log.i("info", "CatKeyboarView.onKeyUp(), keyCode:" + String.valueOf(keyCode));
 		return super.onKeyUp(keyCode, event);
 
 	}
@@ -100,11 +188,6 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	public void swipeUp() {
 		// TODO Auto-generated method stub
 		super.swipeUp();
-	}
-
-	public void onKey(int primaryCode, int[] keyCodes) {
-		Log.i("info", "onKey: " + primaryCode);
-		editText.checkAndModifyKeyInput((char) primaryCode);
 	}
 
 	public void onPress(int primaryCode) {

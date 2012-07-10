@@ -1,7 +1,6 @@
 package at.tugraz.ist.catroid.io;
 
 import android.content.Context;
-import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.text.Editable;
 import android.text.Spannable;
@@ -219,13 +218,34 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void highlightSelectionCurrentlyEditing() {
 		Spannable str = this.getText();
-		Log.i("info", "Index from: " + selectionStartIndex + " to: " + selectionEndIndex);
-		str.setSpan(COLOR_EDITING, selectionStartIndex, selectionEndIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		str.setSpan(COLOR_EDITING, selectionStartIndex, selectionEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 	//TextWatcher tells us what it has just replaced, we still have to make sure its represented correctly for and in the formula
-	public void checkAndModifyKeyInput(char lol) {
-		String newElement = "" + lol;
+	//	public void checkAndModifyKeyInput(char lol) {
+	//		String newElement = "" + lol;
+	//		Log.i("info", "fooooo" + newElement + "val: " + valueToBeEdited);
+	//		if (formula == null) {
+	//			return;
+	//		}
+	//		boolean newElementIsOperator = Formula.isInputMemberOfAGroup(newElement, Formula.OPERATORS);
+	//
+	//		if (newElementIsOperator
+	//				&& (selectedElement.getType() == FormulaElement.ELEMENT_FIRST_VALUE || selectedElement.getType() == FormulaElement.ELEMENT_SECOND_VALUE)) {
+	//			replaceNumberWithSubElement(newElement);
+	//		} else if (newElementIsOperator && (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
+	//			replaceOperatorByOperator(newElement);
+	//		} else if (lol == Keyboard.KEYCODE_DELETE && (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
+	//			deleteElementAndChildren();
+	//		} else {
+	//			replaceNumberByNumber(newElement);
+	//		}
+	//
+	//	}
+
+	public void checkAndModifyKeyInput(CatKeyEvent lol) {
+		String newElement = "" + lol.getNumber();
 		Log.i("info", "fooooo" + newElement + "val: " + valueToBeEdited);
 		if (formula == null) {
 			return;
@@ -237,7 +257,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			replaceNumberWithSubElement(newElement);
 		} else if (newElementIsOperator && (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
 			replaceOperatorByOperator(newElement);
-		} else if (lol == Keyboard.KEYCODE_DELETE && (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
+		} else if (lol.getKeyCode() == CatKeyEvent.KEYCODE_DEL
+				&& (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
 			deleteElementAndChildren();
 		} else {
 			replaceNumberByNumber(newElement);
@@ -342,6 +363,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	};
 
 	public void onClick(View v) {
+		Log.i("info", "FormulaEditorDialogEditText.onClick()");
 		if (catKeyboardView.getVisibility() == KeyboardView.GONE) {
 			catKeyboardView.setEnabled(true);
 			catKeyboardView.setVisibility(KeyboardView.VISIBLE);
