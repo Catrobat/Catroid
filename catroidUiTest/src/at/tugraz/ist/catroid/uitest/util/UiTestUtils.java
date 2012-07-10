@@ -43,14 +43,10 @@ import junit.framework.Assert;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -540,51 +536,6 @@ public class UiTestUtils {
 		} else {
 			assertFalse("Number too long - should not be resized and fully visible", solo.searchText(value));
 		}
-	}
-
-	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,
-			final float yTo, final int steps) {
-		Handler handler = new Handler(solo.getCurrentActivity().getMainLooper());
-
-		handler.post(new Runnable() {
-
-			public void run() {
-				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
-				solo.getCurrentActivity().dispatchTouchEvent(downEvent);
-			}
-		});
-
-		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
-
-		handler.post(new Runnable() {
-			public void run() {
-
-				for (int i = 0; i <= steps; i++) {
-					float x = xFrom + (((xTo - xFrom) / steps) * i);
-					float y = yFrom + (((yTo - yFrom) / steps) * i);
-					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-							MotionEvent.ACTION_MOVE, x, y, 0);
-					solo.getCurrentActivity().dispatchTouchEvent(moveEvent);
-
-					solo.sleep(20);
-				}
-			}
-		});
-
-		solo.sleep(steps * 20 + 200);
-
-		handler.post(new Runnable() {
-
-			public void run() {
-				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-						MotionEvent.ACTION_UP, xTo, yTo, 0);
-				solo.getCurrentActivity().dispatchTouchEvent(upEvent);
-			}
-		});
-
-		solo.sleep(1000);
-
 	}
 
 	/**
