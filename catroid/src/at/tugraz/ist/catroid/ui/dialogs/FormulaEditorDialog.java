@@ -27,24 +27,33 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.NumPad;
+import at.tugraz.ist.catroid.io.FormulaEditorEditText;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener {
 
 	private final Context context;
 	private Brick currentBrick;
-	private EditText edit;
+	private FormulaEditorEditText textArea;
 	private int value;
 	NumPad numPad;
+	private Formula formula;
+
+	//private View overlay;
+
+	//	private int selectionStartIndex = 0;
+	//	private int selectionEndIndex = 0;
 
 	//	EditorInfo ei;
 
@@ -61,12 +70,28 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	}
 
 	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		//for function keys
+		Log.i("info", "Key: " + event.getKeyCode());
+
+		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+
+		}
+		super.dispatchKeyEvent(event);
+		return false;
+
+	};
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_formula_editor);
 		LinearLayout brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
 		brickSpace.addView(currentBrick.getView(context, 0, null));
+
+		//		overlay = findViewById(R.id.formula_editor_edit_field_overlay);
+		//		overlay.setOnClickListener(this);
 
 		setTitle(R.string.dialog_formula_editor_title);
 		setCanceledOnTouchOutside(true);
@@ -80,17 +105,11 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		okButton = (ImageButton) findViewById(R.id.formula_editor_ok_button);
 		okButton.setOnClickListener(this);
 
-		edit = (EditText) findViewById(R.id.formula_editor_edit_text);
-		edit.setOnClickListener(this);
+		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
+		//TODO save in in the brick
+		Formula data = new Formula("0");
+		textArea.setFormula(data);
 
-		/*
-		 * For the rare people amongst us writing their own text editors, you will need to implement
-		 * onCreateInputConnection(EditorInfo)
-		 * to return a new instance of your own InputConnection interface allowing the IME to interact with your editor.
-		 * http://developer.android.com/reference/android/view/inputmethod/InputMethodManager.html
-		 */
-		//getWindow().set
-		//WindowManager.LayoutParams.
 		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		//		numPad = new NumPad();
@@ -98,6 +117,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		//		ims = new InputMethodService();
 		//		ims.switchInputMethod("NumPad");
 		//		IBinder token = numPad.getCurrentInputBinding().getConnectionToken();
+		//List<InputMethodInfo> a = imm.getInputMethodList();
 		imm.showInputMethodPicker();
 
 		//		List<InputMethodInfo> inputMethodInfo = imm.getInputMethodList();
@@ -114,11 +134,12 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		//this.show();
 
 		//imm.setInputMethod(token, id);
+		//		Binder binder = new Binder();
+		//		imm.setInputMethod(binder, "at.tugraz.ist.catroid/.io.NumPad");
 
 	}
 
 	public void setInputFocusAndText(String text) {
-		edit.setText(text);
 
 	}
 
@@ -151,9 +172,4 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		this.dismiss();
 	}
 
-	//	public void onShow(DialogInterface dialog) {
-	//		final EditText input = new EditText(context);
-	//		InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-	//		inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-	//	}
 }

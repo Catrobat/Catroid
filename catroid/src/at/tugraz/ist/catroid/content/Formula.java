@@ -23,30 +23,59 @@
 package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
-import java.util.List;
+
+import android.util.Log;
 
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final int ROOT_ELEMENT = 0;
 	private FormulaElement root;
-	private int numberOfElements = 0;
 
 	public Formula() {
-		root = new FormulaElement(0, FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root");
+		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root", null);
 	}
 
-	public void addChild(int type, String name, int parentId) {
-		numberOfElements++;
-		FormulaElement parentItem = findItem(parentId);
-		parentItem.addChild(new FormulaElement(numberOfElements, type, name));
+	public Formula(String value) {
+		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root", null);
+		root.replaceWithChildren(null, value, null, null, root);
 	}
 
-	public FormulaElement findItem(int parentID) {
-		return root.getItemWithId(parentID);
+	public void addChildByTextPosition(int position, String functionName, String value1, String operator, String value2) {
+		FormulaElement parentItem = findItemByPosition(position);
+		parentItem.replaceWithChildren(functionName, value1, operator, value2, parentItem);
 	}
 
-	public List<FormulaElement> getAllChildren(int parentID) {
-		return root.getAllChildren(parentID);
+	public FormulaElement findItemByPosition(int position) {
+		if (position == 0) {
+			return root;
+		}
+		MutableInteger searchPosition = new MutableInteger(position - 1);
+		return root.getItemByPosition(searchPosition);
+	}
+
+	//	public FormulaElement getParentOfItemByPosition(int position) {
+	//		Log.i("info", "F: Find parent by pos " + position);
+	//		MutableInteger searchPosition = new MutableInteger(position);
+	//		return root.getParentByPosition(searchPosition);
+	//	}
+
+	public String addToFormula(String keyboardInput, int itemPosition) {
+
+		FormulaElement parent = findItemByPosition(itemPosition);
+		String textOutput = "";
+		if (keyboardInput.equals("+")) {
+			parent.replaceWithChildren(null, "0", "+", "0", parent);
+			textOutput = "0 + 0";
+		}
+
+		return textOutput;
+	}
+
+	public int interpret() {
+
+		Log.i("info", root.getTreeString());
+		return root.interpretRecursive();
 	}
 
 }
