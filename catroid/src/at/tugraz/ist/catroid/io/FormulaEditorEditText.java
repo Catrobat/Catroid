@@ -1,6 +1,7 @@
 package at.tugraz.ist.catroid.io;
 
 import android.content.Context;
+import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.text.Editable;
 import android.text.Spannable;
@@ -19,16 +20,26 @@ import at.tugraz.ist.catroid.content.FormulaElement;
 
 public class FormulaEditorEditText extends EditText implements OnClickListener, OnTouchListener {
 
+	private static final BackgroundColorSpan COLOR_EDITING = new BackgroundColorSpan(0xFF00FFFF);
+	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
+	private static final BackgroundColorSpan COLOR_NORMAL = new BackgroundColorSpan(0xFFFFFFFF);
 	private static final String ELEMENT_SEPERATOR = " ";
-	public CatKeyboardView datview;
+	private static final int INPUT_TYPE_NUMBERS = 1;
+	private static final int INPUT_TYPE_OPERATORS = 2;
+	private static final int INPUT_TYPE_FUNCTIONS = 4;
+	public CatKeyboardView catKeyboardView;
 	private int currentlySelectedElementNumber = 0;
 	private int selectionStartIndex = 0;
 	private int selectionEndIndex = 0;
 	private int previousSelectionStartIndex = 0;
 	private int previousSelectionEndIndex = 0;
-	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
-	private static final BackgroundColorSpan COLOR_NORMAL = new BackgroundColorSpan(0xFFFFFFFF);
-	private Formula formula;
+	private int operatorSelectionIndex = 0;
+	private Formula formula = null;
+	private FormulaElement selectedElement = null;
+	private boolean editMode = false;
+	private String valueToBeEdited = "";
+	private int allowedAction = 0;
+	private boolean deleteElementOnInsert = false;
 
 	//FormulaElement selectedElement;
 
@@ -54,7 +65,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
 		this.setBackgroundResource(0);
-		this.addTextChangedListener(new FormulaEditorTextWatcher(this));
 		this.setCursorVisible(false);
 
 		this.setText("0");
@@ -69,7 +79,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public synchronized void updateSelectionIndices() {
 
 		//TODO: Interpreter Test
-		Log.i("info", "Formula Interpretation: " + formula.interpret());
+		//Log.i("info", "Formula Interpretation: " + formula.interpret());
+		Log.i("info", "updateSelection");
 
 		String currentInput = this.getText().toString();
 		int cursorPos = this.getSelectionStart();
@@ -103,19 +114,30 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		//Log.i("info", "start index: " + selectionStartIndex);
 		//Log.i("info", "end index: " + selectionEndIndex);
 		Log.i("info", "Selected element: " + currentlySelectedElementNumber);
+		operatorSelectionIndex = selectionStartIndex;
 		checkSelectedTextType();
-		this.setSelection();
+		this.highlightSelection();
 
 	}
 
 	//What have we actually selected in the Formula? We might need to add items belonging to the FormulaElement
 	private void checkSelectedTextType() {
-		FormulaElement selectedElement = formula.findItemByPosition(currentlySelectedElementNumber);
+
+		if (editMode == true) {
+			selectedElement.replaceValue(valueToBeEdited);
+			editMode = false;
+			valueToBeEdited = "";
+		}
+
+		selectedElement = formula.findItemByPosition(currentlySelectedElementNumber);
 		Log.i("info", "FEEditText: check selected Type ");
 		FormulaElement parentElement = null;
 		switch (selectedElement.getType()) {
+		//TODO: once keyboard is implemented, set the keys that should be available for our rules
 			case FormulaElement.ELEMENT_FIRST_VALUE:
 			case FormulaElement.ELEMENT_SECOND_VALUE:
+				editMode = true;
+				deleteElementOnInsert = true;
 				break;
 			case FormulaElement.ELEMENT_FUNCTION:
 				break;
@@ -168,8 +190,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	}
 
-	public void setSelection() {
+	public void highlightSelection() {
 		Spannable str = this.getText();
+
+		if (previousSelectionEndIndex > str.length()) {
+			previousSelectionEndIndex = str.length();
+		}
 
 		str.setSpan(COLOR_NORMAL, previousSelectionStartIndex, previousSelectionEndIndex,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -179,28 +205,93 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		previousSelectionEndIndex = selectionEndIndex;
 	}
 
-	public void replaceSelection(String newElement) {
+	public void highlightSelectionCurrentlyEditing() {
+		Spannable str = this.getText();
 
-		//Log.i("info", newElement);
+		str.setSpan(COLOR_EDITING, selectionStartIndex, selectionEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	}
+
+	//TextWatcher tells us what it has just replaced, we still have to make sure its represented correctly for and in the formula
+	public void checkAndModifyKeyInput(char lol) {
+		String newElement = "" + lol;
+		Log.i("info", "fooooo" + newElement + "val: " + valueToBeEdited);
 		if (formula == null) {
 			return;
 		}
+		boolean newElementIsOperator = Formula.isInputMemberOfAGroup(newElement, Formula.OPERATORS);
 
-		//FormulaElement parent = formula.findItemByPosition(currentlySelectedElementNumber);
-		String textOutput = formula.addToFormula(newElement, currentlySelectedElementNumber);
-		if (textOutput == "") {
-			return;
+		if (newElementIsOperator
+				&& (selectedElement.getType() == FormulaElement.ELEMENT_FIRST_VALUE || selectedElement.getType() == FormulaElement.ELEMENT_SECOND_VALUE)) {
+			replaceNumberWithSubElement(newElement);
+		} else if (newElementIsOperator && (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
+			replaceOperatorByOperator(newElement);
+		} else if (lol == Keyboard.KEYCODE_DELETE && (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
+			deleteElementAndChildren();
+		} else {
+			replaceNumberByNumber(newElement);
+		}
+
+	}
+
+	public void deleteElementAndChildren() {
+		Log.i("info", "delete tree!");
+	}
+
+	public void replaceNumberByNumber(String newElement) {
+		Log.i("info", "replace num by num");
+
+		if (valueToBeEdited == "") {
+			Editable text = getText();
+			text.replace(selectionStartIndex, selectionEndIndex, "");
+			setText(text);
+			selectionEndIndex = selectionStartIndex;
 		}
 
 		Editable text = getText();
-		Log.i("info", selectionStartIndex + " " + selectionStartIndex + "Text: " + text);
-
-		//text.delete(selectionStartIndex, selectionEndIndex + 1);
-		//text.insert(selectionStartIndex, textOutput);
-		text.replace(selectionStartIndex, selectionEndIndex + 1, textOutput);
+		text.insert(selectionEndIndex, newElement);
 		setText(text);
+		valueToBeEdited += newElement;
+		highlightSelectionCurrentlyEditing();
+		selectionEndIndex++;
 
 	}
+
+	public void replaceOperatorByOperator(String newElement) {
+		Log.i("info", "replace op by op");
+
+		Editable text = getText();
+		valueToBeEdited = newElement;
+
+		text.replace(operatorSelectionIndex, operatorSelectionIndex + 1, newElement);
+		setText(text);
+	}
+
+	public void replaceNumberWithSubElement(String newElement) {
+		Log.i("info", "replace num by sub el");
+		String textOutput = formula.addToFormula(newElement, selectedElement);
+		if (textOutput == "") {
+			return;
+		}
+		Editable text = getText();
+		text.replace(selectionStartIndex, selectionEndIndex, textOutput);
+		setText(text);
+	}
+
+	public void setPossibleInput(int type) {
+		//TODO: ensure only the inputtype specified in type is displayed on keyboard
+		//	if ((type & INPUT_TYPE_NUMBERS) > 0) ...we allow input of values etc. 
+	}
+
+	//	public void deleteSelectionIfNeeded() {
+	//		if (deleteElementOnInsert && editMode == true && valueToBeEdited == "") {
+	//			deleteElementOnInsert = false;
+	//			Editable text = getText();
+	//			Log.i("info", "replace: " + selectionStartIndex + " to " + selectionEndIndex);
+	//			text.replace(selectionStartIndex, selectionEndIndex, "");
+	//			selectionEndIndex = selectionStartIndex;
+	//			setText(text);
+	//		}
+	//	}
 
 	public void setFormula(Formula formula) {
 		this.formula = formula;
@@ -208,6 +299,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public Formula getFormula() {
 		return formula;
+	}
+
+	public boolean getEditMode() {
+		return editMode;
 	}
 
 	@Override
@@ -235,9 +330,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void onClick(View v) {
 		Log.i("info", "FormulaEditorDialogEditText.onClick()");
-		if (datview.getVisibility() == KeyboardView.GONE) {
-			datview.setEnabled(true);
-			datview.setVisibility(KeyboardView.VISIBLE);
+		Log.i("info", "Click");
+		if (catKeyboardView.getVisibility() == KeyboardView.GONE) {
+			catKeyboardView.setEnabled(true);
+			catKeyboardView.setVisibility(KeyboardView.VISIBLE);
 		}
 		updateSelectionIndices();
 
@@ -245,9 +341,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public boolean onTouch(View v, MotionEvent motion) {
 		if (motion.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-			updateSelectionIndices();
+			//updateSelectionIndices();
 		} else if (motion.getAction() == android.view.MotionEvent.ACTION_UP) {
-			updateSelectionIndices();
+			//Log.i("info", "Act up");
+			//updateSelectionIndices();
 		}
 		gestureDetector.onTouchEvent(motion);
 		return false;

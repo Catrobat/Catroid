@@ -106,13 +106,15 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		textArea.setFormula(data);
 		textArea.setInputType(0);// turn off default input method
 
-		//		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		//		imm.showInputMethodPicker();
+		CatKeyboard catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
+		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
+		catKeyboardView.setKeyboard(catKeyboard);
+		catKeyboardView.setEditText(textArea);
+		textArea.catKeyboardView = catKeyboardView;
 
-		catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
-
-		textArea.datview = (CatKeyboardView) findViewById(R.id.keyboardcat);
-		textArea.datview.setKeyboard(catKeyboard);
+		//catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
+		//		textArea.catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
+		//		textArea.catKeyboardView.setKeyboard(catKeyboard);
 
 	}
 
@@ -150,7 +152,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Log.i("info", "FormulaEditorDialog.onKeyDown(), keyCode:" + String.valueOf(keyCode));
-		return textArea.datview.onKeyDown(keyCode, event);
+		return textArea.catKeyboardView.onKeyDown(keyCode, event);
 
 	}
 

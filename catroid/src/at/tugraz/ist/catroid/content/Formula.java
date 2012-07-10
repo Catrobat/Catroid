@@ -31,6 +31,9 @@ public class Formula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final int ROOT_ELEMENT = 0;
 	private FormulaElement root;
+	public static final String[] NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ",", "." };
+	public static final String[] OPERATORS = new String[] { "+", "-", "*", "/", "^", "," };
+	public static final String[] FUNCTIONS = new String[] { "rand" };
 
 	public Formula() {
 		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root", null);
@@ -60,9 +63,9 @@ public class Formula implements Serializable {
 	//		return root.getParentByPosition(searchPosition);
 	//	}
 
-	public String addToFormula(String keyboardInput, int itemPosition) {
+	//TODO: replace itemPosition by item-reference
+	public String addToFormula(String keyboardInput, FormulaElement parent) {
 
-		FormulaElement parent = findItemByPosition(itemPosition);
 		String textOutput = "";
 		if (keyboardInput.equals("+")) {
 			parent.replaceWithChildren(null, "0", "+", "0", parent);
@@ -76,6 +79,19 @@ public class Formula implements Serializable {
 
 		Log.i("info", root.getTreeString());
 		return root.interpretRecursive();
+	}
+
+	public static boolean isInputMemberOfAGroup(String input, final String[] group) {
+
+		boolean isMember = false;
+
+		for (String item : group) {
+			if (item.equals(input)) {
+				isMember = true;
+			}
+		}
+		return isMember;
+
 	}
 
 }
