@@ -30,6 +30,7 @@ package at.tugraz.ist.catroid.ui.dragndrop;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -248,7 +249,21 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		ImageView imageView = new ImageView(getContext());
 		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
-		imageView.setImageBitmap(bitmap);
+
+		Bitmap glowingBitmap = Bitmap.createBitmap(bitmap.getWidth() + 30, bitmap.getHeight() + 30,
+				Bitmap.Config.ARGB_8888);
+		Canvas glowingCanvas = new Canvas(glowingBitmap);
+		Bitmap alpha = bitmap.extractAlpha();
+		Paint paintBlur = new Paint();
+		paintBlur.setColor(Color.WHITE);
+		glowingCanvas.drawBitmap(alpha, 15, 15, paintBlur);
+		BlurMaskFilter blurMaskFilter = new BlurMaskFilter(15.0f, BlurMaskFilter.Blur.OUTER);
+		paintBlur.setMaskFilter(blurMaskFilter);
+		glowingCanvas.drawBitmap(alpha, 15, 15, paintBlur);
+		paintBlur.setMaskFilter(null);
+		glowingCanvas.drawBitmap(bitmap, 15, 15, paintBlur);
+
+		imageView.setImageBitmap(glowingBitmap);
 
 		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
 		dragViewParameters.y = y - bitmap.getHeight() / 2;
