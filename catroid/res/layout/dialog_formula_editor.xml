@@ -40,7 +40,7 @@
 	    android:paddingLeft="16dp"
 	    android:paddingRight="16dp" >
     
-    <at.tugraz.ist.catroid.io.FormulaEditorEditText
+   <at.tugraz.ist.catroid.io.FormulaEditorEditText
         android:id="@+id/formula_editor_edit_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

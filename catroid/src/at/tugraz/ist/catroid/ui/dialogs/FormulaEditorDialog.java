@@ -106,11 +106,15 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		textArea.setFormula(data);
 		textArea.setInputType(0);// turn off default input method
 
+		CatKeyboard catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
+		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
+		catKeyboardView.setKeyboard(catKeyboard);
+		catKeyboardView.setEditText(textArea);
+		textArea.catKeyboardView = catKeyboardView;
 
-		catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
-
-		textArea.catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
-		textArea.catKeyboardView.setKeyboard(catKeyboard);
+		//catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
+		//		textArea.catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
+		//		textArea.catKeyboardView.setKeyboard(catKeyboard);
 
 	}
 

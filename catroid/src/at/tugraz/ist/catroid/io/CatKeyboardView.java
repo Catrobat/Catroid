@@ -104,10 +104,11 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 
 	public void onKey(int primaryCode, int[] keyCodes) {
 		Log.i("info", "onKey: " + primaryCode);
+		editText.checkAndModifyKeyInput((char) primaryCode);
 	}
 
 	public void onPress(int primaryCode) {
-		Log.i("info", "onPress: " + primaryCode);
+		//Log.i("info", "onPress: " + primaryCode);
 
 	}
 
