@@ -27,6 +27,7 @@ import android.view.KeyEvent;
 public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyboardActionListener {
 
 	static final int KEYCODE_OPTIONS = -100;
+	FormulaEditorEditText editText = null;
 
 	public CatKeyboardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -38,6 +39,10 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	//    public CatKeyboardView(Context context, AttributeSet attrs, int defStyle) {
 	//        super(context, attrs, defStyle);
 	//    }
+
+	public void setEditText(FormulaEditorEditText editText) {
+		this.editText = editText;
+	}
 
 	@Override
 	protected boolean onLongPress(Key key) {
@@ -111,41 +116,20 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 		super.swipeUp();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.inputmethodservice.KeyboardView.OnKeyboardActionListener#onKey(int, int[])
-	 */
 	public void onKey(int primaryCode, int[] keyCodes) {
-		// TODO Auto-generated method stub
-
+		Log.i("info", "onKey: " + primaryCode);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.inputmethodservice.KeyboardView.OnKeyboardActionListener#onPress(int)
-	 */
 	public void onPress(int primaryCode) {
-		// TODO Auto-generated method stub
+		Log.i("info", "onPress: " + primaryCode);
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.inputmethodservice.KeyboardView.OnKeyboardActionListener#onRelease(int)
-	 */
 	public void onRelease(int primaryCode) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.inputmethodservice.KeyboardView.OnKeyboardActionListener#onText(java.lang.CharSequence)
-	 */
 	public void onText(CharSequence text) {
 		// TODO Auto-generated method stub
 

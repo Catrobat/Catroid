@@ -31,14 +31,12 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.io.FormulaEditorEditText;
 import at.tugraz.ist.catroid.io.CatKeyboard;
 import at.tugraz.ist.catroid.io.CatKeyboardView;
 import at.tugraz.ist.catroid.io.FormulaEditorEditText;
@@ -117,42 +115,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		textArea.setFormula(data);
 		textArea.setInputType(0);
 
-		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-		//		numPad = new NumPad();
-		//		numPad.switchInputMethod("NumPad");
-		//		ims = new InputMethodService();
-		//		ims.switchInputMethod("NumPad");
-		//		IBinder token = numPad.getCurrentInputBinding().getConnectionToken();
-		//List<InputMethodInfo> a = imm.getInputMethodList();
-		imm.showInputMethodPicker();
-
-		//		List<InputMethodInfo> inputMethodInfo = imm.getInputMethodList();
-		//
-		//		Binder binder = new Binder();
-		//
-		//		imm.setInputMethod(token, "NumPad");
-
-		//						for(int i =0; i < inputMethodInfo.size(); i++){
-		//							inputMethodInfo.get(i)
-		//						}
-
-		//imm.setInputMethod(, id)
-		//this.show();
-
-		//imm.setInputMethod(token, id);
-		//		Binder binder = new Binder();
-		//		imm.setInputMethod(binder, "at.tugraz.ist.catroid/.io.NumPad");
-
-		//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-		//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		//        imm.hideSoftInputFromInputMethod(editTextField.getWindowToken(), 0);
-
 		dat = new CatKeyboard(this.getContext(), R.xml.symbols);
 
-		//        LatinKeyboardView datview = (LatinKeyboardView) findViewById(R.layout.input);
-		//        LatinKeyboardView datview = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
 		textArea.datview = (CatKeyboardView) findViewById(R.id.keyboardcat);
 		textArea.datview.setKeyboard(dat);
 

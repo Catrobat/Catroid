@@ -38,7 +38,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private String valueToBeEdited = "";
 	private int allowedAction = 0;
 	private boolean deleteElementOnInsert = false;
-	private FormulaEditorTextWatcher watcher = null;
 
 	//FormulaElement selectedElement;
 
@@ -64,8 +63,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
 		this.setBackgroundResource(0);
-		watcher = new FormulaEditorTextWatcher(this);
-		this.addTextChangedListener(watcher);
 		this.setCursorVisible(false);
 
 		this.setText("0");
@@ -265,11 +262,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public void replaceOperatorByOperator(String newElement) {
 		Log.i("info", "replace op by op");
 		Editable text = getText();
-		watcher.setIgnoreNextChange(true);
 		valueToBeEdited = newElement;
 		text.replace(selectionStartIndex, selectionEndIndex + 1, newElement);
 		setText(text);
-		watcher.setIgnoreNextChange(false);
 	}
 
 	public void replaceNumberWithSubElement(String newElement) {
@@ -278,11 +273,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		if (textOutput == "") {
 			return;
 		}
-		watcher.setIgnoreNextChange(true);
 		Editable text = getText();
 		text.replace(selectionStartIndex, selectionEndIndex + 1, textOutput);
 		setText(text);
-		watcher.setIgnoreNextChange(false);
 	}
 
 	public void setPossibleInput(int type) {
