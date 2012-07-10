@@ -22,8 +22,6 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import java.util.List;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,7 +29,6 @@ import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,6 +36,7 @@ import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.io.NumPad;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener {
 
@@ -46,6 +44,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private Brick currentBrick;
 	private EditText edit;
 	private int value;
+	NumPad numPad;
 
 	//	EditorInfo ei;
 
@@ -55,6 +54,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		currentBrick = brick;
 		this.context = context;
 		this.value = 33;
+
 		//		this.ei = new EditorInfo();
 		//		ei.fieldName += "FormulaEditorInfo";
 
@@ -93,14 +93,22 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		//WindowManager.LayoutParams.
 		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
+		//		numPad = new NumPad();
+		//		numPad.switchInputMethod("NumPad");
+		//		ims = new InputMethodService();
+		//		ims.switchInputMethod("NumPad");
+		//		IBinder token = numPad.getCurrentInputBinding().getConnectionToken();
 		imm.showInputMethodPicker();
-		List<InputMethodInfo> inputMethodInfo = imm.getInputMethodList();
 
-		//		imm.setInputMethod(, "NumPad");
+		//		List<InputMethodInfo> inputMethodInfo = imm.getInputMethodList();
+		//
+		//		Binder binder = new Binder();
+		//
+		//		imm.setInputMethod(token, "NumPad");
 
-		//		for(int i =0; i < inputMethodInfo.size(); i++){
-		//			inputMethodInfo.get(i).s
-		//		}
+		//						for(int i =0; i < inputMethodInfo.size(); i++){
+		//							inputMethodInfo.get(i)
+		//						}
 
 		//imm.setInputMethod(, id)
 		//this.show();
