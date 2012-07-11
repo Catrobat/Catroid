@@ -211,6 +211,8 @@ public class FormulaElement implements Serializable {
 				int firstElementResult = firstElement.interpretRecursive();
 				int secondElementResult = secondElement.interpretRecursive();
 
+				Log.e("info", operator.value);
+
 				if (operator.value.equals("+")) {
 					return firstElementResult + secondElementResult;
 				}
@@ -290,7 +292,9 @@ public class FormulaElement implements Serializable {
 	 *            second value, usually a number, can be null
 	 */
 	public void replaceWithChildren(String functionName, String value1, String operator, String value2) {
-		this.value = null;
+		if (getParent() != null) {
+			this.value = null;
+		}
 		if (this.type == ELEMENT_FIRST_VALUE) {
 			this.type = ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN;
 		} else if (this.type == ELEMENT_SECOND_VALUE) {

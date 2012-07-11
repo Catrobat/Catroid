@@ -30,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
@@ -37,6 +38,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double size;
+	private Formula sizeFormula;
 	public transient boolean editorActive = false;
 	private transient ChangeSizeByNBrick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
@@ -70,8 +72,9 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
-		edit.setText(String.valueOf(size));
+		//edit.setText(String.valueOf(size));
 
+		edit.setText("...");
 		edit.setOnClickListener(this);
 
 		return view;
@@ -94,7 +97,11 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 			return;
 		}
 
-		formulaEditor.setInputFocusAndText(String.valueOf(size));
+		if (sizeFormula == null) {
+			sizeFormula = new Formula(Double.toString(size));
+		}
+
+		formulaEditor.setInputFocusAndFormula(sizeFormula);
 
 		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		//		final EditText input = new EditText(context);
@@ -134,8 +141,9 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 			formulaEditor.setOnDismissListener(new OnDismissListener() {
 				public void onDismiss(DialogInterface editor) {
 
-					size = formulaEditor.getReturnValue();
+					//size = formulaEditor.getReturnValue();
 					formulaEditor.dismiss();
+
 					editorActive = false;
 				}
 			});

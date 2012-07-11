@@ -30,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
@@ -40,6 +41,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	public transient boolean editorActive = false;
 	private transient SetSizeToBrick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
+	private Formula sizeFormula;
 
 	private transient View view;
 
@@ -91,7 +93,12 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 			return;
 		}
 
-		formulaEditor.setInputFocusAndText(String.valueOf(size));
+		if (sizeFormula == null) {
+			sizeFormula = new Formula(Double.toString(size));
+		}
+
+		formulaEditor.setInputFocusAndFormula(sizeFormula);
+
 		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		//		final EditText input = new EditText(context);
 		//		input.setText(String.valueOf(size));

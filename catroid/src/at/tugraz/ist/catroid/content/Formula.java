@@ -44,10 +44,10 @@ public class Formula implements Serializable {
 		root.replaceWithChildren(null, value, null, null);
 	}
 
-	public void addChildByTextPosition(int position, String functionName, String value1, String operator, String value2) {
-		FormulaElement parentItem = findItemByPosition(position);
-		parentItem.replaceWithChildren(functionName, value1, operator, value2);
-	}
+	//	public void addChildByTextPosition(int position, String functionName, String value1, String operator, String value2) {
+	//		FormulaElement parentItem = findItemByPosition(position);
+	//		parentItem.replaceWithChildren(functionName, value1, operator, value2);
+	//	}
 
 	public FormulaElement findItemByPosition(int position) {
 		if (position == 0) {
@@ -74,8 +74,11 @@ public class Formula implements Serializable {
 	public int interpret() {
 
 		Log.i("info", root.getTreeString());
-		return 0;
-		//return root.interpretRecursive();
+		return root.interpretRecursive();
+	}
+
+	public String stringRepresentation() {
+		return root.getTreeString();
 	}
 
 	public static boolean isInputMemberOfAGroup(String input, final String[] group) {
