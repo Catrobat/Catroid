@@ -63,8 +63,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setOnTouchListener(this);
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
-		this.setBackgroundResource(0);
-		this.setCursorVisible(false);
+		//this.setBackgroundResource(0);
+		//this.setCursorVisible(false);
+		//this.setLines(5);
 
 		this.setText("0");
 	}
@@ -338,12 +339,15 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void specialKeyPressOnOperator(CatKeyEvent catKey) {
 		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-			deleteElementHierarchy();
+			replaceElementHierarchyByNumber("0");
 		}
 	}
 
-	public void deleteElementHierarchy() {
-		Log.i("info", "delete tree!");
+	private void appendToTextFieldAtCurrentPosition(String newElement) {
+		Editable text = getText();
+		text.insert(selectionEndIndex, newElement);
+		setText(text);
+		selectionEndIndex++;
 	}
 
 	public void replaceElementHierarchyByNumber(String newElement) {
@@ -358,10 +362,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			editMode = false;
 		} else {
 			currentlySelectedFormulaElement.addToValue(newElement);
-			Editable text = getText();
-			text.insert(selectionEndIndex, newElement);
-			setText(text);
-			selectionEndIndex++;
+			appendToTextFieldAtCurrentPosition(newElement);
 		}
 
 		highlightSelectionCurrentlyEditing();
@@ -379,10 +380,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			editMode = false;
 		} else {
 			currentlySelectedFormulaElement.addToValue(newElement);
-			Editable text = getText();
-			text.insert(selectionEndIndex, newElement);
-			setText(text);
-			selectionEndIndex++;
+			appendToTextFieldAtCurrentPosition(newElement);
 		}
 
 		highlightSelectionCurrentlyEditing();

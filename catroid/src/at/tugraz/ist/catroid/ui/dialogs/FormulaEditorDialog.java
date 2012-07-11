@@ -56,8 +56,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private CatKeyboardView catKeyboardView;
 	private CatKeyboard catKeyboard;
 	private ViewFlipper flipView;
-	private LinearLayout catView;
-	private LinearLayout datView;
+	private LinearLayout brickSpace;
+	private LinearLayout formulaSpace;
 	private int i = 0;
 
 	//private View overlay;
@@ -92,16 +92,14 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		setContentView(R.layout.dialog_formula_editor);
 
 		flipView = (ViewFlipper) findViewById(R.id.catflip);
-		catView = (LinearLayout) findViewById(R.id.catview);
-		datView = (LinearLayout) findViewById(R.id.datview);
-		catView.addView(currentBrick.getView(context, 0, null));
-
-		//datView.removeAllViews();
+		brickSpace = (LinearLayout) findViewById(R.id.catview);
+		formulaSpace = (LinearLayout) findViewById(R.id.datview);
+		brickSpace.addView(currentBrick.getView(context, 0, null));
 
 		flipView.setDisplayedChild(1);
-		Animation slideOut = AnimationUtils.loadAnimation(context, R.anim.slide_out);
+		Animation slideOut = AnimationUtils.loadAnimation(context, R.anim.slide_in);
 		flipView.setOutAnimation(slideOut);
-		Animation slideIn = AnimationUtils.loadAnimation(context, R.anim.slide_in);
+		Animation slideIn = AnimationUtils.loadAnimation(context, R.anim.slide_out);
 		flipView.setInAnimation(slideIn);
 
 		//LinearLayout brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
@@ -141,8 +139,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	public void updateGraphicRepresentation(FormulaRepresentation formula) {
 
 		View v = formula.getView(context, this);
-		datView.removeAllViews();
-		datView.addView(v);
+		formulaSpace.removeAllViews();
+		formulaSpace.addView(v);
 		flipView.setDisplayedChild(0);
 
 	}
