@@ -48,7 +48,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"/>
     </ViewFlipper>
-	
+	
     <at.tugraz.ist.catroid.io.FormulaEditorEditText
         android:id="@+id/formula_editor_edit_field"
         android:layout_width="match_parent"
@@ -61,6 +61,7 @@
         android:lines="8"
         android:scrollbars="vertical"
         android:singleLine="false"
+        android:hint="@string/formula_nothing_selected"
         android:textSize="@dimen/text_size_large" />
       
     <at.tugraz.ist.catroid.io.CatKeyboardView

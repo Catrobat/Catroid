@@ -39,7 +39,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.bricks.Brick;
@@ -54,18 +53,11 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private Brick currentBrick;
 	private FormulaEditorEditText textArea;
 	private int value;
-	private Formula formula;
 
 	private CatKeyboardView catKeyboardView;
-	private CatKeyboard catKeyboard;
 	private ViewFlipper flipView;
 	private LinearLayout brickSpace;
 	private LinearLayout formulaSpace;
-	private int i = 0;
-
-	//private View overlay;
-	//	private int selectionStartIndex = 0;
-	//	private int selectionEndIndex = 0;
 
 	public FormulaEditorDialog(Context context, Brick brick) {
 
@@ -127,8 +119,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
 		//TODO save in in the brick
-		Formula data = new Formula("0");
-		textArea.setFormula(data);
+		//Formula data = new Formula("0");
+		//textArea.setFormula(data);
 		//textArea.setInputType(0);// turn off default input method
 		textArea.setFormulaEditorDialog(this);
 
@@ -163,8 +155,9 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 	}
 
-	public void setInputFocusAndText(String text) {
-
+	public Formula setInputFocusAndFormula(Formula formula) {
+		Formula oldFormula = textArea.setFormula(formula);
+		return oldFormula;
 	}
 
 	public int getReturnValue() {
@@ -172,8 +165,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	}
 
 	public void onClick(View v) {
-
-		ProjectManager projectManager = ProjectManager.getInstance();
 
 		switch (v.getId()) {
 			case R.id.formula_editor_ok_button:

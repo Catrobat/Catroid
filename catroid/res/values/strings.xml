@@ -326,6 +326,7 @@
      <string name="formula_element_calculate">Calculate:</string>
      <string name="operator_plus">+</string>
      <string name="formula_element_number">Value: </string>
+     <string name="formula_nothing_selected">Please select a brick element to display! </string>
     
     <!-- Num Pad Strings -->
     <string name="ime_name">CatKeyboard</string>

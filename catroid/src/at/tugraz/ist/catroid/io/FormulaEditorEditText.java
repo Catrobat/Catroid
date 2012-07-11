@@ -64,12 +64,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setOnTouchListener(this);
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
+		this.setEnabled(false);
 		this.setBackgroundColor(getResources().getColor(R.color.transparent));
 		//this.setBackgroundResource(0);
 		//this.setCursorVisible(false);
 		//this.setLines(5);
-
-		this.setText("0");
 	}
 
 	public void setFormulaEditorDialog(FormulaEditorDialog dialog) {
@@ -437,8 +436,13 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	//		}
 	//	}
 
-	public void setFormula(Formula formula) {
+	public Formula setFormula(Formula formula) {
+		Formula old = this.formula;
 		this.formula = formula;
+		this.setEnabled(true);
+		this.setText("0");
+		updateSelectionIndices();
+		return old;
 	}
 
 	public Formula getFormula() {
