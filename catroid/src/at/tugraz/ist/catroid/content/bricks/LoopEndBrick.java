@@ -42,6 +42,7 @@ public class LoopEndBrick implements Brick {
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
 		this.loopBeginBrick = loopStartingBrick;
+		loopStartingBrick.setLoopEndBrick(this);
 	}
 
 	public int getRequiredResources() {
