@@ -337,6 +337,20 @@ public class FormulaElement implements Serializable {
 		return this;
 	}
 
+	public String getFirstChildValue() {
+		String result = null;
+		if (this.type == ELEMENT_FIRST_VALUE || this.type == ELEMENT_SECOND_VALUE) {
+			result = this.value;
+		} else {
+			for (FormulaElement item : children) {
+				if (item != null && result == null) {
+					result = item.getFirstChildValue();
+				}
+			}
+		}
+		return result;
+	}
+
 	@Override
 	public String toString() {
 		return value;

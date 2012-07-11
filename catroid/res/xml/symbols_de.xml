@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* 
+**
+** Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License"); 
+** you may not use this file except in compliance with the License. 
+** You may obtain a copy of the License at 
+**
+**     http://www.apache.org/licenses/LICENSE-2.0 
+**
+** Unless required by applicable law or agreed to in writing, software 
+** distributed under the License is distributed on an "AS IS" BASIS, 
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+** See the License for the specific language governing permissions and 
+** limitations under the License.
+*/
+-->
+
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="20%p"
+    android:horizontalGap="0px"
+    android:verticalGap="0px"
+    android:keyHeight="@dimen/key_height"
+    >
+
+    <Row>
+        <Key android:codes="8" android:keyLabel="1" android:keyEdgeFlags="left"/>
+        <Key android:codes="9" android:keyLabel="2"/>
+        <Key android:codes="10" android:keyLabel="3"/>
+        <Key android:codes="81" android:keyLabel="+"/>
+        <Key android:codes="69" android:keyLabel="-" android:keyEdgeFlags="right"/>
+    </Row>
+    
+    <Row>
+<!--        <Key android:codes="64" android:keyLabel="\@" android:keyEdgeFlags="left"/>
+        <Key android:codes="35" android:keyLabel="\#"/>
+        <Key android:codes="36" android:keyLabel="$"/>
+        <Key android:codes="37" android:keyLabel="%"/>
+        <Key android:codes="38" android:keyLabel="&amp;"/> -->
+        <Key android:codes="11" android:keyLabel="4" android:keyEdgeFlags="left"/>
+        <Key android:codes="12" android:keyLabel="5"/>
+        <Key android:codes="13" android:keyLabel="6"/>
+        <Key android:codes="17" android:keyLabel="*"/>
+        <Key android:codes="47" android:keyLabel="/" android:keyEdgeFlags="right"/>
+
+
+    </Row>
+    
+    <Row>
+        <Key android:codes="14" android:keyLabel="7" android:keyEdgeFlags="left"/>
+        <Key android:codes="15" android:keyLabel="8"/>
+        <Key android:codes="16" android:keyLabel="9"/>
+        <Key android:codes="67" android:keyIcon="@drawable/sym_keyboard_delete"
+             android:keyWidth="20%p" android:isRepeatable="true"/>
+        <Key android:codes="66" android:keyIcon="@drawable/sym_keyboard_return"
+             android:keyWidth="20%p" android:keyEdgeFlags="right"/>
+    </Row> 
+    
+    <Row  android:rowEdgeFlags="bottom">
+       <Key android:codes="7" android:keyLabel="0" android:keyEdgeFlags="left"/>
+        <Key android:codes="55" android:keyLabel="," android:keyWidth="20%p" />
+
+        <!-- <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="15%p" /> 
+        <Key android:codes="62" android:keyIcon="@drawable/sym_keyboard_space" android:keyWidth="20%p" 
+                android:isRepeatable="true"/>
+        <Key android:codes="68" android:keyIcon="@drawable/sym_keyboard_done"
+                android:keyWidth="20%p" /> -->
+        <Key android:codes="60" android:keyEdgeFlags="right" android:keyIcon="@drawable/sym_keyboard_shift"
+                android:keyWidth="60%p" android:isModifier="true"
+                android:isSticky="true" />
+
+    </Row>
+</Keyboard>

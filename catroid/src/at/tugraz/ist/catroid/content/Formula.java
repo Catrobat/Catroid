@@ -63,12 +63,12 @@ public class Formula implements Serializable {
 	//		return root.getParentByPosition(searchPosition);
 	//	}
 
-	//TODO: replace itemPosition by item-reference
 	public String addToFormula(String keyboardInput, FormulaElement parent) {
 
-		parent.replaceWithChildren(null, "0", keyboardInput, "0");
+		String oldValue = parent.getValue();
+		parent.replaceWithChildren(null, oldValue, keyboardInput, "0");
 
-		return "0 " + keyboardInput + " 0";
+		return oldValue + " " + keyboardInput + " 0";
 	}
 
 	public int interpret() {

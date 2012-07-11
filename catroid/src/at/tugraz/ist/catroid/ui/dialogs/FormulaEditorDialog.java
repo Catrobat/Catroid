@@ -22,6 +22,8 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import java.util.Locale;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -117,14 +119,29 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		okButton = (ImageButton) findViewById(R.id.formula_editor_ok_button);
 		okButton.setOnClickListener(this);
 
+		//		FormulaEditorEditText rolf = (FormulaEditorEditText) findViewById(R.id.testy);
+		//		rolf.setFormula(new Formula("0"));
+		//		//rolf.setInputType(0);// turn off default input method
+		//		rolf.setFormulaEditorDialog(this);
+
 		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
 		//TODO save in in the brick
 		Formula data = new Formula("0");
 		textArea.setFormula(data);
-		textArea.setInputType(0);// turn off default input method
+		//textArea.setInputType(0);// turn off default input method
 		textArea.setFormulaEditorDialog(this);
 
-		CatKeyboard catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
+		CatKeyboard catKeyboard = null;
+		if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.GERMAN.getDisplayLanguage())) {
+			catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de);
+			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is DE");
+		} else if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.ENGLISH.getDisplayLanguage())) {
+			catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng);
+			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is ENG");
+		}
+
+		Log.i("info", "DisplayLanguage: " + Locale.getDefault().getDisplayLanguage());
+
 		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
 		catKeyboardView.setKeyboard(catKeyboard);
 		catKeyboardView.setEditText(textArea);
@@ -185,6 +202,12 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Log.i("info", "FormulaEditorDialog.onKeyDown(), keyCode:" + String.valueOf(keyCode));
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				this.dismiss();
+
+		}
+
 		return textArea.catKeyboardView.onKeyDown(keyCode, event);
 
 	}

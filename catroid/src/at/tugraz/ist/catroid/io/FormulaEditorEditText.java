@@ -1,7 +1,7 @@
 package at.tugraz.ist.catroid.io;
 
+import android.R;
 import android.content.Context;
-import android.inputmethodservice.KeyboardView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
@@ -63,6 +63,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setOnTouchListener(this);
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
+		this.setBackgroundColor(getResources().getColor(R.color.transparent));
 		//this.setBackgroundResource(0);
 		//this.setCursorVisible(false);
 		//this.setLines(5);
@@ -275,6 +276,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		if (formula == null) {
 			return;
 		}
+		if (catKey.getNumber() == CatKeyEvent.KEYCODE_ENTER) {
+			updateSelectionIndices();
+			return;
+		}
+
 		boolean newElementIsOperator = Formula.isInputMemberOfAGroup(newElement, Formula.OPERATORS);
 		boolean newElementIsNumber = Formula.isInputMemberOfAGroup(newElement, Formula.NUMBERS);
 		boolean newElementIsFunction = Formula.isInputMemberOfAGroup(newElement, Formula.FUNCTIONS);
@@ -282,9 +288,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		if ((currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_FIRST_VALUE || currentlySelectedFormulaElement
 				.getType() == FormulaElement.ELEMENT_SECOND_VALUE)) {
 			if (newElementIsOperator) {
-				replaceNumberBySubElement(newElement);
+				replaceValueBySubElement(newElement);
 			} else if (newElementIsNumber) {
-				replaceNumberByNumber(newElement);
+				replaceValueByNumber(newElement);
 			} else if (newElementIsFunction) {
 				//TODO ...
 			} else {
@@ -312,7 +318,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 			}
 		} else {
-			replaceNumberByNumber(newElement);
+			replaceValueByNumber(newElement);
 		}
 
 	}
@@ -339,7 +345,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void specialKeyPressOnOperator(CatKeyEvent catKey) {
 		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-			replaceElementHierarchyByNumber("0");
+			String value = currentlySelectedFormulaElement.getParent().getFirstChildValue();
+			replaceElementHierarchyByNumber(value);
+			selectionEndIndex = selectionStartIndex + value.length();
+			highlightSelection();
+			editMode = true;
+
 		}
 	}
 
@@ -368,7 +379,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		highlightSelectionCurrentlyEditing();
 	}
 
-	public void replaceNumberByNumber(String newElement) {
+	public void replaceValueByNumber(String newElement) {
 		Log.i("info", "replace num by num");
 
 		if (editMode) {
@@ -395,7 +406,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		currentlySelectedFormulaElement.replaceValue(newElement);
 	}
 
-	public void replaceNumberBySubElement(String newElement) {
+	public void replaceValueBySubElement(String newElement) {
 		Log.i("info", "replace num by sub el");
 		String textOutput = formula.addToFormula(newElement, currentlySelectedFormulaElement);
 		if (textOutput == "") {
@@ -462,10 +473,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	};
 
 	public void onClick(View v) {
-		if (catKeyboardView.getVisibility() == KeyboardView.GONE) {
-			catKeyboardView.setEnabled(true);
-			catKeyboardView.setVisibility(KeyboardView.VISIBLE);
-		}
 		updateSelectionIndices();
 
 	}
@@ -489,31 +496,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 	});
 
-	//	@Override
-	//	public void selectAll() {
-	//	};
-
-	//	@Override
-	//	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-	//		//		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-	//		//			return false;
-	//		//		}
-	//		Log.i("info", "" + keyCode);
-	//		return super.dispatchKeyEvent(event);
-	//	}
-
-	//	@Override
-	//	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-	//		outAttrs.actionLabel = null;
-	//		outAttrs.label = "Test text";
-	//		outAttrs.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
-	//		outAttrs.imeOptions = EditorInfo.IME_ACTION_DONE;
-	//
-	//		return new FormulaEditorInputConnection(this, true);
-	//	}
-
-	//	@Override
-	//	public boolean onCheckIsTextEditor() {
-	//		return true;
-	//	}
+	@Override
+	public boolean onCheckIsTextEditor() {
+		return false;
+	}
 }
