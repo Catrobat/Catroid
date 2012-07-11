@@ -346,7 +346,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void specialKeyPressOnOperator(CatKeyEvent catKey) {
 		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-			replaceElementHierarchyByNumber("0");
+			String value = currentlySelectedFormulaElement.getParent().getFirstChildValue();
+			replaceElementHierarchyByNumber(value);
+			selectionEndIndex = selectionStartIndex + value.length();
+			highlightSelection();
+			editMode = true;
+
 		}
 	}
 
