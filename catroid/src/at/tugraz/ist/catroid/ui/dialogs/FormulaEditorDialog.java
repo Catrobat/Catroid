@@ -22,6 +22,8 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import java.util.Locale;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -125,7 +127,17 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		textArea.setInputType(0);// turn off default input method
 		textArea.setFormulaEditorDialog(this);
 
-		CatKeyboard catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
+		CatKeyboard catKeyboard = null;
+		if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.GERMAN.getDisplayLanguage())) {
+			catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de);
+			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is DE");
+		} else if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.ENGLISH.getDisplayLanguage())) {
+			catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng);
+			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is ENG");
+		}
+
+		Log.i("info", "DisplayLanguage: " + Locale.getDefault().getDisplayLanguage());
+
 		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
 		catKeyboardView.setKeyboard(catKeyboard);
 		catKeyboardView.setEditText(textArea);

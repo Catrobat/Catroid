@@ -17,8 +17,6 @@
 package at.tugraz.ist.catroid.io;
 
 import android.content.Context;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,7 +24,7 @@ import android.view.KeyEvent;
 
 public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyboardActionListener {
 
-	static final int KEYCODE_OPTIONS = -100;
+	//	static final int KEYCODE_OPTIONS = -100;
 	FormulaEditorEditText editText = null;
 
 	public CatKeyboardView(Context context, AttributeSet attrs) {
@@ -44,16 +42,16 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 		this.editText = editText;
 	}
 
-	@Override
-	protected boolean onLongPress(Key key) {
-		if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
-			getOnKeyboardActionListener().onKey(KEYCODE_OPTIONS, null);
-			return true;
-		} else {
-			//Log.i("info", "CatKeyboard.onLongPress() called");
-			return super.onLongPress(key);
-		}
-	}
+	//	@Override
+	//	protected boolean onLongPress(Key key) {
+	//		if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
+	//			getOnKeyboardActionListener().onKey(KEYCODE_OPTIONS, null);
+	//			return true;
+	//		} else {
+	//			//Log.i("info", "CatKeyboard.onLongPress() called");
+	//			return super.onLongPress(key);
+	//		}
+	//	}
 
 	/*
 	 * (non-Javadoc)
@@ -135,9 +133,16 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SLASH));
 				editText.checkAndModifyKeyInput(cKE);
 				break;
+			case KeyEvent.KEYCODE_PERIOD:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_PERIOD));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case KeyEvent.KEYCODE_ENTER:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
 		//TODO: Use KeyEvents ^_^	
-		//		KeyEvent.KEYCODE_ENTER
-		//		KeyEvent.KEYCODE_SPACE
+		//		KeyEvent.KEYCODE_SPACE - pete dont like dat!
 		//		KeyEvent.KEYCODE_SHIFT_RIGHT
 		}
 
