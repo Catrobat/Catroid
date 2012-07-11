@@ -26,6 +26,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -190,6 +191,16 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Log.i("info", "FormulaEditorDialog.onKeyDown(), keyCode:" + String.valueOf(keyCode));
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				if (textArea.catKeyboardView.getVisibility() == KeyboardView.VISIBLE) {
+					textArea.catKeyboardView.setVisibility(KeyboardView.GONE);
+					return true;
+				} else {
+					this.dismiss();
+				}
+		}
+
 		return textArea.catKeyboardView.onKeyDown(keyCode, event);
 
 	}

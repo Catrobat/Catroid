@@ -147,11 +147,6 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Log.i("info", "CatKeyboarView.onKeyDown(), keyCode:" + String.valueOf(keyCode));
 		switch (keyCode) {
-			case KeyEvent.KEYCODE_BACK:
-				if (this.getVisibility() == KeyboardView.VISIBLE) {
-					this.setVisibility(KeyboardView.GONE);
-					return true;
-				}
 			default:
 				return super.onKeyDown(keyCode, event);
 
