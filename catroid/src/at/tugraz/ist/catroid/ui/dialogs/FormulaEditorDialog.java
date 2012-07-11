@@ -117,11 +117,16 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		okButton = (ImageButton) findViewById(R.id.formula_editor_ok_button);
 		okButton.setOnClickListener(this);
 
+		//		FormulaEditorEditText rolf = (FormulaEditorEditText) findViewById(R.id.testy);
+		//		rolf.setFormula(new Formula("0"));
+		//		//rolf.setInputType(0);// turn off default input method
+		//		rolf.setFormulaEditorDialog(this);
+
 		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
 		//TODO save in in the brick
 		Formula data = new Formula("0");
 		textArea.setFormula(data);
-		textArea.setInputType(0);// turn off default input method
+		//textArea.setInputType(0);// turn off default input method
 		textArea.setFormulaEditorDialog(this);
 
 		CatKeyboard catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);

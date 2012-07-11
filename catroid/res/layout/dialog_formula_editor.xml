@@ -48,20 +48,20 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"/>
     </ViewFlipper>
-	
-	    
+	
     <at.tugraz.ist.catroid.io.FormulaEditorEditText
-       android:id="@+id/formula_editor_edit_field"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:gravity="top"
-       android:singleLine="false" 
-       android:inputType="textMultiLine"
-       android:lines="5"
-       android:scrollHorizontally="false"
-       android:minLines="5"
-       android:layout_below="@id/catflip"/>
-
+        android:id="@+id/formula_editor_edit_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/catflip"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:textSize="@dimen/text_size_large" />
       
     <at.tugraz.ist.catroid.io.CatKeyboardView
         android:id="@+id/keyboardcat"
