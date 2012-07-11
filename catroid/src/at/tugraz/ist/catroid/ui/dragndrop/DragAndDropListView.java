@@ -78,7 +78,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private int touchedListPosition;
 
 	private boolean dimBackground;
-	private boolean onDeleting;
+	private boolean isVibrating;
 
 	private DragAndDropListener dragAndDropListener;
 
@@ -168,11 +168,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 				case MotionEvent.ACTION_CANCEL:
 
 					stopDragging();
-					resetTrashView();
+					hideTrashView();
 
 					if (x > getWidth() * 3 / 4) {
 						dragAndDropListener.remove(itemPosition);
-						onDeleting = false;
+						isVibrating = false;
 					} else {
 						dragAndDropListener.drop(itemPosition);
 					}
@@ -214,7 +214,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		view.setDrawingCacheEnabled(true);
 
-		// TODO purpose?
 		view.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
 				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
 		view.layout(0, 0, Values.SCREEN_WIDTH, view.getMeasuredHeight());
@@ -233,7 +232,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		dragAndDropListener.drag(itemPosition, itemPosition);
 		dimBackground = true;
 
-		enableTrashView();
+		showTrashView();
 
 		previousItemPosition = itemPosition;
 
@@ -292,15 +291,15 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			trashView.setLayoutParams(trashViewParameters);
 		}
 
-		if (x > getWidth() * 3 / 4 && !onDeleting) {
-			onDeleting = true;
+		if (x > getWidth() * 3 / 4 && !isVibrating) {
+			isVibrating = true;
 			Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
 			long[] pattern = { 0, 100, 200 };
 			if (v != null) {
 				v.vibrate(pattern, 0);
 			}
 		} else if (x <= getWidth() * 3 / 4) {
-			onDeleting = false;
+			isVibrating = false;
 			Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
 			if (v != null) {
 				v.cancel();
@@ -365,13 +364,13 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		return itemPosition;
 	}
 
-	private void enableTrashView() {
+	private void showTrashView() {
 		trashView.setVisibility(View.VISIBLE);
 		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
 		trashView.startAnimation(animation);
 	}
 
-	private void resetTrashView() {
+	private void hideTrashView() {
 		ViewGroup.LayoutParams layoutParamemters = trashView.getLayoutParams();
 		layoutParamemters.width = originalTrashWidth;
 		layoutParamemters.height = originalTrashHeight;
