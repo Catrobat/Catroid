@@ -26,20 +26,23 @@ import android.view.KeyEvent;
  */
 public class CatKeyEvent extends KeyEvent {
 
+	/* FUNCTIONS */
 	public static final int KEYCODE_SIN = 1000;
 	public static final int KEYCODE_COS = 1001;
 	public static final int KEYCODE_TAN = 1002;
 	public static final int KEYCODE_LN = 1003;
 	public static final int KEYCODE_LOG = 1004;
 	public static final int KEYCODE_PI = 1005;
-	public static final int KEYCODE_SQAREROOT = 1006;
+	public static final int KEYCODE_SQUAREROOT = 1006;
 	public static final int KEYCODE_EULER = 1007;
 	public static final int KEYCODE_RANDOM = 1008;
-	public static final int KEYCODE_SENSOR1 = 1009;
-	public static final int KEYCODE_SENSOR2 = 1010;
-	public static final int KEYCODE_SENSOR3 = 1011;
-	public static final int KEYCODE_SENSOR4 = 1012;
-	public static final int KEYCODE_SENSOR5 = 1013;
+
+	/* SENSOR */
+	public static final int KEYCODE_SENSOR1 = 1100;
+	public static final int KEYCODE_SENSOR2 = 1101;
+	public static final int KEYCODE_SENSOR3 = 1102;
+	public static final int KEYCODE_SENSOR4 = 1103;
+	public static final int KEYCODE_SENSOR5 = 1104;
 
 	// Please update the functions of this class if you add new KEY_CODE constants ^_^
 
