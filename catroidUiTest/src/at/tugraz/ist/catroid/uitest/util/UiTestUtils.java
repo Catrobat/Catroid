@@ -40,12 +40,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -516,6 +524,67 @@ public class UiTestUtils {
 			boolean assertMode) {
 		insertDoubleIntoEditText(solo, editTextIndex, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
+	}
+
+	public static ArrayList<Integer> getListItemYPositions(Solo solo) {
+		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
+		ListView listView = solo.getCurrentListViews().get(0);
+
+		for (int i = 0; i < listView.getChildCount(); ++i) {
+			View currentViewInList = listView.getChildAt(i);
+
+			Rect globalVisibleRect = new Rect();
+			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
+			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
+			yPositionList.add(middleYPos);
+		}
+
+		return yPositionList;
+	}
+
+	public static void longClickAndDrag(final Solo solo, final Activity activity, final float xFrom, final float yFrom,
+			final float xTo, final float yTo, final int steps) {
+		Handler handler = new Handler(activity.getMainLooper());
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
+				activity.dispatchTouchEvent(downEvent);
+			}
+		});
+
+		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
+
+		handler.post(new Runnable() {
+			public void run() {
+
+				for (int i = 0; i <= steps; i++) {
+					float x = xFrom + (((xTo - xFrom) / steps) * i);
+					float y = yFrom + (((yTo - yFrom) / steps) * i);
+					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+							MotionEvent.ACTION_MOVE, x, y, 0);
+					activity.dispatchTouchEvent(moveEvent);
+
+					solo.sleep(20);
+				}
+			}
+		});
+
+		solo.sleep(steps * 20 + 200);
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_UP, xTo, yTo, 0);
+				activity.dispatchTouchEvent(upEvent);
+			}
+		});
+
+		solo.sleep(1000);
+
 	}
 
 	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth,
