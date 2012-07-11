@@ -40,6 +40,7 @@ public class FormulaElement implements Serializable {
 	public static final int ELEMENT_FIRST_VALUE = 1;
 	public static final int ELEMENT_OPERATOR = 2;
 	public static final int ELEMENT_SECOND_VALUE = 3;
+	public static final int ELEMENT_VALUE_POSITION_UNKNOWN = 4;
 
 	private int type;
 	private String value;
@@ -263,6 +264,14 @@ public class FormulaElement implements Serializable {
 		this.value = value;
 	}
 
+	public void addToValue(String value) {
+		this.value += value;
+	}
+
+	public void deleteLastCharacterInValue() {
+		value = value.substring(0, value.length() - 1);
+	}
+
 	public FormulaElement getParent() {
 		return parent;
 	}
@@ -280,31 +289,48 @@ public class FormulaElement implements Serializable {
 	 * @param value2
 	 *            second value, usually a number, can be null
 	 */
-	public void replaceWithChildren(String functionName, String value1, String operator, String value2,
-			FormulaElement parent) {
+	public void replaceWithChildren(String functionName, String value1, String operator, String value2) {
 		this.value = null;
 		if (this.type == ELEMENT_FIRST_VALUE) {
 			this.type = ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN;
 		} else if (this.type == ELEMENT_SECOND_VALUE) {
 			this.type = ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN;
 		} else {
+			Log.i("info", "FormulaElement potentially in bad state. This shouldn´t have happened! ");
 			this.type = ELEMENT_REPLACED_BY_CHILDREN;
 		}
 		if (children != null) {
-			Log.i("info", "Uh-oh, thats bad!");
+			Log.i("info", "Delete all previous children and replace with new ones: " + children.size());
+			children = new ArrayList<FormulaElement>();
 		}
 		if (functionName != null) {
-			addChild(new FormulaElement(ELEMENT_FUNCTION, functionName, parent));
+			addChild(new FormulaElement(ELEMENT_FUNCTION, functionName, this));
 		}
 		if (value1 != null) {
-			addChild(new FormulaElement(ELEMENT_FIRST_VALUE, value1, parent));
+			addChild(new FormulaElement(ELEMENT_FIRST_VALUE, value1, this));
 		}
 		if (operator != null) {
-			addChild(new FormulaElement(ELEMENT_OPERATOR, operator, parent));
+			addChild(new FormulaElement(ELEMENT_OPERATOR, operator, this));
 		}
 		if (value2 != null) {
-			addChild(new FormulaElement(ELEMENT_SECOND_VALUE, value2, parent));
+			addChild(new FormulaElement(ELEMENT_SECOND_VALUE, value2, this));
 		}
+	}
+
+	public FormulaElement makeMeALeaf(String value) {
+		if (children != null) {
+			Log.i("info", "Delete all previous children and this becomes a leaf" + children.size());
+			children = null;
+		}
+		this.value = value;
+		if (this.type == ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN) {
+			this.type = ELEMENT_FIRST_VALUE;
+		}
+		if (this.type == ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN) {
+			this.type = ELEMENT_SECOND_VALUE;
+		}
+
+		return this;
 	}
 
 	@Override

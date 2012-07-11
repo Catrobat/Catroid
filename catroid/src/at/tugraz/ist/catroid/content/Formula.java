@@ -41,12 +41,12 @@ public class Formula implements Serializable {
 
 	public Formula(String value) {
 		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root", null);
-		root.replaceWithChildren(null, value, null, null, root);
+		root.replaceWithChildren(null, value, null, null);
 	}
 
 	public void addChildByTextPosition(int position, String functionName, String value1, String operator, String value2) {
 		FormulaElement parentItem = findItemByPosition(position);
-		parentItem.replaceWithChildren(functionName, value1, operator, value2, parentItem);
+		parentItem.replaceWithChildren(functionName, value1, operator, value2);
 	}
 
 	public FormulaElement findItemByPosition(int position) {
@@ -66,19 +66,16 @@ public class Formula implements Serializable {
 	//TODO: replace itemPosition by item-reference
 	public String addToFormula(String keyboardInput, FormulaElement parent) {
 
-		String textOutput = "";
-		if (keyboardInput.equals("+")) {
-			parent.replaceWithChildren(null, "0", "+", "0", parent);
-			textOutput = "0 + 0";
-		}
+		parent.replaceWithChildren(null, "0", keyboardInput, "0");
 
-		return textOutput;
+		return "0 " + keyboardInput + " 0";
 	}
 
 	public int interpret() {
 
 		Log.i("info", root.getTreeString());
-		return root.interpretRecursive();
+		return 0;
+		//return root.interpretRecursive();
 	}
 
 	public static boolean isInputMemberOfAGroup(String input, final String[] group) {

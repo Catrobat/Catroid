@@ -22,46 +22,60 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:layout_marginLeft="0dip" 
-    android:layout_marginRight="0dip"
     android:windowFullscreen="true"
-	android:orientation="vertical"
 	android:theme="@android:style/Theme.Light">
-	<LinearLayout
+<!-- 	<LinearLayout
 	    android:id="@+id/formula_editor_brick_space"
 	    android:layout_width="match_parent"
-	    android:layout_height="68dp" />
-	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:paddingLeft="16dp"
-	    android:paddingRight="16dp" >
-    
-   <at.tugraz.ist.catroid.io.FormulaEditorEditText
-        android:id="@+id/formula_editor_edit_field"
+	    android:layout_height="68dp" /> -->
+	
+	<ViewFlipper
+        android:id="@+id/catflip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:lines="5"
-        android:singleLine="false"/>
-    
-   <!-- <View 
-        android:id="@+id/formula_editor_edit_field_overlay"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentTop="true">
+	    <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:id="@+id/datview"
+	        android:layout_height="match_parent"
+	        android:layout_width="match_parent" />
+	    <LinearLayout  
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:id="@+id/catview"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"/>
+    </ViewFlipper>
+	
+	    
+    <at.tugraz.ist.catroid.io.FormulaEditorEditText
+       android:id="@+id/formula_editor_edit_field"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:gravity="top"
+       android:singleLine="false" 
+       android:inputType="textMultiLine"
+       android:lines="5"
+       android:scrollHorizontally="false"
+       android:minLines="5"
+       android:layout_below="@id/catflip"/>
+
+      
+    <at.tugraz.ist.catroid.io.CatKeyboardView
+        android:id="@+id/keyboardcat"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        /> -->
-    
-    </RelativeLayout>
-        
+        android:layout_height="wrap_content"/>
     
 	<RelativeLayout
 	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/editor_button_bar"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" >
+	    android:layout_height="wrap_content" 
+	    android:layout_above="@id/keyboardcat">
 
 	    <ImageButton
 	        android:id="@+id/formula_editor_ok_button"
@@ -83,13 +97,5 @@
 
 	</RelativeLayout>
 	
-	    <at.tugraz.ist.catroid.io.CatKeyboardView
-        android:id="@+id/keyboardcat"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-</LinearLayout>
+</RelativeLayout>
 
