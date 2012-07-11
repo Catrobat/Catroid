@@ -2,7 +2,6 @@ package at.tugraz.ist.catroid.io;
 
 import android.R;
 import android.content.Context;
-import android.inputmethodservice.KeyboardView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
@@ -469,10 +468,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	};
 
 	public void onClick(View v) {
-		if (catKeyboardView.getVisibility() == KeyboardView.GONE) {
-			catKeyboardView.setEnabled(true);
-			catKeyboardView.setVisibility(KeyboardView.VISIBLE);
-		}
 		updateSelectionIndices();
 
 	}
