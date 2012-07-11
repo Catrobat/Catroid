@@ -31,8 +31,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ViewFlipper;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Formula;
@@ -40,6 +43,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.CatKeyboard;
 import at.tugraz.ist.catroid.io.CatKeyboardView;
 import at.tugraz.ist.catroid.io.FormulaEditorEditText;
+import at.tugraz.ist.catroid.io.FormulaRepresentation;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener {
 
@@ -51,6 +55,10 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 	private CatKeyboardView catKeyboardView;
 	private CatKeyboard catKeyboard;
+	private ViewFlipper flipView;
+	private LinearLayout catView;
+	private LinearLayout datView;
+	private int i = 0;
 
 	//private View overlay;
 	//	private int selectionStartIndex = 0;
@@ -82,11 +90,22 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_formula_editor);
-		LinearLayout brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
-		brickSpace.addView(currentBrick.getView(context, 0, null));
 
-		//		overlay = findViewById(R.id.formula_editor_edit_field_overlay);
-		//		overlay.setOnClickListener(this);
+		flipView = (ViewFlipper) findViewById(R.id.catflip);
+		catView = (LinearLayout) findViewById(R.id.catview);
+		datView = (LinearLayout) findViewById(R.id.datview);
+		catView.addView(currentBrick.getView(context, 0, null));
+
+		//datView.removeAllViews();
+
+		flipView.setDisplayedChild(1);
+		Animation slideOut = AnimationUtils.loadAnimation(context, R.anim.slide_out);
+		flipView.setOutAnimation(slideOut);
+		Animation slideIn = AnimationUtils.loadAnimation(context, R.anim.slide_in);
+		flipView.setInAnimation(slideIn);
+
+		//LinearLayout brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
+		//brickSpace.addView(currentBrick.getView(context, 0, null));
 
 		setTitle(R.string.dialog_formula_editor_title);
 		setCanceledOnTouchOutside(true);
@@ -105,6 +124,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		Formula data = new Formula("0");
 		textArea.setFormula(data);
 		textArea.setInputType(0);// turn off default input method
+		textArea.setFormulaEditorDialog(this);
 
 		CatKeyboard catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
 		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
@@ -115,6 +135,15 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		//catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
 		//		textArea.catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
 		//		textArea.catKeyboardView.setKeyboard(catKeyboard);
+
+	}
+
+	public void updateGraphicRepresentation(FormulaRepresentation formula) {
+
+		View v = formula.getView(context, this);
+		datView.removeAllViews();
+		datView.addView(v);
+		flipView.setDisplayedChild(0);
 
 	}
 
@@ -132,7 +161,9 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		switch (v.getId()) {
 			case R.id.formula_editor_ok_button:
-				dismiss();
+
+				flipView.setDisplayedChild(1);
+
 				break;
 
 			case R.id.formula_editor_cancel_button:
@@ -142,6 +173,10 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 			case R.id.formula_editor_back_button:
 				dismiss();
 				break;
+			default:
+				Log.i("info", "Got some crazy click here!");
+				break;
+
 		}
 	}
 
