@@ -64,11 +64,15 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testReplaceNumberByOperator() {
 		Formula formula = new Formula(TEST_VALUE);
 		FormulaElement root = formula.findItemByPosition(0);
+		Log.i("info", "testReplaceNumberByOperator FORMULA: " + formula.stringRepresentation());
 		formula.addToFormula(PLUS, root);
+		Log.i("info", "testReplaceNumberByOperator FORMULA: " + formula.stringRepresentation());
 		root = formula.findItemByPosition(0);
 		String firstElementValue = formula.findItemByPosition(1).getValue();
 		String secondElementValue = formula.findItemByPosition(3).getValue();
 		String operator = formula.findItemByPosition(2).getValue();
+
+		Log.i("info", "testReplaceNumberByOperator FORMULA: " + formula.stringRepresentation());
 
 		assertEquals("Root Element is not as expected", "root", root.getValue());
 		assertEquals("First Element is not as expected", "0", firstElementValue);
@@ -207,17 +211,17 @@ public class DataStructureTest extends AndroidTestCase {
 		assertEquals("Interpreter result is not as expected", 74513790, formula.interpret());
 	}
 
-	//	public void testInterpreterDivide() {
-	//		Formula formula = new Formula(TEST_VALUE);
-	//		FormulaElement root = formula.findItemByPosition(0);
-	//		formula.addToFormula(DIVIDE, root);
-	//		formula.addToFormula(DIVIDE, root.getChildOfType(FormulaElement.ELEMENT_FIRST_VALUE));
-	//		formula.findItemByPosition(1).replaceValue(TEST_VALUE1);
-	//		formula.findItemByPosition(3).replaceValue(TEST_VALUE);
-	//		formula.findItemByPosition(5).replaceValue(TEST_VALUE2);
-	//
-	//		assertEquals("Interpreter result is not as expected", 0, formula.interpret());
-	//	}
+	public void testInterpreterDivide() {
+		Formula formula = new Formula(TEST_VALUE);
+		FormulaElement root = formula.findItemByPosition(0);
+		formula.addToFormula(DIVIDE, root);
+		formula.addToFormula(DIVIDE, root.getChildOfType(FormulaElement.ELEMENT_FIRST_VALUE));
+		formula.findItemByPosition(1).replaceValue(TEST_VALUE1);
+		formula.findItemByPosition(3).replaceValue(TEST_VALUE);
+		formula.findItemByPosition(5).replaceValue(TEST_VALUE2);
+
+		assertEquals("Interpreter result is not as expected", 0, formula.interpret());
+	}
 
 	public void testInterpreterMultPlus() {
 		Formula formula = new Formula(TEST_VALUE);
