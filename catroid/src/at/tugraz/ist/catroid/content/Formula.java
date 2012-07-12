@@ -36,11 +36,11 @@ public class Formula implements Serializable {
 	public static final String[] FUNCTIONS = new String[] { "rand" };
 
 	public Formula() {
-		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root", null);
+		root = new FormulaElement(FormulaElement.ELEMENT_ROOT, "root", null);
 	}
 
 	public Formula(String value) {
-		root = new FormulaElement(FormulaElement.ELEMENT_REPLACED_BY_CHILDREN, "root", null);
+		root = new FormulaElement(FormulaElement.ELEMENT_ROOT, "root", null);
 		root.replaceWithChildren(null, value, null, null);
 	}
 
@@ -67,7 +67,7 @@ public class Formula implements Serializable {
 
 		String oldValue = parent.getValue();
 
-		if (parent.getType() == FormulaElement.ELEMENT_REPLACED_BY_CHILDREN) {
+		if (parent.getType() == FormulaElement.ELEMENT_ROOT) {
 			oldValue = "0";
 		}
 		parent.replaceWithChildren(null, oldValue, keyboardInput, "0");

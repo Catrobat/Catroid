@@ -35,7 +35,7 @@ public class FormulaElement implements Serializable {
 	public static final int ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN = -4;
 	public static final int ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN = -3;
 	public static final int SEARCHING_FOR_PARENT_HACK = -2;
-	public static final int ELEMENT_REPLACED_BY_CHILDREN = -1;
+	public static final int ELEMENT_ROOT = -1;
 	public static final int ELEMENT_FUNCTION = 0;
 	public static final int ELEMENT_FIRST_VALUE = 1;
 	public static final int ELEMENT_OPERATOR = 2;
@@ -185,7 +185,7 @@ public class FormulaElement implements Serializable {
 				//TODO: Implement Functions
 				break;
 
-			case ELEMENT_REPLACED_BY_CHILDREN:
+			case ELEMENT_ROOT:
 			case ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN:
 			case ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN:
 
@@ -310,7 +310,7 @@ public class FormulaElement implements Serializable {
 			this.type = ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN;
 		} else {
 			Log.i("info", "FormulaElement potentially in bad state. This shouldn´t have happened! ");
-			this.type = ELEMENT_REPLACED_BY_CHILDREN;
+			this.type = ELEMENT_ROOT;
 		}
 		if (children != null) {
 			Log.i("info", "Delete all previous children and replace with new ones: " + children.size());

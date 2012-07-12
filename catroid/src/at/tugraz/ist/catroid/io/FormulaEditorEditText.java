@@ -128,17 +128,41 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	}
 
+	public void graphicHierarchyOneUp() {
+		FormulaElement up = currentlySelectedFormulaElement.getParent();
+		if (up.getType() == FormulaElement.ELEMENT_ROOT) {
+			formulaEditorDialog.updateGraphicalRepresentation(null);
+		} else {
+			FormulaElement el1 = up.getChildOfType(FormulaElement.ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN);
+			FormulaElement el2 = up.getChildOfType(FormulaElement.ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN);
+			int childCount1 = 1;
+			int childCount2 = 2;
+
+			if (el1 != null) {
+				childCount1 = el1.getNumberOfRecursiveChildren();
+			}
+			if (el2 != null) {
+				childCount2 = el2.getNumberOfRecursiveChildren();
+			}
+
+			formulaEditorDialog.updateGraphicalRepresentation(new FormulaRepresentation(null,
+					childCount1 + " Elements", currentlySelectedFormulaElement.getValue(), childCount2 + " Elements"));
+		}
+	}
+
 	private void updateGraphicalRepresentation(int left, int right) {
-		FormulaRepresentation fr = null;
+		FormulaRepresentation graphic = null;
+		//FormulaElement element = currentlySelectedFormulaElement;
 
 		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_FIRST_VALUE
 				|| currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_SECOND_VALUE) {
-			fr = new FormulaRepresentation(currentlySelectedFormulaElement.getValue());
+			graphic = new FormulaRepresentation(currentlySelectedFormulaElement.getValue());
 		} else {
-			fr = new FormulaRepresentation(null, left + " Elements", currentlySelectedFormulaElement.getValue(), right
-					+ " Elements");
+			graphic = new FormulaRepresentation(null, left + " Elements", currentlySelectedFormulaElement.getValue(),
+					right + " Elements");
 		}
-		formulaEditorDialog.updateGraphicRepresentation(fr);
+		formulaEditorDialog.updateGraphicalRepresentation(graphic);
+
 	}
 
 	//What have we actually selected in the Formula? We might need to add items belonging to the FormulaElement
