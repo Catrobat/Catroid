@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnShowListener;
 import android.text.InputType;
 import android.view.View;
@@ -38,13 +37,11 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
 
-public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
+public class NXTMotorTurnAngleBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
@@ -121,7 +118,6 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 
 		editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(degrees));
-		editX.setOnClickListener(this);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
@@ -189,14 +185,11 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 						});
 				builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						//						}
-						if (input.getText().equals("")) {
-							input.setText(0);
+						if (input.getText().toString().equals("")) {
+							input.setText("0");
 						}
 						editX.setText(input.getText().toString());
 						degrees = Integer.parseInt(input.getText().toString());
-						//dialogX.setValue(angle);
-						//broadcastSpinner.setSelection(position);
 					}
 				});
 				builder.setNegativeButton(context.getString(R.string.cancel_button),
@@ -221,38 +214,4 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 
 		return brickView;
 	}
-
-	public void onClick(View view) {
-		final Context context = view.getContext();
-
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(degrees));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					degrees = Integer.parseInt(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-
-		finishedDialog.show();
-
-	}
-
 }
