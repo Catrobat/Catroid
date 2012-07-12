@@ -416,6 +416,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			stopDragging();
 			dragAndDropListener.drop(position);
 			trashView.setVisibility(GONE);
+			dimBackground = false;
 		}
 	}
 }
