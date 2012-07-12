@@ -40,13 +40,13 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private Project project;
 
 	//private static final String TAG = WhenBrickTest.class.getSimpleName();
 
-	public WhenBrickTest() {
+	public WhenStartedBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
@@ -68,7 +68,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		super.tearDown();
 	}
 
-	public void testWhenBrick() {
+	public void testWhenStartedBrick() {
 		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
 		ArrayList<Integer> yPos;
 		int addedYPos;
@@ -80,14 +80,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
 				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when_started)));
-
-		// Inactive until spinner is used again
-		//		solo.pressSpinnerItem(0, 0);
-		//		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItemPosition() + "");
-		//		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItem().toString());
-		//		solo.sleep(1500);
-		//		assertEquals("Wrong event selected!", 0, solo.getCurrentSpinners().get(0).getSelectedItemPosition());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when)));
 
 		solo.sleep(100);
 
@@ -95,7 +88,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.sleep(100);
 		solo.clickInList(4);
 		solo.sleep(100);
-		solo.clickInList(2);
+		solo.clickInList(1);
 
 		solo.sleep(1000);
 		yPos = UiTestUtils.getListItemYPositions(solo);
@@ -106,7 +99,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		projectBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof StartScript));
 
 		solo.sleep(1000);
 
@@ -114,7 +107,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.sleep(100);
 		solo.clickInList(4);
 		solo.sleep(100);
-		solo.clickInList(2);
+		solo.clickInList(1);
 
 		solo.sleep(1000);
 		yPos = UiTestUtils.getListItemYPositions(solo);
@@ -125,17 +118,17 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(0) instanceof StartScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(0) instanceof WhenScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof StartScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(2).getBrickList();
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof WhenScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof StartScript));
 
 		solo.sleep(1000);
 
@@ -143,7 +136,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.sleep(100);
 		solo.clickInList(4);
 		solo.sleep(100);
-		solo.clickInList(2);
+		solo.clickInList(1);
 
 		solo.sleep(1000);
 		yPos = UiTestUtils.getListItemYPositions(solo);
@@ -155,24 +148,24 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(0) instanceof StartScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(0) instanceof WhenScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof StartScript));
 
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(2).getBrickList();
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
-				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof WhenScript));
+				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof StartScript));
 	}
 
 	private void createProject() {
 
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new WhenScript(sprite);
 		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
 		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
 		script.addBrick(new PlaceAtBrick(sprite, 100, 100));

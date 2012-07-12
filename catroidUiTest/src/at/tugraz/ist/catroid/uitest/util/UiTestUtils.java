@@ -542,6 +542,13 @@ public class UiTestUtils {
 		return yPositionList;
 	}
 
+	public static int getAddedListItemYPosition(Solo solo) {
+		ArrayList<Integer> yPositionList = getListItemYPositions(solo);
+		int pos = (yPositionList.size() - 1) / 2;
+
+		return yPositionList.get(pos);
+	}
+
 	public static void longClickAndDrag(final Solo solo, final Activity activity, final float xFrom, final float yFrom,
 			final float xTo, final float yTo, final int steps) {
 		Handler handler = new Handler(activity.getMainLooper());
@@ -559,10 +566,13 @@ public class UiTestUtils {
 
 		handler.post(new Runnable() {
 			public void run() {
-
+				double offsetX = xTo - xFrom;
+				offsetX /= steps;
+				double offsetY = yTo - yFrom;
+				offsetY /= steps;
 				for (int i = 0; i <= steps; i++) {
-					float x = xFrom + (((xTo - xFrom) / steps) * i);
-					float y = yFrom + (((yTo - yFrom) / steps) * i);
+					float x = xFrom + (float) (offsetX * i);
+					float y = yFrom + (float) (offsetY * i);
 					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 							MotionEvent.ACTION_MOVE, x, y, 0);
 					activity.dispatchTouchEvent(moveEvent);
