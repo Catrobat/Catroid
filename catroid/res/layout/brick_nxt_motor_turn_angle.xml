@@ -87,6 +87,7 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:enabled="false"
                     android:gravity="right"
                     android:inputType="number|numberDecimal|numberSigned"
                     android:maxLength="4"
@@ -101,11 +102,11 @@
 
                 <Button
                     android:id="@+id/directions_btn"
-                    android:layout_width="40dip"
-                    android:layout_height="45dip"
+                    android:layout_width="50dip"
+                    android:layout_height="wrap_content"
                     android:clickable="false"
                     android:focusable="false"
-                    android:text="@string/just_a_v" />
+                    android:background="@android:drawable/btn_dropdown" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
