@@ -133,8 +133,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		if (up.getType() == FormulaElement.ELEMENT_ROOT) {
 			formulaEditorDialog.updateGraphicalRepresentation(null);
 		} else {
-			FormulaElement el1 = up.getChildOfType(FormulaElement.ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN);
-			FormulaElement el2 = up.getChildOfType(FormulaElement.ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN);
+			FormulaElement el1 = currentlySelectedFormulaElement.getLeftChild();
+			FormulaElement el2 = currentlySelectedFormulaElement.getRightChild();
 			int childCount1 = 1;
 			int childCount2 = 2;
 
@@ -154,8 +154,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		FormulaRepresentation graphic = null;
 		//FormulaElement element = currentlySelectedFormulaElement;
 
-		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_FIRST_VALUE
-				|| currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_SECOND_VALUE) {
+		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_VALUE) {
 			graphic = new FormulaRepresentation(currentlySelectedFormulaElement.getValue());
 		} else {
 			graphic = new FormulaRepresentation(null, left + " Elements", currentlySelectedFormulaElement.getValue(),
@@ -172,34 +171,23 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		currentlySelectedFormulaElement = formula.findItemByPosition(currentlySelectedElementNumber);
 		Log.i("info", "FEEditText: check selected Type ");
-		FormulaElement parentElement = null;
 		int childCount1 = 1;
 		int childCount2 = 1;
 
-		switch (currentlySelectedFormulaElement.getType()) {
-		//TODO: once keyboard is implemented, set the keys that should be available for our rules
-			case FormulaElement.ELEMENT_FIRST_VALUE:
-			case FormulaElement.ELEMENT_SECOND_VALUE:
-				break;
-			case FormulaElement.ELEMENT_FUNCTION:
-				break;
-			case FormulaElement.ELEMENT_OPERATOR:
-				Log.i("info", "Search pos for child " + currentlySelectedElementNumber);
-				parentElement = currentlySelectedFormulaElement.getParent();
-				FormulaElement el1 = parentElement
-						.getChildOfType(FormulaElement.ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN);
-				FormulaElement el2 = parentElement
-						.getChildOfType(FormulaElement.ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN);
+		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_OP_OR_FCT) {
+			//TODO: set the keys that should be available for our rules
+			Log.i("info", "Search pos for child " + currentlySelectedElementNumber);
+			FormulaElement el1 = currentlySelectedFormulaElement.getLeftChild();
+			FormulaElement el2 = currentlySelectedFormulaElement.getRightChild();
 
-				if (el1 != null) {
-					childCount1 = el1.getNumberOfRecursiveChildren();
-				}
-				if (el2 != null) {
-					childCount2 = el2.getNumberOfRecursiveChildren();
-				}
+			if (el1 != null) {
+				childCount1 = el1.getNumberOfRecursiveChildren();
+			}
+			if (el2 != null) {
+				childCount2 = el2.getNumberOfRecursiveChildren();
+			}
 
-				extendSelection(childCount1, childCount2);
-				break;
+			extendSelection(childCount1, childCount2);
 		}
 
 		if (previouslySelectedElementNumber != currentlySelectedElementNumber) {
@@ -280,8 +268,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		boolean newElementIsNumber = Formula.isInputMemberOfAGroup(newElement, Formula.NUMBERS);
 		boolean newElementIsFunction = Formula.isInputMemberOfAGroup(newElement, Formula.FUNCTIONS);
 
-		if ((currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_FIRST_VALUE || currentlySelectedFormulaElement
-				.getType() == FormulaElement.ELEMENT_SECOND_VALUE)) {
+		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_VALUE) {
 			if (newElementIsOperator) {
 				replaceValueBySubElement(newElement);
 			} else if (newElementIsNumber) {
@@ -291,7 +278,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			} else {
 				specialKeyPressOnNumber(catKey);
 			}
-		} else if ((currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
+		} else if ((currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_OP_OR_FCT)) {
 			if (newElementIsOperator) {
 				replaceOperatorByOperator(newElement);
 			} else if (newElementIsNumber) {
@@ -301,19 +288,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			} else {
 				specialKeyPressOnOperator(catKey);
 			}
-		} else if ((currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_FUNCTION)) {
-			//TODO Make it work for functions
-			if (newElementIsOperator) {
-
-			} else if (newElementIsNumber) {
-
-			} else if (newElementIsFunction) {
-
-			} else {
-
-			}
 		} else {
-			replaceValueByValue(newElement);
+			//PANIC!
+			//replaceValueByValue(newElement);
 		}
 
 	}

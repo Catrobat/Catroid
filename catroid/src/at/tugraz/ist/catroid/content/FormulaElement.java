@@ -23,8 +23,6 @@
 package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.util.Log;
 
@@ -32,19 +30,14 @@ public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN = -4;
-	public static final int ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN = -3;
-	public static final int SEARCHING_FOR_PARENT_HACK = -2;
 	public static final int ELEMENT_ROOT = -1;
-	public static final int ELEMENT_FUNCTION = 0;
-	public static final int ELEMENT_FIRST_VALUE = 1;
-	public static final int ELEMENT_OPERATOR = 2;
-	public static final int ELEMENT_SECOND_VALUE = 3;
-	public static final int ELEMENT_VALUE_POSITION_UNKNOWN = 4;
+	public static final int ELEMENT_OP_OR_FCT = 2;
+	public static final int ELEMENT_VALUE = 3;
 
 	private int type;
 	private String value;
-	private List<FormulaElement> children = null;
+	private FormulaElement leftChild = null;
+	private FormulaElement rightChild = null;
 	private FormulaElement parent = null;
 
 	public FormulaElement(int type, String value, FormulaElement parent) {
@@ -61,22 +54,30 @@ public class FormulaElement implements Serializable {
 		return value;
 	}
 
-	public FormulaElement getChildOfType(int type) {
-
-		if (children == null) {
-			Log.i("info", "Get Child null ");
-			return null;
-		}
-
-		for (FormulaElement item : children) {
-			if (item != null) {
-				if (item.type == type) {
-					return item;
-				}
-			}
-		}
-		return null;
+	public FormulaElement getLeftChild() {
+		return leftChild;
 	}
+
+	public FormulaElement getRightChild() {
+		return rightChild;
+	}
+
+	//	public FormulaElement getChildOfType(int type) {
+	//
+	//		if (children == null) {
+	//			Log.i("info", "Get Child null ");
+	//			return null;
+	//		}
+	//
+	//		for (FormulaElement item : children) {
+	//			if (item != null) {
+	//				if (item.type == type) {
+	//					return item;
+	//				}
+	//			}
+	//		}
+	//		return null;
+	//	}
 
 	//	public FormulaElement getItemWithId(int searchedId) {
 	//		FormulaElement result = null;
@@ -115,42 +116,65 @@ public class FormulaElement implements Serializable {
 	//	}
 
 	private void addChild(FormulaElement element) {
-		if (children == null) {
-			children = new ArrayList<FormulaElement>();
+		if (leftChild == null) {
+			leftChild = element;
+		} else {
+			rightChild = element;
 		}
-		children.add(element);
 	}
 
 	public FormulaElement getItemByPosition(MutableInteger position) {
 		FormulaElement result = null;
-		if (children == null) {
+		if (leftChild == null) {
 			if (position.i == 0) {
+				Log.i("info", "FE found: " + value);
 				return this;
 			} else {
 				position.i--;
-				return null;
 			}
-
 		} else {
-			for (FormulaElement nextChild : children) {
-				result = nextChild.getItemByPosition(position);
-				if (result != null) {
-					break;
-				}
+			result = leftChild.getItemByPosition(position);
+			if (result != null) {
+				return result;
+			}
+			if (position.i == 0) {
+				result = this;
+			} else {
+				position.i--;
+			}
+			if (result == null) {
+				result = rightChild.getItemByPosition(position);
 			}
 		}
+
 		return result;
 	}
 
 	public int getNumberOfRecursiveChildren() {
-		if (children == null) {
+		if (leftChild == null) {
 			return 1;
 
 		} else {
 			int result = 0;
-			for (FormulaElement nextChild : children) {
-				result += nextChild.getNumberOfRecursiveChildren();
+			result += leftChild.getNumberOfRecursiveChildren();
+			result += leftChild.getNumberOfRecursiveChildren();
+
+			return result;
+		}
+	}
+
+	String getEditTextRepresentation() {
+		if (leftChild == null) {
+			return value + " ";
+		} else {
+			String result = "";
+
+			result += leftChild.getEditTextRepresentation();
+			result += this.value + " ";
+			if (rightChild != null) {
+				result += rightChild.getEditTextRepresentation();
 			}
+
 			return result;
 		}
 	}
@@ -158,77 +182,71 @@ public class FormulaElement implements Serializable {
 	public String getTreeString() {
 		String text = "";
 
-		if (children == null) {
+		if (leftChild == null) {
 			text = "(" + type + "/" + value + ")";
 
 		} else {
-			text = "(" + type + "/" + value + " [";
-			for (FormulaElement nextChild : children) {
-				text += nextChild.getTreeString();
+			text += leftChild.getTreeString();
+			text += "(" + type + "/" + value + ")";
+			if (rightChild != null) {
+				text += rightChild.getTreeString();
 			}
 
-			text += "] )";
 		}
 		return text;
 	}
 
 	public Double interpretRecursive() {
 
-		switch (type) {
-			case ELEMENT_FIRST_VALUE:
-				return Double.parseDouble(value);
-
-			case ELEMENT_SECOND_VALUE:
-				return Double.parseDouble(value);
-
-			case ELEMENT_FUNCTION:
-				//TODO: Implement Functions
-				break;
-
-			case ELEMENT_ROOT:
-			case ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN:
-			case ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN:
-
-				if (children == null) { //TODO: should not happen!
-					return 0.0;
-				}
-
-				if (children.size() == 1) {
-					return children.get(0).interpretRecursive();
-				}
-
-				if (children.size() != 3) {
-					return -1.0;
-				}
-
-				FormulaElement firstElement;
-				FormulaElement secondElement;
-				FormulaElement operator;
-				firstElement = children.get(0);
-				operator = children.get(1);
-				secondElement = children.get(2);
-
-				double firstElementResult = firstElement.interpretRecursive();
-				double secondElementResult = secondElement.interpretRecursive();
-
-				Log.e("info", operator.value);
-
-				if (operator.value.equals("+")) {
-					return firstElementResult + secondElementResult;
-				}
-				if (operator.value.equals("-")) {
-					return firstElementResult - secondElementResult;
-				}
-				if (operator.value.equals("*")) {
-					return firstElementResult * secondElementResult;
-				}
-				if (operator.value.equals("/")) {
-					return firstElementResult / secondElementResult;
-				}
-
-				break;
-
-		}
+		//		switch (type) {
+		//			case ELEMENT_LEFT_CHILD:
+		//				return Double.parseDouble(value);
+		//
+		//			case ELEMENT_RIGHT_CHILD:
+		//				return Double.parseDouble(value);
+		//
+		//			case ELEMENT_FUNCTION:
+		//				//TODO: Implement Functions
+		//				break;
+		//
+		//			case ELEMENT_ROOT:
+		//			case ELEMENT_OPERATOR_AND_WAS_LEFT_CHILD:
+		//			case ELEMENT_OPERATOR_AND_WAS_RIGHT_CHILD:
+		//
+		//				if (leftChild == null) { //TODO: should not happen!
+		//					return 0.0;
+		//				}
+		//
+		//				if (rightChild == null) {
+		//					return leftChild.interpretRecursive();
+		//				}
+		//
+		//				//				if (children.size() != 3) {
+		//				//					return -1.0;
+		//				//				}
+		//
+		//				double firstElementResult = leftChild.interpretRecursive();
+		//				double secondElementResult = rightChild.interpretRecursive();
+		//
+		//				String operator = value;
+		//				Log.e("info", operator);
+		//
+		//				if (operator.equals("+")) {
+		//					return firstElementResult + secondElementResult;
+		//				}
+		//				if (operator.equals("-")) {
+		//					return firstElementResult - secondElementResult;
+		//				}
+		//				if (operator.equals("*")) {
+		//					return firstElementResult * secondElementResult;
+		//				}
+		//				if (operator.equals("/")) {
+		//					return firstElementResult / secondElementResult;
+		//				}
+		//
+		//				break;
+		//
+		//		}
 
 		return -1.0;
 
@@ -287,91 +305,44 @@ public class FormulaElement implements Serializable {
 		return parent;
 	}
 
-	/**
-	 * Represents: Function(value1 operator value2) Note: only values may have further childs!
-	 * functionName and operator are always terminal! May be changed to different one though
-	 * 
-	 * @param functionName
-	 *            null if represents no function, function could be: sin, cod, rand,...
-	 * @param value1
-	 *            first value, usually a number, must never be null!
-	 * @param operator
-	 *            the operator, +,-,*,/ or , if represents a function. null if one-param function
-	 * @param value2
-	 *            second value, usually a number, can be null
-	 */
-	public void replaceWithChildren(String functionName, String value1, String operator, String value2) {
-		if (getParent() != null) {
-			this.value = null;
+	public void replaceWithChildren(String value1, String operator, String value2) {
+		if (getParent() == null) {
+			Log.i("info", "WARNING! ROOT ELEMENT BEING REPLACES");
 		}
-		if (this.type == ELEMENT_FIRST_VALUE) {
-			this.type = ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN;
-		} else if (this.type == ELEMENT_SECOND_VALUE) {
-			this.type = ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN;
-		} else {
-			Log.i("info", "FormulaElement potentially in bad state. This shouldn´t have happened! ");
-			this.type = ELEMENT_ROOT;
+
+		if (leftChild != null) {
+			Log.i("info", "Delete all previous children and replace with new ones: ");
 		}
-		if (children != null) {
-			Log.i("info", "Delete all previous children and replace with new ones: " + children.size());
-			children = new ArrayList<FormulaElement>();
-		}
-		if (functionName != null) {
-			addChild(new FormulaElement(ELEMENT_FUNCTION, functionName, this));
-		}
-		if (value1 != null) {
-			addChild(new FormulaElement(ELEMENT_FIRST_VALUE, value1, this));
-		}
-		if (operator != null) {
-			addChild(new FormulaElement(ELEMENT_OPERATOR, operator, this));
-		}
-		if (value2 != null) {
-			addChild(new FormulaElement(ELEMENT_SECOND_VALUE, value2, this));
-		}
+
+		this.value = operator;
+		this.type = ELEMENT_OP_OR_FCT;
+		this.leftChild = new FormulaElement(ELEMENT_VALUE, value1, this);
+		this.rightChild = new FormulaElement(ELEMENT_VALUE, value2, this);
+
 	}
 
 	public FormulaElement makeMeALeaf(String value) {
-		if (children != null) {
-			Log.i("info", "Delete all previous children and this becomes a leaf" + children.size());
-			children = null;
-		}
+		Log.i("info", "Delete all previous children and this becomes a leaf");
+
 		this.value = value;
-		if (this.type == ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN) {
-			this.type = ELEMENT_FIRST_VALUE;
-		}
-		if (this.type == ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN) {
-			this.type = ELEMENT_SECOND_VALUE;
-		}
+		this.leftChild = null;
+		this.rightChild = null;
+		this.type = ELEMENT_VALUE;
 
 		return this;
 	}
 
 	public String getFirstChildValue() {
 		String result = null;
-		if (this.type == ELEMENT_FIRST_VALUE || this.type == ELEMENT_SECOND_VALUE) {
+		if (this.type == ELEMENT_VALUE) {
 			result = this.value;
 		} else {
-			for (FormulaElement item : children) {
-				if (item != null && result == null) {
-					result = item.getFirstChildValue();
-				}
+
+			if (leftChild != null) {
+				result = leftChild.getFirstChildValue();
 			}
 		}
 		return result;
-	}
-
-	String getEditTextRepresentation(String text) {
-		if (this.type >= 0) {
-			return value + " ";
-		} else {
-			String result = "";
-			for (FormulaElement item : children) {
-				if (item != null) {
-					result += item.getEditTextRepresentation(result);
-				}
-			}
-			return result;
-		}
 	}
 
 	@Override

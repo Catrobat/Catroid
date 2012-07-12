@@ -40,8 +40,8 @@ public class Formula implements Serializable {
 	}
 
 	public Formula(String value) {
-		root = new FormulaElement(FormulaElement.ELEMENT_ROOT, "root", null);
-		root.replaceWithChildren(null, value, null, null);
+		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
+		//root.replaceWithChildren(value, null, null);
 	}
 
 	//	public void addChildByTextPosition(int position, String functionName, String value1, String operator, String value2) {
@@ -50,6 +50,7 @@ public class Formula implements Serializable {
 	//	}
 
 	public FormulaElement findItemByPosition(int position) {
+		Log.i("info", "F: Find item by pos " + position);
 		if (position == 0) {
 			return root;
 		}
@@ -64,13 +65,13 @@ public class Formula implements Serializable {
 	//	}
 
 	public String addToFormula(String keyboardInput, FormulaElement parent) {
-
+		Log.i("info", "FADD TO FORMULA " + parent.getValue());
 		String oldValue = parent.getValue();
 
 		if (parent.getType() == FormulaElement.ELEMENT_ROOT) {
 			oldValue = "0";
 		}
-		parent.replaceWithChildren(null, oldValue, keyboardInput, "0");
+		parent.replaceWithChildren(oldValue, keyboardInput, "0");
 
 		return oldValue + " " + keyboardInput + " 0";
 	}
@@ -86,7 +87,7 @@ public class Formula implements Serializable {
 	}
 
 	public String getEditTextRepresentation() {
-		return root.getEditTextRepresentation("");
+		return root.getEditTextRepresentation();
 	}
 
 	public static boolean isInputMemberOfAGroup(String input, final String[] group) {
