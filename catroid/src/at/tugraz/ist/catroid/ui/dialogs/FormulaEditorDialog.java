@@ -152,6 +152,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		switch (v.getId()) {
 			case R.id.formula_editor_ok_button:
 
+				textArea.updateSelectionIndices();
 				flipView.setDisplayedChild(1);
 
 				break;
