@@ -31,13 +31,29 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	//	static final int KEYCODE_OPTIONS = -100;
 	FormulaEditorEditText editText;
 	boolean isShifted;
+	CatKeyboard symbols;
+	CatKeyboard symbols_shifted;
 
 	public CatKeyboardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		setOnKeyboardActionListener(this);
-		editText = null;
-		isShifted = false;
+		this.editText = null;
+		this.isShifted = false;
+		this.symbols = null;
+		this.symbols_shifted = null;
+
+		if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.GERMAN.getDisplayLanguage())) {
+			this.symbols = new CatKeyboard(this.getContext(), R.xml.symbols_de);
+			this.symbols_shifted = new CatKeyboard(this.getContext(), R.xml.symbols_de_shift);
+			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is DE");
+		} else if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.ENGLISH.getDisplayLanguage())) {
+			this.symbols = new CatKeyboard(this.getContext(), R.xml.symbols_eng);
+			this.symbols_shifted = new CatKeyboard(this.getContext(), R.xml.symbols_eng_shift);
+			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is ENG");
+		}
+		Log.i("info", "CatKeyBoardView() - DisplayLanguage:" + Locale.getDefault().getDisplayLanguage());
+		this.setKeyboard(symbols);
 
 	}
 

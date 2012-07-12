@@ -41,7 +41,6 @@ import android.widget.ViewFlipper;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.io.CatKeyboard;
 import at.tugraz.ist.catroid.io.CatKeyboardView;
 import at.tugraz.ist.catroid.io.FormulaEditorEditText;
 import at.tugraz.ist.catroid.io.FormulaRepresentation;
@@ -120,29 +119,14 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		//TODO save in in the brick
 		//Formula data = new Formula("0");
 		//textArea.setFormula(data);
-		//textArea.setInputType(0);// turn off default input method
+		//textArea.setInputType(0);// turn off default input method: oncheckEditor() does this now
 		textArea.setFormulaEditorDialog(this);
-
-		CatKeyboard catKeyboard = null;
-		if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.GERMAN.getDisplayLanguage())) {
-			catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de);
-			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is DE");
-		} else if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.ENGLISH.getDisplayLanguage())) {
-			catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng);
-			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is ENG");
-		}
 
 		Log.i("info", "DisplayLanguage: " + Locale.getDefault().getDisplayLanguage());
 
 		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
-		catKeyboardView.setKeyboard(catKeyboard);
 		catKeyboardView.setEditText(textArea);
 		textArea.catKeyboardView = catKeyboardView;
-
-		//catKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols);
-		//		textArea.catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
-		//		textArea.catKeyboardView.setKeyboard(catKeyboard);
-
 	}
 
 	public void updateGraphicRepresentation(FormulaRepresentation formula) {

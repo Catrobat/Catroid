@@ -66,6 +66,10 @@ public class Formula implements Serializable {
 	public String addToFormula(String keyboardInput, FormulaElement parent) {
 
 		String oldValue = parent.getValue();
+
+		if (parent.getType() == FormulaElement.ELEMENT_REPLACED_BY_CHILDREN) {
+			oldValue = "0";
+		}
 		parent.replaceWithChildren(null, oldValue, keyboardInput, "0");
 
 		return oldValue + " " + keyboardInput + " 0";
