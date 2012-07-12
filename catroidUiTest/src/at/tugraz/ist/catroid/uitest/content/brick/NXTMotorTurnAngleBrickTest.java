@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -88,6 +89,10 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_angle)));
 		assertTrue("Unit missing for angle!", solo.searchText("°"));
 
+		EditText turnEditText = (EditText) solo.getView(R.id.motor_turn_angle_edit_text);
+		assertFalse("Edittext should not be clickable", turnEditText.isClickable());
+		assertFalse("Edittext should be disabled", turnEditText.isEnabled());
+
 		//		solo.clickOnEditText(0);
 		//		solo.clearEditText(0);
 		//		solo.enterText(0, setAngle + "");
@@ -124,6 +129,22 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
 		assertEquals("Wrong text in field.", setAngle, angle);
 		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
+
+		solo.sleep(200);
+		solo.clickOnView(solo.getView(R.id.directions_btn));
+		try {
+			solo.clickOnEditText(0);
+			solo.clearEditText(0);
+			solo.goBack();
+			solo.clickOnButton(0);
+			solo.sleep(500);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			fail("Numberformat Exception should not occur");
+		}
+		angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
+		assertEquals("Wrong text in field.", 0, angle);
+		assertEquals("Value in Brick is not updated.", "0", solo.getEditText(0).getText().toString());
 
 		solo.sleep(2000);
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
