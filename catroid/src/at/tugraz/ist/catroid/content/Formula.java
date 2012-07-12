@@ -31,8 +31,8 @@ public class Formula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final int ROOT_ELEMENT = 0;
 	private FormulaElement root;
-	public static final String[] NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ",", "." };
-	public static final String[] OPERATORS = new String[] { "+", "-", "*", "/", "^", "," };
+	public static final String[] NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+	public static final String[] OPERATORS = new String[] { "+", "-", "*", "/", "^" };
 	public static final String[] FUNCTIONS = new String[] { "rand" };
 
 	public Formula() {
@@ -71,7 +71,7 @@ public class Formula implements Serializable {
 		return oldValue + " " + keyboardInput + " 0";
 	}
 
-	public int interpret() {
+	public Double interpret() {
 
 		Log.i("info", root.getTreeString());
 		return root.interpretRecursive();
@@ -79,6 +79,10 @@ public class Formula implements Serializable {
 
 	public String stringRepresentation() {
 		return root.getTreeString();
+	}
+
+	public String getEditTextRepresentation() {
+		return root.getEditTextRepresentation("");
 	}
 
 	public static boolean isInputMemberOfAGroup(String input, final String[] group) {

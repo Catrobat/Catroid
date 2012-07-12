@@ -144,11 +144,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	//What have we actually selected in the Formula? We might need to add items belonging to the FormulaElement
 	private void checkSelectedTextType() {
 
-		//		if (editMode == true) {
-		//			selectedElement.replaceValue(valueToBeEdited);
-		//			editMode = false;
-		//			valueToBeEdited = "";
-		//		}
 		editMode = true;
 
 		currentlySelectedFormulaElement = formula.findItemByPosition(currentlySelectedElementNumber);
@@ -166,7 +161,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 				break;
 			case FormulaElement.ELEMENT_OPERATOR:
 				Log.i("info", "Search pos for child " + currentlySelectedElementNumber);
-				//selectedElement = formula.getParentOfItemByPosition(currentlySelectedElementNumber);
 				parentElement = currentlySelectedFormulaElement.getParent();
 				FormulaElement el1 = parentElement
 						.getChildOfType(FormulaElement.ELEMENT_FIRST_VALUE_REPLACED_BY_CHILDREN);
@@ -247,28 +241,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		str.setSpan(COLOR_EDITING, selectionStartIndex, selectionEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
-	//TextWatcher tells us what it has just replaced, we still have to make sure its represented correctly for and in the formula
-	//	public void checkAndModifyKeyInput(char lol) {
-	//		String newElement = "" + lol;
-	//		Log.i("info", "fooooo" + newElement + "val: " + valueToBeEdited);
-	//		if (formula == null) {
-	//			return;
-	//		}
-	//		boolean newElementIsOperator = Formula.isInputMemberOfAGroup(newElement, Formula.OPERATORS);
-	//
-	//		if (newElementIsOperator
-	//				&& (selectedElement.getType() == FormulaElement.ELEMENT_FIRST_VALUE || selectedElement.getType() == FormulaElement.ELEMENT_SECOND_VALUE)) {
-	//			replaceNumberWithSubElement(newElement);
-	//		} else if (newElementIsOperator && (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
-	//			replaceOperatorByOperator(newElement);
-	//		} else if (lol == Keyboard.KEYCODE_DELETE && (selectedElement.getType() == FormulaElement.ELEMENT_OPERATOR)) {
-	//			deleteElementAndChildren();
-	//		} else {
-	//			replaceNumberByNumber(newElement);
-	//		}
-	//
-	//	}
-
 	public void checkAndModifyKeyInput(CatKeyEvent catKey) {
 		String newElement = "" + catKey.getNumber();
 		Log.i("info", "Key pressed: " + newElement);
@@ -289,7 +261,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			if (newElementIsOperator) {
 				replaceValueBySubElement(newElement);
 			} else if (newElementIsNumber) {
-				replaceValueByNumber(newElement);
+				replaceValueByValue(newElement);
 			} else if (newElementIsFunction) {
 				//TODO ...
 			} else {
@@ -317,15 +289,18 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 			}
 		} else {
-			replaceValueByNumber(newElement);
+			replaceValueByValue(newElement);
 		}
 
 	}
 
 	public void specialKeyPressOnNumber(CatKeyEvent catKey) {
+
+		editMode = false;
+		Editable text = getText();
+
 		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-			editMode = false;
-			Editable text = getText();
+
 			if (selectionEndIndex > selectionStartIndex + 1) {
 				text.replace(selectionEndIndex - 1, selectionEndIndex, "");
 				currentlySelectedFormulaElement.deleteLastCharacterInValue();
@@ -338,8 +313,18 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 				setText(text);
 			}
 
-			highlightSelectionCurrentlyEditing();
+		} else if (catKey.getKeyCode() == KeyEvent.KEYCODE_PERIOD || catKey.getKeyCode() == KeyEvent.KEYCODE_COMMA) {
+			String sign = "."; //TODO Do we want representation for , as comma?
+
+			if (currentlySelectedFormulaElement.addCommaIfPossible()) {
+
+				text.insert(selectionEndIndex, "" + sign);
+				setText(text);
+				selectionEndIndex++;
+			}
 		}
+
+		highlightSelectionCurrentlyEditing();
 	}
 
 	public void specialKeyPressOnOperator(CatKeyEvent catKey) {
@@ -378,7 +363,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		highlightSelectionCurrentlyEditing();
 	}
 
-	public void replaceValueByNumber(String newElement) {
+	public void replaceValueByValue(String newElement) {
 		Log.i("info", "replace num by num");
 
 		if (editMode) {
@@ -439,7 +424,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		Formula old = this.formula;
 		this.formula = formula;
 		this.setEnabled(true);
-		this.setText("0");
+		String formulaAsText = formula.getEditTextRepresentation();
+		formulaAsText = formulaAsText.substring(0, formulaAsText.length() - 1);
+		this.setText(formulaAsText);
 		updateSelectionIndices();
 		return old;
 	}

@@ -172,14 +172,14 @@ public class FormulaElement implements Serializable {
 		return text;
 	}
 
-	public int interpretRecursive() {
+	public Double interpretRecursive() {
 
 		switch (type) {
 			case ELEMENT_FIRST_VALUE:
-				return Integer.parseInt(value);
+				return Double.parseDouble(value);
 
 			case ELEMENT_SECOND_VALUE:
-				return Integer.parseInt(value);
+				return Double.parseDouble(value);
 
 			case ELEMENT_FUNCTION:
 				//TODO: Implement Functions
@@ -190,7 +190,7 @@ public class FormulaElement implements Serializable {
 			case ELEMENT_SECOND_VALUE_REPLACED_BY_CHILDREN:
 
 				if (children == null) { //TODO: should not happen!
-					return 0;
+					return 0.0;
 				}
 
 				if (children.size() == 1) {
@@ -198,7 +198,7 @@ public class FormulaElement implements Serializable {
 				}
 
 				if (children.size() != 3) {
-					return -1;
+					return -1.0;
 				}
 
 				FormulaElement firstElement;
@@ -208,8 +208,8 @@ public class FormulaElement implements Serializable {
 				operator = children.get(1);
 				secondElement = children.get(2);
 
-				int firstElementResult = firstElement.interpretRecursive();
-				int secondElementResult = secondElement.interpretRecursive();
+				double firstElementResult = firstElement.interpretRecursive();
+				double secondElementResult = secondElement.interpretRecursive();
 
 				Log.e("info", operator.value);
 
@@ -230,7 +230,7 @@ public class FormulaElement implements Serializable {
 
 		}
 
-		return -1;
+		return -1.0;
 
 	}
 
@@ -268,6 +268,15 @@ public class FormulaElement implements Serializable {
 
 	public void addToValue(String value) {
 		this.value += value;
+	}
+
+	public boolean addCommaIfPossible() {
+
+		if (value.contains(".")) {
+			return false;
+		}
+		this.value += ".";
+		return true;
 	}
 
 	public void deleteLastCharacterInValue() {
@@ -349,6 +358,20 @@ public class FormulaElement implements Serializable {
 			}
 		}
 		return result;
+	}
+
+	String getEditTextRepresentation(String text) {
+		if (this.type >= 0) {
+			return value + " ";
+		} else {
+			String result = "";
+			for (FormulaElement item : children) {
+				if (item != null) {
+					result += item.getEditTextRepresentation(result);
+				}
+			}
+			return result;
+		}
 	}
 
 	@Override
