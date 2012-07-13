@@ -26,15 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
@@ -129,7 +126,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testSimpleDragNDrop() {
-		ArrayList<Integer> yPositionList = getListItemYPositions();
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		longClickAndDrag(10, yPositionList.get(4), 10, yPositionList.get(2), 20);
@@ -145,7 +142,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testDeleteItem() {
-		ArrayList<Integer> yPositionList = getListItemYPositions();
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
@@ -258,27 +255,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertTrue("Not in AddBrickDialog - category motion", solo.searchText(brickWhenStarted));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("dialog closed after orientation change", solo.searchText(brickWhenStarted));
-	}
-
-	/**
-	 * Returns the absolute pixel y coordinates of the displayed bricks
-	 * 
-	 * @return a list of the y pixel coordinates of the center of displayed bricks
-	 */
-	private ArrayList<Integer> getListItemYPositions() {
-		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
-		ListView listView = solo.getCurrentListViews().get(0);
-
-		for (int i = 0; i < listView.getChildCount(); ++i) {
-			View currentViewInList = listView.getChildAt(i);
-
-			Rect globalVisibleRect = new Rect();
-			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
-			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
-			yPositionList.add(middleYPos);
-		}
-
-		return yPositionList;
 	}
 
 	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,

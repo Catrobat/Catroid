@@ -24,16 +24,13 @@ package at.tugraz.ist.catroid.uitest.content;
 
 import java.util.ArrayList;
 
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Adapter;
-import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -74,22 +71,6 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-	}
-
-	private ArrayList<Integer> getListItemYPositions() {
-		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
-		ListView listView = solo.getCurrentListViews().get(0);
-
-		for (int i = 0; i < listView.getChildCount(); ++i) {
-			View currentViewInList = listView.getChildAt(i);
-
-			Rect globalVisibleRect = new Rect();
-			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
-			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
-			yPositionList.add(middleYPos);
-		}
-
-		return yPositionList;
 	}
 
 	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,
@@ -134,7 +115,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 
 	@Smoke
 	public void testMoveBrickAcrossScript() {
-		ArrayList<Integer> yPositionList = getListItemYPositions();
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
