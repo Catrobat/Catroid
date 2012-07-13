@@ -83,7 +83,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public synchronized void updateSelectionIndices() {
 
 		//TODO: Interpreter Test
-		Log.i("info", "Formula Interpretation: " + formula.interpret());
+		Log.i("info", "Formula Interpretation: deactivated"); // + formula.interpret());
 		Log.i("info", "updateSelection");
 
 		String currentInput = this.getText().toString();
@@ -273,22 +273,18 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		boolean newElementIsFunction = Formula.isInputMemberOfAGroup(newElement, Formula.FUNCTIONS);
 
 		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_VALUE) {
-			if (newElementIsOperator) {
+			if (newElementIsOperator) { //|| newElementIsFunction) { TODO
 				replaceValueBySubElement(newElement);
 			} else if (newElementIsNumber) {
 				replaceValueByValue(newElement);
-			} else if (newElementIsFunction) {
-				//TODO ...
 			} else {
 				specialKeyPressOnValue(catKey);
 			}
 		} else if ((currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_OP_OR_FCT)) {
-			if (newElementIsOperator) {
+			if (newElementIsOperator) {//|| newElementIsFunction) { TODO
 				replaceSubElementBySubElement(newElement);
 			} else if (newElementIsNumber) {
 				replaceSubElementByValue(newElement);
-			} else if (newElementIsFunction) {
-				//TODO ...
 			} else {
 				specialKeyPressOnSubElement(catKey);
 			}
@@ -396,8 +392,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void replaceValueBySubElement(String newElement) {
-		Log.i("info", "replaceValueBySubElement");
-		String textOutput = formula.addToFormula(newElement, currentlySelectedFormulaElement);
+		Log.i("info", "replaceValueBySubElement:" + newElement);
+		String textOutput = formula.updateFormula(newElement, currentlySelectedFormulaElement);
 		if (textOutput == "") {
 			return;
 		}

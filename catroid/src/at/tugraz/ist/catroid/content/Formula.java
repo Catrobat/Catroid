@@ -52,11 +52,11 @@ public class Formula implements Serializable {
 		return root.getItemByPosition(searchPosition);
 	}
 
-	public String addToFormula(String keyboardInput, FormulaElement element) {
-		Log.i("info", "FADD TO FORMULA " + element.getValue());
+	public String updateFormula(String keyboardInput, FormulaElement element) {
 		String oldValue = element.getValue();
+		Log.i("info", "update TO FORMULA " + oldValue);
 
-		element.replaceWithChildren(oldValue, keyboardInput, "0");
+		element.replaceWithSubElement(oldValue, keyboardInput, "0");
 
 		return oldValue + " " + keyboardInput + " 0";
 	}
