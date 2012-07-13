@@ -126,10 +126,10 @@
     <string name="last_used">Zuletzt benutzt:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
-    <string name="rename_project">Projeckt umbenennen</string>
+    <string name="rename_project">Projekt umbenennen</string>
 
     <!-- Script context menu -->
-    <string name="script_context_menu_title">Script Menü</string>
+    <string name="script_context_menu_title">Skript Menü</string>
 
     <!-- New project dialog -->
     <string name="new_project_dialog_button">Erstellen</string>
