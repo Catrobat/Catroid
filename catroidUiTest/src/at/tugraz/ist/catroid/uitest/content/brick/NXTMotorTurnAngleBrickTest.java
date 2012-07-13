@@ -26,8 +26,8 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.widget.Spinner;
 import android.widget.EditText;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -113,9 +113,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		try {
 			solo.clickOnEditText(0);
 			solo.clearEditText(0);
-			solo.goBack();
 			solo.clickOnButton(0);
-			solo.sleep(500);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			fail("Numberformat Exception should not occur");
