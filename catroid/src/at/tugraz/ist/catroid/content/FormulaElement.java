@@ -30,7 +30,6 @@ public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int ELEMENT_ROOT = -1;
 	public static final int ELEMENT_OP_OR_FCT = 2;
 	public static final int ELEMENT_VALUE = 3;
 
@@ -62,66 +61,13 @@ public class FormulaElement implements Serializable {
 		return rightChild;
 	}
 
-	//	public FormulaElement getChildOfType(int type) {
-	//
-	//		if (children == null) {
-	//			Log.i("info", "Get Child null ");
-	//			return null;
-	//		}
-	//
-	//		for (FormulaElement item : children) {
-	//			if (item != null) {
-	//				if (item.type == type) {
-	//					return item;
-	//				}
-	//			}
-	//		}
-	//		return null;
-	//	}
-
-	//	public FormulaElement getItemWithId(int searchedId) {
-	//		FormulaElement result = null;
-	//		if (this.id == searchedId) {
-	//			return this;
-	//		} else if (children == null) {
-	//			return null;
+	//	private void addChild(FormulaElement element) {
+	//		if (leftChild == null) {
+	//			leftChild = element;
 	//		} else {
-	//			for (FormulaElement nextChild : children) {
-	//				result = nextChild.getItemWithId(searchedId);
-	//				if (result != null) {
-	//					break;
-	//				}
-	//			}
+	//			rightChild = element;
 	//		}
-	//		return result;
 	//	}
-
-	//	public List<FormulaElement> getAllChildren(int searchedId) {
-	//
-	//		List<FormulaElement> result = null;
-	//
-	//		if (this.id == searchedId) {
-	//			return children;
-	//		} else if (children == null) {
-	//			return null;
-	//		} else {
-	//			for (FormulaElement nextChild : children) {
-	//				result = nextChild.getAllChildren(searchedId);
-	//				if (result != null) {
-	//					break;
-	//				}
-	//			}
-	//		}
-	//		return result;
-	//	}
-
-	private void addChild(FormulaElement element) {
-		if (leftChild == null) {
-			leftChild = element;
-		} else {
-			rightChild = element;
-		}
-	}
 
 	public FormulaElement getItemByPosition(MutableInteger position) {
 		FormulaElement result = null;
@@ -198,87 +144,29 @@ public class FormulaElement implements Serializable {
 
 	public Double interpretRecursive() {
 
-		//		switch (type) {
-		//			case ELEMENT_LEFT_CHILD:
-		//				return Double.parseDouble(value);
-		//
-		//			case ELEMENT_RIGHT_CHILD:
-		//				return Double.parseDouble(value);
-		//
-		//			case ELEMENT_FUNCTION:
-		//				//TODO: Implement Functions
-		//				break;
-		//
-		//			case ELEMENT_ROOT:
-		//			case ELEMENT_OPERATOR_AND_WAS_LEFT_CHILD:
-		//			case ELEMENT_OPERATOR_AND_WAS_RIGHT_CHILD:
-		//
-		//				if (leftChild == null) { //TODO: should not happen!
-		//					return 0.0;
-		//				}
-		//
-		//				if (rightChild == null) {
-		//					return leftChild.interpretRecursive();
-		//				}
-		//
-		//				//				if (children.size() != 3) {
-		//				//					return -1.0;
-		//				//				}
-		//
-		//				double firstElementResult = leftChild.interpretRecursive();
-		//				double secondElementResult = rightChild.interpretRecursive();
-		//
-		//				String operator = value;
-		//				Log.e("info", operator);
-		//
-		//				if (operator.equals("+")) {
-		//					return firstElementResult + secondElementResult;
-		//				}
-		//				if (operator.equals("-")) {
-		//					return firstElementResult - secondElementResult;
-		//				}
-		//				if (operator.equals("*")) {
-		//					return firstElementResult * secondElementResult;
-		//				}
-		//				if (operator.equals("/")) {
-		//					return firstElementResult / secondElementResult;
-		//				}
-		//
-		//				break;
-		//
-		//		}
+		if (type == ELEMENT_VALUE) {
+			return Double.parseDouble(value);
+		} else {
+			Double left = leftChild.interpretRecursive();
+			Double right = rightChild.interpretRecursive();
 
-		return -1.0;
+			if (value.equals("+")) {
+				return left + right;
+			}
+			if (value.equals("-")) {
+				return left - right;
+			}
+			if (value.equals("*")) {
+				return left * right;
+			}
+			if (value.equals("/")) {
+				return left / right;
+			}
+		}
+
+		return null;
 
 	}
-
-	//	public FormulaElement getParentByPosition(MutableInteger position) {
-	//
-	//		Log.i("info", "FE: get parent by position: " + position.i);
-	//		FormulaElement result = null;
-	//		if (children == null) {
-	//			Log.i("info", "FE: get parent by position, null " + position.i);
-	//			if (position.i == 0) {
-	//				return new FormulaElement(SEARCHING_FOR_PARENT_HACK, "", null);
-	//			} else {
-	//				position.i--;
-	//				return null;
-	//			}
-	//
-	//		} else {
-	//			for (FormulaElement nextChild : children) {
-	//				Log.i("info", "FE: get parent by position, iterating children " + position.i);
-	//				result = nextChild.getParentByPosition(position);
-	//				if (result != null) {
-	//					if (result.type == SEARCHING_FOR_PARENT_HACK) {
-	//						result = this;
-	//						break;
-	//					}
-	//				}
-	//			}
-	//		}
-	//		return result;
-	//	}
 
 	public void replaceValue(String value) {
 		this.value = value;

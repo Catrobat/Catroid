@@ -36,18 +36,12 @@ public class Formula implements Serializable {
 	public static final String[] FUNCTIONS = new String[] { "rand" };
 
 	public Formula() {
-		root = new FormulaElement(FormulaElement.ELEMENT_ROOT, "root", null);
+		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, "0", null);
 	}
 
 	public Formula(String value) {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
-		//root.replaceWithChildren(value, null, null);
 	}
-
-	//	public void addChildByTextPosition(int position, String functionName, String value1, String operator, String value2) {
-	//		FormulaElement parentItem = findItemByPosition(position);
-	//		parentItem.replaceWithChildren(functionName, value1, operator, value2);
-	//	}
 
 	public FormulaElement findItemByPosition(int position) {
 		Log.i("info", "F: Find item by pos " + position);
@@ -58,20 +52,11 @@ public class Formula implements Serializable {
 		return root.getItemByPosition(searchPosition);
 	}
 
-	//	public FormulaElement getParentOfItemByPosition(int position) {
-	//		Log.i("info", "F: Find parent by pos " + position);
-	//		MutableInteger searchPosition = new MutableInteger(position);
-	//		return root.getParentByPosition(searchPosition);
-	//	}
+	public String addToFormula(String keyboardInput, FormulaElement element) {
+		Log.i("info", "FADD TO FORMULA " + element.getValue());
+		String oldValue = element.getValue();
 
-	public String addToFormula(String keyboardInput, FormulaElement parent) {
-		Log.i("info", "FADD TO FORMULA " + parent.getValue());
-		String oldValue = parent.getValue();
-
-		if (parent.getType() == FormulaElement.ELEMENT_ROOT) {
-			oldValue = "0";
-		}
-		parent.replaceWithChildren(oldValue, keyboardInput, "0");
+		element.replaceWithChildren(oldValue, keyboardInput, "0");
 
 		return oldValue + " " + keyboardInput + " 0";
 	}

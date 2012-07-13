@@ -130,9 +130,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void graphicHierarchyOneUp() {
 		FormulaElement up = currentlySelectedFormulaElement.getParent();
-		if (up.getType() == FormulaElement.ELEMENT_ROOT) {
-			formulaEditorDialog.updateGraphicalRepresentation(null);
-		} else {
+		//		if (up.getType() == FormulaElement.ELEMENT_ROOT) {
+		//			formulaEditorDialog.updateGraphicalRepresentation(null);
+		//		}else 
+		{
 			FormulaElement el1 = currentlySelectedFormulaElement.getLeftChild();
 			FormulaElement el2 = currentlySelectedFormulaElement.getRightChild();
 			int childCount1 = 1;
