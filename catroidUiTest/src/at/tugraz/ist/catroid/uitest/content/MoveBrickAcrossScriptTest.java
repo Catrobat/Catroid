@@ -64,6 +64,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		createProject("testProject");
 		solo = new Solo(getInstrumentation(), getActivity());
 	}

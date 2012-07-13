@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -95,13 +94,12 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 				| InputType.TYPE_NUMBER_FLAG_SIGNED);
 		input.setSelectAllOnFocus(true);
 		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
 					transparency = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
 				dialog.cancel();
 			}

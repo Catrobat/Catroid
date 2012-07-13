@@ -54,7 +54,6 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		createTestProject("testProject");
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
-
 	}
 
 	@Override
@@ -72,6 +71,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testAddLooksCategoryBrick() {
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.sleep(1000);
 		assertTrue("Set costume brick was not added",
 				solo.searchText(getActivity().getString(R.string.brick_set_costume)));
 
@@ -83,8 +83,10 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 	}
 
 	public void testDeleteScript() {
+		solo.sleep(1000);
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.sleep(1000);
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 2, numberOfScripts);
 
