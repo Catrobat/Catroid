@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -82,7 +81,6 @@ public class NoteBrick implements Brick {
 				input.setText(note);
 				input.setSelectAllOnFocus(true);
 				dialog.setView(input);
-				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						note = (input.getText().toString()).trim();

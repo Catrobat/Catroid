@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -93,7 +92,6 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speed, 0);
 		}
 		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
-
 	}
 
 	public Sprite getSprite() {
@@ -135,8 +133,6 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 		});
@@ -193,15 +189,12 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 				dialogSpeed.setValue(progress - 100);
 			}
 		}
-
 	}
 
 	public void onStartTrackingTouch(SeekBar speedBar) {
-
 	}
 
 	public void onStopTrackingTouch(SeekBar speedBar) {
-
 	}
 
 	private void seekbarValToSpeed() {
@@ -214,7 +207,6 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {
-
 	}
 
 	public void onClick(View view) {
@@ -226,7 +218,6 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 		input.setSelectAllOnFocus(true);
 		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
@@ -256,7 +247,5 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
 
 		finishedDialog.show();
-
 	}
-
 }

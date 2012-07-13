@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,7 +104,6 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 				| InputType.TYPE_NUMBER_FLAG_SIGNED);
 		input.setSelectAllOnFocus(true);
 		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
@@ -126,7 +124,5 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
 
 		finishedDialog.show();
-
 	}
-
 }
