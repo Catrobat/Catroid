@@ -255,8 +255,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void checkAndModifyKeyInput(CatKeyEvent catKey) {
-		String newElement = "" + catKey.getNumber();
-		Log.i("info", "Key pressed: " + newElement);
+		String newElement = "" + catKey.getDisplayLabelString();
+		Log.i("info", "Key pressed: " + catKey.getDisplayLabelString());
+		Log.i("info",
+				"KeyCode:" + catKey.getKeyCode() + " ScanCode:" + catKey.getScanCode() + " MetaState:"
+						+ catKey.getMetaState() + " DisplayLabel:" + catKey.getDisplayLabel());
 		if (formula == null) {
 			return;
 		}

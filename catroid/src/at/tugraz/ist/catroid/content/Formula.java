@@ -33,7 +33,7 @@ public class Formula implements Serializable {
 	private FormulaElement root;
 	public static final String[] NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 	public static final String[] OPERATORS = new String[] { "+", "-", "*", "/", "^" };
-	public static final String[] FUNCTIONS = new String[] { "rand" };
+	public static final String[] FUNCTIONS = new String[] { "sin", "cos", "tan", "ln", "log", "pi", "sqrt", "e", "rand" };
 
 	public Formula() {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, "0", null);
