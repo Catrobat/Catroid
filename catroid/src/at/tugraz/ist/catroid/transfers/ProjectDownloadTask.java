@@ -81,13 +81,14 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 
 			if (StorageHandler.getInstance().projectExists(projectName)) {
 				showOverwriteDialog = true;
+				result = true;
 			}
 
 			if (!showOverwriteDialog) {
-				UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
+				result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 			}
 
-			return true;
+			return result;
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 		}
