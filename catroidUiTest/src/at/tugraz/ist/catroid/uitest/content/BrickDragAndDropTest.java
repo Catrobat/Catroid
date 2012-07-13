@@ -54,12 +54,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	protected void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
