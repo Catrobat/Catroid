@@ -33,7 +33,7 @@ public class Formula implements Serializable {
 	private FormulaElement root;
 	public static final String[] NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 	public static final String[] OPERATORS = new String[] { "+", "-", "*", "/", "^" };
-	public static final String[] FUNCTIONS = new String[] { "rand" };
+	public static final String[] FUNCTIONS = new String[] { "sin", "cos", "tan", "ln", "log", "pi", "sqrt", "e", "rand" };
 
 	public Formula() {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, "0", null);
@@ -52,11 +52,11 @@ public class Formula implements Serializable {
 		return root.getItemByPosition(searchPosition);
 	}
 
-	public String addToFormula(String keyboardInput, FormulaElement element) {
-		Log.i("info", "FADD TO FORMULA " + element.getValue());
+	public String updateFormula(String keyboardInput, FormulaElement element) {
 		String oldValue = element.getValue();
+		Log.i("info", "update TO FORMULA " + oldValue);
 
-		element.replaceWithChildren(oldValue, keyboardInput, "0");
+		element.replaceWithSubElement(oldValue, keyboardInput, "0");
 
 		return oldValue + " " + keyboardInput + " 0";
 	}

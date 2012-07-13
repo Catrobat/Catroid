@@ -193,7 +193,7 @@ public class FormulaElement implements Serializable {
 		return parent;
 	}
 
-	public void replaceWithChildren(String value1, String operator, String value2) {
+	public void replaceWithSubElement(String value1, String operator, String value2) {
 		if (getParent() == null) {
 			Log.i("info", "WARNING! ROOT ELEMENT BEING REPLACES");
 		}

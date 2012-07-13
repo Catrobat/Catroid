@@ -183,7 +183,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	//	}
 
 	public Formula setInputFocusAndFormula(Formula formula) {
-		Formula oldFormula = textArea.setFormula(formula);
+		Formula oldFormula = textArea.setNewFormulaAndReturnOldFormula(formula);
 		return oldFormula;
 	}
 

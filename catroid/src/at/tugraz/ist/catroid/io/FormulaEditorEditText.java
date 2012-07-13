@@ -83,7 +83,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public synchronized void updateSelectionIndices() {
 
 		//TODO: Interpreter Test
-		Log.i("info", "Formula Interpretation: " + formula.interpret());
+		Log.i("info", "Formula Interpretation: deactivated"); // + formula.interpret());
 		Log.i("info", "updateSelection");
 
 		String currentInput = this.getText().toString();
@@ -255,8 +255,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void checkAndModifyKeyInput(CatKeyEvent catKey) {
-		String newElement = "" + catKey.getNumber();
-		Log.i("info", "Key pressed: " + newElement);
+		String newElement = "" + catKey.getDisplayLabelString();
+		Log.i("info", "Key pressed: " + catKey.getDisplayLabelString());
+		Log.i("info",
+				"KeyCode:" + catKey.getKeyCode() + " ScanCode:" + catKey.getScanCode() + " MetaState:"
+						+ catKey.getMetaState() + " DisplayLabel:" + catKey.getDisplayLabel());
 		if (formula == null) {
 			return;
 		}
@@ -270,24 +273,20 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		boolean newElementIsFunction = Formula.isInputMemberOfAGroup(newElement, Formula.FUNCTIONS);
 
 		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_VALUE) {
-			if (newElementIsOperator) {
+			if (newElementIsOperator) { //|| newElementIsFunction) { TODO
 				replaceValueBySubElement(newElement);
 			} else if (newElementIsNumber) {
 				replaceValueByValue(newElement);
-			} else if (newElementIsFunction) {
-				//TODO ...
 			} else {
-				specialKeyPressOnNumber(catKey);
+				specialKeyPressOnValue(catKey);
 			}
 		} else if ((currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_OP_OR_FCT)) {
-			if (newElementIsOperator) {
-				replaceOperatorByOperator(newElement);
+			if (newElementIsOperator) {//|| newElementIsFunction) { TODO
+				replaceSubElementBySubElement(newElement);
 			} else if (newElementIsNumber) {
-				replaceElementHierarchyByNumber(newElement);
-			} else if (newElementIsFunction) {
-				//TODO ...
+				replaceSubElementByValue(newElement);
 			} else {
-				specialKeyPressOnOperator(catKey);
+				specialKeyPressOnSubElement(catKey);
 			}
 		} else {
 			//PANIC!
@@ -296,7 +295,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	}
 
-	public void specialKeyPressOnNumber(CatKeyEvent catKey) {
+	public void specialKeyPressOnValue(CatKeyEvent catKey) {
 
 		editMode = false;
 		Editable text = getText();
@@ -329,10 +328,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		highlightSelectionCurrentlyEditing();
 	}
 
-	public void specialKeyPressOnOperator(CatKeyEvent catKey) {
+	public void specialKeyPressOnSubElement(CatKeyEvent catKey) {
 		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
 			String value = currentlySelectedFormulaElement.getParent().getFirstChildValue();
-			replaceElementHierarchyByNumber(value);
+			replaceSubElementByValue(value);
 			selectionEndIndex = selectionStartIndex + value.length();
 			highlightSelection();
 			editMode = true;
@@ -347,8 +346,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		selectionEndIndex++;
 	}
 
-	public void replaceElementHierarchyByNumber(String newElement) {
-		Log.i("info", "replace tree!");
+	public void replaceSubElementByValue(String newElement) {
+		Log.i("info", "replaceSubElementByValue");
 
 		if (editMode) {
 			currentlySelectedFormulaElement = currentlySelectedFormulaElement.getParent().makeMeALeaf(newElement);
@@ -366,7 +365,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void replaceValueByValue(String newElement) {
-		Log.i("info", "replace num by num");
+		Log.i("info", "replaceValueByValue");
 
 		if (editMode) {
 			currentlySelectedFormulaElement.replaceValue(newElement);
@@ -383,8 +382,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		highlightSelectionCurrentlyEditing();
 	}
 
-	public void replaceOperatorByOperator(String newElement) {
-		Log.i("info", "replace op by op");
+	public void replaceSubElementBySubElement(String newElement) {
+		Log.i("info", "replaceSubElementBySubElement");
 
 		Editable text = getText();
 		text.replace(operatorSelectionIndex, operatorSelectionIndex + 1, newElement);
@@ -393,8 +392,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void replaceValueBySubElement(String newElement) {
-		Log.i("info", "replace num by sub el");
-		String textOutput = formula.addToFormula(newElement, currentlySelectedFormulaElement);
+		Log.i("info", "replaceValueBySubElement:" + newElement);
+		String textOutput = formula.updateFormula(newElement, currentlySelectedFormulaElement);
 		if (textOutput == "") {
 			return;
 		}
@@ -422,7 +421,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	//		}
 	//	}
 
-	public Formula setFormula(Formula formula) {
+	public Formula setNewFormulaAndReturnOldFormula(Formula formula) {
 		Formula old = this.formula;
 		this.formula = formula;
 		this.setEnabled(true);

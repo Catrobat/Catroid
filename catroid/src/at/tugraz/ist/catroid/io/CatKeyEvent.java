@@ -58,15 +58,15 @@ public class CatKeyEvent extends KeyEvent {
 
 		this.keyMap = new HashMap<Integer, String>();
 
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SIN)), new String("sin(0)"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_COS)), new String("cos(0)"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_TAN)), new String("tan(0)"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_LN)), new String("ln(0)"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_LOG)), new String("log(0)"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SIN)), new String("sin"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_COS)), new String("cos"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_TAN)), new String("tan"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_LN)), new String("ln"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_LOG)), new String("log"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_PI)), new String("pi"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SQUAREROOT)), new String("sqrt(0)"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SQUAREROOT)), new String("sqrt"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_EULER)), new String("e"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_RANDOM)), new String("rand(0)"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_RANDOM)), new String("rand"));
 
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR1)), new String("sensor1"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR2)), new String("sensor2"));
