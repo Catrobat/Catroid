@@ -42,13 +42,13 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	private int yPosition;
 	private Sprite sprite;
 
-	private Formula xFormula;
-	private Formula yFormula;
+	private Formula xPositionFormula;
+	private Formula yPositionFormula;
 
 	@XStreamOmitField
 	private transient View view;
 
-	private transient PlaceAtBrick instance = null;
+	private transient Brick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
 	public transient boolean editorActive = false;
 
@@ -57,8 +57,8 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 
-		xFormula = new Formula(Integer.toString(xPosition));
-		yFormula = new Formula(Integer.toString(yPosition));
+		xPositionFormula = new Formula(Integer.toString(xPosition));
+		yPositionFormula = new Formula(Integer.toString(yPosition));
 	}
 
 	public int getRequiredResources() {
@@ -80,23 +80,23 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		if (instance == null) {
 			instance = this;
 		}
-		if (xFormula == null) {
-			xFormula = new Formula(Integer.toString(xPosition));
+		if (xPositionFormula == null) {
+			xPositionFormula = new Formula(Integer.toString(xPosition));
 		}
-		if (yFormula == null) {
-			yFormula = new Formula(Integer.toString(yPosition));
+		if (yPositionFormula == null) {
+			yPositionFormula = new Formula(Integer.toString(yPosition));
 		}
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
 
 		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_x_edit_text);
 		//		editX.setText(String.valueOf(xPosition));
-		editX.setText(xFormula.getEditTextRepresentation());
+		editX.setText(xPositionFormula.getEditTextRepresentation());
 		editX.setOnClickListener(this);
 
 		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_y_edit_text);
 		//		editY.setText(String.valueOf(yPosition));
-		editY.setText(yFormula.getEditTextRepresentation());
+		editY.setText(yPositionFormula.getEditTextRepresentation());
 		editY.setOnClickListener(this);
 
 		return view;
@@ -120,11 +120,11 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 		switch (view.getId()) {
 			case R.id.brick_place_at_x_edit_text:
-				formulaEditor.setInputFocusAndFormula(xFormula);
+				formulaEditor.setInputFocusAndFormula(xPositionFormula);
 				break;
 
 			case R.id.brick_place_at_y_edit_text:
-				formulaEditor.setInputFocusAndFormula(yFormula);
+				formulaEditor.setInputFocusAndFormula(yPositionFormula);
 				break;
 		}
 

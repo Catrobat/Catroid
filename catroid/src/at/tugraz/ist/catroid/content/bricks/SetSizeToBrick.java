@@ -70,7 +70,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		}
 
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
-		edit.setText("...");
+		edit.setText(sizeFormula.getEditTextRepresentation());
 
 		edit.setOnClickListener(this);
 
