@@ -60,7 +60,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private ActionBar actionBar;
 
 	private static final int DIALOG_LOAD_PROJECT = 1;
-	private static final int DIALOG_ABOUT = 3;
 	private boolean ignoreResume = false;
 
 	public void updateProjectName() {
@@ -147,9 +146,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		switch (id) {
 			case DIALOG_LOAD_PROJECT:
 				dialog = new LoadProjectDialog(this);
-				break;
-			case DIALOG_ABOUT:
-				dialog = new AboutDialog(this);
 				break;
 			default:
 				dialog = null;
@@ -249,7 +245,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleAboutCatroidButton(View v) {
-		showDialog(DIALOG_ABOUT);
+		AboutDialog aboutDialog = new AboutDialog(this);
+		aboutDialog.show();
 	}
 
 	@Override
