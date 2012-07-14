@@ -42,7 +42,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 	private Solo solo;
 
 	public BrickDragAndDropTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
