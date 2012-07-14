@@ -103,9 +103,7 @@ public class FullParser {
 			NodeList spriteNodes = doc.getElementsByTagName("Content.Sprite");
 			for (int i = 0; i < spriteNodes.getLength(); i++) {
 				Element spriteElement = (Element) spriteNodes.item(i);
-				String spriteName = spriteElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
-						.getNodeValue();
-
+				String spriteName = getSpriteName(spriteElement);
 				Sprite foundSprite = new Sprite(spriteName);
 
 				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
@@ -142,6 +140,21 @@ public class FullParser {
 
 		return parsedProject;
 
+	}
+
+	private String getSpriteName(Element spriteElement) {
+		String spriteName = "";
+		NodeList spriteChildren = spriteElement.getChildNodes();
+		for (int i = 0; i < spriteChildren.getLength(); i++) {
+			if (spriteChildren.item(i).getNodeType() != Node.TEXT_NODE) {
+				Element childElement = (Element) spriteChildren.item(i);
+				if (childElement.getNodeName().equals("name")) {
+					spriteName = childElement.getChildNodes().item(0).getNodeValue();
+					break;
+				}
+			}
+		}
+		return spriteName;
 	}
 
 	private Project getProjectObject(Document doc, List<Sprite> sprites2) throws IllegalArgumentException,
@@ -545,7 +558,6 @@ public class FullParser {
 				foundCostumeData.setCostumeFilename(costumeFileName);
 				foundCostumeData.setCostumeName(costumeName);
 				costumeList.add(foundCostumeData);
-				//addToReferredObjects(foundCostumeData, costumeElement);
 				String costumeindexString = "";
 				if (costumeIndex > 0) {
 					costumeindexString = "[" + costumeIndex + "]";
