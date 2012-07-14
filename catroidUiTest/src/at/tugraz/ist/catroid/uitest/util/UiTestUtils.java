@@ -42,10 +42,13 @@ import java.util.List;
 import junit.framework.Assert;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -533,5 +536,26 @@ public class UiTestUtils {
 		} else {
 			assertFalse("Number too long - should not be resized and fully visible", solo.searchText(value));
 		}
+	}
+
+	/**
+	 * Returns the absolute pixel y coordinates of the displayed bricks
+	 * 
+	 * @return a list of the y pixel coordinates of the center of displayed bricks
+	 */
+	public static ArrayList<Integer> getListItemYPositions(final Solo solo) {
+		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
+		ListView listView = solo.getCurrentListViews().get(0);
+
+		for (int i = 0; i < listView.getChildCount(); ++i) {
+			View currentViewInList = listView.getChildAt(i);
+
+			Rect globalVisibleRect = new Rect();
+			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
+			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
+			yPositionList.add(middleYPos);
+		}
+
+		return yPositionList;
 	}
 }
