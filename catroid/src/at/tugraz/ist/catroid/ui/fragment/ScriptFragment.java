@@ -156,6 +156,9 @@ public class ScriptFragment extends SherlockFragment
 		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
+				listView.setHoveringBrick();
+				adapter.notifyDataSetChanged();
+
 				BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
 				brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
 				brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
