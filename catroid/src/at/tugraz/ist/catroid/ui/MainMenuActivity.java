@@ -22,7 +22,6 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-import java.io.File;
 import java.net.URLDecoder;
 
 import android.app.Dialog;
@@ -32,23 +31,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
+import at.tugraz.ist.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
-import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -56,7 +52,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainMenuActivity extends SherlockFragmentActivity {
+public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
 
 	private static final String PROJECTNAME_TAG = "fname=";
 	private ProjectManager projectManager;
@@ -64,9 +60,7 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 	private ActionBar actionBar;
 
 	private static final int DIALOG_LOAD_PROJECT = 1;
-	public static final int DIALOG_UPLOAD_PROJECT = 2;
 	private static final int DIALOG_ABOUT = 3;
-	private static final int DIALOG_LOGIN_REGISTER = 4;
 	private boolean ignoreResume = false;
 
 	public void updateProjectName() {
@@ -157,46 +151,11 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 			case DIALOG_ABOUT:
 				dialog = new AboutDialog(this);
 				break;
-			case DIALOG_UPLOAD_PROJECT:
-				dialog = new UploadProjectDialog(this);
-				break;
-			case DIALOG_LOGIN_REGISTER:
-				dialog = new LoginRegisterDialog(this);
-				break;
 			default:
 				dialog = null;
 				break;
 		}
 		return dialog;
-	}
-
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		super.onPrepareDialog(id, dialog);
-		switch (id) {
-			case DIALOG_UPLOAD_PROJECT:
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				String currentProjectName = currentProject.getName();
-				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
-				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
-				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
-				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
-						+ currentProjectName)));
-
-				projectRename.setVisibility(View.GONE);
-				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
-				projectDescriptionField.setText("");
-				projectUploadName.requestFocus();
-				projectUploadName.selectAll();
-				break;
-			case DIALOG_LOGIN_REGISTER:
-				EditText usernameEditText = (EditText) dialog.findViewById(R.id.username);
-				EditText passwordEditText = (EditText) dialog.findViewById(R.id.password);
-				usernameEditText.setText("");
-				passwordEditText.setText("");
-				break;
-		}
 	}
 
 	@Override
@@ -215,7 +174,6 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		writeProjectTitleInTextfield();
-
 	}
 
 	public void writeProjectTitleInTextfield() {
@@ -227,10 +185,10 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
+		
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-
 	}
 
 	@Override
@@ -267,9 +225,11 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 		String token = preferences.getString(Constants.TOKEN, null);
 
 		if (token == null || token.length() == 0 || token.equals("0")) {
-			showDialog(DIALOG_LOGIN_REGISTER);
+			showLoginRegisterDialog();
 		} else {
-			new CheckTokenTask(this, token).execute();
+			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token);
+			checkTokenTask.setOnCheckTokenCompleteListener(this);
+			checkTokenTask.execute();
 		}
 	}
 
@@ -292,6 +252,22 @@ public class MainMenuActivity extends SherlockFragmentActivity {
 		showDialog(DIALOG_ABOUT);
 	}
 
+	@Override
+	public void onTokenNotValid() {
+		showLoginRegisterDialog();
+	}
+
+	@Override
+	public void onCheckTokenSuccess() {
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		uploadProjectDialog.show(getSupportFragmentManager(), "dialog_upload_project");
+	}
+	
+	private void showLoginRegisterDialog() {
+		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
+		loginRegisterDialog.show(getSupportFragmentManager(), "dialog_login_register");
+	}
+	
 	private String getProjectName(String zipUrl) {
 		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
 		String projectName = zipUrl.substring(projectNameIndex);
