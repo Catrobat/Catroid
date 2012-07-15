@@ -220,7 +220,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		//		testProject = sh.loadProject("test_aquarium_project.xml");
 		try {
 
-			testProject = parser.fullParser("bat.xml");
+			testProject = parser.fullParser("test_pointto_project.xml");
 
 		} catch (ParseException e) {
 			e.printStackTrace();
