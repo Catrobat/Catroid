@@ -94,7 +94,9 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
-            android:label="@string/soundrecorder_name" >
+            android:theme="@style/Theme.Catroid" 
+            android:label="@string/soundrecorder_name"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
 
