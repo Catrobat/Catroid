@@ -185,7 +185,7 @@ public class FullParser {
 
 	private void parseScripts(NodeList scriptListNodes, Sprite foundSprite) throws IllegalAccessException,
 			InstantiationException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException,
-			XPathExpressionException, ParseException {
+			XPathExpressionException, ParseException, SecurityException, NoSuchFieldException {
 		for (int j = 0; j < scriptListNodes.getLength(); j++) {
 
 			Script foundScript = null;
@@ -208,7 +208,7 @@ public class FullParser {
 
 	private void parseBricks(Sprite foundSprite, Script foundScript, Element scriptElement, Node brickListNode)
 			throws XPathExpressionException, InstantiationException, IllegalAccessException, InvocationTargetException,
-			NoSuchMethodException, ClassNotFoundException, ParseException {
+			NoSuchMethodException, ClassNotFoundException, ParseException, SecurityException, NoSuchFieldException {
 		NodeList brickNodes = brickListNode.getChildNodes();
 
 		for (int k = 0; k < brickNodes.getLength(); k++) {
@@ -254,7 +254,13 @@ public class FullParser {
 				SoundInfo foundSoundInfo = new SoundInfo();
 				String soundRef = getReferenceAttribute(soundNode);
 				if (soundRef != null) {
-					foundSoundInfo = (SoundInfo) resolveReference(foundSoundInfo, soundNode, soundRef);
+					String suffix = soundRef.substring(soundRef.lastIndexOf("scriptList"));
+
+					if (referencedObjects.containsKey(suffix)) {
+						foundSoundInfo = (SoundInfo) referencedObjects.get(suffix);
+					} else {
+						foundSoundInfo = (SoundInfo) resolveReference(foundSoundInfo, soundNode, soundRef);
+					}
 				} else {
 
 					Node soundFileNameNode = soundElement.getElementsByTagName("fileName").item(0);
@@ -287,7 +293,7 @@ public class FullParser {
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
 		XPathExpression exp = xpath.compile(referenceString);
-		Log.i("soundinfo parsing methodparsing", "xpath evaluated");
+		Log.i("resolveRef", "xpath evaluated for :" + referenceString);
 		Element refferredElement = (Element) exp.evaluate(elementWithReference, XPathConstants.NODE);
 		String xpathFromRoot = getElementXpath(refferredElement);
 		Object object = referencedObjects.get(xpathFromRoot);
@@ -454,8 +460,14 @@ public class FullParser {
 						getValueObject(valueObj, brickValue, fieldMap);
 
 						valueField.set(brickObject, valueObj);
-						String childBrickXPath = getElementXpath((Element) brickValue);
-						referencedObjects.put(childBrickXPath, valueObj);
+
+						String valueObjXPath = getElementXpath((Element) brickValue);
+						if (brickvalueName.equals("soundInfo")) {
+							String suffix = valueObjXPath.substring(valueObjXPath.lastIndexOf("scriptList"));
+							referencedObjects.put(suffix, valueObj);
+						} else {
+							referencedObjects.put(valueObjXPath, valueObj);
+						}
 					}
 				} else {
 
@@ -611,7 +623,7 @@ public class FullParser {
 				int idx = getElementIdx(elt);
 				String xname = elt.getTagName().toString();
 
-				if (idx >= 1) {
+				if (idx > 1) {
 					xname += "[" + idx + "]";
 				}
 				path = "/" + xname + path;
