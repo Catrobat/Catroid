@@ -73,6 +73,7 @@ public class ScriptFragment extends SherlockFragment
 	private boolean isCanceled;
 	
 	private NewBrickAddedReceiver brickAddedReceiver;
+	private BrickListChangedReceiver brickListChangedReceiver;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,7 +108,7 @@ public class ScriptFragment extends SherlockFragment
 	@Override
 	public void onPause() {
 		super.onPause();
-
+		
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
@@ -116,11 +117,16 @@ public class ScriptFragment extends SherlockFragment
 		if (brickAddedReceiver != null) {
 			getActivity().unregisterReceiver(brickAddedReceiver);
 		}
+		
+		if (brickListChangedReceiver != null) {
+			getActivity().unregisterReceiver(brickListChangedReceiver);
+		}
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
+		
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		if (sprite == null) {
 			return;
@@ -140,10 +146,17 @@ public class ScriptFragment extends SherlockFragment
 		if (brickAddedReceiver == null) {
 			brickAddedReceiver = new NewBrickAddedReceiver();
 		}
+		
+		if (brickListChangedReceiver == null) {
+			brickListChangedReceiver = new BrickListChangedReceiver();
+		}
 
-		IntentFilter filter = new IntentFilter(ScriptTabActivity.ACTION_BRICKS_LIST_CHANGED);
-		getActivity().registerReceiver(brickAddedReceiver, filter);
+		IntentFilter filterBrickAdded = new IntentFilter(ScriptTabActivity.ACTION_NEW_BRICK_ADDED);
+		getActivity().registerReceiver(brickAddedReceiver, filterBrickAdded);
 
+		IntentFilter filterBrickListChanged = new IntentFilter(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
+		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
+		
 		initListeners();
 	}
 
@@ -305,8 +318,17 @@ public class ScriptFragment extends SherlockFragment
 	private class NewBrickAddedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICKS_LIST_CHANGED)) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
 				updateAdapterAfterAddNewBrick();
+			}
+		}
+	}
+	
+	private class BrickListChangedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED)) {
+				adapter.notifyDataSetChanged();
 			}
 		}
 	}

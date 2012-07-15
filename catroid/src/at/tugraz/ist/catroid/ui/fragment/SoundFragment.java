@@ -37,7 +37,9 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,11 +60,12 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class SoundFragment extends SherlockListFragment implements OnSoundEditListener {
-	
-	private static final String TAG = SoundFragment.class.getSimpleName();
+public class SoundFragment extends SherlockListFragment 
+		implements OnSoundEditListener, LoaderManager.LoaderCallbacks<Cursor> {
 	
 	private static final String ARGS_SELECTED_SOUND = "selected_sound";
+	private static final int ID_LOADER_MEDIA_IMAGE = 1;
+	private final int REQUEST_SELECT_MUSIC = 0;
 
 	public MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
@@ -71,8 +74,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
-
-	private final int REQUEST_SELECT_MUSIC = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -167,104 +168,21 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 	}
 	
-	private void updateSoundAdapter(String title, String fileName) {
-		title = Utils.getUniqueSoundName(title);
-
-		SoundInfo newSoundInfo = new SoundInfo();
-		newSoundInfo.setTitle(title);
-		newSoundInfo.setSoundFileName(fileName);
-		soundInfoList.add(newSoundInfo);
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
-
-		//scroll down the list to the new item:
-		{
-			final ListView listView = getListView();
-			listView.post(new Runnable() {
-				public void run() {
-					listView.setSelection(listView.getCount() - 1);
-				}
-			});
-		}
-	}
-
-	public void pauseSound(SoundInfo soundInfo) {
-		mediaPlayer.pause();
-
-		soundInfo.isPlaying = false;
-		soundInfo.isPaused = true;
-	}
-
-	public void stopSound(SoundInfo exceptionSoundInfo) {
-		if (exceptionSoundInfo != null && exceptionSoundInfo.isPaused) {
-			return;
-		}
-		mediaPlayer.stop();
-
-		for (SoundInfo soundInfo : soundInfoList) {
-			soundInfo.isPlaying = false;
-			soundInfo.isPaused = false;
-		}
-	}
-
-	public void startSound(SoundInfo soundInfo) {
-		soundInfo.isPlaying = true;
-		if (soundInfo.isPaused) {
-			soundInfo.isPaused = false;
-			mediaPlayer.start();
-			return;
-		}
-		try {
-			mediaPlayer.reset();
-			mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
-			mediaPlayer.prepare();
-			mediaPlayer.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC) {
-			String audioPath = "";
-
-			//copy music to catroid:
-			try {
-
-				//get real path of soundfile --------------------------
-				{
-					Uri audioUri = data.getData();
-					String[] proj = { MediaStore.Audio.Media.DATA };
-					Cursor actualSoundCursor = getActivity().managedQuery(audioUri, proj, null, null, null);
-
-					if (actualSoundCursor != null) {
-						int actualSoundColumnIndex = actualSoundCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
-						actualSoundCursor.moveToFirst();
-						audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
-					} else {
-						audioPath = audioUri.getPath();
-					}
-					Log.i(TAG, "audiopath: " + audioPath);
-				}
-				//-----------------------------------------------------
-
-				if (audioPath.equalsIgnoreCase("")) {
-					throw new IOException();
-				}
-				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
-				String soundFileName = soundFile.getName();
-				String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1,
-						soundFileName.lastIndexOf('.'));
-				updateSoundAdapter(soundTitle, soundFileName);
-			} catch (Exception e) {
-				e.printStackTrace();
-				Utils.displayErrorMessage(getActivity(), getActivity().getString(R.string.error_load_sound));
+			Bundle args = new Bundle();
+			args.putParcelable(ARGS_SELECTED_SOUND, data.getData());
+			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
+				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+			} else {
+				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, args, this);
 			}
 		}
 	}
-
+	
 	@Override
 	public void onSoundRename(View v) {
 		handleSoundRenameButton(v);
@@ -285,12 +203,82 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		handleDeleteSoundButton(v);
 	}
 	
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		Uri audioUri = null;
+		if (args != null) {
+			audioUri = (Uri) args.get(ARGS_SELECTED_SOUND);
+		}
+		
+		String[] projection = { MediaStore.Audio.Media.DATA };
+		return new CursorLoader(getActivity(), audioUri, projection, null, null, null);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		String audioPath = "";
+		CursorLoader cursorLoader = (CursorLoader) loader;
+		
+		if (data == null) {
+			audioPath = cursorLoader.getUri().getPath();
+		} else {
+			int actualSoundColumnIndex = data.getColumnIndex(MediaStore.Audio.Media.DATA);
+			data.moveToFirst();
+			audioPath = data.getString(actualSoundColumnIndex);
+		}
+		
+		copySoundToCatroid(audioPath);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+	}
+	
+	private void copySoundToCatroid(String audioPath) {
+		try {
+			if (audioPath.equalsIgnoreCase("")) {
+				throw new IOException("Audio path can not be empty.");
+			}
+			
+			File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
+			String soundFileName = soundFile.getName();
+			String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1,
+					soundFileName.lastIndexOf('.'));
+			updateSoundAdapter(soundTitle, soundFileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utils.displayErrorMessage(getActivity(), getActivity().getString(R.string.error_load_sound));
+		}
+		
+		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
+	}
+	
 	private void reloadAdapter() {
-		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+		adapter.notifyDataSetChanged();
+	}
+	
+	private void updateSoundAdapter(String title, String fileName) {
+		title = Utils.getUniqueSoundName(title);
+
+		SoundInfo newSoundInfo = new SoundInfo();
+		newSoundInfo.setTitle(title);
+		newSoundInfo.setSoundFileName(fileName);
+		soundInfoList.add(newSoundInfo);
+		adapter.notifyDataSetChanged();
+
+		//scroll down the list to the new item:
+		{
+			final ListView listView = getListView();
+			listView.post(new Runnable() {
+				public void run() {
+					listView.setSelection(listView.getCount() - 1);
+				}
+			});
+		}
 	}
 
 	// Does not rename the actual file, only the title in the SoundInfo
@@ -335,8 +323,43 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		deleteSoundDialog.show(getFragmentManager(), "dialog_delete_sound");
 	}
 	
-	private class SoundDeletedReceiver extends BroadcastReceiver {
+	private void pauseSound(SoundInfo soundInfo) {
+		mediaPlayer.pause();
 
+		soundInfo.isPlaying = false;
+		soundInfo.isPaused = true;
+	}
+
+	private void stopSound(SoundInfo exceptionSoundInfo) {
+		if (exceptionSoundInfo != null && exceptionSoundInfo.isPaused) {
+			return;
+		}
+		mediaPlayer.stop();
+
+		for (SoundInfo soundInfo : soundInfoList) {
+			soundInfo.isPlaying = false;
+			soundInfo.isPaused = false;
+		}
+	}
+
+	private void startSound(SoundInfo soundInfo) {
+		soundInfo.isPlaying = true;
+		if (soundInfo.isPaused) {
+			soundInfo.isPaused = false;
+			mediaPlayer.start();
+			return;
+		}
+		try {
+			mediaPlayer.reset();
+			mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
+			mediaPlayer.prepare();
+			mediaPlayer.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private class SoundDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_DELETED)) {
@@ -351,7 +374,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_RENAMED)) {
 				String newSoundTitle = intent.getExtras().getString(RenameSoundDialog.EXTRA_NEW_SOUND_TITLE);
 				
-				Log.v(TAG, "new sound title is : " + newSoundTitle);
 				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 					selectedSoundInfo.setTitle(newSoundTitle);
 					adapter.notifyDataSetChanged();

@@ -50,7 +50,8 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class ScriptTabActivity extends SherlockFragmentActivity {
 	
-	public static final String ACTION_BRICKS_LIST_CHANGED = "at.tugraz.ist.catroid.BRICKS_LIST_CHANGED";
+	public static final String ACTION_NEW_BRICK_ADDED = "at.tugraz.ist.catroid.NEW_BRICK_ADDED";
+	public static final String ACTION_BRICK_LIST_CHANGED = "at.tugraz.ist.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
 	public static final String ACTION_COSTUME_RENAMED = "at.tugraz.ist.catroid.COSTUME_RENAMED";
 	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
