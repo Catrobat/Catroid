@@ -42,6 +42,9 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,9 +68,12 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener {
+public class CostumeFragment extends SherlockListFragment 
+		implements OnCostumeEditListener, LoaderManager.LoaderCallbacks<Cursor> {
 	
 	private static final String ARGS_SELECTED_COSTUME = "selected_costume";
+	private static final String ARGS_IMAGE_URI = "image_uri";
+	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 	
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
@@ -171,7 +177,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				Bundle bundleForPaintroid = new Bundle();
 				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
 				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
-						CostumeFragment.this.getString(R.string.default_costume_name));
+						getString(R.string.default_costume_name));
 
 				intent.setType("image/*");
 				intent.putExtras(bundleForPaintroid);
@@ -189,7 +195,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		costumeData.setCostumeFilename(fileName);
 		costumeData.setCostumeName(name);
 		costumeDataList.add(costumeData);
-		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
+		adapter.notifyDataSetChanged();
 
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
@@ -210,7 +216,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				R.layout.activity_costume_costumelist_item, costumeDataList);
 		adapter.setOnCostumeEditListener(this);
 		setListAdapter(adapter);
-		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -251,50 +257,57 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		handleCopyCostumeButton(v);
 	}
 	
-	private void loadImageIntoCatroid(Intent intent) {
-		Activity parent = getActivity();
-		
-		String originalImagePath = "";
-		//get path of image - will work for most applications
-		Bundle bundle = intent.getExtras();
-		if (bundle != null) {
-			originalImagePath = bundle.getString(Constants.EXTRA_PICTURE_PATH_PAINTROID);
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		Uri imageUri = null;
+		if (args != null) {
+			imageUri = (Uri) args.get(ARGS_IMAGE_URI);
 		}
-		if (originalImagePath == null || originalImagePath.equals("")) {
-			Uri imageUri = intent.getData();
+		
+		String[] projection = { MediaStore.MediaColumns.DATA };
+		return new CursorLoader(getActivity(), imageUri, projection, null, null, null);
+	}
 
-			String[] projection = { MediaStore.MediaColumns.DATA };
-			Cursor cursor = parent.managedQuery(imageUri, projection, null, null, null);
-			if (cursor == null) {
-				originalImagePath = imageUri.getPath();
-			} else {
-				int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-				cursor.moveToFirst();
-				try {
-					originalImagePath = cursor.getString(columnIndex);
-				} catch (CursorIndexOutOfBoundsException e) {
-					Utils.displayErrorMessage(parent, this.getString(R.string.error_load_image));
-					return;
-				}
-			}
-
-			if (cursor == null && originalImagePath.equals("")) {
-				Utils.displayErrorMessage(parent, this.getString(R.string.error_load_image));
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		String originalImagePath = "";
+		CursorLoader cursorLoader = (CursorLoader) loader;
+		
+		if (data == null) {
+			originalImagePath = cursorLoader.getUri().getPath();
+		} else {
+			int columnIndex = data.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+			data.moveToFirst();
+			try {
+				originalImagePath = data.getString(columnIndex);
+			} catch (CursorIndexOutOfBoundsException e) {
+				Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 				return;
 			}
-
 		}
-		//-----------------------------------------------------
 
+		if (data == null && originalImagePath.equals("")) {
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
+			return;
+		}
+		
+		copyImageToCatroid(originalImagePath);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+	}
+	
+	private void copyImageToCatroid(String originalImagePath) {
 		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
+		
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.displayErrorMessage(parent, this.getString(R.string.error_load_image));
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 			return;
 		}
 
 		File oldFile = new File(originalImagePath);
 
-		//copy image to catroid:
 		try {
 			if (originalImagePath.equals("")) {
 				throw new IOException();
@@ -313,7 +326,30 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			String imageFileName = imageFile.getName();
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
-			Utils.displayErrorMessage(parent, this.getString(R.string.error_load_image));
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
+		}
+		
+		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+	}
+	
+	private void loadImageIntoCatroid(Intent intent) {
+		String originalImagePath = "";
+		
+		//get path of image - will work for most applications
+		Bundle bundle = intent.getExtras();
+		if (bundle != null) {
+			originalImagePath = bundle.getString(Constants.EXTRA_PICTURE_PATH_PAINTROID);
+		}
+		if (originalImagePath == null || originalImagePath.equals("")) {
+			Bundle args = new Bundle();
+			args.putParcelable(ARGS_IMAGE_URI, intent.getData());
+			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
+				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+			} else {
+				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+			}
+		} else {
+			copyImageToCatroid(originalImagePath);
 		}
 	}
 
@@ -378,6 +414,8 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 			e.printStackTrace();
 		}
+		
+		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	private void handleEditCostumeButton(View v) {
@@ -426,6 +464,8 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_DELETED)) {
 				reloadAdapter();
+				adapter.notifyDataSetChanged();
+				getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
 			}
 		}
 	}
