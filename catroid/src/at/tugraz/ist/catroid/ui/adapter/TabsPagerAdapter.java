@@ -49,12 +49,10 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 	private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
 	static final class TabInfo {
-		private final String tag;
 		private final Class<?> clss;
 		private final Bundle args;
 
-		TabInfo(String _tag, Class<?> _class, Bundle _args) {
-			tag = _tag;
+		TabInfo(Class<?> _class, Bundle _args) {
 			clss = _class;
 			args = _args;
 		}
@@ -88,9 +86,8 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 
 	public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
 		tabSpec.setContent(new DummyTabFactory(mContext));
-		String tag = tabSpec.getTag();
 
-		TabInfo info = new TabInfo(tag, clss, args);
+		TabInfo info = new TabInfo(clss, args);
 		mTabs.add(info);
 		mTabHost.addTab(tabSpec);
 		notifyDataSetChanged();

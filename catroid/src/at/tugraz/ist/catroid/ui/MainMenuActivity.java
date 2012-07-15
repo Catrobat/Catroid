@@ -22,6 +22,8 @@
  */
 package at.tugraz.ist.catroid.ui;
 
+
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import android.app.Dialog;
@@ -30,6 +32,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -54,7 +57,9 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
 
+	private static final String TAG = "MainMenuActivity";
 	private static final String PROJECTNAME_TAG = "fname=";
+	
 	private ProjectManager projectManager;
 
 	private ActionBar actionBar;
@@ -268,8 +273,13 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private String getProjectName(String zipUrl) {
 		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
 		String projectName = zipUrl.substring(projectNameIndex);
-		projectName = URLDecoder.decode(projectName);
-
+		
+		try {
+			projectName = URLDecoder.decode(projectName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, "Could not decode project name: " + projectName, e);
+		}
+		
 		return projectName;
 	}
 }
