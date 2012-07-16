@@ -109,7 +109,8 @@ public class FullParser {
 				if (costumeListItem != null) {
 					NodeList costumeNodes = costumeListItem.getChildNodes();
 					costumeList = new ArrayList<CostumeData>();
-					parseCostumeList(costumeNodes, foundSprite);
+					CostumeParser costumeParser = new CostumeParser();
+					costumeParser.parseCostumeList(costumeNodes, foundSprite, referencedObjects);
 				}
 
 				Node scriptListItem = spriteElement.getElementsByTagName("scriptList").item(0);
@@ -193,7 +194,6 @@ public class FullParser {
 				Element scriptElement = (Element) scriptListNodes.item(j);
 				foundScript = getpopulatedScript(scriptElement, foundSprite);
 				Node brickListNode = scriptElement.getElementsByTagName("brickList").item(0);
-				//	scriptLoopEndBrick = null;
 				if (brickListNode != null) {
 					parseBricks(foundSprite, foundScript, scriptElement, brickListNode);
 				}
@@ -441,7 +441,6 @@ public class FullParser {
 								String childBrickXPath = getElementXpath((Element) brickValue);
 								String key = childBrickXPath.substring(childBrickXPath.lastIndexOf("Bricks"));
 								referencedObjects.put(key, foundLoopEndBrick);
-								//	scriptLoopEndBrick = foundLoopEndBrick;
 								continue;
 							}
 						}
@@ -553,42 +552,37 @@ public class FullParser {
 
 	}
 
-	private void parseCostumeList(NodeList costumeNodes, Sprite sprite) throws SecurityException, NoSuchFieldException,
-			IllegalAccessException {
-		int costumeIndex = 0;
-		for (int m = 0; m < costumeNodes.getLength(); m++) {
-			CostumeData foundCostumeData = null;
-			if (costumeNodes.item(m).getNodeType() != Node.TEXT_NODE) {
-
-				Element costumeElement = (Element) costumeNodes.item(m);
-				String costumeFileName = null;
-				Node costumeFileNameNode = costumeElement.getElementsByTagName("fileName").item(0);
-				if (costumeFileNameNode != null) {
-					costumeFileName = costumeFileNameNode.getChildNodes().item(0).getNodeValue();
-				}
-				String costumeName = costumeElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
-						.getNodeValue();
-				foundCostumeData = new CostumeData();
-				foundCostumeData.setCostumeFilename(costumeFileName);
-				foundCostumeData.setCostumeName(costumeName);
-				costumeList.add(foundCostumeData);
-				String costumeindexString = "";
-				if (costumeIndex > 0) {
-					costumeindexString = "[" + costumeIndex + "]";
-				}
-				referencedObjects.put("Common.CostumeData" + costumeindexString, foundCostumeData);
-				costumeIndex++;
-			}
-		}
-		Field costumeListField = sprite.getClass().getDeclaredField("costumeDataList");
-		objectGetter.setFieldOfObject(costumeListField, sprite, costumeList);
-
-	}
-
-	public void addToReferredObjects(Object storedObject, Element elementOfObject) {
-		String xp = getElementXpath(elementOfObject);
-		referencedObjects.put(xp, storedObject);
-	}
+	//	private void parseCostumeList(NodeList costumeNodes, Sprite sprite) throws SecurityException, NoSuchFieldException,
+	//			IllegalAccessException {
+	//		int costumeIndex = 0;
+	//		for (int m = 0; m < costumeNodes.getLength(); m++) {
+	//			CostumeData foundCostumeData = null;
+	//			if (costumeNodes.item(m).getNodeType() != Node.TEXT_NODE) {
+	//
+	//				Element costumeElement = (Element) costumeNodes.item(m);
+	//				String costumeFileName = null;
+	//				Node costumeFileNameNode = costumeElement.getElementsByTagName("fileName").item(0);
+	//				if (costumeFileNameNode != null) {
+	//					costumeFileName = costumeFileNameNode.getChildNodes().item(0).getNodeValue();
+	//				}
+	//				String costumeName = costumeElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
+	//						.getNodeValue();
+	//				foundCostumeData = new CostumeData();
+	//				foundCostumeData.setCostumeFilename(costumeFileName);
+	//				foundCostumeData.setCostumeName(costumeName);
+	//				costumeList.add(foundCostumeData);
+	//				String costumeindexString = "";
+	//				if (costumeIndex > 0) {
+	//					costumeindexString = "[" + costumeIndex + "]";
+	//				}
+	//				referencedObjects.put("Common.CostumeData" + costumeindexString, foundCostumeData);
+	//				costumeIndex++;
+	//			}
+	//		}
+	//		Field costumeListField = sprite.getClass().getDeclaredField("costumeDataList");
+	//		objectGetter.setFieldOfObject(costumeListField, sprite, costumeList);
+	//
+	//	}
 
 	@SuppressWarnings("rawtypes")
 	private Map<String, Field> getFieldMap(Class cls) {
