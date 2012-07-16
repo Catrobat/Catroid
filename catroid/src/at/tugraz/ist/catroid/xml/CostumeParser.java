@@ -29,13 +29,15 @@ import org.w3c.dom.NodeList;
 
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class CostumeParser {
 	ObjectCreator objectGetter = new ObjectCreator();
-	List<CostumeData> costumeList = new ArrayList<CostumeData>();
+	List<CostumeData> costumeList;
 
 	public void parseCostumeList(NodeList costumeNodes, Sprite sprite, Map<String, Object> referencedObjects)
 			throws SecurityException, NoSuchFieldException, IllegalAccessException {
+		costumeList = new ArrayList<CostumeData>();
 		int costumeIndex = 0;
 		for (int m = 0; m < costumeNodes.getLength(); m++) {
 			CostumeData foundCostumeData = null;
@@ -65,4 +67,19 @@ public class CostumeParser {
 		objectGetter.setFieldOfObject(costumeListField, sprite, costumeList);
 
 	}
+
+	public void setCostumedataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
+			Map<String, Object> referencedObjects) throws IllegalAccessException {
+		int lastIndex = referenceAttribute.lastIndexOf('[');
+		String query = "Common.CostumeData";
+		String suffix = "";
+		if (lastIndex != -1) {
+			char referenceNo = referenceAttribute.charAt(referenceAttribute.lastIndexOf('[') + 1);
+			suffix = "[" + referenceNo + "]";
+
+		}
+		CostumeData referencedCostume = (CostumeData) referencedObjects.get(query + suffix);
+		valueField.set(brickObject, referencedCostume);
+	}
+
 }
