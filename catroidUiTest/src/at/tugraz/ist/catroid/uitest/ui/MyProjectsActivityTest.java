@@ -84,7 +84,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishInactiveActivities();
+		//solo.finishInactiveActivities();
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
@@ -146,6 +146,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testInvalidProject() {
+		unzip = true;
+		saveProjectsToZip();
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
@@ -181,6 +183,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testDeleteStandardProject() {
+		unzip = true;
+		saveProjectsToZip();
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
@@ -207,8 +211,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(myProjectsText);
 
 		solo.clickLongOnText(getActivity().getString(R.string.default_project_name), 2);
-		solo.clickOnText("Delete");
-		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.sleep(400);
 		solo.goBack();
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(1);
