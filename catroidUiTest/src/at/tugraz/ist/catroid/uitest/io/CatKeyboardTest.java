@@ -25,11 +25,6 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
-	//	public CatKeyboardTest(Class<ScriptTabActivity> activityClass) {
-	//		super(activityClass);
-	//		// TODO Auto-generated constructor stub
-	//	}
-
 	@Override
 	public void setUp() throws Exception {
 		createProject("testProject");
@@ -57,11 +52,34 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		//		solo.sleep(1000);
 		//
 		//		solo.sendKey(8);
-		solo.sleep(1000);
+		//
+		//		solo.sleep(1000);
 		//		solo.clickOnText("+");
 		//		solo.clickOnImage(0);
 		solo.sleep(1000);
-		solo.clickOnImageButton(2); // "x" - Button 
+		//
+		//		CatKeyboardView cKV = (CatKeyboardView) solo.getView(4);
+		//		cKV.onKey(8, null);
+		solo.clickOnScreen(750, 1100);
+		solo.sleep(1000);
+
+		solo.clickOnScreen(700, 1100);
+
+		//LinearLayout ll = new LinearLayout(solo.getViews().get(0).getContext());
+
+		//		int size = solo.getViews().size();
+		//
+		//		Log.i("info", "solo.getViews().size():" + size);
+		//
+		//		for (int i = 0; i < solo.getViews().size(); i++) {
+		//			solo.clickOnView(solo.getViews().get(i));
+		//			Log.i("info", "solo.getViews().get(" + i + "):" + solo.getViews().get(i).getId());
+		//			solo.sleep(1000);
+		//		}
+
+		//		solo.clickOnImageButton(0); // Ok-Button
+		//		solo.clickOnImageButton(1); // UNDO - Button
+		//		solo.clickOnImageButton(2); // Cancel - Button 
 
 		//		solo.clickOnImageButton(2);
 		//		solo.clickOnImageButton(3);
