@@ -29,6 +29,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.Map;
 
 import at.tugraz.ist.catroid.content.Project;
@@ -85,6 +86,33 @@ public class ObjectCreator {
 			return new Float(valueInString);
 		}
 		return null;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public Map<String, Field> getFieldMap(Class cls) {
+		Map<String, Field> fieldsToSet = new HashMap<String, Field>();
+
+		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
+		Field[] brickFields = cls.getDeclaredFields();
+		if (superClassFields.length > 0) {
+			Field[] combined = new Field[superClassFields.length + brickFields.length];
+			System.arraycopy(brickFields, 0, combined, 0, brickFields.length);
+			System.arraycopy(superClassFields, 0, combined, brickFields.length, superClassFields.length);
+			brickFields = combined;
+		}
+		for (Field field : brickFields) {
+			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+
+			if (isCurrentFieldTransient) {
+				continue;
+			}
+
+			String tagName = field.getName();
+
+			fieldsToSet.put(tagName, field);
+
+		}
+		return fieldsToSet;
 	}
 
 	public static Object createWithoutConstructor(final Class clazz) throws IllegalArgumentException,
