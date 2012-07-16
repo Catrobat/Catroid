@@ -92,7 +92,6 @@ public class FullParser {
 				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
 				if (costumeListItem != null) {
 					NodeList costumeNodes = costumeListItem.getChildNodes();
-					//costumeList = new ArrayList<CostumeData>();
 					costumeParser.parseCostumeList(costumeNodes, foundSprite, referencedObjects);
 				}
 
@@ -105,7 +104,6 @@ public class FullParser {
 				Node soundListItem = spriteElement.getElementsByTagName("soundList").item(0);
 				if (soundListItem != null) {
 					NodeList soundNodes = soundListItem.getChildNodes();
-					//soundList = new ArrayList<SoundInfo>();				
 					soundParser.parseSoundInfo(soundNodes, foundSprite, referencedObjects, forwardRefs);
 
 				}
