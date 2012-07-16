@@ -40,6 +40,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private double size;
 	private Formula sizeFormula;
 	public transient boolean editorActive = false;
+
 	private transient ChangeSizeByNBrick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
 	private transient View view;
@@ -47,6 +48,8 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	public ChangeSizeByNBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
 		this.size = size;
+
+		sizeFormula = new Formula(Double.toString(size));
 	}
 
 	public int getRequiredResources() {
@@ -67,14 +70,19 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 		if (instance == null) {
 			instance = this;
 		}
+		if (sizeFormula == null) {
+			sizeFormula = new Formula(Double.toString(size));
+		}
+
+		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
+
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
 		//edit.setText(String.valueOf(size));
+		edit.setText(sizeFormula.getEditTextRepresentation());
 
-		edit.setText("...");
 		edit.setOnClickListener(this);
 
 		return view;

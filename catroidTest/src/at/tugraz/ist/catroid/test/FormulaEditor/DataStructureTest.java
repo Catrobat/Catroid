@@ -72,7 +72,7 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testReplaceNumberByOperator() {
 		Formula formula = new Formula(TEST_VALUE);
 		FormulaElement root = formula.findItemByPosition(0);
-		formula.addToFormula(PLUS, root);
+		formula.updateFormula(PLUS, root);
 		root = formula.findItemByPosition(0);
 		String firstElementValue = formula.findItemByPosition(1).getValue();
 		String secondElementValue = formula.findItemByPosition(3).getValue();
@@ -87,9 +87,9 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testValue() {
 		Formula formula = new Formula(TEST_VALUE);
 		FormulaElement root = formula.findItemByPosition(0);
-		formula.addToFormula(PLUS, root);
+		formula.updateFormula(PLUS, root);
 		//formula.findItemByPosition(1).replaceValue(TEST_VALUE);
-		formula.addToFormula(PLUS, formula.findItemByPosition(1));
+		formula.updateFormula(PLUS, formula.findItemByPosition(1));
 		//formula.findItemByPosition(1).replaceValue(TEST_VALUE);
 		formula.findItemByPosition(3).replaceValue(TEST_VALUE1);
 		formula.findItemByPosition(5).replaceValue(TEST_VALUE2);
@@ -105,11 +105,11 @@ public class DataStructureTest extends AndroidTestCase {
 
 		assertEquals("Number of Recursive Children is not as expected", 1, root.getNumberOfRecursiveChildren());
 
-		formula.addToFormula(PLUS, root);
+		formula.updateFormula(PLUS, root);
 
 		assertEquals("Number of Recursive Children is not as expected", 2, root.getNumberOfRecursiveChildren());
 
-		formula.addToFormula(PLUS, root.getLeftChild());
+		formula.updateFormula(PLUS, root.getLeftChild());
 		Log.i("info", root.getTreeString());
 
 		assertEquals("Number of Recursive Children is not as expected", 4, formula.findItemByPosition(0)
@@ -130,8 +130,8 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testInterpreterAddition() {
 		Formula formula = new Formula(TEST_VALUE);
 		FormulaElement root = formula.findItemByPosition(0);
-		formula.addToFormula(PLUS, root);
-		formula.addToFormula(PLUS, root.getLeftChild());
+		formula.updateFormula(PLUS, root);
+		formula.updateFormula(PLUS, root.getLeftChild());
 		formula.findItemByPosition(3).replaceValue(TEST_VALUE1);
 		formula.findItemByPosition(5).replaceValue(TEST_VALUE2);
 
@@ -141,8 +141,8 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testInterpreterSubstraction() {
 		Formula formula = new Formula(TEST_VALUE1);
 		FormulaElement root = formula.findItemByPosition(0);
-		formula.addToFormula(MINUS, root);
-		formula.addToFormula(MINUS, root.getLeftChild());
+		formula.updateFormula(MINUS, root);
+		formula.updateFormula(MINUS, root.getLeftChild());
 		formula.findItemByPosition(3).replaceValue(TEST_VALUE);
 		formula.findItemByPosition(5).replaceValue(TEST_VALUE2);
 
@@ -152,8 +152,8 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testInterpreterMultiplication() {
 		Formula formula = new Formula(TEST_VALUE1);
 		FormulaElement root = formula.findItemByPosition(0);
-		formula.addToFormula(MULT, root);
-		formula.addToFormula(MULT, root.getLeftChild());
+		formula.updateFormula(MULT, root);
+		formula.updateFormula(MULT, root.getLeftChild());
 		formula.findItemByPosition(3).replaceValue(TEST_VALUE);
 		formula.findItemByPosition(5).replaceValue(TEST_VALUE2);
 
@@ -163,8 +163,8 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testInterpreterDivide() {
 		Formula formula = new Formula(TEST_VALUE1);
 		FormulaElement root = formula.findItemByPosition(0);
-		formula.addToFormula(DIVIDE, root);
-		formula.addToFormula(DIVIDE, root.getLeftChild());
+		formula.updateFormula(DIVIDE, root);
+		formula.updateFormula(DIVIDE, root.getLeftChild());
 		formula.findItemByPosition(3).replaceValue(TEST_VALUE);
 		formula.findItemByPosition(5).replaceValue(TEST_VALUE2);
 
@@ -176,8 +176,8 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testInterpreterMultPlus() {
 		Formula formula = new Formula(TEST_VALUE);
 		FormulaElement root = formula.findItemByPosition(0);
-		formula.addToFormula(MULT, root);
-		formula.addToFormula(PLUS, root.getLeftChild());
+		formula.updateFormula(MULT, root);
+		formula.updateFormula(PLUS, root.getLeftChild());
 		formula.findItemByPosition(1).replaceValue(TEST_VALUE);
 		formula.findItemByPosition(3).replaceValue(TEST_VALUE1);
 		formula.findItemByPosition(5).replaceValue(TEST_VALUE2);
@@ -188,8 +188,8 @@ public class DataStructureTest extends AndroidTestCase {
 	public void testInterpreterMultDivide() {
 		Formula formula = new Formula(TEST_VALUE);
 		FormulaElement root = formula.findItemByPosition(0);
-		formula.addToFormula(DIVIDE, root);
-		formula.addToFormula(MULT, root.getLeftChild());
+		formula.updateFormula(DIVIDE, root);
+		formula.updateFormula(MULT, root.getLeftChild());
 		formula.findItemByPosition(3).replaceValue(TEST_VALUE1);
 		formula.findItemByPosition(5).replaceValue("215982");
 

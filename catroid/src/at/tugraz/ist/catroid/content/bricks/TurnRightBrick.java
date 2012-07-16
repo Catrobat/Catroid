@@ -22,19 +22,17 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class TurnRightBrick implements Brick, OnClickListener {
 
@@ -46,9 +44,17 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
+	private Formula degreesFormula;
+
+	private transient Brick instance = null;
+	private transient FormulaEditorDialog formulaEditor;
+	public transient boolean editorActive = false;
+
 	public TurnRightBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
 		this.degrees = degrees;
+
+		degreesFormula = new Formula(Double.toString(degrees));
 	}
 
 	public int getRequiredResources() {
@@ -65,10 +71,19 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
+		if (instance == null) {
+			instance = this;
+		}
+
+		if (degreesFormula == null) {
+			degreesFormula = new Formula(Double.toString(degrees));
+		}
+
 		view = View.inflate(context, R.layout.brick_turn_right, null);
 
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
-		editDegrees.setText(String.valueOf(degrees));
+		//		editDegrees.setText(String.valueOf(degrees));
+		editDegrees.setText(degreesFormula.getEditTextRepresentation());
 
 		editDegrees.setOnClickListener(this);
 
@@ -87,34 +102,60 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(degrees));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					degrees = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		if (!isEditorActive(context)) {
+			return;
+		}
+
+		formulaEditor.setInputFocusAndFormula(degreesFormula);
+
+		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		//		final EditText input = new EditText(context);
+		//		input.setText(String.valueOf(degrees));
+		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		//		input.setSelectAllOnFocus(true);
+		//		dialog.setView(input);
+		//		dialog.setOnCancelListener((OnCancelListener) context);
+		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				try {
+		//					degrees = Double.parseDouble(input.getText().toString());
+		//				} catch (NumberFormatException exception) {
+		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		//				}
+		//				dialog.cancel();
+		//			}
+		//		});
+		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				dialog.cancel();
+		//			}
+		//		});
+		//
+		//		AlertDialog finishedDialog = dialog.create();
+		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		//
+		//		finishedDialog.show();
+
+	}
+
+	public boolean isEditorActive(Context context) {
+
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
 				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-
-		finishedDialog.show();
-
+			});
+			formulaEditor.show();
+			return false;
+		}
+		return true;
 	}
 
 }
