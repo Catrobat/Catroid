@@ -54,7 +54,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
-	private final String invalidProjectModifier = "invalidProject";
+	private final String INVALID_PROJECT_MODIFIER = "invalidProject";
 	private final int IMAGE_RESOURCE_1 = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int IMAGE_RESOURCE_2 = at.tugraz.ist.catroid.uitest.R.drawable.background_white;
 	private final int IMAGE_RESOURCE_3 = at.tugraz.ist.catroid.uitest.R.drawable.background_black;
@@ -160,16 +160,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickInList(2);
-
-		//solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
-		//Project defaultProject = ProjectManager.getInstance().getCurrentProject();
-		//defaultProject.addSprite(new Sprite("testSprite"));
 		solo.goBack();
 
 		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -185,6 +181,41 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 3);
 
+	}
+
+	public void testDeleteStandardProject() {
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		UiTestUtils.createTestProject();
+		solo.sleep(200);
+
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickInList(2);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+
+		solo.enterText(0, "testSprite");
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(500);
+		solo.goBack();
+
+		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+
+		solo.clickLongOnText(getActivity().getString(R.string.default_project_name), 2);
+		solo.clickOnText("Delete");
+		solo.sleep(200);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickInList(1);
+
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		assertTrue("Standard Project should be restored", spriteList.size() == 2);
 	}
 
 	public void testProjectsAndImagesVisible() {
@@ -611,16 +642,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	private void corruptProjectXML(String projectName) {
-		//Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		String path = Utils.buildPath(Constants.DEFAULT_ROOT, projectName, Constants.PROJECTCODE_NAME);
 
-		//path = Constants.PROJECTCODE_NAME;
+		String projectPath = Utils.buildPath(Constants.DEFAULT_ROOT, projectName, Constants.PROJECTCODE_NAME);
+
 		try {
-			FileOutputStream fOut = new FileOutputStream(path);
-			OutputStreamWriter OutWriter = new OutputStreamWriter(fOut);
-			OutWriter.write(invalidProjectModifier);
-			OutWriter.flush();
-			OutWriter.close();
+			FileOutputStream fileOutputStream = new FileOutputStream(projectPath);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+			outputStreamWriter.write(INVALID_PROJECT_MODIFIER);
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

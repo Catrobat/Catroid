@@ -34,7 +34,6 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
@@ -67,7 +66,7 @@ public class ProjectManager {
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
 				project = Utils.findValidProject();
-				if (project == null || UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
+				if (project == null) {
 					project = StandardProjectHandler.createAndSaveStandardProject(context);
 				}
 
