@@ -54,12 +54,16 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 		}
 		Log.i("info", "CatKeyBoardView() - DisplayLanguage:" + Locale.getDefault().getDisplayLanguage());
 		this.setKeyboard(symbols);
+		//		this.symbols.setShifted(false);
+		//		this.symbols_shifted.setShifted(true);
+		//		this.setBackgroundColor(0xFF6103);
+		//		this.awakenScrollBars();
 
+		this.setSoundEffectsEnabled(true);
+
+		//    public CatKeyboardView(Context context, AttributeSet attrs, int defStyle) {
+		//        super(context, attrs, defStyle);
 	}
-
-	//    public CatKeyboardView(Context context, AttributeSet attrs, int defStyle) {
-	//        super(context, attrs, defStyle);
-	//    }
 
 	public void setEditText(FormulaEditorEditText editText) {
 		this.editText = editText;
@@ -166,24 +170,42 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 						CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng_shift);
 						this.setKeyboard(shiftedCatKeyboard);
 						this.isShifted = true;
+						//						this.setShifted(true);
+						//						this.symbols.setShifted(true);
+						//						this.symbols_shifted.setShifted(true);
+
 					} else {
 						CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng);
 						this.setKeyboard(shiftedCatKeyboard);
 						this.isShifted = false;
+						//						this.setShifted(false);
+						//						this.symbols.setShifted(false);
+						//						this.symbols_shifted.setShifted(false);
 					}
 				} else if (displayLanguage.contentEquals(Locale.GERMAN.getDisplayLanguage())) {
 					if (!this.isShifted) {
 						CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de_shift);
 						this.setKeyboard(shiftedCatKeyboard);
 						this.isShifted = true;
+						//						this.setShifted(true);
+						//						this.symbols.setShifted(true);
+						//						this.symbols_shifted.setShifted(true);
 					} else {
 						CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de);
 						this.setKeyboard(shiftedCatKeyboard);
 						this.isShifted = false;
+						//						this.setShifted(false);
+						//						this.symbols.setShifted(false);
+						//						this.symbols_shifted.setShifted(false);
+
 					}
 				}
 
 				requestLayout();
+				break;
+			case CatKeyEvent.KEYCODE_SPACE:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, CatKeyEvent.KEYCODE_SPACE));
+				editText.checkAndModifyKeyInput(cKE);
 				break;
 			case CatKeyEvent.KEYCODE_SIN:
 				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, CatKeyEvent.KEYCODE_SIN));
@@ -267,39 +289,42 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	@Override
 	public void swipeDown() {
 		// TODO Auto-generated method stub
-		super.swipeDown();
+		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
+		//		super.swipeDown();
 	}
 
 	@Override
 	public void swipeLeft() {
-		// TODO Auto-generated method stub
-		super.swipeLeft();
+
+		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
+		//		super.swipeLeft();
 	}
 
 	@Override
 	public void swipeRight() {
-		// TODO Auto-generated method stub
-		super.swipeRight();
+
+		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
+		//		super.swipeRight();
 	}
 
 	@Override
 	public void swipeUp() {
-		// TODO Auto-generated method stub
-		super.swipeUp();
+		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
+		//		super.swipeUp();
 	}
 
 	public void onPress(int primaryCode) {
-		//Log.i("info", "onPress: " + primaryCode);
+		//		Log.i("info", "CatKeybaordView.onPress(): " + primaryCode);
 
 	}
 
 	public void onRelease(int primaryCode) {
-		// TODO Auto-generated method stub
+		//		Log.i("info", "CatKeybaordView.onRelease(): " + primaryCode);
 
 	}
 
 	public void onText(CharSequence text) {
-		// TODO Auto-generated method stub
+		//		Log.i("info", "CatKeybaordView.onText(): ");
 
 	}
 }
