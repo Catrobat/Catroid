@@ -22,9 +22,14 @@
  */
 package at.tugraz.ist.catroid.content;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.concurrent.Semaphore;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.io.StorageHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -33,6 +38,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Costume extends Image {
 	protected Semaphore xYWidthHeightLock = new Semaphore(1);
@@ -130,6 +136,41 @@ public class Costume extends Image {
 			}
 
 			Pixmap pixmap;
+			try {
+				if (internalPath) {
+					pixmap = new Pixmap(Gdx.files.internal(costumeData.getAbsolutePath()));
+				} else {
+					pixmap = new Pixmap(Gdx.files.absolute(costumeData.getAbsolutePath()));
+				}
+			} catch (GdxRuntimeException e) {
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inJustDecodeBounds = true;
+				BitmapFactory.decodeFile(costumeData.getAbsolutePath(), options);
+
+				int tmpWidth = options.outWidth;
+				int tmpHeight = options.outHeight;
+				int sampleSize = 1;
+
+				options.inJustDecodeBounds = false;
+				options.inSampleSize = sampleSize;
+
+				Bitmap unmutableBitmap = BitmapFactory.decodeFile(costumeData.getAbsolutePath(), options);
+				tmpWidth = unmutableBitmap.getWidth();
+				tmpHeight = unmutableBitmap.getHeight();
+				int[] tmpPixels = new int[tmpWidth * tmpHeight];
+				unmutableBitmap.getPixels(tmpPixels, 0, tmpWidth, 0, 0, tmpWidth, tmpHeight);
+
+				Bitmap mutableBitmap = Bitmap.createBitmap(tmpWidth, tmpHeight, Bitmap.Config.ARGB_8888);
+				mutableBitmap.setPixels(tmpPixels, 0, tmpWidth, 0, 0, tmpWidth, tmpHeight);
+
+				File imageFile = new File(costumeData.getAbsolutePath());
+				try {
+					StorageHandler.saveBitmapToImageFile(imageFile, mutableBitmap);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+			}
+
 			if (internalPath) {
 				pixmap = new Pixmap(Gdx.files.internal(costumeData.getAbsolutePath()));
 			} else {
