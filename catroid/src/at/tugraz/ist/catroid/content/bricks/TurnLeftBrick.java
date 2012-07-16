@@ -60,6 +60,8 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		degrees = degreesFormula.interpret().doubleValue();
+
 		sprite.costume.rotation = (sprite.costume.rotation % 360) + (float) degrees;
 	}
 

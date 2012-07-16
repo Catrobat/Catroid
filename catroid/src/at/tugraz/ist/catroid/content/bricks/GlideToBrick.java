@@ -67,6 +67,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		durationInMilliSeconds 
+		
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
 		//		final CountDownLatch latch = new CountDownLatch(1);

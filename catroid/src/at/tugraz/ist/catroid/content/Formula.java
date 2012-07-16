@@ -52,6 +52,15 @@ public class Formula implements Serializable {
 		return root.getItemByPosition(searchPosition);
 	}
 
+	public void insertElementAsParent(FormulaElement parent, String newParentOperator, String newRightChild) {
+		root = parent.addTopElement(newParentOperator, newRightChild);
+	}
+
+	public void insertElement(FormulaElement parent, String newParentOperator, String newRightChild) {
+		parent.replaceWithSubElement(newParentOperator, newRightChild);
+
+	}
+
 	public String updateFormula(String keyboardInput, FormulaElement element) {
 		String oldValue = element.getValue();
 		Log.i("info", "update TO FORMULA " + oldValue);
