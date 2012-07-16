@@ -65,7 +65,11 @@ public class ProjectManager {
 
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
-				project = StandardProjectHandler.createAndSaveStandardProject(context);
+				project = Utils.findValidProject();
+				if (project == null) {
+					project = StandardProjectHandler.createAndSaveStandardProject(context);
+				}
+
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 					return false;
@@ -242,4 +246,5 @@ public class ProjectManager {
 
 		return true;
 	}
+
 }

@@ -23,8 +23,11 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
@@ -35,6 +38,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -50,6 +54,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+	private final String INVALID_PROJECT_MODIFIER = "invalidProject";
 	private final int IMAGE_RESOURCE_1 = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int IMAGE_RESOURCE_2 = at.tugraz.ist.catroid.uitest.R.drawable.background_white;
 	private final int IMAGE_RESOURCE_3 = at.tugraz.ist.catroid.uitest.R.drawable.background_black;
@@ -138,6 +143,78 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		File zipFile = new File(zipFileString);
 		UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
 		zipFile.delete();
+	}
+
+	public void testInvalidProject() {
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
+		UiTestUtils.createTestProject();
+		solo.sleep(200);
+
+		String myProjectsText = solo.getString(R.string.my_projects);
+		solo.clickOnButton(myProjectsText);
+		solo.clickInList(2);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+
+		solo.enterText(0, "testSprite");
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(500);
+		solo.goBack();
+
+		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
+		solo.clickOnButton(myProjectsText);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+
+		solo.clickOnButton(0);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		assertTrue("Default Project should not be overwritten", spriteList.size() == 3);
+	}
+
+	public void testDeleteStandardProject() {
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
+		UiTestUtils.createTestProject();
+		solo.sleep(200);
+
+		String myProjectsText = solo.getString(R.string.my_projects);
+		solo.clickOnButton(myProjectsText);
+		solo.clickInList(2);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+
+		solo.enterText(0, "testSprite");
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(500);
+		solo.goBack();
+
+		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
+		solo.clickOnButton(myProjectsText);
+
+		solo.clickLongOnText(getActivity().getString(R.string.default_project_name), 2);
+		solo.clickOnText("Delete");
+		solo.sleep(200);
+		solo.goBack();
+		solo.clickOnButton(myProjectsText);
+		solo.clickInList(1);
+
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		assertTrue("Standard Project should be restored", spriteList.size() == 2);
 	}
 
 	public void testProjectsAndImagesVisible() {
@@ -573,5 +650,18 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, "screenshot.png", IMAGE_RESOURCE_3,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+	}
+
+	private void corruptProjectXML(String projectName) {
+		String projectPath = Utils.buildPath(Constants.DEFAULT_ROOT, projectName, Constants.PROJECTCODE_NAME);
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(projectPath);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+			outputStreamWriter.write(INVALID_PROJECT_MODIFIER);
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
