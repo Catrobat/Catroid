@@ -377,9 +377,7 @@ public class SoundFragment extends SherlockListFragment
 				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 					selectedSoundInfo.setTitle(newSoundTitle);
 					adapter.notifyDataSetChanged();
-				} else {
-					Utils.displayErrorMessage(getActivity(), getString(R.string.soundname_invalid));
-				}
+				} 
 			}
 		}
 	}
