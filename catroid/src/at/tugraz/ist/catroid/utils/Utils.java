@@ -362,7 +362,7 @@ public class Utils {
 		for (String projectName : projectNameList) {
 			if (ProjectManager.getInstance().canLoadProject(projectName)) {
 				loadableProject = StorageHandler.getInstance().loadProject(projectName);
-				return loadableProject;
+				break;
 			}
 		}
 		return loadableProject;
