@@ -96,7 +96,7 @@ public class CostumeFragment extends SherlockListFragment
 		super.onActivityCreated(savedInstanceState);
 		
 		if (savedInstanceState !=null) {
-			selectedCostumeData = (CostumeData) savedInstanceState.get(ARGS_SELECTED_COSTUME);
+			selectedCostumeData = (CostumeData) savedInstanceState.getSerializable(ARGS_SELECTED_COSTUME);
 		}
 		
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
@@ -108,7 +108,7 @@ public class CostumeFragment extends SherlockListFragment
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putParcelable(ARGS_SELECTED_COSTUME, selectedCostumeData);
+		outState.putSerializable(ARGS_SELECTED_COSTUME, selectedCostumeData);
 		super.onSaveInstanceState(outState);
 	}
 	
