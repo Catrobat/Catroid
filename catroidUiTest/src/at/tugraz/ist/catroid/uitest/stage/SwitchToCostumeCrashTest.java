@@ -49,7 +49,6 @@ import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
@@ -81,31 +80,18 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	public void testSwitchToCostumeCrashPNG() throws IOException {
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
-		createProject();
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.sleep(200);
-
-		solo.clickOnText(solo.getString(R.string.background));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.sleep(2000);
+		prepareTest();
 
 		String nyanCatPath = "";
+		String nyanCat = "nyancat";
+		String nyanCatPng = "nyancat_crash.png";
 		try {
-			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets()
-					.open("nyancat_crash.png");
+			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(nyanCatPng);
 			nyanCatPath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
-					Constants.IMAGE_DIRECTORY, "nyancat.png");
-
-			FileOutputStream nyanCatFileOutputStream = new FileOutputStream(nyanCatPath);
-			byte[] buffer = new byte[inputStream.available()];
-			inputStream.read(buffer);
-			inputStream.close();
-			nyanCatFileOutputStream.write(buffer);
-			nyanCatFileOutputStream.close();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+					Constants.IMAGE_DIRECTORY, nyanCatPng);
+			writeBufferToFile(inputStream, nyanCatPath);
+		} catch (IOException e) {
+			e.printStackTrace();
 			fail("Image not loaded from Assets");
 		}
 
@@ -118,7 +104,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 		solo.getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
-		assertTrue("Testfile not added from mockActivity", solo.searchText("nyancat"));
+		assertTrue("Testfile not added from mockActivity", solo.searchText(nyanCat));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
 		assertTrue("Checksum not in checksumcontainer",
@@ -136,19 +122,82 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
-		solo.clickOnText("nyancat");
+		solo.clickOnText(nyanCat);
 
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(5000);
+	}
+
+	public void testSwitchToCostumeCrashJPG() throws IOException {
+		prepareTest();
+
+		String manImagePath = "";
+		String manImage = "man_crash";
+		String manImageJpg = "man_crash.jpg";
 		try {
-			UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
-			solo.waitForActivity(StageActivity.class.getSimpleName());
-			solo.sleep(5000);
-		} catch (GdxRuntimeException e) {
+			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(manImageJpg);
+			manImagePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
+					Constants.IMAGE_DIRECTORY, manImageJpg);
+			writeBufferToFile(inputStream, manImagePath);
+		} catch (IOException e) {
 			e.printStackTrace();
-			fail("GdxException was thrown");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail("Exception was thrown");
+			fail("Image not loaded from Assets");
 		}
+
+		File nyanCatPngFile = new File(manImagePath);
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", nyanCatPngFile.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+
+		solo.getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		solo.sleep(200);
+		assertTrue("Testfile not added from mockActivity", solo.searchText(manImage));
+
+		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumNyanCatImageFile));
+
+		boolean isInCostumeDataList = false;
+		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
+			if (costumeData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
+				isInCostumeDataList = true;
+			}
+		}
+		if (!isInCostumeDataList) {
+			fail("File not added in CostumeDataList");
+		}
+
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(manImage);
+
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(5000);
+	}
+
+	private void writeBufferToFile(InputStream inputStream, String imageFilePath) throws IOException {
+		FileOutputStream nyanCatFileOutputStream;
+		nyanCatFileOutputStream = new FileOutputStream(imageFilePath);
+		byte[] buffer = new byte[inputStream.available()];
+		inputStream.read(buffer);
+		inputStream.close();
+		nyanCatFileOutputStream.write(buffer);
+		nyanCatFileOutputStream.close();
+	}
+
+	private void prepareTest() {
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		createProject();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.sleep(200);
+
+		solo.clickOnText(solo.getString(R.string.background));
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 	}
 
 	private void createProject() {
