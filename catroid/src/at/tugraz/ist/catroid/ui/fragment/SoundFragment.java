@@ -86,7 +86,7 @@ public class SoundFragment extends SherlockListFragment
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState !=null) {
-			selectedSoundInfo = (SoundInfo) savedInstanceState.get(ARGS_SELECTED_SOUND);
+			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(ARGS_SELECTED_SOUND);
 		}
 		
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
@@ -100,7 +100,7 @@ public class SoundFragment extends SherlockListFragment
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putParcelable(ARGS_SELECTED_SOUND, selectedSoundInfo);
+		outState.putSerializable(ARGS_SELECTED_SOUND, selectedSoundInfo);
 		super.onSaveInstanceState(outState);
 	}
 	
