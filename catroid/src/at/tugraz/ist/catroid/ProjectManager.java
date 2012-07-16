@@ -66,12 +66,11 @@ public class ProjectManager {
 
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
-
-				if (UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
+				project = Utils.findValidProject();
+				if (project == null || UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
 					project = StandardProjectHandler.createAndSaveStandardProject(context);
-				} else {
-					project = Utils.findValidProject();
 				}
+
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 					return false;

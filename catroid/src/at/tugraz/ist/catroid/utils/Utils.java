@@ -357,13 +357,14 @@ public class Utils {
 
 	public static Project findValidProject() {
 		Project loadableProject = null;
+
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectName : projectNameList) {
 			if (ProjectManager.getInstance().canLoadProject(projectName)) {
 				loadableProject = StorageHandler.getInstance().loadProject(projectName);
+				return loadableProject;
 			}
 		}
-
 		return loadableProject;
 	}
 

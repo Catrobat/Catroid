@@ -148,7 +148,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		zipFile.delete();
 	}
 
-	public void invalidProjectTest() {
+	public void testInvalidProject() {
 
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
@@ -172,7 +172,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//defaultProject.addSprite(new Sprite("testSprite"));
 		solo.goBack();
 
-		corruptProjectXML();
+		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo.sleep(200);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -610,9 +610,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 	}
 
-	private void corruptProjectXML() {
-		String path = Utils.buildPath(Constants.DEFAULT_ROOT, UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				Constants.PROJECTCODE_NAME);
+	private void corruptProjectXML(String projectName) {
+		//Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		String path = Utils.buildPath(Constants.DEFAULT_ROOT, projectName, Constants.PROJECTCODE_NAME);
 
 		//path = Constants.PROJECTCODE_NAME;
 		try {
