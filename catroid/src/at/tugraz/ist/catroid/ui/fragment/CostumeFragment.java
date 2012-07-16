@@ -479,9 +479,7 @@ public class CostumeFragment extends SherlockListFragment
 				if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 					selectedCostumeData.setCostumeName(newCostumeName);
 					adapter.notifyDataSetChanged();
-				} else {
-					Utils.displayErrorMessage(getActivity(), getString(R.string.costumename_invalid));
-				}
+				} 
 			}
 		}
 	}
