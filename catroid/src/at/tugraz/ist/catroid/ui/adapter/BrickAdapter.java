@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
+import at.tugraz.ist.catroid.content.bricks.NestingBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
@@ -59,10 +60,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private OnLongClickListener longClickListener;
 	private View insertionView;
 	private int currentScriptPosition;
+	private int restrictedDragPosition;
 	private boolean insertedBrick;
 	private boolean insertLoop;
-	private int pos;
+	private int positionOfInsertedBrick;
 	private int fromTest;
+	private boolean restriction;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -82,11 +85,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		if (isBrick(to)) {
 			if (draggedBrick == null) {
-				if (isBrick(from)) {
-					draggedBrick = (Brick) getItem(from);
-				} else {
-					Log.d("Warning", "BrickAdapter.drag() from was Script not Brick. should not happen!!!");
-				}
+				draggedBrick = (Brick) getItem(from);
 				notifyDataSetChanged();
 			}
 
@@ -96,38 +95,71 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				dragTargetPosition = 1;
 			}
 
-			ArrayList<Brick> brickList = sprite.getScript(getScriptId(from)).getBrickList();
-			if (draggedBrick instanceof LoopBeginBrick) {
-				LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
-				if (loopEndBrick != null) {
+			//ArrayList<Brick> brickList = sprite.getScript(getScriptId(from)).getBrickList();
+			if (draggedBrick instanceof NestingBrick) {
+				NestingBrick nestingBrick = (NestingBrick) draggedBrick;
+				if (nestingBrick.isFullyCreated()) {
+					Log.e("blah", "try to drag from " + from + " to " + to);
 
-					//NEW
-					Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
-					if (script.getBrickList().indexOf(((LoopBeginBrick) draggedBrick).getLoopEndBrick()) == -1) {
-						dragTargetPosition = -1;
+					if (restrictedDragPosition != from && restriction) {
+						Log.e("blah", "restrictedDragPosition");
 						return;
 					}
-					//NEW END
-					if (getScriptPosition(to, scriptTo) >= brickList.indexOf(loopEndBrick)
-							|| getScriptPosition(from, scriptFrom) >= brickList.indexOf(loopEndBrick)) {
-						return;
-					}
+
+					int i = from;
+					int lastI = i;
+					do {
+						i = from < to ? i + 1 : i - 1;
+
+						if (!nestingBrick.isDraggableOver((Brick) getItem(i))) {
+							restrictedDragPosition = lastI;
+							restriction = true;
+							Log.e("blah", "isDraggableOver " + restrictedDragPosition);
+							return;
+						}
+
+						lastI = i;
+					} while (i != to && from != to);
+
+					restriction = false;
+					Log.e("blah", "allowed");
+
 				} else {
 					insertLoop = true;
 				}
-			} else if (draggedBrick instanceof LoopEndBrick) {
-				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
 
-				Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
-				if (script.getBrickList().indexOf(((LoopEndBrick) draggedBrick).getLoopBeginBrick()) == -1) {
-					dragTargetPosition = -1;
-					return;
-				}
-				if (getScriptPosition(to, scriptTo) <= brickList.indexOf(loopBeginBrick)
-						|| getScriptPosition(from, scriptFrom) <= brickList.indexOf(loopBeginBrick)) {
-					return;
-				}
 			}
+			//			if (draggedBrick instanceof LoopBeginBrick) {
+			//				LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
+			//				if (loopEndBrick != null) {
+			//
+			//					//NEW
+			//					Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
+			//					if (script.getBrickList().indexOf(((LoopBeginBrick) draggedBrick).getLoopEndBrick()) == -1) {
+			//						dragTargetPosition = -1;
+			//						return;
+			//					}
+			//					//NEW END
+			//					if (getScriptPosition(to, scriptTo) >= brickList.indexOf(loopEndBrick)
+			//							|| getScriptPosition(from, scriptFrom) >= brickList.indexOf(loopEndBrick)) {
+			//						return;
+			//					}
+			//				} else {
+			//					insertLoop = true;
+			//				}
+			//			} else if (draggedBrick instanceof LoopEndBrick) {
+			//				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
+			//
+			//				Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
+			//				if (script.getBrickList().indexOf(((LoopEndBrick) draggedBrick).getLoopBeginBrick()) == -1) {
+			//					dragTargetPosition = -1;
+			//					return;
+			//				}
+			//				if (getScriptPosition(to, scriptTo) <= brickList.indexOf(loopBeginBrick)
+			//						|| getScriptPosition(from, scriptFrom) <= brickList.indexOf(loopBeginBrick)) {
+			//					return;
+			//				}
+			//			}
 
 			if (from != to) {
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
@@ -601,66 +633,43 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-
-		if (getItem(position) instanceof Brick) {
-			View currentBrickView;
-
-			if (getItem(position) instanceof WhenBrick) {
-				WhenBrick brick = (WhenBrick) getItem(position);
-				currentBrickView = brick.getPrototypeView(context);
-			} else if (getItem(position) instanceof BroadcastReceiverBrick) {
-				BroadcastReceiverBrick brick = (BroadcastReceiverBrick) getItem(position);
-				currentBrickView = brick.getPrototypeView(context);
-			} else {
-				Brick brick = (Brick) getItem(position);
-				currentBrickView = brick.getView(context, position, this);
-			}
-
-			if (draggedBrick != null && dragTargetPosition == position) {
-				return insertionView;
-			}
-
-			// Hack!!!
-			// if wrapper isn't used the longClick event won't be triggered
-			//ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
-			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
-			if (currentBrickView.getParent() != null) {
-				((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
-			}
-
-			if (draggedBrick != null && dragTargetPosition == 0) {
-				return null;
-			}
-
-			wrapper.addView(currentBrickView);
-			wrapper.setOnLongClickListener(longClickListener);
-
-			if (position == pos) {
-				if (insertedBrick) {
-					insertedBrick = false;
-					DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
-							.findViewById(R.id.brick_list_view);
-					listView.onLongClick(currentBrickView);
-					return insertionView;
-				}
-			}
-
-			return wrapper;
-
-		} else {
-
-			View view = null;
-
-			if (getItem(position) instanceof BroadcastScript) {
-				view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getItem(position)).getView(context,
-						position, this);
-			} else if (getItem(position) instanceof StartScript) {
-				view = new WhenStartedBrick(sprite, (Script) getItem(position)).getView(context, position, this);
-			} else if (getItem(position) instanceof WhenScript) {
-				view = new WhenBrick(sprite, (WhenScript) getItem(position)).getView(context, position, this);
-			}
-			return view;
+		if (draggedBrick != null && dragTargetPosition == position) {
+			return insertionView;
 		}
+
+		Object item = getItem(position);
+
+		if (item instanceof Script) {
+			return ((Script) item).getScriptBrick().getView(context, position, this);
+		}
+
+		View currentBrickView = ((Brick) item).getView(context, position, this);
+		// this one is working but causes null pointer exceptions on movement and control bricks?!
+		//		currentBrickView.setOnLongClickListener(longClickListener);
+
+		// Hack!!!
+		// if wrapper isn't used the longClick event won't be triggered
+		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
+		if (currentBrickView.getParent() != null) {
+			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
+		}
+
+		if (draggedBrick != null && dragTargetPosition == 0) {
+			return null;
+		}
+
+		wrapper.addView(currentBrickView);
+		wrapper.setOnLongClickListener(longClickListener);
+
+		if (position == positionOfInsertedBrick && insertedBrick) {
+			insertedBrick = false;
+			DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
+					.findViewById(R.id.brick_list_view);
+			listView.onLongClick(currentBrickView);
+			return insertionView;
+		}
+
+		return wrapper;
 	}
 
 	public int getScriptId(int index) {
@@ -772,9 +781,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		return newPos;
 	}
 
-	public void setInsertedBrickpos(int Npos) {
+	public void setInsertedBrickpos(int position) {
 		insertedBrick = true;
-		pos = Npos;
+		positionOfInsertedBrick = position;
 	}
 
 	public boolean intersectLoop(int sId, int to) {

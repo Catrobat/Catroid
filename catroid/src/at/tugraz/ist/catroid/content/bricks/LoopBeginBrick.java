@@ -24,7 +24,7 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import at.tugraz.ist.catroid.content.Sprite;
 
-public abstract class LoopBeginBrick implements Brick {
+public abstract class LoopBeginBrick implements NestingBrick {
 	private static final long serialVersionUID = 1L;
 	protected Sprite sprite;
 	protected LoopEndBrick loopEndBrick;
@@ -57,6 +57,22 @@ public abstract class LoopBeginBrick implements Brick {
 
 	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
 		this.loopEndBrick = loopEndBrick;
+	}
+
+	public boolean isDraggableOver(Brick brick) {
+		if (brick == loopEndBrick) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public boolean isFullyCreated() {
+		if (loopEndBrick == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override

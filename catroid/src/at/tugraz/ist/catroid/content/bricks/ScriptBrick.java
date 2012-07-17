@@ -22,59 +22,9 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-public class WhenStartedBrick implements ScriptBrick {
-	private static final long serialVersionUID = 1L;
-
-	protected Script script;
-	private Sprite sprite;
-
-	@XStreamOmitField
-	private transient View view;
-
-	public WhenStartedBrick(Sprite sprite, Script script) {
-		this.script = script;
-		this.sprite = sprite;
-	}
-
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	public void execute() {
-	}
-
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public View getView(Context context, int brickId, final BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_started, null);
-		}
-
-		return view;
-	}
-
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_started, null);
-	}
-
-	@Override
-	public Brick clone() {
-		return new WhenStartedBrick(getSprite(), script);
-	}
-
-	public Script initScript(Sprite sprite) {
-		return new StartScript(sprite);
-	}
+public interface ScriptBrick extends Brick {
+	public Script initScript(Sprite sprite);
 }

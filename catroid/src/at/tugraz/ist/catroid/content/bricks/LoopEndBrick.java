@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class LoopEndBrick implements Brick {
+public class LoopEndBrick implements NestingBrick {
 	static final int FOREVER = -1;
 	private static final int LOOP_DELAY = 20;
 	private static final int MILLION = 1000 * 1000;
@@ -106,5 +106,21 @@ public class LoopEndBrick implements Brick {
 
 	public View getPrototypeView(Context context) {
 		return null;
+	}
+
+	public boolean isDraggableOver(Brick brick) {
+		if (brick == loopBeginBrick) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public boolean isFullyCreated() {
+		if (loopBeginBrick == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

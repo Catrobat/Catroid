@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 
 public abstract class Script implements Serializable {
 
@@ -41,6 +42,8 @@ public abstract class Script implements Serializable {
 		init();
 		return this;
 	}
+
+	public abstract ScriptBrick getScriptBrick();
 
 	public Script(Sprite sprite) {
 		brickList = new ArrayList<Brick>();
