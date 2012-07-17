@@ -124,6 +124,8 @@
     <string name="copy_costume_addition">скопировать</string>
     <string name="select_image">Выбрать изображение</string>
     <string name="paintroid_not_installed">Paintroid не установлен!\nЖелаете ли вы его установить?</string>
+    <string name="default_costume_name">костюм</string>
+    <string name="delete_costume_dialog">Удалить костюм?</string>    
 
     <!-- Sound activity -->
     <!-- <string name="sound_list">Звук:</string> -->
@@ -133,6 +135,8 @@
     <string name="sound_pause">пауза </string>
     <string name="sound_delete">удалить</string>
     <string name="sound_rename">переименовать</string>
+    <string name="sound_select_source">Выберите звук</string>
+    <string name="delete_sound_dialog">Удалить звук?</string>
 
     <!-- My Projects activity -->
     <string name="last_used">Использован:</string>
@@ -194,7 +198,7 @@
     <string name="login_register_dialog_title">Вход</string>
     <string name="username">Имя:</string>
     <string name="password">Пароль:</string>
-    <string name="login_or_register">Вход или Регистрация</string>
+    <string name="login_or_register">Вход/Регистрация</string>
     <string name="register">Регистрация</string>
     <string name="password_forgotten">Пароль забыт</string>
     <string name="new_user_registered">новый аккаунт создан</string>
