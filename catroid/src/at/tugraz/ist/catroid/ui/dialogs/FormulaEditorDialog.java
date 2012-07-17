@@ -30,24 +30,18 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ViewFlipper;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.CatKeyboardView;
 import at.tugraz.ist.catroid.io.FormulaEditorEditText;
-import at.tugraz.ist.catroid.io.FormulaRepresentation;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener, OnGestureListener {
 
@@ -57,12 +51,10 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private int value;
 
 	private CatKeyboardView catKeyboardView;
-	private ViewFlipper flipView;
+	//private ViewFlipper flipView;
 	private LinearLayout brickSpace;
-	private LinearLayout formulaSpace;
-	private int numberOfFormulaGraphics = 1;
-	private View theBricksView = null;
-	private GestureDetector gestureDetector = null;
+
+	//private GestureDetector gestureDetector = null;
 
 	public FormulaEditorDialog(Context context, Brick brick) {
 
@@ -91,28 +83,24 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		setContentView(R.layout.dialog_formula_editor);
 
-		flipView = (ViewFlipper) findViewById(R.id.catflip);
-		brickSpace = (LinearLayout) findViewById(R.id.catview);
-		formulaSpace = (LinearLayout) findViewById(R.id.datview);
-		theBricksView = currentBrick.getView(context, 0, null);
-		brickSpace.addView(theBricksView);
+		brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
+		brickSpace.addView(currentBrick.getView(context, 0, null));
 
-		flipView.setDisplayedChild(1);
-		Animation slideOut = AnimationUtils.loadAnimation(context, R.anim.slide_in);
-		flipView.setOutAnimation(slideOut);
-		Animation slideIn = AnimationUtils.loadAnimation(context, R.anim.slide_out);
-		flipView.setInAnimation(slideIn);
-
-		gestureDetector = new GestureDetector(context, this);
-
-		flipView.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-
-				gestureDetector.onTouchEvent(event);
-				return true;
-			}
-		});
-
+		//		flipView = (ViewFlipper) findViewById(R.id.catflip);
+		//		flipView.setDisplayedChild(1);
+		//		Animation slideOut = AnimationUtils.loadAnimation(context, R.anim.slide_in);
+		//		flipView.setOutAnimation(slideOut);
+		//		Animation slideIn = AnimationUtils.loadAnimation(context, R.anim.slide_out);
+		//		flipView.setInAnimation(slideIn);
+		//
+		//		flipView.setOnTouchListener(new OnTouchListener() {
+		//			public boolean onTouch(View v, MotionEvent event) {
+		//
+		//				gestureDetector.onTouchEvent(event);
+		//				return true;
+		//			}
+		//		});
+		//		gestureDetector = new GestureDetector(context, this);
 		//LinearLayout brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
 		//brickSpace.addView(currentBrick.getView(context, 0, null));
 
@@ -147,39 +135,19 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		textArea.catKeyboardView = catKeyboardView;
 	}
 
-	//	public void startUpdateGraphicalRepresentation() {
-	//
-	//		//		View v = formula.getView(context, this);
-	//		//		while (numberOfFormulaGraphics > 1) {
-	//		//			flipView.removeViewAt(numberOfFormulaGraphics--);
-	//		//		}
-	//		//		formulaSpace.addView(v);
-	//		//		flipView.setDisplayedChild(0);
-	//		
-	//
-	//	}
-
-	public void updateGraphicalRepresentation(FormulaRepresentation formula) {
-		Log.i("info", "zwoosh!!!");
-		if (formula == null) {
-			formulaSpace.removeAllViews();
-			formulaSpace.addView(theBricksView);
-			flipView.setDisplayedChild(1);
-			return;
-		} else {
-			View v = formula.getView(context, this);
-			formulaSpace.removeAllViews();
-			formulaSpace.addView(v);
-			flipView.setDisplayedChild(0);
-		}
-	}
-
-	//	public void addGraphicalElement(FormulaRepresentation formula) {
-	//
-	//		View v = formula.getView(context, this);
-	//		//formulaSpace.removeAllViews();
-	//		formulaSpace.addView(v);
-	//
+	//	public void updateGraphicalRepresentation(FormulaRepresentation formula) {
+	//		Log.i("info", "zwoosh!!!");
+	//		if (formula == null) {
+	//			formulaSpace.removeAllViews();
+	//			formulaSpace.addView(theBricksView);
+	//			flipView.setDisplayedChild(1);
+	//			return;
+	//		} else {
+	//			View v = formula.getView(context, this);
+	//			formulaSpace.removeAllViews();
+	//			formulaSpace.addView(v);
+	//			flipView.setDisplayedChild(0);
+	//		}
 	//	}
 
 	public Formula setInputFocusAndFormula(Formula formula) {
@@ -197,8 +165,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 			case R.id.formula_editor_ok_button:
 
 				textArea.updateSelectionIndices();
-				flipView.setDisplayedChild(1);
-
 				break;
 
 			case R.id.formula_editor_cancel_button:
@@ -239,10 +205,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2, float arg3) {
 		Log.i("info", "FLING!");
-		if (flipView.getDisplayedChild() == 1) {
-			return false;
-		}
-		textArea.graphicHierarchyOneUp();
 		return true;
 	}
 
