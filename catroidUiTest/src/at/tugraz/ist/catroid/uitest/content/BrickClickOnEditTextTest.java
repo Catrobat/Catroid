@@ -3,6 +3,8 @@ package at.tugraz.ist.catroid.uitest.content;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.EditText;
@@ -27,11 +29,24 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.createEmptyProject();
+
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
+
+		String settings = getActivity().getString(R.string.settings);
+		String prefMsBricks = getActivity().getString(R.string.pref_enable_ms_bricks);
+
+		while (!solo.searchText(solo.getString(R.string.home))) {
+			solo.goBack();
+		}
+
+		solo.clickOnText(solo.getString(R.string.home));
+		solo.clickOnText(settings);
+		solo.clickOnText(prefMsBricks);
+
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -39,11 +54,30 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
+
 		super.tearDown();
 	}
 
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
+
+		String settings = getActivity().getString(R.string.settings);
+		String prefMsBricks = getActivity().getString(R.string.pref_enable_ms_bricks);
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		//disable mindstorm bricks, if enabled at start
+		if (!prefs.getBoolean("setting_mindstorm_bricks", false)) {
+			solo.clickOnText(solo.getString(R.string.home));
+			solo.clickOnText(settings);
+			solo.clickOnText(prefMsBricks);
+			solo.goBack();
+			solo.clickOnText(solo.getString(R.string.current_project_button));
+			UiTestUtils.createEmptyProject();
+
+			solo.clickOnText("cat");
+		}
+
 		String spriteName = solo.getString(R.string.sprite_name);
 		int categoryStringId = 0;
 		float screenWidth = 0;
