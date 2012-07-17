@@ -76,9 +76,4 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-
-	@Override
-	public boolean areAllItemsEnabled() {
-		return false;
-	}
 }
