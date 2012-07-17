@@ -168,14 +168,12 @@ public class SpritesListFragment extends SherlockListFragment {
         getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Sprite sprite = spriteList.get(position);
+                spriteToEdit = spriteList.get(position);
 
                 // as long as background sprite is always the first one, we're fine
                 if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
                     return true;
                 }
-                
-                spriteToEdit = sprite;
                 
                 showEditSpriteContextDialog();
                 return true;
