@@ -45,7 +45,7 @@ public class RenameProjectDialog extends TextDialog {
 		String newProjectName = (input.getText().toString()).trim();
 		String oldProjectName = (((MyProjectsActivity) activity).projectToEdit.projectName);
 
-		if (newProjectName.equalsIgnoreCase(oldProjectName)) {
+		if (newProjectName.equals(oldProjectName)) {
 			activity.dismissDialog(MyProjectsActivity.DIALOG_RENAME_PROJECT);
 			return;
 		}
