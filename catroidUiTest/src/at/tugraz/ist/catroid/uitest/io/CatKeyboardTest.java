@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -29,12 +30,14 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 	private Vector<String> keyString;
 	private HashMap<String, Point> keyMap;
 
+	private float amountOfDisplayspaceUsedForKeyboard;
+	private float keyboardHeight;
 	private int displayWidth;
-	private int displayHigh;
+	private int displayHeight;
 	private int buttonsEachColumns;
 	private int buttonsEachRow;
 	private int buttonWidth;
-	private int buttonHeight;
+	private float buttonHeight;
 
 	public CatKeyboardTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -50,16 +53,30 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		DisplayMetrics currentDisplayMetrics = new DisplayMetrics();
 		solo.getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(currentDisplayMetrics);
 
-		Log.i("DisplayMetrics", "width:" + currentDisplayMetrics.widthPixels + " height:"
+		Log.i("info", "DisplayMetrics" + "width:" + currentDisplayMetrics.widthPixels + " height:"
 				+ currentDisplayMetrics.heightPixels);
 
+		// 800 * 480 Nexus S, px = 4.26
+		// 1184 * 720 nexus, px = 3.19
+		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, currentDisplayMetrics);
+		Log.i("info", "pixel: " + px);
+
 		this.displayWidth = currentDisplayMetrics.widthPixels;
-		this.displayHigh = currentDisplayMetrics.heightPixels;
+		this.displayHeight = currentDisplayMetrics.heightPixels;
+
 		this.buttonsEachColumns = 5;
 		this.buttonsEachRow = 4;
-		this.buttonWidth = displayWidth / buttonsEachColumns;
-		this.buttonHeight = 1200 / (3 * buttonsEachRow);
+		this.keyboardHeight = this.buttonsEachRow * 50.0f * px;
+		Log.i("info", "keyboardHeight: " + this.keyboardHeight);
 
+		this.amountOfDisplayspaceUsedForKeyboard = this.displayHeight / this.keyboardHeight;
+		Log.i("info", "amountOfDisplayspaceUsedForKeyboard: " + this.amountOfDisplayspaceUsedForKeyboard);
+
+		this.buttonWidth = displayWidth / buttonsEachColumns;
+		float divisor = this.amountOfDisplayspaceUsedForKeyboard * this.buttonsEachRow;
+		Log.i("info", "divisor: " + divisor);
+		this.buttonHeight = displayHeight / divisor;
+		Log.i("info", "buttonHeight: " + this.buttonHeight);
 		// Clicking keys on screen in this order:
 		//0,7,4,1,
 		//.,8,5,2,
@@ -92,9 +109,9 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		for (int i = 0; i < buttonsEachColumns; i++) {
 			for (int j = 0; j < buttonsEachRow; j++) {
 
-				Log.i("setUp()", " i:" + i + " j:" + j + " z:" + z);
+				Log.i("info", "setUp()" + " i:" + i + " j:" + j + " z:" + z);
 				int x = i * buttonWidth + buttonWidth / 2;
-				int y = displayHigh - (j * buttonHeight + buttonHeight / 2);
+				int y = displayHeight - (j * (int) buttonHeight + (int) buttonHeight / 2);
 				this.keyMap.put(this.keyString.get(z), new Point(x, y));
 				z++;
 
@@ -166,9 +183,9 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 	private void clickOnKey(String key) {
 
 		Point keyOnScreen = this.keyMap.get(key);
+		Log.i("info", "clickOnKey(" + key + ")" + "x:" + keyOnScreen.x + "y:" + keyOnScreen.y);
 		solo.clickOnScreen(keyOnScreen.x, keyOnScreen.y);
-		Log.i("clickOnKey(" + key + ")", "x:" + keyOnScreen.x + "y:" + keyOnScreen.y);
-		solo.sleep(500);
+		solo.sleep(250);
 
 	}
 
