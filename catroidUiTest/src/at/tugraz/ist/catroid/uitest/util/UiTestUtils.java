@@ -40,18 +40,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -186,6 +181,8 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_note, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_forever, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_repeat, R.string.category_control);
+
+		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -526,77 +523,6 @@ public class UiTestUtils {
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
-	public static ArrayList<Integer> getListItemYPositions(Solo solo) {
-		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
-		ListView listView = solo.getCurrentListViews().get(0);
-
-		for (int i = 0; i < listView.getChildCount(); ++i) {
-			View currentViewInList = listView.getChildAt(i);
-
-			Rect globalVisibleRect = new Rect();
-			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
-			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
-			yPositionList.add(middleYPos);
-		}
-
-		return yPositionList;
-	}
-
-	public static int getAddedListItemYPosition(Solo solo) {
-		ArrayList<Integer> yPositionList = getListItemYPositions(solo);
-		int pos = (yPositionList.size() - 1) / 2;
-
-		return yPositionList.get(pos);
-	}
-
-	public static void longClickAndDrag(final Solo solo, final Activity activity, final float xFrom, final float yFrom,
-			final float xTo, final float yTo, final int steps) {
-		Handler handler = new Handler(activity.getMainLooper());
-
-		handler.post(new Runnable() {
-
-			public void run() {
-				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
-				activity.dispatchTouchEvent(downEvent);
-			}
-		});
-
-		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
-
-		handler.post(new Runnable() {
-			public void run() {
-				double offsetX = xTo - xFrom;
-				offsetX /= steps;
-				double offsetY = yTo - yFrom;
-				offsetY /= steps;
-				for (int i = 0; i <= steps; i++) {
-					float x = xFrom + (float) (offsetX * i);
-					float y = yFrom + (float) (offsetY * i);
-					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-							MotionEvent.ACTION_MOVE, x, y, 0);
-					activity.dispatchTouchEvent(moveEvent);
-
-					solo.sleep(20);
-				}
-			}
-		});
-
-		solo.sleep(steps * 20 + 200);
-
-		handler.post(new Runnable() {
-
-			public void run() {
-				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-						MotionEvent.ACTION_UP, xTo, yTo, 0);
-				activity.dispatchTouchEvent(upEvent);
-			}
-		});
-
-		solo.sleep(1000);
-
-	}
-
 	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth,
 			boolean assertMode) {
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
@@ -612,5 +538,26 @@ public class UiTestUtils {
 		} else {
 			assertFalse("Number too long - should not be resized and fully visible", solo.searchText(value));
 		}
+	}
+
+	/**
+	 * Returns the absolute pixel y coordinates of the displayed bricks
+	 * 
+	 * @return a list of the y pixel coordinates of the center of displayed bricks
+	 */
+	public static ArrayList<Integer> getListItemYPositions(final Solo solo) {
+		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
+		ListView listView = solo.getCurrentListViews().get(0);
+
+		for (int i = 0; i < listView.getChildCount(); ++i) {
+			View currentViewInList = listView.getChildAt(i);
+
+			Rect globalVisibleRect = new Rect();
+			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
+			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
+			yPositionList.add(middleYPos);
+		}
+
+		return yPositionList;
 	}
 }
