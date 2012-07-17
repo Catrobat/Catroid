@@ -34,6 +34,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -65,6 +66,14 @@ public class RenameCostumeDialog extends DialogFragment {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_rename_costume, null);
 		input = (EditText) dialogView.findViewById(R.id.dialog_rename_costume_editText);
 		input.setText(oldCostumeName);
+		
+		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
+			}
+		});
 		
 		Dialog dialog = new AlertDialog.Builder(getActivity())
 			.setView(dialogView)

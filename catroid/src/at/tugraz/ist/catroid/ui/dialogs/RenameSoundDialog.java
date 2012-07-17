@@ -34,6 +34,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -66,6 +67,14 @@ public class RenameSoundDialog extends DialogFragment {
 		input = (EditText) dialogView.findViewById(R.id.dialog_rename_sound_editText);
 		input.setText(oldSoundTitle);
 		
+		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
+			}
+		});
+		
 		Dialog dialog = new AlertDialog.Builder(getActivity())
 			.setView(dialogView)
 			.setTitle(R.string.rename_sound_dialog)
@@ -86,6 +95,16 @@ public class RenameSoundDialog extends DialogFragment {
 			@Override
 			public void onShow(DialogInterface dialog) {
 				initAlertDialogListener();
+				
+				final Dialog dialogShown = (Dialog) dialog;
+				input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							dialogShown.getWindow().setSoftInputMode(
+									WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+						}
+					}
+				});
 			}
 		});
 		
