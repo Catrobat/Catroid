@@ -91,6 +91,7 @@ public class RenameCostumeDialog extends DialogFragment {
 				}
 			}).create();
 		
+		dialog.setCanceledOnTouchOutside(true);
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {

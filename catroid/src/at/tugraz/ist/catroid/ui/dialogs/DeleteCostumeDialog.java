@@ -70,6 +70,8 @@ public class DeleteCostumeDialog extends DialogFragment {
 				}
 			}).create();
 		
+		dialog.setCanceledOnTouchOutside(true);
+		
 		return dialog;
 	}
 	

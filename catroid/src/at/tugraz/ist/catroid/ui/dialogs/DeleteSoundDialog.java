@@ -70,6 +70,8 @@ public class DeleteSoundDialog extends DialogFragment {
 				}
 			}).create();
 		
+		dialog.setCanceledOnTouchOutside(true);
+		
 		return dialog;
 	}
 	
