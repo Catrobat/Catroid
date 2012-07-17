@@ -83,6 +83,7 @@ public class UiTestUtils {
 	public static final String PROJECTNAME1 = "testproject1";
 	public static final String PROJECTNAME2 = "testproject2";
 	public static final String PROJECTNAME3 = "testproject3";
+	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT

@@ -466,6 +466,28 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 	}
 
+	public void testRenameCurrentProjectMixedCase() {
+		createProjects();
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.goBack();
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertEquals("rename to Mixed Case was not successfull", ProjectManager.getInstance().getCurrentProject()
+				.getName(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.sleep(200);
+		solo.goBack();
+		assertEquals("current project not updated", UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, ProjectManager
+				.getInstance().getCurrentProject().getName());
+
+	}
+
 	public void testRenameProjectWithWhitelistedCharacters() {
 		createProjects();
 		final String renameString = "[Hey+, =lo_ok. I'm; -special! too!]";

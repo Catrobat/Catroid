@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -165,11 +166,20 @@ public class StorageHandler {
 	}
 
 	public boolean projectExists(String projectName) {
-		File projectDirectory = new File(Utils.buildProjectPath(projectName));
-		if (!projectDirectory.exists()) {
-			return false;
+		//File projectDirectory = new File(Utils.buildProjectPath(projectName));
+
+		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+		for (String projectNameIterator : projectNameList) {
+			//File checkingProjectDirectory = new File(Utils.buildProjectPath(projectNameIterator));
+
+			if ((projectNameIterator.equals(projectName))) {
+				return true;
+			}
 		}
-		return true;
+		//if (!projectDirectory.exists()) {
+		//return false;
+		//}
+		return false;
 	}
 
 	public File copySoundFile(String path) throws IOException {
