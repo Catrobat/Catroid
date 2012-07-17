@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
@@ -68,6 +69,8 @@ import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class Utils {
 
@@ -352,6 +355,19 @@ public class Utils {
 		return searchForNonExistingSoundTitle(title, 0);
 	}
 
+	public static Project findValidProject() {
+		Project loadableProject = null;
+
+		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+		for (String projectName : projectNameList) {
+			if (ProjectManager.getInstance().canLoadProject(projectName)) {
+				loadableProject = StorageHandler.getInstance().loadProject(projectName);
+				break;
+			}
+		}
+		return loadableProject;
+	}
+
 	private static String searchForNonExistingSoundTitle(String title, int nextNumber) {
 		// search for sounds with the same title
 		String newTitle;
@@ -368,4 +384,5 @@ public class Utils {
 		}
 		return newTitle;
 	}
+
 }

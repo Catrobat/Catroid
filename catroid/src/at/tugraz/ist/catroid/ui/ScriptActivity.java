@@ -78,7 +78,6 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
@@ -117,6 +116,8 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	private View.OnClickListener createAddBrickClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
+				listView.setHoveringBrick();
+				adapter.notifyDataSetChanged();
 				getParent().showDialog(DIALOG_ADD_BRICK);
 			}
 		};
