@@ -38,6 +38,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
@@ -116,8 +117,13 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 
+		TextView textSpeed = (TextView) brickView.findViewById(R.id.motor_action_speed_text_view);
 		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
 		editSpeed.setText(String.valueOf(speed));
+
+		textSpeed.setVisibility(View.GONE);
+		editSpeed.setVisibility(View.VISIBLE);
+
 		editSpeed.setOnClickListener(this);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
