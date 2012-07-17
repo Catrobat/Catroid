@@ -215,21 +215,64 @@ public class FormulaElement implements Serializable {
 		this.rightChild.parent = this;
 	}
 
-	public FormulaElement addTopElement(String newParentOperator, String newRightChild) {
+	//-------------------------------------------------------------------
+
+	public void replaceElement(FormulaElement current) {
+		parent = current.parent;
+		leftChild = current.leftChild;
+		rightChild = current.rightChild;
+		value = current.value;
+		type = current.type;
+
+		if (leftChild != null) {
+			leftChild.parent = this;
+		}
+		if (rightChild != null) {
+			rightChild.parent = this;
+		}
+	}
+
+	public void replaceElement(int type, String value) {
+		this.value = value;
+		this.type = type;
+	}
+
+	public void replaceElement(int type, String value, FormulaElement parent, FormulaElement leftChild,
+			FormulaElement rightChild) {
+		this.value = value;
+		this.type = type;
+		this.parent = parent;
+		this.leftChild = leftChild;
+		this.rightChild = rightChild;
+	}
+
+	public void replaceElement(int type, String value, FormulaElement leftChild, FormulaElement rightChild) {
+		this.value = value;
+		this.type = type;
+		this.leftChild = leftChild;
+		if (this.leftChild != null) {
+			this.leftChild.parent = this;
+		}
+		this.rightChild = rightChild;
+		if (rightChild != null) {
+			this.rightChild.parent = this;
+		}
+	}
+
+	//-------------------------------------------------------------------
+
+	public FormulaElement addTopElement(String newParentOperator, FormulaElement newRightChild) {
 		Log.i("info", "replaceWithTopElement");
 
-		FormulaElement rightChildElement = new FormulaElement(ELEMENT_VALUE, newRightChild, null);
-		FormulaElement newParent = new FormulaElement(ELEMENT_OP_OR_FCT, newParentOperator, null, this,
-				rightChildElement);
+		FormulaElement newParent = new FormulaElement(ELEMENT_OP_OR_FCT, newParentOperator, null, this, newRightChild);
 
 		return newParent;
 	}
 
-	public void replaceWithSubElement(String operator, String rightChild) {
+	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
 		Log.i("info", "replaceWithSubElement");
 
-		FormulaElement rightChildElement = new FormulaElement(ELEMENT_VALUE, rightChild, null);
-		FormulaElement cloneThis = new FormulaElement(this.type, operator, this.getParent(), this, rightChildElement);
+		FormulaElement cloneThis = new FormulaElement(this.type, operator, this.getParent(), this, rightChild);
 
 		cloneThis.parent.rightChild = cloneThis;
 	}
