@@ -1,6 +1,7 @@
 package at.tugraz.ist.catroid.uitest.io;
 
 import android.test.suitebuilder.annotation.Smoke;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -49,61 +50,43 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		solo.clickOnEditText(0);
 		solo.sleep(1000);
 		solo.clickOnEditText(0);
-		//		solo.sleep(1000);
-		//
-		//		solo.sendKey(8);
-		//
+
+		//Didnt worked to test the keyboard:
+		//				solo.sendKey(8); 
 		//		solo.sleep(1000);
 		//		solo.clickOnText("+");
 		//		solo.clickOnImage(0);
 		solo.sleep(1000);
-		//
-		//		CatKeyboardView cKV = (CatKeyboardView) solo.getView(4);
-		//		cKV.onKey(8, null);
-		solo.clickOnScreen(750, 1100);
-		solo.sleep(1000);
 
-		solo.clickOnScreen(700, 1100);
+		int displayWidth = 720;
+		int displayHigh = 1200;
+		int buttonsEachColumns = 5;
+		int buttonsEachRow = 4;
+		int buttonWidth = displayWidth / buttonsEachColumns;
+		int buttonHigh = 1200 / (3 * buttonsEachRow);
 
-		//LinearLayout ll = new LinearLayout(solo.getViews().get(0).getContext());
+		for (int i = 0; i < buttonsEachColumns; i++) {
+			for (int j = 0; j < buttonsEachRow; j++) {
+				Log.i("testKeyBoard()", "i:" + i + "j:" + j);
+				int x = i * buttonWidth + buttonWidth / 2;
+				int y = displayHigh - (j * buttonHigh + buttonHigh / 2);
+				solo.clickOnScreen(x, y);
+				solo.sleep(100);
+				// Clicking keys on screen in this order:
+				//0,7,4,1,
+				//.,8,5,2,
+				//space,9,
+				//6,3,space,
+				//del,*,+,
+				//shift,enter,/,-
+			}
+		}
 
-		//		int size = solo.getViews().size();
-		//
-		//		Log.i("info", "solo.getViews().size():" + size);
-		//
-		//		for (int i = 0; i < solo.getViews().size(); i++) {
-		//			solo.clickOnView(solo.getViews().get(i));
-		//			Log.i("info", "solo.getViews().get(" + i + "):" + solo.getViews().get(i).getId());
-		//			solo.sleep(1000);
-		//		}
-
+		//Test the 3 Buttons with this methods:
 		//		solo.clickOnImageButton(0); // Ok-Button
 		//		solo.clickOnImageButton(1); // UNDO - Button
 		//		solo.clickOnImageButton(2); // Cancel - Button 
 
-		//		solo.clickOnImageButton(2);
-		//		solo.clickOnImageButton(3);
-		//		solo.clickOnImageButton(4);
-		//		solo.clickOnImageButton(5);
-		//		solo.clickOnImageButton(6);
-		//		solo.clickOnImageButton(7);
-		//		solo.clickOnImageButton(8);
-		//		solo.clickOnImageButton(9);
-		//		solo.clickOnImageButton(10);
-		//		ArrayList<Integer> yPositionList = getListItemYPositions();
-		//		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
-		//
-		//		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
-		//
-		//		longClickAndDrag(10, yPositionList.get(7), 10, yPositionList.get(2), 20);
-		//
-		//		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks + 1) == ProjectManager
-		//				.getInstance().getCurrentScript().getBrickList().size());
-		//
-		//		Adapter adapter = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter();
-		//
-		//		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(2) instanceof WaitBrick,
-		//				true);
 		solo.sleep(3000);
 	}
 
