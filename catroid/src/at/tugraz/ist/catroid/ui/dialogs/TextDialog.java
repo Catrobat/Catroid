@@ -96,6 +96,7 @@ public abstract class TextDialog extends DialogFragment {
 			}
 		});
 		
+		dialog.setCanceledOnTouchOutside(true);
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {

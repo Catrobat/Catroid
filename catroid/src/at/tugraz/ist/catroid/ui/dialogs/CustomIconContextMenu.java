@@ -100,6 +100,7 @@ public class CustomIconContextMenu extends DialogFragment implements DialogInter
 			.setInverseBackgroundForced(true)
 			.create();
 		
+		dialog.setCanceledOnTouchOutside(true);
 		dialog.setOnCancelListener(new OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {
