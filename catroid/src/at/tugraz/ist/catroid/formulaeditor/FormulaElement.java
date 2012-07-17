@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content;
+package at.tugraz.ist.catroid.formulaeditor;
 
 import java.io.Serializable;
 
@@ -30,8 +30,9 @@ public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int ELEMENT_OP_OR_FCT = 2;
-	public static final int ELEMENT_VALUE = 3;
+	public static final int ELEMENT_OPERATOR = 2;
+	public static final int ELEMENT_FUNCTION = 3;
+	public static final int ELEMENT_VALUE = 4;
 
 	private int type;
 	private String value;
@@ -127,19 +128,34 @@ public class FormulaElement implements Serializable {
 	}
 
 	String getEditTextRepresentation() {
-		if (leftChild == null) {
-			return value + " ";
-		} else {
-			String result = "";
+		String result = "";
 
-			result += leftChild.getEditTextRepresentation();
-			result += this.value + " ";
-			if (rightChild != null) {
-				result += rightChild.getEditTextRepresentation();
-			}
-
-			return result;
+		switch (type) {
+			case ELEMENT_OPERATOR:
+				if (leftChild != null) {
+					result += leftChild.getEditTextRepresentation();
+				}
+				result += " " + this.value + " ";
+				if (rightChild != null) {
+					result += rightChild.getEditTextRepresentation();
+				}
+				break;
+			case ELEMENT_FUNCTION:
+				result += this.value + "( ";
+				if (leftChild != null) {
+					result += leftChild.getEditTextRepresentation();
+				}
+				if (rightChild != null) {
+					result += ", ";
+					result += rightChild.getEditTextRepresentation();
+				}
+				result += ") ";
+				break;
+			case ELEMENT_VALUE:
+				result += this.value + " ";
+				break;
 		}
+		return result;
 	}
 
 	public FormulaElement getRoot() {
@@ -278,7 +294,7 @@ public class FormulaElement implements Serializable {
 	public FormulaElement addTopElement(String newParentOperator, FormulaElement newRightChild) {
 		Log.i("info", "replaceWithTopElement");
 
-		FormulaElement newParent = new FormulaElement(ELEMENT_OP_OR_FCT, newParentOperator, null, this, newRightChild);
+		FormulaElement newParent = new FormulaElement(ELEMENT_OPERATOR, newParentOperator, null, this, newRightChild);
 
 		return newParent;
 	}
@@ -301,7 +317,7 @@ public class FormulaElement implements Serializable {
 		}
 
 		this.value = operator;
-		this.type = ELEMENT_OP_OR_FCT;
+		this.type = ELEMENT_OPERATOR;
 		this.leftChild = new FormulaElement(ELEMENT_VALUE, leftChild, this);
 		this.rightChild = new FormulaElement(ELEMENT_VALUE, rightChild, this);
 

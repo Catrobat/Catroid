@@ -24,6 +24,11 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.util.Locale;
 
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,10 +43,12 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.io.CatKeyboardView;
-import at.tugraz.ist.catroid.io.FormulaEditorEditText;
+import at.tugraz.ist.catroid.formulaeditor.CalcGrammarLexer;
+import at.tugraz.ist.catroid.formulaeditor.CalcGrammarParser;
+import at.tugraz.ist.catroid.formulaeditor.CatKeyboardView;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
+import at.tugraz.ist.catroid.formulaeditor.FormulaEditorEditText;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener, OnGestureListener {
 
@@ -49,6 +56,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private Brick currentBrick;
 	private FormulaEditorEditText textArea;
 	private int value;
+	private Formula formula = null;
 
 	private CatKeyboardView catKeyboardView;
 	//private ViewFlipper flipView;
@@ -150,13 +158,40 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	//		}
 	//	}
 
-	public Formula setInputFocusAndFormula(Formula formula) {
-		Formula oldFormula = textArea.setNewFormulaAndReturnOldFormula(formula);
-		return oldFormula;
+	public void setInputFocusAndFormula(Formula formula) {
+		this.formula = formula;
+		textArea.setFieldActive(formula.getEditTextRepresentation());
 	}
 
 	public int getReturnValue() {
 		return value;
+	}
+
+	private int parseFormula(String formulaToParse) {
+		CharStream cs = new ANTLRStringStream(formulaToParse);
+		CalcGrammarLexer lexer = new CalcGrammarLexer(cs);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		CalcGrammarParser parser = new CalcGrammarParser(tokens);
+
+		try {
+			formula.setRoot(parser.formula());
+			Log.i("info", "getParserErrorCount: " + parser.getParserErrorCount());
+			if (parser.getParserErrorMessages() != null) {
+				for (String err : parser.getParserErrorMessages()) {
+					Log.i("info", err);
+				}
+			}
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			Log.i("info", "index: " + e.index);
+			Log.i("info", "line: " + e.line);
+			Log.i("info", "charPositionInLine: " + e.charPositionInLine);
+			Log.i("info", "message: " + e.getMessage());
+
+			return e.index;
+		}
+
+		return -1;
 	}
 
 	public void onClick(View v) {
@@ -164,7 +199,9 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		switch (v.getId()) {
 			case R.id.formula_editor_ok_button:
 
-				textArea.updateSelectionIndices();
+				String formulaToParse = textArea.getText().toString();
+				parseFormula(formulaToParse);
+
 				break;
 
 			case R.id.formula_editor_cancel_button:

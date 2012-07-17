@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content;
+package at.tugraz.ist.catroid.formulaeditor;
 
 import java.io.Serializable;
 
@@ -34,6 +34,10 @@ public class Formula implements Serializable {
 
 	public Formula() {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, "0", null);
+	}
+
+	public Formula(FormulaElement formEle) {
+		root = formEle;
 	}
 
 	public Formula(String value) {
@@ -70,6 +74,11 @@ public class Formula implements Serializable {
 
 	public String getEditTextRepresentation() {
 		return root.getEditTextRepresentation();
+	}
+
+	public void setRoot(FormulaElement formula) {
+		root = formula;
+
 	}
 
 }

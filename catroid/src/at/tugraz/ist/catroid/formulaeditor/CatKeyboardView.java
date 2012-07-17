@@ -14,7 +14,7 @@
  * the License.
  */
 
-package at.tugraz.ist.catroid.io;
+package at.tugraz.ist.catroid.formulaeditor;
 
 import java.util.Locale;
 

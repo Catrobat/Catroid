@@ -49,7 +49,7 @@
 	        android:layout_height="match_parent"/>
     </ViewFlipper> -->
 	
-    <at.tugraz.ist.catroid.io.FormulaEditorEditText
+    <at.tugraz.ist.catroid.formulaeditor.FormulaEditorEditText
         android:id="@+id/formula_editor_edit_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,9 +62,10 @@
         android:scrollbars="vertical"
         android:singleLine="false"
         android:hint="@string/formula_nothing_selected"
-        android:textSize="@dimen/text_size_large" />
+        android:textSize="@dimen/text_size_large" 
+        />
       
-    <at.tugraz.ist.catroid.io.CatKeyboardView
+    <at.tugraz.ist.catroid.formulaeditor.CatKeyboardView
         android:id="@+id/keyboardcat"
         android:visibility="visible"
         android:layout_alignParentBottom="true"

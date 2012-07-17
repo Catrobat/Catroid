@@ -1,6 +1,5 @@
-package at.tugraz.ist.catroid.io;
+package at.tugraz.ist.catroid.formulaeditor;
 
-import android.R;
 import android.content.Context;
 import android.text.Editable;
 import android.text.Spannable;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
-import at.tugraz.ist.catroid.content.Formula;
 import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class FormulaEditorEditText extends EditText implements OnClickListener, OnTouchListener {
@@ -43,7 +41,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private int selectionEndIndex = 0;
 	private int previousSelectionStartIndex = 0;
 	private int previousSelectionEndIndex = 0;
-	private Formula formula = null;
+
 	private String currentlySelectedElement = null;
 	private int currentlySelectedElementType = 0;
 	private boolean editMode = false;
@@ -75,10 +73,19 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
 		this.setEnabled(false);
-		this.setBackgroundColor(getResources().getColor(R.color.transparent));
+		//this.setBackgroundColor(getResources().getColor(R.color.transparent));
+		this.setCursorVisible(true);
+
 		//this.setBackgroundResource(0);
 		//this.setCursorVisible(false);
 		//this.setLines(5);
+	}
+
+	public void setFieldActive(String formulaAsText) {
+		this.setEnabled(true);
+		this.setText(formulaAsText);
+		updateSelectionIndices();
+
 	}
 
 	public void setFormulaEditorDialog(FormulaEditorDialog dialog) {
@@ -281,9 +288,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		Log.i("info",
 				"KeyCode:" + catKey.getKeyCode() + " ScanCode:" + catKey.getScanCode() + " MetaState:"
 						+ catKey.getMetaState() + " DisplayLabel:" + catKey.getDisplayLabel());
-		if (formula == null) {
-			return;
-		}
+
 		if (catKey.getNumber() == CatKeyEvent.KEYCODE_ENTER) {
 			updateSelectionIndices();
 			return;
@@ -419,20 +424,16 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		//	if ((type & INPUT_TYPE_NUMBERS) > 0) ...we allow input of values etc. 
 	}
 
-	public Formula setNewFormulaAndReturnOldFormula(Formula formula) {
-		Formula old = this.formula;
-		this.formula = formula;
-		this.setEnabled(true);
-		String formulaAsText = formula.getEditTextRepresentation();
-		formulaAsText = formulaAsText.substring(0, formulaAsText.length() - 1);
-		this.setText(formulaAsText);
-		updateSelectionIndices();
-		return old;
-	}
-
-	public Formula getFormula() {
-		return formula;
-	}
+	//	public Formula setNewFormulaAndReturnOldFormula(Formula formula) {
+	//		Formula old = this.formula;
+	//		this.formula = formula;
+	//		this.setEnabled(true);
+	//		String formulaAsText = formula.getEditTextRepresentation();
+	//		formulaAsText = formulaAsText.substring(0, formulaAsText.length() - 1);
+	//		this.setText(formulaAsText);
+	//		updateSelectionIndices();
+	//		return old;
+	//	}
 
 	public boolean getEditMode() {
 		return editMode;

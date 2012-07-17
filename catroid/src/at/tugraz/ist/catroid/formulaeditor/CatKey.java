@@ -1,4 +1,4 @@
-package at.tugraz.ist.catroid.io;
+package at.tugraz.ist.catroid.formulaeditor;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
