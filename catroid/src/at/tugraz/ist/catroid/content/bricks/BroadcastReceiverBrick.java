@@ -38,11 +38,12 @@ import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class BroadcastReceiverBrick implements Brick {
+public class BroadcastReceiverBrick implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
 	private transient final ProjectManager projectManager;
@@ -160,6 +161,10 @@ public class BroadcastReceiverBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new BroadcastReceiverBrick(sprite, receiveScript);
+	}
+
+	public Script initScript(Sprite sprite) {
+		return new BroadcastScript(sprite);
 	}
 
 }

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -68,6 +69,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 	public void testLoopBrick() {
 		ArrayList<Integer> yPos;
+		int addedYPos;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
@@ -87,7 +89,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(2), 10, yPos.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof ChangeYByBrick));
+		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof LoopBeginBrick));
 
 		solo.sleep(100);
 
@@ -98,9 +100,36 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 		solo.sleep(100);
 
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.sleep(100);
+		solo.clickInList(4);
+		solo.sleep(100);
+		solo.clickInList(2);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(1000);
+		yPos = UiTestUtils.getListItemYPositions(solo);
+		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
+
+		solo.drag(20, 20, addedYPos, yPos.get(2) + 20, 100);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		projectBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertTrue("Wrong Brick instance: " + projectBrickList.get(1).getClass().getSimpleName(),
+				(projectBrickList.get(1) instanceof ChangeYByBrick));
+
+		solo.sleep(100);
+
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(3), getActivity().getWindowManager()
 				.getDefaultDisplay().getWidth() - 10, yPos.get(3), 20);
+		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
+		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof ChangeYByBrick));
+
+		solo.sleep(100);
+		yPos = UiTestUtils.getListItemYPositions(solo);
+		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(1), 10, yPos.get(2) + 20, 20);
+		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
+		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof ChangeYByBrick));
 	}

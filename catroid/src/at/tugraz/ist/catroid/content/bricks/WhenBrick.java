@@ -27,10 +27,11 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.WhenScript;
 
-public class WhenBrick implements Brick {
+public class WhenBrick implements ScriptBrick {
 	protected WhenScript whenScript;
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
@@ -107,6 +108,10 @@ public class WhenBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new WhenBrick(getSprite(), whenScript);
+	}
+
+	public Script initScript(Sprite sprite) {
+		return new WhenScript(sprite);
 	}
 
 }

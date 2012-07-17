@@ -22,59 +22,9 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public abstract class LoopBeginBrick implements NestingBrick {
-	private static final long serialVersionUID = 1L;
-	protected Sprite sprite;
-	protected LoopEndBrick loopEndBrick;
-	private transient long beginLoopTime;
-
-	protected LoopBeginBrick() {
-	}
-
-	public abstract void execute();
-
-	protected void setFirstStartTime() {
-		beginLoopTime = System.nanoTime();
-	}
-
-	public long getBeginLoopTime() {
-		return beginLoopTime;
-	}
-
-	public void setBeginLoopTime(long beginLoopTime) {
-		this.beginLoopTime = beginLoopTime;
-	}
-
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	public LoopEndBrick getLoopEndBrick() {
-		return this.loopEndBrick;
-	}
-
-	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
-		this.loopEndBrick = loopEndBrick;
-	}
-
-	public boolean isDraggableOver(Brick brick) {
-		if (brick == loopEndBrick) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	public boolean isFullyCreated() {
-		if (loopEndBrick == null) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	@Override
-	public abstract Brick clone();
+public interface ScriptBrick extends Brick {
+	public Script initScript(Sprite sprite);
 }
