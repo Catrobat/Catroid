@@ -27,12 +27,12 @@
 	android:layout_height="match_parent"
     android:windowFullscreen="true"
 	android:theme="@android:style/Theme.Light">
-<!-- 	<LinearLayout
+	<LinearLayout
 	    android:id="@+id/formula_editor_brick_space"
 	    android:layout_width="match_parent"
-	    android:layout_height="68dp" /> -->
+	    android:layout_height="68dp" />
 	
-	<ViewFlipper
+	<!-- <ViewFlipper
         android:id="@+id/catflip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
@@ -47,13 +47,13 @@
 	        android:id="@+id/catview"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"/>
-    </ViewFlipper>
+    </ViewFlipper> -->
 	
     <at.tugraz.ist.catroid.io.FormulaEditorEditText
         android:id="@+id/formula_editor_edit_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/catflip"
+        android:layout_below="@id/formula_editor_brick_space"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:gravity="top"

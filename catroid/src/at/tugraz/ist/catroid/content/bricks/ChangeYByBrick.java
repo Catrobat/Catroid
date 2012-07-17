@@ -62,6 +62,8 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		yMovement = yMovementFormula.interpret().intValue();
+
 		sprite.costume.aquireXYWidthHeightLock();
 		int yPosition = (int) sprite.costume.getYPosition();
 
