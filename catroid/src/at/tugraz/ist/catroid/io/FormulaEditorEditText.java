@@ -16,7 +16,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.content.Formula;
-import at.tugraz.ist.catroid.content.FormulaElement;
 import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class FormulaEditorEditText extends EditText implements OnClickListener, OnTouchListener {
@@ -24,6 +23,18 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private static final BackgroundColorSpan COLOR_EDITING = new BackgroundColorSpan(0xFF00FFFF);
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
 	private static final BackgroundColorSpan COLOR_NORMAL = new BackgroundColorSpan(0xFFFFFFFF);
+
+	public static final String[] GROUP_NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+	public static final String[] GROUP_OPERATORS = new String[] { "+", "-", "*", "/", "^" };
+	public static final String[] GROUP_FUNCTIONS = new String[] { "sin", "cos", "tan", "ln", "log", "pi", "sqrt", "e",
+			"rand" };
+
+	public static final int NUMBER = 0;
+	public static final int OPERATOR = 1;
+	public static final int FUNCTION_SEPERATOR = 2;
+	public static final int FUNCTION = 3;
+	public static final int BRACKET_CLOSE = 4;
+
 	private static final String ELEMENT_SEPERATOR = " ";
 	public CatKeyboardView catKeyboardView;
 	private int currentlySelectedElementNumber = 0;
@@ -32,13 +43,13 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private int selectionEndIndex = 0;
 	private int previousSelectionStartIndex = 0;
 	private int previousSelectionEndIndex = 0;
-	private int operatorSelectionIndex = 0;
 	private Formula formula = null;
-	private FormulaElement currentlySelectedFormulaElement = null;
+	private String currentlySelectedElement = null;
+	private int currentlySelectedElementType = 0;
 	private boolean editMode = false;
-	//private String valueToBeEdited = "";
 	private Spannable highlightSpan = null;
 	private FormulaEditorDialog formulaEditorDialog = null;
+	private boolean ignoreNextUpdate = false;
 
 	//FormulaElement selectedElement;
 
@@ -79,12 +90,26 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		//this.setSelected(false);
 	}
 
-	//highlight the selected word
 	public synchronized void updateSelectionIndices() {
+		Log.i("info", "update selection");
+
+		if (ignoreNextUpdate) {
+			ignoreNextUpdate = false;
+			return;
+		}
+
+		clearSelectionHighlighting();
+		selectionStartIndex = getSelectionStart();
+		selectionEndIndex = getSelectionEnd();
+		setSelection(selectionStartIndex);
+	}
+
+	//highlight the selected word
+	public synchronized void doSelectionAndHighlighting() {
 
 		//TODO: Interpreter Test
 		Log.i("info", "Formula Interpretation: deactivated"); // + formula.interpret());
-		Log.i("info", "updateSelection");
+		Log.i("info", "do Selection");
 
 		String currentInput = this.getText().toString();
 		int cursorPos = this.getSelectionStart();
@@ -117,51 +142,14 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		//Log.i("info", "start index: " + selectionStartIndex);
 		//Log.i("info", "end index: " + selectionEndIndex);
-		Log.i("info", "Selected element: " + currentlySelectedElementNumber);
-		operatorSelectionIndex = selectionStartIndex;
+		//Log.i("info", "Selected element: " + currentlySelectedElementNumber);
+		//operatorSelectionIndex = selectionStartIndex;
 
 		checkSelectedTextType();
 
 		previouslySelectedElementNumber = currentlySelectedElementNumber;
 
-		this.highlightSelection();
-
-	}
-
-	public void graphicHierarchyOneUp() {
-		FormulaElement up = currentlySelectedFormulaElement.getParent();
-		//		if (up.getType() == FormulaElement.ELEMENT_ROOT) {
-		//			formulaEditorDialog.updateGraphicalRepresentation(null);
-		//		}else 
-		{
-			FormulaElement el1 = currentlySelectedFormulaElement.getLeftChild();
-			FormulaElement el2 = currentlySelectedFormulaElement.getRightChild();
-			int childCount1 = 1;
-			int childCount2 = 2;
-
-			if (el1 != null) {
-				childCount1 = el1.getNumberOfRecursiveChildren();
-			}
-			if (el2 != null) {
-				childCount2 = el2.getNumberOfRecursiveChildren();
-			}
-
-			formulaEditorDialog.updateGraphicalRepresentation(new FormulaRepresentation(null,
-					childCount1 + " Elements", currentlySelectedFormulaElement.getValue(), childCount2 + " Elements"));
-		}
-	}
-
-	private void updateGraphicalRepresentation(int left, int right) {
-		FormulaRepresentation graphic = null;
-		//FormulaElement element = currentlySelectedFormulaElement;
-
-		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_VALUE) {
-			graphic = new FormulaRepresentation(currentlySelectedFormulaElement.getValue());
-		} else {
-			graphic = new FormulaRepresentation(null, left + " Elements", currentlySelectedFormulaElement.getValue(),
-					right + " Elements");
-		}
-		formulaEditorDialog.updateGraphicalRepresentation(graphic);
+		highlightSelection();
 
 	}
 
@@ -170,39 +158,72 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		editMode = true;
 
-		currentlySelectedFormulaElement = formula.findItemByPosition(currentlySelectedElementNumber);
-		Log.i("info", "FEEditText: check selected Type ");
-		int childCount1 = 1;
-		int childCount2 = 1;
-
-		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_OP_OR_FCT) {
-			//TODO: set the keys that should be available for our rules
-			Log.i("info", "Search pos for child " + currentlySelectedElementNumber);
-			FormulaElement el1 = currentlySelectedFormulaElement.getLeftChild();
-			FormulaElement el2 = currentlySelectedFormulaElement.getRightChild();
-
-			if (el1 != null) {
-				childCount1 = el1.getNumberOfRecursiveChildren();
-			}
-			if (el2 != null) {
-				childCount2 = el2.getNumberOfRecursiveChildren();
-			}
-
-			extendSelection(childCount1, childCount2);
-		}
-
-		if (previouslySelectedElementNumber != currentlySelectedElementNumber) {
-			updateGraphicalRepresentation(childCount1, childCount2);
+		currentlySelectedElement = getText().subSequence(selectionStartIndex, selectionEndIndex).toString();
+		Log.i("info", "FEEditText: check selected Type " + currentlySelectedElementType);
+		checkAndSetSelectedType();
+		if (currentlySelectedElementType == FUNCTION) {
+			extendSelectionForBracketFromBegin();
+			//TODO: extend selection across formula
+		} else if (currentlySelectedElementType == BRACKET_CLOSE) {
+			extendSelectionForBracketFromEnd();
+			//TODO: extend selection across formula
+		} else if (currentlySelectedElementType == FUNCTION_SEPERATOR) {
+			extendSelectionForFunctionOnSeperator();
+			return;
 		}
 
 	}
 
-	public void selectNewlyAddedOperator() {
-		currentlySelectedElementNumber++;
-		selectionStartIndex = selectionEndIndex + 1;
-		selectionEndIndex += 2;
-		extendSelection(1, 1);
-		highlightSelection();
+	public void extendSelectionForBracketFromBegin() {
+		Log.i("info", "extendSelection for function");
+		int bracketCount = 1;
+		String text = getText().toString().substring(selectionEndIndex);
+		int textLen = text.length();
+		int i = 0;
+		while (i < textLen && bracketCount > 0) {
+			if (text.charAt(i) == '(') {
+				bracketCount++;
+			} else if (text.charAt(i) == ')') {
+				bracketCount--;
+			}
+			selectionEndIndex++;
+			i++;
+		}
+
+	}
+
+	public void extendSelectionForFunctionOnSeperator() {
+		extendSelectionForBracketFromEnd();
+		extendSelectionForBracketFromBegin();
+
+	}
+
+	public void extendSelectionForBracketFromEnd() {
+		Log.i("info", "extendSelection for function from end bracket");
+		int bracketCount = 1;
+		String text = getText().toString().substring(0, selectionStartIndex);
+		selectionStartIndex--;
+		//int textLen = text.length();
+		while (selectionStartIndex > 0) {
+			if (text.charAt(selectionStartIndex) == '(') {
+				bracketCount--;
+			} else if (text.charAt(selectionStartIndex) == ')') {
+				bracketCount++;
+			}
+			if (bracketCount == 0) {
+				break;
+			}
+
+			selectionStartIndex--;
+		}
+
+		while (selectionStartIndex > 0) {
+			if ((text.charAt(selectionStartIndex - 1) == ' ' || text.charAt(selectionStartIndex - 1) == '(')) {
+				break;
+			}
+			selectionStartIndex--;
+		}
+
 	}
 
 	public void extendSelection(int left, int right) {
@@ -232,20 +253,20 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void highlightSelection() {
 		highlightSpan = this.getText();
-
-		//if (previousSelectionEndIndex > str.length()) {
-		//	previousSelectionEndIndex = str.length();
-		//}
 		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
 		highlightSpan.removeSpan(COLOR_EDITING);
-		//highlightSpan.setSpan(COLOR_NORMAL, 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		//		str.setSpan(COLOR_NORMAL, previousSelectionStartIndex, previousSelectionEndIndex,
-		//				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
 		highlightSpan.setSpan(COLOR_HIGHLIGHT, selectionStartIndex, selectionEndIndex,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-		previousSelectionStartIndex = selectionStartIndex;
-		previousSelectionEndIndex = selectionEndIndex;
+		//		previousSelectionStartIndex = selectionStartIndex;
+		//		previousSelectionEndIndex = selectionEndIndex;
+	}
+
+	public void clearSelectionHighlighting() {
+		highlightSpan = this.getText();
+		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
+		highlightSpan.removeSpan(COLOR_EDITING);
 	}
 
 	public void highlightSelectionCurrentlyEditing() {
@@ -268,158 +289,135 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			return;
 		}
 
-		boolean newElementIsOperator = Formula.isInputMemberOfAGroup(newElement, Formula.OPERATORS);
-		boolean newElementIsNumber = Formula.isInputMemberOfAGroup(newElement, Formula.NUMBERS);
-		boolean newElementIsFunction = Formula.isInputMemberOfAGroup(newElement, Formula.FUNCTIONS);
-
-		if (currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_VALUE) {
-			if (newElementIsOperator) { //|| newElementIsFunction) { TODO
-				replaceValueBySubElement(newElement);
-			} else if (newElementIsNumber) {
-				replaceValueByValue(newElement);
-			} else {
-				specialKeyPressOnValue(catKey);
-			}
-		} else if ((currentlySelectedFormulaElement.getType() == FormulaElement.ELEMENT_OP_OR_FCT)) {
-			if (newElementIsOperator) {//|| newElementIsFunction) { TODO
-				replaceSubElementBySubElement(newElement);
-			} else if (newElementIsNumber) {
-				replaceSubElementByValue(newElement);
-			} else {
-				specialKeyPressOnSubElement(catKey);
-			}
+		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
+			deleteOneCharAtCurrentPosition();
 		} else {
-			//PANIC!
-			//replaceValueByValue(newElement);
+			appendToTextFieldAtCurrentPosition(newElement);
 		}
+
+		//		if (currentlySelectedElementType == NUMBER) {
+		//			if (newElementIsOperator) { //|| newElementIsFunction) { TODO
+		//				replaceValueBySubElement(newElement);
+		//			} else if (newElementIsNumber) {
+		//				replaceValueByValue(newElement);
+		//			} else {
+		//				specialKeyPressOnValue(catKey);
+		//			}
+		//		} else if ((currentlySelectedElement.getType() == FormulaElement.ELEMENT_OP_OR_FCT)) {
+		//			if (newElementIsOperator) {//|| newElementIsFunction) { TODO
+		//				replaceSubElementBySubElement(newElement);
+		//			} else if (newElementIsNumber) {
+		//				replaceSubElementByValue(newElement);
+		//			} else {
+		//				specialKeyPressOnSubElement(catKey);
+		//			}
+		//		} else {
+		//			//PANIC!
+		//			//replaceValueByValue(newElement);
+		//		}
 
 	}
 
-	public void specialKeyPressOnValue(CatKeyEvent catKey) {
+	//	public void specialKeyPressOnValue(CatKeyEvent catKey) {
+	//
+	//		editMode = false;
+	//		Editable text = getText();
+	//
+	//		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
+	//
+	//			if (selectionEndIndex > selectionStartIndex + 1) {
+	//				text.replace(selectionEndIndex - 1, selectionEndIndex, "");
+	//				currentlySelectedElement.deleteLastCharacterInValue();
+	//				setText(text);
+	//				selectionEndIndex--;
+	//
+	//			} else {
+	//				currentlySelectedElement.replaceValue("0");
+	//				text.replace(selectionEndIndex - 1, selectionEndIndex, "0");
+	//				setText(text);
+	//			}
+	//
+	//		} else if (catKey.getKeyCode() == KeyEvent.KEYCODE_PERIOD || catKey.getKeyCode() == KeyEvent.KEYCODE_COMMA) {
+	//			String sign = "."; //TODO Do we want representation for , as comma?
+	//
+	//			if (currentlySelectedElement.addCommaIfPossible()) {
+	//
+	//				text.insert(selectionEndIndex, "" + sign);
+	//				setText(text);
+	//				selectionEndIndex++;
+	//			}
+	//		}
+	//
+	//		highlightSelectionCurrentlyEditing();
+	//	}
+	//
+	//	public void specialKeyPressOnSubElement(CatKeyEvent catKey) {
+	//		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
+	//			String value = currentlySelectedElement.getParent().getFirstChildValue();
+	//			replaceSubElementByValue(value);
+	//			selectionEndIndex = selectionStartIndex + value.length();
+	//			highlightSelection();
+	//			editMode = true;
+	//
+	//		}
+	//	}
 
-		editMode = false;
+	public void deleteOneCharAtCurrentPosition() {
 		Editable text = getText();
 
-		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-
-			if (selectionEndIndex > selectionStartIndex + 1) {
-				text.replace(selectionEndIndex - 1, selectionEndIndex, "");
-				currentlySelectedFormulaElement.deleteLastCharacterInValue();
-				setText(text);
-				selectionEndIndex--;
-
-			} else {
-				currentlySelectedFormulaElement.replaceValue("0");
-				text.replace(selectionEndIndex - 1, selectionEndIndex, "0");
-				setText(text);
-			}
-
-		} else if (catKey.getKeyCode() == KeyEvent.KEYCODE_PERIOD || catKey.getKeyCode() == KeyEvent.KEYCODE_COMMA) {
-			String sign = "."; //TODO Do we want representation for , as comma?
-
-			if (currentlySelectedFormulaElement.addCommaIfPossible()) {
-
-				text.insert(selectionEndIndex, "" + sign);
-				setText(text);
-				selectionEndIndex++;
-			}
+		if (selectionEndIndex < 1) {
+			return;
 		}
 
-		highlightSelectionCurrentlyEditing();
-	}
-
-	public void specialKeyPressOnSubElement(CatKeyEvent catKey) {
-		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-			String value = currentlySelectedFormulaElement.getParent().getFirstChildValue();
-			replaceSubElementByValue(value);
-			selectionEndIndex = selectionStartIndex + value.length();
-			highlightSelection();
-			editMode = true;
-
+		if (editMode) {
+			text.replace(selectionStartIndex, selectionEndIndex, "");
+			selectionEndIndex = selectionStartIndex;
+			editMode = false;
+		} else {
+			Log.i("info", "Sel end: " + text.charAt(selectionEndIndex - 1) + text.charAt(selectionStartIndex - 1));
+			if (text.charAt(selectionEndIndex - 1) == ',') {
+				return;
+			} else if (text.charAt(selectionEndIndex - 1) == ')') {
+				doSelectionAndHighlighting();
+				return;
+			} else if (text.charAt(selectionEndIndex - 1) == '(') {
+				doSelectionAndHighlighting();
+				return;
+			}
+			text.replace(selectionEndIndex - 1, selectionEndIndex, "");
+			selectionEndIndex--;
+			selectionStartIndex = selectionEndIndex;
 		}
+
+		setText(text);
+		setSelection(selectionEndIndex);
 	}
 
 	private void appendToTextFieldAtCurrentPosition(String newElement) {
 		Editable text = getText();
-		text.insert(selectionEndIndex, newElement);
-		setText(text);
-		selectionEndIndex++;
-	}
-
-	public void replaceSubElementByValue(String newElement) {
-		Log.i("info", "replaceSubElementByValue");
+		if (newElement.equals("null")) { //Spacebar!
+			newElement = " ";
+		}
 
 		if (editMode) {
-			currentlySelectedFormulaElement = currentlySelectedFormulaElement.getParent().makeMeALeaf(newElement);
-			Editable text = getText();
 			text.replace(selectionStartIndex, selectionEndIndex, newElement);
-			setText(text);
-			selectionEndIndex = selectionStartIndex + 1;
+			selectionEndIndex = selectionStartIndex + newElement.length();
+
 			editMode = false;
 		} else {
-			currentlySelectedFormulaElement.addToValue(newElement);
-			appendToTextFieldAtCurrentPosition(newElement);
+
+			text.insert(selectionEndIndex, newElement);
+			selectionEndIndex += newElement.length();
 		}
 
-		highlightSelectionCurrentlyEditing();
-	}
-
-	public void replaceValueByValue(String newElement) {
-		Log.i("info", "replaceValueByValue");
-
-		if (editMode) {
-			currentlySelectedFormulaElement.replaceValue(newElement);
-			Editable text = getText();
-			text.replace(selectionStartIndex, selectionEndIndex, newElement);
-			setText(text);
-			selectionEndIndex = selectionStartIndex + 1;
-			editMode = false;
-		} else {
-			currentlySelectedFormulaElement.addToValue(newElement);
-			appendToTextFieldAtCurrentPosition(newElement);
-		}
-
-		highlightSelectionCurrentlyEditing();
-	}
-
-	public void replaceSubElementBySubElement(String newElement) {
-		Log.i("info", "replaceSubElementBySubElement");
-
-		Editable text = getText();
-		text.replace(operatorSelectionIndex, operatorSelectionIndex + 1, newElement);
 		setText(text);
-		currentlySelectedFormulaElement.replaceValue(newElement);
-	}
-
-	public void replaceValueBySubElement(String newElement) {
-		Log.i("info", "replaceValueBySubElement:" + newElement);
-		String textOutput = formula.updateFormula(newElement, currentlySelectedFormulaElement);
-		if (textOutput == "") {
-			return;
-		}
-		Editable text = getText();
-		text.replace(selectionStartIndex, selectionEndIndex, textOutput);
-		setText(text);
-		//selectNewlyAddedOperator();
-		setSelection(selectionStartIndex + 2);
-		updateSelectionIndices();
+		setSelection(selectionEndIndex);
 	}
 
 	public void setPossibleInput(int type) {
 		//TODO: ensure only the inputtype specified in type is displayed on keyboard
 		//	if ((type & INPUT_TYPE_NUMBERS) > 0) ...we allow input of values etc. 
 	}
-
-	//	public void deleteSelectionIfNeeded() {
-	//		if (deleteElementOnInsert && editMode == true && valueToBeEdited == "") {
-	//			deleteElementOnInsert = false;
-	//			Editable text = getText();
-	//			Log.i("info", "replace: " + selectionStartIndex + " to " + selectionEndIndex);
-	//			text.replace(selectionStartIndex, selectionEndIndex, "");
-	//			selectionEndIndex = selectionStartIndex;
-	//			setText(text);
-	//		}
-	//	}
 
 	public Formula setNewFormulaAndReturnOldFormula(Formula formula) {
 		Formula old = this.formula;
@@ -438,6 +436,42 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public boolean getEditMode() {
 		return editMode;
+	}
+
+	public boolean checkIsOperator(String text) {
+		for (String item : GROUP_OPERATORS) {
+			if (item.equals(text)) {
+				currentlySelectedElementType = OPERATOR;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void checkAndSetSelectedType() {
+
+		currentlySelectedElementType = NUMBER;
+
+		if (currentlySelectedElement.startsWith(",")) {
+			currentlySelectedElementType = FUNCTION_SEPERATOR;
+
+		} else if (currentlySelectedElement.startsWith(")")) {
+			currentlySelectedElementType = BRACKET_CLOSE;
+		}
+
+		for (String item : GROUP_OPERATORS) {
+			if (currentlySelectedElement.startsWith(item)) {
+				currentlySelectedElementType = OPERATOR;
+				return;
+			}
+		}
+		for (String item : GROUP_FUNCTIONS) {
+			if (currentlySelectedElement.startsWith(item)) {
+				currentlySelectedElementType = FUNCTION;
+				return;
+			}
+		}
+
 	}
 
 	@Override
@@ -483,6 +517,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
+			ignoreNextUpdate = true;
+			doSelectionAndHighlighting();
 			trickTextSelectionThingy();
 			return true;
 		}
