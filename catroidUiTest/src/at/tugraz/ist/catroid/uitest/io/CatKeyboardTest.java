@@ -1,6 +1,12 @@
 package at.tugraz.ist.catroid.uitest.io;
 
+import java.util.HashMap;
+import java.util.Vector;
+
+import android.graphics.Point;
 import android.test.suitebuilder.annotation.Smoke;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -15,11 +21,20 @@ import com.jayway.android.robotium.solo.Solo;
 public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCase2<ScriptTabActivity> {
 
 	private Solo solo;
-	private Script testScript;
+	//	private Script testScript;
 	//	private Script testScript2;
 	//	private Script testScript3;
-	Sprite firstSprite;
-	Brick changeBrick;
+	private Sprite firstSprite;
+	private Brick changeBrick;
+	private Vector<String> keyString;
+	private HashMap<String, Point> keyMap;
+
+	private int displayWidth;
+	private int displayHigh;
+	private int buttonsEachColumns;
+	private int buttonsEachRow;
+	private int buttonWidth;
+	private int buttonHeight;
 
 	public CatKeyboardTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -27,8 +42,64 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 
 	@Override
 	public void setUp() throws Exception {
-		createProject("testProject");
-		solo = new Solo(getInstrumentation(), getActivity());
+		createProject("testProjectCatKeyboard");
+		this.solo = new Solo(getInstrumentation(), getActivity());
+		this.keyString = new Vector<String>();
+		this.keyMap = new HashMap<String, Point>();
+
+		DisplayMetrics currentDisplayMetrics = new DisplayMetrics();
+		solo.getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(currentDisplayMetrics);
+
+		Log.i("DisplayMetrics", "width:" + currentDisplayMetrics.widthPixels + " height:"
+				+ currentDisplayMetrics.heightPixels);
+
+		this.displayWidth = currentDisplayMetrics.widthPixels;
+		this.displayHigh = currentDisplayMetrics.heightPixels;
+		this.buttonsEachColumns = 5;
+		this.buttonsEachRow = 4;
+		this.buttonWidth = displayWidth / buttonsEachColumns;
+		this.buttonHeight = 1200 / (3 * buttonsEachRow);
+
+		// Clicking keys on screen in this order:
+		//0,7,4,1,
+		//.,8,5,2,
+		//space,9,6,3,
+		//space2,del,*,+,
+		//shift,enter,/,-
+		keyString.add("0");
+		keyString.add("7");
+		keyString.add("4");
+		keyString.add("1");
+		keyString.add(".");
+		keyString.add("8");
+		keyString.add("5");
+		keyString.add("2");
+		keyString.add("space");
+		keyString.add("9");
+		keyString.add("6");
+		keyString.add("3");
+		keyString.add("space2");
+		keyString.add("del");
+		keyString.add("*");
+		keyString.add("+");
+		keyString.add("shift");
+		keyString.add("enter");
+		keyString.add("/");
+		keyString.add("-");
+
+		//Setting x,y coordinates for each point
+		int z = 0;
+		for (int i = 0; i < buttonsEachColumns; i++) {
+			for (int j = 0; j < buttonsEachRow; j++) {
+
+				Log.i("setUp()", " i:" + i + " j:" + j + " z:" + z);
+				int x = i * buttonWidth + buttonWidth / 2;
+				int y = displayHigh - (j * buttonHeight + buttonHeight / 2);
+				this.keyMap.put(this.keyString.get(z), new Point(x, y));
+				z++;
+
+			}
+		}
 	}
 
 	@Override
@@ -49,61 +120,28 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		solo.clickOnEditText(0);
 		solo.sleep(1000);
 		solo.clickOnEditText(0);
-		//		solo.sleep(1000);
-		//
-		//		solo.sendKey(8);
-		//
+
+		//Didnt worked to test the keyboard:
+		//				solo.sendKey(8); 
 		//		solo.sleep(1000);
 		//		solo.clickOnText("+");
 		//		solo.clickOnImage(0);
-		solo.sleep(1000);
-		//
-		//		CatKeyboardView cKV = (CatKeyboardView) solo.getView(4);
-		//		cKV.onKey(8, null);
-		solo.clickOnScreen(750, 1100);
-		solo.sleep(1000);
 
-		solo.clickOnScreen(700, 1100);
-
-		//LinearLayout ll = new LinearLayout(solo.getViews().get(0).getContext());
-
-		//		int size = solo.getViews().size();
-		//
-		//		Log.i("info", "solo.getViews().size():" + size);
-		//
-		//		for (int i = 0; i < solo.getViews().size(); i++) {
-		//			solo.clickOnView(solo.getViews().get(i));
-		//			Log.i("info", "solo.getViews().get(" + i + "):" + solo.getViews().get(i).getId());
-		//			solo.sleep(1000);
-		//		}
-
+		this.clickOnKey("9");
+		this.clickOnKey("8");
+		this.clickOnKey("7");
+		this.clickOnKey("6");
+		this.clickOnKey("5");
+		this.clickOnKey("4");
+		this.clickOnKey("3");
+		this.clickOnKey("2");
+		this.clickOnKey("1");
+		this.clickOnKey("0");
+		//Test the 3 Buttons with this methods:
 		//		solo.clickOnImageButton(0); // Ok-Button
 		//		solo.clickOnImageButton(1); // UNDO - Button
 		//		solo.clickOnImageButton(2); // Cancel - Button 
 
-		//		solo.clickOnImageButton(2);
-		//		solo.clickOnImageButton(3);
-		//		solo.clickOnImageButton(4);
-		//		solo.clickOnImageButton(5);
-		//		solo.clickOnImageButton(6);
-		//		solo.clickOnImageButton(7);
-		//		solo.clickOnImageButton(8);
-		//		solo.clickOnImageButton(9);
-		//		solo.clickOnImageButton(10);
-		//		ArrayList<Integer> yPositionList = getListItemYPositions();
-		//		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
-		//
-		//		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
-		//
-		//		longClickAndDrag(10, yPositionList.get(7), 10, yPositionList.get(2), 20);
-		//
-		//		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks + 1) == ProjectManager
-		//				.getInstance().getCurrentScript().getBrickList().size());
-		//
-		//		Adapter adapter = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter();
-		//
-		//		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(2) instanceof WaitBrick,
-		//				true);
 		solo.sleep(3000);
 	}
 
@@ -122,6 +160,16 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+
+	}
+
+	private void clickOnKey(String key) {
+
+		Point keyOnScreen = this.keyMap.get(key);
+		solo.clickOnScreen(keyOnScreen.x, keyOnScreen.y);
+		Log.i("clickOnKey(" + key + ")", "x:" + keyOnScreen.x + "y:" + keyOnScreen.y);
+		solo.sleep(500);
+
 	}
 
 }

@@ -45,6 +45,23 @@ public class FormulaElement implements Serializable {
 		this.parent = parent;
 	}
 
+	public FormulaElement(int type, String value, FormulaElement parent, FormulaElement leftChild,
+			FormulaElement rightChild) {
+		this.type = type;
+		this.value = value;
+		this.parent = parent;
+		this.leftChild = leftChild;
+		this.rightChild = rightChild;
+
+		if (leftChild != null) {
+			this.leftChild.parent = this;
+		}
+		if (rightChild != null) {
+			this.rightChild.parent = this;
+		}
+
+	}
+
 	public int getType() {
 		return type;
 	}
@@ -193,7 +210,74 @@ public class FormulaElement implements Serializable {
 		return parent;
 	}
 
-	public void replaceWithSubElement(String value1, String operator, String value2) {
+	public void setRightChild(FormulaElement rightChild) {
+		this.rightChild = rightChild;
+		this.rightChild.parent = this;
+	}
+
+	//-------------------------------------------------------------------
+
+	public void replaceElement(FormulaElement current) {
+		parent = current.parent;
+		leftChild = current.leftChild;
+		rightChild = current.rightChild;
+		value = current.value;
+		type = current.type;
+
+		if (leftChild != null) {
+			leftChild.parent = this;
+		}
+		if (rightChild != null) {
+			rightChild.parent = this;
+		}
+	}
+
+	public void replaceElement(int type, String value) {
+		this.value = value;
+		this.type = type;
+	}
+
+	public void replaceElement(int type, String value, FormulaElement parent, FormulaElement leftChild,
+			FormulaElement rightChild) {
+		this.value = value;
+		this.type = type;
+		this.parent = parent;
+		this.leftChild = leftChild;
+		this.rightChild = rightChild;
+	}
+
+	public void replaceElement(int type, String value, FormulaElement leftChild, FormulaElement rightChild) {
+		this.value = value;
+		this.type = type;
+		this.leftChild = leftChild;
+		if (this.leftChild != null) {
+			this.leftChild.parent = this;
+		}
+		this.rightChild = rightChild;
+		if (rightChild != null) {
+			this.rightChild.parent = this;
+		}
+	}
+
+	//-------------------------------------------------------------------
+
+	public FormulaElement addTopElement(String newParentOperator, FormulaElement newRightChild) {
+		Log.i("info", "replaceWithTopElement");
+
+		FormulaElement newParent = new FormulaElement(ELEMENT_OP_OR_FCT, newParentOperator, null, this, newRightChild);
+
+		return newParent;
+	}
+
+	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
+		Log.i("info", "replaceWithSubElement");
+
+		FormulaElement cloneThis = new FormulaElement(this.type, operator, this.getParent(), this, rightChild);
+
+		cloneThis.parent.rightChild = cloneThis;
+	}
+
+	public void replaceWithSubElement(String leftChild, String operator, String rightChild) {
 		if (getParent() == null) {
 			Log.i("info", "WARNING! ROOT ELEMENT BEING REPLACES");
 		}
@@ -204,8 +288,8 @@ public class FormulaElement implements Serializable {
 
 		this.value = operator;
 		this.type = ELEMENT_OP_OR_FCT;
-		this.leftChild = new FormulaElement(ELEMENT_VALUE, value1, this);
-		this.rightChild = new FormulaElement(ELEMENT_VALUE, value2, this);
+		this.leftChild = new FormulaElement(ELEMENT_VALUE, leftChild, this);
+		this.rightChild = new FormulaElement(ELEMENT_VALUE, rightChild, this);
 
 	}
 
