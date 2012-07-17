@@ -47,8 +47,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.View;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter.CustomContextMenuItem;
@@ -82,12 +80,9 @@ public class CustomIconContextMenu extends DialogFragment implements DialogInter
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final String menuTitle = getArguments().getString(ARGS_MENU_TITLE);
 		
-		View customTitle = View.inflate(getActivity(), R.layout.alert_dialog_title, null);
-		TextView customTitleTextView = (TextView) customTitle.findViewById(R.id.alert_dialog_title);
-		customTitleTextView.setText(menuTitle);
-		
 		Dialog dialog = new AlertDialog.Builder(getActivity())
-			.setCustomTitle(customTitle)
+			.setTitle(menuTitle)
+			.setIcon(R.drawable.ic_dialog_menu_generic)
 			.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialoginterface, int position) {
 					CustomContextMenuItem item = (CustomContextMenuItem) menuAdapter.getItem(position);
