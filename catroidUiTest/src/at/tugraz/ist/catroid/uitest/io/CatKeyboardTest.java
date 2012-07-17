@@ -1,5 +1,6 @@
 package at.tugraz.ist.catroid.uitest.io;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -8,6 +9,7 @@ import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -135,8 +137,15 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 	public void testKeyboard() {
 
 		solo.clickOnEditText(0);
-		solo.sleep(1000);
+		solo.sleep(100);
 		solo.clickOnEditText(0);
+		solo.sleep(100);
+		//		solo.clickOnEditText(1);// View.performclick()
+		//		solo.clickOnEditText(1);
+		//		int size = solo.getViews().size();
+		//		Log.i("info", "solo.getViews().size():" + size);
+		//		solo.getViews().get(1).performClick();
+		//		solo.getViews().get(1).performClick();
 
 		//Didnt worked to test the keyboard:
 		//				solo.sendKey(8); 
@@ -145,21 +154,41 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		//		solo.clickOnImage(0);
 
 		this.clickOnKey("9");
+		ArrayList<EditText> textList = solo.getCurrentEditTexts();
+		Log.i("info", "text.size()" + textList.size());
+		EditText text = textList.get(textList.size() - 1);
+		Log.i("info", "textstring" + text.getText().toString());
+		assertEquals("9", text.getText().toString().substring(0, 1));
+
 		this.clickOnKey("8");
-		this.clickOnKey("7");
-		this.clickOnKey("6");
-		this.clickOnKey("5");
-		this.clickOnKey("4");
-		this.clickOnKey("3");
-		this.clickOnKey("2");
+		assertEquals("8", text.getText().toString().substring(1, 2));
+
 		this.clickOnKey("1");
-		this.clickOnKey("0");
+		assertEquals("1", text.getText().toString().substring(2, 3));
+
+		//LinearLayout ll = new LinearLayout(solo.getViews().get(0).getContext());
+
+		//		for (int i = 0; i < solo.getViews().size(); i++) {
+		//			solo.clickOnView(solo.getViews().get(i));
+		//			Log.i("info", "solo.getViews().get(" + i + "):" + solo.getViews().get(i).getId());
+		//			solo.sleep(1000);
+		//		}
+
+		//		this.clickOnKey("8");
+		//		this.clickOnKey("7");
+		//		this.clickOnKey("6");
+		//		this.clickOnKey("5");
+		//		this.clickOnKey("4");
+		//		this.clickOnKey("3");
+		//		this.clickOnKey("2");
+		//		this.clickOnKey("1");
+		//		this.clickOnKey("0");
 		//Test the 3 Buttons with this methods:
 		//		solo.clickOnImageButton(0); // Ok-Button
 		//		solo.clickOnImageButton(1); // UNDO - Button
 		//		solo.clickOnImageButton(2); // Cancel - Button 
 
-		solo.sleep(3000);
+		solo.sleep(1000);
 	}
 
 	private void createProject(String projectName) {
@@ -185,7 +214,7 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		Point keyOnScreen = this.keyMap.get(key);
 		Log.i("info", "clickOnKey(" + key + ")" + "x:" + keyOnScreen.x + "y:" + keyOnScreen.y);
 		solo.clickOnScreen(keyOnScreen.x, keyOnScreen.y);
-		solo.sleep(250);
+		solo.sleep(100);
 
 	}
 
