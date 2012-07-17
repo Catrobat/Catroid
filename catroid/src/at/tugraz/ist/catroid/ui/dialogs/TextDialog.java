@@ -35,6 +35,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
@@ -55,6 +56,14 @@ public abstract class TextDialog extends DialogFragment {
 		if (getHint() != null) {
 			input.setHint(getHint());
 		}
+		
+		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
+			}
+		});
 		
 		initialize();
 		
