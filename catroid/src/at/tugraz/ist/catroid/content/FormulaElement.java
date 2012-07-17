@@ -142,21 +142,35 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
+	public FormulaElement getRoot() {
+		FormulaElement root = this;
+		while (root.getParent() != null) {
+			root = root.getParent();
+		}
+		return root;
+	}
+
 	public String getTreeString() {
 		String text = "";
 
-		if (leftChild == null) {
-			text = "(" + type + "/" + value + ")";
+		text = "(" + type + "/" + value + " ";
+
+		if (leftChild == null && rightChild == null) {
+			return text + ") ";
+		}
+
+		if (leftChild != null) {
+			text += leftChild.getTreeString() + " ";
 
 		} else {
-			text += leftChild.getTreeString();
-			text += "(" + type + "/" + value + ")";
-			if (rightChild != null) {
-				text += rightChild.getTreeString();
-			}
-
+			text += "( )";
 		}
-		return text;
+		if (rightChild != null) {
+			text += rightChild.getTreeString() + " ";
+		} else {
+			text += "( )";
+		}
+		return text + ") ";
 	}
 
 	public Double interpretRecursive() {
