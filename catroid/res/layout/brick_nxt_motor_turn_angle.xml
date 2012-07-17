@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -80,14 +80,28 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" >
 
+                <TextView
+                    android:id="@+id/motor_turn_angle_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:background="@color/white"
+                    android:gravity="right"
+                    android:minHeight="30dip"
+                    android:minWidth="50dip"
+                    android:paddingRight="5dip"
+                    android:text="0"
+                    android:textSize="20dip" />
+
                 <EditText
                     android:id="@+id/motor_turn_angle_edit_text"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:clickable="false"
+                    android:enabled="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:enabled="false"
+                    android:visibility="gone"
                     android:gravity="right"
                     android:inputType="number|numberDecimal|numberSigned"
                     android:maxLength="4"
@@ -104,9 +118,9 @@
                     android:id="@+id/directions_btn"
                     android:layout_width="50dip"
                     android:layout_height="wrap_content"
+                    android:background="@android:drawable/btn_dropdown"
                     android:clickable="false"
-                    android:focusable="false"
-                    android:background="@android:drawable/btn_dropdown" />
+                    android:focusable="false" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

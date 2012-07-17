@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
@@ -102,8 +103,12 @@ public class SpeakBrick implements Brick {
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_speak, null);
 
+		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
 		editText.setText(text);
+
+		textHolder.setVisibility(View.GONE);
+		editText.setVisibility(View.VISIBLE);
 
 		editText.setOnClickListener(new OnClickListener() {
 
