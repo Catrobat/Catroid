@@ -27,10 +27,14 @@
     android:background="@color/website_blue"
     android:orientation="vertical" >
 
-    <fragment
-        class="at.tugraz.ist.catroid.ui.fragment.ProjectsListFragment" 
-        android:id="@+id/fr_projects_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <!-- Projects list -->
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="@color/divider"
+        android:dividerHeight="2dp"
+        android:fadingEdge="none" />
 
 </LinearLayout>

@@ -36,7 +36,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.io.ProjectScreenshotLoader;
-import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
+import at.tugraz.ist.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
