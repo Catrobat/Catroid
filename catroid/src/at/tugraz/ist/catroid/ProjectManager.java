@@ -163,11 +163,26 @@ public class ProjectManager {
 		String newProjectPath = Utils.buildProjectPath(newProjectName);
 		File newProjectDirectory = new File(newProjectPath);
 
-		project.setName(newProjectName);
+		boolean directoryRenamed = false;
 
-		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
+
+			//String tmpFileName = createTmpDirectoryName(oldProjectPath, newProjectPath);
+			//File tmpDirectory = new File(tmpFileName);
+			//directoryRenamed = tmpDirectory.renameTo(newProjectDirectory);
+			String tmpProjectPath = Utils.buildProjectPath(createTmpDirectoryName2(newProjectName));
+			File tmpProjectDirectory = new File(tmpProjectPath);
+
+			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
+			directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
+
+		} else {
+
+			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		}
 
 		if (directoryRenamed) {
+			project.setName(newProjectName);
 			this.saveProject();
 		}
 
@@ -248,4 +263,32 @@ public class ProjectManager {
 		return true;
 	}
 
+	private String createTmpDirectoryName(String oldFile, String newFile) {
+		boolean successfull = false;
+		int tmpCounter = 0;
+		File oldFileFile;
+		File newFileFile = new File(newFile);
+		while (!successfull) {
+			oldFileFile = new File(oldFile);
+			newFileFile = new File(newFile + "_tmp_" + tmpCounter);
+			successfull = oldFileFile.renameTo(newFileFile);
+			tmpCounter++;
+			if (tmpCounter > 200) {
+				newFileFile = new File(newFile);
+				break;
+			}
+		}
+		return (newFileFile.getAbsolutePath());
+	}
+
+	private String createTmpDirectoryName2(String projectDirectoryName) {
+		String tmpDirectoryName = projectDirectoryName + "_tmp";
+		int tmpCounter = 0;
+		while (StorageHandler.getInstance().projectExistsCaseInSensitive(tmpDirectoryName)) {
+
+			tmpDirectoryName = tmpDirectoryName + tmpCounter;
+			tmpCounter++;
+		}
+		return tmpDirectoryName;
+	}
 }
