@@ -33,6 +33,7 @@ public class FormulaElement implements Serializable {
 	public static final int ELEMENT_OPERATOR = 2;
 	public static final int ELEMENT_FUNCTION = 3;
 	public static final int ELEMENT_VALUE = 4;
+	public static final int ELEMENT_SENSOR = 5;
 
 	private int type;
 	private String value;
@@ -193,22 +194,83 @@ public class FormulaElement implements Serializable {
 
 		if (type == ELEMENT_VALUE) {
 			return Double.parseDouble(value);
-		} else {
-			Double left = leftChild.interpretRecursive();
-			Double right = rightChild.interpretRecursive();
+		} else if (type == ELEMENT_OPERATOR) {
+			if (leftChild != null) {// binär operator
+				Double left = leftChild.interpretRecursive();
+				Double right = rightChild.interpretRecursive();
 
-			if (value.equals("+")) {
-				return left + right;
+				if (value.equals("+")) {
+					return left + right;
+				}
+				if (value.equals("-")) {
+					return left - right;
+				}
+				if (value.equals("*")) {
+					return left * right;
+				}
+				if (value.equals("/")) {
+					return left / right;
+				}
+			} else {//unär operators
+				Double right = rightChild.interpretRecursive();
+				//				if (value.equals("+")) {
+				//					return right;
+				//				}
+				if (value.equals("-")) {
+					return -right;
+				}
+
 			}
-			if (value.equals("-")) {
-				return left - right;
+		} else if (type == ELEMENT_FUNCTION) {
+			Double left = 0.0d;
+			if (leftChild != null) {
+				left = leftChild.interpretRecursive();
 			}
-			if (value.equals("*")) {
-				return left * right;
+
+			if (value.equals("sin")) {
+				return java.lang.Math.sin(left);
 			}
-			if (value.equals("/")) {
-				return left / right;
+			if (value.equals("cos")) {
+				return java.lang.Math.cos(left);
 			}
+			if (value.equals("tan")) {
+				return java.lang.Math.tan(left);
+			}
+			if (value.equals("ln")) {
+				return java.lang.Math.log1p(left);// TODO check this X_X
+			}
+			if (value.equals("log")) {
+				return java.lang.Math.log(left);
+			}
+			if (value.equals("sqrt")) {
+				return java.lang.Math.sqrt(left);
+			}
+			if (value.equals("pi")) {
+				return java.lang.Math.PI;
+			}
+			if (value.equals("e")) {
+				return java.lang.Math.E;
+			}
+			if (value.equals("rand")) {
+				double min = left;
+				double max = rightChild.interpretRecursive();
+				return min + (java.lang.Math.random() * (max - min));
+			}
+			//			if (value.equals("sensor1")) {
+			//				return 1.0d;
+			//			}
+			//			if (value.equals("sensor2")) {
+			//				return 2.0d;
+			//			}
+			//			if (value.equals("sensor3")) {
+			//				return 3.0d;
+			//			}
+			//			if (value.equals("sensor4")) {
+			//				return 4.0d;
+			//			}
+			//			if (value.equals("sensor5")) {
+			//				return 5.0d;
+			//			}
 		}
 
 		return null;

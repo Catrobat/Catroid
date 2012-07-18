@@ -202,7 +202,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 				String formulaToParse = textArea.getText().toString();
 				parseFormula(formulaToParse);
-
+				Log.i("info", "Inteperetation of Formular:" + this.formula.interpret()); // like a boss
 				break;
 
 			case R.id.formula_editor_cancel_button:
