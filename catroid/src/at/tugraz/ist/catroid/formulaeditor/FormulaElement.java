@@ -34,7 +34,10 @@ public class FormulaElement implements Serializable {
 	public static final int ELEMENT_FUNCTION = 3;
 	public static final int ELEMENT_VALUE = 4;
 	public static final int ELEMENT_SENSOR = 5;
+	public static final int ELEMENT_CONSTANT = 6;
+	public static final int ELEMENT_VARIABLE = 7;
 
+	//	private static HashMap<String, Integer> variableMap = new HashMap<String, Integer>(); TODO
 	private int type;
 	private String value;
 	private FormulaElement leftChild = null;
@@ -245,12 +248,6 @@ public class FormulaElement implements Serializable {
 			if (value.equals("sqrt")) {
 				return java.lang.Math.sqrt(left);
 			}
-			if (value.equals("pi")) {
-				return java.lang.Math.PI;
-			}
-			if (value.equals("e")) {
-				return java.lang.Math.E;
-			}
 			if (value.equals("rand")) {
 				double min = left;
 				double max = rightChild.interpretRecursive();
@@ -271,6 +268,16 @@ public class FormulaElement implements Serializable {
 			//			if (value.equals("sensor5")) {
 			//				return 5.0d;
 			//			}
+		} else if (type == ELEMENT_CONSTANT) {
+			if (value.equals("pi")) {
+				return java.lang.Math.PI;
+			}
+			if (value.equals("e")) {
+				return java.lang.Math.E;
+			}
+		} else if (type == ELEMENT_VARIABLE) {
+			//			TODO ^_^
+			return null;
 		}
 
 		return null;
