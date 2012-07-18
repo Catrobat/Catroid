@@ -379,7 +379,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			selectionEndIndex = selectionStartIndex;
 			editMode = false;
 		} else {
-			Log.i("info", "Sel end: " + text.charAt(selectionEndIndex - 1) + text.charAt(selectionStartIndex - 1));
+			//			Log.i("info", "Sel end: " + text.charAt(selectionEndIndex - 1) + text.charAt(selectionStartIndex - 1)); throughs exception if cursor is at beginning of formular and you press DEL button
 			if (text.charAt(selectionEndIndex - 1) == ',') {
 				return;
 			} else if (text.charAt(selectionEndIndex - 1) == ')') {

@@ -49,6 +49,7 @@ import at.tugraz.ist.catroid.formulaeditor.CalcGrammarParser;
 import at.tugraz.ist.catroid.formulaeditor.CatKeyboardView;
 import at.tugraz.ist.catroid.formulaeditor.Formula;
 import at.tugraz.ist.catroid.formulaeditor.FormulaEditorEditText;
+import at.tugraz.ist.catroid.formulaeditor.FormulaElement;
 
 public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener, OnGestureListener {
 
@@ -174,7 +175,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		CalcGrammarParser parser = new CalcGrammarParser(tokens);
 
 		try {
-			formula.setRoot(parser.formula());
+			FormulaElement parserFormulaElement = parser.formula();
+			formula.setRoot(parserFormulaElement);
 			Log.i("info", "formula: " + formula.getEditTextRepresentation());
 			Log.i("info", "getParserErrorCount: " + parser.getParserErrorCount());
 			if (parser.getParserErrorMessages() != null) {

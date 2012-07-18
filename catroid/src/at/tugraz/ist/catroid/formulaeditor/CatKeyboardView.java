@@ -58,8 +58,14 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 		//		this.symbols_shifted.setShifted(true);
 		//		this.setBackgroundColor(0xFF6103);
 		//		this.awakenScrollBars();
-
-		this.setSoundEffectsEnabled(true);
+		//
+		//		ArrayList<Key> keys = (ArrayList<Key>) this.symbols.getKeys();
+		//
+		//				for (int i = 0; i < keys.size(); i++) {
+		//					Key key = keys.get(i);
+		//					key.iconPreview = key.icon;
+		//					key.popupCharacters = key.label;
+		//				}
 
 		//    public CatKeyboardView(Context context, AttributeSet attrs, int defStyle) {
 		//        super(context, attrs, defStyle);
