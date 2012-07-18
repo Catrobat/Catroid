@@ -34,6 +34,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.util.Log;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
@@ -63,10 +64,10 @@ public class BrickParser {
 				String brickReferenceAttr = References.getReferenceAttribute(brickElement);
 				if (brickReferenceAttr != null) {
 					//NodeList loopEndBricksInThisScript = scriptElement.getElementsByTagName("Bricks.LoopEndBrick");
-					String refQuery = brickReferenceAttr.substring(brickReferenceAttr.lastIndexOf("Bricks"));
-					if (brickName.equals("Bricks.LoopEndBrick") && (referencedObjects.containsKey(refQuery))) {
-						foundBrickObj = (Brick) referencedObjects.get(refQuery);
-						referencedObjects.remove(refQuery);
+					String referenceQuery = brickReferenceAttr.substring(brickReferenceAttr.lastIndexOf("Bricks"));
+					if (brickName.equals("Bricks.LoopEndBrick") && (referencedObjects.containsKey(referenceQuery))) {
+						foundBrickObj = (Brick) referencedObjects.get(referenceQuery);
+						referencedObjects.remove(referenceQuery);
 
 					} else {
 						references = new References();
@@ -98,9 +99,9 @@ public class BrickParser {
 			InvocationTargetException, NoSuchMethodException, ClassNotFoundException, XPathExpressionException,
 			ParseException {
 
-		String brickImplName = brickName.substring(7);
+		String brickClassName = brickName.substring(7);
 		Brick brickObject = null;
-		Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickImplName);
+		Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickClassName);
 		Map<String, Field> brickFieldsToSet = objectGetter.getFieldMap(brickClass);
 		brickObject = (Brick) objectGetter.getobjectOfClass(brickClass, "0");
 		if (valueNodes != null) {
@@ -136,8 +137,13 @@ public class BrickParser {
 				if (referenceAttribute != null) {
 					if (brickvalueName.equals("costumeData")) {
 						costumeParser = new CostumeParser();
-						costumeParser.setCostumedataOfBrick(brickObject, valueField, referenceAttribute,
-								referencedObjects);
+						Boolean costumeSet = costumeParser.setCostumedataOfBrick(brickObject, valueField,
+								referenceAttribute, referencedObjects, forwardRefs);
+						if (!costumeSet) {
+							references = new References();
+							references.resolveReference(objectGetter.getobjectOfClass(CostumeData.class, ""),
+									brickValue, referenceAttribute, referencedObjects, forwardRefs);
+						}
 						continue;
 
 					}
@@ -145,6 +151,9 @@ public class BrickParser {
 					XPathExpression exp = xpath.compile(referenceAttribute);
 					Log.i("get brick obj", "xpath evaluated :" + referenceAttribute);
 					Element referencedElement = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
+					if (referencedElement == null) {
+						throw new ParseException("referred element not found in brick value parsing");
+					}
 					String xp = ParserUtil.getElementXpath(referencedElement);
 					Object valueObject = referencedObjects.get(xp);
 
@@ -222,7 +231,7 @@ public class BrickParser {
 	public void getValueObject(Object nodeObj, Node node, Map<String, Field> nodeClassFieldsToSet,
 			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs)
 			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException, XPathExpressionException {
+			InvocationTargetException, NoSuchMethodException, XPathExpressionException, ParseException {
 		NodeList children = node.getChildNodes();
 		if (children.getLength() > 1) {
 			for (int i = 0; i < children.getLength(); i++) {
@@ -232,12 +241,15 @@ public class BrickParser {
 					Field fieldWithNodeName = nodeClassFieldsToSet.get(childNodeName);
 					if (fieldWithNodeName != null) {
 						fieldWithNodeName.setAccessible(true);
-						String refattr = References.getReferenceAttribute(child);
-						if (refattr != null) {
-							XPathExpression exp = xpath.compile(refattr);
+						String referenceString = References.getReferenceAttribute(child);
+						if (referenceString != null) {
+							XPathExpression expression = xpath.compile(referenceString);
 							Log.i("parsing get value object method", "xpath evaluated");
-							Element refList = (Element) exp.evaluate(child, XPathConstants.NODE);
-							String xp = ParserUtil.getElementXpath(refList);
+							Element referencedElement = (Element) expression.evaluate(child, XPathConstants.NODE);
+							if (referencedElement == null) {
+								throw new ParseException("referenced element not found at value object parsing");
+							}
+							String xp = ParserUtil.getElementXpath(referencedElement);
 							Object valueObject = referencedObjects.get(xp);
 							if (valueObject == null) {
 								ForwardReferences forwardRef = new ForwardReferences(nodeObj, xp, fieldWithNodeName);

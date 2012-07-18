@@ -63,11 +63,14 @@ public class References {
 	public Object resolveReference(Object referencedObject, Node elementWithReference, String referenceString,
 			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs)
 			throws XPathExpressionException, IllegalArgumentException, SecurityException, InstantiationException,
-			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+			IllegalAccessException, InvocationTargetException, NoSuchMethodException, ParseException {
 
 		XPathExpression exp = xpath.compile(referenceString);
 		Log.i("resolveRef", "xpath evaluated for :" + referenceString);
 		Element refferredElement = (Element) exp.evaluate(elementWithReference, XPathConstants.NODE);
+		if (refferredElement == null) {
+			throw new ParseException("Element by reference not found");
+		}
 		String xpathFromRoot = ParserUtil.getElementXpath(refferredElement);
 		Object object = referencedObjects.get(xpathFromRoot);
 		if (object == null) {
@@ -87,6 +90,10 @@ public class References {
 			throws IllegalArgumentException, IllegalAccessException {
 		for (ForwardReferences reference : forwardRefs) {
 			Field refField = reference.getFieldWithReference();
+			String referenceString = reference.getReferenceString();
+			if (!referencedObjects.containsKey(referenceString)) {
+				Log.i("Forward referencing", "reference for " + referenceString + " not found");
+			}
 			if (refField == null) {
 				Object objectWithReference = reference.getObjectWithReferencedField();
 				objectWithReference = referencedObjects.get(reference.getReferenceString());

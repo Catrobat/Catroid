@@ -34,11 +34,12 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 public class CostumeParser {
 	ObjectCreator objectGetter = new ObjectCreator();
 	List<CostumeData> costumeList;
+	References reference = new References();
 
 	public void parseCostumeList(NodeList costumeNodes, Sprite sprite, Map<String, Object> referencedObjects)
 			throws SecurityException, NoSuchFieldException, IllegalAccessException {
 		costumeList = new ArrayList<CostumeData>();
-		int costumeIndex = 0;
+		int costumeIndex = 1;
 		for (int m = 0; m < costumeNodes.getLength(); m++) {
 			CostumeData foundCostumeData = null;
 			if (costumeNodes.item(m).getNodeType() != Node.TEXT_NODE) {
@@ -56,7 +57,7 @@ public class CostumeParser {
 				foundCostumeData.setCostumeName(costumeName);
 				costumeList.add(foundCostumeData);
 				String costumeindexString = "";
-				if (costumeIndex > 0) {
+				if (costumeIndex > 1) {
 					costumeindexString = "[" + costumeIndex + "]";
 				}
 				referencedObjects.put("Common.CostumeData" + costumeindexString, foundCostumeData);
@@ -68,18 +69,23 @@ public class CostumeParser {
 
 	}
 
-	public void setCostumedataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
-			Map<String, Object> referencedObjects) throws IllegalAccessException {
+	public Boolean setCostumedataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
+			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs) throws IllegalAccessException {
 		int lastIndex = referenceAttribute.lastIndexOf('[');
 		String query = "Common.CostumeData";
 		String suffix = "";
 		if (lastIndex != -1) {
 			char referenceNo = referenceAttribute.charAt(referenceAttribute.lastIndexOf('[') + 1);
 			suffix = "[" + referenceNo + "]";
-
 		}
 		CostumeData referencedCostume = (CostumeData) referencedObjects.get(query + suffix);
-		valueField.set(brickObject, referencedCostume);
+		if (referencedCostume == null) {
+			return false;
+		} else {
+			valueField.set(brickObject, referencedCostume);
+			//referencedObjects.remove(query + suffix);
+		}
+		return true;
 	}
 
 }
