@@ -19,12 +19,9 @@
 package at.tugraz.ist.catroid.xml;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.xpath.XPathExpressionException;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,9 +36,7 @@ public class SoundInfoParser {
 	ObjectCreator objectGetter = new ObjectCreator();
 
 	public void parseSoundInfo(NodeList soundNodes, Sprite sprite, Map<String, Object> referencedObjects,
-			List<ForwardReferences> forwardRefs) throws XPathExpressionException, InstantiationException,
-			IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException,
-			NoSuchFieldException {
+			List<ForwardReferences> forwardRefs) throws Throwable {
 		soundList = new ArrayList<SoundInfo>();
 		for (int n = 0; n < soundNodes.getLength(); n++) {
 			Node soundNode = soundNodes.item(n);
@@ -56,6 +51,7 @@ public class SoundInfoParser {
 						foundSoundInfo = (SoundInfo) referencedObjects.get(suffix);
 						referencedObjects.remove(suffix);
 					} else {
+
 						foundSoundInfo = (SoundInfo) references.resolveReference(foundSoundInfo, soundNode, soundRef,
 								referencedObjects, forwardRefs);
 					}
