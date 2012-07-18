@@ -175,6 +175,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		try {
 			formula.setRoot(parser.formula());
+			Log.i("info", "formula: " + formula.getEditTextRepresentation());
 			Log.i("info", "getParserErrorCount: " + parser.getParserErrorCount());
 			if (parser.getParserErrorMessages() != null) {
 				for (String err : parser.getParserErrorMessages()) {
