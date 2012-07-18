@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,12 @@ public class SpritesListFragment extends SherlockListFragment {
     private ActionBar actionBar;
     private SpriteRenamedReceiver spriteRenamedReceiver;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    	super.onCreate(savedInstanceState);
+    	setRetainInstance(true);
+    }
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View rootView = inflater.inflate(R.layout.fragment_sprites_list, null);
@@ -191,7 +198,7 @@ public class SpritesListFragment extends SherlockListFragment {
         
         CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(spriteToEdit.getName());
 		initCustomContextMenu(dialog);
-		dialog.show(getFragmentManager(), "dialog_custom_icon_context_menu");
+		dialog.show(ft, "dialog_custom_icon_context_menu");
     }
     
     private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
@@ -229,6 +236,7 @@ public class SpritesListFragment extends SherlockListFragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ACTION_SPRITE_RENAMED)) {
+				Log.v("SPritesList", "sprite renamed");
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
 				spriteToEdit.setName(newSpriteName);
 			}
