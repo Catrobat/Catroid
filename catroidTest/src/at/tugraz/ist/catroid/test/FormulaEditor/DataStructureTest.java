@@ -24,8 +24,8 @@ package at.tugraz.ist.catroid.test.FormulaEditor;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
-import at.tugraz.ist.catroid.content.Formula;
-import at.tugraz.ist.catroid.content.FormulaElement;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
+import at.tugraz.ist.catroid.formulaeditor.FormulaElement;
 
 public class DataStructureTest extends AndroidTestCase {
 
