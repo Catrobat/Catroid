@@ -22,9 +22,7 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,8 +39,9 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
-import at.tugraz.ist.catroid.utils.Utils;
 
 public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -210,42 +209,37 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 	}
 
 	public void onClick(View view) {
-		final Context context = view.getContext();
-
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(speed));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
+		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
+		
+		BrickTextDialog editDialog = new BrickTextDialog() {
+			@Override
+			protected void initialize() {
+				input.setText(String.valueOf(speed));
+				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+				input.setSelectAllOnFocus(true);
+			}
+			
+			@Override
+			protected boolean handleOkButton() {
 				try {
 					int newSpeed = Integer.parseInt(input.getText().toString());
 					if (newSpeed > MAX_SPEED) {
 						newSpeed = MAX_SPEED;
-						Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), R.string.number_to_big, Toast.LENGTH_SHORT).show();
 					} else if (newSpeed < MIN_SPEED) {
 						newSpeed = MIN_SPEED;
-						Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), R.string.number_to_small, Toast.LENGTH_SHORT).show();
 					}
 					speed = newSpeed;
 					speedToSeekBarVal();
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				dialog.cancel();
+				
+				return true;
 			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-
-		finishedDialog.show();
+		};
+		
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_nxt_moto_action_brick");
 	}
 }

@@ -42,7 +42,6 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface.OnShowListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
@@ -58,8 +57,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -286,16 +283,6 @@ public class Utils {
 			Log.e(TAG, "Name not found", nameNotFoundException);
 		}
 		return versionName;
-	}
-
-	public static OnShowListener getBrickDialogOnClickListener(final Context context, final EditText input) {
-		return new OnShowListener() {
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) context
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-			}
-		};
 	}
 
 	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {

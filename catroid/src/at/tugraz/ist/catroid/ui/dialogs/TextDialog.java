@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnKeyListener;
@@ -36,6 +37,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
@@ -100,6 +102,10 @@ public abstract class TextDialog extends DialogFragment {
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) getActivity()
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+				
 				initTextChangedListener();
 			}
 		});

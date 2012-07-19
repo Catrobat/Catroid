@@ -84,10 +84,10 @@ public class CustomIconContextMenu extends DialogFragment implements DialogInter
 	
 	@Override
 	public void onDestroyView() {
-		  if (getDialog() != null && getRetainInstance())
-		    getDialog().setOnDismissListener(null);
-		  super.onDestroyView();
-		}
+		if (getDialog() != null && getRetainInstance())
+			getDialog().setOnDismissListener(null);
+		super.onDestroyView();
+	}
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
