@@ -43,7 +43,7 @@
         <Key android:codes="12" android:keyLabel="5"/>
         <Key android:codes="13" android:keyLabel="6"/>
         <Key android:codes="17" android:keyLabel="*"/>
-        <Key android:codes="47" android:keyLabel="/" android:keyEdgeFlags="right"/>
+        <Key android:codes="76" android:keyLabel="/" android:keyEdgeFlags="right"/>
 
 
     </Row>

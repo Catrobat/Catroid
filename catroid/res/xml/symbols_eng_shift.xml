@@ -43,7 +43,7 @@
         <Key android:codes="1006" android:keyLabel="sqrt()"/>
         <Key android:codes="1007" android:keyLabel="e"/>
         <Key android:codes="1008" android:keyLabel="rand()"/>
-        <Key android:codes="47" android:keyLabel="/" android:keyEdgeFlags="right"/>
+        <Key android:codes="76" android:keyLabel="/" android:keyEdgeFlags="right"/>
 
 
     </Row>
