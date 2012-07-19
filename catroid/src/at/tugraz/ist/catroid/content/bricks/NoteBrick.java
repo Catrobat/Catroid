@@ -22,16 +22,15 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -76,28 +75,23 @@ public class NoteBrick implements Brick {
 		editText.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-				final EditText input = new EditText(context);
-				input.setText(note);
-				input.setSelectAllOnFocus(true);
-				dialog.setView(input);
-				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						note = (input.getText().toString()).trim();
-						dialog.cancel();
+				ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
+				
+				BrickTextDialog editDialog = new BrickTextDialog() {
+					@Override
+					protected void initialize() {
+						input.setText(note);
+						input.setSelectAllOnFocus(true);
 					}
-				});
-				dialog.setNeutralButton(context.getString(R.string.cancel_button),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-							}
-						});
-
-				AlertDialog finishedDialog = dialog.create();
-				finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-
-				finishedDialog.show();
+					
+					@Override
+					protected boolean handleOkButton() {
+						note = (input.getText().toString()).trim();
+						return true;
+					}
+				};
+				
+				editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
 			}
 		});
 
