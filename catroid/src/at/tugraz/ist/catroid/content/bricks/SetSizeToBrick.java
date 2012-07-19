@@ -48,6 +48,8 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	public SetSizeToBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
 		this.size = size;
+
+		sizeFormula = new Formula();
 	}
 
 	public int getRequiredResources() {
@@ -55,7 +57,9 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		sprite.costume.setSize((float) size / 100);
+		//		sprite.costume.setSize((float) size / 100);
+
+		sprite.costume.setSize(sizeFormula.interpret().floatValue());
 	}
 
 	public Sprite getSprite() {
@@ -67,6 +71,10 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
 		if (instance == null) {
 			instance = this;
+		}
+
+		if (sizeFormula == null) {
+			sizeFormula = new Formula(Double.toString(size));
 		}
 
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
