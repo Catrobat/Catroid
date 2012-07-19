@@ -37,7 +37,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -60,6 +59,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	@Override
 	public void tearDown() throws Exception {
+		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -174,7 +174,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(currentProject);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(background);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
