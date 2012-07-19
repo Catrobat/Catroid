@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.formulaeditor.Formula;
@@ -79,9 +80,13 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 
+		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
 		//edit.setText(String.valueOf(size));
 		edit.setText(sizeFormula.getEditTextRepresentation());
+
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 

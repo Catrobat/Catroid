@@ -29,7 +29,7 @@ import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -135,11 +135,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		}
 		projectManager.saveProject();
 
-		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName);
-		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName + "/" + Consts.PROJECTCODE_NAME);
+		File oldProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName);
+		File oldProjectFile = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName + "/" + Constants.PROJECTCODE_NAME);
 
-		File newProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + newProjectName);
-		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + Consts.PROJECTCODE_NAME);
+		File newProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + newProjectName);
+		File newProjectFile = new File(Constants.DEFAULT_ROOT + "/" + newProjectName + "/" + Constants.PROJECTCODE_NAME);
 
 		String projectFileAsString = TestUtils.getProjectfileAsString(newProjectName);
 

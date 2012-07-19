@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.formulaeditor.Formula;
@@ -82,9 +83,13 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 
+		TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
 		//		editX.setText(String.valueOf(transparency));
 		editX.setText(transparencyFormula.getEditTextRepresentation());
+
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
 

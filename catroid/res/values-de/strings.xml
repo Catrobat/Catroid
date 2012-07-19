@@ -19,11 +19,12 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources> 
 
-    <!-- General terms -->
+    <!-- General terms -->    
+    <string name="app_name">Catroid</string>
     <string name="project">Projekt</string>
     <string name="sprite">Objekt</string>
     <string name="script">Skript</string>
@@ -99,6 +100,7 @@
     <string name="select_image">Bild auswählen</string>
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
     <string name="default_costume_name">Kostüm</string>
+    <string name="delete_costume_dialog">Kostüm löschen?</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
@@ -107,6 +109,7 @@
     <string name="sound_pause">pausieren</string>
     <string name="sound_delete">löschen</string>
     <string name="sound_select_source">Klang auswählen</string>
+    <string name="delete_sound_dialog">Klang löschen?</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
@@ -123,10 +126,10 @@
     <string name="last_used">Zuletzt benutzt:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
-    <string name="rename_project">Projeckt umbenennen</string>
+    <string name="rename_project">Projekt umbenennen</string>
 
     <!-- Script context menu -->
-    <string name="script_context_menu_title">Script Menü</string>
+    <string name="script_context_menu_title">Skript Menü</string>
 
     <!-- New project dialog -->
     <string name="new_project_dialog_button">Erstellen</string>
@@ -167,6 +170,11 @@
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
+    
+    <!--  OverwriteRenameDialog Strings -->
+    <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
+    <string name="overwrite_replace">ersetze bestehendes Projekt</string>
+    <string name="overwrite_rename">benenne heruntergeladenes Projekt um</string>
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">Neu...</string>
@@ -178,6 +186,7 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
+    <string name="category_lego_nxt">Lego NXT</string>
 
     <!-- Motion bricks -->
     <string name="brick_place_at">Setze Position</string>
@@ -220,7 +229,7 @@
     <string name="brick_next_background">Nächster Hintergrund</string>
 
     <!-- Sound bricks -->
-    <string name="brick_play_sound">Spiele Klang</string>
+    <string name="brick_play_sound">Starte Klang</string>
     <string name="brick_stop_all_sounds">Stoppe alle Klänge</string>
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>

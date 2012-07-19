@@ -51,6 +51,7 @@ public class SystemOutTest extends TestCase {
 			}
 			++lineCount;
 		}
+		reader.close();
 	}
 
 	public void testForSystemOut() throws IOException {

@@ -56,6 +56,7 @@ public class StringsTest extends TestCase {
 	private static final String[] LANGUAGE_SUFFIXES = { "", "-de" }; //, "-ru", "-ro" };
 	private static final String SOURCE_DIRECTORY = "../catroid/src";
 	private static final String RESOURCES_DIRECTORY = "../catroid/res";
+	private static final String ANDROID_MANIFEST = "../catroid/AndroidManifest.xml";
 	private static final String JAVA_STRING_PREFIX = "R.string.";
 	private static final String XML_STRING_PREFIX = "@string/";
 
@@ -167,6 +168,7 @@ public class StringsTest extends TestCase {
 			while ((currentLine = reader.readLine()) != null) {
 				javaSourceCodeBuilder.append(currentLine + "\n");
 			}
+			reader.close();
 		}
 		String javaSourceCode = javaSourceCodeBuilder.toString();
 
@@ -176,6 +178,7 @@ public class StringsTest extends TestCase {
 		assertTrue("Couldn't read directory: " + RESOURCES_DIRECTORY, directory.canRead());
 
 		filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, ".xml");
+		filesToCheck.add(new File(ANDROID_MANIFEST));
 		for (File file : filesToCheck) {
 			if (!file.getName().equals("strings.xml")) {
 				BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -184,6 +187,7 @@ public class StringsTest extends TestCase {
 				while ((currentLine = reader.readLine()) != null) {
 					xmlSourceCodeBuilder.append(currentLine + "\n");
 				}
+				reader.close();
 			}
 		}
 		String xmlSourceCode = xmlSourceCodeBuilder.toString();
@@ -242,6 +246,7 @@ public class StringsTest extends TestCase {
 				}
 			}
 		}
+		reader.close();
 		return usedStrings;
 	}
 
@@ -270,6 +275,7 @@ public class StringsTest extends TestCase {
 			while ((currentLine = reader.readLine()) != null) {
 				stringXmlSourceCodeBuilder.append(currentLine + "\n");
 			}
+			reader.close();
 		}
 
 		String stringXmlSourceCode = stringXmlSourceCodeBuilder.toString();
