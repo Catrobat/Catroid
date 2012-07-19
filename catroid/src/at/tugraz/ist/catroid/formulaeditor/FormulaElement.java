@@ -26,6 +26,8 @@ import java.io.Serializable;
 
 import android.util.Log;
 
+import com.badlogic.gdx.Gdx;
+
 public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -164,6 +166,9 @@ public class FormulaElement implements Serializable {
 			case ELEMENT_VALUE:
 				result += this.value + " ";
 				break;
+			case ELEMENT_SENSOR:
+				result += this.value + " ";
+				break;
 		}
 		return result;
 	}
@@ -262,23 +267,25 @@ public class FormulaElement implements Serializable {
 				double max = rightChild.interpretRecursive();
 				return min + (java.lang.Math.random() * (max - min));
 			}
+		} else if (type == ELEMENT_SENSOR) {
 			if (value.equals("X_Accelerometer")) {
-				return 1.0d;
+				Log.i("info", "Acc-X: " + Gdx.input.getAccelerometerX());
+				return Double.valueOf(Gdx.input.getAccelerometerX());
 			}
 			if (value.equals("Y_Accelerometer")) {
-				return 2.0d;
+				return Double.valueOf(Gdx.input.getAccelerometerY());
 			}
 			if (value.equals("Z_Accelerometer")) {
-				return 3.0d;
+				return Double.valueOf(Gdx.input.getAccelerometerZ());
 			}
 			if (value.equals("Azimuth_Orientation")) {
-				return 4.0d;
+				return Double.valueOf(Gdx.input.getAzimuth());
 			}
 			if (value.equals("Pitch_Orientation")) {
-				return 5.0d;
+				return Double.valueOf(Gdx.input.getPitch());
 			}
 			if (value.equals("Roll_Orientation")) {
-				return 6.0d;
+				return Double.valueOf(Gdx.input.getRoll());
 			}
 		} else if (type == ELEMENT_CONSTANT) {
 			if (value.equals("pi")) {

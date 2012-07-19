@@ -1,4 +1,4 @@
-// $ANTLR 3.4 src/CalcGrammar.g 2012-07-19 15:02:09
+// $ANTLR 3.4 src/CalcGrammar.g 2012-07-19 16:19:07
 
 package at.tugraz.ist.catroid.formulaeditor;
 
@@ -20,12 +20,12 @@ import org.antlr.runtime.TokenStream;
 public class CalcGrammarParser extends Parser {
 	public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMMENT",
 			"CONSTANT", "DECINT", "DIGIT", "GT", "ID", "LAND", "LETTER", "LT", "MINUS", "MULOP", "NOT", "NUMBER", "OR",
-			"PLUS", "RELOP", "UPPERCASE", "WS", "'('", "')'", "','" };
+			"PLUS", "RELOP", "SENSOR", "UPID", "UPPERCASE", "WS", "'('", "')'", "','" };
 
 	public static final int EOF = -1;
-	public static final int T__22 = 22;
-	public static final int T__23 = 23;
 	public static final int T__24 = 24;
+	public static final int T__25 = 25;
+	public static final int T__26 = 26;
 	public static final int COMMENT = 4;
 	public static final int CONSTANT = 5;
 	public static final int DECINT = 6;
@@ -42,8 +42,10 @@ public class CalcGrammarParser extends Parser {
 	public static final int OR = 17;
 	public static final int PLUS = 18;
 	public static final int RELOP = 19;
-	public static final int UPPERCASE = 20;
-	public static final int WS = 21;
+	public static final int SENSOR = 20;
+	public static final int UPID = 21;
+	public static final int UPPERCASE = 22;
+	public static final int WS = 23;
 
 	// delegates
 	public Parser[] getDelegates() {
@@ -313,12 +315,14 @@ public class CalcGrammarParser extends Parser {
 						alt3 = 1;
 					}
 						break;
-					case 22: {
+					case 24: {
 						alt3 = 2;
 					}
 						break;
 					case CONSTANT:
-					case ID: {
+					case ID:
+					case SENSOR:
+					case UPID: {
 						alt3 = 3;
 					}
 						break;
@@ -344,14 +348,14 @@ public class CalcGrammarParser extends Parser {
 					case 2:
 					// src/CalcGrammar.g:194:7: '(' term_list ')'
 					{
-						match(input, 22, FOLLOW_22_in_term194);
+						match(input, 24, FOLLOW_24_in_term194);
 
 						pushFollow(FOLLOW_term_list_in_term196);
 						term_list5 = term_list();
 
 						state._fsp--;
 
-						match(input, 23, FOLLOW_23_in_term198);
+						match(input, 25, FOLLOW_25_in_term198);
 
 						System.out.println("brace enter");
 						System.out.println("term_list: " + term_list5.getTreeString());
@@ -390,32 +394,46 @@ public class CalcGrammarParser extends Parser {
 	// $ANTLR end "term"
 
 	// $ANTLR start "variableOrFunction"
-	// src/CalcGrammar.g:206:1: variableOrFunction returns [FormulaElement variableOrFunctionTree] : ( CONSTANT | ID ( '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' |) );
+	// src/CalcGrammar.g:206:1: variableOrFunction returns [FormulaElement variableOrFunctionTree] : ( CONSTANT | ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' | SENSOR | UPID );
 	public final FormulaElement variableOrFunction() throws RecognitionException {
 		FormulaElement variableOrFunctionTree = null;
 
 		Token CONSTANT7 = null;
 		Token ID8 = null;
+		Token SENSOR9 = null;
+		Token UPID10 = null;
 		FormulaElement leftChildTree = null;
 
 		FormulaElement rightChildTree = null;
 
 		try {
-			// src/CalcGrammar.g:206:67: ( CONSTANT | ID ( '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' |) )
-			int alt7 = 2;
-			int LA7_0 = input.LA(1);
+			// src/CalcGrammar.g:206:67: ( CONSTANT | ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' | SENSOR | UPID )
+			int alt6 = 4;
+			switch (input.LA(1)) {
+				case CONSTANT: {
+					alt6 = 1;
+				}
+					break;
+				case ID: {
+					alt6 = 2;
+				}
+					break;
+				case SENSOR: {
+					alt6 = 3;
+				}
+					break;
+				case UPID: {
+					alt6 = 4;
+				}
+					break;
+				default:
+					NoViableAltException nvae = new NoViableAltException("", 6, 0, input);
 
-			if ((LA7_0 == CONSTANT)) {
-				alt7 = 1;
-			} else if ((LA7_0 == ID)) {
-				alt7 = 2;
-			} else {
-				NoViableAltException nvae = new NoViableAltException("", 7, 0, input);
-
-				throw nvae;
+					throw nvae;
 
 			}
-			switch (alt7) {
+
+			switch (alt6) {
 				case 1:
 				// src/CalcGrammar.g:207:7: CONSTANT
 				{
@@ -430,100 +448,88 @@ public class CalcGrammarParser extends Parser {
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:216:9: ID ( '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' |)
+				// src/CalcGrammar.g:216:9: ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')'
 				{
 					ID8 = (Token) match(input, ID, FOLLOW_ID_in_variableOrFunction290);
 
-					// src/CalcGrammar.g:217:13: ( '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' |)
-					int alt6 = 2;
-					int LA6_0 = input.LA(1);
+					FormulaElement leftChild = null;
+					FormulaElement rightChild = null;
 
-					if ((LA6_0 == 22)) {
-						alt6 = 1;
-					} else if ((LA6_0 == EOF || (LA6_0 >= MINUS && LA6_0 <= MULOP) || LA6_0 == PLUS || (LA6_0 >= 23 && LA6_0 <= 24))) {
-						alt6 = 2;
-					} else {
-						NoViableAltException nvae = new NoViableAltException("", 6, 0, input);
+					match(input, 24, FOLLOW_24_in_variableOrFunction320);
 
-						throw nvae;
+					// src/CalcGrammar.g:221:17: (leftChildTree= term_list ( ',' rightChildTree= term_list )? )?
+					int alt5 = 2;
+					int LA5_0 = input.LA(1);
 
+					if ((LA5_0 == CONSTANT || LA5_0 == ID || LA5_0 == MINUS || LA5_0 == NUMBER
+							|| (LA5_0 >= SENSOR && LA5_0 <= UPID) || LA5_0 == 24)) {
+						alt5 = 1;
 					}
-					switch (alt6) {
+					switch (alt5) {
 						case 1:
-						// src/CalcGrammar.g:218:17: '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')'
+						// src/CalcGrammar.g:221:18: leftChildTree= term_list ( ',' rightChildTree= term_list )?
 						{
+							pushFollow(FOLLOW_term_list_in_variableOrFunction325);
+							leftChildTree = term_list();
 
-							FormulaElement leftChild = null;
-							FormulaElement rightChild = null;
+							state._fsp--;
 
-							match(input, 22, FOLLOW_22_in_variableOrFunction343);
+							leftChild = leftChildTree;
 
-							// src/CalcGrammar.g:222:21: (leftChildTree= term_list ( ',' rightChildTree= term_list )? )?
-							int alt5 = 2;
-							int LA5_0 = input.LA(1);
+							// src/CalcGrammar.g:225:21: ( ',' rightChildTree= term_list )?
+							int alt4 = 2;
+							int LA4_0 = input.LA(1);
 
-							if ((LA5_0 == CONSTANT || LA5_0 == ID || LA5_0 == MINUS || LA5_0 == NUMBER || LA5_0 == 22)) {
-								alt5 = 1;
+							if ((LA4_0 == 26)) {
+								alt4 = 1;
 							}
-							switch (alt5) {
+							switch (alt4) {
 								case 1:
-								// src/CalcGrammar.g:222:22: leftChildTree= term_list ( ',' rightChildTree= term_list )?
+								// src/CalcGrammar.g:225:22: ',' rightChildTree= term_list
 								{
-									pushFollow(FOLLOW_term_list_in_variableOrFunction348);
-									leftChildTree = term_list();
+									match(input, 26, FOLLOW_26_in_variableOrFunction371);
+
+									pushFollow(FOLLOW_term_list_in_variableOrFunction375);
+									rightChildTree = term_list();
 
 									state._fsp--;
 
-									leftChild = leftChildTree;
-
-									// src/CalcGrammar.g:226:23: ( ',' rightChildTree= term_list )?
-									int alt4 = 2;
-									int LA4_0 = input.LA(1);
-
-									if ((LA4_0 == 24)) {
-										alt4 = 1;
-									}
-									switch (alt4) {
-										case 1:
-										// src/CalcGrammar.g:226:24: ',' rightChildTree= term_list
-										{
-											match(input, 24, FOLLOW_24_in_variableOrFunction398);
-
-											pushFollow(FOLLOW_term_list_in_variableOrFunction402);
-											rightChildTree = term_list();
-
-											state._fsp--;
-
-											rightChild = rightChildTree;
-
-										}
-											break;
-
-									}
+									rightChild = rightChildTree;
 
 								}
 									break;
 
 							}
 
-							match(input, 23, FOLLOW_23_in_variableOrFunction481);
-
-							variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_FUNCTION, ID8.getText(),
-									null, leftChild, rightChild);
-
-						}
-							break;
-						case 2:
-						// src/CalcGrammar.g:236:17: 
-						{
-
-							variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_VARIABLE, ID8.getText(),
-									null, null, null);
-
 						}
 							break;
 
 					}
+
+					match(input, 25, FOLLOW_25_in_variableOrFunction445);
+
+					variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_FUNCTION, ID8.getText(), null,
+							leftChild, rightChild);
+
+				}
+					break;
+				case 3:
+				// src/CalcGrammar.g:235:11: SENSOR
+				{
+					SENSOR9 = (Token) match(input, SENSOR, FOLLOW_SENSOR_in_variableOrFunction472);
+
+					variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_SENSOR, SENSOR9.getText(), null,
+							null, null);
+
+				}
+					break;
+				case 4:
+				// src/CalcGrammar.g:239:11: UPID
+				{
+					UPID10 = (Token) match(input, UPID, FOLLOW_UPID_in_variableOrFunction498);
+
+					variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_VARIABLE, UPID10.getText(),
+							null, null, null);
 
 				}
 					break;
@@ -543,62 +549,62 @@ public class CalcGrammarParser extends Parser {
 	// $ANTLR end "variableOrFunction"
 
 	// $ANTLR start "operator"
-	// src/CalcGrammar.g:240:1: operator returns [String operatorString] : ( MULOP | PLUS | MINUS );
+	// src/CalcGrammar.g:245:1: operator returns [String operatorString] : ( MULOP | PLUS | MINUS );
 	public final String operator() throws RecognitionException {
 		String operatorString = null;
 
-		Token MULOP9 = null;
-		Token PLUS10 = null;
-		Token MINUS11 = null;
+		Token MULOP11 = null;
+		Token PLUS12 = null;
+		Token MINUS13 = null;
 
 		try {
-			// src/CalcGrammar.g:240:41: ( MULOP | PLUS | MINUS )
-			int alt8 = 3;
+			// src/CalcGrammar.g:245:41: ( MULOP | PLUS | MINUS )
+			int alt7 = 3;
 			switch (input.LA(1)) {
 				case MULOP: {
-					alt8 = 1;
+					alt7 = 1;
 				}
 					break;
 				case PLUS: {
-					alt8 = 2;
+					alt7 = 2;
 				}
 					break;
 				case MINUS: {
-					alt8 = 3;
+					alt7 = 3;
 				}
 					break;
 				default:
-					NoViableAltException nvae = new NoViableAltException("", 8, 0, input);
+					NoViableAltException nvae = new NoViableAltException("", 7, 0, input);
 
 					throw nvae;
 
 			}
 
-			switch (alt8) {
+			switch (alt7) {
 				case 1:
-				// src/CalcGrammar.g:241:5: MULOP
+				// src/CalcGrammar.g:246:5: MULOP
 				{
-					MULOP9 = (Token) match(input, MULOP, FOLLOW_MULOP_in_operator549);
+					MULOP11 = (Token) match(input, MULOP, FOLLOW_MULOP_in_operator529);
 
-					operatorString = MULOP9.getText();
+					operatorString = MULOP11.getText();
 
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:245:7: PLUS
+				// src/CalcGrammar.g:250:7: PLUS
 				{
-					PLUS10 = (Token) match(input, PLUS, FOLLOW_PLUS_in_operator568);
+					PLUS12 = (Token) match(input, PLUS, FOLLOW_PLUS_in_operator548);
 
-					operatorString = PLUS10.getText();
+					operatorString = PLUS12.getText();
 
 				}
 					break;
 				case 3:
-				// src/CalcGrammar.g:249:7: MINUS
+				// src/CalcGrammar.g:254:7: MINUS
 				{
-					MINUS11 = (Token) match(input, MINUS, FOLLOW_MINUS_in_operator590);
+					MINUS13 = (Token) match(input, MINUS, FOLLOW_MINUS_in_operator570);
 
-					operatorString = MINUS11.getText();
+					operatorString = MINUS13.getText();
 
 				}
 					break;
@@ -621,25 +627,27 @@ public class CalcGrammarParser extends Parser {
 
 	public static final BitSet FOLLOW_term_list_in_formula53 = new BitSet(new long[] { 0x0000000000000002L });
 	public static final BitSet FOLLOW_term_in_term_list90 = new BitSet(new long[] { 0x0000000000046002L });
-	public static final BitSet FOLLOW_operator_in_term_list115 = new BitSet(new long[] { 0x0000000000412220L });
+	public static final BitSet FOLLOW_operator_in_term_list115 = new BitSet(new long[] { 0x0000000001312220L });
 	public static final BitSet FOLLOW_term_in_term_list119 = new BitSet(new long[] { 0x0000000000046002L });
-	public static final BitSet FOLLOW_MINUS_in_term157 = new BitSet(new long[] { 0x0000000000410220L });
+	public static final BitSet FOLLOW_MINUS_in_term157 = new BitSet(new long[] { 0x0000000001310220L });
 	public static final BitSet FOLLOW_NUMBER_in_term176 = new BitSet(new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_22_in_term194 = new BitSet(new long[] { 0x0000000000412220L });
-	public static final BitSet FOLLOW_term_list_in_term196 = new BitSet(new long[] { 0x0000000000800000L });
-	public static final BitSet FOLLOW_23_in_term198 = new BitSet(new long[] { 0x0000000000000002L });
+	public static final BitSet FOLLOW_24_in_term194 = new BitSet(new long[] { 0x0000000001312220L });
+	public static final BitSet FOLLOW_term_list_in_term196 = new BitSet(new long[] { 0x0000000002000000L });
+	public static final BitSet FOLLOW_25_in_term198 = new BitSet(new long[] { 0x0000000000000002L });
 	public static final BitSet FOLLOW_variableOrFunction_in_term216 = new BitSet(new long[] { 0x0000000000000002L });
 	public static final BitSet FOLLOW_CONSTANT_in_variableOrFunction259 = new BitSet(new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_ID_in_variableOrFunction290 = new BitSet(new long[] { 0x0000000000400002L });
-	public static final BitSet FOLLOW_22_in_variableOrFunction343 = new BitSet(new long[] { 0x0000000000C12220L });
-	public static final BitSet FOLLOW_term_list_in_variableOrFunction348 = new BitSet(
-			new long[] { 0x0000000001800000L });
-	public static final BitSet FOLLOW_24_in_variableOrFunction398 = new BitSet(new long[] { 0x0000000000412220L });
-	public static final BitSet FOLLOW_term_list_in_variableOrFunction402 = new BitSet(
-			new long[] { 0x0000000000800000L });
-	public static final BitSet FOLLOW_23_in_variableOrFunction481 = new BitSet(new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_MULOP_in_operator549 = new BitSet(new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_PLUS_in_operator568 = new BitSet(new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_MINUS_in_operator590 = new BitSet(new long[] { 0x0000000000000002L });
+	public static final BitSet FOLLOW_ID_in_variableOrFunction290 = new BitSet(new long[] { 0x0000000001000000L });
+	public static final BitSet FOLLOW_24_in_variableOrFunction320 = new BitSet(new long[] { 0x0000000003312220L });
+	public static final BitSet FOLLOW_term_list_in_variableOrFunction325 = new BitSet(
+			new long[] { 0x0000000006000000L });
+	public static final BitSet FOLLOW_26_in_variableOrFunction371 = new BitSet(new long[] { 0x0000000001312220L });
+	public static final BitSet FOLLOW_term_list_in_variableOrFunction375 = new BitSet(
+			new long[] { 0x0000000002000000L });
+	public static final BitSet FOLLOW_25_in_variableOrFunction445 = new BitSet(new long[] { 0x0000000000000002L });
+	public static final BitSet FOLLOW_SENSOR_in_variableOrFunction472 = new BitSet(new long[] { 0x0000000000000002L });
+	public static final BitSet FOLLOW_UPID_in_variableOrFunction498 = new BitSet(new long[] { 0x0000000000000002L });
+	public static final BitSet FOLLOW_MULOP_in_operator529 = new BitSet(new long[] { 0x0000000000000002L });
+	public static final BitSet FOLLOW_PLUS_in_operator548 = new BitSet(new long[] { 0x0000000000000002L });
+	public static final BitSet FOLLOW_MINUS_in_operator570 = new BitSet(new long[] { 0x0000000000000002L });
 
 }
