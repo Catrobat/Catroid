@@ -38,9 +38,9 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
-	private Project project;
-	private Script currentScript;
-	private Sprite currentSprite;
+	private Project mProject;
+	private Script mCurrentScript;
+	private Sprite mCurrentSprite;
 	private static final ProjectManager INSTANCE = new ProjectManager();
 
 	public FileChecksumContainer fileChecksumContainer;
@@ -60,11 +60,11 @@ public class ProjectManager {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
 
-			project = StorageHandler.getInstance().loadProject(projectName);
-			if (project == null) {
-				project = Utils.findValidProject();
-				if (project == null) {
-					project = StandardProjectHandler.createAndSaveStandardProject(context);
+			mProject = StorageHandler.getInstance().loadProject(projectName);
+			if (mProject == null) {
+				mProject = Utils.findValidProject();
+				if (mProject == null) {
+					mProject = StandardProjectHandler.createAndSaveStandardProject(context);
 				}
 
 				if (errorMessage) {
@@ -74,13 +74,13 @@ public class ProjectManager {
 			}
 			// adapt name of background sprite to the current language and place
 			// on lowest layer
-			project.getSpriteList().get(0).setName(context.getString(R.string.background));
-			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+			mProject.getSpriteList().get(0).setName(context.getString(R.string.background));
+			mProject.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
 
-			currentSprite = null;
-			currentScript = null;
+			mCurrentSprite = null;
+			mCurrentScript = null;
 
-			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
+			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, mProject.getName());
 
 			return true;
 		} catch (Exception e) {
@@ -99,19 +99,19 @@ public class ProjectManager {
 	}
 
 	public void saveProject() {
-		if (project == null) {
+		if (mProject == null) {
 			return;
 		}
-		StorageHandler.getInstance().saveProject(project);
+		StorageHandler.getInstance().saveProject(mProject);
 	}
 
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
-			project = StandardProjectHandler.createAndSaveStandardProject(context);
-			currentSprite = null;
-			currentScript = null;
+			mProject = StandardProjectHandler.createAndSaveStandardProject(context);
+			mCurrentSprite = null;
+			mCurrentScript = null;
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,28 +123,28 @@ public class ProjectManager {
 	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
-		project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+		mProject = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
 
-		currentSprite = null;
-		currentScript = null;
+		mCurrentSprite = null;
+		mCurrentScript = null;
 		saveProject();
 	}
 
 	public Project getCurrentProject() {
-		return project;
+		return mProject;
 	}
 
 	public void setProject(Project project) {
-		currentScript = null;
-		currentSprite = null;
+		mCurrentScript = null;
+		mCurrentSprite = null;
 
-		this.project = project;
+		this.mProject = project;
 	}
 
 	public void deleteCurrentProject() {
-		StorageHandler.getInstance().deleteProject(project);
+		StorageHandler.getInstance().deleteProject(mProject);
 
-		project = null;
+		mProject = null;
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
@@ -153,13 +153,13 @@ public class ProjectManager {
 			return false;
 		}
 
-		String oldProjectPath = Utils.buildProjectPath(project.getName());
+		String oldProjectPath = Utils.buildProjectPath(mProject.getName());
 		File oldProjectDirectory = new File(oldProjectPath);
 
 		String newProjectPath = Utils.buildProjectPath(newProjectName);
 		File newProjectDirectory = new File(newProjectPath);
 
-		project.setName(newProjectName);
+		mProject.setName(newProjectName);
 
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 
@@ -171,35 +171,35 @@ public class ProjectManager {
 	}
 
 	public Sprite getCurrentSprite() {
-		return currentSprite;
+		return mCurrentSprite;
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
-		currentSprite = sprite;
+		mCurrentSprite = sprite;
 	}
 
 	public Script getCurrentScript() {
-		return currentScript;
+		return mCurrentScript;
 	}
 
 	public void setCurrentScript(Script script) {
 		if (script == null) {
-			currentScript = null;
-		} else if (currentSprite.getScriptIndex(script) != -1) {
-			currentScript = script;
+			mCurrentScript = null;
+		} else if (mCurrentSprite.getScriptIndex(script) != -1) {
+			mCurrentScript = script;
 		}
 	}
 
 	public void addSprite(Sprite sprite) {
-		project.addSprite(sprite);
+		mProject.addSprite(sprite);
 	}
 
 	public void addScript(Script script) {
-		currentSprite.addScript(script);
+		mCurrentSprite.addScript(script);
 	}
 
 	public boolean spriteExists(String spriteName) {
-		for (Sprite tempSprite : project.getSpriteList()) {
+		for (Sprite tempSprite : mProject.getSpriteList()) {
 			if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
 				return true;
 			}
@@ -208,7 +208,7 @@ public class ProjectManager {
 	}
 
 	public int getCurrentSpritePosition() {
-		return project.getSpriteList().indexOf(currentSprite);
+		return mProject.getSpriteList().indexOf(mCurrentSprite);
 	}
 
 	public int getCurrentScriptPosition() {
@@ -217,15 +217,15 @@ public class ProjectManager {
 			return -1;
 		}
 
-		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
+		return mProject.getSpriteList().get(currentSpritePosition).getScriptIndex(mCurrentScript);
 	}
 
 	public boolean setCurrentSpriteWithPosition(int position) {
-		if (position >= project.getSpriteList().size() || position < 0) {
+		if (position >= mProject.getSpriteList().size() || position < 0) {
 			return false;
 		}
 
-		currentSprite = project.getSpriteList().get(position);
+		mCurrentSprite = mProject.getSpriteList().get(position);
 		return true;
 	}
 
@@ -235,11 +235,11 @@ public class ProjectManager {
 			return false;
 		}
 
-		if (position >= project.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
+		if (position >= mProject.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
 			return false;
 		}
 
-		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
+		mCurrentScript = mProject.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
 
 		return true;
 	}
