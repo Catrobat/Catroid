@@ -195,7 +195,7 @@ public class CostumeFragment extends SherlockListFragment
 		costumeData.setCostumeFilename(fileName);
 		costumeData.setCostumeName(name);
 		costumeDataList.add(costumeData);
-		adapter.notifyDataSetChanged();
+		reloadAdapter();
 
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
@@ -216,7 +216,6 @@ public class CostumeFragment extends SherlockListFragment
 				R.layout.activity_costume_costumelist_item, costumeDataList);
 		adapter.setOnCostumeEditListener(this);
 		setListAdapter(adapter);
-		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -312,6 +311,7 @@ public class CostumeFragment extends SherlockListFragment
 			if (originalImagePath.equals("")) {
 				throw new IOException();
 			}
+			
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 			File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
 
@@ -329,6 +329,7 @@ public class CostumeFragment extends SherlockListFragment
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 		}
 		
+		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 	
