@@ -61,6 +61,13 @@ public class ProjectManager {
 			messageContainer = new MessageContainer();
 
 			mProject = StorageHandler.getInstance().loadProject(projectName);
+
+			if (errorMessage && mProject.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+				return false;
+				// TODO show dialog to download latest catroid version instead
+			}
+
 			if (mProject == null) {
 				mProject = Utils.findValidProject();
 				if (mProject == null) {

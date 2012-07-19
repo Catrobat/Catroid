@@ -35,85 +35,88 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class Project implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private List<Sprite> spriteList = new ArrayList<Sprite>();
-    private String projectName;
+	private static final long serialVersionUID = 1L;
+	private List<Sprite> spriteList = new ArrayList<Sprite>();
+	private String projectName;
 
-    // Only used for Catroid website
-    @SuppressWarnings("unused")
-    private String deviceName;
-    @SuppressWarnings("unused")
-    private int androidVersion;
-    @SuppressWarnings("unused")
-    private String catroidVersionName;
-    @SuppressWarnings("unused")
-    private int catroidVersionCode;
+	// Only used for Catroid website
+	@SuppressWarnings("unused")
+	private String deviceName;
+	@SuppressWarnings("unused")
+	private int androidVersion;
+	@SuppressWarnings("unused")
+	private String catroidVersionName;
+	private int catroidVersionCode;
 
-    @XStreamAlias("screenWidth")
-    public int virtualScreenWidth = 0;
-    @XStreamAlias("screenHeight")
-    public int virtualScreenHeight = 0;
+	@XStreamAlias("screenWidth")
+	public int virtualScreenWidth = 0;
+	@XStreamAlias("screenHeight")
+	public int virtualScreenHeight = 0;
 
-    public String description;
+	public String description;
 
-    public Project(Context context, String name) {
-        this.projectName = name;
+	public Project(Context context, String name) {
+		this.projectName = name;
 
-        ifLandscapeSwitchWidthAndHeight();
-        virtualScreenWidth = Values.SCREEN_WIDTH;
-        virtualScreenHeight = Values.SCREEN_HEIGHT;
-        setDeviceData(context);
+		ifLandscapeSwitchWidthAndHeight();
+		virtualScreenWidth = Values.SCREEN_WIDTH;
+		virtualScreenHeight = Values.SCREEN_HEIGHT;
+		setDeviceData(context);
 
-        if (context == null) {
-            return;
-        }
+		if (context == null) {
+			return;
+		}
 
-        Sprite background = new Sprite(context.getString(R.string.background));
-        background.costume.zPosition = Integer.MIN_VALUE;
-        addSprite(background);
-    }
+		Sprite background = new Sprite(context.getString(R.string.background));
+		background.costume.zPosition = Integer.MIN_VALUE;
+		addSprite(background);
+	}
 
-    private void ifLandscapeSwitchWidthAndHeight() {
-        if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
-            int tmp = Values.SCREEN_HEIGHT;
-            Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
-            Values.SCREEN_WIDTH = tmp;
-        }
-    }
+	private void ifLandscapeSwitchWidthAndHeight() {
+		if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
+			int tmp = Values.SCREEN_HEIGHT;
+			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
+			Values.SCREEN_WIDTH = tmp;
+		}
+	}
 
-    public synchronized void addSprite(Sprite sprite) {
-        if (spriteList.contains(sprite)) {
-            return;
-        }
-        spriteList.add(sprite);
-    }
+	public synchronized void addSprite(Sprite sprite) {
+		if (spriteList.contains(sprite)) {
+			return;
+		}
+		spriteList.add(sprite);
+	}
 
-    public synchronized boolean removeSprite(Sprite sprite) {
-        return spriteList.remove(sprite);
-    }
+	public synchronized boolean removeSprite(Sprite sprite) {
+		return spriteList.remove(sprite);
+	}
 
-    public List<Sprite> getSpriteList() {
-        return spriteList;
-    }
+	public List<Sprite> getSpriteList() {
+		return spriteList;
+	}
 
-    public void setName(String name) {
-        this.projectName = name;
-    }
+	public void setName(String name) {
+		this.projectName = name;
+	}
 
-    public String getName() {
-        return projectName;
-    }
+	public String getName() {
+		return projectName;
+	}
 
-    public void setDeviceData(Context context) {
-        deviceName = Build.MODEL;
-        androidVersion = Build.VERSION.SDK_INT;
+	public int getCatroidVersionCode() {
+		return catroidVersionCode;
+	}
 
-        if (context == null) {
-            catroidVersionName = "unknown";
-            catroidVersionCode = 0;
-        } else {
-            catroidVersionName = Utils.getVersionName(context);
-            catroidVersionCode = Utils.getVersionCode(context);
-        }
-    }
+	public void setDeviceData(Context context) {
+		deviceName = Build.MODEL;
+		androidVersion = Build.VERSION.SDK_INT;
+
+		if (context == null) {
+			catroidVersionName = "unknown";
+			catroidVersionCode = 0;
+		} else {
+			catroidVersionName = Utils.getVersionName(context);
+			catroidVersionCode = Utils.getVersionCode(context);
+		}
+	}
 }
