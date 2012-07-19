@@ -155,6 +155,12 @@ public class FormulaElement implements Serializable {
 				}
 				result += ") ";
 				break;
+			case ELEMENT_CONSTANT:
+				result += this.value + " ";
+				break;
+			case ELEMENT_VARIABLE:
+				result += this.value + " ";
+				break;
 			case ELEMENT_VALUE:
 				result += this.value + " ";
 				break;
