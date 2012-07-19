@@ -262,21 +262,24 @@ public class FormulaElement implements Serializable {
 				double max = rightChild.interpretRecursive();
 				return min + (java.lang.Math.random() * (max - min));
 			}
-			//			if (value.equals("sensor1")) {
-			//				return 1.0d;
-			//			}
-			//			if (value.equals("sensor2")) {
-			//				return 2.0d;
-			//			}
-			//			if (value.equals("sensor3")) {
-			//				return 3.0d;
-			//			}
-			//			if (value.equals("sensor4")) {
-			//				return 4.0d;
-			//			}
-			//			if (value.equals("sensor5")) {
-			//				return 5.0d;
-			//			}
+			if (value.equals("X_Accelerometer")) {
+				return 1.0d;
+			}
+			if (value.equals("Y_Accelerometer")) {
+				return 2.0d;
+			}
+			if (value.equals("Z_Accelerometer")) {
+				return 3.0d;
+			}
+			if (value.equals("Azimuth_Orientation")) {
+				return 4.0d;
+			}
+			if (value.equals("Pitch_Orientation")) {
+				return 5.0d;
+			}
+			if (value.equals("Roll_Orientation")) {
+				return 6.0d;
+			}
 		} else if (type == ELEMENT_CONSTANT) {
 			if (value.equals("pi")) {
 				return java.lang.Math.PI;
