@@ -102,21 +102,25 @@ public class MainMenuActivity extends Activity {
 		ignoreResume = false;
 		PreStageActivity.shutdownPersistentResources();
 
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ projectManager.getCurrentProject().getName();
-		activityHelper.setupActionBar(true, title);
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						if (projectManager.getCurrentProject() != null) {
-							Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-							ignoreResume = true;
-							startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-						}
-					}
-				}, false);
-		this.titleText = (TextView) findViewById(R.id.tv_title);
+		Project currentProject = projectManager.getCurrentProject();
 
+		if (currentProject != null) {
+
+			activityHelper.setupActionBar(true,
+					getResources().getString(R.string.project_name) + " " + currentProject.getName());
+
+			activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
+					new View.OnClickListener() {
+						public void onClick(View v) {
+							if (projectManager.getCurrentProject() != null) {
+								Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+								ignoreResume = true;
+								startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+							}
+						}
+					}, false);
+			this.titleText = (TextView) findViewById(R.id.tv_title);
+		}
 	}
 
 	@Override
@@ -169,8 +173,8 @@ public class MainMenuActivity extends Activity {
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
 				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
 				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile
-						.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/" + currentProjectName)));
+				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
+						+ currentProjectName)));
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
