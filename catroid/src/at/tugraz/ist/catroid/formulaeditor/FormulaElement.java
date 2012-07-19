@@ -164,6 +164,9 @@ public class FormulaElement implements Serializable {
 			case ELEMENT_VALUE:
 				result += this.value + " ";
 				break;
+			case ELEMENT_SENSOR:
+				result += this.value + " ";
+				break;
 		}
 		return result;
 	}
