@@ -47,6 +47,7 @@ public class CatKeyEvent extends KeyEvent {
 	public static final int KEYCODE_SENSOR3 = 1102;
 	public static final int KEYCODE_SENSOR4 = 1103;
 	public static final int KEYCODE_SENSOR5 = 1104;
+	public static final int KEYCODE_SENSOR6 = 1105;
 
 	// Please update the functions of this class if you add new KEY_CODE constants ^_^
 
@@ -73,6 +74,7 @@ public class CatKeyEvent extends KeyEvent {
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR3)), new String("Z_Accelerometer"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR4)), new String("Azimuth_Orientation"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR5)), new String("Roll_Orientation"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR6)), new String("Pitch_Orientation"));
 
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_PLUS)), new String("+"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_MINUS)), new String("-"));

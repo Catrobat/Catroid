@@ -29,31 +29,37 @@ import at.tugraz.ist.catroid.R;
 public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyboardActionListener {
 
 	//	static final int KEYCODE_OPTIONS = -100;
-	FormulaEditorEditText editText;
-	boolean isShifted;
-	CatKeyboard symbols;
-	CatKeyboard symbols_shifted;
+	private FormulaEditorEditText editText;
+	//	boolean isShifted;
+	private CatKeyboard symbolsNumbers;
+	//	CatKeyboard symbols_shifted;
+	private CatKeyboard symbolsFunctions;
+	private CatKeyboard symbolsSensors;
 
 	public CatKeyboardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		setOnKeyboardActionListener(this);
 		this.editText = null;
-		this.isShifted = false;
-		this.symbols = null;
-		this.symbols_shifted = null;
+		//		this.isShifted = false;
+		this.symbolsNumbers = null;
+		//		this.symbols_shifted = null;
 
 		if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.GERMAN.getDisplayLanguage())) {
-			this.symbols = new CatKeyboard(this.getContext(), R.xml.symbols_de);
-			this.symbols_shifted = new CatKeyboard(this.getContext(), R.xml.symbols_de_shift);
+			this.symbolsNumbers = new CatKeyboard(this.getContext(), R.xml.symbols_de_numbers);
+			//			this.symbols_shifted = new CatKeyboard(this.getContext(), R.xml.symbols_de_shift);
+			this.symbolsFunctions = new CatKeyboard(this.getContext(), R.xml.symbols_de_functions);
+			this.symbolsSensors = new CatKeyboard(this.getContext(), R.xml.symbols_de_sensors);
 			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is DE");
 		} else if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.ENGLISH.getDisplayLanguage())) {
-			this.symbols = new CatKeyboard(this.getContext(), R.xml.symbols_eng);
-			this.symbols_shifted = new CatKeyboard(this.getContext(), R.xml.symbols_eng_shift);
+			this.symbolsNumbers = new CatKeyboard(this.getContext(), R.xml.symbols_eng_numbers);
+			//			this.symbols_shifted = new CatKeyboard(this.getContext(), R.xml.symbols_eng_shift);
+			this.symbolsFunctions = new CatKeyboard(this.getContext(), R.xml.symbols_eng_functions);
+			this.symbolsSensors = new CatKeyboard(this.getContext(), R.xml.symbols_eng_sensors);
 			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is ENG");
 		}
 		Log.i("info", "CatKeyBoardView() - DisplayLanguage:" + Locale.getDefault().getDisplayLanguage());
-		this.setKeyboard(symbols);
+		this.setKeyboard(symbolsNumbers);
 		//		this.symbols.setShifted(false);
 		//		this.symbols_shifted.setShifted(true);
 		//		this.setBackgroundColor(0xFF6103);
@@ -170,42 +176,44 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 				editText.checkAndModifyKeyInput(cKE);
 				break;
 			case KeyEvent.KEYCODE_SHIFT_RIGHT:
-				String displayLanguage = Locale.getDefault().getDisplayLanguage();
-				if (displayLanguage.contentEquals(Locale.ENGLISH.getDisplayLanguage())) {
-					if (!this.isShifted) {
-						CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng_shift);
-						this.setKeyboard(shiftedCatKeyboard);
-						this.isShifted = true;
-						//						this.setShifted(true);
-						//						this.symbols.setShifted(true);
-						//						this.symbols_shifted.setShifted(true);
+				this.handleKeyboardChange();
 
-					} else {
-						CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng);
-						this.setKeyboard(shiftedCatKeyboard);
-						this.isShifted = false;
-						//						this.setShifted(false);
-						//						this.symbols.setShifted(false);
-						//						this.symbols_shifted.setShifted(false);
-					}
-				} else if (displayLanguage.contentEquals(Locale.GERMAN.getDisplayLanguage())) {
-					if (!this.isShifted) {
-						CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de_shift);
-						this.setKeyboard(shiftedCatKeyboard);
-						this.isShifted = true;
-						//						this.setShifted(true);
-						//						this.symbols.setShifted(true);
-						//						this.symbols_shifted.setShifted(true);
-					} else {
-						CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de);
-						this.setKeyboard(shiftedCatKeyboard);
-						this.isShifted = false;
-						//						this.setShifted(false);
-						//						this.symbols.setShifted(false);
-						//						this.symbols_shifted.setShifted(false);
-
-					}
-				}
+				//				String displayLanguage = Locale.getDefault().getDisplayLanguage();
+				//				if (displayLanguage.contentEquals(Locale.ENGLISH.getDisplayLanguage())) {
+				//				if (!this.isShifted) {
+				//					CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng_shift);
+				//					this.setKeyboard(shiftedCatKeyboard);
+				//					this.isShifted = true;
+				//					//						this.setShifted(true);
+				//					//						this.symbols.setShifted(true);
+				//					//						this.symbols_shifted.setShifted(true);
+				//
+				//				} else {
+				//					CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_eng_numbers);
+				//					this.setKeyboard(shiftedCatKeyboard);
+				//					this.isShifted = false;
+				//					//						this.setShifted(false);
+				//					//						this.symbols.setShifted(false);
+				//					//						this.symbols_shifted.setShifted(false);
+				//				}
+				//			} else if (displayLanguage.contentEquals(Locale.GERMAN.getDisplayLanguage())) {
+				//				if (!this.isShifted) {
+				//					CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de_shift);
+				//					this.setKeyboard(shiftedCatKeyboard);
+				//					this.isShifted = true;
+				//					//						this.setShifted(true);
+				//					//						this.symbols.setShifted(true);
+				//					//						this.symbols_shifted.setShifted(true);
+				//				} else {
+				//					CatKeyboard shiftedCatKeyboard = new CatKeyboard(this.getContext(), R.xml.symbols_de);
+				//					this.setKeyboard(shiftedCatKeyboard);
+				//					this.isShifted = false;
+				//					//						this.setShifted(false);
+				//					//						this.symbols.setShifted(false);
+				//					//						this.symbols_shifted.setShifted(false);
+				//
+				//				}
+				//			}
 
 				requestLayout();
 				break;
@@ -269,9 +277,34 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, CatKeyEvent.KEYCODE_SENSOR5));
 				editText.checkAndModifyKeyInput(cKE);
 				break;
-
+			case CatKeyEvent.KEYCODE_SENSOR6:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, CatKeyEvent.KEYCODE_SENSOR6));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
 		}
 
+	}
+
+	/**
+	 * 
+	 */
+	private void handleKeyboardChange() {
+
+		if (this.getKeyboard() == this.symbolsNumbers) {
+			Log.i("info", "Keyboard change from Numbers -> Fuctions");
+			this.setKeyboard(this.symbolsFunctions);
+			return;
+		}
+		if (this.getKeyboard() == this.symbolsFunctions) {
+			Log.i("info", "Keyboard change from Functions -> Sensors");
+			this.setKeyboard(this.symbolsSensors);
+			return;
+		}
+		if (this.getKeyboard() == this.symbolsSensors) {
+			Log.i("info", "Keyboard change from Sensors -> Numbers");
+			this.setKeyboard(this.symbolsNumbers);
+			return;
+		}
 	}
 
 	@Override
