@@ -520,6 +520,23 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
+	public void testRenameToExistingProjectMixedCase() {
+		createProjects();
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		solo.goBack();
+		assertFalse("Project was renamed by mistake", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE));
+	}
+
 	public void testAddNewProject() {
 		createProjects();
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -557,6 +574,27 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME1);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertTrue("No or wrong error message shown",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		solo.sleep(100);
+		solo.clickOnButton(getActivity().getString(R.string.close));
+		solo.goBack();
+		solo.sleep(100);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertTrue("No or wrong error message shown",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+	}
+
+	public void testAddNewProjectMixedCase() {
+		createProjects();
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
