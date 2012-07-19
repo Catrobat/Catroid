@@ -21,7 +21,7 @@ package at.tugraz.ist.catroid.formulaeditor;
 import java.util.EnumSet;
 
 public enum Operators {
-	PLUS("+", 0), MINUS("-", 0), MULT("*", 1), DIVIDE("/", 1), MOD("%", 1);
+	PLUS("+", 0), MINUS("-", 0), MULT("*", 1), DIVIDE("/", 1), MOD("%", 1), POW("^", 2);
 
 	private final String value;
 	private final Integer priority;
