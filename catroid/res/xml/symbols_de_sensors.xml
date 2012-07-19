@@ -26,29 +26,28 @@
     >
 
     <Row>
-        <Key android:codes="1100" android:keyLabel="X-Accelerometer" android:keyWidth="30%p" android:keyEdgeFlags="left"/>
-        <Key android:codes="1101" android:keyLabel="Y-Accelerometer" android:keyWidth="30%p" />
+        <Key android:codes="1100" android:keyLabel="X-Beschleunigung" android:keyWidth="30%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="1101" android:keyLabel="Y-Beschleunigung" android:keyWidth="30%p" />
         <Key android:codes="81" android:keyLabel="+"/>
         <Key android:codes="69" android:keyLabel="-" android:keyEdgeFlags="right"/>
     </Row>
     
     <Row>
-        <Key android:codes="1102" android:keyLabel="Z-Accel
-            erometer" android:keyWidth="30%p" android:keyEdgeFlags="left"/>
-        <Key android:codes="1103" android:keyLabel="Azimuth_Orientation" android:keyWidth="30%p" />
+        <Key android:codes="1102" android:keyLabel="Z-Beschleunigung" android:keyWidth="30%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="1103" android:keyLabel="Azimuth-Ausrichtung" android:keyWidth="30%p" />
         <Key android:codes="17" android:keyLabel="*"/>
         <Key android:codes="76" android:keyLabel="/" android:keyEdgeFlags="right"/>
     </Row>
     
     <Row>
-        <Key android:codes="1104" android:keyLabel="Pitch_Orientation" android:keyWidth="30%p" android:keyEdgeFlags="left"/>
-        <Key android:codes="1105" android:keyLabel="Roll_Orientation" android:keyWidth="30%p" />
+        <Key android:codes="1104" android:keyLabel="Pitch-Ausrichtung" android:keyWidth="30%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="1105" android:keyLabel="Roll-Ausrichtung" android:keyWidth="30%p" />
         <Key android:codes="67" android:keyIcon="@drawable/sym_keyboard_delete" android:isRepeatable="true"/>
         <Key android:codes="26" android:keyLabel="^" android:keyEdgeFlags="right"/>
     </Row> 
     
     <Row  android:rowEdgeFlags="bottom">
-        <Key android:codes="1106" android:keyLabel="Free Cookies" android:keyWidth="40%p" />
+        <Key android:codes="1106" android:keyLabel="Gratis Kekse" android:keyWidth="40%p" />
         <Key android:codes="62" android:keyIcon="@drawable/sym_keyboard_space" android:keyWidth="40%p" android:isRepeatable="true"/> 
         <Key android:codes="60" android:keyLabel="3/3" android:keyWidth="20%p" android:isModifier="true" android:keyEdgeFlags="right" />
     </Row>
