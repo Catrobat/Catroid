@@ -220,6 +220,9 @@ public class FormulaElement implements Serializable {
 				if (value.equals("/")) {
 					return left / right;
 				}
+				if (value.equals("^")) {
+					return java.lang.Math.pow(left, right);
+				}
 			} else {//unär operators
 				Double right = rightChild.interpretRecursive();
 				//				if (value.equals("+")) {
