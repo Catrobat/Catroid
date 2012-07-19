@@ -277,7 +277,10 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, CatKeyEvent.KEYCODE_SENSOR5));
 				editText.checkAndModifyKeyInput(cKE);
 				break;
-
+			case CatKeyEvent.KEYCODE_SENSOR6:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, CatKeyEvent.KEYCODE_SENSOR6));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
 		}
 
 	}
