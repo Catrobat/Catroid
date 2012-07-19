@@ -80,6 +80,7 @@ public class CatKeyEvent extends KeyEvent {
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SLASH)), new String("/"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_COMMA)), new String(","));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_PERIOD)), new String("."));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_POWER)), new String("^"));
 	}
 
 	public boolean isOperator(KeyEvent event) {

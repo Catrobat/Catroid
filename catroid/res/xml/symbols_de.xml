@@ -54,8 +54,7 @@
         <Key android:codes="16" android:keyLabel="9"/>
         <Key android:codes="67" android:keyIcon="@drawable/sym_keyboard_delete"
              android:keyWidth="20%p" android:isRepeatable="true"/>
-        <Key android:codes="66" android:keyIcon="@drawable/sym_keyboard_return"
-             android:keyWidth="20%p" android:keyEdgeFlags="right"/>
+        <Key android:codes="26" android:keyLabel="^" android:keyEdgeFlags="right"/>
     </Row> 
     
     <Row  android:rowEdgeFlags="bottom">
