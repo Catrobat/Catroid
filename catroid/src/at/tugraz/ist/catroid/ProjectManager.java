@@ -152,10 +152,12 @@ public class ProjectManager {
 
 	public boolean renameProject(String newProjectName, Context context) {
 
-		if (StorageHandler.getInstance().projectExists(newProjectName)) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-			return false;
-		}
+		/*
+		 * if (StorageHandler.getInstance().projectExists(newProjectName)) {
+		 * Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+		 * return false;
+		 * }
+		 */
 
 		String oldProjectPath = Utils.buildProjectPath(project.getName());
 		File oldProjectDirectory = new File(oldProjectPath);
@@ -170,15 +172,22 @@ public class ProjectManager {
 			//String tmpFileName = createTmpDirectoryName(oldProjectPath, newProjectPath);
 			//File tmpDirectory = new File(tmpFileName);
 			//directoryRenamed = tmpDirectory.renameTo(newProjectDirectory);
-			String tmpProjectPath = Utils.buildProjectPath(createTmpDirectoryName2(newProjectName));
+			String tmpProjectPath = Utils.buildProjectPath(createTmpDirectoryName(newProjectName));
 			File tmpProjectDirectory = new File(tmpProjectPath);
 
 			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
 			directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
+			if (directoryRenamed == false) {
+				directoryRenamed = tmpProjectDirectory.renameTo(oldProjectDirectory);
+			}
 
 		} else {
-
+			if (StorageHandler.getInstance().projectExistsCaseInSensitive(newProjectName)) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+				return false;
+			}
 			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+
 		}
 
 		if (directoryRenamed) {
@@ -263,30 +272,12 @@ public class ProjectManager {
 		return true;
 	}
 
-	private String createTmpDirectoryName(String oldFile, String newFile) {
-		boolean successfull = false;
-		int tmpCounter = 0;
-		File oldFileFile;
-		File newFileFile = new File(newFile);
-		while (!successfull) {
-			oldFileFile = new File(oldFile);
-			newFileFile = new File(newFile + "_tmp_" + tmpCounter);
-			successfull = oldFileFile.renameTo(newFileFile);
-			tmpCounter++;
-			if (tmpCounter > 200) {
-				newFileFile = new File(newFile);
-				break;
-			}
-		}
-		return (newFileFile.getAbsolutePath());
-	}
-
-	private String createTmpDirectoryName2(String projectDirectoryName) {
+	private String createTmpDirectoryName(String projectDirectoryName) {
 		String tmpDirectoryName = projectDirectoryName + "_tmp";
 		int tmpCounter = 0;
 		while (StorageHandler.getInstance().projectExistsCaseInSensitive(tmpDirectoryName)) {
 
-			tmpDirectoryName = tmpDirectoryName + tmpCounter;
+			tmpDirectoryName = projectDirectoryName + "_tmp" + tmpCounter;
 			tmpCounter++;
 		}
 		return tmpDirectoryName;
