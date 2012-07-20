@@ -57,6 +57,8 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 
 	@Override
 	protected void tearDown() throws Exception {
+		// workaround to disable mindstorm settings
+		// should be disabled no matter if test failed or succeeded
 		String settingsText = solo.getString(R.string.settings);
 		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
 		String buttonHomeText = solo.getString(R.string.home);
