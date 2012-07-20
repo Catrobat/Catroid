@@ -33,7 +33,7 @@ public class Formula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final int ROOT_ELEMENT = 0;
 	private FormulaElement root;
-	private transient Integer formulaTextFieldId = null;
+	private Integer formulaTextFieldId = null;
 
 	public Formula() {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, "0", null);
