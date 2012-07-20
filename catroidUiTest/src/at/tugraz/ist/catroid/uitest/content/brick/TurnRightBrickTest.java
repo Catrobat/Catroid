@@ -40,11 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final double TURN_DEGREES = 25;
 
 	private Solo solo;
 	private Project project;
 	private TurnRightBrick turnRightBrick;
-	private double turnDegrees;
 
 	public TurnRightBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -58,13 +58,8 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -85,16 +80,13 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, turnDegrees + "");
-		solo.goBack();
-		solo.clickOnButton(0);
-
-		solo.sleep(1000);
+		solo.enterText(0, TURN_DEGREES + "");
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnRightBrick);
 
-		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
-		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees);
+		assertEquals("Text not updated", TURN_DEGREES, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
@@ -105,8 +97,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	private void createProject() {
-		turnDegrees = 25;
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		turnRightBrick = new TurnRightBrick(sprite, 0);
