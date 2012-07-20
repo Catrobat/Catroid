@@ -101,9 +101,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 
 		ListView spriteList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = ((Sprite) spriteList.getItemAtPosition(1)).getName();
-
-		assertEquals("The first has not be renamed to Mixed Case", first, catMixedCase);
-
+		assertEquals("The first sprite name was not renamed to Mixed Case", first, catMixedCase);
 	}
 
 	public void createTestProject(String projectName) {

@@ -137,7 +137,6 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 	}
 
 	public void testRenameSoundMixedCase() {
-
 		String newNameMixedCase = "TeStSoUNd1";
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(500);
