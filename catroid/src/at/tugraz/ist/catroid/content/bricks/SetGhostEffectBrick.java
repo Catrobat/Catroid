@@ -52,7 +52,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.transparency = ghostEffectValue;
 
-		transparencyFormula = new Formula(Double.toString(ghostEffectValue));
+		transparencyFormula = new Formula(Double.toString(ghostEffectValue), R.id.brick_set_ghost_effect_to_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -78,7 +78,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		}
 
 		if (transparencyFormula == null) {
-			transparencyFormula = new Formula(Double.toString(transparency));
+			transparencyFormula = new Formula(Double.toString(transparency), R.id.brick_set_ghost_effect_to_edit_text);
 		}
 
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
@@ -86,7 +86,8 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
 		//		editX.setText(String.valueOf(transparency));
-		editX.setText(transparencyFormula.getEditTextRepresentation());
+		//		editX.setText(transparencyFormula.getEditTextRepresentation());
+		transparencyFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -108,8 +109,19 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		formulaEditor.setInputFocusAndFormula(transparencyFormula);
@@ -144,25 +156,4 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		//		finishedDialog.show();
 
 	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
-	}
-
 }

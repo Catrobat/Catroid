@@ -40,7 +40,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 	private int steps;
 
-	private Formula stepsFormula;
+	public Formula stepsFormula;
 
 	private transient Brick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
@@ -50,7 +50,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.steps = steps;
 
-		stepsFormula = new Formula(Integer.toString(steps));
+		stepsFormula = new Formula(Integer.toString(steps), R.id.brick_go_back_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -78,7 +78,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		}
 
 		if (stepsFormula == null) {
-			stepsFormula = new Formula(Double.toString(steps));
+			stepsFormula = new Formula(Double.toString(steps), R.id.brick_go_back_edit_text);
 		}
 
 		View view = View.inflate(context, R.layout.brick_go_back, null);
@@ -86,7 +86,8 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_go_back_n_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 		//		edit.setText(String.valueOf(steps));
-		edit.setText(stepsFormula.getEditTextRepresentation());
+
+		stepsFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);

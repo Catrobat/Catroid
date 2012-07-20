@@ -50,7 +50,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.size = size;
 
-		sizeFormula = new Formula();
+		sizeFormula = new Formula(Double.toString(size), R.id.brick_set_size_to_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -75,12 +75,13 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		}
 
 		if (sizeFormula == null) {
-			sizeFormula = new Formula(Double.toString(size));
+			sizeFormula = new Formula(Double.toString(size), R.id.brick_set_size_to_edit_text);
 		}
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
-		edit.setText(sizeFormula.getEditTextRepresentation());
+		//		edit.setText(sizeFormula.getEditTextRepresentation());
+		sizeFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -101,8 +102,19 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		if (sizeFormula == null) {
@@ -140,24 +152,4 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		//		finishedDialog.show();
 
 	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
-	}
-
 }

@@ -52,7 +52,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.changeBrightness = changeBrightness;
 
-		changeBrightnessFormula = new Formula(Double.toString(changeBrightness));
+		changeBrightnessFormula = new Formula(Double.toString(changeBrightness), R.id.brick_change_brightness_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -77,7 +77,8 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 		}
 
 		if (changeBrightnessFormula == null) {
-			changeBrightnessFormula = new Formula(Double.toString(changeBrightness));
+			changeBrightnessFormula = new Formula(Double.toString(changeBrightness),
+					R.id.brick_change_brightness_edit_text);
 		}
 
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
@@ -85,7 +86,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
 		//		editX.setText(String.valueOf(changeBrightness));
-		editX.setText(changeBrightnessFormula.getEditTextRepresentation());
+		changeBrightnessFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -107,8 +108,19 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		formulaEditor.setInputFocusAndFormula(changeBrightnessFormula);
@@ -141,26 +153,6 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
 		//
 		//		finishedDialog.show();
-	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
 	}
 
 }

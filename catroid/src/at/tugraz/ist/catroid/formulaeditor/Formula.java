@@ -25,12 +25,15 @@ package at.tugraz.ist.catroid.formulaeditor;
 import java.io.Serializable;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final int ROOT_ELEMENT = 0;
 	private FormulaElement root;
+	private transient Integer formulaTextFieldId = null;
 
 	public Formula() {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, "0", null);
@@ -42,6 +45,11 @@ public class Formula implements Serializable {
 
 	public Formula(String value) {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
+	}
+
+	public Formula(String value, int formulaTextFieldId) {
+		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
+		this.formulaTextFieldId = formulaTextFieldId;
 	}
 
 	public FormulaElement findItemByPosition(int position) {
@@ -81,4 +89,11 @@ public class Formula implements Serializable {
 
 	}
 
+	public void refreshTextField(View view) {
+		if (formulaTextFieldId != null && root != null) {
+			EditText formulaTextField = (EditText) view.findViewById(formulaTextFieldId);
+			formulaTextField.setText(root.getEditTextRepresentation());
+		}
+
+	}
 }

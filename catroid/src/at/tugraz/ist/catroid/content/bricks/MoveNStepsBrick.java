@@ -54,7 +54,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.steps = steps;
 
-		stepsFormula = new Formula(Double.toString(steps));
+		stepsFormula = new Formula(Double.toString(steps), R.id.brick_move_n_steps_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -86,7 +86,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		}
 
 		if (stepsFormula == null) {
-			stepsFormula = new Formula(Double.toString(steps));
+			stepsFormula = new Formula(Double.toString(steps), R.id.brick_move_n_steps_edit_text);
 		}
 
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
@@ -95,7 +95,8 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		//		edit.setText(String.valueOf(steps));
-		edit.setText(stepsFormula.getEditTextRepresentation());
+		stepsFormula.refreshTextField(view);
+
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -117,8 +118,19 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		formulaEditor.setInputFocusAndFormula(stepsFormula);
@@ -153,25 +165,4 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		//		finishedDialog.show();
 
 	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
-	}
-
 }

@@ -61,6 +61,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private Formula formula = null;
 	private CatKeyboardView catKeyboardView;
 	private LinearLayout brickSpace;
+	private View brickView;
 
 	//private GestureDetector gestureDetector = null;
 
@@ -92,7 +93,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		setContentView(R.layout.dialog_formula_editor);
 
 		brickSpace = (LinearLayout) findViewById(R.id.formula_editor_brick_space);
-		brickSpace.addView(currentBrick.getView(context, 0, null));
+		brickView = currentBrick.getView(context, 0, null);
+		brickSpace.addView(brickView);
 
 		//		flipView = (ViewFlipper) findViewById(R.id.catflip);
 		//		flipView.setDisplayedChild(1);
@@ -212,6 +214,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 				String formulaToParse = textArea.getText().toString();
 				parseFormula(formulaToParse);
+				formula.refreshTextField(brickView);
 				textArea.formulaSaved();
 				//				Log.i("info", "Inteperetation of Formular:" + this.formula.interpret()); // like a boss
 				Toast.makeText(context, R.string.formula_editor_changes_saved, Toast.LENGTH_SHORT).show();

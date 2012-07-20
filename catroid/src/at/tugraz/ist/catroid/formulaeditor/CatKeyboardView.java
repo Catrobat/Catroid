@@ -327,28 +327,40 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 
 	@Override
 	public void swipeDown() {
-		// TODO Auto-generated method stub
-		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
+
 		//		super.swipeDown();
 	}
 
 	@Override
 	public void swipeLeft() {
+		Log.i("info", "swipeRight()");
 
-		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
-		//		super.swipeLeft();
+		if (this.getKeyboard() == this.symbolsNumbers) {
+			this.setKeyboard(this.symbolsSensors);
+			return;
+		}
+		if (this.getKeyboard() == this.symbolsFunctions) {
+			this.setKeyboard(this.symbolsNumbers);
+			return;
+		}
+		if (this.getKeyboard() == this.symbolsSensors) {
+			this.setKeyboard(this.symbolsFunctions);
+			return;
+		}
+
 	}
 
 	@Override
 	public void swipeRight() {
 
+		Log.i("info", "swipeRight()");
 		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
 		//		super.swipeRight();
 	}
 
 	@Override
 	public void swipeUp() {
-		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
+
 		//		super.swipeUp();
 	}
 

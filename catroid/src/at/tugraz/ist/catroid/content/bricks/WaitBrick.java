@@ -52,7 +52,8 @@ public class WaitBrick implements Brick, OnClickListener {
 		this.timeToWaitInMilliseconds = timeToWaitInMilliseconds;
 		this.sprite = sprite;
 
-		timeToWaitInMillisecondsFormula = new Formula(Integer.toString(timeToWaitInMilliseconds));
+		timeToWaitInMillisecondsFormula = new Formula(Integer.toString(timeToWaitInMilliseconds),
+				R.id.brick_wait_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -91,7 +92,8 @@ public class WaitBrick implements Brick, OnClickListener {
 		}
 
 		if (timeToWaitInMillisecondsFormula == null) {
-			timeToWaitInMillisecondsFormula = new Formula(Double.toString(timeToWaitInMilliseconds));
+			timeToWaitInMillisecondsFormula = new Formula(Double.toString(timeToWaitInMilliseconds),
+					R.id.brick_wait_edit_text);
 		}
 
 		view = View.inflate(context, R.layout.brick_wait, null);
@@ -99,7 +101,8 @@ public class WaitBrick implements Brick, OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
 		//		edit.setText((timeToWaitInMilliseconds / 1000.0) + "");
-		edit.setText(timeToWaitInMillisecondsFormula.getEditTextRepresentation());
+		//		edit.setText(timeToWaitInMillisecondsFormula.getEditTextRepresentation());
+		timeToWaitInMillisecondsFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -120,8 +123,19 @@ public class WaitBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		formulaEditor.setInputFocusAndFormula(timeToWaitInMillisecondsFormula);
@@ -156,25 +170,4 @@ public class WaitBrick implements Brick, OnClickListener {
 		//		finishedDialog.show();
 
 	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
-	}
-
 }

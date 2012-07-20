@@ -52,7 +52,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.volume = volume;
 
-		volumeFormula = new Formula(Float.toString(volume));
+		volumeFormula = new Formula(Float.toString(volume), R.id.brick_set_volume_to_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -79,7 +79,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		}
 
 		if (volumeFormula == null) {
-			volumeFormula = new Formula(Float.toString(volume));
+			volumeFormula = new Formula(Float.toString(volume), R.id.brick_set_volume_to_edit_text);
 		}
 
 		View view = View.inflate(context, R.layout.brick_set_volume_to, null);
@@ -87,7 +87,8 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		//		edit.setText(String.valueOf(volume));
-		edit.setText(volumeFormula.getEditTextRepresentation());
+		//		edit.setText(volumeFormula.getEditTextRepresentation());
+		volumeFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -109,8 +110,19 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		formulaEditor.setInputFocusAndFormula(volumeFormula);
@@ -144,25 +156,4 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		//		finishedDialog.show();
 
 	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
-	}
-
 }
