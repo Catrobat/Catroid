@@ -151,14 +151,6 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-
-		/*
-		 * if (StorageHandler.getInstance().projectExists(newProjectName)) {
-		 * Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-		 * return false;
-		 * }
-		 */
-
 		String oldProjectPath = Utils.buildProjectPath(project.getName());
 		File oldProjectDirectory = new File(oldProjectPath);
 
@@ -168,24 +160,21 @@ public class ProjectManager {
 		boolean directoryRenamed = false;
 
 		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
-
-			//String tmpFileName = createTmpDirectoryName(oldProjectPath, newProjectPath);
-			//File tmpDirectory = new File(tmpFileName);
-			//directoryRenamed = tmpDirectory.renameTo(newProjectDirectory);
-			String tmpProjectPath = Utils.buildProjectPath(createTmpDirectoryName(newProjectName));
+			String tmpProjectPath = Utils.buildProjectPath(createTemporaryDirectoryName(newProjectName));
 			File tmpProjectDirectory = new File(tmpProjectPath);
 
 			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
-			directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
-			if (directoryRenamed == false) {
-				directoryRenamed = tmpProjectDirectory.renameTo(oldProjectDirectory);
+			if (directoryRenamed) {
+				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
 			}
 
 		} else {
-			if (StorageHandler.getInstance().projectExistsCaseInSensitive(newProjectName)) {
+
+			if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)) {
 				Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
 				return false;
 			}
+
 			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 
 		}
@@ -272,12 +261,13 @@ public class ProjectManager {
 		return true;
 	}
 
-	private String createTmpDirectoryName(String projectDirectoryName) {
-		String tmpDirectoryName = projectDirectoryName + "_tmp";
+	private String createTemporaryDirectoryName(String projectDirectoryName) {
+		String tmpSuffix = "_tmp";
+		String tmpDirectoryName = projectDirectoryName + tmpSuffix;
 		int tmpCounter = 0;
-		while (StorageHandler.getInstance().projectExistsCaseInSensitive(tmpDirectoryName)) {
+		while (StorageHandler.getInstance().projectExistsIgnoreCase(tmpDirectoryName)) {
 
-			tmpDirectoryName = projectDirectoryName + "_tmp" + tmpCounter;
+			tmpDirectoryName = projectDirectoryName + tmpSuffix + tmpCounter;
 			tmpCounter++;
 		}
 		return tmpDirectoryName;

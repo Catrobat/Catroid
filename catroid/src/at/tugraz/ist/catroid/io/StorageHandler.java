@@ -165,24 +165,19 @@ public class StorageHandler {
 		return false;
 	}
 
-	public boolean projectExists(String projectName) {
-		//File projectDirectory = new File(Utils.buildProjectPath(projectName));
-
+	public boolean projectExistsCheckCase(String projectName) {
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectNameIterator : projectNameList) {
-			//File checkingProjectDirectory = new File(Utils.buildProjectPath(projectNameIterator));
 
 			if ((projectNameIterator.equals(projectName))) {
 				return true;
 			}
 		}
-		//if (!projectDirectory.exists()) {
-		//return false;
-		//}
+
 		return false;
 	}
 
-	public boolean projectExistsCaseInSensitive(String projectName) {
+	public boolean projectExistsIgnoreCase(String projectName) {
 		File projectDirectory = new File(Utils.buildProjectPath(projectName));
 
 		if (!projectDirectory.exists()) {

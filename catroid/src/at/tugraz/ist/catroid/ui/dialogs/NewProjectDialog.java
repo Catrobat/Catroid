@@ -55,7 +55,7 @@ public class NewProjectDialog extends TextDialog {
 			return;
 		}
 
-		if (StorageHandler.getInstance().projectExistsCaseInSensitive(projectName)) {
+		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
 			Utils.displayErrorMessage(activity, activity.getString(R.string.error_project_exists));
 			return;
 		}
