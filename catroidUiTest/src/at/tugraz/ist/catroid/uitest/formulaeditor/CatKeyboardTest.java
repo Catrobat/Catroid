@@ -1,4 +1,4 @@
-package at.tugraz.ist.catroid.uitest.io;
+package at.tugraz.ist.catroid.uitest.formulaeditor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -272,10 +272,6 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 
 		solo.clickOnImageButton(2);
 	}
-
-	//	public void testFormulas() {
-	//		assert false;
-	//	}
 
 	private void createProject(String projectName) throws InterruptedException {
 
