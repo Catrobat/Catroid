@@ -18,11 +18,13 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCase2<ScriptTabActivity> {
 
+	Project project;
 	private Solo solo;
 	//	private Script testScript;
 	//	private Script testScript2;
@@ -51,7 +53,9 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 	public void setUp() throws Exception {
 
 		createProject("testProjectCatKeyboard");
+		Thread.sleep(100);
 		this.solo = new Solo(getInstrumentation(), getActivity());
+		solo.sleep(100);
 		this.numberKeyString = new Vector<Vector<String>>();
 		this.numberKeyString.add(new Vector<String>());
 		this.numberKeyString.add(new Vector<String>());
@@ -76,13 +80,15 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		}
 
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
+		this.project = null;
 		super.tearDown();
+		Thread.sleep(1000);// IMPORTANT SLEEP !!!!
 	}
 
 	@Smoke
-	public void testKeysFromNumbersKeyboard() {
+	public void testKeysFromXumbersKeyboard() {
 
-		solo.sleep(1000);
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(1);// View.performclick()
@@ -119,71 +125,65 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		assertEquals("7", text.getText().toString().substring(0, 1));
 		this.clickOnKey("del");
 
-		this.clickOnKey("6");
-		assertEquals("6", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("5");
-		assertEquals("5", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("4");
-		assertEquals("4", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("3");
-		assertEquals("3", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("2");
-		assertEquals("2", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("1");
-		assertEquals("1", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("space");
-		assertEquals(" ", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("+");
-		assertEquals("+", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("-");
-		assertEquals("-", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("*");
-		assertEquals("*", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("/");
-		assertEquals("/", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("^");
-		assertEquals("^", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-		//LinearLayout ll = new LinearLayout(solo.getViews().get(0).getContext());
-
-		//		for (int i = 0; i < solo.getViews().size(); i++) {
-		//			solo.clickOnView(solo.getViews().get(i));
-		//			Log.i("info", "solo.getViews().get(" + i + "):" + solo.getViews().get(i).getId());
-		//			solo.sleep(1000);
-		//		}
+		//		this.clickOnKey("6");
+		//		assertEquals("6", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("5");
+		//		assertEquals("5", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("4");
+		//		assertEquals("4", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("3");
+		//		assertEquals("3", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("2");
+		//		assertEquals("2", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("1");
+		//		assertEquals("1", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("space");
+		//		assertEquals(" ", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("+");
+		//		assertEquals("+", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("-");
+		//		assertEquals("-", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("*");
+		//		assertEquals("*", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("/");
+		//		assertEquals("/", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("^");
+		//		assertEquals("^", text.getText().toString().substring(0, 1));
+		//		this.clickOnKey("del");
 
 		//Test the 3 Buttons with this methods:
 		//		solo.clickOnImageButton(0); // Ok-Button
 		//		solo.clickOnImageButton(1); // UNDO - Button
 		//		solo.clickOnImageButton(2); // Cancel - Button 
 
+		solo.clickOnImageButton(2);
+
 	}
 
 	public void testKeysFromFunctionKeyboard() {
 
-		solo.sleep(1000);
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(1);
@@ -197,16 +197,48 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		EditText text = textList.get(textList.size() - 1);
 
 		this.clickOnKey("keyboardswitch");
-		this.clickOnKey("2");// cos()
+		this.clickOnKey("cos");
 		assertEquals("cos( 0 )", text.getText().toString().substring(0, "cos( 0 )".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("sin");
+		assertEquals("sin( 0 )", text.getText().toString().substring(0, "sin( 0 )".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("tan");
+		assertEquals("tan( 0 )", text.getText().toString().substring(0, "tan( 0 )".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("ln");
+		assertEquals("ln( 0 )", text.getText().toString().substring(0, "ln( 0 )".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("log");
+		assertEquals("log( 0 )", text.getText().toString().substring(0, "log( 0 )".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("sqrt");
+		assertEquals("sqrt( 0 )", text.getText().toString().substring(0, "sqrt( 0 )".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("rand");
+		assertEquals("rand( 0 , 1 )", text.getText().toString().substring(0, "rand( 0 , 1 )".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("pi");
+		assertEquals("pi", text.getText().toString().substring(0, "pi".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("e");
+		assertEquals("e", text.getText().toString().substring(0, "e".length()));
 		this.clickOnKey("del");
 		// TODO: test function keys
 
+		solo.clickOnImageButton(2);
 	}
 
-	public void testKeysSensorKeyboard() {
+	public void testKeysFromSensorKeyboard() {
 
-		solo.sleep(1000);
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(1);
@@ -226,20 +258,19 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		this.clickOnKey("del");
 		// TODO: test other sensor keys
 
+		solo.clickOnImageButton(2);
 	}
 
 	//	public void testFormulas() {
 	//		assert false;
 	//	}
 
-	private void createProject(String projectName) {
+	private void createProject(String projectName) throws InterruptedException {
 
-		Project project = new Project(null, projectName);
+		this.project = new Project(null, projectName);
 		firstSprite = new Sprite("nom nom nom");
-
 		Script startScript1 = new StartScript(firstSprite);
 		changeBrick = new ChangeSizeByNBrick(firstSprite, 0);
-
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(changeBrick);
 		project.addSprite(firstSprite);
@@ -336,11 +367,12 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 			for (int i = 0; i < buttonsEachColumns; i++) {
 				for (int j = 0; j < buttonsEachRow; j++) {
 
-					Log.i("info", "setUp()" + " i:" + i + " j:" + j + " z:" + z);
+					Log.i("info", "setUp()" + " i:" + i + " j:" + j + " z:" + z + " h:" + h);
 					int x = i * buttonWidth + buttonWidth / 2;
 					int y = displayHeight - (j * (int) buttonHeight + (int) buttonHeight / 2);
 					this.keyMap.put(this.numberKeyString.get(h).get(z), new Point(x, y));
-					z++;
+					++z;
+					z = z % numberKeyString.get(h).size();
 
 				}
 			}
