@@ -60,6 +60,8 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		volume = volumeFormula.interpret().floatValue();
+
 		if (volume < 0.0f) {
 			volume = 0.0f;
 		} else if (volume > 100.0f) {

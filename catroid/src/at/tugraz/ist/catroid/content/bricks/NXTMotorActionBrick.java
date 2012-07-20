@@ -92,6 +92,8 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 	}
 
 	public void execute() {
+		speed = Math.min(MAX_SPEED, speedFormula.interpret().intValue());
+		speed = Math.max(MIN_SPEED, speed);
 
 		if (motorEnum.equals(Motor.MOTOR_A_C)) {
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speed, 0);

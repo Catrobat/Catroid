@@ -60,6 +60,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		transparency = transparencyFormula.interpret();
 		sprite.costume.setAlphaValue((100f - (float) transparency) / 100);
 	}
 

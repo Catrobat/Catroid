@@ -61,7 +61,11 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / -100);
+		//		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / -100);
+
+		changeGhostEffect = changeGhostEffectFormula.interpret() / -100.0;
+		sprite.costume.changeAlphaValueBy((float) changeGhostEffect);
+
 	}
 
 	public Sprite getSprite() {

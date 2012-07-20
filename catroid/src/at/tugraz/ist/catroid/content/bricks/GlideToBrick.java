@@ -22,10 +22,6 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
@@ -73,9 +69,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		ArrayList<Integer> test = new ArrayList<Integer>();
 
-		Queue<Integer> tests = new LinkedBlockingQueue<Integer>();
+		durationInMilliSeconds = durationInMilliSecondsFormula.interpret().intValue();
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
 		//		final CountDownLatch latch = new CountDownLatch(1);

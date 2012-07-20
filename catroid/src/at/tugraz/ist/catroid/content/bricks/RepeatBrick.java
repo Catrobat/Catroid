@@ -59,6 +59,8 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public void execute() {
+		timesToRepeat = timesToRepeatFormula.interpret().intValue();
+
 		if (timesToRepeat <= 0) {
 			Script script = loopEndBrick.getScript();
 			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopEndBrick));

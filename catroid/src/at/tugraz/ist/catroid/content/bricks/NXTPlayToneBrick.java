@@ -78,6 +78,11 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	}
 
 	public void execute() {
+		hertz = Math.min(MAX_FREQ_IN_HERTZ, hertzFormula.interpret().intValue());
+		hertz = Math.max(MIN_FREQ_IN_HERTZ, hertz);
+		durationInMs = Math.min(MAX_DURATION, durationInMsFormula.interpret().intValue());
+		durationInMs = Math.max(MIN_DURATION, durationInMs);
+
 		LegoNXT.sendBTCPlayToneMessage(hertz, durationInMs);
 
 	}

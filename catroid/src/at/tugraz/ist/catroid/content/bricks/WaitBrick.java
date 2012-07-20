@@ -61,6 +61,8 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		timeToWaitInMilliseconds = timeToWaitInMillisecondsFormula.interpret().intValue();
+
 		long startTime = System.currentTimeMillis();
 		int timeToWait = timeToWaitInMilliseconds;
 		while (System.currentTimeMillis() <= (startTime + timeToWait)) {
