@@ -46,6 +46,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private final int RESOURCE_IMAGE = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
+	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 
 	private ProjectManager projectManager = ProjectManager.getInstance();
 	private Solo solo;
@@ -54,8 +56,6 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	private File imageFile2;
 	private File paintroidImageFile;
 	private ArrayList<CostumeData> costumeDataList;
-	private final int RESOURCE_IMAGE = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
-	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 
 	public CostumeFragmentTest() {
 		super(ScriptTabActivity.class);
@@ -109,12 +109,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		paintroidImageFile.delete();
 		super.tearDown();
@@ -122,7 +117,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(2000);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.copy_costume), 1);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition), 1, true)) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
@@ -142,7 +137,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(1000);
+		solo.sleep(300);
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not right", 2, oldCount);
 		assertEquals("the new count is not right - all costumes should be deleted", 1, newCount);
@@ -152,19 +147,20 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	public void testRenameCostume() {
 		String newName = "newName";
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(200);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.sleep(600);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnButton(0);
 		solo.sleep(100);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
+		solo.sleep(100);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
 		if (!solo.searchText(newName)) {
@@ -174,39 +170,42 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
-
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
+		// needed to fix NullPointerException in next Testcase
+		solo.finishInactiveActivities();
 	}
 
 	public void testDialogsOnChangeOrientation() {
 		String newName = "newTestName";
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+		solo.sleep(100);
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(100);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
+		solo.goBack();
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(200);
 		assertTrue("Costume wasnt renamed", solo.searchText(newName));
 	}
 
 	public void testGetImageFromPaintroid() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -217,6 +216,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 		assertTrue("Checksum not in checksumcontainer",
@@ -231,12 +231,11 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		if (!isInCostumeDataList) {
 			fail("File not added in CostumeDataList");
 		}
-
 	}
 
 	public void testEditImageWithPaintroid() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
@@ -254,6 +253,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 
 		solo.sleep(5000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5PaintroidImage);
@@ -274,7 +274,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testEditImageWithPaintroidNoChanges() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
@@ -288,6 +288,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(200);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
@@ -299,7 +300,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testEditImageWithPaintroidNoPath() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
@@ -313,6 +314,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(200);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
@@ -323,7 +325,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testGetImageFromPaintroidNoPath() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
 		CostumeData costumeData = costumeDataList.get(0);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
@@ -335,6 +337,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		int numberOfCostumeDatas = costumeDataList.size();
@@ -344,7 +347,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testGetImageFromGallery() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(800);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
@@ -354,6 +357,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
@@ -373,7 +377,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(900);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
@@ -391,6 +395,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(500);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		assertNotSame("Picture did not change", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5ImageFile);
@@ -412,9 +417,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		projectManager.fileChecksumContainer.addChecksum(costumeDataToAdd.getChecksum(),
 				costumeDataToAdd.getAbsolutePath());
 
-		solo.sleep(900);
+		solo.sleep(200);
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(900);
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
@@ -431,19 +436,21 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(500);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		assertEquals("wrong number of costumedatas", 3, costumeDataList.size());
 		assertTrue("new added image has been deleted", tempImageFile.exists());
 		assertEquals("wrong number of checksum references of sunnglasses picture", 1,
 				projectManager.fileChecksumContainer.getUsage(md5ImageFile));
-
 	}
 
 	public void testCostumeNames() {
 		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.waitForActivity("CostumeActivity");
-		solo.clickOnText(solo.getString(R.string.copy_costume));
-		while (solo.scrollUpList(1)) {
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+
+		String buttonCopyCostumeText = solo.getString(R.string.copy_costume);
+		solo.clickOnText(buttonCopyCostumeText);
+		while (solo.scrollUp()) {
 			;
 		}
 
@@ -459,7 +466,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(2).getCostumeName());
 
 		renameCostume(defaultCostumeName + "1", "a");
-		while (solo.scrollUpList(1)) {
+		while (solo.scrollUp()) {
 			;
 		}
 		solo.clickOnText(solo.getString(R.string.copy_costume));
@@ -523,10 +530,8 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		EditText editTextCostumeName = (EditText) solo.getView(R.id.dialog_rename_costume_editText);
 		solo.clearEditText(editTextCostumeName);
 		solo.enterText(editTextCostumeName, newCostumeName);
-		solo.goBack();
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
-		solo.waitForDialogToClose(1000);
 	}
 
 	private CostumeFragment getCostumeFragment() {

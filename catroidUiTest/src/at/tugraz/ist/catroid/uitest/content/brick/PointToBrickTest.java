@@ -58,13 +58,8 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -84,13 +79,16 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_point_to)));
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.point_to_spinner));
+
+		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
+		solo.waitForText(spinnerNothingSelectedText);
 		solo.clickInList(0);
-		solo.sleep(300);
-		assertEquals("Wrong selection", "Nothing...", solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.waitForText(spinnerNothingSelectedText);
+		assertEquals("Wrong selection", spinnerNothingSelectedText, solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		Sprite sprite2 = new Sprite("cat2");
 		Script startScript2 = new StartScript(sprite2);

@@ -40,6 +40,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -120,8 +121,12 @@ public class NXTMotorTurnAngleBrick implements Brick {
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
+		TextView textX = (TextView) brickView.findViewById(R.id.motor_turn_angle_text_view);
 		editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(degrees));
+
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);

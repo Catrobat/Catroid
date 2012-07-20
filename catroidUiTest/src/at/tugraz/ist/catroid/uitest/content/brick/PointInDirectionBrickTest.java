@@ -59,13 +59,8 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -89,13 +84,13 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 				solo.getText(getActivity().getString(R.string.brick_point_in_direction)));
 
 		solo.pressSpinnerItem(0, 1);
-		solo.sleep(300);
+		solo.sleep(200);
 		String[] directionStringArray = getActivity().getResources().getStringArray(R.array.point_in_direction_strings);
 		assertEquals("Wrong selection", directionStringArray[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);

@@ -47,21 +47,17 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testStartStageInLandscape() {
 		createProject();
-		solo.sleep(500);
+		solo.sleep(100);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(500);
+		solo.sleep(200);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);

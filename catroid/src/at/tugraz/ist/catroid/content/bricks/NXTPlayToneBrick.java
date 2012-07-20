@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
@@ -90,6 +91,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
+		TextView textDuration = (TextView) brickView.findViewById(R.id.nxt_tone_duration_text_view);
 		EditText editDuration = (EditText) brickView.findViewById(R.id.nxt_tone_duration_edit_text);
 		editDuration.setText(String.valueOf(durationInMs / 1000.0));
 		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
@@ -97,14 +99,23 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		//		dialogDuration.setOnDismissListener(this);
 		//		dialogDuration.setOnCancelListener((OnCancelListener) context);
 		//		editDuration.setOnClickListener(dialogDuration);
+
+		textDuration.setVisibility(View.GONE);
+		editDuration.setVisibility(View.VISIBLE);
+
 		editDuration.setOnClickListener(this);
 
+		TextView textFreq = (TextView) brickView.findViewById(R.id.nxt_tone_freq_text_view);
 		editFreq = (EditText) brickView.findViewById(R.id.nxt_tone_freq_edit_text);
 		editFreq.setText(String.valueOf(hertz / 100));
 		//		dialogFreq = new EditIntegerDialog(context, editFreq, frequency, true, MIN_FREQ, MAX_FREQ);
 		//		dialogFreq.setOnDismissListener(this);
 		//		dialogFreq.setOnCancelListener((OnCancelListener) context);
 		//		editFreq.setOnClickListener(dialogFreq);
+
+		textFreq.setVisibility(View.GONE);
+		editFreq.setVisibility(View.VISIBLE);
+
 		editFreq.setOnClickListener(this);
 
 		freqBar = (SeekBar) brickView.findViewById(R.id.seekBarNXTToneFrequency);

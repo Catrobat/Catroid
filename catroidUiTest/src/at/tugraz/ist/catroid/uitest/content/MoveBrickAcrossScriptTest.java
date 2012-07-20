@@ -24,13 +24,11 @@ package at.tugraz.ist.catroid.uitest.content;
 
 import java.util.ArrayList;
 
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -64,37 +62,15 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
-		createProject("testProject");
+		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-	}
-
-	private ArrayList<Integer> getListItemYPositions() {
-		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
-		ListView listView = solo.getCurrentListViews().get(0);
-
-		for (int i = 0; i < listView.getChildCount(); ++i) {
-			View currentViewInList = listView.getChildAt(i);
-
-			Rect globalVisibleRect = new Rect();
-			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
-			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
-			yPositionList.add(middleYPos);
-		}
-
-		return yPositionList;
 	}
 
 	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,
@@ -121,36 +97,29 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 							MotionEvent.ACTION_MOVE, x, y, 0);
 					getActivity().dispatchTouchEvent(moveEvent);
-
 					solo.sleep(20);
 				}
 			}
 		});
 
 		solo.sleep(steps * 20 + 200);
-
 		handler.post(new Runnable() {
-
 			public void run() {
 				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				getActivity().dispatchTouchEvent(upEvent);
 			}
 		});
-
 		solo.sleep(1000);
-
 	}
 
 	@Smoke
 	public void testMoveBrickAcrossScript() {
-		ArrayList<Integer> yPositionList = getListItemYPositions();
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
-
 		longClickAndDrag(10, yPositionList.get(7), 10, yPositionList.get(2), 20);
-
 		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks + 1) == ProjectManager
 				.getInstance().getCurrentScript().getBrickList().size());
 
@@ -158,7 +127,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
-		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(3) instanceof WaitBrick,
+		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(2) instanceof WaitBrick,
 				true);
 	}
 
