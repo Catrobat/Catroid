@@ -88,6 +88,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
+		// needed to fix NullPointerException in next Testcase
 		solo.finishInactiveActivities();
 	}
 }

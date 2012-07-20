@@ -122,6 +122,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.goBack();
 		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
 				solo.searchText(categoryLegoNXTLabel));
+		// needed to fix NullPointerException in next Testcase
 		solo.finishInactiveActivities();
 	}
 
@@ -192,6 +193,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
+		// needed to fix NullPointerException in next Testcase
 		solo.finishInactiveActivities();
 	}
 
