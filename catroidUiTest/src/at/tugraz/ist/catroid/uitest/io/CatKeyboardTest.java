@@ -24,16 +24,11 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCase2<ScriptTabActivity> {
 
-	Project project;
+	private Project project;
 	private Solo solo;
-	//	private Script testScript;
-	//	private Script testScript2;
-	//	private Script testScript3;
 	private Sprite firstSprite;
 	private Brick changeBrick;
-	private Vector<Vector<String>> numberKeyString;
-	//	private Vector<String> functionKeyString;
-	//	private Vector<String> sensorKeyString;
+	private Vector<Vector<String>> keyString;
 	private HashMap<String, Point> keyMap;
 
 	private float amountOfDisplayspaceUsedForKeyboard;
@@ -53,13 +48,11 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 	public void setUp() throws Exception {
 
 		createProject("testProjectCatKeyboard");
-		Thread.sleep(100);
 		this.solo = new Solo(getInstrumentation(), getActivity());
-		solo.sleep(100);
-		this.numberKeyString = new Vector<Vector<String>>();
-		this.numberKeyString.add(new Vector<String>());
-		this.numberKeyString.add(new Vector<String>());
-		this.numberKeyString.add(new Vector<String>());
+		this.keyString = new Vector<Vector<String>>();
+		this.keyString.add(new Vector<String>());
+		this.keyString.add(new Vector<String>());
+		this.keyString.add(new Vector<String>());
 
 		this.keyMap = new HashMap<String, Point>();
 		this.buttonsEachColumns = 5;
@@ -83,11 +76,11 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		UiTestUtils.clearAllUtilTestProjects();
 		this.project = null;
 		super.tearDown();
-		Thread.sleep(1000);// IMPORTANT SLEEP !!!!
+		Thread.sleep(1000);// IMPORTANT SLEEP: otherwise your test could fail :S!!!!
 	}
 
 	@Smoke
-	public void testKeysFromXumbersKeyboard() {
+	public void testKeysFromNumbersKeyboard() {
 
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(0);
@@ -125,53 +118,53 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		assertEquals("7", text.getText().toString().substring(0, 1));
 		this.clickOnKey("del");
 
-		//		this.clickOnKey("6");
-		//		assertEquals("6", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("5");
-		//		assertEquals("5", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("4");
-		//		assertEquals("4", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("3");
-		//		assertEquals("3", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("2");
-		//		assertEquals("2", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("1");
-		//		assertEquals("1", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("space");
-		//		assertEquals(" ", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("+");
-		//		assertEquals("+", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("-");
-		//		assertEquals("-", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("*");
-		//		assertEquals("*", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("/");
-		//		assertEquals("/", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("^");
-		//		assertEquals("^", text.getText().toString().substring(0, 1));
-		//		this.clickOnKey("del");
+		this.clickOnKey("6");
+		assertEquals("6", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("5");
+		assertEquals("5", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("4");
+		assertEquals("4", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("3");
+		assertEquals("3", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("2");
+		assertEquals("2", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("1");
+		assertEquals("1", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("space");
+		assertEquals(" ", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("+");
+		assertEquals("+", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("-");
+		assertEquals("-", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("*");
+		assertEquals("*", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("/");
+		assertEquals("/", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
+
+		this.clickOnKey("^");
+		assertEquals("^", text.getText().toString().substring(0, 1));
+		this.clickOnKey("del");
 
 		//Test the 3 Buttons with this methods:
 		//		solo.clickOnImageButton(0); // Ok-Button
@@ -225,14 +218,14 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		assertEquals("rand( 0 , 1 )", text.getText().toString().substring(0, "rand( 0 , 1 )".length()));
 		this.clickOnKey("del");
 
-		this.clickOnKey("pi");
-		assertEquals("pi", text.getText().toString().substring(0, "pi".length()));
-		this.clickOnKey("del");
+		//		this.clickOnKey("pi");
+		//		assertEquals("pi", text.getText().toString().substring(0, "pi".length()));
+		//		this.clickOnKey("del");
+		//		this.clickOnKey("del");
 
 		this.clickOnKey("e");
 		assertEquals("e", text.getText().toString().substring(0, "e".length()));
 		this.clickOnKey("del");
-		// TODO: test function keys
 
 		solo.clickOnImageButton(2);
 	}
@@ -253,10 +246,29 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 
 		this.clickOnKey("keyboardswitch");
 		this.clickOnKey("keyboardswitch");
-		this.clickOnKey("1");// x-Accelerometer
+		this.clickOnKey("x-accel");
 		assertEquals("X_Accelerometer", text.getText().toString().substring(0, "X_Accelerometer".length()));
 		this.clickOnKey("del");
-		// TODO: test other sensor keys
+
+		//		this.clickOnKey("y-accel");
+		//		assertEquals("Y_Accelerometer", text.getText().toString().substring(0, "Y_Accelerometer".length()));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("z-accel");
+		//		assertEquals("Z_Accelerometer", text.getText().toString().substring(0, "Z_Accelerometer".length()));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("pitch");
+		//		assertEquals("Pitch_Orientation", text.getText().toString().substring(0, "Pitch_Orientation".length()));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("roll");
+		//		assertEquals("'Roll_Orientation", text.getText().toString().substring(0, "Roll_Orientation".length()));
+		//		this.clickOnKey("del");
+		//
+		//		this.clickOnKey("azimuth");
+		//		assertEquals("'Azimuth_Orientation", text.getText().toString().substring(0, "Azimuth_Orientation".length()));
+		//		this.clickOnKey("del");
 
 		solo.clickOnImageButton(2);
 	}
@@ -295,89 +307,88 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		//space,9,6,3,
 		//space2,del,*,+,
 		//shift,enter,/,-
-		numberKeyString.get(0).add("0");
-		numberKeyString.get(0).add("7");
-		numberKeyString.get(0).add("4");
-		numberKeyString.get(0).add("1");
-		numberKeyString.get(0).add(".");
-		numberKeyString.get(0).add("8");
-		numberKeyString.get(0).add("5");
-		numberKeyString.get(0).add("2");
-		numberKeyString.get(0).add("space");
-		numberKeyString.get(0).add("9");
-		numberKeyString.get(0).add("6");
-		numberKeyString.get(0).add("3");
-		numberKeyString.get(0).add("space2");
-		numberKeyString.get(0).add("del");
-		numberKeyString.get(0).add("*");
-		numberKeyString.get(0).add("+");
-		numberKeyString.get(0).add("keyboardswitch");
-		numberKeyString.get(0).add("^");
-		numberKeyString.get(0).add("/");
-		numberKeyString.get(0).add("-");
+		keyString.get(0).add("0");
+		keyString.get(0).add("7");
+		keyString.get(0).add("4");
+		keyString.get(0).add("1");
+		keyString.get(0).add(".");
+		keyString.get(0).add("8");
+		keyString.get(0).add("5");
+		keyString.get(0).add("2");
+		keyString.get(0).add("space");
+		keyString.get(0).add("9");
+		keyString.get(0).add("6");
+		keyString.get(0).add("3");
+		keyString.get(0).add("space2");
+		keyString.get(0).add("del");
+		keyString.get(0).add("*");
+		keyString.get(0).add("+");
+		keyString.get(0).add("keyboardswitch");
+		keyString.get(0).add("^");
+		keyString.get(0).add("/");
+		keyString.get(0).add("-");
 
-		numberKeyString.get(1).add("pi");
-		numberKeyString.get(1).add("rand1");
-		numberKeyString.get(1).add("ln");
-		numberKeyString.get(1).add("sin");
-		numberKeyString.get(1).add("e");
-		numberKeyString.get(1).add("rand2");
-		numberKeyString.get(1).add("log");
-		numberKeyString.get(1).add("cos");
-		numberKeyString.get(1).add("space");
-		numberKeyString.get(1).add("rand3");
-		numberKeyString.get(1).add("sqrt");
-		numberKeyString.get(1).add("tan");
-		numberKeyString.get(1).add("space2");
-		numberKeyString.get(1).add("del");
-		numberKeyString.get(1).add("*");
-		numberKeyString.get(1).add("+");
-		numberKeyString.get(1).add("keyboardswitch");
-		numberKeyString.get(1).add("^");
-		numberKeyString.get(1).add("/");
-		numberKeyString.get(1).add("-");
+		keyString.get(1).add("pi");
+		keyString.get(1).add("rand");
+		keyString.get(1).add("ln");
+		keyString.get(1).add("sin");
+		keyString.get(1).add("e");
+		keyString.get(1).add("rand2");
+		keyString.get(1).add("log");
+		keyString.get(1).add("cos");
+		keyString.get(1).add("space");
+		keyString.get(1).add("rand3");
+		keyString.get(1).add("sqrt");
+		keyString.get(1).add("tan");
+		keyString.get(1).add("space2");
+		keyString.get(1).add("del");
+		keyString.get(1).add("*");
+		keyString.get(1).add("+");
+		keyString.get(1).add("keyboardswitch");
+		keyString.get(1).add("^");
+		keyString.get(1).add("/");
+		keyString.get(1).add("-");
 
-		numberKeyString.get(2).add("freecookies");
-		numberKeyString.get(2).add("pitch");
-		numberKeyString.get(2).add("z-accel");
-		numberKeyString.get(2).add("x-accel");
-		numberKeyString.get(2).add("freecookies2");
-		numberKeyString.get(2).add(null);
-		numberKeyString.get(2).add(null);
-		numberKeyString.get(2).add(null);
-		numberKeyString.get(2).add("space");
-		numberKeyString.get(2).add("roll");
-		numberKeyString.get(2).add("azimuth");
-		numberKeyString.get(2).add("y-accel");
-		numberKeyString.get(2).add("space2");
-		numberKeyString.get(2).add("del");
-		numberKeyString.get(2).add("*");
-		numberKeyString.get(2).add("+");
-		numberKeyString.get(2).add("keyboardswitch");
-		numberKeyString.get(2).add("^");
-		numberKeyString.get(2).add("/");
-		numberKeyString.get(2).add("-");
+		keyString.get(2).add("freecookies");
+		keyString.get(2).add("pitch");
+		keyString.get(2).add("z-accel");
+		keyString.get(2).add("x-accel");
+		keyString.get(2).add("freecookies2");
+		keyString.get(2).add(null);
+		keyString.get(2).add(null);
+		keyString.get(2).add(null);
+		keyString.get(2).add("space");
+		keyString.get(2).add("roll");
+		keyString.get(2).add("azimuth");
+		keyString.get(2).add("y-accel");
+		keyString.get(2).add("space2");
+		keyString.get(2).add("del");
+		keyString.get(2).add("*");
+		keyString.get(2).add("+");
+		keyString.get(2).add("keyboardswitch");
+		keyString.get(2).add("^");
+		keyString.get(2).add("/");
+		keyString.get(2).add("-");
 
 	}
 
 	private void setCoordinatesForKeys() {
 		//Setting x,y coordinates for each key
 		int z = 0;
-		for (int h = 0; h < this.numberKeyString.size(); h++) {
+		for (int h = 0; h < this.keyString.size(); h++) {
 			for (int i = 0; i < buttonsEachColumns; i++) {
 				for (int j = 0; j < buttonsEachRow; j++) {
 
 					Log.i("info", "setUp()" + " i:" + i + " j:" + j + " z:" + z + " h:" + h);
 					int x = i * buttonWidth + buttonWidth / 2;
 					int y = displayHeight - (j * (int) buttonHeight + (int) buttonHeight / 2);
-					this.keyMap.put(this.numberKeyString.get(h).get(z), new Point(x, y));
+					this.keyMap.put(this.keyString.get(h).get(z), new Point(x, y));
 					++z;
-					z = z % numberKeyString.get(h).size();
+					z = z % keyString.get(h).size();
 
 				}
 			}
 		}
-		return;
 	}
 
 	private void calculateCoordinatesOnScreen() {
@@ -388,8 +399,6 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		Log.i("info", "DisplayMetrics" + "width:" + currentDisplayMetrics.widthPixels + " height:"
 				+ currentDisplayMetrics.heightPixels);
 
-		// 800 * 480 Nexus S, px = 4.26
-		// 1184 * 720 nexus, px = 3.19
 		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, currentDisplayMetrics);
 		Log.i("info", "pixel: " + px);
 
