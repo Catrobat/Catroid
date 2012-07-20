@@ -226,11 +226,13 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 				break;
 
 			case R.id.formula_editor_back_button:
+				if (textArea.hasChanges()) {
+					Toast.makeText(context, R.string.formula_editor_changes_discarded, Toast.LENGTH_SHORT).show();
+				}
 				dismiss();
 				break;
 
 			default:
-				Log.i("info", "Got some crazy click here!");
 				break;
 
 		}

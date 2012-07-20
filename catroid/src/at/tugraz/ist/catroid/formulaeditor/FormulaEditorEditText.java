@@ -124,9 +124,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		selectionEndIndex = cursorPos;
 
 		while (selectionStartIndex > 0) {
-			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionStartIndex - 1));
-			if ((currentInput.charAt(selectionStartIndex - 1) < 97)
-					|| (currentInput.charAt(selectionStartIndex - 1) > 123)) {
+			//this reads: (char is not 'a'...'z' or 'A'...'Z' or '_'), which is the naming convention for our variables/sensors
+			if (((currentInput.charAt(selectionStartIndex - 1) < 97) || (currentInput.charAt(selectionStartIndex - 1) > 123))
+					&& ((currentInput.charAt(selectionStartIndex - 1) < 65) || (currentInput
+							.charAt(selectionStartIndex - 1) > 91))
+					&& (currentInput.charAt(selectionStartIndex - 1) != '_')) {
 				if ((currentInput.charAt(selectionStartIndex - 1) == '(')
 						|| (currentInput.charAt(selectionStartIndex - 1) == ',')) {
 					selectionStartIndex--;
@@ -137,8 +139,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		while (selectionEndIndex < currentInput.length()) {
-			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionEndIndex));
-			if ((currentInput.charAt(selectionEndIndex) < 97) || (currentInput.charAt(selectionEndIndex) > 123)) {
+			if (((currentInput.charAt(selectionEndIndex) < 97) || (currentInput.charAt(selectionEndIndex) > 123))
+					&& ((currentInput.charAt(selectionEndIndex) < 65) || (currentInput.charAt(selectionEndIndex) > 91))
+					&& (currentInput.charAt(selectionEndIndex) != '_')) {
 				if ((currentInput.charAt(selectionEndIndex) == ')') || (currentInput.charAt(selectionEndIndex) == ',')) {
 					selectionEndIndex++;
 				}
@@ -357,7 +360,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
 				doSelectionAndHighlighting();
 				return;
-			} else if ((text.charAt(selectionEndIndex - 1) >= 97) && (text.charAt(selectionEndIndex - 1) <= 123)) {
+			} else if (((text.charAt(selectionEndIndex - 1) >= 97) && (text.charAt(selectionEndIndex - 1) <= 123))
+					|| ((text.charAt(selectionEndIndex - 1) >= 65) && (text.charAt(selectionEndIndex - 1) <= 91))
+					|| (text.charAt(selectionEndIndex - 1) == '_')) {
 				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
 				doSelectionAndHighlighting();
 				return;
