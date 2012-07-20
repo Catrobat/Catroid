@@ -485,7 +485,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		assertEquals("current project not updated", UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, ProjectManager
 				.getInstance().getCurrentProject().getName());
-
 	}
 
 	public void testRenameProjectWithWhitelistedCharacters() {

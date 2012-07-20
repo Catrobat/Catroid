@@ -153,7 +153,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testRenameCostumeMixedCase() {
-
 		String newNameMixedCase = "coSTuMeNamEtESt";
 		solo.clickOnText(getActivity().getString(R.string.background));
 		solo.sleep(500);
@@ -167,7 +166,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		if (!solo.searchText(newNameMixedCase)) {
 			fail("costume not renamed in actual view");
 		}
-
 	}
 
 	public void testMainMenuButton() {

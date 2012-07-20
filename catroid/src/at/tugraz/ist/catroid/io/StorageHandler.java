@@ -168,18 +168,15 @@ public class StorageHandler {
 	public boolean projectExistsCheckCase(String projectName) {
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectNameIterator : projectNameList) {
-
 			if ((projectNameIterator.equals(projectName))) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	public boolean projectExistsIgnoreCase(String projectName) {
 		File projectDirectory = new File(Utils.buildProjectPath(projectName));
-
 		if (!projectDirectory.exists()) {
 			return false;
 		}
