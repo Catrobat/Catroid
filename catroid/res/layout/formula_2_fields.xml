@@ -46,8 +46,7 @@
             android:inputType="number|numberDecimal|numberSigned"
             android:maxLength="5"
             android:maxLines="1"
-            android:minWidth="60dip"
-            android:text="@string/this_is_a_test" >
+            android:minWidth="60dip" >
         </EditText>
 
         <TextView
@@ -69,8 +68,7 @@
             android:inputType="number|numberDecimal|numberSigned"
             android:maxLength="5"
             android:maxLines="1"
-            android:minWidth="60dip"
-            android:text="@string/this_is_a_test" >
+            android:minWidth="60dip">
         </EditText>
     </LinearLayout>
 

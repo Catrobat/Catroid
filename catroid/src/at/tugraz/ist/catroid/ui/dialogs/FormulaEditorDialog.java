@@ -42,6 +42,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.formulaeditor.CalcGrammarLexer;
@@ -58,9 +59,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private FormulaEditorEditText textArea;
 	private int value;
 	private Formula formula = null;
-
 	private CatKeyboardView catKeyboardView;
-	//private ViewFlipper flipView;
 	private LinearLayout brickSpace;
 
 	//private GestureDetector gestureDetector = null;
@@ -122,8 +121,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		ImageButton cancelButton = (ImageButton) findViewById(R.id.formula_editor_cancel_button);
 		cancelButton.setOnClickListener(this);
 
-		okButton = (ImageButton) findViewById(R.id.formula_editor_ok_button);
-		okButton.setOnClickListener(this);
+		ImageButton backButton = (ImageButton) findViewById(R.id.formula_editor_back_button);
+		backButton.setOnClickListener(this);
 
 		//		FormulaEditorEditText rolf = (FormulaEditorEditText) findViewById(R.id.testy);
 		//		rolf.setFormula(new Formula("0"));
@@ -160,8 +159,17 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	//	}
 
 	public void setInputFocusAndFormula(Formula formula) {
+
+		if (formula == this.formula) {
+			return;
+		} else if (textArea.hasChanges() == true) {
+			Toast.makeText(context, R.string.formula_editor_save_first, Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		this.formula = formula;
 		textArea.setFieldActive(formula.getEditTextRepresentation());
+
 	}
 
 	public int getReturnValue() {
@@ -204,16 +212,21 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 				String formulaToParse = textArea.getText().toString();
 				parseFormula(formulaToParse);
+				textArea.formulaSaved();
 				//				Log.i("info", "Inteperetation of Formular:" + this.formula.interpret()); // like a boss
+				Toast.makeText(context, R.string.formula_editor_changes_saved, Toast.LENGTH_SHORT).show();
 				break;
 
 			case R.id.formula_editor_cancel_button:
-				dismiss();
+				textArea.formulaSaved();
+				textArea.setFieldActive(formula.getEditTextRepresentation());
+				Toast.makeText(context, R.string.formula_editor_changes_discarded, Toast.LENGTH_SHORT).show();
 				break;
 
 			case R.id.formula_editor_back_button:
 				dismiss();
 				break;
+
 			default:
 				Log.i("info", "Got some crazy click here!");
 				break;

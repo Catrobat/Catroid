@@ -83,19 +83,21 @@
 	        android:id="@+id/formula_editor_ok_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:src="@drawable/ok_button" />
+	        android:src="@drawable/ok_button" />
+	    
+	    <ImageButton
+            android:id="@+id/formula_editor_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cancel_button" 
+            android:layout_toRightOf="@id/formula_editor_ok_button"/>
 	    <ImageButton
 	        android:id="@+id/formula_editor_back_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:src="@drawable/back_button" 
-	        android:layout_toRightOf="@id/formula_editor_ok_button"/>
-	    <ImageButton
-	        android:id="@+id/formula_editor_cancel_button"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/cancel_button" 
-	        android:layout_toRightOf="@id/formula_editor_back_button"/>
+	        android:layout_toRightOf="@id/formula_editor_cancel_button"/>
+
 
 	</RelativeLayout>
 	
