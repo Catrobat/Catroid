@@ -43,18 +43,12 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		super.tearDown();
 	}
 
 	public void testAboutDialog() {
 		solo.clickOnButton(getActivity().getString(R.string.about));
-
 		assertTrue("AboutDialog title not found", solo.searchText(getActivity().getString(R.string.about_title)));
 		assertTrue("AboutDialog text not found", solo.searchText(getActivity().getString(R.string.about_text)));
 		assertTrue("AboutDialog linktext not found", solo.searchText(getActivity().getString(R.string.about_link_text)));
