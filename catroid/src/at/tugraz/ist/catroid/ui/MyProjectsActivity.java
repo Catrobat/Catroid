@@ -41,7 +41,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.ui.adapter.ProjectAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
@@ -112,11 +112,11 @@ public class MyProjectsActivity extends ListActivity {
 	}
 
 	public void initAdapter() {
-		File rootDirectory = new File(Consts.DEFAULT_ROOT);
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
 		projectList = new ArrayList<ProjectData>();
 		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-			projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Consts.PROJECTCODE_NAME));
+			projectCodeFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Constants.PROJECTCODE_NAME));
 			projectList.add(new ProjectData(projectName, projectCodeFile.lastModified()));
 		}
 		Collections.sort(projectList, new Comparator<ProjectData>() {

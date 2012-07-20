@@ -30,7 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ServerCalls {
@@ -98,7 +98,7 @@ public class ServerCalls {
 			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
 			postValues.put(USER_EMAIL, userEmail);
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
-			postValues.put(Consts.TOKEN, token);
+			postValues.put(Constants.TOKEN, token);
 
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
@@ -143,7 +143,7 @@ public class ServerCalls {
 	public boolean checkToken(String token) throws WebconnectionException {
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
-			postValues.put(Consts.TOKEN, token);
+			postValues.put(Constants.TOKEN, token);
 
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
@@ -184,7 +184,7 @@ public class ServerCalls {
 			postValues.put(REG_USER_NAME, username);
 			postValues.put(REG_USER_PASSWORD, password);
 			postValues.put(REG_USER_EMAIL, userEmail);
-			postValues.put(Consts.TOKEN, token);
+			postValues.put(Constants.TOKEN, token);
 
 			if (country != null) {
 				postValues.put(REG_USER_COUNTRY, country);

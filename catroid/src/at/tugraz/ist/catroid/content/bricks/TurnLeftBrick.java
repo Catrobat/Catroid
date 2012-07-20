@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.formulaeditor.Formula;
@@ -80,10 +81,13 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_turn_left, null);
 
+		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
 		//		editDegrees.setText(String.valueOf(degrees));
 		editDegrees.setText(degreesFormula.getEditTextRepresentation());
 
+		textDegrees.setVisibility(View.GONE);
+		editDegrees.setVisibility(View.VISIBLE);
 		editDegrees.setOnClickListener(this);
 
 		return view;

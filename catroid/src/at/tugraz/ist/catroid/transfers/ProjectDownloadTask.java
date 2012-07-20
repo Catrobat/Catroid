@@ -30,8 +30,10 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.dialogs.OverwriteRenameDialog;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
@@ -44,8 +46,8 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	private String zipFileString;
 	private String url;
 	private ProgressDialog progressDialog;
-	private boolean result;
-	private static final String DOWNLOAD_FILE_NAME = "down" + Consts.CATROID_EXTENTION;
+	private boolean result, showOverwriteDialog;
+	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROID_EXTENTION;
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	// mock object testing
@@ -56,7 +58,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	public ProjectDownloadTask(MainMenuActivity mainMenuActivity, String url, String projectName) {
 		this.activity = mainMenuActivity;
 		this.projectName = projectName;
-		this.zipFileString = Utils.buildPath(Consts.TMP_PATH, DOWNLOAD_FILE_NAME);
+		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
 		this.url = url;
 	}
 
@@ -73,10 +75,19 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
+		showOverwriteDialog = false;
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString);
 
-			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
+			if (StorageHandler.getInstance().projectExists(projectName)) {
+				showOverwriteDialog = true;
+				result = true;
+			}
+
+			if (!showOverwriteDialog) {
+				result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
+			}
+
 			return result;
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
@@ -91,6 +102,13 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
+		}
+
+		if (result && showOverwriteDialog) {
+			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, activity, projectName,
+					zipFileString);
+			renameDialog.show();
+			return;
 		}
 
 		if (!result) {

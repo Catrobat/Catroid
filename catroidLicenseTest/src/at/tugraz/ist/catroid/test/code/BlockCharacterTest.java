@@ -52,6 +52,7 @@ public class BlockCharacterTest extends TestCase {
 			}
 			++lineCount;
 		}
+		reader.close();
 	}
 
 	public void testForBlockCharacters() throws IOException {

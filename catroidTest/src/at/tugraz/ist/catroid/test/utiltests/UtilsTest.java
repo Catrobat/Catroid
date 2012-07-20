@@ -30,7 +30,7 @@ import java.io.PrintWriter;
 
 import junit.framework.TestCase;
 import android.util.Log;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -47,15 +47,20 @@ public class UtilsTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		OutputStream outputStream = null;
 		try {
 			mTestFile = File.createTempFile("testCopyFiles", ".txt");
 			if (mTestFile.canWrite()) {
-				OutputStream stream = new FileOutputStream(mTestFile);
-				stream.write(testFileContent.getBytes());
-				stream.flush();
+				outputStream = new FileOutputStream(mTestFile);
+				outputStream.write(testFileContent.getBytes());
+				outputStream.flush();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			if (outputStream != null) {
+				outputStream.close();
+			}
 		}
 
 		super.setUp();
@@ -75,10 +80,10 @@ public class UtilsTest extends TestCase {
 
 		PrintWriter printWriter = null;
 
-		File tempDir = new File(Consts.TMP_PATH);
+		File tempDir = new File(Constants.TMP_PATH);
 		tempDir.mkdirs();
 
-		File md5TestFile = new File(Utils.buildPath(Consts.TMP_PATH, "catroid.txt"));
+		File md5TestFile = new File(Utils.buildPath(Constants.TMP_PATH, "catroid.txt"));
 
 		if (md5TestFile.exists()) {
 			md5TestFile.delete();
@@ -128,14 +133,14 @@ public class UtilsTest extends TestCase {
 
 		Integer secretInteger = (Integer) TestUtils.getPrivateField("SECRET_INTEGER", new Sub(), false);
 		Log.v(TAG, secretInteger.toString());
-		assertEquals("Getting private Integer failed!", new Integer(42), secretInteger);
+		assertEquals("Getting private Integer failed!", Integer.valueOf(42), secretInteger);
 
 		Float secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), false);
 		assertNull("Getting private float succeeded!", secretFloat);
 
 		secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), true);
 		Log.v(TAG, secretFloat.toString());
-		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
+		assertEquals("Getting private float failed!", Float.valueOf(3.1415f), secretFloat);
 	}
 
 	public void testBuildPath() {

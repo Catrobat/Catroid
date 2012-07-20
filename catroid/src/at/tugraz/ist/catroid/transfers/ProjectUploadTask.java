@@ -30,7 +30,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -47,7 +47,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private String projectDescription;
 	private String serverAnswer;
 	private String token;
-	private static final String UPLOAD_FILE_NAME = "upload" + Consts.CATROID_EXTENTION;
+	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
 
 	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
 			String token) {
@@ -87,7 +87,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				paths[i] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[i]);
 			}
 
-			String zipFileString = Utils.buildPath(Consts.TMP_PATH, UPLOAD_FILE_NAME);
+			String zipFileString = Utils.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME);
 			File zipFile = new File(zipFileString);
 			if (!zipFile.exists()) {
 				zipFile.getParentFile().mkdirs();

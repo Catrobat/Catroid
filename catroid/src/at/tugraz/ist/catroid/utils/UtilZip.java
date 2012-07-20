@@ -32,7 +32,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 
 public class UtilZip {
 	private static final int QUICKEST_COMPRESSION = 0;
@@ -76,7 +76,7 @@ public class UtilZip {
 	}
 
 	private static void writeFileToZip(File file, String zipEntryPath) throws IOException {
-		byte[] readBuffer = new byte[Consts.BUFFER_8K];
+		byte[] readBuffer = new byte[Constants.BUFFER_8K];
 		int bytesIn = 0;
 
 		FileInputStream fis = new FileInputStream(file);
@@ -97,7 +97,7 @@ public class UtilZip {
 			ZipEntry zipEntry = null;
 
 			BufferedOutputStream dest = null;
-			byte data[] = new byte[Consts.BUFFER_8K];
+			byte data[] = new byte[Constants.BUFFER_8K];
 			while ((zipEntry = zin.getNextEntry()) != null) {
 
 				if (zipEntry.isDirectory()) {
@@ -111,8 +111,8 @@ public class UtilZip {
 				FileOutputStream fos = new FileOutputStream(f);
 
 				int count;
-				dest = new BufferedOutputStream(fos, Consts.BUFFER_8K);
-				while ((count = zin.read(data, 0, Consts.BUFFER_8K)) != -1) {
+				dest = new BufferedOutputStream(fos, Constants.BUFFER_8K);
+				while ((count = zin.read(data, 0, Constants.BUFFER_8K)) != -1) {
 					dest.write(data, 0, count);
 				}
 				dest.flush();

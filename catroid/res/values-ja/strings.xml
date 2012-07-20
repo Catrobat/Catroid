@@ -175,6 +175,7 @@
     <string name="category_looks">"外見"</string>
     <string name="category_sound">"音"</string>
     <string name="category_control">"制御"</string>
+    <string name="category_lego_nxt">レゴマインドストームNXT</string>
 
     <!-- Motion bricks -->
     <string name="brick_place_at">"場所を設定"</string>

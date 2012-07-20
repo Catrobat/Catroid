@@ -37,7 +37,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
@@ -170,7 +170,7 @@ public class MainMenuActivity extends Activity {
 				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
 				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
 				sizeOfProject.setText(UtilFile
-						.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/" + currentProjectName)));
+						.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/" + currentProjectName)));
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
@@ -229,7 +229,7 @@ public class MainMenuActivity extends Activity {
 		// also when you switch activities
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
-			Utils.saveToPreferences(this, Consts.PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
 		}
 	}
 
@@ -251,7 +251,7 @@ public class MainMenuActivity extends Activity {
 
 	public void handleUploadProjectButton(View v) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = preferences.getString(Consts.TOKEN, null);
+		String token = preferences.getString(Constants.TOKEN, null);
 
 		if (token == null || token.length() == 0 || token.equals("0")) {
 			showDialog(DIALOG_LOGIN_REGISTER);

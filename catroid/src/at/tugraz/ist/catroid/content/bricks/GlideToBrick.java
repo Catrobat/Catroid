@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.formulaeditor.Formula;
@@ -166,19 +167,30 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
+		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_x_edit_text);
 		//		editX.setText(String.valueOf(xDestination));
 		editX.setText(xDestinationFormula.getEditTextRepresentation());
 		editX.setOnClickListener(this);
 
+		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_y_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_y_edit_text);
 		//		editY.setText(String.valueOf(yDestination));
 		editY.setText(yDestinationFormula.getEditTextRepresentation());
 		editY.setOnClickListener(this);
 
+		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_duration_text_view);
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_duration_edit_text);
 		//		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 		editDuration.setText(durationInMilliSecondsFormula.getEditTextRepresentation());
+
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+		textY.setVisibility(View.GONE);
+		editY.setVisibility(View.VISIBLE);
+		textDuration.setVisibility(View.GONE);
+		editDuration.setVisibility(View.VISIBLE);
+
 		editDuration.setOnClickListener(this);
 
 		return view;

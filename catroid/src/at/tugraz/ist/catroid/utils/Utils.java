@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
@@ -64,10 +65,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class Utils {
 
@@ -146,7 +149,7 @@ public class Utils {
 	}
 
 	static public String buildProjectPath(String projectName) {
-		return Consts.DEFAULT_ROOT + "/" + deleteSpecialCharactersInString(projectName);
+		return Constants.DEFAULT_ROOT + "/" + deleteSpecialCharactersInString(projectName);
 	}
 
 	/**
@@ -154,8 +157,8 @@ public class Utils {
 	 * @return the project name without the default file extension, else returns unchanged string
 	 */
 	//	public static String getProjectName(String projectFileName) {
-	//		if (projectFileName.endsWith(Consts.PROJECT_EXTENTION)) {
-	//			return projectFileName.substring(0, projectFileName.length() - Consts.PROJECT_EXTENTION.length());
+	//		if (projectFileName.endsWith(Constants.PROJECT_EXTENTION)) {
+	//			return projectFileName.substring(0, projectFileName.length() - Constants.PROJECT_EXTENTION.length());
 	//		}
 	//		return projectFileName;
 	//	}
@@ -204,7 +207,7 @@ public class Utils {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-			byte[] buffer = new byte[Consts.BUFFER_8K];
+			byte[] buffer = new byte[Constants.BUFFER_8K];
 
 			int length = 0;
 
@@ -314,7 +317,7 @@ public class Utils {
 	public static void loadProjectIfNeeded(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			String projectName = prefs.getString(Consts.PREF_PROJECTNAME_KEY, null);
+			String projectName = prefs.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, false);
@@ -352,6 +355,19 @@ public class Utils {
 		return searchForNonExistingSoundTitle(title, 0);
 	}
 
+	public static Project findValidProject() {
+		Project loadableProject = null;
+
+		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+		for (String projectName : projectNameList) {
+			if (ProjectManager.getInstance().canLoadProject(projectName)) {
+				loadableProject = StorageHandler.getInstance().loadProject(projectName);
+				break;
+			}
+		}
+		return loadableProject;
+	}
+
 	private static String searchForNonExistingSoundTitle(String title, int nextNumber) {
 		// search for sounds with the same title
 		String newTitle;
@@ -368,4 +384,5 @@ public class Utils {
 		}
 		return newTitle;
 	}
+
 }
