@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -91,11 +92,14 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 			solo.clickOnText(settingsText);
 			solo.clickOnText(prefMsBricks);
 			solo.goBack();
-			solo.clickOnText(solo.getString(R.string.current_project_button));
+			solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+			UiTestUtils.clearAllUtilTestProjects();
 			UiTestUtils.createEmptyProject();
 			solo.sleep(200);
+			solo.clickOnText(solo.getString(R.string.current_project_button));
+			solo.sleep(100);
 			solo.waitForActivity(ProjectActivity.class.getSimpleName());
-			solo.clickOnText("cat");
+			solo.clickInList(1);
 		}
 
 		int categoryStringId = 0;
