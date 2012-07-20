@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -32,6 +32,21 @@
         android:text="@string/brick_note" >
     </TextView>
 
+    <TextView
+        android:id="@+id/brick_note_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dip"
+        android:background="@color/white"
+        android:gravity="right"
+        android:minHeight="30dip"
+        android:minWidth="200dip"
+        android:paddingRight="5dip"
+        android:text=""
+        android:textSize="20dip" >
+    </TextView>
+
     <EditText
         android:id="@+id/brick_note_edit_text"
         android:layout_width="match_parent"
@@ -39,6 +54,7 @@
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:visibility="gone"
         android:minLines="1"
         android:scrollbars="vertical" >
     </EditText>

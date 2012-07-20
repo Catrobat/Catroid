@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -72,8 +73,13 @@ public class NoteBrick implements Brick {
 
 		view = View.inflate(context, R.layout.brick_note, null);
 
+		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
 		editText.setText(note);
+
+		textHolder.setVisibility(View.GONE);
+		editText.setVisibility(View.VISIBLE);
+
 		editText.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
