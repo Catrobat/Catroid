@@ -49,7 +49,6 @@ public class MockGalleryActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-
 		super.onDestroy();
 	}
 }

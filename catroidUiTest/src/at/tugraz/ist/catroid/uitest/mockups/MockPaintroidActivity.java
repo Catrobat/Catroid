@@ -57,7 +57,6 @@ public class MockPaintroidActivity extends Activity {
 		} else {
 			sendBundleBackToCatroidAndFinish();
 		}
-
 	}
 
 	public void sendBundleBackToCatroidAndFinish() {
@@ -73,5 +72,4 @@ public class MockPaintroidActivity extends Activity {
 		setResult(RESULT_OK, intent);
 		finish();
 	}
-
 }

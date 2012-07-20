@@ -46,14 +46,15 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationTestCase2<StageActivity> {
+	private static final int SCREEN_WIDTH = 480;
+	private static final int SCREEN_HEIGHT = 800;
+
 	private Solo solo;
 	private Project projectWhenBrick;
 	Sprite yellowSprite;
 	Sprite greenSprite;
 	WhenScript yellowWhenScript;
 	BroadcastScript greenBroadcastScript;
-	private final int screenWidth = 480;
-	private final int screenHeight = 800;
 	String broadcastMessage = "broadcastMessage";
 
 	public SingleExecutionThreadWhenBrickTest() {
@@ -69,56 +70,49 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testWaitBrickWhenTapped() {
-
-		solo.waitForActivity("StageActivity");
-		solo.sleep(2000);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(500);
 		for (int i = 1; i <= 10; ++i) {
-			solo.sleep(1000);
+			solo.sleep(100);
 			assertEquals("Wrong executionBrickIndex.", 0, yellowWhenScript.getExecutingBrickIndex());
 			assertEquals("Costume has wrong AlphaValue.", (float) 1.0, yellowSprite.costume.getAlphaValue());
-			solo.clickOnScreen((screenWidth / 2), (screenHeight / 2));
+			solo.clickOnScreen((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2));
 		}
-		solo.sleep(1000);
+
+		solo.sleep(100);
 		assertEquals("Costume has wrong AlphaValue.", (float) 1.0, yellowSprite.costume.getAlphaValue());
 		assertEquals("Wrong executionBrickIndex.", 0, yellowWhenScript.getExecutingBrickIndex());
-		solo.sleep(3000);
+		solo.sleep(2000);
 		assertEquals("Costume has wrong AlphaValue.", (float) 0.5, yellowSprite.costume.getAlphaValue());
 		assertEquals("Wrong executionBrickIndex.", 1, yellowWhenScript.getExecutingBrickIndex());
-
 	}
 
 	public void testWaitBrickBroadcast() {
-
-		solo.waitForActivity("StageActivity");
-		solo.sleep(2000);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(500);
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(1000);
 			assertEquals("Wrong executionBrickIndex.", 0, greenBroadcastScript.getExecutingBrickIndex());
 			assertEquals("Costume has wrong AlphaValue.", (float) 1.0, greenSprite.costume.getAlphaValue());
-			solo.clickOnScreen((screenWidth / 2) + 100, (screenHeight / 2));
+			solo.clickOnScreen((SCREEN_WIDTH / 2) + 100, (SCREEN_HEIGHT / 2));
 		}
 		solo.sleep(1000);
 		assertEquals("Costume has wrong AlphaValue.", (float) 1.0, greenSprite.costume.getAlphaValue());
 		assertEquals("Wrong executionBrickIndex.", 0, greenBroadcastScript.getExecutingBrickIndex());
-		solo.sleep(3000);
+		solo.sleep(2000);
 		assertEquals("Costume has wrong AlphaValue.", (float) 0, greenSprite.costume.getAlphaValue());
 		assertEquals("Wrong executionBrickIndex.", 1, greenBroadcastScript.getExecutingBrickIndex());
 	}
 
 	private void createProjectWhenBrick() {
-		Values.SCREEN_HEIGHT = screenHeight;
-		Values.SCREEN_WIDTH = screenWidth;
+		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		Values.SCREEN_WIDTH = SCREEN_WIDTH;
 
 		projectWhenBrick = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
