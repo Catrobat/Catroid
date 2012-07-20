@@ -486,7 +486,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
-		solo.goBack();
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		assertEquals("rename to Mixed Case was not successfull", ProjectManager.getInstance().getCurrentProject()
@@ -616,7 +615,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.close));
-		solo.goBack();
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No or wrong error message shown",
