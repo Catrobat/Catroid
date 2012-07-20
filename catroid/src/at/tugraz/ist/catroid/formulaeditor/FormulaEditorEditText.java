@@ -48,6 +48,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private Spannable highlightSpan = null;
 	private FormulaEditorDialog formulaEditorDialog = null;
 	private boolean ignoreNextUpdate = false;
+	private boolean hasChanges = false;
 
 	//FormulaElement selectedElement;
 
@@ -84,6 +85,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public void setFieldActive(String formulaAsText) {
 		this.setEnabled(true);
 		this.setText(formulaAsText);
+		super.setSelection(formulaAsText.length());
 		updateSelectionIndices();
 
 	}
@@ -166,7 +168,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		editMode = true;
 
 		currentlySelectedElement = getText().subSequence(selectionStartIndex, selectionEndIndex).toString();
-		Log.i("info", "FEEditText: check selected Type " + currentlySelectedElementType);
+		Log.i("info", "FEEditText: check selected Type ");
 		checkAndSetSelectedType();
 		if (currentlySelectedElementType == FUNCTION) {
 			extendSelectionForBracketFromBegin();
@@ -225,7 +227,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		while (selectionStartIndex > 0) {
-			if ((text.charAt(selectionStartIndex - 1) == ' ' || text.charAt(selectionStartIndex - 1) == '(')) {
+			//			if ((text.charAt(selectionStartIndex - 1) == ' ' || text.charAt(selectionStartIndex - 1) == '(')) {
+			//				break;
+			//			}
+			Log.i("info", "CHAR IS: " + text.charAt(selectionStartIndex - 1));
+			if ((text.charAt(selectionStartIndex - 1) < 97) || (text.charAt(selectionStartIndex - 1) > 123)) {
 				break;
 			}
 			selectionStartIndex--;
@@ -263,6 +269,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
 		highlightSpan.removeSpan(COLOR_EDITING);
 
+		if (selectionStartIndex < 0) {
+			selectionStartIndex = 0;
+		}
+
 		highlightSpan.setSpan(COLOR_HIGHLIGHT, selectionStartIndex, selectionEndIndex,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -283,6 +293,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void checkAndModifyKeyInput(CatKeyEvent catKey) {
+		hasChanges = true;
 		String newElement = "" + catKey.getDisplayLabelString();
 		Log.i("info", "Key pressed: " + catKey.getDisplayLabelString());
 		Log.i("info",
@@ -300,72 +311,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			appendToTextFieldAtCurrentPosition(newElement);
 		}
 
-		//		if (currentlySelectedElementType == NUMBER) {
-		//			if (newElementIsOperator) { //|| newElementIsFunction) { TODO
-		//				replaceValueBySubElement(newElement);
-		//			} else if (newElementIsNumber) {
-		//				replaceValueByValue(newElement);
-		//			} else {
-		//				specialKeyPressOnValue(catKey);
-		//			}
-		//		} else if ((currentlySelectedElement.getType() == FormulaElement.ELEMENT_OP_OR_FCT)) {
-		//			if (newElementIsOperator) {//|| newElementIsFunction) { TODO
-		//				replaceSubElementBySubElement(newElement);
-		//			} else if (newElementIsNumber) {
-		//				replaceSubElementByValue(newElement);
-		//			} else {
-		//				specialKeyPressOnSubElement(catKey);
-		//			}
-		//		} else {
-		//			//PANIC!
-		//			//replaceValueByValue(newElement);
-		//		}
-
 	}
-
-	//	public void specialKeyPressOnValue(CatKeyEvent catKey) {
-	//
-	//		editMode = false;
-	//		Editable text = getText();
-	//
-	//		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-	//
-	//			if (selectionEndIndex > selectionStartIndex + 1) {
-	//				text.replace(selectionEndIndex - 1, selectionEndIndex, "");
-	//				currentlySelectedElement.deleteLastCharacterInValue();
-	//				setText(text);
-	//				selectionEndIndex--;
-	//
-	//			} else {
-	//				currentlySelectedElement.replaceValue("0");
-	//				text.replace(selectionEndIndex - 1, selectionEndIndex, "0");
-	//				setText(text);
-	//			}
-	//
-	//		} else if (catKey.getKeyCode() == KeyEvent.KEYCODE_PERIOD || catKey.getKeyCode() == KeyEvent.KEYCODE_COMMA) {
-	//			String sign = "."; //TODO Do we want representation for , as comma?
-	//
-	//			if (currentlySelectedElement.addCommaIfPossible()) {
-	//
-	//				text.insert(selectionEndIndex, "" + sign);
-	//				setText(text);
-	//				selectionEndIndex++;
-	//			}
-	//		}
-	//
-	//		highlightSelectionCurrentlyEditing();
-	//	}
-	//
-	//	public void specialKeyPressOnSubElement(CatKeyEvent catKey) {
-	//		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-	//			String value = currentlySelectedElement.getParent().getFirstChildValue();
-	//			replaceSubElementByValue(value);
-	//			selectionEndIndex = selectionStartIndex + value.length();
-	//			highlightSelection();
-	//			editMode = true;
-	//
-	//		}
-	//	}
 
 	public void deleteOneCharAtCurrentPosition() {
 		Editable text = getText();
@@ -379,13 +325,16 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			selectionEndIndex = selectionStartIndex;
 			editMode = false;
 		} else {
-			//			Log.i("info", "Sel end: " + text.charAt(selectionEndIndex - 1) + text.charAt(selectionStartIndex - 1)); throughs exception if cursor is at beginning of formular and you press DEL button
 			if (text.charAt(selectionEndIndex - 1) == ',') {
+				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				doSelectionAndHighlighting();
 				return;
 			} else if (text.charAt(selectionEndIndex - 1) == ')') {
+				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
 				doSelectionAndHighlighting();
 				return;
 			} else if (text.charAt(selectionEndIndex - 1) == '(') {
+				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
 				doSelectionAndHighlighting();
 				return;
 			}
@@ -423,17 +372,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		//TODO: ensure only the inputtype specified in type is displayed on keyboard
 		//	if ((type & INPUT_TYPE_NUMBERS) > 0) ...we allow input of values etc. 
 	}
-
-	//	public Formula setNewFormulaAndReturnOldFormula(Formula formula) {
-	//		Formula old = this.formula;
-	//		this.formula = formula;
-	//		this.setEnabled(true);
-	//		String formulaAsText = formula.getEditTextRepresentation();
-	//		formulaAsText = formulaAsText.substring(0, formulaAsText.length() - 1);
-	//		this.setText(formulaAsText);
-	//		updateSelectionIndices();
-	//		return old;
-	//	}
 
 	public boolean getEditMode() {
 		return editMode;
@@ -473,6 +411,14 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			}
 		}
 
+	}
+
+	public boolean hasChanges() {
+		return hasChanges;
+	}
+
+	public void formulaSaved() {
+		hasChanges = false;
 	}
 
 	@Override

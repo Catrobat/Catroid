@@ -329,13 +329,16 @@
     
     <!-- Formula Editor Strings -->
     <string name="dialog_formula_editor_title">Formula Editor</string>
+    <string name="formula_editor_save_first">Accept or discard changes first!</string>
+    <string name="formula_editor_changes_saved">Changes saved!</string>
+    <string name="formula_editor_changes_discarded">Changes discarded!</string>
     
     <!-- Formula Strings -->
-     <string name="this_is_a_test">DAT!</string>
      <string name="formula_element_calculate">Calculate:</string>
      <string name="operator_plus">+</string>
-     <string name="formula_element_number">Value: </string>
+     <string name="formula_element_number">Value:</string>
      <string name="formula_nothing_selected">Please select a brick element to display! </string>
+     
     
     <!-- Num Pad Strings -->
     <string name="ime_name">CatKeyboard</string>
