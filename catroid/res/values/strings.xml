@@ -115,7 +115,7 @@
     <!-- My Projects activity -->
     <string name="last_used">Last used:</string>
     <string name="description">Description:</string>
-    <string name="set_description">set Description</string>
+    <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
 
     <!-- Soundrecorder activity -->
