@@ -50,7 +50,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		this.sprite = sprite;
 		this.timesToRepeat = timesToRepeat;
 
-		timesToRepeatFormula = new Formula(Integer.toString(timesToRepeat));
+		timesToRepeatFormula = new Formula(Integer.toString(timesToRepeat), R.id.brick_repeat_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -80,7 +80,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		}
 
 		if (timesToRepeatFormula == null) {
-			timesToRepeatFormula = new Formula(Double.toString(timesToRepeat));
+			timesToRepeatFormula = new Formula(Double.toString(timesToRepeat), R.id.brick_repeat_edit_text);
 		}
 
 		View view = View.inflate(context, R.layout.brick_repeat, null);
@@ -88,7 +88,8 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 		//		edit.setText(timesToRepeat + "");
-		edit.setText(timesToRepeatFormula.getEditTextRepresentation());
+		//		edit.setText(timesToRepeatFormula.getEditTextRepresentation());
+		timesToRepeatFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -104,8 +105,19 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		formulaEditor.setInputFocusAndFormula(timesToRepeatFormula);
@@ -139,26 +151,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		//
 		//		finishedDialog.show();
 
-	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
 	}
 
 }

@@ -22,11 +22,9 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -35,12 +33,12 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
@@ -59,10 +57,20 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	private transient SeekBar freqBar;
 	private transient EditIntegerDialog dialogFreq;
 
+	private Formula hertzFormula;
+	private Formula durationInMsFormula;
+
+	private transient Brick instance = null;
+	private transient FormulaEditorDialog formulaEditor;
+	public transient boolean editorActive = false;
+
 	public NXTPlayToneBrick(Sprite sprite, int hertz, int duration) {
 		this.sprite = sprite;
 		this.hertz = hertz;
 		this.durationInMs = duration;
+
+		hertzFormula = new Formula(Integer.toString(hertz), R.id.nxt_tone_freq_edit_text);
+		durationInMsFormula = new Formula(Integer.toString(duration), R.id.nxt_tone_duration_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -91,11 +99,25 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+
+		if (instance == null) {
+			instance = this;
+		}
+
+		if (hertzFormula == null) {
+			hertzFormula = new Formula(Integer.toString(hertz), R.id.nxt_tone_freq_edit_text);
+		}
+
+		if (durationInMsFormula == null) {
+			durationInMsFormula = new Formula(Integer.toString(durationInMs), R.id.nxt_tone_duration_edit_text);
+		}
+
 		View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
 		TextView textDuration = (TextView) brickView.findViewById(R.id.nxt_tone_duration_text_view);
 		EditText editDuration = (EditText) brickView.findViewById(R.id.nxt_tone_duration_edit_text);
-		editDuration.setText(String.valueOf(durationInMs / 1000.0));
+		//		editDuration.setText(String.valueOf(durationInMs / 1000.0));
+		durationInMsFormula.refreshTextField(brickView);
 		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
 		//				MAX_DURATION);
 		//		dialogDuration.setOnDismissListener(this);
@@ -109,7 +131,8 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 		TextView textFreq = (TextView) brickView.findViewById(R.id.nxt_tone_freq_text_view);
 		editFreq = (EditText) brickView.findViewById(R.id.nxt_tone_freq_edit_text);
-		editFreq.setText(String.valueOf(hertz / 100));
+		//		editFreq.setText(String.valueOf(hertz / 100));
+		hertzFormula.refreshTextField(brickView);
 		//		dialogFreq = new EditIntegerDialog(context, editFreq, frequency, true, MIN_FREQ, MAX_FREQ);
 		//		dialogFreq.setOnDismissListener(this);
 		//		dialogFreq.setOnCancelListener((OnCancelListener) context);
@@ -203,59 +226,83 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	public void onClick(final View view) {
 		final Context context = view.getContext();
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		if (view.getId() == R.id.nxt_tone_duration_edit_text) {
-			input.setText(String.valueOf(durationInMs / 1000.0));
-			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		} else if (view.getId() == R.id.nxt_tone_freq_edit_text) {
-			input.setText(String.valueOf(hertz / 100));
-			input.setInputType(InputType.TYPE_CLASS_NUMBER);
-		}
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					if (view.getId() == R.id.nxt_tone_duration_edit_text) {
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
 
-						int newDuration = (int) (Double.parseDouble(input.getText().toString()) * 1000);
-						if (newDuration > MAX_DURATION) {
-							newDuration = MAX_DURATION;
-							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
-						} else if (newDuration < MIN_DURATION) {
-							newDuration = MIN_DURATION;
-							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
-						}
-						durationInMs = newDuration;
-					} else if (view.getId() == R.id.nxt_tone_freq_edit_text) {
-						int newFrequency = Integer.parseInt(input.getText().toString()) * 100;
-						if (newFrequency > MAX_FREQ_IN_HERTZ) {
-							newFrequency = MAX_FREQ_IN_HERTZ;
-							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
-						} else if (newFrequency < MIN_FREQ_IN_HERTZ) {
-							newFrequency = MIN_FREQ_IN_HERTZ;
-							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
-						}
-						hertz = newFrequency;
-					}
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
 				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+			});
+			formulaEditor.show();
+		}
 
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		switch (view.getId()) {
+			case R.id.nxt_tone_freq_edit_text:
+				formulaEditor.setInputFocusAndFormula(hertzFormula);
+				break;
+			case R.id.nxt_tone_duration_edit_text:
+				formulaEditor.setInputFocusAndFormula(durationInMsFormula);
+				break;
+		}
 
-		finishedDialog.show();
+		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		//		final EditText input = new EditText(context);
+		//		if (view.getId() == R.id.nxt_tone_duration_edit_text) {
+		//			input.setText(String.valueOf(durationInMs / 1000.0));
+		//			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		//		} else if (view.getId() == R.id.nxt_tone_freq_edit_text) {
+		//			input.setText(String.valueOf(hertz / 100));
+		//			input.setInputType(InputType.TYPE_CLASS_NUMBER);
+		//		}
+		//		input.setSelectAllOnFocus(true);
+		//		dialog.setView(input);
+		//		dialog.setOnCancelListener((OnCancelListener) context);
+		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				try {
+		//					if (view.getId() == R.id.nxt_tone_duration_edit_text) {
+		//
+		//						int newDuration = (int) (Double.parseDouble(input.getText().toString()) * 1000);
+		//						if (newDuration > MAX_DURATION) {
+		//							newDuration = MAX_DURATION;
+		//							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
+		//						} else if (newDuration < MIN_DURATION) {
+		//							newDuration = MIN_DURATION;
+		//							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
+		//						}
+		//						durationInMs = newDuration;
+		//					} else if (view.getId() == R.id.nxt_tone_freq_edit_text) {
+		//						int newFrequency = Integer.parseInt(input.getText().toString()) * 100;
+		//						if (newFrequency > MAX_FREQ_IN_HERTZ) {
+		//							newFrequency = MAX_FREQ_IN_HERTZ;
+		//							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
+		//						} else if (newFrequency < MIN_FREQ_IN_HERTZ) {
+		//							newFrequency = MIN_FREQ_IN_HERTZ;
+		//							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
+		//						}
+		//						hertz = newFrequency;
+		//					}
+		//				} catch (NumberFormatException exception) {
+		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		//				}
+		//				dialog.cancel();
+		//			}
+		//		});
+		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				dialog.cancel();
+		//			}
+		//		});
+		//
+		//		AlertDialog finishedDialog = dialog.create();
+		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		//
+		//		finishedDialog.show();
 	}
 
 }

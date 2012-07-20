@@ -55,7 +55,7 @@ public class SetXBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.xPosition = xPosition;
 
-		xPositionFormula = new Formula(Integer.toString(xPosition));
+		xPositionFormula = new Formula(Integer.toString(xPosition), R.id.brick_set_x_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -80,7 +80,7 @@ public class SetXBrick implements Brick, OnClickListener {
 		}
 
 		if (xPositionFormula == null) {
-			xPositionFormula = new Formula(Integer.toString(xPosition));
+			xPositionFormula = new Formula(Integer.toString(xPosition), R.id.brick_set_x_edit_text);
 		}
 
 		view = View.inflate(context, R.layout.brick_set_x, null);
@@ -88,7 +88,9 @@ public class SetXBrick implements Brick, OnClickListener {
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_x_edit_text);
 		//		editX.setText(String.valueOf(xPosition));
-		editX.setText(xPositionFormula.getEditTextRepresentation());
+		//		editX.setText(xPositionFormula.getEditTextRepresentation());
+		xPositionFormula.refreshTextField(view);
+
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
@@ -108,8 +110,19 @@ public class SetXBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		formulaEditor.setInputFocusAndFormula(xPositionFormula);
@@ -144,25 +157,4 @@ public class SetXBrick implements Brick, OnClickListener {
 		//		finishedDialog.show();
 
 	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
-	}
-
 }

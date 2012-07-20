@@ -22,11 +22,9 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -39,12 +37,12 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -67,6 +65,12 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 	private transient SeekBar speedBar;
 	private transient EditIntegerDialog dialogSpeed;
 
+	private Formula speedFormula;
+
+	private transient Brick instance = null;
+	private transient FormulaEditorDialog formulaEditor;
+	public transient boolean editorActive = false;
+
 	protected Object readResolve() {
 		if (motor != null) {
 			motorEnum = Motor.valueOf(motor);
@@ -79,6 +83,8 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		this.speed = speed;
+
+		speedFormula = new Formula(Integer.toString(speed), R.id.motor_action_speed_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -115,11 +121,20 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
+		if (instance == null) {
+			instance = this;
+		}
+
+		if (speedFormula == null) {
+			speedFormula = new Formula(Integer.toString(speed), R.id.motor_action_speed_edit_text);
+		}
+
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 
 		TextView textSpeed = (TextView) brickView.findViewById(R.id.motor_action_speed_text_view);
 		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
-		editSpeed.setText(String.valueOf(speed));
+		//		editSpeed.setText(String.valueOf(speed));
+		speedFormula.refreshTextField(brickView);
 
 		textSpeed.setVisibility(View.GONE);
 		editSpeed.setVisibility(View.VISIBLE);
@@ -226,42 +241,59 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(speed));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					int newSpeed = Integer.parseInt(input.getText().toString());
-					if (newSpeed > MAX_SPEED) {
-						newSpeed = MAX_SPEED;
-						Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
-					} else if (newSpeed < MIN_SPEED) {
-						newSpeed = MIN_SPEED;
-						Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
-					}
-					speed = newSpeed;
-					speedToSeekBarVal();
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
 				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+			});
+			formulaEditor.show();
+		}
 
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		formulaEditor.setInputFocusAndFormula(speedFormula);
 
-		finishedDialog.show();
+		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		//		final EditText input = new EditText(context);
+		//		input.setText(String.valueOf(speed));
+		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		//		input.setSelectAllOnFocus(true);
+		//		dialog.setView(input);
+		//		dialog.setOnCancelListener((OnCancelListener) context);
+		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				try {
+		//					int newSpeed = Integer.parseInt(input.getText().toString());
+		//					if (newSpeed > MAX_SPEED) {
+		//						newSpeed = MAX_SPEED;
+		//						Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
+		//					} else if (newSpeed < MIN_SPEED) {
+		//						newSpeed = MIN_SPEED;
+		//						Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
+		//					}
+		//					speed = newSpeed;
+		//					speedToSeekBarVal();
+		//				} catch (NumberFormatException exception) {
+		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		//				}
+		//				dialog.cancel();
+		//			}
+		//		});
+		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				dialog.cancel();
+		//			}
+		//		});
+		//
+		//		AlertDialog finishedDialog = dialog.create();
+		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		//
+		//		finishedDialog.show();
 
 	}
 

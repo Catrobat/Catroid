@@ -55,7 +55,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.degrees = degrees;
 
-		degreesFormula = new Formula(Double.toString(degrees));
+		degreesFormula = new Formula(Double.toString(degrees), R.id.brick_turn_right_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -79,7 +79,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		}
 
 		if (degreesFormula == null) {
-			degreesFormula = new Formula(Double.toString(degrees));
+			degreesFormula = new Formula(Double.toString(degrees), R.id.brick_turn_right_edit_text);
 		}
 
 		view = View.inflate(context, R.layout.brick_turn_right, null);
@@ -87,7 +87,8 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
 		//		editDegrees.setText(String.valueOf(degrees));
-		editDegrees.setText(degreesFormula.getEditTextRepresentation());
+		//		editDegrees.setText(degreesFormula.getEditTextRepresentation());
+		degreesFormula.refreshTextField(view);
 
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);
@@ -108,8 +109,19 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		formulaEditor.setInputFocusAndFormula(degreesFormula);
@@ -143,25 +155,4 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		//		finishedDialog.show();
 
 	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
-	}
-
 }

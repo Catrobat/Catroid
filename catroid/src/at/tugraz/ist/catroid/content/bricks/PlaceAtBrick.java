@@ -58,8 +58,8 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 
-		xPositionFormula = new Formula(Integer.toString(xPosition));
-		yPositionFormula = new Formula(Integer.toString(yPosition));
+		xPositionFormula = new Formula(Integer.toString(xPosition), R.id.brick_place_at_x_edit_text);
+		yPositionFormula = new Formula(Integer.toString(yPosition), R.id.brick_place_at_y_edit_text);
 	}
 
 	public int getRequiredResources() {
@@ -85,17 +85,19 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 		if (xPositionFormula == null) {
-			xPositionFormula = new Formula(Integer.toString(xPosition));
+			xPositionFormula = new Formula(Integer.toString(xPosition), R.id.brick_place_at_x_edit_text);
 		}
 		if (yPositionFormula == null) {
-			yPositionFormula = new Formula(Integer.toString(yPosition));
+			yPositionFormula = new Formula(Integer.toString(yPosition), R.id.brick_place_at_y_edit_text);
 		}
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_x_edit_text);
 		//		editX.setText(String.valueOf(xPosition));
-		editX.setText(xPositionFormula.getEditTextRepresentation());
+		//		editX.setText(xPositionFormula.getEditTextRepresentation());
+		xPositionFormula.refreshTextField(view);
+
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
@@ -103,7 +105,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_y_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_y_edit_text);
 		//		editY.setText(String.valueOf(yPosition));
-		editY.setText(yPositionFormula.getEditTextRepresentation());
+		//		editY.setText(yPositionFormula.getEditTextRepresentation());
+		yPositionFormula.refreshTextField(view);
+
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
@@ -123,8 +127,19 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	public void onClick(final View view) {
 		final Context context = view.getContext();
 
-		if (!isEditorActive(context)) {
-			return;
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
+				}
+			});
+			formulaEditor.show();
 		}
 
 		switch (view.getId()) {
@@ -173,25 +188,5 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		//
 		//		finishedDialog.show();
 
-	}
-
-	public boolean isEditorActive(Context context) {
-
-		if (!editorActive) {
-			editorActive = true;
-			formulaEditor = new FormulaEditorDialog(context, instance);
-			formulaEditor.setOnDismissListener(new OnDismissListener() {
-				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
-					formulaEditor.dismiss();
-
-					editorActive = false;
-				}
-			});
-			formulaEditor.show();
-			return false;
-		}
-		return true;
 	}
 }
