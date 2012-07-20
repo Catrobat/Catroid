@@ -58,7 +58,7 @@
         android:layout_marginRight="2dp"
         android:gravity="top"
         android:inputType="textMultiLine"
-        android:lines="8"
+        android:lines="7"
         android:scrollbars="vertical"
         android:singleLine="false"
         android:hint="@string/formula_nothing_selected"

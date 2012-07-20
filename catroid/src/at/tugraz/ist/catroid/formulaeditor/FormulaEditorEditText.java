@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
-import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class FormulaEditorEditText extends EditText implements OnClickListener, OnTouchListener {
 
@@ -33,20 +32,15 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public static final int FUNCTION = 3;
 	public static final int BRACKET_CLOSE = 4;
 
-	private static final String ELEMENT_SEPERATOR = " ";
 	public CatKeyboardView catKeyboardView;
 	private int currentlySelectedElementNumber = 0;
-	private int previouslySelectedElementNumber = 0;
 	private int selectionStartIndex = 0;
 	private int selectionEndIndex = 0;
-	private int previousSelectionStartIndex = 0;
-	private int previousSelectionEndIndex = 0;
 
 	private String currentlySelectedElement = null;
 	private int currentlySelectedElementType = 0;
 	private boolean editMode = false;
 	private Spannable highlightSpan = null;
-	private FormulaEditorDialog formulaEditorDialog = null;
 	private boolean ignoreNextUpdate = false;
 	private boolean hasChanges = false;
 
@@ -88,10 +82,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		super.setSelection(formulaAsText.length());
 		updateSelectionIndices();
 
-	}
-
-	public void setFormulaEditorDialog(FormulaEditorDialog dialog) {
-		formulaEditorDialog = dialog;
 	}
 
 	//TODO: On doubleclick the text selection widget pops up... found no way to kill it
@@ -158,9 +148,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		checkSelectedTextType();
-
-		previouslySelectedElementNumber = currentlySelectedElementNumber;
-
 		highlightSelection();
 
 	}
