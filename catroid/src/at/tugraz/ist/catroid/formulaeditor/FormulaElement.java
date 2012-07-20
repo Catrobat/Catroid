@@ -24,8 +24,6 @@ package at.tugraz.ist.catroid.formulaeditor;
 
 import java.io.Serializable;
 
-import android.util.Log;
-
 import com.badlogic.gdx.Gdx;
 
 public class FormulaElement implements Serializable {
@@ -97,7 +95,7 @@ public class FormulaElement implements Serializable {
 		FormulaElement result = null;
 		if (leftChild == null) {
 			if (position.i == 0) {
-				Log.i("info", "FE found: " + value);
+				//Log.i("info", "FE found: " + value);
 				return this;
 			} else {
 				position.i--;
@@ -269,7 +267,7 @@ public class FormulaElement implements Serializable {
 			}
 		} else if (type == ELEMENT_SENSOR) {
 			if (value.equals("X_Accelerometer")) {
-				Log.i("info", "Acc-X: " + Gdx.input.getAccelerometerX());
+				//Log.i("info", "Acc-X: " + Gdx.input.getAccelerometerX());
 				return Double.valueOf(Gdx.input.getAccelerometerX());
 			}
 			if (value.equals("Y_Accelerometer")) {
@@ -380,7 +378,7 @@ public class FormulaElement implements Serializable {
 	//-------------------------------------------------------------------
 
 	public FormulaElement addTopElement(String newParentOperator, FormulaElement newRightChild) {
-		Log.i("info", "replaceWithTopElement");
+		//Log.i("info", "replaceWithTopElement");
 
 		FormulaElement newParent = new FormulaElement(ELEMENT_OPERATOR, newParentOperator, null, this, newRightChild);
 
@@ -388,7 +386,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
-		Log.i("info", "replaceWithSubElement");
+		//Log.i("info", "replaceWithSubElement");
 
 		FormulaElement cloneThis = new FormulaElement(ELEMENT_OPERATOR, operator, this.getParent(), this, rightChild);
 
@@ -396,13 +394,6 @@ public class FormulaElement implements Serializable {
 	}
 
 	public void replaceWithSubElement(String leftChild, String operator, String rightChild) {
-		if (getParent() == null) {
-			Log.i("info", "WARNING! ROOT ELEMENT BEING REPLACES");
-		}
-
-		if (leftChild != null) {
-			Log.i("info", "Delete all previous children and replace with new ones: ");
-		}
 
 		this.value = operator;
 		this.type = ELEMENT_OPERATOR;
@@ -412,7 +403,6 @@ public class FormulaElement implements Serializable {
 	}
 
 	public FormulaElement makeMeALeaf(String value) {
-		Log.i("info", "Delete all previous children and this becomes a leaf");
 
 		this.value = value;
 		this.leftChild = null;

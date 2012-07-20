@@ -17,7 +17,8 @@ import android.widget.EditText;
 
 public class FormulaEditorEditText extends EditText implements OnClickListener, OnTouchListener {
 
-	private static final BackgroundColorSpan COLOR_EDITING = new BackgroundColorSpan(0xFF00FFFF);
+	//	private static final BackgroundColorSpan COLOR_EDITING = new BackgroundColorSpan(0xFF00FFFF);
+	private static final BackgroundColorSpan COLOR_ERROR = new BackgroundColorSpan(0xFFF00000);
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
 	private static final BackgroundColorSpan COLOR_NORMAL = new BackgroundColorSpan(0xFFFFFFFF);
 
@@ -41,6 +42,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private int currentlySelectedElementType = 0;
 	private boolean editMode = false;
 	private Spannable highlightSpan = null;
+	private Spannable errorSpan = null;
 	private boolean ignoreNextUpdate = false;
 	private boolean hasChanges = false;
 
@@ -181,11 +183,15 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void extendSelectionForBracketFromBegin() {
 		int bracketCount = 1;
+
+		if (selectionEndIndex + 1 >= getText().length()) {
+			return;
+		}
 		String text = getText().toString().substring(selectionEndIndex + 1);
 		Log.i("info", "extendSelection for function " + text + " ");
 		int textLen = text.length();
 		int i = 0;
-		while (i <= textLen && bracketCount > 0) {
+		while (i < textLen && bracketCount > 0) {
 			if (text.charAt(i) == '(') {
 				bracketCount++;
 			} else if (text.charAt(i) == ')') {
@@ -290,7 +296,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public void highlightSelection() {
 		highlightSpan = this.getText();
 		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
-		highlightSpan.removeSpan(COLOR_EDITING);
+		//highlightSpan.removeSpan(COLOR_EDITING);
 
 		if (selectionStartIndex < 0) {
 			selectionStartIndex = 0;
@@ -306,14 +312,31 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public void clearSelectionHighlighting() {
 		highlightSpan = this.getText();
 		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
-		highlightSpan.removeSpan(COLOR_EDITING);
+		//highlightSpan.removeSpan(COLOR_EDITING);
 	}
 
-	public void highlightSelectionCurrentlyEditing() {
-		Spannable str = this.getText();
+	public void highlightParseError(int firstError) {
 
-		str.setSpan(COLOR_EDITING, selectionStartIndex, selectionEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		clearSelectionHighlighting();
+
+		errorSpan = this.getText();
+		errorSpan.removeSpan(COLOR_ERROR);
+
+		if (errorSpan.length() <= firstError) {
+			firstError--;
+		}
+
+		selectionStartIndex = firstError;
+		selectionEndIndex = firstError + 1;
+
+		errorSpan.setSpan(COLOR_ERROR, firstError, firstError + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
+
+	//	public void highlightSelectionCurrentlyEditing() {
+	//		Spannable str = this.getText();
+	//
+	//		str.setSpan(COLOR_EDITING, selectionStartIndex, selectionEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	//	}
 
 	public void checkAndModifyKeyInput(CatKeyEvent catKey) {
 		hasChanges = true;

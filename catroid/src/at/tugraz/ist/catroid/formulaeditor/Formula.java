@@ -24,7 +24,6 @@ package at.tugraz.ist.catroid.formulaeditor;
 
 import java.io.Serializable;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -53,7 +52,7 @@ public class Formula implements Serializable {
 	}
 
 	public FormulaElement findItemByPosition(int position) {
-		Log.i("info", "F: Find item by pos " + position);
+		//Log.i("info", "F: Find item by pos " + position);
 		if (position == 0) {
 			return root;
 		}
@@ -63,7 +62,7 @@ public class Formula implements Serializable {
 
 	public String updateFormula(String keyboardInput, FormulaElement element) {
 		String oldValue = element.getValue();
-		Log.i("info", "update TO FORMULA " + oldValue);
+		//Log.i("info", "update TO FORMULA " + oldValue);
 
 		element.replaceWithSubElement(oldValue, keyboardInput, "0");
 
@@ -72,7 +71,7 @@ public class Formula implements Serializable {
 
 	public Double interpret() {
 
-		Log.i("info", root.getTreeString());
+		//Log.i("info", root.getTreeString());
 		return root.interpretRecursive();
 	}
 

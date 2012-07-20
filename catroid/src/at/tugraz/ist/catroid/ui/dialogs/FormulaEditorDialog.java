@@ -27,7 +27,6 @@ import java.util.Locale;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -185,22 +184,28 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		try {
 			FormulaElement parserFormulaElement = parser.formula();
-			formula.setRoot(parserFormulaElement);
+
 			Log.i("info", "formula: " + formula.getEditTextRepresentation());
 			Log.i("info", "getParserErrorCount: " + parser.getParserErrorCount());
 			if (parser.getParserErrorMessages() != null) {
+				Toast.makeText(context, R.string.formula_editor_parse_fail, Toast.LENGTH_SHORT).show();
 				for (String err : parser.getParserErrorMessages()) {
-					Log.i("info", err);
+					String[] temp = err.substring(12).split(" ");
+					Log.i("info", "" + Integer.parseInt(temp[0]));
+					return Integer.parseInt(temp[0]);
 				}
-			}
-		} catch (RecognitionException e) {
-			e.printStackTrace();
-			Log.i("info", "index: " + e.index);
-			Log.i("info", "line: " + e.line);
-			Log.i("info", "charPositionInLine: " + e.charPositionInLine);
-			Log.i("info", "message: " + e.getMessage());
 
-			return e.index;
+			} else {
+				formula.setRoot(parserFormulaElement);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			//			Log.i("info", "index: " + e.index);
+			//			Log.i("info", "line: " + e.line);
+			//			Log.i("info", "charPositionInLine: " + e.charPositionInLine);
+			//			Log.i("info", "message: " + e.getMessage());
+			Toast.makeText(context, R.string.formula_editor_parse_fail, Toast.LENGTH_SHORT).show();
+			return -2;
 		}
 
 		return -1;
@@ -212,11 +217,19 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 			case R.id.formula_editor_ok_button:
 
 				String formulaToParse = textArea.getText().toString();
-				parseFormula(formulaToParse);
-				formula.refreshTextField(brickView);
-				textArea.formulaSaved();
-				//				Log.i("info", "Inteperetation of Formular:" + this.formula.interpret()); // like a boss
-				Toast.makeText(context, R.string.formula_editor_changes_saved, Toast.LENGTH_SHORT).show();
+				int err = parseFormula(formulaToParse);
+				if (err == -1) {
+					formula.refreshTextField(brickView);
+					textArea.formulaSaved();
+					//Log.i("info", "Inteperetation of Formular:" + this.formula.interpret());
+					Toast.makeText(context, R.string.formula_editor_changes_saved, Toast.LENGTH_SHORT).show();
+				} else if (err == -2) {
+					//Crashed it like a BOSS! 
+					return;
+				} else {
+					textArea.highlightParseError(err);
+				}
+
 				break;
 
 			case R.id.formula_editor_cancel_button:

@@ -332,12 +332,13 @@
     <string name="formula_editor_save_first">Accept or discard changes first!</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
+    <string name="formula_editor_parse_fail">Error in the input! Changes not saved.</string>
     
     <!-- Formula Strings -->
      <string name="formula_element_calculate">Calculate:</string>
      <string name="operator_plus">+</string>
      <string name="formula_element_number">Value:</string>
-     <string name="formula_nothing_selected">Please select a brick element to display! </string>
+     <string name="formula_nothing_selected">Define the brick´s input value</string>
      
     
     <!-- Num Pad Strings -->
