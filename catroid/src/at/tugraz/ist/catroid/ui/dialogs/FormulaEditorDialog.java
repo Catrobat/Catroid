@@ -39,7 +39,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
@@ -116,13 +116,13 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		setTitle(R.string.dialog_formula_editor_title);
 		setCanceledOnTouchOutside(true);
 
-		ImageButton okButton = (ImageButton) findViewById(R.id.formula_editor_ok_button);
+		Button okButton = (Button) findViewById(R.id.formula_editor_ok_button);
 		okButton.setOnClickListener(this);
 
-		ImageButton cancelButton = (ImageButton) findViewById(R.id.formula_editor_cancel_button);
+		Button cancelButton = (Button) findViewById(R.id.formula_editor_cancel_button);
 		cancelButton.setOnClickListener(this);
 
-		ImageButton backButton = (ImageButton) findViewById(R.id.formula_editor_back_button);
+		Button backButton = (Button) findViewById(R.id.formula_editor_back_button);
 		backButton.setOnClickListener(this);
 
 		//		FormulaEditorEditText rolf = (FormulaEditorEditText) findViewById(R.id.testy);

@@ -329,6 +329,9 @@
     
     <!-- Formula Editor Strings -->
     <string name="dialog_formula_editor_title">Formula Editor</string>
+    <string name="formula_editor_button_save">Save</string>
+    <string name="formula_editor_button_discard">Discard</string>
+    <string name="formula_editor_button_return">Return</string>
     <string name="formula_editor_save_first">Accept or discard changes first!</string>
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>

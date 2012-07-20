@@ -30,7 +30,7 @@
 	<LinearLayout
 	    android:id="@+id/formula_editor_brick_space"
 	    android:layout_width="match_parent"
-	    android:layout_height="68dp" />
+	    android:layout_height="wrap_content" />
 	
 	<!-- <ViewFlipper
         android:id="@+id/catflip"
@@ -77,29 +77,30 @@
 	    android:id="@+id/editor_button_bar"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content" 
-	    android:layout_above="@id/keyboardcat">
-
-	    <ImageButton
-	        android:id="@+id/formula_editor_ok_button"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/ok_button" />
+	    android:layout_above="@id/keyboardcat"
+	    style="@android:style/ButtonBar">
 	    
-	    <ImageButton
+        <Button
+            android:id="@+id/formula_editor_ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/formula_editor_button_save" />
+        
+        <Button
             android:id="@+id/formula_editor_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/cancel_button" 
-            android:layout_toRightOf="@id/formula_editor_ok_button"/>
-	    <ImageButton
-	        android:id="@+id/formula_editor_back_button"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/back_button" 
-	        android:layout_toRightOf="@id/formula_editor_cancel_button"/>
+            android:text="@string/formula_editor_button_discard" 
+            android:layout_toRightOf="@id/formula_editor_ok_button"/>
 
-
+        <Button
+            android:id="@+id/formula_editor_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/formula_editor_button_return" 
+            android:layout_toRightOf="@id/formula_editor_cancel_button"/>
 	</RelativeLayout>
+	
 	
 </RelativeLayout>
 
