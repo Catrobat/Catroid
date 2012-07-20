@@ -108,6 +108,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		clearSelectionHighlighting();
+
 		selectionStartIndex = getSelectionStart();
 		selectionEndIndex = getSelectionEnd();
 		setSelection(selectionStartIndex);
@@ -129,30 +130,32 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			return;
 		}
 
-		selectionEndIndex = currentInput.indexOf(ELEMENT_SEPERATOR, cursorPos);
-		if (selectionEndIndex == -1) {
-			selectionEndIndex = currentInput.length();
-		}
+		selectionStartIndex = cursorPos;
+		selectionEndIndex = cursorPos;
 
-		int tempIndex = 0;
-
-		while (tempIndex < selectionEndIndex) {
-			currentlySelectedElementNumber++;
-			selectionStartIndex = tempIndex;
-			tempIndex = currentInput.indexOf(ELEMENT_SEPERATOR, tempIndex);
-			if (tempIndex == -1) {
+		while (selectionStartIndex > 0) {
+			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionStartIndex - 1));
+			if ((currentInput.charAt(selectionStartIndex - 1) < 97)
+					|| (currentInput.charAt(selectionStartIndex - 1) > 123)) {
+				if ((currentInput.charAt(selectionStartIndex - 1) == '(')
+						|| (currentInput.charAt(selectionStartIndex - 1) == ',')) {
+					selectionStartIndex--;
+				}
 				break;
 			}
-			tempIndex++;
-		}
-		if (cursorPos == 0) {
-			selectionStartIndex = 0;
+			selectionStartIndex--;
 		}
 
-		//Log.i("info", "start index: " + selectionStartIndex);
-		//Log.i("info", "end index: " + selectionEndIndex);
-		//Log.i("info", "Selected element: " + currentlySelectedElementNumber);
-		//operatorSelectionIndex = selectionStartIndex;
+		while (selectionEndIndex < currentInput.length()) {
+			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionEndIndex));
+			if ((currentInput.charAt(selectionEndIndex) < 97) || (currentInput.charAt(selectionEndIndex) > 123)) {
+				if ((currentInput.charAt(selectionEndIndex) == ')') || (currentInput.charAt(selectionEndIndex) == ',')) {
+					selectionEndIndex++;
+				}
+				break;
+			}
+			selectionEndIndex++;
+		}
 
 		checkSelectedTextType();
 
@@ -166,10 +169,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private void checkSelectedTextType() {
 
 		editMode = true;
-
 		currentlySelectedElement = getText().subSequence(selectionStartIndex, selectionEndIndex).toString();
-		Log.i("info", "FEEditText: check selected Type ");
 		checkAndSetSelectedType();
+		Log.i("info", "FEEditText: check selected Type " + currentlySelectedElement + " "
+				+ currentlySelectedElementType);
 		if (currentlySelectedElementType == FUNCTION) {
 			extendSelectionForBracketFromBegin();
 			//TODO: extend selection across formula
@@ -178,18 +181,21 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			//TODO: extend selection across formula
 		} else if (currentlySelectedElementType == FUNCTION_SEPERATOR) {
 			extendSelectionForFunctionOnSeperator();
-			return;
+		} else {
+			extendSelectionForNumber();
 		}
+
+		Log.i("info", "FEEditText: check selected Type " + selectionStartIndex + " " + selectionEndIndex);
 
 	}
 
 	public void extendSelectionForBracketFromBegin() {
-		Log.i("info", "extendSelection for function");
 		int bracketCount = 1;
-		String text = getText().toString().substring(selectionEndIndex);
+		String text = getText().toString().substring(selectionEndIndex + 1);
+		Log.i("info", "extendSelection for function " + text + " ");
 		int textLen = text.length();
 		int i = 0;
-		while (i < textLen && bracketCount > 0) {
+		while (i <= textLen && bracketCount > 0) {
 			if (text.charAt(i) == '(') {
 				bracketCount++;
 			} else if (text.charAt(i) == ')') {
@@ -198,6 +204,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			selectionEndIndex++;
 			i++;
 		}
+
+		//if (selectionEndIndex < textLen && text.charAt(i - 1) == ')') {
+		selectionEndIndex++;
 
 	}
 
@@ -211,6 +220,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		Log.i("info", "extendSelection for function from end bracket");
 		int bracketCount = 1;
 		String text = getText().toString().substring(0, selectionStartIndex);
+		Log.i("info", "extendSelection for function from end bracket " + text);
 		selectionStartIndex--;
 		//int textLen = text.length();
 		while (selectionStartIndex > 0) {
@@ -239,30 +249,53 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	}
 
-	public void extendSelection(int left, int right) {
-		Log.i("info", "extendSelection" + left + " " + right);
+	public void extendSelectionForNumber() {
+		Log.i("info", "extendSelection for a number");
 		String currentInput = getText().toString();
-		while (right > 0) {
-			selectionEndIndex = currentInput.indexOf(ELEMENT_SEPERATOR, selectionEndIndex + 1);
-			right--;
-			if (selectionEndIndex == -1) {
-				selectionEndIndex = currentInput.length();
-			}
-		}
-		left = currentlySelectedElementNumber - 1 - left;
-		int newSelectionStart = 0;
-		while (left > 0) {
-			newSelectionStart = currentInput.indexOf(ELEMENT_SEPERATOR, newSelectionStart);
-			left--;
-			newSelectionStart++;
-			if (newSelectionStart == -1) {
-				newSelectionStart = 0;
+
+		while (selectionStartIndex > 0) {
+			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionStartIndex - 1));
+			if ((currentInput.charAt(selectionStartIndex - 1) < 48)
+					|| (currentInput.charAt(selectionStartIndex - 1) > 58)) {
 				break;
 			}
+			selectionStartIndex--;
 		}
-		selectionStartIndex = newSelectionStart;
+
+		while (selectionEndIndex < currentInput.length()) {
+			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionEndIndex));
+			if ((currentInput.charAt(selectionEndIndex) < 48) || (currentInput.charAt(selectionEndIndex) > 58)) {
+				break;
+			}
+			selectionEndIndex++;
+		}
 
 	}
+
+	//	public void extendSelection(int left, int right) {
+	//		Log.i("info", "extendSelection" + left + " " + right);
+	//		String currentInput = getText().toString();
+	//		while (right > 0) {
+	//			selectionEndIndex = currentInput.indexOf(ELEMENT_SEPERATOR, selectionEndIndex + 1);
+	//			right--;
+	//			if (selectionEndIndex == -1) {
+	//				selectionEndIndex = currentInput.length();
+	//			}
+	//		}
+	//		left = currentlySelectedElementNumber - 1 - left;
+	//		int newSelectionStart = 0;
+	//		while (left > 0) {
+	//			newSelectionStart = currentInput.indexOf(ELEMENT_SEPERATOR, newSelectionStart);
+	//			left--;
+	//			newSelectionStart++;
+	//			if (newSelectionStart == -1) {
+	//				newSelectionStart = 0;
+	//				break;
+	//			}
+	//		}
+	//		selectionStartIndex = newSelectionStart;
+	//
+	//	}
 
 	public void highlightSelection() {
 		highlightSpan = this.getText();
@@ -337,6 +370,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
 				doSelectionAndHighlighting();
 				return;
+			} else if ((text.charAt(selectionEndIndex - 1) >= 97) && (text.charAt(selectionEndIndex - 1) <= 123)) {
+				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				doSelectionAndHighlighting();
+				return;
 			}
 			text.replace(selectionEndIndex - 1, selectionEndIndex, "");
 			selectionEndIndex--;
@@ -344,7 +381,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		setText(text);
-		setSelection(selectionEndIndex);
+		super.setSelection(selectionEndIndex);
 	}
 
 	private void appendToTextFieldAtCurrentPosition(String newElement) {
@@ -368,11 +405,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		setSelection(selectionEndIndex);
 	}
 
-	public void setPossibleInput(int type) {
-		//TODO: ensure only the inputtype specified in type is displayed on keyboard
-		//	if ((type & INPUT_TYPE_NUMBERS) > 0) ...we allow input of values etc. 
-	}
-
 	public boolean getEditMode() {
 		return editMode;
 	}
@@ -391,10 +423,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		currentlySelectedElementType = NUMBER;
 
-		if (currentlySelectedElement.startsWith(",")) {
+		if (currentlySelectedElement.contains(",")) {
 			currentlySelectedElementType = FUNCTION_SEPERATOR;
 
-		} else if (currentlySelectedElement.startsWith(")")) {
+		} else if (currentlySelectedElement.contains(")")) {
 			currentlySelectedElementType = BRACKET_CLOSE;
 		}
 

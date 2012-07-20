@@ -243,6 +243,9 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		Log.i("info", "FormulaEditorDialog.onKeyDown(), keyCode:" + String.valueOf(keyCode));
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
+				if (textArea.hasChanges()) {
+					Toast.makeText(context, R.string.formula_editor_changes_discarded, Toast.LENGTH_SHORT).show();
+				}
 				this.dismiss();
 
 		}
