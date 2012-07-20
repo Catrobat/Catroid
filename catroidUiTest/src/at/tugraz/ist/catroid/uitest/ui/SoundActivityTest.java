@@ -155,6 +155,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
+		// needed to fix NullPointerException in next Testcase
 		solo.finishInactiveActivities();
 	}
 
@@ -165,6 +166,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
+		// needed to fix NullPointerException in next Testcase
 		solo.finishInactiveActivities();
 	}
 
