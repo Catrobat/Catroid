@@ -42,25 +42,23 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-
+	private final int RESOURCE_IMAGE = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
+	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
+	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
 	private Solo solo;
+	private ProjectManager projectManager = ProjectManager.getInstance();
 
 	private String costumeName = "costumeNametest";
 	private File imageFile;
 	private File imageFile2;
 	private ArrayList<CostumeData> costumeDataList;
-	private final int RESOURCE_IMAGE = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
-	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
 	private File soundFile;
 	private File soundFile2;
 	private ArrayList<SoundInfo> soundInfoList;
-	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
-	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
-
-	private ProjectManager projectManager = ProjectManager.getInstance();
 
 	public DeleteDialogTest() {
 		super(ScriptTabActivity.class);
@@ -75,12 +73,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	protected void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -138,53 +132,59 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		getActivity().startActivity(intent);
 
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		String buttonOkText = solo.getString(R.string.ok);
+		String buttonCancelText = solo.getString(R.string.cancel_button);
+		String deleteCostumeText = solo.getString(R.string.sound_delete);
 
-		assertTrue("No ok button found", solo.searchButton(getActivity().getString(R.string.ok)));
-		assertTrue("No cancel button found", solo.searchButton(getActivity().getString(R.string.cancel_button)));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.sleep(200);
+		solo.clickOnButton(deleteCostumeText);
+
+		assertTrue("No ok button found", solo.searchButton(buttonOkText));
+		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		CostumeFragment fragment = (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
 		ListAdapter adapter = fragment.getListAdapter();
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
+		solo.clickOnButton(buttonCancelText);
 		int newCount = adapter.getCount();
 		assertEquals("The costume number not ok after canceling the deletion", newCount, oldCount);
 
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(deleteCostumeText);
+		solo.clickOnButton(buttonOkText);
 
-		solo.sleep(1000);
-
+		solo.sleep(500);
 		newCount = adapter.getCount();
 		assertEquals("The costume was not deleted", oldCount - 1, newCount);
 		assertEquals("The costume was not deleted from costumeDataList", newCount, costumeDataList.size());
 	}
 
 	public void testDeleteSounds() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		String buttonOkText = solo.getString(R.string.ok);
+		String buttonCancelText = solo.getString(R.string.cancel_button);
+		String deleteSoundText = solo.getString(R.string.sound_delete);
 
-		assertTrue("No ok button found", solo.searchButton(getActivity().getString(R.string.ok)));
-		assertTrue("No cancel button found", solo.searchButton(getActivity().getString(R.string.cancel_button)));
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(200);
+		solo.clickOnButton(deleteSoundText);
+
+		assertTrue("No ok button found", solo.searchButton(buttonOkText));
+		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		SoundFragment fragment = (SoundFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SOUNDS);
 		ListAdapter adapter = fragment.getListAdapter();
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
+		solo.clickOnButton(buttonCancelText);
 		int newCount = adapter.getCount();
 		assertEquals("The costume number not ok after canceling the deletion", newCount, oldCount);
 
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(deleteSoundText);
+		solo.clickOnButton(buttonOkText);
 
-		solo.sleep(1000);
-
+		solo.sleep(500);
 		newCount = adapter.getCount();
 		assertEquals("The sound was not deleted", oldCount - 1, newCount);
 		assertEquals("The sound was not deleted from costumeDataList", newCount, soundInfoList.size());

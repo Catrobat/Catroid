@@ -42,11 +42,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final int Y_TO_CHANGE = 17;
 
 	private Solo solo;
 	private Project project;
 	private ChangeYByBrick changeYByBrick;
-	private int yToChange;
 
 	public ChangeYByBrickTest() {
 		super(ScriptTabActivity.class);
@@ -60,13 +60,8 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -90,14 +85,12 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, yToChange + "");
-		solo.goBack();
-		solo.clickOnButton(0);
+		solo.enterText(0, Y_TO_CHANGE + "");
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(1000);
 		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
-		assertEquals("Wrong text in field.", yToChange, yMovementValue);
-		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", Y_TO_CHANGE, yMovementValue);
+		assertEquals("Value in Brick is not updated.", Y_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
@@ -108,8 +101,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	private void createProject() {
-		yToChange = 17;
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		changeYByBrick = new ChangeYByBrick(sprite, 0);

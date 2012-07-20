@@ -57,13 +57,8 @@ public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -87,7 +82,7 @@ public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptTa
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		script.addBrick(new StopAllSoundsBrick(sprite));
