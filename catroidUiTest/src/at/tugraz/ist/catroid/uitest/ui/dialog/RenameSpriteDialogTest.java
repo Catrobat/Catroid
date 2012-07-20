@@ -48,47 +48,39 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void setUp() throws Exception {
-
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {
-
 		createTestProject(testProject);
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject);
 		solo.clickLongOnText(cat);
 
-		solo.sleep(1000);
-		solo.clickOnText("Rename");
-		solo.sleep(1000);
+		solo.clickOnText(solo.getString(R.string.rename));
+		solo.sleep(100);
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, kat);
 		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = ((Sprite) spritesList.getItemAtPosition(1)).getName();
 
 		assertEquals("The first sprite is NOT rename!", first, kat);
-
 	}
 
 	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
-
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
