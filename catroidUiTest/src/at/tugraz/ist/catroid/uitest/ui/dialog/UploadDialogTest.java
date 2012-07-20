@@ -39,10 +39,10 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
+	private Solo solo;
 	private String saveToken;
 
 	public UploadDialogTest() {
@@ -63,13 +63,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		UiTestUtils.clearAllUtilTestProjects();
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -85,6 +79,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testUploadDialog() throws Throwable {
 		setServerURLToTestURL();
 		createTestProject();
+		solo.sleep(200);
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.waitForDialogToClose(5000);
@@ -109,22 +104,24 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
-
 	}
 
 	public void testOrientationChange() throws Throwable {
 		setServerURLToTestURL();
 		createTestProject();
+		solo.sleep(200);
 		String testText1 = "testText1";
 		String testText2 = "testText2";
 		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
-		solo.sleep(500);
+		solo.sleep(200);
 		solo.clearEditText(0);
 		solo.enterText(0, testText1);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
 		solo.enterText(1, testText2);
 
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
@@ -139,8 +136,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.enterText(0, testProject);
-		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);

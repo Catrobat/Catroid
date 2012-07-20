@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -77,8 +78,12 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
+		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		edit.setText(String.valueOf(volume));
+
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 
