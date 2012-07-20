@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -41,12 +42,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final int SET_ANGLE = 135;
+
 	private Solo solo;
 	private Project project;
 	private NXTMotorTurnAngleBrick motorBrick;
-
-	private int setAngle;
-	private int setAngleInitially;
 
 	public NXTMotorTurnAngleBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -60,19 +60,13 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	@Smoke
 	public void testMotorTurnAngleBrick() {
-
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -93,16 +87,6 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertFalse("Edittext should not be clickable", turnEditText.isClickable());
 		assertFalse("Edittext should be disabled", turnEditText.isEnabled());
 
-		//		solo.clickOnEditText(0);
-		//		solo.clearEditText(0);
-		//		solo.enterText(0, setAngle + "");
-		//		solo.clickOnButton(0);
-		//
-		//		solo.sleep(300);
-		//		int angle = (Integer) UiTestUtils.getPrivateField("angle", motorBrick);
-		//		assertEquals("Wrong text in field.", setAngle, angle);
-		//		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
-
 		solo.clickOnButton(0);
 		solo.clickInList(1);
 		assertEquals("Wrong value in field!", "45", solo.getEditText(0).getText().toString());
@@ -114,30 +98,22 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertEquals("Wrong value in field!", "-90", solo.getEditText(0).getText().toString());
 		solo.clickInList(5);
 		assertEquals("Wrong value in field!", "180", solo.getEditText(0).getText().toString());
-		//		solo.scrollDownList(0); //warning randomness!
-		//		solo.clickInList(5);
-		//		assertEquals("Wrong value in field!", "360", solo.getEditText(0).getText().toString());
 
-		solo.sleep(500);
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, setAngle + "");
-		solo.goBack();
+		solo.enterText(0, SET_ANGLE + "");
 		solo.clickOnButton(0);
-		solo.sleep(500);
 
 		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
-		assertEquals("Wrong text in field.", setAngle, angle);
-		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", SET_ANGLE, angle);
+		assertEquals("Value in Brick is not updated.", SET_ANGLE + "", solo.getEditText(0).getText().toString());
 
 		solo.sleep(200);
 		solo.clickOnView(solo.getView(R.id.directions_btn));
 		try {
 			solo.clickOnEditText(0);
 			solo.clearEditText(0);
-			solo.goBack();
 			solo.clickOnButton(0);
-			solo.sleep(500);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			fail("Numberformat Exception should not occur");
@@ -146,43 +122,29 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertEquals("Wrong text in field.", 0, angle);
 		assertEquals("Value in Brick is not updated.", "0", solo.getEditText(0).getText().toString());
 
-		solo.sleep(2000);
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
-		solo.sleep(100);
 		assertTrue("Spinner items list too short!", array.length == 4);
 
-		solo.sleep(2000);
+		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
 		solo.pressSpinnerItem(0, 0);
-		solo.sleep(500);
-		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
-		solo.sleep(500);
+		assertEquals("Wrong item in spinner!", array[0], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		solo.sleep(500);
-		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
-		solo.sleep(500);
+		assertEquals("Wrong item in spinner!", array[1], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		solo.sleep(500);
-		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
-		solo.sleep(500);
+		assertEquals("Wrong item in spinner!", array[2], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		solo.sleep(1000);
-		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
-
+		assertEquals("Wrong item in spinner!", array[3], currentSpinner.getSelectedItem());
 	}
 
 	private void createProject() {
-		//		setX = 17;
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 
-		setAngleInitially = 90;
-		setAngle = 135;
-
+		int setAngleInitially = 90;
 		motorBrick = new NXTMotorTurnAngleBrick(sprite, NXTMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
 
 		script.addBrick(motorBrick);
-
 		sprite.addScript(script);
 		project.addSprite(sprite);
 
@@ -190,5 +152,4 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

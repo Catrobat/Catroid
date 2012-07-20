@@ -136,7 +136,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		//Formula data = new Formula("0");
 		//textArea.setFormula(data);
 		//textArea.setInputType(0);// turn off default input method: oncheckEditor() does this now
-		textArea.setFormulaEditorDialog(this);
 
 		Log.i("info", "DisplayLanguage: " + Locale.getDefault().getDisplayLanguage());
 
@@ -246,6 +245,9 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		Log.i("info", "FormulaEditorDialog.onKeyDown(), keyCode:" + String.valueOf(keyCode));
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
+				if (textArea.hasChanges()) {
+					Toast.makeText(context, R.string.formula_editor_changes_discarded, Toast.LENGTH_SHORT).show();
+				}
 				this.dismiss();
 
 		}
