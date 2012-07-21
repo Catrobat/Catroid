@@ -102,8 +102,8 @@ public class ObjectCreator {
 		}
 		for (Field field : brickFields) {
 			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
-
-			if (isCurrentFieldTransient) {
+			boolean isCurrentFieldFinal = Modifier.isFinal(field.getModifiers());
+			if (isCurrentFieldTransient || isCurrentFieldFinal) {
 				continue;
 			}
 

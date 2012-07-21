@@ -45,6 +45,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
+import at.tugraz.ist.catroid.xml.serializer.BrickSerializer;
 
 public class FullParserTest extends InstrumentationTestCase {
 
@@ -163,9 +164,19 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 
 		StartScript script = (StartScript) testSprite.getScript(0);
-		RepeatBrick costBrick = (RepeatBrick) script.getBrick(1);
-		assertNotNull("Costume brick is null", costBrick);
-		LoopEndBrick leb = costBrick.getLoopEndBrick();
+		RepeatBrick repeatBrick = (RepeatBrick) script.getBrick(1);
+		BrickSerializer bs = new BrickSerializer();
+		try {
+			bs.serialize(repeatBrick);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertNotNull("Costume brick is null", repeatBrick);
+		LoopEndBrick leb = repeatBrick.getLoopEndBrick();
 		//CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
 		assertNotNull("Costume data null", leb);
 		LoopEndBrick lebFromXML = (LoopEndBrick) script.getBrick(3);
