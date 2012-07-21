@@ -37,7 +37,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -172,7 +171,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.sleep(500);
 		solo.clickOnText(getActivity().getString(R.string.scripts));
 		solo.clickOnText(spinnerNothingText);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));

@@ -110,7 +110,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	public void testRenameSound() {
 		String newName = "newSoundName";
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.sleep(500);
 		solo.clickOnView(solo.getView(R.id.sound_name));
 		assertTrue("wrong title of dialog", solo.searchText(soundName));
 		solo.setActivityOrientation(Solo.PORTRAIT);
@@ -132,7 +132,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	public void testPlayAndStopStound() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.sleep(500);
 		SoundInfo soundInfo = soundInfoList.get(0);
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
 		solo.clickOnButton(getActivity().getString(R.string.sound_play));
@@ -145,7 +145,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	public void testToStageButton() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.sleep(500);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("not in stage", StageActivity.class);
@@ -162,7 +162,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.sleep(500);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
@@ -173,7 +173,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	public void testDialogsOnChangeOrientation() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.sleep(500);
 		String newName = "newTestName";
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnView(solo.getView(R.id.sound_name));

@@ -46,7 +46,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 	private Solo solo;
 
 	public BrickClickOnEditTextTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override

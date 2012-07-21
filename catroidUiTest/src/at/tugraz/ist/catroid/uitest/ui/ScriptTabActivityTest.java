@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -111,6 +112,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		assertTrue("Clicking on Sounds Tab did not cause SoundFragment to be displayed",
 				activity.getCurrentTabFragment() instanceof SoundFragment);
+	}
 
 	public void testTabCostumeOrBackgroundLabel() {
 		String spriteDog = "dog";
@@ -134,7 +136,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"", solo.searchText(backgroundTabLabel));
 		solo.clickOnText(backgroundTabLabel);
-		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.sleep(500);
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"", solo.searchText(backgroundTabLabel));
 
 		for (int i = 1; i < 3; i++) {
