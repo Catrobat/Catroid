@@ -28,7 +28,6 @@ import java.util.List;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -40,6 +39,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -129,7 +129,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 				solo.searchText(categoryLegoNXTLabel));
 
 		goToScripTabActivity();
-				
+
 		// needed to fix NullPointerException in next Testcase
 		solo.finishInactiveActivities();
 	}
