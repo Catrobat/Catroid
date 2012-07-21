@@ -83,9 +83,6 @@ public class FullParserTest extends InstrumentationTestCase {
 			e.printStackTrace();
 			fail("Exception when parsing the headers");
 		}
-		for (int i = 0; i < values.size(); i++) {
-
-		}
 		assertNotNull("Values are null", values);
 		assertEquals("All the sprites are not captures or incorrect", 3, values.size());
 		assertEquals("Sprite name not correct", "second", values.get(2).getName());
@@ -236,6 +233,17 @@ public class FullParserTest extends InstrumentationTestCase {
 		//		Sprite pointedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", ptb, false);
 		//		assertNotNull(pointedSprite);
 		//		assertEquals(pointedSprite.getName(), sprites.get(1).getName());
+	}
+
+	public void testParseMalformedProject() {
+		FullParser parser = new FullParser();
+		try {
+			Project testProject = parser.fullParser("test_malformed_project.xml");
+			fail("Parseexception expected");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			//fail("Parseexception expected");
+		}
 	}
 
 }
