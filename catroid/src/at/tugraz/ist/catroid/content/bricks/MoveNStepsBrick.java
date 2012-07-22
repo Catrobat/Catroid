@@ -54,7 +54,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.steps = steps;
 
-		stepsFormula = new Formula(Double.toString(steps), R.id.brick_move_n_steps_edit_text);
+		stepsFormula = new Formula(Double.toString(steps));
 	}
 
 	public int getRequiredResources() {
@@ -86,7 +86,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		}
 
 		if (stepsFormula == null) {
-			stepsFormula = new Formula(Double.toString(steps), R.id.brick_move_n_steps_edit_text);
+			stepsFormula = new Formula(Double.toString(steps));
 		}
 
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
@@ -95,6 +95,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		//		edit.setText(String.valueOf(steps));
+		stepsFormula.setTextFieldId(R.id.brick_move_n_steps_edit_text);
 		stepsFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);

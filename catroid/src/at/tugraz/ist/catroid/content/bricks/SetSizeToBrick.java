@@ -50,7 +50,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.size = size;
 
-		sizeFormula = new Formula(Double.toString(size), R.id.brick_set_size_to_edit_text);
+		sizeFormula = new Formula(Double.toString(size));
 	}
 
 	public int getRequiredResources() {
@@ -74,12 +74,13 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		}
 
 		if (sizeFormula == null) {
-			sizeFormula = new Formula(Double.toString(size), R.id.brick_set_size_to_edit_text);
+			sizeFormula = new Formula(Double.toString(size));
 		}
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
 		//		edit.setText(sizeFormula.getEditTextRepresentation());
+		sizeFormula.setTextFieldId(R.id.brick_set_size_to_edit_text);
 		sizeFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);

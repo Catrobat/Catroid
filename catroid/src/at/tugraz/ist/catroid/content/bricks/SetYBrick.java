@@ -55,7 +55,7 @@ public class SetYBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.yPosition = yPosition;
 
-		yPositionFormula = new Formula(Integer.toString(yPosition), R.id.brick_set_y_edit_text);
+		yPositionFormula = new Formula(Integer.toString(yPosition));
 	}
 
 	public int getRequiredResources() {
@@ -80,7 +80,7 @@ public class SetYBrick implements Brick, OnClickListener {
 		}
 
 		if (yPositionFormula == null) {
-			yPositionFormula = new Formula(Integer.toString(yPosition), R.id.brick_set_y_edit_text);
+			yPositionFormula = new Formula(Integer.toString(yPosition));
 		}
 
 		view = View.inflate(context, R.layout.brick_set_y, null);
@@ -89,6 +89,7 @@ public class SetYBrick implements Brick, OnClickListener {
 		EditText editY = (EditText) view.findViewById(R.id.brick_set_y_edit_text);
 		//		editY.setText(String.valueOf(yPosition));
 		//		editY.setText(yPositionFormula.getEditTextRepresentation());
+		yPositionFormula.setTextFieldId(R.id.brick_set_y_edit_text);
 		yPositionFormula.refreshTextField(view);
 
 		textY.setVisibility(View.GONE);

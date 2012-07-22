@@ -52,7 +52,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.changeBrightness = changeBrightness;
 
-		changeBrightnessFormula = new Formula(Double.toString(changeBrightness), R.id.brick_change_brightness_edit_text);
+		changeBrightnessFormula = new Formula(Double.toString(changeBrightness));
 	}
 
 	public int getRequiredResources() {
@@ -80,8 +80,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 		}
 
 		if (changeBrightnessFormula == null) {
-			changeBrightnessFormula = new Formula(Double.toString(changeBrightness),
-					R.id.brick_change_brightness_edit_text);
+			changeBrightnessFormula = new Formula(Double.toString(changeBrightness));
 		}
 
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
@@ -89,6 +88,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
 		//		editX.setText(String.valueOf(changeBrightness));
+		changeBrightnessFormula.setTextFieldId(R.id.brick_change_brightness_edit_text);
 		changeBrightnessFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);

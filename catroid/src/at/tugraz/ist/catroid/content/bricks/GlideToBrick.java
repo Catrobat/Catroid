@@ -58,10 +58,9 @@ public class GlideToBrick implements Brick, OnClickListener {
 		this.yDestination = yDestination;
 		this.durationInMilliSeconds = durationInMilliSeconds;
 
-		xDestinationFormula = new Formula(Integer.toString(xDestination), R.id.brick_glide_to_x_edit_text);
-		yDestinationFormula = new Formula(Integer.toString(yDestination), R.id.brick_glide_to_y_edit_text);
-		durationInMilliSecondsFormula = new Formula(Integer.toString(durationInMilliSeconds),
-				R.id.brick_glide_to_duration_edit_text);
+		xDestinationFormula = new Formula(Integer.toString(xDestination));
+		yDestinationFormula = new Formula(Integer.toString(yDestination));
+		durationInMilliSecondsFormula = new Formula(Integer.toString(durationInMilliSeconds));
 	}
 
 	public int getRequiredResources() {
@@ -150,35 +149,34 @@ public class GlideToBrick implements Brick, OnClickListener {
 		}
 
 		if (xDestinationFormula == null) {
-			xDestinationFormula = new Formula(Integer.toString(xDestination), R.id.brick_glide_to_x_edit_text);
+			xDestinationFormula = new Formula(Integer.toString(xDestination));
 		}
 
 		if (yDestinationFormula == null) {
-			yDestinationFormula = new Formula(Integer.toString(yDestination), R.id.brick_glide_to_y_edit_text);
+			yDestinationFormula = new Formula(Integer.toString(yDestination));
 		}
 
 		if (durationInMilliSecondsFormula == null) {
-			durationInMilliSecondsFormula = new Formula(Integer.toString(durationInMilliSeconds),
-					R.id.brick_glide_to_duration_edit_text);
+			durationInMilliSecondsFormula = new Formula(Integer.toString(durationInMilliSeconds));
 		}
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_x_edit_text);
-		//		editX.setText(String.valueOf(xDestination));
+		xDestinationFormula.setTextFieldId(R.id.brick_glide_to_x_edit_text);
 		xDestinationFormula.refreshTextField(view);
 		editX.setOnClickListener(this);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_y_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_y_edit_text);
-		//		editY.setText(String.valueOf(yDestination));
+		yDestinationFormula.setTextFieldId(R.id.brick_glide_to_y_edit_text);
 		yDestinationFormula.refreshTextField(view);
 		editY.setOnClickListener(this);
 
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_duration_text_view);
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_duration_edit_text);
-		//		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+		durationInMilliSecondsFormula.setTextFieldId(R.id.brick_glide_to_duration_edit_text);
 		durationInMilliSecondsFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);

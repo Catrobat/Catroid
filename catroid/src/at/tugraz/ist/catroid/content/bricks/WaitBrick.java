@@ -42,7 +42,7 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
-	private Formula timeToWaitInMillisecondsFormula;
+	private Formula timeToWaitInSecondsFormula;
 
 	private transient Brick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
@@ -52,8 +52,7 @@ public class WaitBrick implements Brick, OnClickListener {
 		this.timeToWaitInMilliseconds = timeToWaitInMilliseconds;
 		this.sprite = sprite;
 
-		timeToWaitInMillisecondsFormula = new Formula(Integer.toString(timeToWaitInMilliseconds / 500),
-				R.id.brick_wait_edit_text);
+		timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliseconds / 1000.0));
 	}
 
 	public int getRequiredResources() {
@@ -61,16 +60,16 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		Double t = timeToWaitInMillisecondsFormula.interpret() * 1000;
-		timeToWaitInMilliseconds = t.intValue();
+		Double t = timeToWaitInSecondsFormula.interpret() * 1000;
+		int timeToWait = t.intValue();
 
 		long startTime = System.currentTimeMillis();
-		while (System.currentTimeMillis() <= (startTime + timeToWaitInMilliseconds)) {
+		while (System.currentTimeMillis() <= (startTime + timeToWait)) {
 			if (!sprite.isAlive(Thread.currentThread())) {
 				break;
 			}
 			if (sprite.isPaused) {
-				timeToWaitInMilliseconds = timeToWaitInMilliseconds - (int) (System.currentTimeMillis() - startTime);
+				timeToWait = timeToWait - (int) (System.currentTimeMillis() - startTime);
 				while (sprite.isPaused) {
 					if (sprite.isFinished) {
 						return;
@@ -93,9 +92,8 @@ public class WaitBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 
-		if (timeToWaitInMillisecondsFormula == null) {
-			timeToWaitInMillisecondsFormula = new Formula(Double.toString(timeToWaitInMilliseconds),
-					R.id.brick_wait_edit_text);
+		if (timeToWaitInSecondsFormula == null) {
+			timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliseconds / 1000.0));
 		}
 
 		view = View.inflate(context, R.layout.brick_wait, null);
@@ -103,8 +101,9 @@ public class WaitBrick implements Brick, OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
 		//		edit.setText((timeToWaitInMilliseconds / 1000.0) + "");
-		//		edit.setText(timeToWaitInMillisecondsFormula.getEditTextRepresentation());
-		timeToWaitInMillisecondsFormula.refreshTextField(view);
+		edit.setText(timeToWaitInSecondsFormula.getEditTextRepresentation());
+		timeToWaitInSecondsFormula.setTextFieldId(R.id.brick_wait_edit_text);
+		timeToWaitInSecondsFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -140,7 +139,7 @@ public class WaitBrick implements Brick, OnClickListener {
 			formulaEditor.show();
 		}
 
-		formulaEditor.setInputFocusAndFormula(timeToWaitInMillisecondsFormula);
+		formulaEditor.setInputFocusAndFormula(timeToWaitInSecondsFormula);
 
 		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		//		final EditText input = new EditText(context);

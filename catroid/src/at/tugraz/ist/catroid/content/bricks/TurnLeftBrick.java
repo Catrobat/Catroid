@@ -53,7 +53,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.degrees = degrees;
 
-		degreesFormula = new Formula(Double.toString(degrees), R.id.brick_turn_left_edit_text);
+		degreesFormula = new Formula(Double.toString(degrees));
 	}
 
 	public int getRequiredResources() {
@@ -76,7 +76,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 		}
 
 		if (degreesFormula == null) {
-			degreesFormula = new Formula(Double.toString(degrees), R.id.brick_turn_left_edit_text);
+			degreesFormula = new Formula(Double.toString(degrees));
 		}
 
 		view = View.inflate(context, R.layout.brick_turn_left, null);
@@ -85,6 +85,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
 		//		editDegrees.setText(String.valueOf(degrees));
 		//		editDegrees.setText(degreesFormula.getEditTextRepresentation());
+		degreesFormula.setTextFieldId(R.id.brick_turn_left_edit_text);
 		degreesFormula.refreshTextField(view);
 
 		textDegrees.setVisibility(View.GONE);

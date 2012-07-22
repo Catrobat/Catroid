@@ -54,7 +54,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.volume = changeVolume;
 
-		volumeFormula = new Formula(Double.toString(volume), R.id.brick_change_volume_by_edit_text);
+		volumeFormula = new Formula(Double.toString(volume));
 	}
 
 	public int getRequiredResources() {
@@ -89,14 +89,14 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		}
 
 		if (volumeFormula == null) {
-			volumeFormula = new Formula(Double.toString(volume), R.id.brick_change_volume_by_edit_text);
+			volumeFormula = new Formula(Double.toString(volume));
 		}
 
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
-		//		edit.setText(String.valueOf(volume));
+		volumeFormula.setTextFieldId(R.id.brick_change_volume_by_edit_text);
 		volumeFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);

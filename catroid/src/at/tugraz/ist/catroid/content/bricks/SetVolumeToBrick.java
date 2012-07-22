@@ -52,7 +52,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.volume = volume;
 
-		volumeFormula = new Formula(Float.toString(volume), R.id.brick_set_volume_to_edit_text);
+		volumeFormula = new Formula(Float.toString(volume));
 	}
 
 	public int getRequiredResources() {
@@ -81,7 +81,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		}
 
 		if (volumeFormula == null) {
-			volumeFormula = new Formula(Float.toString(volume), R.id.brick_set_volume_to_edit_text);
+			volumeFormula = new Formula(Float.toString(volume));
 		}
 
 		View view = View.inflate(context, R.layout.brick_set_volume_to, null);
@@ -90,6 +90,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		//		edit.setText(String.valueOf(volume));
 		//		edit.setText(volumeFormula.getEditTextRepresentation());
+		volumeFormula.setTextFieldId(R.id.brick_set_volume_to_edit_text);
 		volumeFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);

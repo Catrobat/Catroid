@@ -69,8 +69,8 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		this.hertz = hertz;
 		this.durationInMs = duration;
 
-		hertzFormula = new Formula(Integer.toString(hertz), R.id.nxt_tone_freq_edit_text);
-		durationInMsFormula = new Formula(Integer.toString(duration), R.id.nxt_tone_duration_edit_text);
+		hertzFormula = new Formula(Integer.toString(hertz));
+		durationInMsFormula = new Formula(Integer.toString(duration));
 	}
 
 	public int getRequiredResources() {
@@ -110,11 +110,11 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		}
 
 		if (hertzFormula == null) {
-			hertzFormula = new Formula(Integer.toString(hertz), R.id.nxt_tone_freq_edit_text);
+			hertzFormula = new Formula(Integer.toString(hertz));
 		}
 
 		if (durationInMsFormula == null) {
-			durationInMsFormula = new Formula(Integer.toString(durationInMs), R.id.nxt_tone_duration_edit_text);
+			durationInMsFormula = new Formula(Integer.toString(durationInMs));
 		}
 
 		View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
@@ -122,6 +122,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		TextView textDuration = (TextView) brickView.findViewById(R.id.nxt_tone_duration_text_view);
 		EditText editDuration = (EditText) brickView.findViewById(R.id.nxt_tone_duration_edit_text);
 		//		editDuration.setText(String.valueOf(durationInMs / 1000.0));
+		durationInMsFormula.setTextFieldId(R.id.nxt_tone_duration_edit_text);
 		durationInMsFormula.refreshTextField(brickView);
 		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
 		//				MAX_DURATION);
@@ -137,6 +138,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		TextView textFreq = (TextView) brickView.findViewById(R.id.nxt_tone_freq_text_view);
 		editFreq = (EditText) brickView.findViewById(R.id.nxt_tone_freq_edit_text);
 		//		editFreq.setText(String.valueOf(hertz / 100));
+		hertzFormula.setTextFieldId(R.id.nxt_tone_freq_edit_text);
 		hertzFormula.refreshTextField(brickView);
 		//		dialogFreq = new EditIntegerDialog(context, editFreq, frequency, true, MIN_FREQ, MAX_FREQ);
 		//		dialogFreq.setOnDismissListener(this);

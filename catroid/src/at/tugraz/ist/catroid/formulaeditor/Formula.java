@@ -32,7 +32,7 @@ public class Formula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final int ROOT_ELEMENT = 0;
 	private FormulaElement root;
-	private Integer formulaTextFieldId = null;
+	private transient Integer formulaTextFieldId = null;
 
 	public Formula() {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, "0", null);
@@ -46,10 +46,10 @@ public class Formula implements Serializable {
 		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
 	}
 
-	public Formula(String value, int formulaTextFieldId) {
-		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
-		this.formulaTextFieldId = formulaTextFieldId;
-	}
+	//	public Formula(String value, int formulaTextFieldId) {
+	//		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
+	//		this.formulaTextFieldId = formulaTextFieldId;
+	//	}
 
 	public FormulaElement findItemByPosition(int position) {
 		//Log.i("info", "F: Find item by pos " + position);
@@ -86,6 +86,10 @@ public class Formula implements Serializable {
 	public void setRoot(FormulaElement formula) {
 		root = formula;
 
+	}
+
+	public void setTextFieldId(int id) {
+		formulaTextFieldId = id;
 	}
 
 	public void refreshTextField(View view) {

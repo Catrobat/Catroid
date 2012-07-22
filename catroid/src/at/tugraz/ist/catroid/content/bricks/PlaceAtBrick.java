@@ -58,8 +58,8 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 
-		xPositionFormula = new Formula(Integer.toString(xPosition), R.id.brick_place_at_x_edit_text);
-		yPositionFormula = new Formula(Integer.toString(yPosition), R.id.brick_place_at_y_edit_text);
+		xPositionFormula = new Formula(Integer.toString(xPosition));
+		yPositionFormula = new Formula(Integer.toString(yPosition));
 	}
 
 	public int getRequiredResources() {
@@ -85,10 +85,10 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 		if (xPositionFormula == null) {
-			xPositionFormula = new Formula(Integer.toString(xPosition), R.id.brick_place_at_x_edit_text);
+			xPositionFormula = new Formula(Integer.toString(xPosition));
 		}
 		if (yPositionFormula == null) {
-			yPositionFormula = new Formula(Integer.toString(yPosition), R.id.brick_place_at_y_edit_text);
+			yPositionFormula = new Formula(Integer.toString(yPosition));
 		}
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
@@ -96,6 +96,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_x_edit_text);
 		//		editX.setText(String.valueOf(xPosition));
 		//		editX.setText(xPositionFormula.getEditTextRepresentation());
+		xPositionFormula.setTextFieldId(R.id.brick_place_at_x_edit_text);
 		xPositionFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
@@ -105,7 +106,8 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_y_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_y_edit_text);
 		//		editY.setText(String.valueOf(yPosition));
-		//		editY.setText(yPositionFormula.getEditTextRepresentation());
+		//		yPositionFormula.refreshTextField(view);
+		yPositionFormula.setTextFieldId(R.id.brick_place_at_y_edit_text);
 		yPositionFormula.refreshTextField(view);
 
 		textY.setVisibility(View.GONE);

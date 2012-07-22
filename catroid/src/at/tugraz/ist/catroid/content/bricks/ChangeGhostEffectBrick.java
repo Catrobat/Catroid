@@ -52,8 +52,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.changeGhostEffect = changeGhostEffect;
 
-		changeGhostEffectFormula = new Formula(Double.toString(changeGhostEffect),
-				R.id.brick_change_ghost_effect_edit_text);
+		changeGhostEffectFormula = new Formula(Double.toString(changeGhostEffect));
 	}
 
 	public int getRequiredResources() {
@@ -83,8 +82,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		}
 
 		if (changeGhostEffectFormula == null) {
-			changeGhostEffectFormula = new Formula(Double.toString(changeGhostEffect),
-					R.id.brick_change_ghost_effect_edit_text);
+			changeGhostEffectFormula = new Formula(Double.toString(changeGhostEffect));
 		}
 
 		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
@@ -92,6 +90,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		//		editX.setText(String.valueOf(changeGhostEffect));
+		changeGhostEffectFormula.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
 		changeGhostEffectFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);

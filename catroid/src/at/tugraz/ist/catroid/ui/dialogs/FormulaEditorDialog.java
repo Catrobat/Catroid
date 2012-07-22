@@ -125,16 +125,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		Button backButton = (Button) findViewById(R.id.formula_editor_back_button);
 		backButton.setOnClickListener(this);
 
-		//		FormulaEditorEditText rolf = (FormulaEditorEditText) findViewById(R.id.testy);
-		//		rolf.setFormula(new Formula("0"));
-		//		//rolf.setInputType(0);// turn off default input method
-		//		rolf.setFormulaEditorDialog(this);
-
 		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
-		//TODO save in in the brick
-		//Formula data = new Formula("0");
-		//textArea.setFormula(data);
-		//textArea.setInputType(0);// turn off default input method: oncheckEditor() does this now
 
 		Log.i("info", "DisplayLanguage: " + Locale.getDefault().getDisplayLanguage());
 
@@ -144,7 +135,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	}
 
 	//	public void updateGraphicalRepresentation(FormulaRepresentation formula) {
-	//		Log.i("info", "zwoosh!!!");
 	//		if (formula == null) {
 	//			formulaSpace.removeAllViews();
 	//			formulaSpace.addView(theBricksView);

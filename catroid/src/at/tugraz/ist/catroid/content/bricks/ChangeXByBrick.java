@@ -55,7 +55,7 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.xMovement = xMovement;
 
-		xMovementFormula = new Formula(Integer.toString(xMovement), R.id.brick_change_x_edit_text);
+		xMovementFormula = new Formula(Integer.toString(xMovement));
 	}
 
 	public int getRequiredResources() {
@@ -90,14 +90,14 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		}
 
 		if (xMovementFormula == null) {
-			xMovementFormula = new Formula(Integer.toString(xMovement), R.id.brick_change_x_edit_text);
+			xMovementFormula = new Formula(Integer.toString(xMovement));
 		}
 
 		view = View.inflate(context, R.layout.brick_change_x, null);
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
-		//		editX.setText(String.valueOf(xMovement));
+		xMovementFormula.setTextFieldId(R.id.brick_change_x_edit_text);
 		xMovementFormula.refreshTextField(view);
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);

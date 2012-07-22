@@ -52,7 +52,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.transparency = ghostEffectValue;
 
-		transparencyFormula = new Formula(Double.toString(ghostEffectValue), R.id.brick_set_ghost_effect_to_edit_text);
+		transparencyFormula = new Formula(Double.toString(ghostEffectValue));
 	}
 
 	public int getRequiredResources() {
@@ -79,7 +79,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		}
 
 		if (transparencyFormula == null) {
-			transparencyFormula = new Formula(Double.toString(transparency), R.id.brick_set_ghost_effect_to_edit_text);
+			transparencyFormula = new Formula(Double.toString(transparency));
 		}
 
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
@@ -88,6 +88,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
 		//		editX.setText(String.valueOf(transparency));
 		//		editX.setText(transparencyFormula.getEditTextRepresentation());
+		transparencyFormula.setTextFieldId(R.id.brick_set_ghost_effect_to_edit_text);
 		transparencyFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);

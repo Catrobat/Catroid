@@ -84,7 +84,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		this.motor = motorEnum.name();
 		this.speed = speed;
 
-		speedFormula = new Formula(Integer.toString(speed), R.id.motor_action_speed_edit_text);
+		speedFormula = new Formula(Integer.toString(speed));
 	}
 
 	public int getRequiredResources() {
@@ -128,14 +128,14 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		}
 
 		if (speedFormula == null) {
-			speedFormula = new Formula(Integer.toString(speed), R.id.motor_action_speed_edit_text);
+			speedFormula = new Formula(Integer.toString(speed));
 		}
 
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 
 		TextView textSpeed = (TextView) brickView.findViewById(R.id.motor_action_speed_text_view);
 		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
-		//		editSpeed.setText(String.valueOf(speed));
+		speedFormula.setTextFieldId(R.id.motor_action_speed_edit_text);
 		speedFormula.refreshTextField(brickView);
 
 		textSpeed.setVisibility(View.GONE);

@@ -50,7 +50,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		this.sprite = sprite;
 		this.timesToRepeat = timesToRepeat;
 
-		timesToRepeatFormula = new Formula(Integer.toString(timesToRepeat), R.id.brick_repeat_edit_text);
+		timesToRepeatFormula = new Formula(Integer.toString(timesToRepeat));
 	}
 
 	public int getRequiredResources() {
@@ -82,7 +82,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		}
 
 		if (timesToRepeatFormula == null) {
-			timesToRepeatFormula = new Formula(Double.toString(timesToRepeat), R.id.brick_repeat_edit_text);
+			timesToRepeatFormula = new Formula(Double.toString(timesToRepeat));
 		}
 
 		View view = View.inflate(context, R.layout.brick_repeat, null);
@@ -91,6 +91,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 		//		edit.setText(timesToRepeat + "");
 		//		edit.setText(timesToRepeatFormula.getEditTextRepresentation());
+		timesToRepeatFormula.setTextFieldId(R.id.brick_repeat_edit_text);
 		timesToRepeatFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);

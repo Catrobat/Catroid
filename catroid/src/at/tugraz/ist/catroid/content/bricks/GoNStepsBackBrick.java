@@ -50,7 +50,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.steps = steps;
 
-		stepsFormula = new Formula(Integer.toString(steps), R.id.brick_go_back_edit_text);
+		stepsFormula = new Formula(Integer.toString(steps));
 	}
 
 	public int getRequiredResources() {
@@ -80,15 +80,15 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		}
 
 		if (stepsFormula == null) {
-			stepsFormula = new Formula(Double.toString(steps), R.id.brick_go_back_edit_text);
+			stepsFormula = new Formula(Double.toString(steps));
 		}
 
 		View view = View.inflate(context, R.layout.brick_go_back, null);
 
 		TextView text = (TextView) view.findViewById(R.id.brick_go_back_n_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
-		//		edit.setText(String.valueOf(steps));
 
+		stepsFormula.setTextFieldId(R.id.brick_go_back_edit_text);
 		stepsFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);

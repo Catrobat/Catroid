@@ -50,7 +50,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		this.sprite = sprite;
 		this.size = size;
 
-		sizeFormula = new Formula(Double.toString(size), R.id.brick_change_size_by_edit_text);
+		sizeFormula = new Formula(Double.toString(size));
 	}
 
 	public int getRequiredResources() {
@@ -77,14 +77,14 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 		if (sizeFormula == null) {
-			sizeFormula = new Formula(Double.toString(size), R.id.brick_change_size_by_edit_text);
+			sizeFormula = new Formula(Double.toString(size));
 		}
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 
 		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
-		//edit.setText(String.valueOf(size));
+		sizeFormula.setTextFieldId(R.id.brick_change_size_by_edit_text);
 		sizeFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
@@ -154,5 +154,4 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		//
 		//		finishedDialog.show();
 	}
-
 }
