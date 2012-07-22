@@ -35,10 +35,9 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
+import at.tugraz.ist.catroid.content.bricks.PointToBrick;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
@@ -163,11 +162,16 @@ public class FullParserTest extends InstrumentationTestCase {
 		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 
-		StartScript script = (StartScript) testSprite.getScript(0);
-		RepeatBrick repeatBrick = (RepeatBrick) script.getBrick(1);
-		BrickSerializer bs = new BrickSerializer();
+		WhenScript script = (WhenScript) testSprite.getScript(1);
+		SetCostumeBrick costumeBrick = (SetCostumeBrick) script.getBrick(0);
+		testData = (CostumeData) TestUtils.getPrivateField("costumeData", costumeBrick, false);
+		testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
+		assertEquals("costume data wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
+
+		//RepeatBrick repeatBrick = (RepeatBrick) script.getBrick(1);
+		BrickSerializer bs = new BrickSerializer(testSprite, script, testProject);
 		try {
-			bs.serialize(repeatBrick);
+			bs.serialize(costumeBrick);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -175,14 +179,16 @@ public class FullParserTest extends InstrumentationTestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertNotNull("Costume brick is null", repeatBrick);
-		LoopEndBrick leb = repeatBrick.getLoopEndBrick();
-		//CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
-		assertNotNull("Costume data null", leb);
-		LoopEndBrick lebFromXML = (LoopEndBrick) script.getBrick(3);
-		assertNotNull("The LoopEndBrick is null", lebFromXML);
-		LoopBeginBrick rb = lebFromXML.getLoopBeginBrick();
-		assertNotNull("The Loop BeginBrick is null", rb);
+		//		assertNotNull("repeat brick is null", repeatBrick);
+		//		int timestoRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", repeatBrick, false);
+		//		assertEquals("repeat brick times to repeat incorrect", 3, timestoRepeat);
+		//		LoopEndBrick leb = repeatBrick.getLoopEndBrick();
+		//		//CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
+		//		assertNotNull("Costume data null", leb);
+		//		LoopEndBrick lebFromXML = (LoopEndBrick) script.getBrick(3);
+		//		assertNotNull("The LoopEndBrick is null", lebFromXML);
+		//		LoopBeginBrick rb = lebFromXML.getLoopBeginBrick();
+		//		assertNotNull("The Loop BeginBrick is null", rb);
 
 	}
 
@@ -212,10 +218,20 @@ public class FullParserTest extends InstrumentationTestCase {
 		SoundInfo si = soundList.get(0);
 		assertEquals("SoundInfo file name not correct",
 				"B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3", si.getSoundFileName());
-		WhenScript ws = (WhenScript) testSprite.getScript(1);
-		PlaySoundBrick psb = (PlaySoundBrick) ws.getBrick(4);
-		assertNotNull("The PlaySoundBrick is null", psb);
-		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", psb, false);
+		WhenScript testScript = (WhenScript) testSprite.getScript(1);
+		PlaySoundBrick playSoundBrick = (PlaySoundBrick) testScript.getBrick(4);
+		BrickSerializer bs = new BrickSerializer(testSprite, testScript, testProject);
+		try {
+			bs.serialize(playSoundBrick);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertNotNull("The PlaySoundBrick is null", playSoundBrick);
+		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", playSoundBrick, false);
 		assertEquals("SoundInfo name is not correct", "Geige", si2.getTitle());
 	}
 
@@ -227,7 +243,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		//		testProject = sh.loadProject("test_aquarium_project.xml");
 		try {
 
-			testProject = parser.fullParser("test_aquarium_project.xml");
+			testProject = parser.fullParser("test_pointto_project.xml");
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -237,13 +253,13 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertNotNull("project not created", testProject);
 		List<Sprite> sprites = null;
 		sprites = testProject.getSpriteList();
-		assertEquals("all sprites not given", 11, sprites.size());
-		//		StartScript testScript = (StartScript) sprites.get(7).getScript(0);
-		//		PointToBrick ptb = (PointToBrick) testScript.getBrick(6);
-		//		assertNotNull("Point to brick is null", ptb);
-		//		Sprite pointedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", ptb, false);
-		//		assertNotNull(pointedSprite);
-		//		assertEquals(pointedSprite.getName(), sprites.get(1).getName());
+		assertEquals("all sprites not given", 9, sprites.size());
+		StartScript testScript = (StartScript) sprites.get(7).getScript(0);
+		PointToBrick pointtoBrick = (PointToBrick) testScript.getBrick(6);
+		assertNotNull("Point to brick is null", pointtoBrick);
+		Sprite pointedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", pointtoBrick, false);
+		assertNotNull(pointedSprite);
+		assertEquals(pointedSprite.getName(), sprites.get(1).getName());
 	}
 
 	public void testParseMalformedProject() {

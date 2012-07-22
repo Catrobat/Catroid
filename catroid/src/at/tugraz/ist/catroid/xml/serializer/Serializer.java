@@ -19,8 +19,12 @@
 package at.tugraz.ist.catroid.xml.serializer;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -33,18 +37,63 @@ public abstract class Serializer {
 	Project serializedProject;
 	Sprite serializedSprite;
 	Script serializedScript;
+	List<Brick> brickList;
+	List<String> referenceStrings;
+	List<CostumeData> costumeList;
+	List<Sprite> spriteList;
+	List<SoundInfo> soundList;
 
 	public abstract String serialize(Object object) throws IllegalArgumentException, IllegalAccessException;
 
 	public String getReference(Field fieldNeedingReference, Object objectWIthField) throws IllegalArgumentException,
 			IllegalAccessException {
+		String reference = "";
 		Object referencedObject = fieldNeedingReference.get(objectWIthField);
-		if (referencedObject.getClass().isInstance(Brick.class)) {
-			if (serializedScript.getBrickList().contains(referencedObject)) {
+		String referencedObjectName = referencedObject.getClass().getSimpleName();
 
+		if (referencedObjectName.endsWith("Brick")) {
+			if (brickList.contains(referencedObject)) {
+				reference = "../../Bricks." + referencedObjectName;
+
+				List<Brick> sameBrickList = new ArrayList<Brick>();
+				for (int i = 0; i < brickList.size(); i++) {
+					if (brickList.get(i).getClass().getSimpleName().equals(referencedObjectName)) {
+
+						sameBrickList.add(brickList.get(i));
+					}
+				}
+
+				if (sameBrickList.size() > 1) {
+					reference = getReferenceIndexSuffix(reference, referencedObject, sameBrickList);
+				}
+			} else {
+				reference = "TODO";
+			}
+		} else if (referencedObjectName.equals("CostumeData")) {
+			reference = "../../../../../costumeDataList/Common.CostumeData";
+			reference = getReferenceIndexSuffix(reference, referencedObject, costumeList);
+		} else if (referencedObjectName.equals("Sprite")) {
+			reference = "../../../../../../Content.Sprite";
+			reference = getReferenceIndexSuffix(reference, referencedObject, spriteList);
+		} else if (referencedObjectName.equals("SoundInfo")) {
+			reference = "../../../../../soundList/Common.SoundInfo";
+			reference = getReferenceIndexSuffix(reference, referencedObject, soundList);
+		}
+		return reference;
+
+	}
+
+	private String getReferenceIndexSuffix(String reference, Object referencedObject, List sameTypeList) {
+		int index = 0;
+		for (int j = 0; j < sameTypeList.size(); j++) {
+			if (referencedObject.equals(sameTypeList.get(j))) {
+				index = j + 1;
+				break;
 			}
 		}
-		return null;
-
+		if (index > 1) {
+			reference = reference + "[" + index + "]";
+		}
+		return reference;
 	}
 }
