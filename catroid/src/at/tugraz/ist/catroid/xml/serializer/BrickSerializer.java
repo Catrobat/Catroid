@@ -19,28 +19,34 @@
 package at.tugraz.ist.catroid.xml.serializer;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
 import android.util.Log;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class BrickSerializer extends Serializer {
 
-	public BrickSerializer(Sprite serializedSprite, Script serializedScript) {
+	public BrickSerializer(Sprite serializedSprite, Script serializedScript, Project serializedProject) {
 		objectCreator = new ObjectCreator();
 		fieldMap = new HashMap<String, Field>();
 		super.serializedSprite = serializedSprite;
 		super.serializedScript = serializedScript;
-
+		super.brickList = serializedScript.getBrickList();
+		referenceStrings = new ArrayList<String>();
+		costumeList = serializedSprite.getCostumeDataList();
+		super.spriteList = serializedProject.getSpriteList();
+		super.soundList = serializedSprite.getSoundList();
 	}
 
 	@Override
 	public String serialize(Object object) throws IllegalArgumentException, IllegalAccessException {
 		fieldMap = objectCreator.getFieldMap(object.getClass());
-		String value = "";
+		String xmlElementString = "";
 		Collection<Field> fields = fieldMap.values();
 		for (Field brickClassField : fields) {
 			String fieldName = brickClassField.getName();
@@ -48,17 +54,18 @@ public class BrickSerializer extends Serializer {
 			if (!brickClassField.getType().isPrimitive()) {
 				Log.i("primitive", fieldName + " is not primitive");
 				if (fieldName.equals("sprite")) {
-					value = value + "<sprite reference=\"../../../../..\"/>" + "\n";
+					xmlElementString = xmlElementString + "<sprite reference=\"../../../../..\"/>" + "\n";
 				} else {
-					//String referenceString = getReference(brickClassField, object);
-					value = value + "<" + fieldName + " reference=\" TODO \"/>";
+					String referenceString = getReference(brickClassField, object);
+					xmlElementString = xmlElementString + "<" + fieldName + " reference=\"" + referenceString + "\"/>"
+							+ "\n";
 				}
 			} else {
-				value = value + "<" + fieldName + ">" + brickClassField.get(object).toString() + "</" + fieldName + ">"
-						+ "\n";
+				xmlElementString = xmlElementString + "<" + fieldName + ">" + brickClassField.get(object).toString()
+						+ "</" + fieldName + ">" + "\n";
 			}
 		}
-		Log.i("serializer", value);
-		return value;
+		Log.i("serializer", xmlElementString);
+		return xmlElementString;
 	}
 }
