@@ -151,6 +151,11 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
+		if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+			return false;
+		}
+
 		String oldProjectPath = Utils.buildProjectPath(project.getName());
 		File oldProjectDirectory = new File(oldProjectPath);
 
@@ -167,10 +172,6 @@ public class ProjectManager {
 				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
 			}
 		} else {
-			if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-				return false;
-			}
 			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 		}
 
