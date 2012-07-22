@@ -37,7 +37,7 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class WaitBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int timeToWaitInMilliseconds;
+	private int timeToWaitInMilliSeconds;
 	private Sprite sprite;
 
 	private transient View view;
@@ -49,11 +49,17 @@ public class WaitBrick implements Brick, OnClickListener {
 	public transient boolean editorActive = false;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
-		this.timeToWaitInMilliseconds = timeToWaitInMilliseconds;
+		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
 		this.sprite = sprite;
 
-		timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliseconds / 1000.0));
+		//readResolve();
+		timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliSeconds / 1000.0));
 	}
+
+	//	private Object readResolve() {
+	//		timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliSeconds / 1000.0));
+	//		return this;
+	//	}
 
 	public int getRequiredResources() {
 		return NO_RESOURCES;
@@ -93,7 +99,7 @@ public class WaitBrick implements Brick, OnClickListener {
 		}
 
 		if (timeToWaitInSecondsFormula == null) {
-			timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliseconds / 1000.0));
+			timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliSeconds / 1000.0));
 		}
 
 		view = View.inflate(context, R.layout.brick_wait, null);
@@ -118,7 +124,7 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new WaitBrick(getSprite(), timeToWaitInMilliseconds);
+		return new WaitBrick(getSprite(), timeToWaitInMilliSeconds);
 	}
 
 	public void onClick(View view) {
