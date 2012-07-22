@@ -22,7 +22,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
 	private static final BackgroundColorSpan COLOR_NORMAL = new BackgroundColorSpan(0xFFFFFFFF);
 
-	public static final String[] GROUP_NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+	public static final String[] GROUP_NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "." };
 	public static final String[] GROUP_OPERATORS = new String[] { "+", "-", "*", "/", "^" };
 	public static final String[] GROUP_FUNCTIONS = new String[] { "sin", "cos", "tan", "ln", "log", "pi", "sqrt", "e",
 			"rand" };
@@ -181,6 +181,15 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	}
 
+	public void selectOperator() {
+		Log.i("info", "operatore ");
+		if (selectionEndIndex + 1 >= getText().length()) {
+			return;
+		} else {
+			selectionEndIndex++;
+		}
+	}
+
 	public void extendSelectionForBracketFromBegin() {
 		int bracketCount = 1;
 
@@ -251,8 +260,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		while (selectionStartIndex > 0) {
 			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionStartIndex - 1));
-			if ((currentInput.charAt(selectionStartIndex - 1) < 48)
-					|| (currentInput.charAt(selectionStartIndex - 1) > 58)) {
+			if (!(((currentInput.charAt(selectionStartIndex - 1) >= 48) && (currentInput
+					.charAt(selectionStartIndex - 1) <= 58)) || (currentInput.charAt(selectionStartIndex - 1) == '.'))) {
 				break;
 			}
 			selectionStartIndex--;
@@ -260,7 +269,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		while (selectionEndIndex < currentInput.length()) {
 			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionEndIndex));
-			if ((currentInput.charAt(selectionEndIndex) < 48) || (currentInput.charAt(selectionEndIndex) > 58)) {
+			if (!(((currentInput.charAt(selectionEndIndex) >= 48) && (currentInput.charAt(selectionEndIndex) <= 58)) || (currentInput
+					.charAt(selectionEndIndex) == '.'))) {
 				break;
 			}
 			selectionEndIndex++;
@@ -302,6 +312,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			selectionStartIndex = 0;
 		}
 
+		if (selectionEndIndex == selectionStartIndex) {
+			return;
+		}
+
 		highlightSpan.setSpan(COLOR_HIGHLIGHT, selectionStartIndex, selectionEndIndex,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -340,16 +354,17 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void checkAndModifyKeyInput(CatKeyEvent catKey) {
 		hasChanges = true;
-		String newElement = "" + catKey.getDisplayLabelString();
+		String newElement = null;
+		if (catKey.getKeyCode() == CatKeyEvent.KEYCODE_COMMA) {
+			newElement = ".";
+		} else {
+			newElement = "" + catKey.getDisplayLabelString();
+		}
+
 		Log.i("info", "Key pressed: " + catKey.getDisplayLabelString());
 		Log.i("info",
 				"KeyCode:" + catKey.getKeyCode() + " ScanCode:" + catKey.getScanCode() + " MetaState:"
 						+ catKey.getMetaState() + " DisplayLabel:" + catKey.getDisplayLabel());
-
-		if (catKey.getNumber() == CatKeyEvent.KEYCODE_ENTER) {
-			updateSelectionIndices();
-			return;
-		}
 
 		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
 			deleteOneCharAtCurrentPosition();
@@ -424,29 +439,21 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		return editMode;
 	}
 
-	public boolean checkIsOperator(String text) {
-		for (String item : GROUP_OPERATORS) {
-			if (item.equals(text)) {
-				currentlySelectedElementType = OPERATOR;
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public void checkAndSetSelectedType() {
 
 		currentlySelectedElementType = NUMBER;
 
 		if (currentlySelectedElement.contains(",")) {
 			currentlySelectedElementType = FUNCTION_SEPERATOR;
+			return;
 
 		} else if (currentlySelectedElement.contains(")")) {
 			currentlySelectedElementType = BRACKET_CLOSE;
+			return;
 		}
 
 		for (String item : GROUP_OPERATORS) {
-			if (currentlySelectedElement.startsWith(item)) {
+			if (currentlySelectedElement.contains(item)) {
 				currentlySelectedElementType = OPERATOR;
 				return;
 			}
