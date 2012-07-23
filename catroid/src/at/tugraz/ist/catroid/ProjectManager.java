@@ -38,10 +38,10 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
-	private Project mProject;
-	private Script mCurrentScript;
-	private Sprite mCurrentSprite;
-	private static final ProjectManager INSTANCE = new ProjectManager();
+	private Project project;
+	private Script currentScript;
+	private Sprite currentSprite;
+	private static ProjectManager instance;
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -52,7 +52,10 @@ public class ProjectManager {
 	}
 
 	public static ProjectManager getInstance() {
-		return INSTANCE;
+		if (instance == null) {
+			instance = new ProjectManager();
+		}
+		return instance;
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
@@ -60,34 +63,32 @@ public class ProjectManager {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
 
-			mProject = StorageHandler.getInstance().loadProject(projectName);
-
-			if (errorMessage && mProject.getCatroidVersionCode() > Utils.getVersionCode(context)) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
-				return false;
-				// TODO show dialog to download latest catroid version instead
-			}
-
-			if (mProject == null) {
-				mProject = Utils.findValidProject();
-				if (mProject == null) {
-					mProject = StandardProjectHandler.createAndSaveStandardProject(context);
+			project = StorageHandler.getInstance().loadProject(projectName);
+			if (project == null) {
+				project = Utils.findValidProject();
+				if (project == null) {
+					project = StandardProjectHandler.createAndSaveStandardProject(context);
 				}
 
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 					return false;
 				}
+			} else if (errorMessage && project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+				return false;
+				// TODO show dialog to download latest catroid version instead
 			}
+
 			// adapt name of background sprite to the current language and place
 			// on lowest layer
-			mProject.getSpriteList().get(0).setName(context.getString(R.string.background));
-			mProject.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+			project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
 
-			mCurrentSprite = null;
-			mCurrentScript = null;
+			currentSprite = null;
+			currentScript = null;
 
-			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, mProject.getName());
+			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
 
 			return true;
 		} catch (Exception e) {
@@ -106,19 +107,19 @@ public class ProjectManager {
 	}
 
 	public void saveProject() {
-		if (mProject == null) {
+		if (project == null) {
 			return;
 		}
-		StorageHandler.getInstance().saveProject(mProject);
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
-			mProject = StandardProjectHandler.createAndSaveStandardProject(context);
-			mCurrentSprite = null;
-			mCurrentScript = null;
+			project = StandardProjectHandler.createAndSaveStandardProject(context);
+			currentSprite = null;
+			currentScript = null;
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,47 +131,58 @@ public class ProjectManager {
 	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
-		mProject = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+		project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
 
-		mCurrentSprite = null;
-		mCurrentScript = null;
+		currentSprite = null;
+		currentScript = null;
 		saveProject();
 	}
 
 	public Project getCurrentProject() {
-		return mProject;
+		return project;
 	}
 
 	public void setProject(Project project) {
-		mCurrentScript = null;
-		mCurrentSprite = null;
+		currentScript = null;
+		currentSprite = null;
 
-		this.mProject = project;
+		this.project = project;
 	}
 
 	public void deleteCurrentProject() {
-		StorageHandler.getInstance().deleteProject(mProject);
+		StorageHandler.getInstance().deleteProject(project);
 
-		mProject = null;
+		project = null;
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
 			return false;
 		}
 
-		String oldProjectPath = Utils.buildProjectPath(mProject.getName());
+		String oldProjectPath = Utils.buildProjectPath(project.getName());
 		File oldProjectDirectory = new File(oldProjectPath);
 
 		String newProjectPath = Utils.buildProjectPath(newProjectName);
 		File newProjectDirectory = new File(newProjectPath);
 
-		mProject.setName(newProjectName);
+		boolean directoryRenamed = false;
 
-		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
+			String tmpProjectPath = Utils.buildProjectPath(createTemporaryDirectoryName(newProjectName));
+			File tmpProjectDirectory = new File(tmpProjectPath);
+			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
+			if (directoryRenamed) {
+				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
+			}
+		} else {
+
+			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		}
 
 		if (directoryRenamed) {
+			project.setName(newProjectName);
 			this.saveProject();
 		}
 
@@ -178,35 +190,35 @@ public class ProjectManager {
 	}
 
 	public Sprite getCurrentSprite() {
-		return mCurrentSprite;
+		return currentSprite;
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
-		mCurrentSprite = sprite;
+		currentSprite = sprite;
 	}
 
 	public Script getCurrentScript() {
-		return mCurrentScript;
+		return currentScript;
 	}
 
 	public void setCurrentScript(Script script) {
 		if (script == null) {
-			mCurrentScript = null;
-		} else if (mCurrentSprite.getScriptIndex(script) != -1) {
-			mCurrentScript = script;
+			currentScript = null;
+		} else if (currentSprite.getScriptIndex(script) != -1) {
+			currentScript = script;
 		}
 	}
 
 	public void addSprite(Sprite sprite) {
-		mProject.addSprite(sprite);
+		project.addSprite(sprite);
 	}
 
 	public void addScript(Script script) {
-		mCurrentSprite.addScript(script);
+		currentSprite.addScript(script);
 	}
 
 	public boolean spriteExists(String spriteName) {
-		for (Sprite tempSprite : mProject.getSpriteList()) {
+		for (Sprite tempSprite : project.getSpriteList()) {
 			if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
 				return true;
 			}
@@ -215,7 +227,7 @@ public class ProjectManager {
 	}
 
 	public int getCurrentSpritePosition() {
-		return mProject.getSpriteList().indexOf(mCurrentSprite);
+		return project.getSpriteList().indexOf(currentSprite);
 	}
 
 	public int getCurrentScriptPosition() {
@@ -224,15 +236,15 @@ public class ProjectManager {
 			return -1;
 		}
 
-		return mProject.getSpriteList().get(currentSpritePosition).getScriptIndex(mCurrentScript);
+		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
 	}
 
 	public boolean setCurrentSpriteWithPosition(int position) {
-		if (position >= mProject.getSpriteList().size() || position < 0) {
+		if (position >= project.getSpriteList().size() || position < 0) {
 			return false;
 		}
 
-		mCurrentSprite = mProject.getSpriteList().get(position);
+		currentSprite = project.getSpriteList().get(position);
 		return true;
 	}
 
@@ -242,13 +254,23 @@ public class ProjectManager {
 			return false;
 		}
 
-		if (position >= mProject.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
+		if (position >= project.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
 			return false;
 		}
 
-		mCurrentScript = mProject.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
+		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
 
 		return true;
 	}
 
+	private String createTemporaryDirectoryName(String projectDirectoryName) {
+		String temporaryDirectorySuffix = "_tmp";
+		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
+		int suffixCounter = 0;
+		while (StorageHandler.getInstance().projectExistsIgnoreCase(temporaryDirectoryName)) {
+			temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix + suffixCounter;
+			suffixCounter++;
+		}
+		return temporaryDirectoryName;
+	}
 }

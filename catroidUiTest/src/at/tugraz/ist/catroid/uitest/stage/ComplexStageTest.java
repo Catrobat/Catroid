@@ -46,10 +46,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActivity> {
-	private Solo solo;
-	private Project project;
 	private final int screenWidth = 480;
 	private final int screenHeight = 800;
+
+	private Solo solo;
+	private Project project;
 
 	public ComplexStageTest() {
 		super("at.tugraz.ist.catroid", StageActivity.class);
@@ -64,12 +65,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -84,8 +80,8 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
 		byte[] blackBrightnessPixel = { (byte) 127, (byte) 127, (byte) 127, (byte) 255 };
 
-		solo.waitForActivity("StageActivity");
-		solo.sleep(2000);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(500);
 		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -41, screenWidth, screenHeight);
@@ -105,7 +101,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(blackPixel, screenArray, -80, -80, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) + 21, (screenHeight / 2) - 21);
-		solo.sleep(2000);
+		solo.sleep(300);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 0, 0, screenWidth, screenHeight);
@@ -115,7 +111,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 				screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) - 21, (screenHeight / 2) - 21);
-		solo.sleep(3000);
+		solo.sleep(300);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(whitePixel, screenArray, -31, 21, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
@@ -123,7 +119,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) + 21, (screenHeight / 2) + 21);
-		solo.sleep(3000);
+		solo.sleep(300);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -2, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -2, screenWidth, screenHeight);
@@ -131,7 +127,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) - 21, (screenHeight / 2) + 21);
-		solo.sleep(3000);
+		solo.sleep(300);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(redBrightnessPixel, screenArray, -21, -21, screenWidth,
 				screenHeight);
@@ -144,7 +140,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) - 50, (screenHeight / 2) - 50);
-		solo.sleep(3000);
+		solo.sleep(300);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(blackBrightnessPixel, screenArray, -54, 55, screenWidth,
 				screenHeight);
@@ -308,8 +304,6 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		blackCostumeData.setCostumeFilename(blackImageFile.getName());
 
 		StorageHandler.getInstance().saveProject(project);
-
 		ProjectManager.getInstance().setProject(project);
-
 	}
 }

@@ -35,6 +35,8 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -51,56 +53,55 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.createEmptyProject();
-
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
+		// workaround to disable mindstorm settings
+		// should be disabled no matter if test failed or succeeded
+		String settingsText = solo.getString(R.string.settings);
+		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
+		String buttonHomeText = solo.getString(R.string.home);
 
-		String settings = getActivity().getString(R.string.settings);
-		String prefMsBricks = getActivity().getString(R.string.pref_enable_ms_bricks);
-
-		while (!solo.searchText(solo.getString(R.string.home))) {
+		while (!solo.searchText(buttonHomeText)) {
 			solo.goBack();
 		}
 
-		solo.clickOnText(solo.getString(R.string.home));
-		solo.clickOnText(settings);
+		solo.clickOnText(buttonHomeText);
+		solo.clickOnText(settingsText);
 		solo.clickOnText(prefMsBricks);
 
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-
 		super.tearDown();
 	}
 
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
+		String spriteName = solo.getString(R.string.sprite_name);
 
-		String settings = getActivity().getString(R.string.settings);
-		String prefMsBricks = getActivity().getString(R.string.pref_enable_ms_bricks);
-
+		String settingsText = solo.getString(R.string.settings);
+		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
+		String categoryMotionText = solo.getString(R.string.category_motion);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		//disable mindstorm bricks, if enabled at start
 		if (!prefs.getBoolean("setting_mindstorm_bricks", false)) {
 			solo.clickOnText(solo.getString(R.string.home));
-			solo.clickOnText(settings);
+			solo.clickOnText(settingsText);
 			solo.clickOnText(prefMsBricks);
 			solo.goBack();
-			solo.clickOnText(solo.getString(R.string.current_project_button));
+			solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+			UiTestUtils.clearAllUtilTestProjects();
 			UiTestUtils.createEmptyProject();
-
-			solo.clickOnText("cat");
+			solo.sleep(200);
+			solo.clickOnText(solo.getString(R.string.current_project_button));
+			solo.sleep(100);
+			solo.waitForActivity(ProjectActivity.class.getSimpleName());
+			solo.clickInList(1);
 		}
 
-		String spriteName = solo.getString(R.string.sprite_name);
 		int categoryStringId = 0;
 		float screenWidth = 0;
 		float getTextViewXPosition = 0;
@@ -108,12 +109,11 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getString(R.string.category_motion));
+		solo.clickOnText(categoryMotionText);
 		ArrayList<Integer> listOfYPosition = UiTestUtils.getListItemYPositions(solo);
 		screenWidth = solo.getCurrentActivity().getResources().getDisplayMetrics().widthPixels;
 
 		getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
-
 		solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(1));
 		solo.clickOnText(spriteName);
 
@@ -124,13 +124,12 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_y);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getString(R.string.category_motion));
+		solo.clickOnText(categoryMotionText);
 		listOfYPosition = UiTestUtils.getListItemYPositions(solo);
 		screenWidth = solo.getCurrentActivity().getResources().getDisplayMetrics().widthPixels;
 		getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
 
 		solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(2));
-
 		solo.clickOnText(spriteName);
 
 		brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
@@ -139,13 +138,11 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getString(R.string.category_motion));
+		solo.clickOnText(categoryMotionText);
 
 		ArrayList<EditText> editTextList = solo.getCurrentEditTexts();
-
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
@@ -153,9 +150,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollDown();
-
 		editTextList = solo.getCurrentEditTexts();
-
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
@@ -163,15 +158,12 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollUp();
-
 		solo.goBack();
-
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_size_to);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getString(R.string.category_looks));
 
 		editTextList = solo.getCurrentEditTexts();
-
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
@@ -179,9 +171,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollDown();
-
 		editTextList = solo.getCurrentEditTexts();
-
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
@@ -189,9 +179,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollUp();
-
 		solo.goBack();
-
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getString(R.string.category_sound));
@@ -205,9 +193,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollDown();
-
 		editTextList = solo.getCurrentEditTexts();
-
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
@@ -215,9 +201,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollUp();
-
 		solo.goBack();
-
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_when_started);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getString(R.string.category_control));
@@ -231,9 +215,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollDown();
-
 		editTextList = solo.getCurrentEditTexts();
-
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
@@ -241,9 +223,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollUp();
-
 		solo.goBack();
-
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_motor_action);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getString(R.string.category_lego_nxt));
@@ -257,9 +237,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollDown();
-
 		editTextList = solo.getCurrentEditTexts();
-
 		for (EditText text : editTextList) {
 			if (text.getVisibility() == View.VISIBLE) {
 				fail("EditTexts should be invisible in AddBrickDialog! Check other brick xmls for more information");
@@ -267,8 +245,6 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		}
 
 		solo.scrollUp();
-
 		solo.goBack();
-
 	}
 }
