@@ -39,7 +39,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class ChangeYByBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int yMovement;
 	private Sprite sprite;
 
 	@XStreamOmitField
@@ -53,9 +52,14 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 
 	public ChangeYByBrick(Sprite sprite, int yMovement) {
 		this.sprite = sprite;
-		this.yMovement = yMovement;
 
 		yMovementFormula = new Formula(Integer.toString(yMovement));
+	}
+
+	public ChangeYByBrick(Sprite sprite, Formula yMovement) {
+		this.sprite = sprite;
+
+		yMovementFormula = yMovement;
 	}
 
 	public int getRequiredResources() {
@@ -63,7 +67,7 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		yMovement = yMovementFormula.interpret().intValue();
+		int yMovement = yMovementFormula.interpret().intValue();
 
 		sprite.costume.aquireXYWidthHeightLock();
 		int yPosition = (int) sprite.costume.getYPosition();
@@ -89,10 +93,6 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 
-		if (yMovementFormula == null) {
-			yMovementFormula = new Formula(Integer.toString(yMovement));
-		}
-
 		view = View.inflate(context, R.layout.brick_change_y, null);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_text_view);
@@ -112,7 +112,7 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeYByBrick(getSprite(), yMovement);
+		return new ChangeYByBrick(getSprite(), yMovementFormula);
 	}
 
 	public void onClick(View view) {

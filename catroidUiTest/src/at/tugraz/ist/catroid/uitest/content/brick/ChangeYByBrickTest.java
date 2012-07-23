@@ -78,14 +78,16 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_y_by)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, Y_TO_CHANGE + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, Y_TO_CHANGE, "yMovementFormula", changeYByBrick);
 
-		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
-		assertEquals("Wrong text in field.", Y_TO_CHANGE, yMovementValue);
-		assertEquals("Value in Brick is not updated.", Y_TO_CHANGE + "", solo.getEditText(0).getText().toString());
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, Y_TO_CHANGE + "");
+		//		solo.clickOnButton(solo.getString(R.string.ok));
+		//
+		//		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
+		//		assertEquals("Wrong text in field.", Y_TO_CHANGE, yMovementValue);
+		//		assertEquals("Value in Brick is not updated.", Y_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {

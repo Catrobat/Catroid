@@ -39,7 +39,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class ChangeXByBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xMovement;
 	private Sprite sprite;
 
 	@XStreamOmitField
@@ -53,9 +52,14 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 
 	public ChangeXByBrick(Sprite sprite, int xMovement) {
 		this.sprite = sprite;
-		this.xMovement = xMovement;
 
 		xMovementFormula = new Formula(Integer.toString(xMovement));
+	}
+
+	public ChangeXByBrick(Sprite sprite, Formula xMovement) {
+		this.sprite = sprite;
+
+		xMovementFormula = xMovement;
 	}
 
 	public int getRequiredResources() {
@@ -63,7 +67,7 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		xMovement = xMovementFormula.interpret().intValue();
+		int xMovement = xMovementFormula.interpret().intValue();
 
 		sprite.costume.aquireXYWidthHeightLock();
 		int xPosition = (int) sprite.costume.getXPosition();
@@ -89,10 +93,6 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 
-		if (xMovementFormula == null) {
-			xMovementFormula = new Formula(Integer.toString(xMovement));
-		}
-
 		view = View.inflate(context, R.layout.brick_change_x, null);
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_text_view);
@@ -112,7 +112,7 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeXByBrick(getSprite(), xMovement);
+		return new ChangeXByBrick(getSprite(), xMovementFormula);
 	}
 
 	public void onClick(View view) {
@@ -134,34 +134,6 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(xMovementFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(xMovement));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					xMovement = Integer.parseInt(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 
 	}
 

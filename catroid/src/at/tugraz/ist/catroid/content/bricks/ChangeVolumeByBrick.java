@@ -40,7 +40,6 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private Sprite sprite;
-	private double volume;
 
 	private transient View view;
 
@@ -52,9 +51,14 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 
 	public ChangeVolumeByBrick(Sprite sprite, double changeVolume) {
 		this.sprite = sprite;
-		this.volume = changeVolume;
 
-		volumeFormula = new Formula(Double.toString(volume));
+		volumeFormula = new Formula(Double.toString(changeVolume));
+	}
+
+	public ChangeVolumeByBrick(Sprite sprite, Formula changeVolume) {
+		this.sprite = sprite;
+
+		volumeFormula = changeVolume;
 	}
 
 	public int getRequiredResources() {
@@ -62,7 +66,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		volume = volumeFormula.interpret();
+		double volume = volumeFormula.interpret();
 
 		float currentVolume = SoundManager.getInstance().getVolume();
 		currentVolume += volume;
@@ -78,18 +82,10 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
-	public double getVolume() {
-		return volume;
-	}
-
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (volumeFormula == null) {
-			volumeFormula = new Formula(Double.toString(volume));
 		}
 
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
@@ -114,7 +110,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeVolumeByBrick(getSprite(), getVolume());
+		return new ChangeVolumeByBrick(getSprite(), volumeFormula);
 	}
 
 	public void onClick(View view) {
@@ -137,34 +133,6 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 
 		formulaEditor.setInputFocusAndFormula(volumeFormula);
 
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(volume));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-		//				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					volume = Float.parseFloat(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 	}
 
 }

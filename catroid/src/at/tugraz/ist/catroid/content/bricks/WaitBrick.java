@@ -67,15 +67,15 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	public void execute() {
 		Double t = timeToWaitInSecondsFormula.interpret() * 1000;
-		int timeToWait = t.intValue();
+		int timeToWaitInMilliSeconds = t.intValue();
 
 		long startTime = System.currentTimeMillis();
-		while (System.currentTimeMillis() <= (startTime + timeToWait)) {
+		while (System.currentTimeMillis() <= (startTime + timeToWaitInMilliSeconds)) {
 			if (!sprite.isAlive(Thread.currentThread())) {
 				break;
 			}
 			if (sprite.isPaused) {
-				timeToWait = timeToWait - (int) (System.currentTimeMillis() - startTime);
+				timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
 				while (sprite.isPaused) {
 					if (sprite.isFinished) {
 						return;
@@ -96,10 +96,6 @@ public class WaitBrick implements Brick, OnClickListener {
 
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (timeToWaitInSecondsFormula == null) {
-			timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliSeconds / 1000.0));
 		}
 
 		view = View.inflate(context, R.layout.brick_wait, null);

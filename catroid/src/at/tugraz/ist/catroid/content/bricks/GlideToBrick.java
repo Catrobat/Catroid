@@ -37,14 +37,14 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class GlideToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xDestination;
-	private int yDestination;
-	private int durationInMilliSeconds;
+	//private int xDestination;
+	//private int yDestination;
+	//private int durationInMilliSeconds;
 	private Sprite sprite;
 
 	private Formula xDestinationFormula;
 	private Formula yDestinationFormula;
-	private Formula durationInMilliSecondsFormula;
+	private Formula durationInSecondsFormula;
 
 	private transient Brick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
@@ -54,13 +54,18 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
 		this.sprite = sprite;
-		this.xDestination = xDestination;
-		this.yDestination = yDestination;
-		this.durationInMilliSeconds = durationInMilliSeconds;
 
 		xDestinationFormula = new Formula(Integer.toString(xDestination));
 		yDestinationFormula = new Formula(Integer.toString(yDestination));
-		durationInMilliSecondsFormula = new Formula(Integer.toString(durationInMilliSeconds));
+		durationInSecondsFormula = new Formula(Double.toString(durationInMilliSeconds / 1000.0));
+	}
+
+	public GlideToBrick(Sprite sprite, Formula xDestination, Formula yDestination, Formula durationInMilliSeconds) {
+		this.sprite = sprite;
+
+		xDestinationFormula = xDestination;
+		yDestinationFormula = yDestination;
+		durationInSecondsFormula = durationInMilliSeconds;
 	}
 
 	public int getRequiredResources() {
@@ -69,7 +74,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	public void execute() {
 
-		durationInMilliSeconds = durationInMilliSecondsFormula.interpret().intValue();
+		Double temp = durationInSecondsFormula.interpret() * 1000;
+		int durationInMilliSeconds = temp.intValue();
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
 		//		final CountDownLatch latch = new CountDownLatch(1);
@@ -117,8 +123,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 		if (!sprite.isAlive(Thread.currentThread())) {
 			// -stay at last position
 		} else {
+			double xDest = xDestinationFormula.interpret();
+			double yDest = yDestinationFormula.interpret();
 			sprite.costume.aquireXYWidthHeightLock();
-			sprite.costume.setXYPosition(xDestination, yDestination);
+			sprite.costume.setXYPosition((float) xDest, (float) yDest);
 			sprite.costume.releaseXYWidthHeightLock();
 		}
 	}
@@ -128,8 +136,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 		float xPosition = sprite.costume.getXPosition();
 		float yPosition = sprite.costume.getYPosition();
 
-		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
-		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
+		xPosition += ((float) timePassed / duration) * (xDestinationFormula.interpret() - xPosition);
+		yPosition += ((float) timePassed / duration) * (yDestinationFormula.interpret() - yPosition);
 
 		sprite.costume.setXYPosition(xPosition, yPosition);
 		sprite.costume.releaseXYWidthHeightLock();
@@ -140,24 +148,12 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	public int getDurationInMilliSeconds() {
-		return durationInMilliSeconds;
+		return durationInSecondsFormula.interpret().intValue();
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (xDestinationFormula == null) {
-			xDestinationFormula = new Formula(Integer.toString(xDestination));
-		}
-
-		if (yDestinationFormula == null) {
-			yDestinationFormula = new Formula(Integer.toString(yDestination));
-		}
-
-		if (durationInMilliSecondsFormula == null) {
-			durationInMilliSecondsFormula = new Formula(Integer.toString(durationInMilliSeconds));
 		}
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
@@ -176,8 +172,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_duration_text_view);
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_duration_edit_text);
-		durationInMilliSecondsFormula.setTextFieldId(R.id.brick_glide_to_duration_edit_text);
-		durationInMilliSecondsFormula.refreshTextField(view);
+		durationInSecondsFormula.setTextFieldId(R.id.brick_glide_to_duration_edit_text);
+		durationInSecondsFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -197,7 +193,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
+		return new GlideToBrick(getSprite(), xDestinationFormula, yDestinationFormula, durationInSecondsFormula);
 	}
 
 	public void onClick(final View view) {
@@ -228,7 +224,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 				break;
 
 			case R.id.brick_glide_to_duration_edit_text:
-				formulaEditor.setInputFocusAndFormula(durationInMilliSecondsFormula);
+				formulaEditor.setInputFocusAndFormula(durationInSecondsFormula);
 				break;
 		}
 

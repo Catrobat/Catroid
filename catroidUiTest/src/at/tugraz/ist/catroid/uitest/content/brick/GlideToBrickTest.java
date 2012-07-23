@@ -33,6 +33,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -71,21 +72,58 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		double duration = 1.5;
 		int xPosition = 123;
 		int yPosition = 567;
+		//UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, Y_TO_CHANGE, "yMovementFormula", changeYByBrick);
+		solo.clickOnEditText(0);
+		solo.clearEditText(3);
+		solo.enterText(3, String.valueOf(duration));
+		solo.clickOnButton(solo.getString(R.string.formula_editor_button_save));
+		solo.sleep(200);
 
-		UiTestUtils.clickEnterClose(solo, 0, String.valueOf(duration));
-		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
-		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
+		solo.clickOnEditText(1);
+		solo.clearEditText(3);
+		solo.enterText(3, String.valueOf(xPosition));
+		solo.clickOnButton(solo.getString(R.string.formula_editor_button_save));
+		solo.sleep(200);
+
+		solo.clickOnEditText(2);
+		solo.clearEditText(3);
+		solo.enterText(3, String.valueOf(yPosition));
+		solo.clickOnButton(solo.getString(R.string.formula_editor_button_save));
+		solo.sleep(200);
+
+		assertEquals("Text not updated within FormulaEditor", duration,
+				Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Text not updated within FormulaEditor", xPosition,
+				Integer.parseInt(solo.getEditText(1).getText().toString().substring(0, 3)));
+		assertEquals("Text not updated within FormulaEditor", yPosition,
+				Integer.parseInt(solo.getEditText(2).getText().toString().substring(0, 3)));
+
+		solo.clickOnButton(solo.getString(R.string.formula_editor_button_return));
+		solo.sleep(200);
+
+		//		assertEquals("Wrong text in field", newValue, formula.interpret());
+		//		assertEquals("Text not updated in the brick list", newValue,
+		//				Double.parseDouble(solo.getEditText(0).getText().toString()));
+
+		//		UiTestUtils.clickEnterClose(solo, 0, String.valueOf(duration));
+		//		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
+		//		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
 
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
-		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
-				glideToBrick.getDurationInMilliSeconds());
 
-		assertEquals("Wrong x input in Glide to brick", xPosition,
-				UiTestUtils.getPrivateField("xDestination", glideToBrick));
-		assertEquals("Wrong y input in Glide to brick", yPosition,
-				UiTestUtils.getPrivateField("yDestination", glideToBrick));
+		Formula formula = (Formula) UiTestUtils.getPrivateField("durationInSecondsFormula", glideToBrick);
+		Double temp = formula.interpret().doubleValue();
+
+		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000), Math.round(temp * 1000));
+		formula = (Formula) UiTestUtils.getPrivateField("xDestinationFormula", glideToBrick);
+		int temp2 = formula.interpret().intValue();
+		assertEquals("Wrong x input in Glide to brick", xPosition, temp2);
+
+		formula = (Formula) UiTestUtils.getPrivateField("yDestinationFormula", glideToBrick);
+		temp2 = formula.interpret().intValue();
+		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
 	}
 
 	public void testResizeInputFields() {
