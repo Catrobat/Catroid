@@ -338,8 +338,5 @@
      
     <!-- Num Pad Strings -->
     <string name="ime_name">CatTastatur</string>
-    <string name="label_go_key">Los</string>
-    <string name="label_next_key">Nächster</string>
-    <string name="label_send_key">Senden</string>
 
 </resources>
