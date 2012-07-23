@@ -93,19 +93,14 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_move)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, STEPS_TO_MOVE + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, STEPS_TO_MOVE, "stepsFormula", moveNStepsBrick);
 
-		assertEquals("Wrong text in field.", STEPS_TO_MOVE, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 50, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.6789, 50, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 50, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -12345.6789, 50, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.1, 50, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 12345.6789, 50, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, -0.1, 50, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, -12345.6789, 50, false);
 	}
 }

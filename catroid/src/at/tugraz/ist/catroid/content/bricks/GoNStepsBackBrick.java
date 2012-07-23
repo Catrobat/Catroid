@@ -38,7 +38,6 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 public class GoNStepsBackBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private int steps;
 
 	public Formula stepsFormula;
 
@@ -48,9 +47,12 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
-		this.steps = steps;
-
 		stepsFormula = new Formula(Integer.toString(steps));
+	}
+
+	public GoNStepsBackBrick(Sprite sprite, Formula steps) {
+		this.sprite = sprite;
+		stepsFormula = steps;
 	}
 
 	public int getRequiredResources() {
@@ -58,7 +60,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		steps = stepsFormula.interpret().intValue();
+		int steps = stepsFormula.interpret().intValue();
 
 		int zPosition = sprite.costume.zPosition;
 		if (steps > 0 && (zPosition - steps) > zPosition) {
@@ -77,10 +79,6 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (stepsFormula == null) {
-			stepsFormula = new Formula(Double.toString(steps));
 		}
 
 		View view = View.inflate(context, R.layout.brick_go_back, null);
@@ -104,7 +102,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new GoNStepsBackBrick(getSprite(), steps);
+		return new GoNStepsBackBrick(getSprite(), stepsFormula);
 	}
 
 	public void onClick(View view) {
@@ -126,34 +124,6 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(stepsFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(steps));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					steps = Integer.parseInt(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 
 	}
 

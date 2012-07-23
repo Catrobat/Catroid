@@ -76,10 +76,10 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptActi
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testIntegerEditText(solo, 0, 1, 75, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 1234567891, 75, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 123, 75, true);
-		UiTestUtils.testIntegerEditText(solo, 0, -1234567891, 75, false);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 1, 75, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 1234567891, 75, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 123, 75, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, -1234567891, 75, false);
 	}
 
 	private void createProject() {

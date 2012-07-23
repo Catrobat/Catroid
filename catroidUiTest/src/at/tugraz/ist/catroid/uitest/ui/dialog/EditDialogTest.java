@@ -66,11 +66,11 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 		int yPositionEditTextId = 1;
 		int xPositionEditTextId = 0;
 
-		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
+		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, 1, xPosition);
 		solo.waitForText(buttonPositiveText);
 		solo.clickOnButton(buttonPositiveText);
 		solo.sleep(300);
-		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
+		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, 1, yPosition);
 		solo.waitForText(buttonPositiveText);
 		solo.clickOnButton(buttonPositiveText);
 		solo.sleep(300);
@@ -86,7 +86,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 
 		double wait = 5.9;
 
-		UiTestUtils.insertDoubleIntoEditText(solo, 0, wait);
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, 1, wait);
 		solo.sendKey(Solo.ENTER);
 
 		assertEquals("Wrong value in WaitBrick EditText", wait + "", solo.getEditText(0).getText().toString());

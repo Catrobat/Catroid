@@ -89,10 +89,10 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.67, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 0.5, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.678, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 12345.67, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 0.5, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 12345.678, 60, false);
 	}
 
 	private void createProject() {

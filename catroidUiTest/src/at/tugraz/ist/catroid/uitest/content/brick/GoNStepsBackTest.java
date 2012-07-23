@@ -83,13 +83,15 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_go_back)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, STEPS_TO_GO_BACK + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, STEPS_TO_GO_BACK, "stepsFormula", goNStepsBackBrick);
 
-		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_GO_BACK + "", solo.getEditText(0).getText().toString());
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, STEPS_TO_GO_BACK + "");
+		//		solo.clickOnButton(solo.getString(R.string.ok));
+		//
+		//		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
+		//		assertEquals("Value in Brick is not updated.", STEPS_TO_GO_BACK + "", solo.getEditText(0).getText().toString());
 	}
 
 	private void createProject() {

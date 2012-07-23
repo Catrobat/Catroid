@@ -39,8 +39,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class PlaceAtBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xPosition;
-	private int yPosition;
 	private Sprite sprite;
 
 	private Formula xPositionFormula;
@@ -55,11 +53,16 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
 		this.sprite = sprite;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
 
 		xPositionFormula = new Formula(Integer.toString(xPosition));
 		yPositionFormula = new Formula(Integer.toString(yPosition));
+	}
+
+	public PlaceAtBrick(Sprite sprite, Formula xPosition, Formula yPosition) {
+		this.sprite = sprite;
+
+		xPositionFormula = xPosition;
+		yPositionFormula = yPosition;
 	}
 
 	public int getRequiredResources() {
@@ -67,8 +70,8 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		xPosition = xPositionFormula.interpret().intValue();
-		yPosition = yPositionFormula.interpret().intValue();
+		int xPosition = xPositionFormula.interpret().intValue();
+		int yPosition = yPositionFormula.interpret().intValue();
 
 		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setXYPosition(xPosition, yPosition);
@@ -83,12 +86,6 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 		if (instance == null) {
 			instance = this;
-		}
-		if (xPositionFormula == null) {
-			xPositionFormula = new Formula(Integer.toString(xPosition));
-		}
-		if (yPositionFormula == null) {
-			yPositionFormula = new Formula(Integer.toString(yPosition));
 		}
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
@@ -123,7 +120,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new PlaceAtBrick(getSprite(), xPosition, yPosition);
+		return new PlaceAtBrick(getSprite(), xPositionFormula, yPositionFormula);
 	}
 
 	public void onClick(final View view) {

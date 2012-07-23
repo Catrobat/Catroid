@@ -87,10 +87,10 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1000.55, 60, false);
 	}
 
 	private void createProject() {

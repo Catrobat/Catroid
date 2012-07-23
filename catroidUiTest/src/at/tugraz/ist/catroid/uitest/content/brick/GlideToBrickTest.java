@@ -136,16 +136,16 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
-		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.67, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.678, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 3, 1.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 3, 12345.67, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 3, -1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 3, 12345.678, 60, false);
 
 		for (int i = 1; i < 3; i++) {
-			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 1234567, 60, false);
+			UiTestUtils.testIntegerEditText(solo, i, 3, 1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 3, 123456, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 3, -1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 3, 1234567, 60, false);
 		}
 	}
 

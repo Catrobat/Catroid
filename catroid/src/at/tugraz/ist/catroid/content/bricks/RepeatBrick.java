@@ -38,7 +38,6 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int timesToRepeat;
 
 	private Formula timesToRepeatFormula;
 
@@ -48,9 +47,12 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
-		this.timesToRepeat = timesToRepeat;
-
 		timesToRepeatFormula = new Formula(Integer.toString(timesToRepeat));
+	}
+
+	public RepeatBrick(Sprite sprite, Formula timesToRepeat) {
+		this.sprite = sprite;
+		timesToRepeatFormula = timesToRepeat;
 	}
 
 	public int getRequiredResources() {
@@ -59,7 +61,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public void execute() {
-		timesToRepeat = timesToRepeatFormula.interpret().intValue();
+		int timesToRepeat = timesToRepeatFormula.interpret().intValue();
 
 		if (timesToRepeat <= 0) {
 			Script script = loopEndBrick.getScript();
@@ -72,7 +74,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new RepeatBrick(getSprite(), timesToRepeat);
+		return new RepeatBrick(getSprite(), timesToRepeatFormula);
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
@@ -81,16 +83,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 			instance = this;
 		}
 
-		if (timesToRepeatFormula == null) {
-			timesToRepeatFormula = new Formula(Double.toString(timesToRepeat));
-		}
-
 		View view = View.inflate(context, R.layout.brick_repeat, null);
 
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
-		//		edit.setText(timesToRepeat + "");
-		//		edit.setText(timesToRepeatFormula.getEditTextRepresentation());
+
 		timesToRepeatFormula.setTextFieldId(R.id.brick_repeat_edit_text);
 		timesToRepeatFormula.refreshTextField(view);
 
@@ -124,35 +121,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(timesToRepeatFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(timesToRepeat));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-		//				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					timesToRepeat = Integer.parseInt(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 
 	}
 

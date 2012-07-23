@@ -105,8 +105,8 @@ public class UiTestUtils {
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertIntegerIntoEditText(Solo solo, int editTextId, int value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertIntegerIntoEditText(Solo solo, int editTextId, int editorEditFieldId, int value) {
+		insertValue(solo, editTextId, editorEditFieldId, value + "");
 	}
 
 	/**
@@ -117,15 +117,15 @@ public class UiTestUtils {
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertDoubleIntoEditText(Solo solo, int editTextId, double value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertDoubleIntoEditText(Solo solo, int editTextId, int editorEditFieldId, double value) {
+		insertValue(solo, editTextId, editorEditFieldId, value + "");
 	}
 
-	private static void insertValue(Solo solo, int editTextId, String value) {
+	private static void insertValue(Solo solo, int editTextId, int editorEditFieldId, String value) {
 		solo.clickOnEditText(editTextId);
 		solo.sleep(50);
-		solo.clearEditText(1);
-		solo.enterText(1, value);
+		solo.clearEditText(editorEditFieldId);
+		solo.enterText(editorEditFieldId, value);
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
@@ -510,15 +510,15 @@ public class UiTestUtils {
 		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], 10);
 	}
 
-	public static void testIntegerEditText(Solo solo, int editTextIndex, int value, int editTextMinWidth,
-			boolean assertMode) {
-		insertIntegerIntoEditText(solo, editTextIndex, value);
+	public static void testIntegerEditText(Solo solo, int editTextIndex, int editorEditFieldId, int value,
+			int editTextMinWidth, boolean assertMode) {
+		insertIntegerIntoEditText(solo, editTextIndex, editorEditFieldId, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
-	public static void testDoubleEditText(Solo solo, int editTextIndex, double value, int editTextMinWidth,
-			boolean assertMode) {
-		insertDoubleIntoEditText(solo, editTextIndex, value);
+	public static void testDoubleEditText(Solo solo, int editTextIndex, int editorEditFieldId, double value,
+			int editTextMinWidth, boolean assertMode) {
+		insertDoubleIntoEditText(solo, editTextIndex, editorEditFieldId, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
@@ -574,7 +574,7 @@ public class UiTestUtils {
 
 		assertEquals("Wrong text in field", newValue, formula.interpret());
 		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(solo.getEditText(0).getText().toString()));
+				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString()));
 
 	}
 

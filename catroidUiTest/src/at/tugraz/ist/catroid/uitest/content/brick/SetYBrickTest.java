@@ -89,10 +89,10 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 123456, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, -1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 1234567, 50, false);
 	}
 
 	private void createProject() {

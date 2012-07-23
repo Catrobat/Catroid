@@ -40,7 +40,6 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private double steps;
 
 	private transient View view;
 
@@ -52,9 +51,13 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	public MoveNStepsBrick(Sprite sprite, double steps) {
 		this.sprite = sprite;
-		this.steps = steps;
-
 		stepsFormula = new Formula(Double.toString(steps));
+	}
+
+	public MoveNStepsBrick(Sprite sprite, Formula steps) {
+		this.sprite = sprite;
+
+		stepsFormula = steps;
 	}
 
 	public int getRequiredResources() {
@@ -62,7 +65,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		steps = stepsFormula.interpret().doubleValue();
+		double steps = stepsFormula.interpret().doubleValue();
 
 		sprite.costume.aquireXYWidthHeightLock();
 
@@ -83,10 +86,6 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (stepsFormula == null) {
-			stepsFormula = new Formula(Double.toString(steps));
 		}
 
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
@@ -113,7 +112,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new MoveNStepsBrick(getSprite(), steps);
+		return new MoveNStepsBrick(getSprite(), stepsFormula);
 	}
 
 	public void onClick(View view) {
@@ -135,35 +134,6 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(stepsFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(steps));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-		//				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					steps = Double.parseDouble(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 
 	}
 }

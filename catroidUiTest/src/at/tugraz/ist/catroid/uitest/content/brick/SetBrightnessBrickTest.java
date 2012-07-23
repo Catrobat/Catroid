@@ -77,20 +77,23 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		double newBrightness = 65.5;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, newBrightness + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newBrightness, "brightnessFormula", SetBrightnessBrick);
 
-		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
-		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		//
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, newBrightness + "");
+		//		solo.clickOnButton(solo.getString(R.string.ok));
+		//
+		//		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
+		//		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1000.55, 60, false);
 	}
 
 	private void createProject() {
