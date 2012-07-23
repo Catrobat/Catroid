@@ -496,6 +496,40 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getInstance().getCurrentProject().getName());
 	}
 
+	public void testRenameToSameName() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		solo.assertCurrentActivity("Should be My Projects Activity", MyProjectsActivity.class);
+		assertEquals("Should not be renamed", UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance()
+				.getCurrentProject().getName());
+	}
+
+	public void testRenameWithNoInput() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		String errorMessageInvalidInput = solo.getString(R.string.notification_invalid_text_entered);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
+	}
+
 	public void testRenameProjectWithWhitelistedCharacters() {
 		createProjects();
 		solo.sleep(200);
