@@ -43,7 +43,7 @@ public class ScriptSerializer extends Serializer {
 		serializedScript = (Script) object;
 		String xmlElementString = "";
 		Collection<Field> fields = fieldMap.values();
-		xmlElementString = "<Content." + object.getClass().getSimpleName() + ">\n";
+		xmlElementString = getStartTag("Content." + object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 		for (Field scriptClassField : fields) {
 			String fieldName = scriptClassField.getName();
@@ -54,14 +54,14 @@ public class ScriptSerializer extends Serializer {
 					xmlElementString = "<sprite reference=\"../../..\"/>" + "\n";
 					scriptStringList.add(xmlElementString);
 				} else if (fieldName.equals("brickList")) {
-					scriptStringList.add("<brickList>\n");
+
 					BrickSerializer brickSerializer = new BrickSerializer(serializedSprite, (Script) object,
 							serializedProject);
 					List<String> brickStrings = brickSerializer.serializeBrickList(serializedScript.getBrickList());
 					scriptStringList.addAll(brickStrings);
-					scriptStringList.add("</brickList>\n");
+
 				} else if (scriptClassField.getType().equals(String.class)) {
-					xmlElementString = "<" + fieldName + ">" + scriptClassField.get(object) + "</" + fieldName + ">";
+					xmlElementString = getElementString(fieldName, (String) scriptClassField.get(object));
 					scriptStringList.add(xmlElementString);
 				} else {
 					String referenceString = getReference(scriptClassField, object);
@@ -69,12 +69,11 @@ public class ScriptSerializer extends Serializer {
 					scriptStringList.add(xmlElementString);
 				}
 			} else {
-				xmlElementString = "<" + fieldName + ">" + scriptClassField.get(object).toString() + "</" + fieldName
-						+ ">" + "\n";
+				xmlElementString = getElementString(fieldName, scriptClassField.get(object).toString());
 				scriptStringList.add(xmlElementString);
 			}
 		}
-		xmlElementString = "</Content." + object.getClass().getSimpleName() + ">\n";
+		xmlElementString = getEndTag("Content." + object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 		return scriptStringList;
 	}
