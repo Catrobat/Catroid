@@ -22,11 +22,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
-import android.util.Log;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class BrickSerializer extends Serializer {
@@ -44,28 +45,47 @@ public class BrickSerializer extends Serializer {
 	}
 
 	@Override
-	public String serialize(Object object) throws IllegalArgumentException, IllegalAccessException {
+	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException {
 		fieldMap = objectCreator.getFieldMap(object.getClass());
+		List<String> brickStringList = new ArrayList<String>();
 		String xmlElementString = "";
 		Collection<Field> fields = fieldMap.values();
+		xmlElementString = "<Bricks." + object.getClass().getSimpleName() + ">\n";
+		brickStringList.add(xmlElementString);
 		for (Field brickClassField : fields) {
 			String fieldName = brickClassField.getName();
 			brickClassField.setAccessible(true);
 			if (!brickClassField.getType().isPrimitive()) {
-				Log.i("primitive", fieldName + " is not primitive");
 				if (fieldName.equals("sprite")) {
-					xmlElementString = xmlElementString + "<sprite reference=\"../../../../..\"/>" + "\n";
+					xmlElementString = "<sprite reference=\"../../../../..\"/>" + "\n";
+					brickStringList.add(xmlElementString);
+				} else if (brickClassField.getType().equals(String.class)) {
+					xmlElementString = "<" + fieldName + ">" + brickClassField.get(object) + "</" + fieldName + ">";
+					brickStringList.add(xmlElementString);
 				} else {
 					String referenceString = getReference(brickClassField, object);
-					xmlElementString = xmlElementString + "<" + fieldName + " reference=\"" + referenceString + "\"/>"
-							+ "\n";
+					xmlElementString = "<" + fieldName + " reference=\"" + referenceString + "\"/>" + "\n";
+					brickStringList.add(xmlElementString);
 				}
 			} else {
-				xmlElementString = xmlElementString + "<" + fieldName + ">" + brickClassField.get(object).toString()
-						+ "</" + fieldName + ">" + "\n";
+				xmlElementString = "<" + fieldName + ">" + brickClassField.get(object).toString() + "</" + fieldName
+						+ ">" + "\n";
+				brickStringList.add(xmlElementString);
 			}
 		}
-		Log.i("serializer", xmlElementString);
-		return xmlElementString;
+		xmlElementString = "</Bricks." + object.getClass().getSimpleName() + ">\n";
+		brickStringList.add(xmlElementString);
+		//Log.i("serializer", xmlElementString);
+		return brickStringList;
+	}
+
+	public List<String> serializeBrickList(List<Brick> brickList) throws IllegalArgumentException,
+			IllegalAccessException {
+		List<String> brickStrings = new ArrayList<String>();
+		for (Object brickObject : brickList) {
+			brickStrings.addAll(serialize(brickObject));
+		}
+		return brickStrings;
+
 	}
 }

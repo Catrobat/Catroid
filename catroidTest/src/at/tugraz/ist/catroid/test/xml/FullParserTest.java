@@ -163,6 +163,19 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 
 		WhenScript script = (WhenScript) testSprite.getScript(1);
+		//		ScriptSerializer scriptSerializer = new ScriptSerializer(testSprite, testProject);
+		//		try {
+		//			List<String> script2 = scriptSerializer.serialize(script);
+		//			for (String element : script2) {
+		//				//Log.i("script element", element);
+		//			}
+		//		} catch (IllegalArgumentException e1) {
+		//			// TODO Auto-generated catch block
+		//			e1.printStackTrace();
+		//		} catch (IllegalAccessException e1) {
+		//			// TODO Auto-generated catch block
+		//			e1.printStackTrace();
+		//		}
 		SetCostumeBrick costumeBrick = (SetCostumeBrick) script.getBrick(0);
 		testData = (CostumeData) TestUtils.getPrivateField("costumeData", costumeBrick, false);
 		testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
@@ -219,17 +232,18 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("SoundInfo file name not correct",
 				"B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3", si.getSoundFileName());
 		WhenScript testScript = (WhenScript) testSprite.getScript(1);
+
 		PlaySoundBrick playSoundBrick = (PlaySoundBrick) testScript.getBrick(4);
-		BrickSerializer bs = new BrickSerializer(testSprite, testScript, testProject);
-		try {
-			bs.serialize(playSoundBrick);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//		BrickSerializer bs = new BrickSerializer(testSprite, testScript, testProject);
+		//		try {
+		//			bs.serialize(playSoundBrick);
+		//		} catch (IllegalArgumentException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		} catch (IllegalAccessException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
 		assertNotNull("The PlaySoundBrick is null", playSoundBrick);
 		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", playSoundBrick, false);
 		assertEquals("SoundInfo name is not correct", "Geige", si2.getTitle());
