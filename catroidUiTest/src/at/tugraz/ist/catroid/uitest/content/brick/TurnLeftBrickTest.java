@@ -77,14 +77,16 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 		double turnDegrees = 25;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, turnDegrees + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, turnDegrees, "degreesFormula", turnLeftBrick);
 
-		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
-		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
-		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, turnDegrees + "");
+		//		solo.clickOnButton(solo.getString(R.string.ok));
+		//
+		//		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
+		//		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
+		//		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {

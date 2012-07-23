@@ -39,7 +39,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class SetYBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int yPosition;
 	private Sprite sprite;
 
 	@XStreamOmitField
@@ -53,9 +52,12 @@ public class SetYBrick implements Brick, OnClickListener {
 
 	public SetYBrick(Sprite sprite, int yPosition) {
 		this.sprite = sprite;
-		this.yPosition = yPosition;
-
 		yPositionFormula = new Formula(Integer.toString(yPosition));
+	}
+
+	public SetYBrick(Sprite sprite, Formula yPosition) {
+		this.sprite = sprite;
+		yPositionFormula = yPosition;
 	}
 
 	public int getRequiredResources() {
@@ -63,7 +65,7 @@ public class SetYBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		yPosition = yPositionFormula.interpret().intValue();
+		int yPosition = yPositionFormula.interpret().intValue();
 
 		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setYPosition(yPosition);
@@ -77,10 +79,6 @@ public class SetYBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (yPositionFormula == null) {
-			yPositionFormula = new Formula(Integer.toString(yPosition));
 		}
 
 		view = View.inflate(context, R.layout.brick_set_y, null);
@@ -105,7 +103,7 @@ public class SetYBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new SetYBrick(getSprite(), yPosition);
+		return new SetYBrick(getSprite(), yPositionFormula);
 	}
 
 	public void onClick(View view) {
@@ -117,9 +115,7 @@ public class SetYBrick implements Brick, OnClickListener {
 			formulaEditor.setOnDismissListener(new OnDismissListener() {
 				public void onDismiss(DialogInterface editor) {
 
-					//size = formulaEditor.getReturnValue();
 					formulaEditor.dismiss();
-
 					editorActive = false;
 				}
 			});
@@ -127,35 +123,6 @@ public class SetYBrick implements Brick, OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(yPositionFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(yPosition));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-		//				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					yPosition = Integer.parseInt(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 
 	}
 }

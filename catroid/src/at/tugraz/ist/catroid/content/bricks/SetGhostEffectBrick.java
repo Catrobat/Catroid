@@ -37,7 +37,6 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class SetGhostEffectBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double transparency;
 	private Sprite sprite;
 
 	private transient View view;
@@ -50,9 +49,12 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
-		this.transparency = ghostEffectValue;
-
 		transparencyFormula = new Formula(Double.toString(ghostEffectValue));
+	}
+
+	public SetGhostEffectBrick(Sprite sprite, Formula ghostEffectValue) {
+		this.sprite = sprite;
+		transparencyFormula = ghostEffectValue;
 	}
 
 	public int getRequiredResources() {
@@ -60,7 +62,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		transparency = transparencyFormula.interpret();
+		double transparency = transparencyFormula.interpret();
 		sprite.costume.setAlphaValue((100f - (float) transparency) / 100);
 	}
 
@@ -68,18 +70,14 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
-	public double getGhostEffectValue() {
-		return transparency;
-	}
+	//	public double getGhostEffectValue() {
+	//		return transparency;
+	//	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (transparencyFormula == null) {
-			transparencyFormula = new Formula(Double.toString(transparency));
 		}
 
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
@@ -105,7 +103,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new SetGhostEffectBrick(getSprite(), getGhostEffectValue());
+		return new SetGhostEffectBrick(getSprite(), transparencyFormula);
 	}
 
 	public void onClick(View view) {

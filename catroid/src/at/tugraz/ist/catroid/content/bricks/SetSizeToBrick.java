@@ -38,7 +38,6 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 public class SetSizeToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private double size;
 	public transient boolean editorActive = false;
 	private transient SetSizeToBrick instance = null;
 	private transient FormulaEditorDialog formulaEditor;
@@ -48,9 +47,12 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 
 	public SetSizeToBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
-		this.size = size;
-
 		sizeFormula = new Formula(Double.toString(size));
+	}
+
+	public SetSizeToBrick(Sprite sprite, Formula size) {
+		this.sprite = sprite;
+		sizeFormula = size;
 	}
 
 	public int getRequiredResources() {
@@ -58,7 +60,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		size = sizeFormula.interpret();
+		double size = sizeFormula.interpret();
 		sprite.costume.setSize((float) size / 100);
 	}
 
@@ -71,10 +73,6 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (sizeFormula == null) {
-			sizeFormula = new Formula(Double.toString(size));
 		}
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_text_view);
@@ -96,7 +94,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new SetSizeToBrick(getSprite(), size);
+		return new SetSizeToBrick(getSprite(), sizeFormula);
 	}
 
 	public void onClick(View view) {
@@ -117,39 +115,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 			formulaEditor.show();
 		}
 
-		if (sizeFormula == null) {
-			sizeFormula = new Formula(Double.toString(size));
-		}
-
 		formulaEditor.setInputFocusAndFormula(sizeFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(size));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					size = Double.parseDouble(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 
 	}
 }

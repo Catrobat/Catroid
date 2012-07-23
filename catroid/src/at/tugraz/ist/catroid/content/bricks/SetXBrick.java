@@ -39,7 +39,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class SetXBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xPosition;
 	private Sprite sprite;
 
 	@XStreamOmitField
@@ -53,9 +52,12 @@ public class SetXBrick implements Brick, OnClickListener {
 
 	public SetXBrick(Sprite sprite, int xPosition) {
 		this.sprite = sprite;
-		this.xPosition = xPosition;
-
 		xPositionFormula = new Formula(Integer.toString(xPosition));
+	}
+
+	public SetXBrick(Sprite sprite, Formula xPosition) {
+		this.sprite = sprite;
+		xPositionFormula = xPosition;
 	}
 
 	public int getRequiredResources() {
@@ -63,7 +65,7 @@ public class SetXBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		xPosition = xPositionFormula.interpret().intValue();
+		int xPosition = xPositionFormula.interpret().intValue();
 
 		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setXPosition(xPosition);
@@ -78,17 +80,11 @@ public class SetXBrick implements Brick, OnClickListener {
 		if (instance == null) {
 			instance = this;
 		}
-
-		if (xPositionFormula == null) {
-			xPositionFormula = new Formula(Integer.toString(xPosition));
-		}
-
 		view = View.inflate(context, R.layout.brick_set_x, null);
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_x_edit_text);
-		//		editX.setText(String.valueOf(xPosition));
-		//		editX.setText(xPositionFormula.getEditTextRepresentation());
+
 		xPositionFormula.setTextFieldId(R.id.brick_set_x_edit_text);
 		xPositionFormula.refreshTextField(view);
 
@@ -105,7 +101,7 @@ public class SetXBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new SetXBrick(getSprite(), xPosition);
+		return new SetXBrick(getSprite(), xPositionFormula);
 	}
 
 	public void onClick(View view) {
@@ -117,7 +113,6 @@ public class SetXBrick implements Brick, OnClickListener {
 			formulaEditor.setOnDismissListener(new OnDismissListener() {
 				public void onDismiss(DialogInterface editor) {
 
-					//size = formulaEditor.getReturnValue();
 					formulaEditor.dismiss();
 
 					editorActive = false;
@@ -127,35 +122,6 @@ public class SetXBrick implements Brick, OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(xPositionFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(xPosition));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-		//				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					xPosition = Integer.parseInt(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 
 	}
 }
