@@ -24,10 +24,6 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.util.Locale;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,7 +40,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.formulaeditor.CalcGrammarLexer;
 import at.tugraz.ist.catroid.formulaeditor.CalcGrammarParser;
 import at.tugraz.ist.catroid.formulaeditor.CatKeyboardView;
 import at.tugraz.ist.catroid.formulaeditor.Formula;
@@ -167,37 +162,14 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	}
 
 	private int parseFormula(String formulaToParse) {
-		CharStream cs = new ANTLRStringStream(formulaToParse);
-		CalcGrammarLexer lexer = new CalcGrammarLexer(cs);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		CalcGrammarParser parser = new CalcGrammarParser(tokens);
+		CalcGrammarParser parser = CalcGrammarParser.getFormulaParser(formulaToParse);
+		FormulaElement parserFormulaElement = parser.parseFormula();
 
-		try {
-			FormulaElement parserFormulaElement = parser.formula();
-
-			Log.i("info", "formula: " + formula.getEditTextRepresentation());
-			Log.i("info", "getParserErrorCount: " + parser.getParserErrorCount());
-			if (parser.getParserErrorMessages() != null) {
-				Toast.makeText(context, R.string.formula_editor_parse_fail, Toast.LENGTH_SHORT).show();
-				for (String err : parser.getParserErrorMessages()) {
-					String[] temp = err.substring(12).split(" ");
-					Log.i("info", "" + Integer.parseInt(temp[0]));
-					return Integer.parseInt(temp[0]);
-				}
-
-			} else {
-				formula.setRoot(parserFormulaElement);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			//			Log.i("info", "index: " + e.index);
-			//			Log.i("info", "line: " + e.line);
-			//			Log.i("info", "charPositionInLine: " + e.charPositionInLine);
-			//			Log.i("info", "message: " + e.getMessage());
-			Toast.makeText(context, R.string.formula_editor_parse_fail, Toast.LENGTH_SHORT).show();
-			return -2;
+		if (parserFormulaElement == null) {
+			return parser.getErrorCharacterPosition();
+		} else {
+			formula.setRoot(parserFormulaElement);
 		}
-
 		return -1;
 	}
 
