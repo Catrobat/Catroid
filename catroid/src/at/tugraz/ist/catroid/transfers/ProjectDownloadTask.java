@@ -79,7 +79,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString);
 
-			if (StorageHandler.getInstance().projectExists(projectName)) {
+			if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
 				showOverwriteDialog = true;
 				result = true;
 			}
