@@ -55,7 +55,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PROJECTNAME_TAG = "fname=";
-	private ProjectManager projectManager;
+	//	private ProjectManager projectManager;
 	private ActivityHelper activityHelper;
 	private TextView titleText;
 	public static final int DIALOG_NEW_PROJECT = 0;
@@ -77,11 +77,10 @@ public class MainMenuActivity extends Activity {
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
-		projectManager = ProjectManager.getInstance();
 
 		Utils.loadProjectIfNeeded(this);
 
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
 			findViewById(R.id.current_project_button).setEnabled(false);
 		}
 
@@ -102,7 +101,7 @@ public class MainMenuActivity extends Activity {
 		ignoreResume = false;
 		PreStageActivity.shutdownPersistentResources();
 
-		Project currentProject = projectManager.getCurrentProject();
+		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 
 		if (currentProject != null) {
 
@@ -112,7 +111,7 @@ public class MainMenuActivity extends Activity {
 			activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
 					new View.OnClickListener() {
 						public void onClick(View v) {
-							if (projectManager.getCurrentProject() != null) {
+							if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 								Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
 								ignoreResume = true;
 								startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
@@ -134,9 +133,10 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		if (projectManager.getCurrentProject() != null
-				&& StorageHandler.getInstance().projectExistsCheckCase(projectManager.getCurrentProject().getName())) {
-			projectManager.saveProject();
+		if (ProjectManager.INSTANCE.getCurrentProject() != null
+				&& StorageHandler.getInstance().projectExistsCheckCase(
+						ProjectManager.INSTANCE.getCurrentProject().getName())) {
+			ProjectManager.INSTANCE.saveProject();
 		}
 
 		switch (id) {
@@ -167,7 +167,7 @@ public class MainMenuActivity extends Activity {
 		super.onPrepareDialog(id, dialog);
 		switch (id) {
 			case DIALOG_UPLOAD_PROJECT:
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 				String currentProjectName = currentProject.getName();
 				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
@@ -177,7 +177,7 @@ public class MainMenuActivity extends Activity {
 						+ currentProjectName)));
 
 				projectRename.setVisibility(View.GONE);
-				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
+				projectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
 				projectDescriptionField.setText("");
 				projectUploadName.requestFocus();
 				projectUploadName.selectAll();
@@ -197,7 +197,7 @@ public class MainMenuActivity extends Activity {
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
 			return;
 		}
 		if (!ignoreResume) {
@@ -205,21 +205,21 @@ public class MainMenuActivity extends Activity {
 		}
 		ignoreResume = false;
 
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
 		writeProjectTitleInTextfield();
 
 	}
 
 	public void writeProjectTitleInTextfield() {
 		String title = this.getResources().getString(R.string.project_name) + " "
-				+ projectManager.getCurrentProject().getName();
+				+ ProjectManager.INSTANCE.getCurrentProject().getName();
 		titleText.setText(title);
 	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
 			return;
 		}
 
@@ -231,14 +231,15 @@ public class MainMenuActivity extends Activity {
 		// onPause is sufficient --> gets called before "process_killed",
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
+		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
+			ProjectManager.INSTANCE.saveProject();
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
+					.getName());
 		}
 	}
 
 	public void handleCurrentProjectButton(View v) {
-		if (projectManager.getCurrentProject() != null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
