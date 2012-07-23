@@ -20,34 +20,17 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.test.ui;
+package at.tugraz.ist.catroid.test.utils;
 
-import android.content.Intent;
-import android.test.ActivityUnitTestCase;
-import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.test.utils.TestMainMenuActivity;
+import android.os.Bundle;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
-public class MainMenuActivityTest extends ActivityUnitTestCase<TestMainMenuActivity> {
-	public MainMenuActivityTest() {
-		super(TestMainMenuActivity.class);
-	}
-
+/**
+ * This class simply provides public access to protected methods which shall be tested.
+ */
+public class TestMainMenuActivity extends MainMenuActivity {
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
-	public void testShouldNotCrashIfProjectIsNull() {
-		startActivity(new Intent(), null, null);
-
-		ProjectManager.getInstance().setProject(null);
-
-		getActivity().onPostCreate(null);
-		assertTrue(true);
+	public void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
 	}
 }
