@@ -43,41 +43,44 @@ public abstract class Serializer {
 	List<Sprite> spriteList;
 	List<SoundInfo> soundList;
 
-	public abstract String serialize(Object object) throws IllegalArgumentException, IllegalAccessException;
+	public abstract List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException;
 
 	public String getReference(Field fieldNeedingReference, Object objectWIthField) throws IllegalArgumentException,
 			IllegalAccessException {
 		String reference = "";
 		Object referencedObject = fieldNeedingReference.get(objectWIthField);
 		String referencedObjectName = referencedObject.getClass().getSimpleName();
+		if (objectWIthField.getClass().getSimpleName().endsWith("Brick")) {
+			if (referencedObjectName.endsWith("Brick")) {
+				if (brickList.contains(referencedObject)) {
+					reference = "../../Bricks." + referencedObjectName;
 
-		if (referencedObjectName.endsWith("Brick")) {
-			if (brickList.contains(referencedObject)) {
-				reference = "../../Bricks." + referencedObjectName;
+					List<Brick> sameBrickList = new ArrayList<Brick>();
+					for (int i = 0; i < brickList.size(); i++) {
+						if (brickList.get(i).getClass().getSimpleName().equals(referencedObjectName)) {
 
-				List<Brick> sameBrickList = new ArrayList<Brick>();
-				for (int i = 0; i < brickList.size(); i++) {
-					if (brickList.get(i).getClass().getSimpleName().equals(referencedObjectName)) {
-
-						sameBrickList.add(brickList.get(i));
+							sameBrickList.add(brickList.get(i));
+						}
 					}
-				}
 
-				if (sameBrickList.size() > 1) {
-					reference = getReferenceIndexSuffix(reference, referencedObject, sameBrickList);
+					if (sameBrickList.size() > 1) {
+						reference = getReferenceIndexSuffix(reference, referencedObject, sameBrickList);
+					}
+				} else {
+					reference = "TODO for bricks of other scripts";
 				}
-			} else {
-				reference = "TODO";
+			} else if (referencedObjectName.equals("CostumeData")) {
+				reference = "../../../../../costumeDataList/Common.CostumeData";
+				reference = getReferenceIndexSuffix(reference, referencedObject, costumeList);
+			} else if (referencedObjectName.equals("Sprite")) {
+				reference = "../../../../../../Content.Sprite";
+				reference = getReferenceIndexSuffix(reference, referencedObject, spriteList);
+			} else if (referencedObjectName.equals("SoundInfo")) {
+				reference = "../../../../../soundList/Common.SoundInfo";
+				reference = getReferenceIndexSuffix(reference, referencedObject, soundList);
 			}
-		} else if (referencedObjectName.equals("CostumeData")) {
-			reference = "../../../../../costumeDataList/Common.CostumeData";
-			reference = getReferenceIndexSuffix(reference, referencedObject, costumeList);
-		} else if (referencedObjectName.equals("Sprite")) {
-			reference = "../../../../../../Content.Sprite";
-			reference = getReferenceIndexSuffix(reference, referencedObject, spriteList);
-		} else if (referencedObjectName.equals("SoundInfo")) {
-			reference = "../../../../../soundList/Common.SoundInfo";
-			reference = getReferenceIndexSuffix(reference, referencedObject, soundList);
+		} else if (objectWIthField.getClass().getSimpleName().endsWith("Script")) {
+			reference = "TODO for scripts";
 		}
 		return reference;
 
