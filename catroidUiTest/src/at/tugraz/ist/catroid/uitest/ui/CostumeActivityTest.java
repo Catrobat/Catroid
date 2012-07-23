@@ -149,6 +149,22 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
+	public void testRenameCostumeMixedCase() {
+		String newNameMixedCase = "coSTuMeNamEtESt";
+		solo.clickOnText(getActivity().getString(R.string.background));
+		solo.sleep(500);
+		solo.clickOnView(solo.getView(R.id.costume_name));
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, newNameMixedCase);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(100);
+		assertEquals("Costume is not renamed to Mixed Case", newNameMixedCase, costumeDataList.get(0).getCostumeName());
+		if (!solo.searchText(newNameMixedCase)) {
+			fail("costume not renamed in actual view");
+		}
+	}
+
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());

@@ -151,7 +151,7 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
 			return false;
 		}
@@ -162,11 +162,22 @@ public class ProjectManager {
 		String newProjectPath = Utils.buildProjectPath(newProjectName);
 		File newProjectDirectory = new File(newProjectPath);
 
-		project.setName(newProjectName);
+		boolean directoryRenamed = false;
 
-		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
+			String tmpProjectPath = Utils.buildProjectPath(createTemporaryDirectoryName(newProjectName));
+			File tmpProjectDirectory = new File(tmpProjectPath);
+			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
+			if (directoryRenamed) {
+				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
+			}
+		} else {
+
+			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		}
 
 		if (directoryRenamed) {
+			project.setName(newProjectName);
 			this.saveProject();
 		}
 
@@ -247,4 +258,14 @@ public class ProjectManager {
 		return true;
 	}
 
+	private String createTemporaryDirectoryName(String projectDirectoryName) {
+		String temporaryDirectorySuffix = "_tmp";
+		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
+		int suffixCounter = 0;
+		while (StorageHandler.getInstance().projectExistsIgnoreCase(temporaryDirectoryName)) {
+			temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix + suffixCounter;
+			suffixCounter++;
+		}
+		return temporaryDirectoryName;
+	}
 }
