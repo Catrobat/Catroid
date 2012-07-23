@@ -1,4 +1,4 @@
-// $ANTLR 3.4 src/CalcGrammar.g 2012-07-23 17:50:40
+// $ANTLR 3.4 src/CalcGrammar.g 2012-07-23 20:12:14
 package at.tugraz.ist.catroid.formulaeditor;
 
 import org.antlr.runtime.BaseRecognizer;
@@ -10,7 +10,6 @@ import org.antlr.runtime.MismatchedSetException;
 import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.Token;
 
 @SuppressWarnings({ "all", "warnings", "unchecked" })
 public class CalcGrammarLexer extends Lexer {
@@ -54,15 +53,6 @@ public class CalcGrammarLexer extends Lexer {
 		return lexerError;
 	}
 
-	@Override
-	public Token nextToken() {
-		Token token = super.nextToken();
-		if (token.getText().equals("<EOF>")) {
-			return Token.EOF_TOKEN;
-		}
-		return token;
-	}
-
 	// delegates
 	// delegators
 	public Lexer[] getDelegates() {
@@ -89,8 +79,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = T__23;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:30:7: ( '(' )
-			// src/CalcGrammar.g:30:9: '('
+			// src/CalcGrammar.g:21:7: ( '(' )
+			// src/CalcGrammar.g:21:9: '('
 			{
 				match('(');
 
@@ -110,8 +100,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = T__24;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:31:7: ( ')' )
-			// src/CalcGrammar.g:31:9: ')'
+			// src/CalcGrammar.g:22:7: ( ')' )
+			// src/CalcGrammar.g:22:9: ')'
 			{
 				match(')');
 
@@ -131,8 +121,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = T__25;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:32:7: ( ',' )
-			// src/CalcGrammar.g:32:9: ','
+			// src/CalcGrammar.g:23:7: ( ',' )
+			// src/CalcGrammar.g:23:9: ','
 			{
 				match(',');
 
@@ -152,8 +142,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:262:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-			// src/CalcGrammar.g:262:7: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+			// src/CalcGrammar.g:254:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+			// src/CalcGrammar.g:254:7: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
 			{
 				if ((input.LA(1) >= '\t' && input.LA(1) <= '\n') || (input.LA(1) >= '\f' && input.LA(1) <= '\r')
 						|| input.LA(1) == ' ') {
@@ -182,7 +172,7 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = CONSTANT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:269:10: ( 'pi' | 'e' )
+			// src/CalcGrammar.g:261:10: ( 'pi' | 'e' )
 			int alt1 = 2;
 			int LA1_0 = input.LA(1);
 
@@ -198,14 +188,14 @@ public class CalcGrammarLexer extends Lexer {
 			}
 			switch (alt1) {
 				case 1:
-				// src/CalcGrammar.g:269:12: 'pi'
+				// src/CalcGrammar.g:261:12: 'pi'
 				{
 					match("pi");
 
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:269:17: 'e'
+				// src/CalcGrammar.g:261:17: 'e'
 				{
 					match('e');
 
@@ -225,8 +215,8 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "LT"
 	public final void mLT() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:272:13: ( '<' )
-			// src/CalcGrammar.g:272:15: '<'
+			// src/CalcGrammar.g:264:13: ( '<' )
+			// src/CalcGrammar.g:264:15: '<'
 			{
 				match('<');
 
@@ -242,8 +232,8 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "GT"
 	public final void mGT() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:273:13: ( '>' )
-			// src/CalcGrammar.g:273:15: '>'
+			// src/CalcGrammar.g:265:13: ( '>' )
+			// src/CalcGrammar.g:265:15: '>'
 			{
 				match('>');
 
@@ -261,10 +251,10 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = RELOP;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:274:10: ( ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) ) )
-			// src/CalcGrammar.g:274:12: ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) )
+			// src/CalcGrammar.g:266:10: ( ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) ) )
+			// src/CalcGrammar.g:266:12: ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) )
 			{
-				// src/CalcGrammar.g:274:12: ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) )
+				// src/CalcGrammar.g:266:12: ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) )
 				int alt2 = 5;
 				switch (input.LA(1)) {
 					case '<': {
@@ -300,17 +290,17 @@ public class CalcGrammarLexer extends Lexer {
 
 				switch (alt2) {
 					case 1:
-					// src/CalcGrammar.g:274:13: LT
+					// src/CalcGrammar.g:266:13: LT
 					{
 						mLT();
 
 					}
 						break;
 					case 2:
-					// src/CalcGrammar.g:274:16: ( LT '=' )
+					// src/CalcGrammar.g:266:16: ( LT '=' )
 					{
-						// src/CalcGrammar.g:274:16: ( LT '=' )
-						// src/CalcGrammar.g:274:17: LT '='
+						// src/CalcGrammar.g:266:16: ( LT '=' )
+						// src/CalcGrammar.g:266:17: LT '='
 						{
 							mLT();
 
@@ -321,17 +311,17 @@ public class CalcGrammarLexer extends Lexer {
 					}
 						break;
 					case 3:
-					// src/CalcGrammar.g:274:24: GT
+					// src/CalcGrammar.g:266:24: GT
 					{
 						mGT();
 
 					}
 						break;
 					case 4:
-					// src/CalcGrammar.g:274:27: ( GT '=' )
+					// src/CalcGrammar.g:266:27: ( GT '=' )
 					{
-						// src/CalcGrammar.g:274:27: ( GT '=' )
-						// src/CalcGrammar.g:274:28: GT '='
+						// src/CalcGrammar.g:266:27: ( GT '=' )
+						// src/CalcGrammar.g:266:28: GT '='
 						{
 							mGT();
 
@@ -342,10 +332,10 @@ public class CalcGrammarLexer extends Lexer {
 					}
 						break;
 					case 5:
-					// src/CalcGrammar.g:274:35: ( '=' )
+					// src/CalcGrammar.g:266:35: ( '=' )
 					{
-						// src/CalcGrammar.g:274:35: ( '=' )
-						// src/CalcGrammar.g:274:36: '='
+						// src/CalcGrammar.g:266:35: ( '=' )
+						// src/CalcGrammar.g:266:36: '='
 						{
 							match('=');
 
@@ -372,7 +362,7 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = MULOP;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:275:10: ( '*' | '/' | '%' | '^' )
+			// src/CalcGrammar.g:267:10: ( '*' | '/' | '%' | '^' )
 			// src/CalcGrammar.g:
 			{
 				if (input.LA(1) == '%' || input.LA(1) == '*' || input.LA(1) == '/' || input.LA(1) == '^') {
@@ -399,8 +389,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = PLUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:276:10: ( '+' )
-			// src/CalcGrammar.g:276:12: '+'
+			// src/CalcGrammar.g:268:10: ( '+' )
+			// src/CalcGrammar.g:268:12: '+'
 			{
 				match('+');
 
@@ -420,8 +410,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = MINUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:277:10: ( '-' )
-			// src/CalcGrammar.g:277:12: '-'
+			// src/CalcGrammar.g:269:10: ( '-' )
+			// src/CalcGrammar.g:269:12: '-'
 			{
 				match('-');
 
@@ -441,8 +431,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = OR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:278:10: ( '|' )
-			// src/CalcGrammar.g:278:12: '|'
+			// src/CalcGrammar.g:270:10: ( '|' )
+			// src/CalcGrammar.g:270:12: '|'
 			{
 				match('|');
 
@@ -462,8 +452,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = NOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:279:10: ( '!' )
-			// src/CalcGrammar.g:279:12: '!'
+			// src/CalcGrammar.g:271:10: ( '!' )
+			// src/CalcGrammar.g:271:12: '!'
 			{
 				match('!');
 
@@ -483,8 +473,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = LAND;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:280:10: ( '&' )
-			// src/CalcGrammar.g:280:12: '&'
+			// src/CalcGrammar.g:272:10: ( '&' )
+			// src/CalcGrammar.g:272:12: '&'
 			{
 				match('&');
 
@@ -504,8 +494,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = NUMBER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:283:11: ( DECINT )
-			// src/CalcGrammar.g:283:13: DECINT
+			// src/CalcGrammar.g:275:11: ( DECINT )
+			// src/CalcGrammar.g:275:13: DECINT
 			{
 				mDECINT();
 
@@ -523,10 +513,10 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "DECINT"
 	public final void mDECINT() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:284:17: ( ( DIGIT )+ ( ( '.' | ',' ) ( DIGIT )+ )? )
-			// src/CalcGrammar.g:284:19: ( DIGIT )+ ( ( '.' | ',' ) ( DIGIT )+ )?
+			// src/CalcGrammar.g:276:17: ( ( DIGIT )+ ( ( '.' | ',' ) ( DIGIT )+ )? )
+			// src/CalcGrammar.g:276:19: ( DIGIT )+ ( ( '.' | ',' ) ( DIGIT )+ )?
 			{
-				// src/CalcGrammar.g:284:19: ( DIGIT )+
+				// src/CalcGrammar.g:276:19: ( DIGIT )+
 				int cnt3 = 0;
 				loop3: do {
 					int alt3 = 2;
@@ -561,7 +551,7 @@ public class CalcGrammarLexer extends Lexer {
 					cnt3++;
 				} while (true);
 
-				// src/CalcGrammar.g:284:28: ( ( '.' | ',' ) ( DIGIT )+ )?
+				// src/CalcGrammar.g:276:28: ( ( '.' | ',' ) ( DIGIT )+ )?
 				int alt5 = 2;
 				int LA5_0 = input.LA(1);
 
@@ -570,7 +560,7 @@ public class CalcGrammarLexer extends Lexer {
 				}
 				switch (alt5) {
 					case 1:
-					// src/CalcGrammar.g:284:29: ( '.' | ',' ) ( DIGIT )+
+					// src/CalcGrammar.g:276:29: ( '.' | ',' ) ( DIGIT )+
 					{
 						if (input.LA(1) == ',' || input.LA(1) == '.') {
 							input.consume();
@@ -580,7 +570,7 @@ public class CalcGrammarLexer extends Lexer {
 							throw mse;
 						}
 
-						// src/CalcGrammar.g:284:39: ( DIGIT )+
+						// src/CalcGrammar.g:276:39: ( DIGIT )+
 						int cnt4 = 0;
 						loop4: do {
 							int alt4 = 2;
@@ -632,7 +622,7 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "DIGIT"
 	public final void mDIGIT() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:285:19: ( '0' .. '9' )
+			// src/CalcGrammar.g:277:19: ( '0' .. '9' )
 			// src/CalcGrammar.g:
 			{
 				if ((input.LA(1) >= '0' && input.LA(1) <= '9')) {
@@ -657,12 +647,12 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = ID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:288:11: ( LETTER ( LETTER | DIGIT | '_' )* )
-			// src/CalcGrammar.g:288:15: LETTER ( LETTER | DIGIT | '_' )*
+			// src/CalcGrammar.g:280:11: ( LETTER ( LETTER | DIGIT | '_' )* )
+			// src/CalcGrammar.g:280:15: LETTER ( LETTER | DIGIT | '_' )*
 			{
 				mLETTER();
 
-				// src/CalcGrammar.g:288:21: ( LETTER | DIGIT | '_' )*
+				// src/CalcGrammar.g:280:21: ( LETTER | DIGIT | '_' )*
 				loop6: do {
 					int alt6 = 2;
 					int LA6_0 = input.LA(1);
@@ -708,7 +698,7 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = SENSOR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:289:11: ( 'X_Accelerometer' | 'Y_Accelerometer' | 'Z_Accelerometer' | 'Azimuth_Orientation' | 'Pitch_Orientation' | 'Roll_Orientation' )
+			// src/CalcGrammar.g:281:11: ( 'X_Accelerometer' | 'Y_Accelerometer' | 'Z_Accelerometer' | 'Azimuth_Orientation' | 'Pitch_Orientation' | 'Roll_Orientation' )
 			int alt7 = 6;
 			switch (input.LA(1)) {
 				case 'X': {
@@ -744,42 +734,42 @@ public class CalcGrammarLexer extends Lexer {
 
 			switch (alt7) {
 				case 1:
-				// src/CalcGrammar.g:289:15: 'X_Accelerometer'
+				// src/CalcGrammar.g:281:15: 'X_Accelerometer'
 				{
 					match("X_Accelerometer");
 
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:289:33: 'Y_Accelerometer'
+				// src/CalcGrammar.g:281:33: 'Y_Accelerometer'
 				{
 					match("Y_Accelerometer");
 
 				}
 					break;
 				case 3:
-				// src/CalcGrammar.g:289:51: 'Z_Accelerometer'
+				// src/CalcGrammar.g:281:51: 'Z_Accelerometer'
 				{
 					match("Z_Accelerometer");
 
 				}
 					break;
 				case 4:
-				// src/CalcGrammar.g:289:69: 'Azimuth_Orientation'
+				// src/CalcGrammar.g:281:69: 'Azimuth_Orientation'
 				{
 					match("Azimuth_Orientation");
 
 				}
 					break;
 				case 5:
-				// src/CalcGrammar.g:289:91: 'Pitch_Orientation'
+				// src/CalcGrammar.g:281:91: 'Pitch_Orientation'
 				{
 					match("Pitch_Orientation");
 
 				}
 					break;
 				case 6:
-				// src/CalcGrammar.g:289:111: 'Roll_Orientation'
+				// src/CalcGrammar.g:281:111: 'Roll_Orientation'
 				{
 					match("Roll_Orientation");
 
@@ -801,12 +791,12 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = UPID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:290:11: ( UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )* )
-			// src/CalcGrammar.g:290:15: UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )*
+			// src/CalcGrammar.g:282:11: ( UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )* )
+			// src/CalcGrammar.g:282:15: UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )*
 			{
 				mUPPERCASE();
 
-				// src/CalcGrammar.g:290:24: ( LETTER | DIGIT | UPPERCASE | '_' )*
+				// src/CalcGrammar.g:282:24: ( LETTER | DIGIT | UPPERCASE | '_' )*
 				loop8: do {
 					int alt8 = 2;
 					int LA8_0 = input.LA(1);
@@ -851,7 +841,7 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "LETTER"
 	public final void mLETTER() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:291:20: ( ( 'a' .. 'z' ) )
+			// src/CalcGrammar.g:283:20: ( ( 'a' .. 'z' ) )
 			// src/CalcGrammar.g:
 			{
 				if ((input.LA(1) >= 'a' && input.LA(1) <= 'z')) {
@@ -874,7 +864,7 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "UPPERCASE"
 	public final void mUPPERCASE() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:292:20: ( ( 'A' .. 'Z' ) )
+			// src/CalcGrammar.g:284:20: ( ( 'A' .. 'Z' ) )
 			// src/CalcGrammar.g:
 			{
 				if ((input.LA(1) >= 'A' && input.LA(1) <= 'Z')) {
