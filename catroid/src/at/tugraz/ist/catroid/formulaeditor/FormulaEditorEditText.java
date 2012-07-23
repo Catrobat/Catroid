@@ -1,3 +1,26 @@
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package at.tugraz.ist.catroid.formulaeditor;
 
 import android.content.Context;
@@ -14,6 +37,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
+import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class FormulaEditorEditText extends EditText implements OnClickListener, OnTouchListener {
 
@@ -46,7 +70,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private boolean ignoreNextUpdate = false;
 	private boolean hasChanges = false;
 
-	//FormulaElement selectedElement;
+	FormulaEditorDialog dialog = null;
 
 	public FormulaEditorEditText(Context context) {
 		super(context);
@@ -84,6 +108,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		super.setSelection(formulaAsText.length());
 		updateSelectionIndices();
 
+	}
+
+	public void setFormulaEditor(FormulaEditorDialog dialog) {
+		this.dialog = dialog;
 	}
 
 	//TODO: On doubleclick the text selection widget pops up... found no way to kill it
@@ -370,6 +398,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			deleteOneCharAtCurrentPosition();
 		} else {
 			appendToTextFieldAtCurrentPosition(newElement);
+		}
+
+		if (getText().length() == 0) {
+			dialog.hideOkayButton();
+		} else {
+			dialog.showOkayButton();
 		}
 
 	}

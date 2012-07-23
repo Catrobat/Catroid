@@ -56,6 +56,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private CatKeyboardView catKeyboardView;
 	private LinearLayout brickSpace;
 	private View brickView;
+	private Button okButton = null;
 
 	//private GestureDetector gestureDetector = null;
 
@@ -111,7 +112,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		setTitle(R.string.dialog_formula_editor_title);
 		setCanceledOnTouchOutside(true);
 
-		Button okButton = (Button) findViewById(R.id.formula_editor_ok_button);
+		okButton = (Button) findViewById(R.id.formula_editor_ok_button);
 		okButton.setOnClickListener(this);
 
 		Button cancelButton = (Button) findViewById(R.id.formula_editor_cancel_button);
@@ -121,6 +122,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		backButton.setOnClickListener(this);
 
 		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
+		textArea.setFormulaEditor(this);
 
 		Log.i("info", "DisplayLanguage: " + Locale.getDefault().getDisplayLanguage());
 
@@ -166,6 +168,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		FormulaElement parserFormulaElement = parser.parseFormula();
 
 		if (parserFormulaElement == null) {
+			Toast.makeText(context, R.string.formula_editor_parse_fail, Toast.LENGTH_SHORT).show();
 			return parser.getErrorCharacterPosition();
 		} else {
 			formula.setRoot(parserFormulaElement);
@@ -198,6 +201,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 				textArea.formulaSaved();
 				textArea.setFieldActive(formula.getEditTextRepresentation());
 				Toast.makeText(context, R.string.formula_editor_changes_discarded, Toast.LENGTH_SHORT).show();
+				showOkayButton();
 				break;
 
 			case R.id.formula_editor_back_button:
@@ -215,6 +219,14 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 	public void onDismiss(DialogInterface dialog) {
 		this.dismiss();
+	}
+
+	public void hideOkayButton() {
+		okButton.setClickable(false);
+	}
+
+	public void showOkayButton() {
+		okButton.setClickable(true);
 	}
 
 	@Override

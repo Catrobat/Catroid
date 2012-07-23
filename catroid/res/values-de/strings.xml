@@ -324,5 +324,22 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Wert ist zu klein!</string>
     <string name="number_to_big">Wert ist zu groß!</string>
+    
+    <!-- Formula Editor Strings -->
+    <string name="dialog_formula_editor_title">Formel Editor</string>
+    <string name="formula_editor_button_save">Speichern</string>
+    <string name="formula_editor_button_discard">Verwerfen</string>
+    <string name="formula_editor_button_return">Zurück</string>
+    <string name="formula_editor_save_first">Änderungen zuerst speichern oder verwerfen!</string>
+    <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
+    <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
+    <string name="formula_editor_parse_fail">Fehler in der Eingabe! Änderungen nicht gespeichert.</string>
+    <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
+     
+    <!-- Num Pad Strings -->
+    <string name="ime_name">CatTastatur</string>
+    <string name="label_go_key">Los</string>
+    <string name="label_next_key">Nächster</string>
+    <string name="label_send_key">Senden</string>
 
 </resources>

@@ -1,17 +1,24 @@
-/*
- * Copyright (C) 2008-2009 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package at.tugraz.ist.catroid.formulaeditor;
@@ -21,8 +28,6 @@ import android.inputmethodservice.Keyboard;
 
 public class CatKeyboard extends Keyboard {
 
-	//	private Key mEnterKey;
-
 	public CatKeyboard(Context context, int xmlLayoutResId) {
 		super(context, xmlLayoutResId);
 	}
@@ -31,50 +36,5 @@ public class CatKeyboard extends Keyboard {
 			int horizontalPadding) {
 		super(context, layoutTemplateResId, characters, columns, horizontalPadding);
 	}
-
-	//	@Override
-	//	protected Key createKeyFromXml(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
-	//		Key key = new CatKey(res, parent, x, y, parser);
-	//		if (key.codes[0] == 10) {
-	//			mEnterKey = key;
-	//		}
-	//		return key;
-	//	}
-
-	//	/**
-	//	 * This looks at the ime options given by the current editor, to set the
-	//	 * appropriate label on the keyboard's enter key (if it has one).
-	//	 */
-	//	void setImeOptions(Resources res, int options) {
-	//		if (mEnterKey == null) {
-	//			return;
-	//		}
-	//
-	//		switch (options & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
-	//			case EditorInfo.IME_ACTION_GO:
-	//				mEnterKey.iconPreview = null;
-	//				mEnterKey.icon = null;
-	////				mEnterKey.label = res.getText(R.string.label_go_key);
-	//				break;
-	//			case EditorInfo.IME_ACTION_NEXT:
-	//				mEnterKey.iconPreview = null;
-	//				mEnterKey.icon = null;
-	////				mEnterKey.label = res.getText(R.string.label_next_key);
-	//				break;
-	//			case EditorInfo.IME_ACTION_SEARCH:
-	////				mEnterKey.icon = res.getDrawable(R.drawable.sym_keyboard_search);
-	//				mEnterKey.label = null;
-	//				break;
-	//			case EditorInfo.IME_ACTION_SEND:
-	//				mEnterKey.iconPreview = null;
-	//				mEnterKey.icon = null;
-	////				mEnterKey.label = res.getText(R.string.label_send_key);
-	//				break;
-	//			default:
-	////				mEnterKey.icon = res.getDrawable(R.drawable.sym_keyboard_return);
-	//				mEnterKey.label = null;
-	//				break;
-	//		}
-	//	}
 
 }
