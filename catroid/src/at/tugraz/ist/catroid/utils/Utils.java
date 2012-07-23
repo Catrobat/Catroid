@@ -79,6 +79,7 @@ public class Utils {
 	private static Semaphore uniqueNameLock = new Semaphore(1);
 
 	public static boolean hasSdCard() {
+		// my new feature
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
 
