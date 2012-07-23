@@ -473,6 +473,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void formulaSaved() {
 		hasChanges = false;
+		errorSpan = this.getText();
+		errorSpan.removeSpan(COLOR_ERROR);
 	}
 
 	@Override

@@ -24,10 +24,6 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.util.Locale;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,7 +40,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.formulaeditor.CalcGrammarLexer;
 import at.tugraz.ist.catroid.formulaeditor.CalcGrammarParser;
 import at.tugraz.ist.catroid.formulaeditor.CatKeyboardView;
 import at.tugraz.ist.catroid.formulaeditor.Formula;

@@ -1,4 +1,4 @@
-// $ANTLR 3.4 src/CalcGrammar.g 2012-07-23 17:01:03
+// $ANTLR 3.4 src/CalcGrammar.g 2012-07-23 17:50:40
 package at.tugraz.ist.catroid.formulaeditor;
 
 import org.antlr.runtime.BaseRecognizer;
@@ -15,29 +15,28 @@ import org.antlr.runtime.Token;
 @SuppressWarnings({ "all", "warnings", "unchecked" })
 public class CalcGrammarLexer extends Lexer {
 	public static final int EOF = -1;
+	public static final int T__23 = 23;
 	public static final int T__24 = 24;
 	public static final int T__25 = 25;
-	public static final int T__26 = 26;
-	public static final int COMMENT = 4;
-	public static final int CONSTANT = 5;
-	public static final int DECINT = 6;
-	public static final int DIGIT = 7;
-	public static final int GT = 8;
-	public static final int ID = 9;
-	public static final int LAND = 10;
-	public static final int LETTER = 11;
-	public static final int LT = 12;
-	public static final int MINUS = 13;
-	public static final int MULOP = 14;
-	public static final int NOT = 15;
-	public static final int NUMBER = 16;
-	public static final int OR = 17;
-	public static final int PLUS = 18;
-	public static final int RELOP = 19;
-	public static final int SENSOR = 20;
-	public static final int UPID = 21;
-	public static final int UPPERCASE = 22;
-	public static final int WS = 23;
+	public static final int CONSTANT = 4;
+	public static final int DECINT = 5;
+	public static final int DIGIT = 6;
+	public static final int GT = 7;
+	public static final int ID = 8;
+	public static final int LAND = 9;
+	public static final int LETTER = 10;
+	public static final int LT = 11;
+	public static final int MINUS = 12;
+	public static final int MULOP = 13;
+	public static final int NOT = 14;
+	public static final int NUMBER = 15;
+	public static final int OR = 16;
+	public static final int PLUS = 17;
+	public static final int RELOP = 18;
+	public static final int SENSOR = 19;
+	public static final int UPID = 20;
+	public static final int UPPERCASE = 21;
+	public static final int WS = 22;
 
 	private int lexerError = -1;
 
@@ -85,15 +84,36 @@ public class CalcGrammarLexer extends Lexer {
 		return "src/CalcGrammar.g";
 	}
 
-	// $ANTLR start "T__24"
-	public final void mT__24() throws RecognitionException {
+	// $ANTLR start "T__23"
+	public final void mT__23() throws RecognitionException {
 		try {
-			int _type = T__24;
+			int _type = T__23;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
 			// src/CalcGrammar.g:30:7: ( '(' )
 			// src/CalcGrammar.g:30:9: '('
 			{
 				match('(');
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		} finally {
+			// do for sure before leaving
+		}
+	}
+
+	// $ANTLR end "T__23"
+
+	// $ANTLR start "T__24"
+	public final void mT__24() throws RecognitionException {
+		try {
+			int _type = T__24;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// src/CalcGrammar.g:31:7: ( ')' )
+			// src/CalcGrammar.g:31:9: ')'
+			{
+				match(')');
 
 			}
 
@@ -111,27 +131,6 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = T__25;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:31:7: ( ')' )
-			// src/CalcGrammar.g:31:9: ')'
-			{
-				match(')');
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		} finally {
-			// do for sure before leaving
-		}
-	}
-
-	// $ANTLR end "T__25"
-
-	// $ANTLR start "T__26"
-	public final void mT__26() throws RecognitionException {
-		try {
-			int _type = T__26;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
 			// src/CalcGrammar.g:32:7: ( ',' )
 			// src/CalcGrammar.g:32:9: ','
 			{
@@ -146,15 +145,15 @@ public class CalcGrammarLexer extends Lexer {
 		}
 	}
 
-	// $ANTLR end "T__26"
+	// $ANTLR end "T__25"
 
 	// $ANTLR start "WS"
 	public final void mWS() throws RecognitionException {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:257:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-			// src/CalcGrammar.g:257:7: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+			// src/CalcGrammar.g:262:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+			// src/CalcGrammar.g:262:7: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
 			{
 				if ((input.LA(1) >= '\t' && input.LA(1) <= '\n') || (input.LA(1) >= '\f' && input.LA(1) <= '\r')
 						|| input.LA(1) == ' ') {
@@ -178,92 +177,35 @@ public class CalcGrammarLexer extends Lexer {
 
 	// $ANTLR end "WS"
 
-	// $ANTLR start "COMMENT"
-	public final void mCOMMENT() throws RecognitionException {
-		try {
-			int _type = COMMENT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:260:5: ( '/*' ( . )* '*/' )
-			// src/CalcGrammar.g:260:7: '/*' ( . )* '*/'
-			{
-				match("/*");
-
-				// src/CalcGrammar.g:260:12: ( . )*
-				loop1: do {
-					int alt1 = 2;
-					int LA1_0 = input.LA(1);
-
-					if ((LA1_0 == '*')) {
-						int LA1_1 = input.LA(2);
-
-						if ((LA1_1 == '/')) {
-							alt1 = 2;
-						} else if (((LA1_1 >= '\u0000' && LA1_1 <= '.') || (LA1_1 >= '0' && LA1_1 <= '\uFFFF'))) {
-							alt1 = 1;
-						}
-
-					} else if (((LA1_0 >= '\u0000' && LA1_0 <= ')') || (LA1_0 >= '+' && LA1_0 <= '\uFFFF'))) {
-						alt1 = 1;
-					}
-
-					switch (alt1) {
-						case 1:
-						// src/CalcGrammar.g:260:12: .
-						{
-							matchAny();
-
-						}
-							break;
-
-						default:
-							break loop1;
-					}
-				} while (true);
-
-				match("*/");
-
-				_channel = HIDDEN;
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		} finally {
-			// do for sure before leaving
-		}
-	}
-
-	// $ANTLR end "COMMENT"
-
 	// $ANTLR start "CONSTANT"
 	public final void mCONSTANT() throws RecognitionException {
 		try {
 			int _type = CONSTANT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:264:10: ( 'pi' | 'e' )
-			int alt2 = 2;
-			int LA2_0 = input.LA(1);
+			// src/CalcGrammar.g:269:10: ( 'pi' | 'e' )
+			int alt1 = 2;
+			int LA1_0 = input.LA(1);
 
-			if ((LA2_0 == 'p')) {
-				alt2 = 1;
-			} else if ((LA2_0 == 'e')) {
-				alt2 = 2;
+			if ((LA1_0 == 'p')) {
+				alt1 = 1;
+			} else if ((LA1_0 == 'e')) {
+				alt1 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 2, 0, input);
+				NoViableAltException nvae = new NoViableAltException("", 1, 0, input);
 
 				throw nvae;
 
 			}
-			switch (alt2) {
+			switch (alt1) {
 				case 1:
-				// src/CalcGrammar.g:264:12: 'pi'
+				// src/CalcGrammar.g:269:12: 'pi'
 				{
 					match("pi");
 
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:264:17: 'e'
+				// src/CalcGrammar.g:269:17: 'e'
 				{
 					match('e');
 
@@ -283,8 +225,8 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "LT"
 	public final void mLT() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:267:13: ( '<' )
-			// src/CalcGrammar.g:267:15: '<'
+			// src/CalcGrammar.g:272:13: ( '<' )
+			// src/CalcGrammar.g:272:15: '<'
 			{
 				match('<');
 
@@ -300,8 +242,8 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "GT"
 	public final void mGT() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:268:13: ( '>' )
-			// src/CalcGrammar.g:268:15: '>'
+			// src/CalcGrammar.g:273:13: ( '>' )
+			// src/CalcGrammar.g:273:15: '>'
 			{
 				match('>');
 
@@ -319,56 +261,56 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = RELOP;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:269:10: ( ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) ) )
-			// src/CalcGrammar.g:269:12: ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) )
+			// src/CalcGrammar.g:274:10: ( ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) ) )
+			// src/CalcGrammar.g:274:12: ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) )
 			{
-				// src/CalcGrammar.g:269:12: ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) )
-				int alt3 = 5;
+				// src/CalcGrammar.g:274:12: ( LT | ( LT '=' ) | GT | ( GT '=' ) | ( '=' ) )
+				int alt2 = 5;
 				switch (input.LA(1)) {
 					case '<': {
-						int LA3_1 = input.LA(2);
+						int LA2_1 = input.LA(2);
 
-						if ((LA3_1 == '=')) {
-							alt3 = 2;
+						if ((LA2_1 == '=')) {
+							alt2 = 2;
 						} else {
-							alt3 = 1;
+							alt2 = 1;
 						}
 					}
 						break;
 					case '>': {
-						int LA3_2 = input.LA(2);
+						int LA2_2 = input.LA(2);
 
-						if ((LA3_2 == '=')) {
-							alt3 = 4;
+						if ((LA2_2 == '=')) {
+							alt2 = 4;
 						} else {
-							alt3 = 3;
+							alt2 = 3;
 						}
 					}
 						break;
 					case '=': {
-						alt3 = 5;
+						alt2 = 5;
 					}
 						break;
 					default:
-						NoViableAltException nvae = new NoViableAltException("", 3, 0, input);
+						NoViableAltException nvae = new NoViableAltException("", 2, 0, input);
 
 						throw nvae;
 
 				}
 
-				switch (alt3) {
+				switch (alt2) {
 					case 1:
-					// src/CalcGrammar.g:269:13: LT
+					// src/CalcGrammar.g:274:13: LT
 					{
 						mLT();
 
 					}
 						break;
 					case 2:
-					// src/CalcGrammar.g:269:16: ( LT '=' )
+					// src/CalcGrammar.g:274:16: ( LT '=' )
 					{
-						// src/CalcGrammar.g:269:16: ( LT '=' )
-						// src/CalcGrammar.g:269:17: LT '='
+						// src/CalcGrammar.g:274:16: ( LT '=' )
+						// src/CalcGrammar.g:274:17: LT '='
 						{
 							mLT();
 
@@ -379,17 +321,17 @@ public class CalcGrammarLexer extends Lexer {
 					}
 						break;
 					case 3:
-					// src/CalcGrammar.g:269:24: GT
+					// src/CalcGrammar.g:274:24: GT
 					{
 						mGT();
 
 					}
 						break;
 					case 4:
-					// src/CalcGrammar.g:269:27: ( GT '=' )
+					// src/CalcGrammar.g:274:27: ( GT '=' )
 					{
-						// src/CalcGrammar.g:269:27: ( GT '=' )
-						// src/CalcGrammar.g:269:28: GT '='
+						// src/CalcGrammar.g:274:27: ( GT '=' )
+						// src/CalcGrammar.g:274:28: GT '='
 						{
 							mGT();
 
@@ -400,10 +342,10 @@ public class CalcGrammarLexer extends Lexer {
 					}
 						break;
 					case 5:
-					// src/CalcGrammar.g:269:35: ( '=' )
+					// src/CalcGrammar.g:274:35: ( '=' )
 					{
-						// src/CalcGrammar.g:269:35: ( '=' )
-						// src/CalcGrammar.g:269:36: '='
+						// src/CalcGrammar.g:274:35: ( '=' )
+						// src/CalcGrammar.g:274:36: '='
 						{
 							match('=');
 
@@ -430,7 +372,7 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = MULOP;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:270:10: ( '*' | '/' | '%' | '^' )
+			// src/CalcGrammar.g:275:10: ( '*' | '/' | '%' | '^' )
 			// src/CalcGrammar.g:
 			{
 				if (input.LA(1) == '%' || input.LA(1) == '*' || input.LA(1) == '/' || input.LA(1) == '^') {
@@ -457,8 +399,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = PLUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:271:10: ( '+' )
-			// src/CalcGrammar.g:271:12: '+'
+			// src/CalcGrammar.g:276:10: ( '+' )
+			// src/CalcGrammar.g:276:12: '+'
 			{
 				match('+');
 
@@ -478,8 +420,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = MINUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:272:10: ( '-' )
-			// src/CalcGrammar.g:272:12: '-'
+			// src/CalcGrammar.g:277:10: ( '-' )
+			// src/CalcGrammar.g:277:12: '-'
 			{
 				match('-');
 
@@ -499,8 +441,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = OR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:273:10: ( '|' )
-			// src/CalcGrammar.g:273:12: '|'
+			// src/CalcGrammar.g:278:10: ( '|' )
+			// src/CalcGrammar.g:278:12: '|'
 			{
 				match('|');
 
@@ -520,8 +462,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = NOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:274:10: ( '!' )
-			// src/CalcGrammar.g:274:12: '!'
+			// src/CalcGrammar.g:279:10: ( '!' )
+			// src/CalcGrammar.g:279:12: '!'
 			{
 				match('!');
 
@@ -541,8 +483,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = LAND;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:275:10: ( '&' )
-			// src/CalcGrammar.g:275:12: '&'
+			// src/CalcGrammar.g:280:10: ( '&' )
+			// src/CalcGrammar.g:280:12: '&'
 			{
 				match('&');
 
@@ -562,8 +504,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = NUMBER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:278:11: ( DECINT )
-			// src/CalcGrammar.g:278:13: DECINT
+			// src/CalcGrammar.g:283:11: ( DECINT )
+			// src/CalcGrammar.g:283:13: DECINT
 			{
 				mDECINT();
 
@@ -581,20 +523,20 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "DECINT"
 	public final void mDECINT() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:279:17: ( ( DIGIT )+ ( ( '.' | ',' ) ( DIGIT )+ )? )
-			// src/CalcGrammar.g:279:19: ( DIGIT )+ ( ( '.' | ',' ) ( DIGIT )+ )?
+			// src/CalcGrammar.g:284:17: ( ( DIGIT )+ ( ( '.' | ',' ) ( DIGIT )+ )? )
+			// src/CalcGrammar.g:284:19: ( DIGIT )+ ( ( '.' | ',' ) ( DIGIT )+ )?
 			{
-				// src/CalcGrammar.g:279:19: ( DIGIT )+
-				int cnt4 = 0;
-				loop4: do {
-					int alt4 = 2;
-					int LA4_0 = input.LA(1);
+				// src/CalcGrammar.g:284:19: ( DIGIT )+
+				int cnt3 = 0;
+				loop3: do {
+					int alt3 = 2;
+					int LA3_0 = input.LA(1);
 
-					if (((LA4_0 >= '0' && LA4_0 <= '9'))) {
-						alt4 = 1;
+					if (((LA3_0 >= '0' && LA3_0 <= '9'))) {
+						alt3 = 1;
 					}
 
-					switch (alt4) {
+					switch (alt3) {
 						case 1:
 						// src/CalcGrammar.g:
 						{
@@ -610,25 +552,25 @@ public class CalcGrammarLexer extends Lexer {
 							break;
 
 						default:
-							if (cnt4 >= 1) {
-								break loop4;
+							if (cnt3 >= 1) {
+								break loop3;
 							}
-							EarlyExitException eee = new EarlyExitException(4, input);
+							EarlyExitException eee = new EarlyExitException(3, input);
 							throw eee;
 					}
-					cnt4++;
+					cnt3++;
 				} while (true);
 
-				// src/CalcGrammar.g:279:28: ( ( '.' | ',' ) ( DIGIT )+ )?
-				int alt6 = 2;
-				int LA6_0 = input.LA(1);
+				// src/CalcGrammar.g:284:28: ( ( '.' | ',' ) ( DIGIT )+ )?
+				int alt5 = 2;
+				int LA5_0 = input.LA(1);
 
-				if ((LA6_0 == ',' || LA6_0 == '.')) {
-					alt6 = 1;
+				if ((LA5_0 == ',' || LA5_0 == '.')) {
+					alt5 = 1;
 				}
-				switch (alt6) {
+				switch (alt5) {
 					case 1:
-					// src/CalcGrammar.g:279:29: ( '.' | ',' ) ( DIGIT )+
+					// src/CalcGrammar.g:284:29: ( '.' | ',' ) ( DIGIT )+
 					{
 						if (input.LA(1) == ',' || input.LA(1) == '.') {
 							input.consume();
@@ -638,17 +580,17 @@ public class CalcGrammarLexer extends Lexer {
 							throw mse;
 						}
 
-						// src/CalcGrammar.g:279:39: ( DIGIT )+
-						int cnt5 = 0;
-						loop5: do {
-							int alt5 = 2;
-							int LA5_0 = input.LA(1);
+						// src/CalcGrammar.g:284:39: ( DIGIT )+
+						int cnt4 = 0;
+						loop4: do {
+							int alt4 = 2;
+							int LA4_0 = input.LA(1);
 
-							if (((LA5_0 >= '0' && LA5_0 <= '9'))) {
-								alt5 = 1;
+							if (((LA4_0 >= '0' && LA4_0 <= '9'))) {
+								alt4 = 1;
 							}
 
-							switch (alt5) {
+							switch (alt4) {
 								case 1:
 								// src/CalcGrammar.g:
 								{
@@ -664,13 +606,13 @@ public class CalcGrammarLexer extends Lexer {
 									break;
 
 								default:
-									if (cnt5 >= 1) {
-										break loop5;
+									if (cnt4 >= 1) {
+										break loop4;
 									}
-									EarlyExitException eee = new EarlyExitException(5, input);
+									EarlyExitException eee = new EarlyExitException(4, input);
 									throw eee;
 							}
-							cnt5++;
+							cnt4++;
 						} while (true);
 
 					}
@@ -690,7 +632,7 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "DIGIT"
 	public final void mDIGIT() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:280:19: ( '0' .. '9' )
+			// src/CalcGrammar.g:285:19: ( '0' .. '9' )
 			// src/CalcGrammar.g:
 			{
 				if ((input.LA(1) >= '0' && input.LA(1) <= '9')) {
@@ -715,21 +657,21 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = ID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:283:11: ( LETTER ( LETTER | DIGIT | '_' )* )
-			// src/CalcGrammar.g:283:15: LETTER ( LETTER | DIGIT | '_' )*
+			// src/CalcGrammar.g:288:11: ( LETTER ( LETTER | DIGIT | '_' )* )
+			// src/CalcGrammar.g:288:15: LETTER ( LETTER | DIGIT | '_' )*
 			{
 				mLETTER();
 
-				// src/CalcGrammar.g:283:21: ( LETTER | DIGIT | '_' )*
-				loop7: do {
-					int alt7 = 2;
-					int LA7_0 = input.LA(1);
+				// src/CalcGrammar.g:288:21: ( LETTER | DIGIT | '_' )*
+				loop6: do {
+					int alt6 = 2;
+					int LA6_0 = input.LA(1);
 
-					if (((LA7_0 >= '0' && LA7_0 <= '9') || LA7_0 == '_' || (LA7_0 >= 'a' && LA7_0 <= 'z'))) {
-						alt7 = 1;
+					if (((LA6_0 >= '0' && LA6_0 <= '9') || LA6_0 == '_' || (LA6_0 >= 'a' && LA6_0 <= 'z'))) {
+						alt6 = 1;
 					}
 
-					switch (alt7) {
+					switch (alt6) {
 						case 1:
 						// src/CalcGrammar.g:
 						{
@@ -746,7 +688,7 @@ public class CalcGrammarLexer extends Lexer {
 							break;
 
 						default:
-							break loop7;
+							break loop6;
 					}
 				} while (true);
 
@@ -766,78 +708,78 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = SENSOR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:284:11: ( 'X_Accelerometer' | 'Y_Accelerometer' | 'Z_Accelerometer' | 'Azimuth_Orientation' | 'Pitch_Orientation' | 'Roll_Orientation' )
-			int alt8 = 6;
+			// src/CalcGrammar.g:289:11: ( 'X_Accelerometer' | 'Y_Accelerometer' | 'Z_Accelerometer' | 'Azimuth_Orientation' | 'Pitch_Orientation' | 'Roll_Orientation' )
+			int alt7 = 6;
 			switch (input.LA(1)) {
 				case 'X': {
-					alt8 = 1;
+					alt7 = 1;
 				}
 					break;
 				case 'Y': {
-					alt8 = 2;
+					alt7 = 2;
 				}
 					break;
 				case 'Z': {
-					alt8 = 3;
+					alt7 = 3;
 				}
 					break;
 				case 'A': {
-					alt8 = 4;
+					alt7 = 4;
 				}
 					break;
 				case 'P': {
-					alt8 = 5;
+					alt7 = 5;
 				}
 					break;
 				case 'R': {
-					alt8 = 6;
+					alt7 = 6;
 				}
 					break;
 				default:
-					NoViableAltException nvae = new NoViableAltException("", 8, 0, input);
+					NoViableAltException nvae = new NoViableAltException("", 7, 0, input);
 
 					throw nvae;
 
 			}
 
-			switch (alt8) {
+			switch (alt7) {
 				case 1:
-				// src/CalcGrammar.g:284:15: 'X_Accelerometer'
+				// src/CalcGrammar.g:289:15: 'X_Accelerometer'
 				{
 					match("X_Accelerometer");
 
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:284:33: 'Y_Accelerometer'
+				// src/CalcGrammar.g:289:33: 'Y_Accelerometer'
 				{
 					match("Y_Accelerometer");
 
 				}
 					break;
 				case 3:
-				// src/CalcGrammar.g:284:51: 'Z_Accelerometer'
+				// src/CalcGrammar.g:289:51: 'Z_Accelerometer'
 				{
 					match("Z_Accelerometer");
 
 				}
 					break;
 				case 4:
-				// src/CalcGrammar.g:284:69: 'Azimuth_Orientation'
+				// src/CalcGrammar.g:289:69: 'Azimuth_Orientation'
 				{
 					match("Azimuth_Orientation");
 
 				}
 					break;
 				case 5:
-				// src/CalcGrammar.g:284:91: 'Pitch_Orientation'
+				// src/CalcGrammar.g:289:91: 'Pitch_Orientation'
 				{
 					match("Pitch_Orientation");
 
 				}
 					break;
 				case 6:
-				// src/CalcGrammar.g:284:111: 'Roll_Orientation'
+				// src/CalcGrammar.g:289:111: 'Roll_Orientation'
 				{
 					match("Roll_Orientation");
 
@@ -859,21 +801,21 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = UPID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:285:11: ( UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )* )
-			// src/CalcGrammar.g:285:15: UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )*
+			// src/CalcGrammar.g:290:11: ( UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )* )
+			// src/CalcGrammar.g:290:15: UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )*
 			{
 				mUPPERCASE();
 
-				// src/CalcGrammar.g:285:24: ( LETTER | DIGIT | UPPERCASE | '_' )*
-				loop9: do {
-					int alt9 = 2;
-					int LA9_0 = input.LA(1);
+				// src/CalcGrammar.g:290:24: ( LETTER | DIGIT | UPPERCASE | '_' )*
+				loop8: do {
+					int alt8 = 2;
+					int LA8_0 = input.LA(1);
 
-					if (((LA9_0 >= '0' && LA9_0 <= '9') || (LA9_0 >= 'A' && LA9_0 <= 'Z') || LA9_0 == '_' || (LA9_0 >= 'a' && LA9_0 <= 'z'))) {
-						alt9 = 1;
+					if (((LA8_0 >= '0' && LA8_0 <= '9') || (LA8_0 >= 'A' && LA8_0 <= 'Z') || LA8_0 == '_' || (LA8_0 >= 'a' && LA8_0 <= 'z'))) {
+						alt8 = 1;
 					}
 
-					switch (alt9) {
+					switch (alt8) {
 						case 1:
 						// src/CalcGrammar.g:
 						{
@@ -891,7 +833,7 @@ public class CalcGrammarLexer extends Lexer {
 							break;
 
 						default:
-							break loop9;
+							break loop8;
 					}
 				} while (true);
 
@@ -909,7 +851,7 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "LETTER"
 	public final void mLETTER() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:286:20: ( ( 'a' .. 'z' ) )
+			// src/CalcGrammar.g:291:20: ( ( 'a' .. 'z' ) )
 			// src/CalcGrammar.g:
 			{
 				if ((input.LA(1) >= 'a' && input.LA(1) <= 'z')) {
@@ -932,7 +874,7 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR start "UPPERCASE"
 	public final void mUPPERCASE() throws RecognitionException {
 		try {
-			// src/CalcGrammar.g:287:20: ( ( 'A' .. 'Z' ) )
+			// src/CalcGrammar.g:292:20: ( ( 'A' .. 'Z' ) )
 			// src/CalcGrammar.g:
 			{
 				if ((input.LA(1) >= 'A' && input.LA(1) <= 'Z')) {
@@ -953,28 +895,28 @@ public class CalcGrammarLexer extends Lexer {
 	// $ANTLR end "UPPERCASE"
 
 	public void mTokens() throws RecognitionException {
-		// src/CalcGrammar.g:1:8: ( T__24 | T__25 | T__26 | WS | COMMENT | CONSTANT | RELOP | MULOP | PLUS | MINUS | OR | NOT | LAND | NUMBER | ID | SENSOR | UPID )
-		int alt10 = 17;
-		alt10 = dfa10.predict(input);
-		switch (alt10) {
+		// src/CalcGrammar.g:1:8: ( T__23 | T__24 | T__25 | WS | CONSTANT | RELOP | MULOP | PLUS | MINUS | OR | NOT | LAND | NUMBER | ID | SENSOR | UPID )
+		int alt9 = 16;
+		alt9 = dfa9.predict(input);
+		switch (alt9) {
 			case 1:
-			// src/CalcGrammar.g:1:10: T__24
+			// src/CalcGrammar.g:1:10: T__23
+			{
+				mT__23();
+
+			}
+				break;
+			case 2:
+			// src/CalcGrammar.g:1:16: T__24
 			{
 				mT__24();
 
 			}
 				break;
-			case 2:
-			// src/CalcGrammar.g:1:16: T__25
+			case 3:
+			// src/CalcGrammar.g:1:22: T__25
 			{
 				mT__25();
-
-			}
-				break;
-			case 3:
-			// src/CalcGrammar.g:1:22: T__26
-			{
-				mT__26();
 
 			}
 				break;
@@ -986,91 +928,84 @@ public class CalcGrammarLexer extends Lexer {
 			}
 				break;
 			case 5:
-			// src/CalcGrammar.g:1:31: COMMENT
-			{
-				mCOMMENT();
-
-			}
-				break;
-			case 6:
-			// src/CalcGrammar.g:1:39: CONSTANT
+			// src/CalcGrammar.g:1:31: CONSTANT
 			{
 				mCONSTANT();
 
 			}
 				break;
-			case 7:
-			// src/CalcGrammar.g:1:48: RELOP
+			case 6:
+			// src/CalcGrammar.g:1:40: RELOP
 			{
 				mRELOP();
 
 			}
 				break;
-			case 8:
-			// src/CalcGrammar.g:1:54: MULOP
+			case 7:
+			// src/CalcGrammar.g:1:46: MULOP
 			{
 				mMULOP();
 
 			}
 				break;
-			case 9:
-			// src/CalcGrammar.g:1:60: PLUS
+			case 8:
+			// src/CalcGrammar.g:1:52: PLUS
 			{
 				mPLUS();
 
 			}
 				break;
-			case 10:
-			// src/CalcGrammar.g:1:65: MINUS
+			case 9:
+			// src/CalcGrammar.g:1:57: MINUS
 			{
 				mMINUS();
 
 			}
 				break;
-			case 11:
-			// src/CalcGrammar.g:1:71: OR
+			case 10:
+			// src/CalcGrammar.g:1:63: OR
 			{
 				mOR();
 
 			}
 				break;
-			case 12:
-			// src/CalcGrammar.g:1:74: NOT
+			case 11:
+			// src/CalcGrammar.g:1:66: NOT
 			{
 				mNOT();
 
 			}
 				break;
-			case 13:
-			// src/CalcGrammar.g:1:78: LAND
+			case 12:
+			// src/CalcGrammar.g:1:70: LAND
 			{
 				mLAND();
 
 			}
 				break;
-			case 14:
-			// src/CalcGrammar.g:1:83: NUMBER
+			case 13:
+			// src/CalcGrammar.g:1:75: NUMBER
 			{
 				mNUMBER();
 
 			}
 				break;
-			case 15:
-			// src/CalcGrammar.g:1:90: ID
+			case 14:
+			// src/CalcGrammar.g:1:82: ID
 			{
 				mID();
 
 			}
 				break;
-			case 16:
-			// src/CalcGrammar.g:1:93: SENSOR
+			case 15:
+			// src/CalcGrammar.g:1:85: SENSOR
 			{
 				mSENSOR();
 
 			}
 				break;
-			case 17:
-			// src/CalcGrammar.g:1:100: UPID
+			case 16:
+			// src/CalcGrammar.g:1:92: UPID
 			{
 				mUPID();
 
@@ -1081,79 +1016,79 @@ public class CalcGrammarLexer extends Lexer {
 
 	}
 
-	protected DFA10 dfa10 = new DFA10(this);
-	static final String DFA10_eotS = "\5\uffff\1\11\1\20\1\32\11\uffff\6\27\2\uffff\1\32\1\uffff\116\27"
-			+ "\3\157\3\27\1\uffff\2\27\1\157\1\27\1\157\1\27\1\157";
-	static final String DFA10_eofS = "\167\uffff";
-	static final String DFA10_minS = "\1\11\4\uffff\1\52\1\151\1\60\11\uffff\3\137\1\172\1\151\1\157\2"
-			+ "\uffff\1\60\1\uffff\3\101\1\151\1\164\1\154\3\143\1\155\1\143\1"
-			+ "\154\3\143\1\165\1\150\1\137\3\145\1\164\1\137\1\117\3\154\1\150"
-			+ "\1\117\1\162\3\145\1\137\1\162\1\151\3\162\1\117\1\151\1\145\3\157"
-			+ "\1\162\1\145\1\156\3\155\1\151\1\156\1\164\4\145\1\164\1\141\3\164"
-			+ "\1\156\1\141\1\164\3\145\2\164\1\151\3\162\1\141\1\151\1\157\3\60"
-			+ "\1\164\1\157\1\156\1\uffff\1\151\1\156\1\60\1\157\1\60\1\156\1\60";
-	static final String DFA10_maxS = "\1\174\4\uffff\1\52\1\151\1\172\11\uffff\3\137\1\172\1\151\1\157"
-			+ "\2\uffff\1\172\1\uffff\3\101\1\151\1\164\1\154\3\143\1\155\1\143"
-			+ "\1\154\3\143\1\165\1\150\1\137\3\145\1\164\1\137\1\117\3\154\1\150"
-			+ "\1\117\1\162\3\145\1\137\1\162\1\151\3\162\1\117\1\151\1\145\3\157"
-			+ "\1\162\1\145\1\156\3\155\1\151\1\156\1\164\4\145\1\164\1\141\3\164"
-			+ "\1\156\1\141\1\164\3\145\2\164\1\151\3\162\1\141\1\151\1\157\3\172"
-			+ "\1\164\1\157\1\156\1\uffff\1\151\1\156\1\172\1\157\1\172\1\156\1" + "\172";
-	static final String DFA10_acceptS = "\1\uffff\1\1\1\2\1\3\1\4\3\uffff\1\7\1\10\1\11\1\12\1\13\1\14\1"
-			+ "\15\1\16\1\17\6\uffff\1\21\1\5\1\uffff\1\6\124\uffff\1\20\7\uffff";
-	static final String DFA10_specialS = "\167\uffff}>";
-	static final String[] DFA10_transitionS = {
-			"\2\4\1\uffff\2\4\22\uffff\1\4\1\15\3\uffff\1\11\1\16\1\uffff"
-					+ "\1\1\1\2\1\11\1\12\1\3\1\13\1\uffff\1\5\12\17\2\uffff\3\10\2"
-					+ "\uffff\1\24\16\27\1\25\1\27\1\26\5\27\1\21\1\22\1\23\3\uffff"
-					+ "\1\11\2\uffff\4\20\1\7\12\20\1\6\12\20\1\uffff\1\14", "", "", "", "", "\1\30", "\1\31",
-			"\12\20\45\uffff\1\20\1\uffff\32\20", "", "", "", "", "", "", "", "", "", "\1\33", "\1\34", "\1\35",
-			"\1\36", "\1\37", "\1\40", "", "", "\12\20\45\uffff\1\20\1\uffff\32\20", "", "\1\41", "\1\42", "\1\43",
-			"\1\44", "\1\45", "\1\46", "\1\47", "\1\50", "\1\51", "\1\52", "\1\53", "\1\54", "\1\55", "\1\56", "\1\57",
-			"\1\60", "\1\61", "\1\62", "\1\63", "\1\64", "\1\65", "\1\66", "\1\67", "\1\70", "\1\71", "\1\72", "\1\73",
-			"\1\74", "\1\75", "\1\76", "\1\77", "\1\100", "\1\101", "\1\102", "\1\103", "\1\104", "\1\105", "\1\106",
-			"\1\107", "\1\110", "\1\111", "\1\112", "\1\113", "\1\114", "\1\115", "\1\116", "\1\117", "\1\120",
-			"\1\121", "\1\122", "\1\123", "\1\124", "\1\125", "\1\126", "\1\127", "\1\130", "\1\131", "\1\132",
-			"\1\133", "\1\134", "\1\135", "\1\136", "\1\137", "\1\140", "\1\141", "\1\142", "\1\143", "\1\144",
-			"\1\145", "\1\146", "\1\147", "\1\150", "\1\151", "\1\152", "\1\153", "\1\154", "\1\155", "\1\156",
-			"\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27", "\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27",
-			"\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27", "\1\160", "\1\161", "\1\162", "", "\1\163", "\1\164",
-			"\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27", "\1\165",
-			"\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27", "\1\166",
-			"\12\27\7\uffff\32\27\4\uffff\1\27\1\uffff\32\27" };
+	protected DFA9 dfa9 = new DFA9(this);
+	static final String DFA9_eotS = "\5\uffff\1\17\1\30\11\uffff\6\26\1\uffff\1\30\1\uffff\116\26\3\155"
+			+ "\3\26\1\uffff\2\26\1\155\1\26\1\155\1\26\1\155";
+	static final String DFA9_eofS = "\165\uffff";
+	static final String DFA9_minS = "\1\11\4\uffff\1\151\1\60\11\uffff\3\137\1\172\1\151\1\157\1\uffff"
+			+ "\1\60\1\uffff\3\101\1\151\1\164\1\154\3\143\1\155\1\143\1\154\3"
+			+ "\143\1\165\1\150\1\137\3\145\1\164\1\137\1\117\3\154\1\150\1\117"
+			+ "\1\162\3\145\1\137\1\162\1\151\3\162\1\117\1\151\1\145\3\157\1\162"
+			+ "\1\145\1\156\3\155\1\151\1\156\1\164\4\145\1\164\1\141\3\164\1\156"
+			+ "\1\141\1\164\3\145\2\164\1\151\3\162\1\141\1\151\1\157\3\60\1\164"
+			+ "\1\157\1\156\1\uffff\1\151\1\156\1\60\1\157\1\60\1\156\1\60";
+	static final String DFA9_maxS = "\1\174\4\uffff\1\151\1\172\11\uffff\3\137\1\172\1\151\1\157\1\uffff"
+			+ "\1\172\1\uffff\3\101\1\151\1\164\1\154\3\143\1\155\1\143\1\154\3"
+			+ "\143\1\165\1\150\1\137\3\145\1\164\1\137\1\117\3\154\1\150\1\117"
+			+ "\1\162\3\145\1\137\1\162\1\151\3\162\1\117\1\151\1\145\3\157\1\162"
+			+ "\1\145\1\156\3\155\1\151\1\156\1\164\4\145\1\164\1\141\3\164\1\156"
+			+ "\1\141\1\164\3\145\2\164\1\151\3\162\1\141\1\151\1\157\3\172\1\164"
+			+ "\1\157\1\156\1\uffff\1\151\1\156\1\172\1\157\1\172\1\156\1\172";
+	static final String DFA9_acceptS = "\1\uffff\1\1\1\2\1\3\1\4\2\uffff\1\6\1\7\1\10\1\11\1\12\1\13\1\14"
+			+ "\1\15\1\16\6\uffff\1\20\1\uffff\1\5\124\uffff\1\17\7\uffff";
+	static final String DFA9_specialS = "\165\uffff}>";
+	static final String[] DFA9_transitionS = {
+			"\2\4\1\uffff\2\4\22\uffff\1\4\1\14\3\uffff\1\10\1\15\1\uffff"
+					+ "\1\1\1\2\1\10\1\11\1\3\1\12\1\uffff\1\10\12\16\2\uffff\3\7\2"
+					+ "\uffff\1\23\16\26\1\24\1\26\1\25\5\26\1\20\1\21\1\22\3\uffff"
+					+ "\1\10\2\uffff\4\17\1\6\12\17\1\5\12\17\1\uffff\1\13", "", "", "", "", "\1\27",
+			"\12\17\45\uffff\1\17\1\uffff\32\17", "", "", "", "", "", "", "", "", "", "\1\31", "\1\32", "\1\33",
+			"\1\34", "\1\35", "\1\36", "", "\12\17\45\uffff\1\17\1\uffff\32\17", "", "\1\37", "\1\40", "\1\41",
+			"\1\42", "\1\43", "\1\44", "\1\45", "\1\46", "\1\47", "\1\50", "\1\51", "\1\52", "\1\53", "\1\54", "\1\55",
+			"\1\56", "\1\57", "\1\60", "\1\61", "\1\62", "\1\63", "\1\64", "\1\65", "\1\66", "\1\67", "\1\70", "\1\71",
+			"\1\72", "\1\73", "\1\74", "\1\75", "\1\76", "\1\77", "\1\100", "\1\101", "\1\102", "\1\103", "\1\104",
+			"\1\105", "\1\106", "\1\107", "\1\110", "\1\111", "\1\112", "\1\113", "\1\114", "\1\115", "\1\116",
+			"\1\117", "\1\120", "\1\121", "\1\122", "\1\123", "\1\124", "\1\125", "\1\126", "\1\127", "\1\130",
+			"\1\131", "\1\132", "\1\133", "\1\134", "\1\135", "\1\136", "\1\137", "\1\140", "\1\141", "\1\142",
+			"\1\143", "\1\144", "\1\145", "\1\146", "\1\147", "\1\150", "\1\151", "\1\152", "\1\153", "\1\154",
+			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26", "\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26",
+			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26", "\1\156", "\1\157", "\1\160", "", "\1\161", "\1\162",
+			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26", "\1\163",
+			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26", "\1\164",
+			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26" };
 
-	static final short[] DFA10_eot = DFA.unpackEncodedString(DFA10_eotS);
-	static final short[] DFA10_eof = DFA.unpackEncodedString(DFA10_eofS);
-	static final char[] DFA10_min = DFA.unpackEncodedStringToUnsignedChars(DFA10_minS);
-	static final char[] DFA10_max = DFA.unpackEncodedStringToUnsignedChars(DFA10_maxS);
-	static final short[] DFA10_accept = DFA.unpackEncodedString(DFA10_acceptS);
-	static final short[] DFA10_special = DFA.unpackEncodedString(DFA10_specialS);
-	static final short[][] DFA10_transition;
+	static final short[] DFA9_eot = DFA.unpackEncodedString(DFA9_eotS);
+	static final short[] DFA9_eof = DFA.unpackEncodedString(DFA9_eofS);
+	static final char[] DFA9_min = DFA.unpackEncodedStringToUnsignedChars(DFA9_minS);
+	static final char[] DFA9_max = DFA.unpackEncodedStringToUnsignedChars(DFA9_maxS);
+	static final short[] DFA9_accept = DFA.unpackEncodedString(DFA9_acceptS);
+	static final short[] DFA9_special = DFA.unpackEncodedString(DFA9_specialS);
+	static final short[][] DFA9_transition;
 
 	static {
-		int numStates = DFA10_transitionS.length;
-		DFA10_transition = new short[numStates][];
+		int numStates = DFA9_transitionS.length;
+		DFA9_transition = new short[numStates][];
 		for (int i = 0; i < numStates; i++) {
-			DFA10_transition[i] = DFA.unpackEncodedString(DFA10_transitionS[i]);
+			DFA9_transition[i] = DFA.unpackEncodedString(DFA9_transitionS[i]);
 		}
 	}
 
-	class DFA10 extends DFA {
+	class DFA9 extends DFA {
 
-		public DFA10(BaseRecognizer recognizer) {
+		public DFA9(BaseRecognizer recognizer) {
 			this.recognizer = recognizer;
-			this.decisionNumber = 10;
-			this.eot = DFA10_eot;
-			this.eof = DFA10_eof;
-			this.min = DFA10_min;
-			this.max = DFA10_max;
-			this.accept = DFA10_accept;
-			this.special = DFA10_special;
-			this.transition = DFA10_transition;
+			this.decisionNumber = 9;
+			this.eot = DFA9_eot;
+			this.eof = DFA9_eof;
+			this.min = DFA9_min;
+			this.max = DFA9_max;
+			this.accept = DFA9_accept;
+			this.special = DFA9_special;
+			this.transition = DFA9_transition;
 		}
 
 		public String getDescription() {
-			return "1:1: Tokens : ( T__24 | T__25 | T__26 | WS | COMMENT | CONSTANT | RELOP | MULOP | PLUS | MINUS | OR | NOT | LAND | NUMBER | ID | SENSOR | UPID );";
+			return "1:1: Tokens : ( T__23 | T__24 | T__25 | WS | CONSTANT | RELOP | MULOP | PLUS | MINUS | OR | NOT | LAND | NUMBER | ID | SENSOR | UPID );";
 		}
 	}
 
