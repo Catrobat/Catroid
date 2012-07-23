@@ -41,8 +41,6 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	private Sprite sprite;
 
-	private double degrees;
-
 	private transient View view;
 
 	private Formula degreesFormula;
@@ -53,9 +51,12 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	public TurnRightBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
-		this.degrees = degrees;
-
 		degreesFormula = new Formula(Double.toString(degrees));
+	}
+
+	public TurnRightBrick(Sprite sprite, Formula degreesFormula) {
+		this.sprite = sprite;
+		this.degreesFormula = degreesFormula;
 	}
 
 	public int getRequiredResources() {
@@ -63,9 +64,8 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		degrees = degreesFormula.interpret().doubleValue();
-
-		sprite.costume.rotation = (sprite.costume.rotation % 360) - (float) degrees;
+		float degrees = degreesFormula.interpret().floatValue();
+		sprite.costume.rotation = (sprite.costume.rotation % 360) - degrees;
 	}
 
 	public Sprite getSprite() {
@@ -78,16 +78,10 @@ public class TurnRightBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 
-		if (degreesFormula == null) {
-			degreesFormula = new Formula(Double.toString(degrees));
-		}
-
 		view = View.inflate(context, R.layout.brick_turn_right, null);
 
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
-		//		editDegrees.setText(String.valueOf(degrees));
-		//		editDegrees.setText(degreesFormula.getEditTextRepresentation());
 		degreesFormula.setTextFieldId(R.id.brick_turn_right_edit_text);
 		degreesFormula.refreshTextField(view);
 
@@ -104,7 +98,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new TurnRightBrick(getSprite(), degrees);
+		return new TurnRightBrick(getSprite(), degreesFormula);
 	}
 
 	public void onClick(View view) {
@@ -115,8 +109,6 @@ public class TurnRightBrick implements Brick, OnClickListener {
 			formulaEditor = new FormulaEditorDialog(context, instance);
 			formulaEditor.setOnDismissListener(new OnDismissListener() {
 				public void onDismiss(DialogInterface editor) {
-
-					//size = formulaEditor.getReturnValue();
 					formulaEditor.dismiss();
 
 					editorActive = false;
@@ -126,34 +118,5 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(degreesFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(degrees));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					degrees = Double.parseDouble(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
-
 	}
 }

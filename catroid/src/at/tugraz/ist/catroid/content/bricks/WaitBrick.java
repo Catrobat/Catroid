@@ -37,7 +37,6 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class WaitBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int timeToWaitInMilliSeconds;
 	private Sprite sprite;
 
 	private transient View view;
@@ -49,17 +48,14 @@ public class WaitBrick implements Brick, OnClickListener {
 	public transient boolean editorActive = false;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
-		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
 		this.sprite = sprite;
-
-		//readResolve();
-		timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliSeconds / 1000.0));
+		timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliseconds / 1000.0));
 	}
 
-	//	private Object readResolve() {
-	//		timeToWaitInSecondsFormula = new Formula(Double.toString(timeToWaitInMilliSeconds / 1000.0));
-	//		return this;
-	//	}
+	public WaitBrick(Sprite sprite, Formula timeToWaitInSecondsFormula) {
+		this.sprite = sprite;
+		this.timeToWaitInSecondsFormula = timeToWaitInSecondsFormula;
+	}
 
 	public int getRequiredResources() {
 		return NO_RESOURCES;
@@ -102,7 +98,6 @@ public class WaitBrick implements Brick, OnClickListener {
 
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
-		//		edit.setText((timeToWaitInMilliseconds / 1000.0) + "");
 		edit.setText(timeToWaitInSecondsFormula.getEditTextRepresentation());
 		timeToWaitInSecondsFormula.setTextFieldId(R.id.brick_wait_edit_text);
 		timeToWaitInSecondsFormula.refreshTextField(view);
@@ -120,7 +115,7 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new WaitBrick(getSprite(), timeToWaitInMilliSeconds);
+		return new WaitBrick(getSprite(), timeToWaitInSecondsFormula);
 	}
 
 	public void onClick(View view) {
@@ -132,7 +127,6 @@ public class WaitBrick implements Brick, OnClickListener {
 			formulaEditor.setOnDismissListener(new OnDismissListener() {
 				public void onDismiss(DialogInterface editor) {
 
-					//size = formulaEditor.getReturnValue();
 					formulaEditor.dismiss();
 
 					editorActive = false;
@@ -142,35 +136,5 @@ public class WaitBrick implements Brick, OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(timeToWaitInSecondsFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(timeToWaitInMilliseconds / 1000.0));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					timeToWaitInMilliseconds = (int) (Double.parseDouble(input.getText().toString()) * 1000);
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
-
 	}
 }
