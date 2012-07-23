@@ -42,7 +42,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private SetGhostEffectBrick SetGhostEffectBrick;
+	private SetGhostEffectBrick setGhostEffectBrick;
 
 	public SetGhostEffectBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -77,13 +77,7 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		double newEffect = 65.9;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, newEffect + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		assertEquals("Wrong text in field", newEffect, SetGhostEffectBrick.getGhostEffectValue());
-		assertEquals("Text not updated", newEffect, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newEffect, "transparencyFormula", setGhostEffectBrick);
 	}
 
 	public void testResizeInputField() {
@@ -97,8 +91,8 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		SetGhostEffectBrick = new SetGhostEffectBrick(sprite, 33.8);
-		script.addBrick(SetGhostEffectBrick);
+		setGhostEffectBrick = new SetGhostEffectBrick(sprite, 33.8);
+		script.addBrick(setGhostEffectBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

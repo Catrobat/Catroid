@@ -39,7 +39,6 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private double degrees;
 
 	private transient View view;
 
@@ -51,9 +50,12 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
-		this.degrees = degrees;
-
 		degreesFormula = new Formula(Double.toString(degrees));
+	}
+
+	public TurnLeftBrick(Sprite sprite, Formula degrees) {
+		this.sprite = sprite;
+		degreesFormula = degrees;
 	}
 
 	public int getRequiredResources() {
@@ -61,9 +63,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		degrees = degreesFormula.interpret().doubleValue();
-
-		sprite.costume.rotation = (sprite.costume.rotation % 360) + (float) degrees;
+		sprite.costume.rotation = (sprite.costume.rotation % 360) + degreesFormula.interpret().floatValue();
 	}
 
 	public Sprite getSprite() {
@@ -75,16 +75,10 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 			instance = this;
 		}
 
-		if (degreesFormula == null) {
-			degreesFormula = new Formula(Double.toString(degrees));
-		}
-
 		view = View.inflate(context, R.layout.brick_turn_left, null);
 
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_left_edit_text);
-		//		editDegrees.setText(String.valueOf(degrees));
-		//		editDegrees.setText(degreesFormula.getEditTextRepresentation());
 		degreesFormula.setTextFieldId(R.id.brick_turn_left_edit_text);
 		degreesFormula.refreshTextField(view);
 
@@ -101,7 +95,7 @@ public class TurnLeftBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new TurnLeftBrick(getSprite(), degrees);
+		return new TurnLeftBrick(getSprite(), degreesFormula);
 	}
 
 	public void onClick(View view) {

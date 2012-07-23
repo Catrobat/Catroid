@@ -78,12 +78,8 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_set_volume_to)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, VOLUME + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, VOLUME, "volumeFormula", setVolumeToBrick);
 
-		assertEquals("Value in Brick is not updated.", VOLUME + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {

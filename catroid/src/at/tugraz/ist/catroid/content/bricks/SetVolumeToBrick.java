@@ -40,8 +40,6 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private Sprite sprite;
-	private float volume;
-
 	private Formula volumeFormula;
 
 	private transient Brick instance = null;
@@ -50,9 +48,12 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	public SetVolumeToBrick(Sprite sprite, float volume) {
 		this.sprite = sprite;
-		this.volume = volume;
-
 		volumeFormula = new Formula(Float.toString(volume));
+	}
+
+	public SetVolumeToBrick(Sprite sprite, Formula volume) {
+		this.sprite = sprite;
+		volumeFormula = volume;
 	}
 
 	public int getRequiredResources() {
@@ -60,7 +61,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		volume = volumeFormula.interpret().floatValue();
+		float volume = volumeFormula.interpret().floatValue();
 
 		if (volume < 0.0f) {
 			volume = 0.0f;
@@ -78,10 +79,6 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (volumeFormula == null) {
-			volumeFormula = new Formula(Float.toString(volume));
 		}
 
 		View view = View.inflate(context, R.layout.brick_set_volume_to, null);
@@ -107,7 +104,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new SetVolumeToBrick(getSprite(), volume);
+		return new SetVolumeToBrick(getSprite(), volumeFormula);
 	}
 
 	public void onClick(View view) {
@@ -119,7 +116,6 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 			formulaEditor.setOnDismissListener(new OnDismissListener() {
 				public void onDismiss(DialogInterface editor) {
 
-					//size = formulaEditor.getReturnValue();
 					formulaEditor.dismiss();
 
 					editorActive = false;
@@ -129,34 +125,6 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		}
 
 		formulaEditor.setInputFocusAndFormula(volumeFormula);
-
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(volume));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					volume = Float.parseFloat(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 
 	}
 }

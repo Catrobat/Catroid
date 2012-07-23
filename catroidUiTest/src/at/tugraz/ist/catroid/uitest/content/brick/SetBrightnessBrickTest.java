@@ -42,7 +42,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private SetBrightnessBrick SetBrightnessBrick;
+	private SetBrightnessBrick setBrightnessBrick;
 
 	public SetBrightnessBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -77,16 +77,8 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		double newBrightness = 65.5;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newBrightness, "brightnessFormula", SetBrightnessBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newBrightness, "brightnessFormula", setBrightnessBrick);
 
-		//
-		//		solo.clickOnEditText(0);
-		//		solo.clearEditText(0);
-		//		solo.enterText(0, newBrightness + "");
-		//		solo.clickOnButton(solo.getString(R.string.ok));
-		//
-		//		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
-		//		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
@@ -100,8 +92,8 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		SetBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
-		script.addBrick(SetBrightnessBrick);
+		setBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
+		script.addBrick(setBrightnessBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

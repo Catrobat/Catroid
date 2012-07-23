@@ -78,14 +78,8 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_set_x)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, SET_X + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SET_X, "xPositionFormula", setXBrick);
 
-		int xPosition = (Integer) UiTestUtils.getPrivateField("xPosition", setXBrick);
-		assertEquals("Wrong text in field.", SET_X, xPosition);
-		assertEquals("Value in Brick is not updated.", SET_X + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
