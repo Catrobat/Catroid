@@ -38,7 +38,6 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private double size;
 	private Formula sizeFormula;
 	public transient boolean editorActive = false;
 
@@ -48,9 +47,14 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	public ChangeSizeByNBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
-		this.size = size;
 
 		sizeFormula = new Formula(Double.toString(size));
+	}
+
+	public ChangeSizeByNBrick(Sprite sprite, Formula size) {
+		this.sprite = sprite;
+
+		sizeFormula = size;
 	}
 
 	public int getRequiredResources() {
@@ -58,8 +62,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		//		float newSize = sprite.costume.getSize() + ((float) size / 100f);
-		size = sizeFormula.interpret();
+		double size = sizeFormula.interpret();
 		float newSize = sprite.costume.getSize() + ((float) size / 100f);
 		if (newSize < 0f) {
 			newSize = 0f;
@@ -75,9 +78,6 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 		if (instance == null) {
 			instance = this;
-		}
-		if (sizeFormula == null) {
-			sizeFormula = new Formula(Double.toString(size));
 		}
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
@@ -101,7 +101,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeSizeByNBrick(getSprite(), size);
+		return new ChangeSizeByNBrick(getSprite(), sizeFormula);
 	}
 
 	public void onClick(View view) {
@@ -114,7 +114,6 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 			formulaEditor.setOnDismissListener(new OnDismissListener() {
 				public void onDismiss(DialogInterface editor) {
 
-					//size = formulaEditor.getReturnValue();
 					formulaEditor.dismiss();
 
 					editorActive = false;
@@ -125,33 +124,5 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 		formulaEditor.setInputFocusAndFormula(sizeFormula);
 
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(size));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-		//				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					size = Double.parseDouble(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 	}
 }

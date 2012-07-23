@@ -37,7 +37,6 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeGhostEffect;
 	private Sprite sprite;
 
 	private transient View view;
@@ -50,9 +49,14 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 
 	public ChangeGhostEffectBrick(Sprite sprite, double changeGhostEffect) {
 		this.sprite = sprite;
-		this.changeGhostEffect = changeGhostEffect;
 
 		changeGhostEffectFormula = new Formula(Double.toString(changeGhostEffect));
+	}
+
+	public ChangeGhostEffectBrick(Sprite sprite, Formula changeGhostEffect) {
+		this.sprite = sprite;
+
+		changeGhostEffectFormula = changeGhostEffect;
 	}
 
 	public int getRequiredResources() {
@@ -60,9 +64,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		//		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / -100);
-
-		changeGhostEffect = changeGhostEffectFormula.interpret() / -100.0;
+		double changeGhostEffect = changeGhostEffectFormula.interpret() / -100.0;
 		sprite.costume.changeAlphaValueBy((float) changeGhostEffect);
 
 	}
@@ -71,25 +73,17 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
-	public double getChangeGhostEffect() {
-		return changeGhostEffect;
-	}
-
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		if (instance == null) {
 			instance = this;
 		}
 
-		if (changeGhostEffectFormula == null) {
-			changeGhostEffectFormula = new Formula(Double.toString(changeGhostEffect));
-		}
-
 		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-		//		editX.setText(String.valueOf(changeGhostEffect));
+
 		changeGhostEffectFormula.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
 		changeGhostEffectFormula.refreshTextField(view);
 
@@ -106,7 +100,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeGhostEffectBrick(getSprite(), getChangeGhostEffect());
+		return new ChangeGhostEffectBrick(getSprite(), changeGhostEffectFormula);
 	}
 
 	public void onClick(View view) {
@@ -129,34 +123,6 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 
 		formulaEditor.setInputFocusAndFormula(changeGhostEffectFormula);
 
-		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		//		final EditText input = new EditText(context);
-		//		input.setText(String.valueOf(changeGhostEffect));
-		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-		//				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		//		input.setSelectAllOnFocus(true);
-		//		dialog.setView(input);
-		//		dialog.setOnCancelListener((OnCancelListener) context);
-		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				try {
-		//					changeGhostEffect = Double.parseDouble(input.getText().toString());
-		//				} catch (NumberFormatException exception) {
-		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-		//				}
-		//				dialog.cancel();
-		//			}
-		//		});
-		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-		//			public void onClick(DialogInterface dialog, int which) {
-		//				dialog.cancel();
-		//			}
-		//		});
-		//
-		//		AlertDialog finishedDialog = dialog.create();
-		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-		//
-		//		finishedDialog.show();
 	}
 
 }

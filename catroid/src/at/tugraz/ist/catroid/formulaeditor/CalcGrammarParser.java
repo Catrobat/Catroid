@@ -132,7 +132,7 @@ public class CalcGrammarParser extends Parser {
 	public void handleOperator(String operator, FormulaElement curElem, FormulaElement newElem) {
 		//        System.out.println("handleOperator: operator="+operator + " curElem="+curElem.getValue() + " newElem="+newElem.getValue());
 		if (curElem.getParent() == null) {
-			new FormulaElement(FormulaElement.ELEMENT_OPERATOR, operator, null, curElem, newElem);
+			new FormulaElement(FormulaElement.ElementType.OPERATOR, operator, null, curElem, newElem);
 			return;
 		}
 
@@ -142,7 +142,7 @@ public class CalcGrammarParser extends Parser {
 		int compareOp = parentOp.compareOperatorTo(currentOp);
 
 		if (compareOp >= 0) {
-			new FormulaElement(FormulaElement.ELEMENT_OPERATOR, operator, null, curElem.getParent(), newElem);
+			new FormulaElement(FormulaElement.ElementType.OPERATOR, operator, null, curElem.getParent(), newElem);
 		} else {
 			curElem.replaceWithSubElement(operator, newElem);
 		}
@@ -282,7 +282,7 @@ public class CalcGrammarParser extends Parser {
 			// src/CalcGrammar.g:176:5: ( MINUS )? ( NUMBER | '(' term_list ')' | variableOrFunction )
 			{
 
-				termTree = new FormulaElement(FormulaElement.ELEMENT_VALUE, null, null, null, null);
+				termTree = new FormulaElement(FormulaElement.ElementType.VALUE, null, null, null, null);
 				FormulaElement curElem = termTree;
 				System.out.println("term enter");
 
@@ -300,8 +300,8 @@ public class CalcGrammarParser extends Parser {
 						MINUS3 = (Token) match(input, MINUS, FOLLOW_MINUS_in_term157);
 
 						System.out.println("minus enter");
-						curElem = new FormulaElement(FormulaElement.ELEMENT_VALUE, null, termTree, null, null);
-						termTree.replaceElement(FormulaElement.ELEMENT_OPERATOR, MINUS3.getText(), null, curElem);
+						curElem = new FormulaElement(FormulaElement.ElementType.VALUE, null, termTree, null, null);
+						termTree.replaceElement(FormulaElement.ElementType.OPERATOR, MINUS3.getText(), null, curElem);
 
 					}
 						break;
@@ -341,7 +341,7 @@ public class CalcGrammarParser extends Parser {
 
 						System.out.println("number enter");
 						String number = internalCommaSeperatedDouble(NUMBER4.getText());
-						curElem.replaceElement(FormulaElement.ELEMENT_VALUE, number);
+						curElem.replaceElement(FormulaElement.ElementType.VALUE, number);
 
 					}
 						break;
@@ -442,8 +442,8 @@ public class CalcGrammarParser extends Parser {
 
 					CONSTANT7 = (Token) match(input, CONSTANT, FOLLOW_CONSTANT_in_variableOrFunction259);
 
-					variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_CONSTANT, CONSTANT7.getText(),
-							null, null, null);
+					variableOrFunctionTree = new FormulaElement(FormulaElement.ElementType.CONSTANT,
+							CONSTANT7.getText(), null, null, null);
 
 				}
 					break;
@@ -508,8 +508,8 @@ public class CalcGrammarParser extends Parser {
 
 					match(input, 25, FOLLOW_25_in_variableOrFunction445);
 
-					variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_FUNCTION, ID8.getText(), null,
-							leftChild, rightChild);
+					variableOrFunctionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, ID8.getText(),
+							null, leftChild, rightChild);
 
 				}
 					break;
@@ -518,8 +518,8 @@ public class CalcGrammarParser extends Parser {
 				{
 					SENSOR9 = (Token) match(input, SENSOR, FOLLOW_SENSOR_in_variableOrFunction472);
 
-					variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_SENSOR, SENSOR9.getText(), null,
-							null, null);
+					variableOrFunctionTree = new FormulaElement(FormulaElement.ElementType.SENSOR, SENSOR9.getText(),
+							null, null, null);
 
 				}
 					break;
@@ -528,7 +528,7 @@ public class CalcGrammarParser extends Parser {
 				{
 					UPID10 = (Token) match(input, UPID, FOLLOW_UPID_in_variableOrFunction498);
 
-					variableOrFunctionTree = new FormulaElement(FormulaElement.ELEMENT_VARIABLE, UPID10.getText(),
+					variableOrFunctionTree = new FormulaElement(FormulaElement.ElementType.VARIABLE, UPID10.getText(),
 							null, null, null);
 
 				}

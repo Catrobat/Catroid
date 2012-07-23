@@ -30,27 +30,32 @@ public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int ELEMENT_OPERATOR = 2;
-	public static final int ELEMENT_FUNCTION = 3;
-	public static final int ELEMENT_VALUE = 4;
-	public static final int ELEMENT_SENSOR = 5;
-	public static final int ELEMENT_CONSTANT = 6;
-	public static final int ELEMENT_VARIABLE = 7;
+	public static enum ElementType {
+		OPERATOR, FUNCTION, VALUE, SENSOR, CONSTANT, VARIABLE
+	}
+
+	//	public static final int ELEMENT_OPERATOR = 2;
+	//	public static final int ELEMENT_FUNCTION = 3;
+	//	public static final int ELEMENT_VALUE = 4;
+	//	public static final int ELEMENT_SENSOR = 5;
+	//	public static final int ELEMENT_CONSTANT = 6;
+	//	public static final int ELEMENT_VARIABLE = 7;
 
 	//	private static HashMap<String, Integer> variableMap = new HashMap<String, Integer>(); TODO
-	private int type;
+	//private int type;
+	private ElementType type;
 	private String value;
 	private FormulaElement leftChild = null;
 	private FormulaElement rightChild = null;
 	private FormulaElement parent = null;
 
-	public FormulaElement(int type, String value, FormulaElement parent) {
+	public FormulaElement(ElementType type, String value, FormulaElement parent) {
 		this.type = type;
 		this.value = value;
 		this.parent = parent;
 	}
 
-	public FormulaElement(int type, String value, FormulaElement parent, FormulaElement leftChild,
+	public FormulaElement(ElementType type, String value, FormulaElement parent, FormulaElement leftChild,
 			FormulaElement rightChild) {
 		this.type = type;
 		this.value = value;
@@ -67,7 +72,7 @@ public class FormulaElement implements Serializable {
 
 	}
 
-	public int getType() {
+	public ElementType getType() {
 		return type;
 	}
 
@@ -135,7 +140,7 @@ public class FormulaElement implements Serializable {
 		String result = "";
 
 		switch (type) {
-			case ELEMENT_OPERATOR:
+			case OPERATOR:
 				if (leftChild != null) {
 					result += leftChild.getEditTextRepresentation();
 				}
@@ -144,7 +149,7 @@ public class FormulaElement implements Serializable {
 					result += rightChild.getEditTextRepresentation();
 				}
 				break;
-			case ELEMENT_FUNCTION:
+			case FUNCTION:
 				result += this.value + "( ";
 				if (leftChild != null) {
 					result += leftChild.getEditTextRepresentation();
@@ -155,16 +160,16 @@ public class FormulaElement implements Serializable {
 				}
 				result += ") ";
 				break;
-			case ELEMENT_CONSTANT:
+			case CONSTANT:
 				result += this.value + " ";
 				break;
-			case ELEMENT_VARIABLE:
+			case VARIABLE:
 				result += this.value + " ";
 				break;
-			case ELEMENT_VALUE:
+			case VALUE:
 				result += this.value + " ";
 				break;
-			case ELEMENT_SENSOR:
+			case SENSOR:
 				result += this.value + " ";
 				break;
 		}
@@ -204,9 +209,9 @@ public class FormulaElement implements Serializable {
 
 	public Double interpretRecursive() {
 
-		if (type == ELEMENT_VALUE) {
+		if (type == ElementType.VALUE) {
 			return Double.parseDouble(value);
-		} else if (type == ELEMENT_OPERATOR) {
+		} else if (type == ElementType.OPERATOR) {
 			if (leftChild != null) {// binär operator
 				Double left = leftChild.interpretRecursive();
 				Double right = rightChild.interpretRecursive();
@@ -236,7 +241,7 @@ public class FormulaElement implements Serializable {
 				}
 
 			}
-		} else if (type == ELEMENT_FUNCTION) {
+		} else if (type == ElementType.FUNCTION) {
 			Double left = 0.0d;
 			if (leftChild != null) {
 				left = leftChild.interpretRecursive();
@@ -265,7 +270,7 @@ public class FormulaElement implements Serializable {
 				double max = rightChild.interpretRecursive();
 				return min + (java.lang.Math.random() * (max - min));
 			}
-		} else if (type == ELEMENT_SENSOR) {
+		} else if (type == ElementType.SENSOR) {
 			if (value.equals("X_Accelerometer")) {
 				//Log.i("info", "Acc-X: " + Gdx.input.getAccelerometerX());
 				return Double.valueOf(Gdx.input.getAccelerometerX());
@@ -285,14 +290,14 @@ public class FormulaElement implements Serializable {
 			if (value.equals("Roll_Orientation")) {
 				return Double.valueOf(Gdx.input.getRoll());
 			}
-		} else if (type == ELEMENT_CONSTANT) {
+		} else if (type == ElementType.CONSTANT) {
 			if (value.equals("pi")) {
 				return java.lang.Math.PI;
 			}
 			if (value.equals("e")) {
 				return java.lang.Math.E;
 			}
-		} else if (type == ELEMENT_VARIABLE) {
+		} else if (type == ElementType.VARIABLE) {
 			//			TODO ^_^
 			return null;
 		}
@@ -348,12 +353,12 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public void replaceElement(int type, String value) {
+	public void replaceElement(ElementType type, String value) {
 		this.value = value;
 		this.type = type;
 	}
 
-	public void replaceElement(int type, String value, FormulaElement parent, FormulaElement leftChild,
+	public void replaceElement(ElementType type, String value, FormulaElement parent, FormulaElement leftChild,
 			FormulaElement rightChild) {
 		this.value = value;
 		this.type = type;
@@ -362,7 +367,7 @@ public class FormulaElement implements Serializable {
 		this.rightChild = rightChild;
 	}
 
-	public void replaceElement(int type, String value, FormulaElement leftChild, FormulaElement rightChild) {
+	public void replaceElement(ElementType type, String value, FormulaElement leftChild, FormulaElement rightChild) {
 		this.value = value;
 		this.type = type;
 		this.leftChild = leftChild;
@@ -380,7 +385,8 @@ public class FormulaElement implements Serializable {
 	public FormulaElement addTopElement(String newParentOperator, FormulaElement newRightChild) {
 		//Log.i("info", "replaceWithTopElement");
 
-		FormulaElement newParent = new FormulaElement(ELEMENT_OPERATOR, newParentOperator, null, this, newRightChild);
+		FormulaElement newParent = new FormulaElement(ElementType.OPERATOR, newParentOperator, null, this,
+				newRightChild);
 
 		return newParent;
 	}
@@ -388,7 +394,8 @@ public class FormulaElement implements Serializable {
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
 		//Log.i("info", "replaceWithSubElement");
 
-		FormulaElement cloneThis = new FormulaElement(ELEMENT_OPERATOR, operator, this.getParent(), this, rightChild);
+		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
+				rightChild);
 
 		cloneThis.parent.rightChild = cloneThis;
 	}
@@ -396,9 +403,9 @@ public class FormulaElement implements Serializable {
 	public void replaceWithSubElement(String leftChild, String operator, String rightChild) {
 
 		this.value = operator;
-		this.type = ELEMENT_OPERATOR;
-		this.leftChild = new FormulaElement(ELEMENT_VALUE, leftChild, this);
-		this.rightChild = new FormulaElement(ELEMENT_VALUE, rightChild, this);
+		this.type = ElementType.OPERATOR;
+		this.leftChild = new FormulaElement(ElementType.VALUE, leftChild, this);
+		this.rightChild = new FormulaElement(ElementType.VALUE, rightChild, this);
 
 	}
 
@@ -407,14 +414,14 @@ public class FormulaElement implements Serializable {
 		this.value = value;
 		this.leftChild = null;
 		this.rightChild = null;
-		this.type = ELEMENT_VALUE;
+		this.type = ElementType.VALUE;
 
 		return this;
 	}
 
 	public String getFirstChildValue() {
 		String result = null;
-		if (this.type == ELEMENT_VALUE) {
+		if (this.type == ElementType.VALUE) {
 			result = this.value;
 		} else {
 

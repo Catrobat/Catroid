@@ -37,7 +37,7 @@ import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class ChangeBrightnessBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeBrightness;
+
 	private Sprite sprite;
 
 	private transient View view;
@@ -50,9 +50,12 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 
 	public ChangeBrightnessBrick(Sprite sprite, double changeBrightness) {
 		this.sprite = sprite;
-		this.changeBrightness = changeBrightness;
-
 		changeBrightnessFormula = new Formula(Double.toString(changeBrightness));
+	}
+
+	public ChangeBrightnessBrick(Sprite sprite, Formula changeBrightness) {
+		this.sprite = sprite;
+		changeBrightnessFormula = changeBrightness;
 	}
 
 	public int getRequiredResources() {
@@ -61,7 +64,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 
 	public void execute() {
 		//		sprite.costume.changeBrightnessValueBy((float) (this.changeBrightness / 100));
-		changeBrightness = changeBrightnessFormula.interpret() / 100;
+		double changeBrightness = changeBrightnessFormula.interpret() / 100;
 
 		sprite.costume.changeBrightnessValueBy((float) changeBrightness);
 	}
@@ -70,17 +73,13 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
-	public double getChangeBrightness() {
-		return changeBrightness;
-	}
+	//	public double getChangeBrightness() {
+	//		return changeBrightness;
+	//	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (changeBrightnessFormula == null) {
-			changeBrightnessFormula = new Formula(Double.toString(changeBrightness));
 		}
 
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
@@ -105,7 +104,7 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeBrightnessBrick(getSprite(), getChangeBrightness());
+		return new ChangeBrightnessBrick(getSprite(), changeBrightnessFormula);
 	}
 
 	public void onClick(View view) {

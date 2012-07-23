@@ -35,7 +35,7 @@ public class Formula implements Serializable {
 	private transient Integer formulaTextFieldId = null;
 
 	public Formula() {
-		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, "0", null);
+		root = new FormulaElement(FormulaElement.ElementType.VALUE, "0", null);
 	}
 
 	public Formula(FormulaElement formEle) {
@@ -43,7 +43,7 @@ public class Formula implements Serializable {
 	}
 
 	public Formula(String value) {
-		root = new FormulaElement(FormulaElement.ELEMENT_VALUE, value, null);
+		root = new FormulaElement(FormulaElement.ElementType.VALUE, value, null);
 	}
 
 	//	public Formula(String value, int formulaTextFieldId) {
