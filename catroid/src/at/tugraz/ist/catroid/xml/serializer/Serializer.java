@@ -43,7 +43,8 @@ public abstract class Serializer {
 	List<Sprite> spriteList;
 	List<SoundInfo> soundList;
 
-	public abstract List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException;
+	public abstract List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
+			SecurityException, NoSuchFieldException;
 
 	public String getReference(Field fieldNeedingReference, Object objectWIthField) throws IllegalArgumentException,
 			IllegalAccessException {
@@ -98,5 +99,17 @@ public abstract class Serializer {
 			reference = reference + "[" + index + "]";
 		}
 		return reference;
+	}
+
+	public String getElementString(String elementName, String value) {
+		return "<" + elementName + ">" + value + "</" + elementName + ">\n";
+	}
+
+	public String getStartTag(String tagName) {
+		return "<" + tagName + ">\n";
+	}
+
+	public String getEndTag(String tagName) {
+		return "</" + tagName + ">\n";
 	}
 }

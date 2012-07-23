@@ -28,6 +28,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
@@ -36,7 +37,6 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -45,6 +45,8 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
 import at.tugraz.ist.catroid.xml.serializer.BrickSerializer;
+import at.tugraz.ist.catroid.xml.serializer.CostumeSerializer;
+import at.tugraz.ist.catroid.xml.serializer.SoundSerializer;
 
 public class FullParserTest extends InstrumentationTestCase {
 
@@ -157,17 +159,36 @@ public class FullParserTest extends InstrumentationTestCase {
 		Sprite testSprite = sprites.get(1);
 		List<CostumeData> givenCostumes = (List<CostumeData>) TestUtils.getPrivateField("costumeDataList", testSprite,
 				false);
+		CostumeSerializer cs = new CostumeSerializer();
+		try {
+
+			List<String> script2 = cs.serializeCostumeList(givenCostumes);
+			for (String element : script2) {
+				Log.i("script element", element);
+			}
+		} catch (IllegalArgumentException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchFieldException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		assertEquals("costumes number wrong", 3, givenCostumes.size());
 		CostumeData testData = givenCostumes.get(1);
 		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
-
 		WhenScript script = (WhenScript) testSprite.getScript(1);
 		//		ScriptSerializer scriptSerializer = new ScriptSerializer(testSprite, testProject);
 		//		try {
 		//			List<String> script2 = scriptSerializer.serialize(script);
 		//			for (String element : script2) {
-		//				//Log.i("script element", element);
+		//				Log.i("script element", element);
 		//			}
 		//		} catch (IllegalArgumentException e1) {
 		//			// TODO Auto-generated catch block
@@ -268,12 +289,32 @@ public class FullParserTest extends InstrumentationTestCase {
 		List<Sprite> sprites = null;
 		sprites = testProject.getSpriteList();
 		assertEquals("all sprites not given", 9, sprites.size());
-		StartScript testScript = (StartScript) sprites.get(7).getScript(0);
-		PointToBrick pointtoBrick = (PointToBrick) testScript.getBrick(6);
-		assertNotNull("Point to brick is null", pointtoBrick);
-		Sprite pointedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", pointtoBrick, false);
-		assertNotNull(pointedSprite);
-		assertEquals(pointedSprite.getName(), sprites.get(1).getName());
+		SoundSerializer ss = new SoundSerializer();
+
+		try {
+			List<String> script2 = ss.serializeSoundList(sprites.get(3).getSoundList());
+			for (String element : script2) {
+				Log.i("script element", element);
+			}
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//		StartScript testScript = (StartScript) sprites.get(7).getScript(0);
+		//		PointToBrick pointtoBrick = (PointToBrick) testScript.getBrick(6);
+		//		assertNotNull("Point to brick is null", pointtoBrick);
+		//		Sprite pointedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", pointtoBrick, false);
+		//		assertNotNull(pointedSprite);
+		//		assertEquals(pointedSprite.getName(), sprites.get(1).getName());
 	}
 
 	public void testParseMalformedProject() {

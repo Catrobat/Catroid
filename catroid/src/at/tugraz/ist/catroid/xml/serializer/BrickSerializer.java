@@ -50,7 +50,8 @@ public class BrickSerializer extends Serializer {
 		List<String> brickStringList = new ArrayList<String>();
 		String xmlElementString = "";
 		Collection<Field> fields = fieldMap.values();
-		xmlElementString = "<Bricks." + object.getClass().getSimpleName() + ">\n";
+		xmlElementString = getStartTag("Bricks." + object.getClass().getSimpleName());
+		//xmlElementString = "<Bricks." + object.getClass().getSimpleName() + ">\n";
 		brickStringList.add(xmlElementString);
 		for (Field brickClassField : fields) {
 			String fieldName = brickClassField.getName();
@@ -60,7 +61,7 @@ public class BrickSerializer extends Serializer {
 					xmlElementString = "<sprite reference=\"../../../../..\"/>" + "\n";
 					brickStringList.add(xmlElementString);
 				} else if (brickClassField.getType().equals(String.class)) {
-					xmlElementString = "<" + fieldName + ">" + brickClassField.get(object) + "</" + fieldName + ">";
+					xmlElementString = getElementString(fieldName, (String) brickClassField.get(object));
 					brickStringList.add(xmlElementString);
 				} else {
 					String referenceString = getReference(brickClassField, object);
@@ -68,12 +69,11 @@ public class BrickSerializer extends Serializer {
 					brickStringList.add(xmlElementString);
 				}
 			} else {
-				xmlElementString = "<" + fieldName + ">" + brickClassField.get(object).toString() + "</" + fieldName
-						+ ">" + "\n";
+				xmlElementString = getElementString(fieldName, brickClassField.get(object).toString());
 				brickStringList.add(xmlElementString);
 			}
 		}
-		xmlElementString = "</Bricks." + object.getClass().getSimpleName() + ">\n";
+		xmlElementString = getEndTag("Bricks." + object.getClass().getSimpleName());
 		brickStringList.add(xmlElementString);
 		//Log.i("serializer", xmlElementString);
 		return brickStringList;
@@ -82,9 +82,11 @@ public class BrickSerializer extends Serializer {
 	public List<String> serializeBrickList(List<Brick> brickList) throws IllegalArgumentException,
 			IllegalAccessException {
 		List<String> brickStrings = new ArrayList<String>();
+		brickStrings.add(getStartTag("brickList"));
 		for (Object brickObject : brickList) {
 			brickStrings.addAll(serialize(brickObject));
 		}
+		brickStrings.add(getEndTag("brickList"));
 		return brickStrings;
 
 	}
