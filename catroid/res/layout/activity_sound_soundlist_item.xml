@@ -23,20 +23,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="6dip"
     android:paddingTop="6dip" >
 
-    <ImageView
-        android:id="@+id/sound_img"
-        android:layout_width="50dp"
-        android:layout_height="70dip"
-        android:src="@drawable/speaker" />
-
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/cb_sound_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:checked="false" />
 
         <TextView
             android:id="@+id/sound_name"
@@ -45,7 +47,7 @@
             android:layout_marginLeft="8dip"
             android:layout_marginRight="8dip"
             android:background="@drawable/list_item_text_background"
-            android:clickable="true"
+            android:clickable="false"
             android:ellipsize="end"
             android:focusable="false"
             android:gravity="center_vertical"
@@ -55,77 +57,74 @@
             android:singleLine="true"
             android:textColor="@color/solid_black"
             android:textSize="18dip" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/sound_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="20dip"
+            android:layout_weight=".5"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="left"
+            android:longClickable="false"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:textColor="@color/backbrown"
+            android:textSize="12dip" />
+
+        <TextView
+            android:id="@+id/sound_size"
+            android:layout_width="wrap_content"
+            android:layout_height="20dip"
+            android:layout_weight=".5"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="right"
+            android:longClickable="false"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="8dip"
+            android:textColor="@color/backbrown"
+            android:textSize="12dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="3dip"
+        android:paddingRight="3dip"
+        android:weightSum="2" >
+
+        <ImageView
+            android:id="@+id/sound_img"
+            android:layout_width="50dp"
+            android:layout_height="70dip"
+            android:layout_marginLeft="3dip"
+            android:src="@drawable/speaker" />
+
+        <Button
+            android:id="@+id/btn_sound_play"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:orientation="horizontal" >
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_media_play"
+            android:text="@string/sound_play" />
 
-            <TextView
-                android:id="@+id/sound_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="20dip"
-                android:layout_weight=".5"
-                android:clickable="false"
-                android:focusable="false"
-                android:gravity="left"
-                android:longClickable="false"
-                android:maxLines="1"
-                android:paddingLeft="10dp"
-                android:textColor="@color/backbrown"
-                android:textSize="12dip" />
-
-            <TextView
-                android:id="@+id/sound_size"
-                android:layout_width="wrap_content"
-                android:layout_height="20dip"
-                android:layout_weight=".5"
-                android:clickable="false"
-                android:focusable="false"
-                android:gravity="right"
-                android:longClickable="false"
-                android:maxLines="1"
-                android:paddingLeft="10dp"
-                android:paddingRight="8dip"
-                android:textColor="@color/backbrown"
-                android:textSize="12dip" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <Button
+            android:id="@+id/btn_sound_pause"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="3dip"
-            android:paddingRight="3dip"
-            android:weightSum="2" >
-
-            <Button
-                android:id="@+id/btn_sound_play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_media_play"
-                android:text="@string/sound_play" />
-
-            <Button
-                android:id="@+id/btn_sound_pause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_media_pause"
-                android:text="@string/sound_pause" />
-
-            <Button
-                android:id="@+id/btn_sound_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_menu_delete"
-                android:text="@string/sound_delete" >
-            </Button>
-        </LinearLayout>
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_media_pause"
+            android:text="@string/sound_pause" />
     </LinearLayout>
 
 </LinearLayout>

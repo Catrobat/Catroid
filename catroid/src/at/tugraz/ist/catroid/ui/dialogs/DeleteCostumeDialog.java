@@ -65,7 +65,7 @@ public class DeleteCostumeDialog extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						for (int i = 0; i < selectedPositions.length; i++) {
-							handleDeleteCostume(selectedPositions[i]);
+							handleDeleteCostume(selectedPositions[i] - i);
 						}
 						getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_COSTUME_DELETED));
 					}
