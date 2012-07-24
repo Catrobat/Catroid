@@ -29,6 +29,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
@@ -65,7 +66,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -277,6 +277,23 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				.getText().toString());
 		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList
 				.get(2).getText().toString());
+	}
+
+	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		boolean result = UiTestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
+		assertTrue("Could not create test project.", result);
+
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(), true);
+			}
+		});
+
+		solo.getText(solo.getString(R.string.error_project_compatability), true);
+		solo.clickOnButton(0);
+		solo.waitForDialogToClose(500);
 	}
 
 	public void testPlayButton() {
