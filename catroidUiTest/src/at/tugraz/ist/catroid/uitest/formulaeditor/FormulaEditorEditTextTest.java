@@ -23,7 +23,6 @@
 
 package at.tugraz.ist.catroid.uitest.formulaeditor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -32,8 +31,8 @@ import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -45,7 +44,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentationTestCase2<ScriptTabActivity> {
 
 	private Project project;
 	private Solo solo;
@@ -63,7 +62,7 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 	private int buttonWidth;
 	private float buttonHeight;
 
-	public CatKeyboardTest() {
+	public FormulaEditorEditTextTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
@@ -98,204 +97,66 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		this.project = null;
-		super.tearDown();
 		solo.sleep(1000);
+		super.tearDown();
+
 	}
 
 	@Smoke
-	public void testKeysFromNumbersKeyboard() {
+	public void testDeletingAndSelectionAndParseErrors() {
 
 		solo.clickOnEditText(0);
-		solo.clickOnEditText(0);
-		solo.clickOnEditText(1);// View.performclick()
-		//		solo.clickOnEditText(1);
-		//		int size = solo.getViews().size();
-		//		Log.i("info", "solo.getViews().size():" + size);
-		//		solo.getViews().get(1).performClick();
-		//		solo.getViews().get(1).performClick();
+		solo.clickOnEditText(1);
 
-		//Didnt worked to test the keyboard:
-		//				solo.sendKey(8); 
-		//		solo.sleep(1000);
-		//		solo.clickOnText("+");
-		//		solo.clickOnImage(0);
-
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-
+		solo.clearEditText(1);
+		solo.enterText(1, "8 +cos( 0 + 1 - 2)++ 76");
 		this.clickOnKey("9");
-		ArrayList<EditText> textList = solo.getCurrentEditTexts();
-		//		Log.i("info", "text.size()" + textList.size());
-		EditText text = textList.get(textList.size() - 1);
-		//		Log.i("info", "textstring" + text.getText().toString());
-		assertEquals("Wrong button clicked", "9", text.getText().toString().substring(0, 1));
+
+		solo.clickOnButton(getActivity().getString(R.string.formula_editor_button_save));
+		solo.sleep(500);
+		this.clickOnKey("del");
+		this.clickOnKey("del");
+		this.clickOnKey("del");
 		this.clickOnKey("del");
 
-		this.clickOnKey("8");
-		assertEquals("Wrong button clicked", "8", text.getText().toString().substring(0, 1));
+		assertEquals("Text not deleted correctly", "98 + 76", solo.getEditText(1).getText().toString());
+
+		solo.clearEditText(1);
+		solo.enterText(1, "8 +cos(+ 0 + 1 - 2) 76");
+		this.clickOnKey("9");
+		solo.clickOnButton(getActivity().getString(R.string.formula_editor_button_save));
+		solo.sleep(500);
+		this.clickOnKey("del");
+		this.clickOnKey("del");
 		this.clickOnKey("del");
 
-		this.clickOnKey("7");
-		assertEquals("Wrong button clicked", "7", text.getText().toString().substring(0, 1));
+		assertEquals("Text not deleted correctly", "98 + 76", solo.getEditText(1).getText().toString());
+
+		solo.clearEditText(1);
+		solo.enterText(1, "8 +rand( 0 ,+ 0 ) 76");
+		this.clickOnKey("9");
+		solo.clickOnButton(getActivity().getString(R.string.formula_editor_button_save));
+		solo.sleep(500);
+		this.clickOnKey("del");
+		this.clickOnKey("del");
 		this.clickOnKey("del");
 
-		this.clickOnKey("6");
-		assertEquals("Wrong button clicked", "6", text.getText().toString().substring(0, 1));
+		assertEquals("Text not deleted correctly", "98 + 76", solo.getEditText(1).getText().toString());
+
+		solo.clearEditText(1);
+		solo.enterText(1, "8 +X_Ananazz++ 76");
+		this.clickOnKey("9");
+		solo.clickOnButton(getActivity().getString(R.string.formula_editor_button_save));
+		solo.sleep(500);
+		this.clickOnKey("del");
+		this.clickOnKey("del");
+		this.clickOnKey("del");
 		this.clickOnKey("del");
 
-		this.clickOnKey("5");
-		assertEquals("Wrong button clicked", "5", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("4");
-		assertEquals("Wrong button clicked", "4", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("3");
-		assertEquals("Wrong button clicked", "3", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("2");
-		assertEquals("Wrong button clicked", "2", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("1");
-		assertEquals("Wrong button clicked", "1", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("space");
-		assertEquals("Wrong button clicked", " ", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("+");
-		assertEquals("Wrong button clicked", "+", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("-");
-		assertEquals("Wrong button clicked", "-", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("*");
-		assertEquals("Wrong button clicked", "*", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("/");
-		assertEquals("Wrong button clicked", "/", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		this.clickOnKey("^");
-		assertEquals("Wrong button clicked", "^", text.getText().toString().substring(0, 1));
-		this.clickOnKey("del");
-
-		//Test the 3 Buttons with this methods:
-		//		solo.clickOnButton(0); // Ok-Button
-		//		solo.clickOnButton(1); // UNDO - Button
-		//		solo.clickOnButton(2); // Cancel - Button 
+		assertEquals("Text not deleted correctly", "98 + 76", solo.getEditText(1).getText().toString());
 
 		solo.clickOnButton(2);
 
-	}
-
-	public void testKeysFromFunctionKeyboard() {
-
-		solo.clickOnEditText(0);
-		solo.clickOnEditText(0);
-		solo.clickOnEditText(1);
-
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-
-		ArrayList<EditText> textList = solo.getCurrentEditTexts();
-		EditText text = textList.get(textList.size() - 1);
-
-		this.clickOnKey("keyboardswitch");
-		this.clickOnKey("cos");
-		assertEquals("Wrong button clicked", "cos( 0 )", text.getText().toString().substring(0, "cos( 0 )".length()));
-		this.clickOnKey("del");
-
-		this.clickOnKey("sin");
-		assertEquals("Wrong button clicked", "sin( 0 )", text.getText().toString().substring(0, "sin( 0 )".length()));
-		this.clickOnKey("del");
-
-		this.clickOnKey("tan");
-		assertEquals("Wrong button clicked", "tan( 0 )", text.getText().toString().substring(0, "tan( 0 )".length()));
-		this.clickOnKey("del");
-
-		this.clickOnKey("ln");
-		assertEquals("Wrong button clicked", "ln( 0 )", text.getText().toString().substring(0, "ln( 0 )".length()));
-		this.clickOnKey("del");
-
-		this.clickOnKey("log");
-		assertEquals("Wrong button clicked", "log( 0 )", text.getText().toString().substring(0, "log( 0 )".length()));
-		this.clickOnKey("del");
-
-		this.clickOnKey("sqrt");
-		assertEquals("Wrong button clicked", "sqrt( 0 )", text.getText().toString().substring(0, "sqrt( 0 )".length()));
-		this.clickOnKey("del");
-
-		this.clickOnKey("rand");
-		assertEquals("Wrong button clicked", "rand( 0 , 1 )",
-				text.getText().toString().substring(0, "rand( 0 , 1 )".length()));
-		this.clickOnKey("del");
-
-		//		this.clickOnKey("pi");
-		//		assertEquals("Wrong button clicked", "pi", text.getText().toString().substring(0, "pi".length()));
-		//		this.clickOnKey("del");
-		//		this.clickOnKey("del");
-
-		this.clickOnKey("e");
-		assertEquals("Wrong button clicked", "e", text.getText().toString().substring(0, "e".length()));
-		this.clickOnKey("del");
-
-		solo.clickOnButton(2);
-	}
-
-	public void testKeysFromSensorKeyboard() {
-
-		solo.clickOnEditText(0);
-		solo.clickOnEditText(0);
-		solo.clickOnEditText(1);
-
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-		this.clickOnKey("del");
-
-		ArrayList<EditText> textList = solo.getCurrentEditTexts();
-		EditText text = textList.get(textList.size() - 1);
-
-		this.clickOnKey("keyboardswitch");
-		this.clickOnKey("keyboardswitch");
-		this.clickOnKey("x-accel");
-		assertEquals("Wrong button clicked", "X_Accelerometer",
-				text.getText().toString().substring(0, "X_Accelerometer".length()));
-		this.clickOnKey("del");
-
-		//		this.clickOnKey("y-accel");
-		//		assertEquals("Wrong button clicked", "Y_Accelerometer", text.getText().toString().substring(0, "Y_Accelerometer".length()));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("z-accel");
-		//		assertEquals("Wrong button clicked", "Z_Accelerometer", text.getText().toString().substring(0, "Z_Accelerometer".length()));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("pitch");
-		//		assertEquals("Wrong button clicked", "Pitch_Orientation", text.getText().toString().substring(0, "Pitch_Orientation".length()));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("roll");
-		//		assertEquals("Wrong button clicked", "'Roll_Orientation", text.getText().toString().substring(0, "Roll_Orientation".length()));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("azimuth");
-		//		assertEquals("Wrong button clicked", "'Azimuth_Orientation", text.getText().toString().substring(0, "Azimuth_Orientation".length()));
-		//		this.clickOnKey("del");
-
-		solo.clickOnButton(2);
 	}
 
 	private void createProject(String projectName) throws InterruptedException {
