@@ -41,7 +41,7 @@ public class ProjectManager {
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
-	private static ProjectManager instance;
+	public static final ProjectManager INSTANCE = new ProjectManager();
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -52,10 +52,7 @@ public class ProjectManager {
 	}
 
 	public static ProjectManager getInstance() {
-		if (instance == null) {
-			instance = new ProjectManager();
-		}
-		return instance;
+		return INSTANCE;
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
