@@ -562,34 +562,4 @@ public class UiTestUtils {
 
 		return yPositionList;
 	}
-
-	private static class ProjectWithVersionCode extends Project {
-		static final long serialVersionUID = 1L;
-		private final int mCatroidVersionCode;
-
-		public ProjectWithVersionCode(String name, int catroidVersionCode) {
-			super(null, name);
-			mCatroidVersionCode = catroidVersionCode;
-		}
-
-		@Override
-		public int getCatroidVersionCode() {
-			return mCatroidVersionCode;
-		}
-	}
-
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
-		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
-		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new StartScript(firstSprite);
-
-		firstSprite.addScript(testScript);
-		project.addSprite(firstSprite);
-
-		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
-		ProjectManager.INSTANCE.setCurrentScript(testScript);
-		ProjectManager.INSTANCE.saveProject();
-	}
 }
