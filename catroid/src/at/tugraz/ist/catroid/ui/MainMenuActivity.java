@@ -108,7 +108,7 @@ public class MainMenuActivity extends Activity {
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
 				Utils.displayErrorMessage(this, getResources().getString(R.string.error_load_project));
 			} else {
-				if (projectManager.loadProject(projectName, this, true)) {
+				if (ProjectManager.INSTANCE.loadProject(projectName, this, true)) {
 					writeProjectTitleInTextfield();
 				}
 			}
