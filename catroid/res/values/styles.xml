@@ -25,8 +25,8 @@
     <style name="Theme.Catroid" parent="Theme.Sherlock.Light">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="actionBarItemBackground">@drawable/btn_actionbar_selector</item>
-        <item name="android:actionBarItemBackground">@drawable/btn_actionbar_selector</item>
+<!--         <item name="actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
+<!--         <item name="android:actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
     </style>
 
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">

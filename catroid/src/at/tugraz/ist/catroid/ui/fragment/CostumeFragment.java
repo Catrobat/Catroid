@@ -57,31 +57,35 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
-import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter.OnCostumeEditListener;
+import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter.OnCostumeCheckedListener;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class CostumeFragment extends SherlockListFragment 
-		implements OnCostumeEditListener, LoaderManager.LoaderCallbacks<Cursor> {
-	
+public class CostumeFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor>,
+		OnCostumeCheckedListener {
+
 	private static final String ARGS_SELECTED_COSTUME = "selected_costume";
 	private static final String ARGS_IMAGE_URI = "image_uri";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
-	
+
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
 	private CostumeData selectedCostumeData;
-	
+
+	private ActionMode actionMode;
+
 	private CostumeDeletedReceiver costumeDeletedReceiver;
 	private CostumeRenamedReceiver costumeRenamedReceiver;
-	
+
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
 
@@ -90,70 +94,70 @@ public class CostumeFragment extends SherlockListFragment
 		View rootView = inflater.inflate(R.layout.fragment_costume, null);
 		return rootView;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		if (savedInstanceState !=null) {
+
+		if (savedInstanceState != null) {
 			selectedCostumeData = (CostumeData) savedInstanceState.getSerializable(ARGS_SELECTED_COSTUME);
 		}
-		
+
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
-		adapter.setOnCostumeEditListener(this);
+		adapter.setOnCostumeCheckedListener(this);
 		setListAdapter(adapter);
 		setHasOptionsMenu(true);
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putSerializable(ARGS_SELECTED_COSTUME, selectedCostumeData);
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		if (!Utils.checkForSdCard(getActivity())) {
 			return;
 		}
-		
+
 		if (costumeDeletedReceiver == null) {
 			costumeDeletedReceiver = new CostumeDeletedReceiver();
 		}
-		
+
 		if (costumeRenamedReceiver == null) {
 			costumeRenamedReceiver = new CostumeRenamedReceiver();
 		}
-		
+
 		IntentFilter intentFilterDeleteCostume = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_DELETED);
 		getActivity().registerReceiver(costumeDeletedReceiver, intentFilterDeleteCostume);
-		
+
 		IntentFilter intentFilterRenameCostume = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_RENAMED);
 		getActivity().registerReceiver(costumeRenamedReceiver, intentFilterRenameCostume);
-		
+
 		reloadAdapter();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
-		
+
 		if (costumeDeletedReceiver != null) {
 			getActivity().unregisterReceiver(costumeDeletedReceiver);
 		}
-		
+
 		if (costumeRenamedReceiver != null) {
 			getActivity().unregisterReceiver(costumeRenamedReceiver);
 		}
 	}
-	
+
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
@@ -188,38 +192,9 @@ public class CostumeFragment extends SherlockListFragment
 			}
 		});
 	}
-	
-	public void updateCostumeAdapter(String name, String fileName) {
-		name = Utils.getUniqueCostumeName(name);
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(fileName);
-		costumeData.setCostumeName(name);
-		costumeDataList.add(costumeData);
-		reloadAdapter();
-
-		//scroll down the list to the new item:
-		final ListView listView = getListView();
-		listView.post(new Runnable() {
-			public void run() {
-				listView.setSelection(listView.getCount() - 1);
-			}
-		});
-	}
-
-	public void setSelectedCostumeData(CostumeData costumeData) {
-		selectedCostumeData = costumeData;
-	}
-	
-	private void reloadAdapter() {
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		CostumeAdapter adapter = new CostumeAdapter(getActivity(), 
-				R.layout.activity_costume_costumelist_item, costumeDataList);
-		adapter.setOnCostumeEditListener(this);
-		setListAdapter(adapter);
-	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) { 
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (resultCode != Activity.RESULT_OK) {
@@ -237,32 +212,35 @@ public class CostumeFragment extends SherlockListFragment
 	}
 
 	@Override
-	public void onCostumeEdit(View v) {
-		handleEditCostumeButton(v);
+	public void onCostumeChecked(int position, boolean isChecked) {
+		int checkedCostumesCount = adapter.getCheckedCostumesCount();
+		if (checkedCostumesCount > 0) {
+			if (actionMode == null) {
+				actionMode = getSherlockActivity().startActionMode(new CostumeEditCallback());
+			}
+		} else if (actionMode != null) {
+			actionMode.finish();
+			actionMode = null;
+		}
+
+		if (actionMode != null) {
+			actionMode.getMenu().findItem(R.id.menu_costume_edit).setVisible(checkedCostumesCount < 2);
+			actionMode.getMenu().findItem(R.id.menu_costume_paintroid).setVisible(checkedCostumesCount < 2);
+		}
+
+		if (actionMode != null) {
+			//TODO move to strings.xml
+			actionMode.setTitle(checkedCostumesCount + " selected");
+		}
 	}
 
-	@Override
-	public void onCostumeRename(View v) {
-		handleRenameCostumeButton(v);
-	}
-
-	@Override
-	public void onCostumeDelete(View v) {
-		handleDeleteCostumeButton(v);
-	}
-
-	@Override
-	public void onCostumeCopy(View v) {
-		handleCopyCostumeButton(v);
-	}
-	
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Uri imageUri = null;
 		if (args != null) {
 			imageUri = (Uri) args.get(ARGS_IMAGE_URI);
 		}
-		
+
 		String[] projection = { MediaStore.MediaColumns.DATA };
 		return new CursorLoader(getActivity(), imageUri, projection, null, null, null);
 	}
@@ -271,7 +249,7 @@ public class CostumeFragment extends SherlockListFragment
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		String originalImagePath = "";
 		CursorLoader cursorLoader = (CursorLoader) loader;
-		
+
 		if (data == null) {
 			originalImagePath = cursorLoader.getUri().getPath();
 		} else {
@@ -289,17 +267,21 @@ public class CostumeFragment extends SherlockListFragment
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 			return;
 		}
-		
+
 		copyImageToCatroid(originalImagePath);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
-	
+
+	public void setSelectedCostumeData(CostumeData costumeData) {
+		selectedCostumeData = costumeData;
+	}
+
 	private void copyImageToCatroid(String originalImagePath) {
 		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
-		
+
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 			return;
@@ -311,7 +293,7 @@ public class CostumeFragment extends SherlockListFragment
 			if (originalImagePath.equals("")) {
 				throw new IOException();
 			}
-			
+
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 			File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
 
@@ -328,14 +310,14 @@ public class CostumeFragment extends SherlockListFragment
 		} catch (IOException e) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 		}
-		
+
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
 	}
-	
+
 	private void loadImageIntoCatroid(Intent intent) {
 		String originalImagePath = "";
-		
+
 		//get path of image - will work for most applications
 		Bundle bundle = intent.getExtras();
 		if (bundle != null) {
@@ -385,25 +367,21 @@ public class CostumeFragment extends SherlockListFragment
 		}
 	}
 
-	private void handleDeleteCostumeButton(View v) {
-		int position = (Integer) v.getTag();
-		selectedCostumeData = costumeDataList.get(position);
-		
-		DeleteCostumeDialog deleteCostumeDialog = DeleteCostumeDialog.newInstance(position);
+	private void handleDeleteCostume(int[] positions) {
+		selectedCostumeData = costumeDataList.get(positions[positions.length - 1]);
+
+		DeleteCostumeDialog deleteCostumeDialog = DeleteCostumeDialog.newInstance(positions);
 		deleteCostumeDialog.show(getFragmentManager(), "dialog_delete_costume");
 	}
 
-	private void handleRenameCostumeButton(View v) {
-		int position = (Integer) v.getTag();
+	private void handleRenameCostumeButton(int position) {
 		selectedCostumeData = costumeDataList.get(position);
-		
-		RenameCostumeDialog renameCostumeDialog = RenameCostumeDialog
-				.newInstance(selectedCostumeData.getCostumeName());
+
+		RenameCostumeDialog renameCostumeDialog = RenameCostumeDialog.newInstance(selectedCostumeData.getCostumeName());
 		renameCostumeDialog.show(getFragmentManager(), "dialog_rename_costume");
 	}
 
-	private void handleCopyCostumeButton(View v) {
-		int position = (Integer) v.getTag();
+	private void handleCopyCostumeButton(int position) {
 		CostumeData costumeData = costumeDataList.get(position);
 		try {
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
@@ -415,11 +393,11 @@ public class CostumeFragment extends SherlockListFragment
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 			e.printStackTrace();
 		}
-		
+
 		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
-	private void handleEditCostumeButton(View v) {
+	private void handleEditCostumeButton(int position) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName("at.tugraz.ist.paintroid", "at.tugraz.ist.paintroid.MainActivity"));
 
@@ -431,12 +409,14 @@ public class CostumeFragment extends SherlockListFragment
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setMessage(getString(R.string.paintroid_not_installed)).setCancelable(false)
 					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
 									.parse(Constants.PAINTROID_DOWNLOAD_LINK));
 							startActivity(downloadPaintroidIntent);
 						}
 					}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
 						}
@@ -447,7 +427,6 @@ public class CostumeFragment extends SherlockListFragment
 		}
 		//-------------------------------------------------------------------------------
 
-		int position = (Integer) v.getTag();
 		selectedCostumeData = costumeDataList.get(position);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -459,7 +438,32 @@ public class CostumeFragment extends SherlockListFragment
 		intent.addCategory("android.intent.category.LAUNCHER");
 		startActivityForResult(intent, REQUEST_PAINTROID_EDIT_IMAGE);
 	}
-	
+
+	private void updateCostumeAdapter(String name, String fileName) {
+		name = Utils.getUniqueCostumeName(name);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(fileName);
+		costumeData.setCostumeName(name);
+		costumeDataList.add(costumeData);
+		reloadAdapter();
+
+		//scroll down the list to the new item:
+		final ListView listView = getListView();
+		listView.post(new Runnable() {
+			@Override
+			public void run() {
+				listView.setSelection(listView.getCount() - 1);
+			}
+		});
+	}
+
+	private void reloadAdapter() {
+		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
+		adapter.setOnCostumeCheckedListener(this);
+		setListAdapter(adapter);
+	}
+
 	private class CostumeDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -470,18 +474,86 @@ public class CostumeFragment extends SherlockListFragment
 			}
 		}
 	}
-	
+
 	private class CostumeRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_RENAMED)) {
 				String newCostumeName = intent.getExtras().getString(RenameCostumeDialog.EXTRA_NEW_COSTUME_NAME);
-				
+
 				if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 					selectedCostumeData.setCostumeName(newCostumeName);
 					adapter.notifyDataSetChanged();
-				} 
+				}
 			}
+		}
+	}
+
+	private class CostumeEditCallback implements ActionMode.Callback {
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.context_menu_costumes, menu);
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			int itemId = item.getItemId();
+			switch (itemId) {
+				case R.id.menu_costume_copy: {
+					for (Integer checkedCostume : adapter.getCheckedCostumes()) {
+						handleCopyCostumeButton(checkedCostume);
+					}
+
+					actionMode.finish();
+					actionMode = null;
+
+					return true;
+				}
+				case R.id.menu_costume_delete: {
+					int[] positions = new int[adapter.getCheckedCostumesCount()];
+					int i = 0;
+					for (Integer checkedCostume : adapter.getCheckedCostumes()) {
+						positions[i] = checkedCostume;
+						i++;
+					}
+					handleDeleteCostume(positions);
+
+					actionMode.finish();
+					actionMode = null;
+
+					return true;
+				}
+				case R.id.menu_costume_edit: {
+					handleRenameCostumeButton(adapter.getSingleCheckedCostume());
+					actionMode.finish();
+					actionMode = null;
+
+					return true;
+				}
+				case R.id.menu_costume_paintroid: {
+					handleEditCostumeButton(adapter.getSingleCheckedCostume());
+					actionMode.finish();
+					actionMode = null;
+
+					return true;
+				}
+				default: {
+					return false;
+				}
+			}
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			adapter.uncheckAllCostumes();
 		}
 	}
 }
