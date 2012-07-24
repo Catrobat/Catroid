@@ -144,6 +144,19 @@ public class FormulaEditorEditTextTest extends android.test.ActivityInstrumentat
 		assertEquals("Text not deleted correctly", "98 + 76", solo.getEditText(1).getText().toString());
 
 		solo.clearEditText(1);
+		solo.enterText(1, "8 + rand( 0 +sin(+ 0 ) , 1 ) + 76");
+		this.clickOnKey("9");
+		solo.clickOnButton(getActivity().getString(R.string.formula_editor_button_save));
+		solo.sleep(500);
+		this.clickOnKey("del");
+		this.clickOnKey("del");
+		this.clickOnKey("del");
+		this.clickOnKey("del");
+		this.clickOnKey("del");
+
+		assertEquals("Text not deleted correctly", "98 + rand( 0 , 1 ) + 76", solo.getEditText(1).getText().toString());
+
+		solo.clearEditText(1);
 		solo.enterText(1, "8 +X_Ananazz++ 76");
 		this.clickOnKey("9");
 		solo.clickOnButton(getActivity().getString(R.string.formula_editor_button_save));
