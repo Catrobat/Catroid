@@ -29,7 +29,7 @@
 	android:theme="@android:style/Theme.Light">
 	<LinearLayout
 	    android:id="@+id/formula_editor_brick_space"
-	    android:layout_width="match_parent"
+	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" />
 	
 	<!-- <ViewFlipper
@@ -58,7 +58,7 @@
         android:layout_marginRight="2dp"
         android:gravity="top"
         android:inputType="textMultiLine"
-        android:lines="7"
+        android:minLines="3"
         android:scrollbars="vertical"
         android:singleLine="false"
         android:hint="@string/formula_nothing_selected"

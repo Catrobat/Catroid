@@ -91,6 +91,8 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		brickView = currentBrick.getView(context, 0, null);
 		brickSpace.addView(brickView);
 
+		int brickHeight = brickView.getMeasuredHeight();
+
 		//		flipView = (ViewFlipper) findViewById(R.id.catflip);
 		//		flipView.setDisplayedChild(1);
 		//		Animation slideOut = AnimationUtils.loadAnimation(context, R.anim.slide_in);
@@ -122,28 +124,16 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		backButton.setOnClickListener(this);
 
 		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
-		textArea.setFormulaEditor(this);
+		brickSpace.measure(0, 0);
+		textArea.init(this, brickSpace.getMeasuredHeight());
 
 		Log.i("info", "DisplayLanguage: " + Locale.getDefault().getDisplayLanguage());
 
 		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
 		catKeyboardView.setEditText(textArea);
 		textArea.catKeyboardView = catKeyboardView;
-	}
 
-	//	public void updateGraphicalRepresentation(FormulaRepresentation formula) {
-	//		if (formula == null) {
-	//			formulaSpace.removeAllViews();
-	//			formulaSpace.addView(theBricksView);
-	//			flipView.setDisplayedChild(1);
-	//			return;
-	//		} else {
-	//			View v = formula.getView(context, this);
-	//			formulaSpace.removeAllViews();
-	//			formulaSpace.addView(v);
-	//			flipView.setDisplayedChild(0);
-	//		}
-	//	}
+	}
 
 	public void setInputFocusAndFormula(Formula formula) {
 
@@ -186,7 +176,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 				if (err == -1) {
 					formula.refreshTextField(brickView);
 					textArea.formulaSaved();
-					//Log.i("info", "Inteperetation of Formular:" + this.formula.interpret());
+					Log.i("info", "asd: " + brickView.getMeasuredHeight());
 					Toast.makeText(context, R.string.formula_editor_changes_saved, Toast.LENGTH_SHORT).show();
 				} else if (err == -2) {
 					//Crashed it like a BOSS! 

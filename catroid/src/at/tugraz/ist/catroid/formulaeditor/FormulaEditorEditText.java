@@ -74,21 +74,18 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public FormulaEditorEditText(Context context) {
 		super(context);
-		init();
 	}
 
 	public FormulaEditorEditText(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
 	}
 
 	public FormulaEditorEditText(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
-		init();
 	}
 
-	private void init() {
+	public void init(FormulaEditorDialog dialog, int brickHeight) {
+		this.dialog = dialog;
 		this.setOnClickListener(this);
 		this.setOnTouchListener(this);
 		this.setLongClickable(false);
@@ -96,10 +93,20 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setEnabled(false);
 		//this.setBackgroundColor(getResources().getColor(R.color.transparent));
 		this.setCursorVisible(true);
+		Log.i("info", "BrickHeight in FormulaEditor:" + brickHeight);
+		//this height seems buggy for some high bricks 
+
+		if (brickHeight < 100) {
+			this.setLines(7);
+		} else if (brickHeight < 200) {
+			this.setLines(6);
+		} else {
+			this.setLines(4);
+		}
 
 		//this.setBackgroundResource(0);
 		//this.setCursorVisible(false);
-		//this.setLines(5);
+		//
 	}
 
 	public void setFieldActive(String formulaAsText) {
@@ -108,10 +115,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		super.setSelection(formulaAsText.length());
 		updateSelectionIndices();
 
-	}
-
-	public void setFormulaEditor(FormulaEditorDialog dialog) {
-		this.dialog = dialog;
 	}
 
 	public synchronized void updateSelectionIndices() {
@@ -123,6 +126,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		clearSelectionHighlighting();
+		editMode = false;
 
 		selectionStartIndex = getSelectionStart();
 		selectionEndIndex = getSelectionEnd();
@@ -366,15 +370,14 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public void clearSelectionHighlighting() {
 		highlightSpan = this.getText();
 		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
-		//highlightSpan.removeSpan(COLOR_EDITING);
+		highlightSpan.removeSpan(COLOR_ERROR);
 	}
 
 	public void highlightParseError(int firstError) {
 
 		clearSelectionHighlighting();
-
 		errorSpan = this.getText();
-		errorSpan.removeSpan(COLOR_ERROR);
+		Log.i("info", "" + firstError);
 
 		if (errorSpan.length() <= firstError) {
 			firstError--;
@@ -382,8 +385,24 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		selectionStartIndex = firstError;
 		selectionEndIndex = firstError + 1;
+		setSelection(firstError);
 
-		errorSpan.setSpan(COLOR_ERROR, firstError, firstError + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		String text = getText().toString();
+		if (!(((text.charAt(firstError) < 97) || (text.charAt(firstError) > 123))
+				&& ((text.charAt(firstError) < 65) || (text.charAt(firstError) > 91)) && (text.charAt(firstError) != '_'))) {
+			doSelectionAndHighlighting();
+			selectionEndIndex++;
+		}
+
+		editMode = true;
+
+		//		if (selectionEndIndex == selectionStartIndex) {
+		//
+		//			selectionStartIndex = firstError;
+		//			selectionEndIndex = firstError + 1;
+		//		}
+
+		errorSpan.setSpan(COLOR_ERROR, selectionStartIndex, selectionEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 	//	public void highlightSelectionCurrentlyEditing() {
@@ -401,10 +420,24 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			newElement = "" + catKey.getDisplayLabelString();
 		}
 
-		Log.i("info", "Key pressed: " + catKey.getDisplayLabelString());
-		Log.i("info",
-				"KeyCode:" + catKey.getKeyCode() + " ScanCode:" + catKey.getScanCode() + " MetaState:"
-						+ catKey.getMetaState() + " DisplayLabel:" + catKey.getDisplayLabel());
+		clearSelectionHighlighting();
+
+		String text = getText().toString();
+		int cursor = this.getSelectionStart();
+		if (cursor > 0
+				&& !editMode
+				&& (!(((text.charAt(cursor - 1) < 97) || (text.charAt(cursor - 1) > 123))
+						&& ((text.charAt(cursor - 1) < 65) || (text.charAt(cursor - 1) > 91)) && (text
+						.charAt(cursor - 1) != '_')))) {
+			doSelectionAndHighlighting();
+			editMode = true;
+			return;
+		}
+
+		//		Log.i("info", "Key pressed: " + catKey.getDisplayLabelString());
+		//		Log.i("info",
+		//				"KeyCode:" + catKey.getKeyCode() + " ScanCode:" + catKey.getScanCode() + " MetaState:"
+		//						+ catKey.getMetaState() + " DisplayLabel:" + catKey.getDisplayLabel());
 
 		if (catKey.getKeyCode() == KeyEvent.KEYCODE_DEL) {
 			deleteOneCharAtCurrentPosition();
