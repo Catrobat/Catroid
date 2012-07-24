@@ -64,6 +64,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -279,11 +280,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testPlayButton() {
+		// FIXME
 		//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		//		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
 	}
 
-	//edit this to work with login dialog
+	// TODO edit this to work with login dialog
 
 	//	public void testRenameToExistingProject() {
 	//		createTestProject(existingProject);
