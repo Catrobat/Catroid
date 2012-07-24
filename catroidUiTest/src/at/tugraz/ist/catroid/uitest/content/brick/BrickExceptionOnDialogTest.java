@@ -322,7 +322,6 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		solo.sleep(100);
 		solo.goBack();
 		solo.goBack();
-		solo.goBack();
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
