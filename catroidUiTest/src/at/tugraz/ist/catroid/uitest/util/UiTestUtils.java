@@ -36,7 +36,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -46,6 +45,7 @@ import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -77,7 +77,7 @@ public class UiTestUtils {
 	private static final String TAG = UiTestUtils.class.getSimpleName();
 
 	private static ProjectManager projectManager = ProjectManager.getInstance();
-	private static HashMap<Integer, Integer> brickCategoryMap;
+	private static SparseIntArray brickCategoryMap;
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String PROJECTNAME1 = "testproject1";
@@ -87,6 +87,9 @@ public class UiTestUtils {
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
+	};
+
+	private UiTestUtils() {
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
@@ -136,7 +139,7 @@ public class UiTestUtils {
 	}
 
 	private static void initBrickCategoryMap() {
-		brickCategoryMap = new HashMap<Integer, Integer>();
+		brickCategoryMap = new SparseIntArray();
 
 		brickCategoryMap.put(R.string.brick_place_at, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_x, R.string.category_motion);
@@ -558,5 +561,35 @@ public class UiTestUtils {
 		}
 
 		return yPositionList;
+	}
+
+	private static class ProjectWithVersionCode extends Project {
+		static final long serialVersionUID = 1L;
+		private final int mCatroidVersionCode;
+
+		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+			super(null, name);
+			mCatroidVersionCode = catroidVersionCode;
+		}
+
+		@Override
+		public int getCatroidVersionCode() {
+			return mCatroidVersionCode;
+		}
+	}
+
+	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript(firstSprite);
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setCurrentScript(testScript);
+		ProjectManager.INSTANCE.saveProject();
 	}
 }
