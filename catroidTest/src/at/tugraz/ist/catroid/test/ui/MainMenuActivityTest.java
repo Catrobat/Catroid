@@ -48,6 +48,6 @@ public class MainMenuActivityTest extends ActivityUnitTestCase<TestMainMenuActiv
 		ProjectManager.getInstance().setProject(null);
 
 		getActivity().onPostCreate(null);
-		assertTrue(true);
+		assertTrue("Test failed!", true);
 	}
 }
