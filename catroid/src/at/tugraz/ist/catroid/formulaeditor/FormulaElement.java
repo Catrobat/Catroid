@@ -244,6 +244,11 @@ public class FormulaElement implements Serializable {
 		this.rightChild.parent = this;
 	}
 
+	public void setLeftChild(FormulaElement leftChild) {
+		this.leftChild = leftChild;
+		this.leftChild.parent = this;
+	}
+
 	public void replaceElement(FormulaElement current) {
 		parent = current.parent;
 		leftChild = current.leftChild;

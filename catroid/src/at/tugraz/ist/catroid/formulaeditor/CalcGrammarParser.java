@@ -1,27 +1,4 @@
-/**
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-// $ANTLR 3.4 src/CalcGrammar.g 2012-07-23 20:12:14
+// $ANTLR 3.4 src/CalcGrammar.g 2012-07-24 20:02:58
 
 package at.tugraz.ist.catroid.formulaeditor;
 
@@ -158,11 +135,35 @@ public class CalcGrammarParser extends Parser {
 		return parsedFormula;
 	}
 
+	private FormulaElement findLowerPriorityOperatorElement(Operators currentOp, FormulaElement curElem) {
+		FormulaElement returnElem = curElem.getParent();
+		FormulaElement notNullElem = curElem;
+		boolean goon = true;
+
+		while (goon) {
+			if (returnElem == null) {
+				goon = false;
+				returnElem = notNullElem;
+			} else {
+				Operators parentOp = Operators.getOperatorByValue(returnElem.getValue());
+				int compareOp = parentOp.compareOperatorTo(currentOp);
+				if (compareOp < 0) {
+					goon = false;
+				} else {
+					notNullElem = returnElem;
+					returnElem = returnElem.getParent();
+				}
+			}
+		}
+		return returnElem;
+	}
+
 	public void handleOperator(String operator, FormulaElement curElem, FormulaElement newElem) {
-		//        Log.i("info", "handleOperator: operator="+operator + " curElem="+curElem.getValue() + " newElem="+newElem.getValue());
+		//        System.out.println("handleOperator: operator="+operator + " curElem="+curElem.getValue() + " newElem="+newElem.getValue());
+
 		if (curElem.getParent() == null) {
 			new FormulaElement(FormulaElement.ElementType.OPERATOR, operator, null, curElem, newElem);
-			//             Log.i("info", "handleOperator-after: " + curElem.getRoot().getTreeString());
+			//            System.out.println("handleOperator-after: " + curElem.getRoot().getTreeString());
 			return;
 		}
 
@@ -172,20 +173,19 @@ public class CalcGrammarParser extends Parser {
 		int compareOp = parentOp.compareOperatorTo(currentOp);
 
 		if (compareOp >= 0) {
-			FormulaElement curElemParentParent = null;
-			if (curElem.getParent() != null) {
-				curElemParentParent = curElem.getParent().getParent();
-			}
-			FormulaElement newElement = new FormulaElement(FormulaElement.ElementType.OPERATOR, operator,
-					curElemParentParent, curElem.getParent(), newElem);
-			if (curElemParentParent != null) {
-				curElemParentParent.setRightChild(newElement);
+			FormulaElement newLeftChild = findLowerPriorityOperatorElement(currentOp, curElem);
+			FormulaElement newParent = newLeftChild.getParent();
+			FormulaElement newElement = new FormulaElement(FormulaElement.ElementType.OPERATOR, operator, newParent,
+					newLeftChild, newElem);
+			if (newParent != null) {
+				newParent.setRightChild(newElement);
+				newParent.setLeftChild(newLeftChild);
 			}
 		} else {
 			curElem.replaceWithSubElement(operator, newElem);
 		}
 
-		//        Log.i("info", "handleOperator-after: " + curElem.getRoot().getTreeString());
+		//        System.out.println("handleOperator-after: " + curElem.getRoot().getTreeString());
 	}
 
 	public String internalCommaSeperatedDouble(String value) {
@@ -193,15 +193,15 @@ public class CalcGrammarParser extends Parser {
 	}
 
 	// $ANTLR start "formula"
-	// src/CalcGrammar.g:149:1: formula returns [FormulaElement formulaTree] : term_list EOF ;
+	// src/CalcGrammar.g:176:1: formula returns [FormulaElement formulaTree] : term_list EOF ;
 	public final FormulaElement formula() throws RecognitionException {
 		FormulaElement formulaTree = null;
 
 		FormulaElement term_list1 = null;
 
 		try {
-			// src/CalcGrammar.g:149:45: ( term_list EOF )
-			// src/CalcGrammar.g:150:5: term_list EOF
+			// src/CalcGrammar.g:176:45: ( term_list EOF )
+			// src/CalcGrammar.g:177:5: term_list EOF
 			{
 				pushFollow(FOLLOW_term_list_in_formula53);
 				term_list1 = term_list();
@@ -228,7 +228,7 @@ public class CalcGrammarParser extends Parser {
 	// $ANTLR end "formula"
 
 	// $ANTLR start "term_list"
-	// src/CalcGrammar.g:156:1: term_list returns [FormulaElement termListTree] : (firstTermTree= term ) ( operator loopTermTree= term )* ;
+	// src/CalcGrammar.g:183:1: term_list returns [FormulaElement termListTree] : (firstTermTree= term ) ( operator loopTermTree= term )* ;
 	public final FormulaElement term_list() throws RecognitionException {
 		FormulaElement termListTree = null;
 
@@ -239,14 +239,14 @@ public class CalcGrammarParser extends Parser {
 		String operator2 = null;
 
 		try {
-			// src/CalcGrammar.g:156:49: ( (firstTermTree= term ) ( operator loopTermTree= term )* )
-			// src/CalcGrammar.g:157:5: (firstTermTree= term ) ( operator loopTermTree= term )*
+			// src/CalcGrammar.g:183:49: ( (firstTermTree= term ) ( operator loopTermTree= term )* )
+			// src/CalcGrammar.g:184:5: (firstTermTree= term ) ( operator loopTermTree= term )*
 			{
 
 				FormulaElement curElem;
 
-				// src/CalcGrammar.g:160:5: (firstTermTree= term )
-				// src/CalcGrammar.g:160:6: firstTermTree= term
+				// src/CalcGrammar.g:187:5: (firstTermTree= term )
+				// src/CalcGrammar.g:187:6: firstTermTree= term
 				{
 					pushFollow(FOLLOW_term_in_term_list96);
 					firstTermTree = term();
@@ -258,7 +258,7 @@ public class CalcGrammarParser extends Parser {
 
 				}
 
-				// src/CalcGrammar.g:166:5: ( operator loopTermTree= term )*
+				// src/CalcGrammar.g:193:5: ( operator loopTermTree= term )*
 				loop1: do {
 					int alt1 = 2;
 					int LA1_0 = input.LA(1);
@@ -269,7 +269,7 @@ public class CalcGrammarParser extends Parser {
 
 					switch (alt1) {
 						case 1:
-						// src/CalcGrammar.g:166:6: operator loopTermTree= term
+						// src/CalcGrammar.g:193:6: operator loopTermTree= term
 						{
 							pushFollow(FOLLOW_operator_in_term_list121);
 							operator2 = operator();
@@ -309,7 +309,7 @@ public class CalcGrammarParser extends Parser {
 	// $ANTLR end "term_list"
 
 	// $ANTLR start "term"
-	// src/CalcGrammar.g:173:1: term returns [FormulaElement termTree] : ( MINUS )? ( NUMBER | '(' term_list ')' | variableOrFunction ) ;
+	// src/CalcGrammar.g:200:1: term returns [FormulaElement termTree] : ( MINUS )? ( NUMBER | '(' term_list ')' | variableOrFunction ) ;
 	public final FormulaElement term() throws RecognitionException {
 		FormulaElement termTree = null;
 
@@ -320,14 +320,14 @@ public class CalcGrammarParser extends Parser {
 		FormulaElement variableOrFunction6 = null;
 
 		try {
-			// src/CalcGrammar.g:173:40: ( ( MINUS )? ( NUMBER | '(' term_list ')' | variableOrFunction ) )
-			// src/CalcGrammar.g:174:5: ( MINUS )? ( NUMBER | '(' term_list ')' | variableOrFunction )
+			// src/CalcGrammar.g:200:40: ( ( MINUS )? ( NUMBER | '(' term_list ')' | variableOrFunction ) )
+			// src/CalcGrammar.g:201:5: ( MINUS )? ( NUMBER | '(' term_list ')' | variableOrFunction )
 			{
 
 				termTree = new FormulaElement(FormulaElement.ElementType.VALUE, null, null, null, null);
 				FormulaElement curElem = termTree;
 
-				// src/CalcGrammar.g:178:5: ( MINUS )?
+				// src/CalcGrammar.g:205:5: ( MINUS )?
 				int alt2 = 2;
 				int LA2_0 = input.LA(1);
 
@@ -336,7 +336,7 @@ public class CalcGrammarParser extends Parser {
 				}
 				switch (alt2) {
 					case 1:
-					// src/CalcGrammar.g:178:6: MINUS
+					// src/CalcGrammar.g:205:6: MINUS
 					{
 						MINUS3 = (Token) match(input, MINUS, FOLLOW_MINUS_in_term163);
 
@@ -348,7 +348,7 @@ public class CalcGrammarParser extends Parser {
 
 				}
 
-				// src/CalcGrammar.g:184:5: ( NUMBER | '(' term_list ')' | variableOrFunction )
+				// src/CalcGrammar.g:211:5: ( NUMBER | '(' term_list ')' | variableOrFunction )
 				int alt3 = 3;
 				switch (input.LA(1)) {
 					case NUMBER: {
@@ -375,7 +375,7 @@ public class CalcGrammarParser extends Parser {
 
 				switch (alt3) {
 					case 1:
-					// src/CalcGrammar.g:184:7: NUMBER
+					// src/CalcGrammar.g:211:7: NUMBER
 					{
 						NUMBER4 = (Token) match(input, NUMBER, FOLLOW_NUMBER_in_term182);
 
@@ -385,7 +385,7 @@ public class CalcGrammarParser extends Parser {
 					}
 						break;
 					case 2:
-					// src/CalcGrammar.g:189:7: '(' term_list ')'
+					// src/CalcGrammar.g:216:7: '(' term_list ')'
 					{
 						match(input, 23, FOLLOW_23_in_term200);
 
@@ -401,7 +401,7 @@ public class CalcGrammarParser extends Parser {
 					}
 						break;
 					case 3:
-					// src/CalcGrammar.g:193:7: variableOrFunction
+					// src/CalcGrammar.g:220:7: variableOrFunction
 					{
 						pushFollow(FOLLOW_variableOrFunction_in_term222);
 						variableOrFunction6 = variableOrFunction();
@@ -431,7 +431,7 @@ public class CalcGrammarParser extends Parser {
 	// $ANTLR end "term"
 
 	// $ANTLR start "variableOrFunction"
-	// src/CalcGrammar.g:199:1: variableOrFunction returns [FormulaElement variableOrFunctionTree] : ( CONSTANT | ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' | SENSOR | UPID );
+	// src/CalcGrammar.g:226:1: variableOrFunction returns [FormulaElement variableOrFunctionTree] : ( CONSTANT | ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' | SENSOR | UPID );
 	public final FormulaElement variableOrFunction() throws RecognitionException {
 		FormulaElement variableOrFunctionTree = null;
 
@@ -444,7 +444,7 @@ public class CalcGrammarParser extends Parser {
 		FormulaElement rightChildTree = null;
 
 		try {
-			// src/CalcGrammar.g:199:67: ( CONSTANT | ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' | SENSOR | UPID )
+			// src/CalcGrammar.g:226:67: ( CONSTANT | ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')' | SENSOR | UPID )
 			int alt6 = 4;
 			switch (input.LA(1)) {
 				case CONSTANT: {
@@ -472,7 +472,7 @@ public class CalcGrammarParser extends Parser {
 
 			switch (alt6) {
 				case 1:
-				// src/CalcGrammar.g:200:7: CONSTANT
+				// src/CalcGrammar.g:227:7: CONSTANT
 				{
 					CONSTANT7 = (Token) match(input, CONSTANT, FOLLOW_CONSTANT_in_variableOrFunction256);
 
@@ -482,7 +482,7 @@ public class CalcGrammarParser extends Parser {
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:205:9: ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')'
+				// src/CalcGrammar.g:232:9: ID '(' (leftChildTree= term_list ( ',' rightChildTree= term_list )? )? ')'
 				{
 					ID8 = (Token) match(input, ID, FOLLOW_ID_in_variableOrFunction287);
 
@@ -491,7 +491,7 @@ public class CalcGrammarParser extends Parser {
 
 					match(input, 23, FOLLOW_23_in_variableOrFunction317);
 
-					// src/CalcGrammar.g:210:17: (leftChildTree= term_list ( ',' rightChildTree= term_list )? )?
+					// src/CalcGrammar.g:237:17: (leftChildTree= term_list ( ',' rightChildTree= term_list )? )?
 					int alt5 = 2;
 					int LA5_0 = input.LA(1);
 
@@ -501,7 +501,7 @@ public class CalcGrammarParser extends Parser {
 					}
 					switch (alt5) {
 						case 1:
-						// src/CalcGrammar.g:210:18: leftChildTree= term_list ( ',' rightChildTree= term_list )?
+						// src/CalcGrammar.g:237:18: leftChildTree= term_list ( ',' rightChildTree= term_list )?
 						{
 							pushFollow(FOLLOW_term_list_in_variableOrFunction322);
 							leftChildTree = term_list();
@@ -510,7 +510,7 @@ public class CalcGrammarParser extends Parser {
 
 							leftChild = leftChildTree;
 
-							// src/CalcGrammar.g:214:21: ( ',' rightChildTree= term_list )?
+							// src/CalcGrammar.g:241:21: ( ',' rightChildTree= term_list )?
 							int alt4 = 2;
 							int LA4_0 = input.LA(1);
 
@@ -519,7 +519,7 @@ public class CalcGrammarParser extends Parser {
 							}
 							switch (alt4) {
 								case 1:
-								// src/CalcGrammar.g:214:22: ',' rightChildTree= term_list
+								// src/CalcGrammar.g:241:22: ',' rightChildTree= term_list
 								{
 									match(input, 25, FOLLOW_25_in_variableOrFunction368);
 
@@ -548,7 +548,7 @@ public class CalcGrammarParser extends Parser {
 				}
 					break;
 				case 3:
-				// src/CalcGrammar.g:224:11: SENSOR
+				// src/CalcGrammar.g:251:11: SENSOR
 				{
 					SENSOR9 = (Token) match(input, SENSOR, FOLLOW_SENSOR_in_variableOrFunction469);
 
@@ -558,7 +558,7 @@ public class CalcGrammarParser extends Parser {
 				}
 					break;
 				case 4:
-				// src/CalcGrammar.g:228:11: UPID
+				// src/CalcGrammar.g:255:11: UPID
 				{
 					UPID10 = (Token) match(input, UPID, FOLLOW_UPID_in_variableOrFunction495);
 
@@ -583,7 +583,7 @@ public class CalcGrammarParser extends Parser {
 	// $ANTLR end "variableOrFunction"
 
 	// $ANTLR start "operator"
-	// src/CalcGrammar.g:234:1: operator returns [String operatorString] : ( MULOP | PLUS | MINUS );
+	// src/CalcGrammar.g:261:1: operator returns [String operatorString] : ( MULOP | PLUS | MINUS );
 	public final String operator() throws RecognitionException {
 		String operatorString = null;
 
@@ -592,7 +592,7 @@ public class CalcGrammarParser extends Parser {
 		Token MINUS13 = null;
 
 		try {
-			// src/CalcGrammar.g:234:41: ( MULOP | PLUS | MINUS )
+			// src/CalcGrammar.g:261:41: ( MULOP | PLUS | MINUS )
 			int alt7 = 3;
 			switch (input.LA(1)) {
 				case MULOP: {
@@ -616,7 +616,7 @@ public class CalcGrammarParser extends Parser {
 
 			switch (alt7) {
 				case 1:
-				// src/CalcGrammar.g:235:5: MULOP
+				// src/CalcGrammar.g:262:5: MULOP
 				{
 					MULOP11 = (Token) match(input, MULOP, FOLLOW_MULOP_in_operator526);
 
@@ -625,7 +625,7 @@ public class CalcGrammarParser extends Parser {
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:239:7: PLUS
+				// src/CalcGrammar.g:266:7: PLUS
 				{
 					PLUS12 = (Token) match(input, PLUS, FOLLOW_PLUS_in_operator545);
 
@@ -634,7 +634,7 @@ public class CalcGrammarParser extends Parser {
 				}
 					break;
 				case 3:
-				// src/CalcGrammar.g:243:7: MINUS
+				// src/CalcGrammar.g:270:7: MINUS
 				{
 					MINUS13 = (Token) match(input, MINUS, FOLLOW_MINUS_in_operator567);
 
