@@ -59,22 +59,23 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
-
 			project = StorageHandler.getInstance().loadProject(projectName);
+
 			if (project == null) {
 				project = Utils.findValidProject();
 				if (project == null) {
 					project = StandardProjectHandler.createAndSaveStandardProject(context);
 				}
-
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 					return false;
 				}
-			} else if (errorMessage && project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+			} else if (project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+				if (errorMessage) {
+					Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+					// TODO show dialog to download latest catroid version instead
+				}
 				return false;
-				// TODO show dialog to download latest catroid version instead
 			}
 
 			// adapt name of background sprite to the current language and place
