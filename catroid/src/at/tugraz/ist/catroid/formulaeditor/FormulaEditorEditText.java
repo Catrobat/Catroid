@@ -56,9 +56,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public static final int FUNCTION_SEPERATOR = 2;
 	public static final int FUNCTION = 3;
 	public static final int BRACKET_CLOSE = 4;
+	public static final int BRACKET_OPEN = 5;
 
 	public CatKeyboardView catKeyboardView;
-	private int currentlySelectedElementNumber = 0;
 	private int selectionStartIndex = 0;
 	private int selectionEndIndex = 0;
 
@@ -114,11 +114,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.dialog = dialog;
 	}
 
-	//TODO: On doubleclick the text selection widget pops up... found no way to kill it
-	public void trickTextSelectionThingy() {
-		//this.setSelected(false);
-	}
-
 	public synchronized void updateSelectionIndices() {
 		Log.i("info", "update selection");
 
@@ -144,7 +139,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		String currentInput = this.getText().toString();
 		int cursorPos = this.getSelectionStart();
 		Log.i("info", "cursor: " + cursorPos);
-		currentlySelectedElementNumber = 0;
 
 		if (currentInput.length() == 0) {
 			return;
@@ -185,7 +179,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	}
 
-	//What have we actually selected in the Formula? We might need to add items belonging to the FormulaElement
 	private void checkSelectedTextType() {
 
 		editMode = true;
@@ -194,10 +187,13 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		Log.i("info", "FEEditText: check selected Type " + currentlySelectedElement + " "
 				+ currentlySelectedElementType);
 		if (currentlySelectedElementType == FUNCTION) {
-			extendSelectionForBracketFromBegin();
+			extendSelectionForFunction();
 			//TODO: extend selection across formula
 		} else if (currentlySelectedElementType == BRACKET_CLOSE) {
 			extendSelectionForBracketFromEnd();
+			//TODO: extend selection across formula
+		} else if (currentlySelectedElementType == BRACKET_OPEN) {
+			extendSelectionForBracketFromBegin();
 			//TODO: extend selection across formula
 		} else if (currentlySelectedElementType == FUNCTION_SEPERATOR) {
 			extendSelectionForFunctionOnSeperator();
@@ -218,7 +214,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 	}
 
-	public void extendSelectionForBracketFromBegin() {
+	public void extendSelectionForFunction() {
 		int bracketCount = 1;
 
 		if (selectionEndIndex + 1 >= getText().length()) {
@@ -245,12 +241,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public void extendSelectionForFunctionOnSeperator() {
 		extendSelectionForBracketFromEnd();
-		extendSelectionForBracketFromBegin();
+		extendSelectionForFunction();
 
 	}
 
 	public void extendSelectionForBracketFromEnd() {
-		Log.i("info", "extendSelection for function from end bracket");
+		Log.i("info", "extendSelection from close bracket");
 		int bracketCount = 1;
 		String text = getText().toString().substring(0, selectionStartIndex);
 		Log.i("info", "extendSelection for function from end bracket " + text);
@@ -273,6 +269,22 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			//			if ((text.charAt(selectionStartIndex - 1) == ' ' || text.charAt(selectionStartIndex - 1) == '(')) {
 			//				break;
 			//			}
+			Log.i("info", "CHAR IS: " + text.charAt(selectionStartIndex - 1));
+			if ((text.charAt(selectionStartIndex - 1) < 97) || (text.charAt(selectionStartIndex - 1) > 123)) {
+				break;
+			}
+			selectionStartIndex--;
+		}
+
+	}
+
+	public void extendSelectionForBracketFromBegin() {
+		Log.i("info", "extendSelection from begin bracket");
+		extendSelectionForFunction();
+		Editable text = getText();
+
+		while (selectionStartIndex > 0) {
+
 			Log.i("info", "CHAR IS: " + text.charAt(selectionStartIndex - 1));
 			if ((text.charAt(selectionStartIndex - 1) < 97) || (text.charAt(selectionStartIndex - 1) > 123)) {
 				break;
@@ -484,6 +496,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		} else if (currentlySelectedElement.contains(")")) {
 			currentlySelectedElementType = BRACKET_CLOSE;
 			return;
+		} else if (currentlySelectedElement.contains("(")) {
+			currentlySelectedElementType = BRACKET_OPEN;
+			return;
 		}
 
 		for (String item : GROUP_OPERATORS) {
@@ -556,7 +571,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		public boolean onDoubleTap(MotionEvent e) {
 			ignoreNextUpdate = true;
 			doSelectionAndHighlighting();
-			trickTextSelectionThingy();
 			return true;
 		}
 	});

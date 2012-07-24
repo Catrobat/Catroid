@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -134,13 +135,13 @@ public class FormulaEditorDialogTest extends ActivityInstrumentationTestCase2<Sc
 
 		//Interpretation test
 		Formula formula = (Formula) UiTestUtils.getPrivateField("xPositionFormula", placeAtBrick);
-		assertEquals("Wrong text in field", newXValue, formula.interpret());
+		assertEquals("Wrong text in field", newXValue, formula.interpret().intValue());
 
-		formula = (Formula) UiTestUtils.getPrivateField("xPositionFormula", placeAtBrick);
+		formula = (Formula) UiTestUtils.getPrivateField("yPositionFormula", placeAtBrick);
 
 		int newYValue = formula.interpret().intValue();
-
-		assertTrue("Wrong text in field", newYValue > 0 && newYValue < 10);
+		Log.i("info", "" + newYValue);
+		assertTrue("Wrong text in field", newYValue >= 0 && newYValue <= 10);
 
 	}
 
