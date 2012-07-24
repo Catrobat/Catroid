@@ -25,6 +25,11 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 
 public class SoundSerializer extends Serializer {
 
+	private final String soundInfoTag = "Common.SoundInfo";
+	private final String soundFileNameTag = "fileName";
+	private final String soundNameTag = "name";
+	private final String soundListTag = "soundList";
+
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
 			SecurityException, NoSuchFieldException {
@@ -33,13 +38,13 @@ public class SoundSerializer extends Serializer {
 		String costumeName = soundInfo.getTitle();
 		List<String> soundStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = getStartTag("Common.SoundInfo");
+		xmlElementString = getStartTag(soundInfoTag);
 		soundStringList.add(xmlElementString);
-		xmlElementString = getElementString("fileName", costumeFileName);
+		xmlElementString = getElementString(soundFileNameTag, costumeFileName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = getElementString("name", costumeName);
+		xmlElementString = getElementString(soundNameTag, costumeName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = getEndTag("Common.SoundInfo");
+		xmlElementString = getEndTag(soundInfoTag);
 		soundStringList.add(xmlElementString);
 
 		return soundStringList;
@@ -48,11 +53,11 @@ public class SoundSerializer extends Serializer {
 	public List<String> serializeSoundList(List<SoundInfo> soundList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
 		List<String> soundStrings = new ArrayList<String>();
-		soundStrings.add(getStartTag("soundList"));
+		soundStrings.add(getStartTag(soundListTag));
 		for (SoundInfo soundInfo : soundList) {
 			soundStrings.addAll(this.serialize(soundInfo));
 		}
-		soundStrings.add(getEndTag("soundList"));
+		soundStrings.add(getEndTag(soundListTag));
 		return soundStrings;
 	}
 

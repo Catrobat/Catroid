@@ -44,8 +44,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
-import at.tugraz.ist.catroid.xml.serializer.BrickSerializer;
-import at.tugraz.ist.catroid.xml.serializer.CostumeSerializer;
+import at.tugraz.ist.catroid.xml.serializer.ProjectSerializer;
 import at.tugraz.ist.catroid.xml.serializer.SoundSerializer;
 
 public class FullParserTest extends InstrumentationTestCase {
@@ -130,6 +129,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Project sprite List size incorrect", 3, testProject.getSpriteList().size());
 		List<Sprite> sprites = testProject.getSpriteList();
 		ShowBrick testBrick = (ShowBrick) sprites.get(1).getScript(0).getBrick(1);
+
 		assertNotNull("Brick is null", testBrick);
 		assertNotNull("sprite of brick is null", testBrick.getSprite());
 		assertEquals("Script number of 3rd sprite wrong", 1, testProject.getSpriteList().get(2).getNumberOfScripts());
@@ -159,60 +159,48 @@ public class FullParserTest extends InstrumentationTestCase {
 		Sprite testSprite = sprites.get(1);
 		List<CostumeData> givenCostumes = (List<CostumeData>) TestUtils.getPrivateField("costumeDataList", testSprite,
 				false);
-		CostumeSerializer cs = new CostumeSerializer();
-		try {
 
-			List<String> script2 = cs.serializeCostumeList(givenCostumes);
-			for (String element : script2) {
-				Log.i("script element", element);
-			}
-		} catch (IllegalArgumentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SecurityException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (NoSuchFieldException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		assertEquals("costumes number wrong", 3, givenCostumes.size());
 		CostumeData testData = givenCostumes.get(1);
 		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 		WhenScript script = (WhenScript) testSprite.getScript(1);
-		//		ScriptSerializer scriptSerializer = new ScriptSerializer(testSprite, testProject);
-		//		try {
-		//			List<String> script2 = scriptSerializer.serialize(script);
-		//			for (String element : script2) {
-		//				Log.i("script element", element);
-		//			}
-		//		} catch (IllegalArgumentException e1) {
-		//			// TODO Auto-generated catch block
-		//			e1.printStackTrace();
-		//		} catch (IllegalAccessException e1) {
-		//			// TODO Auto-generated catch block
-		//			e1.printStackTrace();
-		//		}
+		ProjectSerializer ps = new ProjectSerializer();
+		try {
+
+			List<String> script2 = ps.serialize(testProject);
+			for (String element : script2) {
+				Log.i("script element", element);
+			}
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		SetCostumeBrick costumeBrick = (SetCostumeBrick) script.getBrick(0);
 		testData = (CostumeData) TestUtils.getPrivateField("costumeData", costumeBrick, false);
 		testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("costume data wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 
 		//RepeatBrick repeatBrick = (RepeatBrick) script.getBrick(1);
-		BrickSerializer bs = new BrickSerializer(testSprite, script, testProject);
-		try {
-			bs.serialize(costumeBrick);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//		BrickSerializer bs = new BrickSerializer(testSprite, script, testProject);
+		//		try {
+		//			bs.serialize(costumeBrick);
+		//		} catch (IllegalArgumentException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		} catch (IllegalAccessException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
 		//		assertNotNull("repeat brick is null", repeatBrick);
 		//		int timestoRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", repeatBrick, false);
 		//		assertEquals("repeat brick times to repeat incorrect", 3, timestoRepeat);

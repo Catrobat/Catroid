@@ -30,6 +30,8 @@ import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class ScriptSerializer extends Serializer {
 
+	private final String scriptTagPrefix = "Content.";
+
 	public ScriptSerializer(Sprite serializedSprite, Project serializedProject) {
 		super.serializedSprite = serializedSprite;
 		super.serializedProject = serializedProject;
@@ -43,23 +45,23 @@ public class ScriptSerializer extends Serializer {
 		serializedScript = (Script) object;
 		String xmlElementString = "";
 		Collection<Field> fields = fieldMap.values();
-		xmlElementString = getStartTag("Content." + object.getClass().getSimpleName());
+		xmlElementString = getStartTag(scriptTagPrefix + object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 		for (Field scriptClassField : fields) {
-			String fieldName = scriptClassField.getName();
+			String fieldName = objectCreator.extractTagName(scriptClassField);
 			scriptClassField.setAccessible(true);
 			if (!scriptClassField.getType().isPrimitive()) {
 				//Log.i("primitive", fieldName + " is not primitive");
 				if (fieldName.equals("sprite")) {
-					xmlElementString = "<sprite reference=\"../../..\"/>" + "\n";
+					xmlElementString = spriteElementPrefix + "\"../../..\"/>" + "\n";
 					scriptStringList.add(xmlElementString);
 				} else if (fieldName.equals("brickList")) {
-
-					BrickSerializer brickSerializer = new BrickSerializer(serializedSprite, (Script) object,
-							serializedProject);
-					List<String> brickStrings = brickSerializer.serializeBrickList(serializedScript.getBrickList());
-					scriptStringList.addAll(brickStrings);
-
+					if (serializedScript.getBrickList().size() > 0) {
+						BrickSerializer brickSerializer = new BrickSerializer(serializedSprite, (Script) object,
+								serializedProject);
+						List<String> brickStrings = brickSerializer.serializeBrickList(serializedScript.getBrickList());
+						scriptStringList.addAll(brickStrings);
+					}
 				} else if (scriptClassField.getType().equals(String.class)) {
 					xmlElementString = getElementString(fieldName, (String) scriptClassField.get(object));
 					scriptStringList.add(xmlElementString);
@@ -73,7 +75,7 @@ public class ScriptSerializer extends Serializer {
 				scriptStringList.add(xmlElementString);
 			}
 		}
-		xmlElementString = getEndTag("Content." + object.getClass().getSimpleName());
+		xmlElementString = getEndTag(scriptTagPrefix + object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 		return scriptStringList;
 	}
