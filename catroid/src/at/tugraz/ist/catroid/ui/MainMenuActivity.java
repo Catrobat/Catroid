@@ -55,7 +55,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PROJECTNAME_TAG = "fname=";
-	//	private ProjectManager projectManager;
 	private ActivityHelper activityHelper;
 	private TextView titleText;
 	public static final int DIALOG_NEW_PROJECT = 0;
