@@ -59,19 +59,25 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
-
 			project = StorageHandler.getInstance().loadProject(projectName);
+
 			if (project == null) {
 				project = Utils.findValidProject();
 				if (project == null) {
 					project = StandardProjectHandler.createAndSaveStandardProject(context);
 				}
-
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 					return false;
 				}
+			} else if (project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+				if (errorMessage) {
+					Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+					// TODO show dialog to download latest catroid version instead
+				}
+				return false;
 			}
+
 			// adapt name of background sprite to the current language and place
 			// on lowest layer
 			project.getSpriteList().get(0).setName(context.getString(R.string.background));
@@ -98,11 +104,11 @@ public class ProjectManager {
 		}
 	}
 
-	public void saveProject() {
+	public boolean saveProject() {
 		if (project == null) {
-			return;
+			return false;
 		}
-		StorageHandler.getInstance().saveProject(project);
+		return StorageHandler.getInstance().saveProject(project);
 	}
 
 	public boolean initializeDefaultProject(Context context) {
