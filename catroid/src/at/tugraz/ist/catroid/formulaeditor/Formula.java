@@ -51,32 +51,10 @@ public class Formula implements Serializable {
 	//		this.formulaTextFieldId = formulaTextFieldId;
 	//	}
 
-	public FormulaElement findItemByPosition(int position) {
-		//Log.i("info", "F: Find item by pos " + position);
-		if (position == 0) {
-			return root;
-		}
-		MutableInteger searchPosition = new MutableInteger(position - 1);
-		return root.getItemByPosition(searchPosition);
-	}
-
-	public String updateFormula(String keyboardInput, FormulaElement element) {
-		String oldValue = element.getValue();
-		//Log.i("info", "update TO FORMULA " + oldValue);
-
-		element.replaceWithSubElement(oldValue, keyboardInput, "0");
-
-		return oldValue + " " + keyboardInput + " 0";
-	}
-
 	public Double interpret() {
 
 		//Log.i("info", root.getTreeString());
 		return root.interpretRecursive();
-	}
-
-	public String stringRepresentation() {
-		return root.getTreeString();
 	}
 
 	public String getEditTextRepresentation() {

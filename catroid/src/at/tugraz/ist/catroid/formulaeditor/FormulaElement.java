@@ -88,54 +88,6 @@ public class FormulaElement implements Serializable {
 		return rightChild;
 	}
 
-	//	private void addChild(FormulaElement element) {
-	//		if (leftChild == null) {
-	//			leftChild = element;
-	//		} else {
-	//			rightChild = element;
-	//		}
-	//	}
-
-	public FormulaElement getItemByPosition(MutableInteger position) {
-		FormulaElement result = null;
-		if (leftChild == null) {
-			if (position.i == 0) {
-				//Log.i("info", "FE found: " + value);
-				return this;
-			} else {
-				position.i--;
-			}
-		} else {
-			result = leftChild.getItemByPosition(position);
-			if (result != null) {
-				return result;
-			}
-			if (position.i == 0) {
-				result = this;
-			} else {
-				position.i--;
-			}
-			if (result == null) {
-				result = rightChild.getItemByPosition(position);
-			}
-		}
-
-		return result;
-	}
-
-	public int getNumberOfRecursiveChildren() {
-		if (leftChild == null) {
-			return 1;
-
-		} else {
-			int result = 0;
-			result += leftChild.getNumberOfRecursiveChildren();
-			result += leftChild.getNumberOfRecursiveChildren();
-
-			return result;
-		}
-	}
-
 	String getEditTextRepresentation() {
 		String result = "";
 
@@ -144,7 +96,7 @@ public class FormulaElement implements Serializable {
 				if (leftChild != null) {
 					result += leftChild.getEditTextRepresentation();
 				}
-				result += " " + this.value + " ";
+				result += this.value + " ";
 				if (rightChild != null) {
 					result += rightChild.getEditTextRepresentation();
 				}
@@ -182,29 +134,6 @@ public class FormulaElement implements Serializable {
 			root = root.getParent();
 		}
 		return root;
-	}
-
-	public String getTreeString() {
-		String text = "";
-
-		text = "(" + type + "/" + value + " ";
-
-		if (leftChild == null && rightChild == null) {
-			return text + ") ";
-		}
-
-		if (leftChild != null) {
-			text += leftChild.getTreeString() + " ";
-
-		} else {
-			text += "( )";
-		}
-		if (rightChild != null) {
-			text += rightChild.getTreeString() + " ";
-		} else {
-			text += "( )";
-		}
-		return text + ") ";
 	}
 
 	public Double interpretRecursive() {
@@ -306,27 +235,6 @@ public class FormulaElement implements Serializable {
 
 	}
 
-	public void replaceValue(String value) {
-		this.value = value;
-	}
-
-	public void addToValue(String value) {
-		this.value += value;
-	}
-
-	public boolean addCommaIfPossible() {
-
-		if (value.contains(".")) {
-			return false;
-		}
-		this.value += ".";
-		return true;
-	}
-
-	public void deleteLastCharacterInValue() {
-		value = value.substring(0, value.length() - 1);
-	}
-
 	public FormulaElement getParent() {
 		return parent;
 	}
@@ -335,8 +243,6 @@ public class FormulaElement implements Serializable {
 		this.rightChild = rightChild;
 		this.rightChild.parent = this;
 	}
-
-	//-------------------------------------------------------------------
 
 	public void replaceElement(FormulaElement current) {
 		parent = current.parent;
@@ -358,15 +264,6 @@ public class FormulaElement implements Serializable {
 		this.type = type;
 	}
 
-	public void replaceElement(ElementType type, String value, FormulaElement parent, FormulaElement leftChild,
-			FormulaElement rightChild) {
-		this.value = value;
-		this.type = type;
-		this.parent = parent;
-		this.leftChild = leftChild;
-		this.rightChild = rightChild;
-	}
-
 	public void replaceElement(ElementType type, String value, FormulaElement leftChild, FormulaElement rightChild) {
 		this.value = value;
 		this.type = type;
@@ -380,56 +277,12 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	//-------------------------------------------------------------------
-
-	public FormulaElement addTopElement(String newParentOperator, FormulaElement newRightChild) {
-		//Log.i("info", "replaceWithTopElement");
-
-		FormulaElement newParent = new FormulaElement(ElementType.OPERATOR, newParentOperator, null, this,
-				newRightChild);
-
-		return newParent;
-	}
-
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
-		//Log.i("info", "replaceWithSubElement");
 
 		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
 				rightChild);
 
 		cloneThis.parent.rightChild = cloneThis;
-	}
-
-	public void replaceWithSubElement(String leftChild, String operator, String rightChild) {
-
-		this.value = operator;
-		this.type = ElementType.OPERATOR;
-		this.leftChild = new FormulaElement(ElementType.VALUE, leftChild, this);
-		this.rightChild = new FormulaElement(ElementType.VALUE, rightChild, this);
-
-	}
-
-	public FormulaElement makeMeALeaf(String value) {
-
-		this.value = value;
-		this.leftChild = null;
-		this.rightChild = null;
-		this.type = ElementType.VALUE;
-
-		return this;
-	}
-
-	public String getFirstChildValue() {
-		String result = null;
-		if (this.type == ElementType.VALUE) {
-			result = this.value;
-		} else {
-
-			if (leftChild != null) {
-				result = leftChild.getFirstChildValue();
-			}
-		}
-		return result;
 	}
 
 	@Override
