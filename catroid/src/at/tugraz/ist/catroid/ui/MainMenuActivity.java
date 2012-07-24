@@ -51,6 +51,7 @@ import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
@@ -83,14 +84,35 @@ public class MainMenuActivity extends Activity {
 			findViewById(R.id.current_project_button).setEnabled(false);
 		}
 
-		String projectDownloadUrl = getIntent().getDataString();
-		if (projectDownloadUrl == null || projectDownloadUrl.length() <= 0) {
+		// Load external project from URL or local file system.
+		Uri loadExternalProjectUri = getIntent().getData();
+		getIntent().setData(null);
+
+		if (loadExternalProjectUri == null) {
 			return;
 		}
-		String projectName = getProjectName(projectDownloadUrl);
+		if (loadExternalProjectUri.getScheme().equals("http")) {
 
-		this.getIntent().setData(null);
-		new ProjectDownloadTask(this, projectDownloadUrl, projectName).execute();
+			String url = loadExternalProjectUri.toString();
+			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+			String projectName = url.substring(projectNameIndex);
+			projectName = URLDecoder.decode(projectName);
+			new ProjectDownloadTask(this, url, projectName).execute();
+
+		} else if (loadExternalProjectUri.getScheme().equals("file")) {
+
+			String path = loadExternalProjectUri.getPath();
+			int a = path.lastIndexOf('/') + 1;
+			int b = path.lastIndexOf('.');
+			String projectName = path.substring(a, b);
+			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
+				Utils.displayErrorMessage(this, getResources().getString(R.string.error_load_project));
+			} else {
+				if (ProjectManager.INSTANCE.loadProject(projectName, this, true)) {
+					writeProjectTitleInTextfield();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -282,13 +304,4 @@ public class MainMenuActivity extends Activity {
 	public void handleAboutCatroidButton(View v) {
 		showDialog(DIALOG_ABOUT);
 	}
-
-	private String getProjectName(String zipUrl) {
-		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-		String projectName = zipUrl.substring(projectNameIndex);
-		projectName = URLDecoder.decode(projectName);
-
-		return projectName;
-	}
-
 }

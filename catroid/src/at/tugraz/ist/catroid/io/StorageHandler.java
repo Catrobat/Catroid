@@ -109,7 +109,7 @@ public class StorageHandler {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Cannot load project.", e);
 			return null;
 		}
 	}
