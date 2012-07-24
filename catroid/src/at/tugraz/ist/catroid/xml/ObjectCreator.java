@@ -29,8 +29,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -90,7 +90,7 @@ public class ObjectCreator {
 
 	@SuppressWarnings("rawtypes")
 	public Map<String, Field> getFieldMap(Class cls) {
-		Map<String, Field> fieldsToSet = new HashMap<String, Field>();
+		Map<String, Field> fieldsToSet = new TreeMap<String, Field>();
 
 		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
 		Field[] brickFields = cls.getDeclaredFields();
@@ -107,11 +107,12 @@ public class ObjectCreator {
 				continue;
 			}
 
-			String tagName = field.getName();
+			String tagName = extractTagName(field);
 
 			fieldsToSet.put(tagName, field);
 
 		}
+
 		return fieldsToSet;
 	}
 
@@ -123,7 +124,7 @@ public class ObjectCreator {
 
 	}
 
-	private String extractTagName(Field field) {
+	public String extractTagName(Field field) {
 		String tagName;
 		if (field.isAnnotationPresent(XMLAlias.class)) {
 			XMLAlias xmlAlias = field.getAnnotation(XMLAlias.class);

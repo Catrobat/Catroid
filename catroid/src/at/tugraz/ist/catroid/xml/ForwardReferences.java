@@ -24,23 +24,12 @@ package at.tugraz.ist.catroid.xml;
 
 import java.lang.reflect.Field;
 
-/**
- * @author Sam
- * 
- */
 public class ForwardReferences {
 
 	private Object objectWithReferencedField;
 	private String referenceString;
 	private Field fieldWithReference;
 
-	/**
-	 * @return the objectWithReferencedField
-	 */
-
-	/**
-	 * 
-	 */
 	public ForwardReferences(Object obj, String ref, Field valField) {
 		objectWithReferencedField = obj;
 		referenceString = ref;
@@ -51,40 +40,22 @@ public class ForwardReferences {
 		return objectWithReferencedField;
 	}
 
-	/**
-	 * @param objectWithReferencedField
-	 *            the objectWithReferencedField to set
-	 */
 	public void setObjectWithReferencedField(Object objectWithReferencedField) {
 		this.objectWithReferencedField = objectWithReferencedField;
 	}
 
-	/**
-	 * @return the referenceString
-	 */
 	public String getReferenceString() {
 		return referenceString;
 	}
 
-	/**
-	 * @param referenceString
-	 *            the referenceString to set
-	 */
 	public void setReferenceString(String referenceString) {
 		this.referenceString = referenceString;
 	}
 
-	/**
-	 * @return the fieldWithReference
-	 */
 	public Field getFieldWithReference() {
 		return fieldWithReference;
 	}
 
-	/**
-	 * @param fieldWithReference
-	 *            the fieldWithReference to set
-	 */
 	public void setFieldWithReference(Field fieldWithReference) {
 		this.fieldWithReference = fieldWithReference;
 	}

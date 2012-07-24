@@ -31,6 +31,8 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class BrickSerializer extends Serializer {
+	private final String brickTagPrefix = "Bricks.";
+	private final String brickListTag = "brickList";
 
 	public BrickSerializer(Sprite serializedSprite, Script serializedScript, Project serializedProject) {
 		objectCreator = new ObjectCreator();
@@ -50,15 +52,15 @@ public class BrickSerializer extends Serializer {
 		List<String> brickStringList = new ArrayList<String>();
 		String xmlElementString = "";
 		Collection<Field> fields = fieldMap.values();
-		xmlElementString = getStartTag("Bricks." + object.getClass().getSimpleName());
+		xmlElementString = getStartTag(brickTagPrefix + object.getClass().getSimpleName());
 		//xmlElementString = "<Bricks." + object.getClass().getSimpleName() + ">\n";
 		brickStringList.add(xmlElementString);
 		for (Field brickClassField : fields) {
-			String fieldName = brickClassField.getName();
+			String fieldName = objectCreator.extractTagName(brickClassField);
 			brickClassField.setAccessible(true);
 			if (!brickClassField.getType().isPrimitive()) {
 				if (fieldName.equals("sprite")) {
-					xmlElementString = "<sprite reference=\"../../../../..\"/>" + "\n";
+					xmlElementString = spriteElementPrefix + "\"../../../../..\"/>" + "\n";
 					brickStringList.add(xmlElementString);
 				} else if (brickClassField.getType().equals(String.class)) {
 					xmlElementString = getElementString(fieldName, (String) brickClassField.get(object));
@@ -73,7 +75,7 @@ public class BrickSerializer extends Serializer {
 				brickStringList.add(xmlElementString);
 			}
 		}
-		xmlElementString = getEndTag("Bricks." + object.getClass().getSimpleName());
+		xmlElementString = getEndTag(brickTagPrefix + object.getClass().getSimpleName());
 		brickStringList.add(xmlElementString);
 		//Log.i("serializer", xmlElementString);
 		return brickStringList;
@@ -82,11 +84,11 @@ public class BrickSerializer extends Serializer {
 	public List<String> serializeBrickList(List<Brick> brickList) throws IllegalArgumentException,
 			IllegalAccessException {
 		List<String> brickStrings = new ArrayList<String>();
-		brickStrings.add(getStartTag("brickList"));
+		brickStrings.add(getStartTag(brickListTag));
 		for (Object brickObject : brickList) {
 			brickStrings.addAll(serialize(brickObject));
 		}
-		brickStrings.add(getEndTag("brickList"));
+		brickStrings.add(getEndTag(brickListTag));
 		return brickStrings;
 
 	}

@@ -25,6 +25,11 @@ import at.tugraz.ist.catroid.common.CostumeData;
 
 public class CostumeSerializer extends Serializer {
 
+	private final String costumeDataTag = "Common.CostumeData";
+	private final String costumeFileNameTag = "fileName";
+	private final String costumeNameTag = "name";
+	private final String costumeListTag = "costumeDataList";
+
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
 			SecurityException, NoSuchFieldException {
@@ -33,13 +38,13 @@ public class CostumeSerializer extends Serializer {
 		String costumeName = costumedata.getCostumeName();
 		List<String> costumeStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = getStartTag("Common.CostumeData");
+		xmlElementString = getStartTag(costumeDataTag);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = getElementString("fileName", costumeFileName);
+		xmlElementString = getElementString(costumeFileNameTag, costumeFileName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = getElementString("name", costumeName);
+		xmlElementString = getElementString(costumeNameTag, costumeName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = getEndTag("Common.CostumeData");
+		xmlElementString = getEndTag(costumeDataTag);
 		costumeStringList.add(xmlElementString);
 
 		return costumeStringList;
@@ -48,11 +53,11 @@ public class CostumeSerializer extends Serializer {
 	public List<String> serializeCostumeList(List<CostumeData> costumeList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
 		List<String> costumeStrings = new ArrayList<String>();
-		costumeStrings.add("<costumeDataList>");
+		costumeStrings.add(getStartTag(costumeListTag));
 		for (CostumeData costumeData : costumeList) {
 			costumeStrings.addAll(this.serialize(costumeData));
 		}
-		costumeStrings.add("</costumeDataList>");
+		costumeStrings.add(getEndTag(costumeListTag));
 		return costumeStrings;
 	}
 
