@@ -104,11 +104,11 @@ public class ProjectManager {
 		}
 	}
 
-	public void saveProject() {
+	public boolean saveProject() {
 		if (project == null) {
-			return;
+			return false;
 		}
-		StorageHandler.getInstance().saveProject(project);
+		return StorageHandler.getInstance().saveProject(project);
 	}
 
 	public boolean initializeDefaultProject(Context context) {
