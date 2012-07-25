@@ -130,6 +130,21 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 		}
 	}
 
+	public void testRenameSoundMixedCase() {
+		String newNameMixedCase = "TeStSoUNd1";
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(500);
+		solo.clickOnView(solo.getView(R.id.sound_name));
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, newNameMixedCase);
+		solo.sleep(300);
+		solo.sendKey(Solo.ENTER);
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		solo.sleep(500);
+		assertEquals("sound is not renamed to mixed case", newNameMixedCase, soundInfoList.get(0).getTitle());
+	}
+
 	public void testPlayAndStopStound() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(500);

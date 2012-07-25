@@ -22,7 +22,6 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -48,6 +47,7 @@ import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -59,7 +59,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	private static final String TAG = "MainMenuActivity";
 	private static final String PROJECTNAME_TAG = "fname=";
-	
+
 	private ProjectManager projectManager;
 
 	private ActionBar actionBar;
@@ -78,25 +78,48 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
-		projectManager = ProjectManager.getInstance();
 
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 
 		Utils.loadProjectIfNeeded(this);
 
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
 			findViewById(R.id.current_project_button).setEnabled(false);
 		}
 
-		String projectDownloadUrl = getIntent().getDataString();
-		if (projectDownloadUrl == null || projectDownloadUrl.length() <= 0) {
+		// Load external project from URL or local file system.
+		Uri loadExternalProjectUri = getIntent().getData();
+		getIntent().setData(null);
+
+		if (loadExternalProjectUri == null) {
 			return;
 		}
-		String projectName = getProjectName(projectDownloadUrl);
+		if (loadExternalProjectUri.getScheme().equals("http")) {
+			String url = loadExternalProjectUri.toString();
+			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+			String projectName = url.substring(projectNameIndex);
+			try {
+				projectName = URLDecoder.decode(projectName, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				Log.e(TAG, "Could not decode project name: " + projectName, e);
+			}
 
-		this.getIntent().setData(null);
-		new ProjectDownloadTask(this, projectDownloadUrl, projectName).execute();
+			new ProjectDownloadTask(this, url, projectName).execute();
+		} else if (loadExternalProjectUri.getScheme().equals("file")) {
+
+			String path = loadExternalProjectUri.getPath();
+			int a = path.lastIndexOf('/') + 1;
+			int b = path.lastIndexOf('.');
+			String projectName = path.substring(a, b);
+			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
+				Utils.displayErrorMessage(this, getResources().getString(R.string.error_load_project));
+			} else {
+				if (ProjectManager.INSTANCE.loadProject(projectName, this, true)) {
+					writeProjectTitleInTextfield();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -143,9 +166,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		if (projectManager.getCurrentProject() != null
-				&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
-			projectManager.saveProject();
+		if (ProjectManager.INSTANCE.getCurrentProject() != null
+				&& StorageHandler.getInstance().projectExistsCheckCase(
+						ProjectManager.INSTANCE.getCurrentProject().getName())) {
+			ProjectManager.INSTANCE.saveProject();
 		}
 
 		switch (id) {
@@ -165,7 +189,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
 			return;
 		}
 		if (!ignoreResume) {
@@ -173,7 +197,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 		ignoreResume = false;
 
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
 		writeProjectTitleInTextfield();
 	}
 
@@ -186,7 +210,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		
+
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
@@ -198,14 +222,15 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		// onPause is sufficient --> gets called before "process_killed",
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
+		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
+			ProjectManager.INSTANCE.saveProject();
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
+					.getName());
 		}
 	}
 
 	public void handleCurrentProjectButton(View v) {
-		if (projectManager.getCurrentProject() != null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
@@ -264,22 +289,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		uploadProjectDialog.show(getSupportFragmentManager(), "dialog_upload_project");
 	}
-	
+
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
 		loginRegisterDialog.show(getSupportFragmentManager(), "dialog_login_register");
-	}
-	
-	private String getProjectName(String zipUrl) {
-		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-		String projectName = zipUrl.substring(projectNameIndex);
-		
-		try {
-			projectName = URLDecoder.decode(projectName, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, "Could not decode project name: " + projectName, e);
-		}
-		
-		return projectName;
 	}
 }

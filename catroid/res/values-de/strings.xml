@@ -284,6 +284,7 @@
     <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
+    <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
