@@ -1,9 +1,7 @@
-// $ANTLR 3.4 src/CalcGrammar.g 2012-07-24 20:54:18
+// $ANTLR 3.4 src/CalcGrammar.g 2012-07-25 14:12:33
 package at.tugraz.ist.catroid.formulaeditor;
 
-import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
-import org.antlr.runtime.DFA;
 import org.antlr.runtime.EarlyExitException;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.MismatchedSetException;
@@ -692,7 +690,7 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = SENSOR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:313:11: ( 'X_Accelerometer' | 'Y_Accelerometer' | 'Z_Accelerometer' | 'Azimuth_Orientation' | 'Pitch_Orientation' | 'Roll_Orientation' )
+			// src/CalcGrammar.g:313:11: ( 'XACC_' | 'YACC_' | 'ZACC_' | 'AZIM_' | 'PITCH_' | 'ROLL_' )
 			int alt7 = 6;
 			switch (input.LA(1)) {
 				case 'X': {
@@ -728,44 +726,44 @@ public class CalcGrammarLexer extends Lexer {
 
 			switch (alt7) {
 				case 1:
-				// src/CalcGrammar.g:313:15: 'X_Accelerometer'
+				// src/CalcGrammar.g:313:15: 'XACC_'
 				{
-					match("X_Accelerometer");
+					match("XACC_");
 
 				}
 					break;
 				case 2:
-				// src/CalcGrammar.g:313:33: 'Y_Accelerometer'
+				// src/CalcGrammar.g:313:23: 'YACC_'
 				{
-					match("Y_Accelerometer");
+					match("YACC_");
 
 				}
 					break;
 				case 3:
-				// src/CalcGrammar.g:313:51: 'Z_Accelerometer'
+				// src/CalcGrammar.g:313:31: 'ZACC_'
 				{
-					match("Z_Accelerometer");
+					match("ZACC_");
 
 				}
 					break;
 				case 4:
-				// src/CalcGrammar.g:313:69: 'Azimuth_Orientation'
+				// src/CalcGrammar.g:313:39: 'AZIM_'
 				{
-					match("Azimuth_Orientation");
+					match("AZIM_");
 
 				}
 					break;
 				case 5:
-				// src/CalcGrammar.g:313:91: 'Pitch_Orientation'
+				// src/CalcGrammar.g:313:47: 'PITCH_'
 				{
-					match("Pitch_Orientation");
+					match("PITCH_");
 
 				}
 					break;
 				case 6:
-				// src/CalcGrammar.g:313:111: 'Roll_Orientation'
+				// src/CalcGrammar.g:313:56: 'ROLL_'
 				{
-					match("Roll_Orientation");
+					match("ROLL_");
 
 				}
 					break;
@@ -785,17 +783,17 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = UPID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:314:11: ( UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )* )
-			// src/CalcGrammar.g:314:15: UPPERCASE ( LETTER | DIGIT | UPPERCASE | '_' )*
+			// src/CalcGrammar.g:314:11: ( UPPERCASE ( LETTER | DIGIT | '_' )* )
+			// src/CalcGrammar.g:314:15: UPPERCASE ( LETTER | DIGIT | '_' )*
 			{
 				mUPPERCASE();
 
-				// src/CalcGrammar.g:314:24: ( LETTER | DIGIT | UPPERCASE | '_' )*
+				// src/CalcGrammar.g:314:24: ( LETTER | DIGIT | '_' )*
 				loop8: do {
 					int alt8 = 2;
 					int LA8_0 = input.LA(1);
 
-					if (((LA8_0 >= '0' && LA8_0 <= '9') || (LA8_0 >= 'A' && LA8_0 <= 'Z') || LA8_0 == '_' || (LA8_0 >= 'a' && LA8_0 <= 'z'))) {
+					if (((LA8_0 >= '0' && LA8_0 <= '9') || LA8_0 == '_' || (LA8_0 >= 'a' && LA8_0 <= 'z'))) {
 						alt8 = 1;
 					}
 
@@ -803,8 +801,7 @@ public class CalcGrammarLexer extends Lexer {
 						case 1:
 						// src/CalcGrammar.g:
 						{
-							if ((input.LA(1) >= '0' && input.LA(1) <= '9')
-									|| (input.LA(1) >= 'A' && input.LA(1) <= 'Z') || input.LA(1) == '_'
+							if ((input.LA(1) >= '0' && input.LA(1) <= '9') || input.LA(1) == '_'
 									|| (input.LA(1) >= 'a' && input.LA(1) <= 'z')) {
 								input.consume();
 							} else {
@@ -881,7 +878,216 @@ public class CalcGrammarLexer extends Lexer {
 	public void mTokens() throws RecognitionException {
 		// src/CalcGrammar.g:1:8: ( T__23 | T__24 | T__25 | WS | CONSTANT | RELOP | MULOP | PLUS | MINUS | OR | NOT | LAND | NUMBER | ID | SENSOR | UPID )
 		int alt9 = 16;
-		alt9 = dfa9.predict(input);
+		switch (input.LA(1)) {
+			case '(': {
+				alt9 = 1;
+			}
+				break;
+			case ')': {
+				alt9 = 2;
+			}
+				break;
+			case ',': {
+				alt9 = 3;
+			}
+				break;
+			case '\t':
+			case '\n':
+			case '\f':
+			case '\r':
+			case ' ': {
+				alt9 = 4;
+			}
+				break;
+			case 'p': {
+				int LA9_5 = input.LA(2);
+
+				if ((LA9_5 == 'i')) {
+					int LA9_23 = input.LA(3);
+
+					if (((LA9_23 >= '0' && LA9_23 <= '9') || LA9_23 == '_' || (LA9_23 >= 'a' && LA9_23 <= 'z'))) {
+						alt9 = 14;
+					} else {
+						alt9 = 5;
+					}
+				} else {
+					alt9 = 14;
+				}
+			}
+				break;
+			case 'e': {
+				int LA9_6 = input.LA(2);
+
+				if (((LA9_6 >= '0' && LA9_6 <= '9') || LA9_6 == '_' || (LA9_6 >= 'a' && LA9_6 <= 'z'))) {
+					alt9 = 14;
+				} else {
+					alt9 = 5;
+				}
+			}
+				break;
+			case '<':
+			case '=':
+			case '>': {
+				alt9 = 6;
+			}
+				break;
+			case '%':
+			case '*':
+			case '/':
+			case '^': {
+				alt9 = 7;
+			}
+				break;
+			case '+': {
+				alt9 = 8;
+			}
+				break;
+			case '-': {
+				alt9 = 9;
+			}
+				break;
+			case '|': {
+				alt9 = 10;
+			}
+				break;
+			case '!': {
+				alt9 = 11;
+			}
+				break;
+			case '&': {
+				alt9 = 12;
+			}
+				break;
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9': {
+				alt9 = 13;
+			}
+				break;
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z': {
+				alt9 = 14;
+			}
+				break;
+			case 'X': {
+				int LA9_16 = input.LA(2);
+
+				if ((LA9_16 == 'A')) {
+					alt9 = 15;
+				} else {
+					alt9 = 16;
+				}
+			}
+				break;
+			case 'Y': {
+				int LA9_17 = input.LA(2);
+
+				if ((LA9_17 == 'A')) {
+					alt9 = 15;
+				} else {
+					alt9 = 16;
+				}
+			}
+				break;
+			case 'Z': {
+				int LA9_18 = input.LA(2);
+
+				if ((LA9_18 == 'A')) {
+					alt9 = 15;
+				} else {
+					alt9 = 16;
+				}
+			}
+				break;
+			case 'A': {
+				int LA9_19 = input.LA(2);
+
+				if ((LA9_19 == 'Z')) {
+					alt9 = 15;
+				} else {
+					alt9 = 16;
+				}
+			}
+				break;
+			case 'P': {
+				int LA9_20 = input.LA(2);
+
+				if ((LA9_20 == 'I')) {
+					alt9 = 15;
+				} else {
+					alt9 = 16;
+				}
+			}
+				break;
+			case 'R': {
+				int LA9_21 = input.LA(2);
+
+				if ((LA9_21 == 'O')) {
+					alt9 = 15;
+				} else {
+					alt9 = 16;
+				}
+			}
+				break;
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'Q':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W': {
+				alt9 = 16;
+			}
+				break;
+			default:
+				NoViableAltException nvae = new NoViableAltException("", 9, 0, input);
+
+				throw nvae;
+
+		}
+
 		switch (alt9) {
 			case 1:
 			// src/CalcGrammar.g:1:10: T__23
@@ -998,82 +1204,6 @@ public class CalcGrammarLexer extends Lexer {
 
 		}
 
-	}
-
-	protected DFA9 dfa9 = new DFA9(this);
-	static final String DFA9_eotS = "\5\uffff\1\17\1\30\11\uffff\6\26\1\uffff\1\30\1\uffff\116\26\3\155"
-			+ "\3\26\1\uffff\2\26\1\155\1\26\1\155\1\26\1\155";
-	static final String DFA9_eofS = "\165\uffff";
-	static final String DFA9_minS = "\1\11\4\uffff\1\151\1\60\11\uffff\3\137\1\172\1\151\1\157\1\uffff"
-			+ "\1\60\1\uffff\3\101\1\151\1\164\1\154\3\143\1\155\1\143\1\154\3"
-			+ "\143\1\165\1\150\1\137\3\145\1\164\1\137\1\117\3\154\1\150\1\117"
-			+ "\1\162\3\145\1\137\1\162\1\151\3\162\1\117\1\151\1\145\3\157\1\162"
-			+ "\1\145\1\156\3\155\1\151\1\156\1\164\4\145\1\164\1\141\3\164\1\156"
-			+ "\1\141\1\164\3\145\2\164\1\151\3\162\1\141\1\151\1\157\3\60\1\164"
-			+ "\1\157\1\156\1\uffff\1\151\1\156\1\60\1\157\1\60\1\156\1\60";
-	static final String DFA9_maxS = "\1\174\4\uffff\1\151\1\172\11\uffff\3\137\1\172\1\151\1\157\1\uffff"
-			+ "\1\172\1\uffff\3\101\1\151\1\164\1\154\3\143\1\155\1\143\1\154\3"
-			+ "\143\1\165\1\150\1\137\3\145\1\164\1\137\1\117\3\154\1\150\1\117"
-			+ "\1\162\3\145\1\137\1\162\1\151\3\162\1\117\1\151\1\145\3\157\1\162"
-			+ "\1\145\1\156\3\155\1\151\1\156\1\164\4\145\1\164\1\141\3\164\1\156"
-			+ "\1\141\1\164\3\145\2\164\1\151\3\162\1\141\1\151\1\157\3\172\1\164"
-			+ "\1\157\1\156\1\uffff\1\151\1\156\1\172\1\157\1\172\1\156\1\172";
-	static final String DFA9_acceptS = "\1\uffff\1\1\1\2\1\3\1\4\2\uffff\1\6\1\7\1\10\1\11\1\12\1\13\1\14"
-			+ "\1\15\1\16\6\uffff\1\20\1\uffff\1\5\124\uffff\1\17\7\uffff";
-	static final String DFA9_specialS = "\165\uffff}>";
-	static final String[] DFA9_transitionS = {
-			"\2\4\1\uffff\2\4\22\uffff\1\4\1\14\3\uffff\1\10\1\15\1\uffff"
-					+ "\1\1\1\2\1\10\1\11\1\3\1\12\1\uffff\1\10\12\16\2\uffff\3\7\2"
-					+ "\uffff\1\23\16\26\1\24\1\26\1\25\5\26\1\20\1\21\1\22\3\uffff"
-					+ "\1\10\2\uffff\4\17\1\6\12\17\1\5\12\17\1\uffff\1\13", "", "", "", "", "\1\27",
-			"\12\17\45\uffff\1\17\1\uffff\32\17", "", "", "", "", "", "", "", "", "", "\1\31", "\1\32", "\1\33",
-			"\1\34", "\1\35", "\1\36", "", "\12\17\45\uffff\1\17\1\uffff\32\17", "", "\1\37", "\1\40", "\1\41",
-			"\1\42", "\1\43", "\1\44", "\1\45", "\1\46", "\1\47", "\1\50", "\1\51", "\1\52", "\1\53", "\1\54", "\1\55",
-			"\1\56", "\1\57", "\1\60", "\1\61", "\1\62", "\1\63", "\1\64", "\1\65", "\1\66", "\1\67", "\1\70", "\1\71",
-			"\1\72", "\1\73", "\1\74", "\1\75", "\1\76", "\1\77", "\1\100", "\1\101", "\1\102", "\1\103", "\1\104",
-			"\1\105", "\1\106", "\1\107", "\1\110", "\1\111", "\1\112", "\1\113", "\1\114", "\1\115", "\1\116",
-			"\1\117", "\1\120", "\1\121", "\1\122", "\1\123", "\1\124", "\1\125", "\1\126", "\1\127", "\1\130",
-			"\1\131", "\1\132", "\1\133", "\1\134", "\1\135", "\1\136", "\1\137", "\1\140", "\1\141", "\1\142",
-			"\1\143", "\1\144", "\1\145", "\1\146", "\1\147", "\1\150", "\1\151", "\1\152", "\1\153", "\1\154",
-			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26", "\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26",
-			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26", "\1\156", "\1\157", "\1\160", "", "\1\161", "\1\162",
-			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26", "\1\163",
-			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26", "\1\164",
-			"\12\26\7\uffff\32\26\4\uffff\1\26\1\uffff\32\26" };
-
-	static final short[] DFA9_eot = DFA.unpackEncodedString(DFA9_eotS);
-	static final short[] DFA9_eof = DFA.unpackEncodedString(DFA9_eofS);
-	static final char[] DFA9_min = DFA.unpackEncodedStringToUnsignedChars(DFA9_minS);
-	static final char[] DFA9_max = DFA.unpackEncodedStringToUnsignedChars(DFA9_maxS);
-	static final short[] DFA9_accept = DFA.unpackEncodedString(DFA9_acceptS);
-	static final short[] DFA9_special = DFA.unpackEncodedString(DFA9_specialS);
-	static final short[][] DFA9_transition;
-
-	static {
-		int numStates = DFA9_transitionS.length;
-		DFA9_transition = new short[numStates][];
-		for (int i = 0; i < numStates; i++) {
-			DFA9_transition[i] = DFA.unpackEncodedString(DFA9_transitionS[i]);
-		}
-	}
-
-	class DFA9 extends DFA {
-
-		public DFA9(BaseRecognizer recognizer) {
-			this.recognizer = recognizer;
-			this.decisionNumber = 9;
-			this.eot = DFA9_eot;
-			this.eof = DFA9_eof;
-			this.min = DFA9_min;
-			this.max = DFA9_max;
-			this.accept = DFA9_accept;
-			this.special = DFA9_special;
-			this.transition = DFA9_transition;
-		}
-
-		public String getDescription() {
-			return "1:1: Tokens : ( T__23 | T__24 | T__25 | WS | CONSTANT | RELOP | MULOP | PLUS | MINUS | OR | NOT | LAND | NUMBER | ID | SENSOR | UPID );";
-		}
 	}
 
 }
