@@ -22,8 +22,18 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import java.util.List;
+
 public interface NestingBrick extends Brick {
 	public boolean isFullyCreated();
 
+	public void createFully();
+
 	public boolean isDraggableOver(Brick brick);
+
+	/**
+	 * 
+	 * @return List of NestingBricks in order of their appearance
+	 */
+	public List<NestingBrick> getAllNestingBrickParts();
 }

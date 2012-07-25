@@ -38,11 +38,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.BroadcastScript;
-import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
@@ -196,7 +192,7 @@ public class AddBrickDialog extends Dialog {
 	}
 
 	private void abort() {
-		scriptTabActivity.setDontcreateNewBrick();
+		scriptTabActivity.setDontCreateNewBrick();
 	}
 
 	public ScriptTabActivity getScriptTabActivity() {
@@ -215,76 +211,9 @@ public class AddBrickDialog extends Dialog {
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Brick addedBrick = adapter.getItem(position);
-				ProjectManager projectManager = ProjectManager.getInstance();
+				Brick brickToBeAdded = getBrickClone(adapter.getItem(position));
+				scriptTabActivity.addThisBrick(brickToBeAdded);
 
-				if (addedBrick instanceof WhenStartedBrick) {
-					if (projectManager.getCurrentScriptPosition() < 0) {
-						(getScriptTabActivity()).setNewScript();
-						Script newScript = new StartScript(projectManager.getCurrentSprite());
-						projectManager.addScript(newScript);
-
-						projectManager.setCurrentScript(newScript);
-					} else {
-						Brick brickClone = getBrickClone(addedBrick);
-						projectManager.getCurrentScript().addBrick(brickClone);
-					}
-				} else if (addedBrick instanceof WhenBrick) {
-					if (projectManager.getCurrentScriptPosition() < 0) {
-						(getScriptTabActivity()).setNewScript();
-						Script newScript = new WhenScript(projectManager.getCurrentSprite());
-						projectManager.addScript(newScript);
-
-						projectManager.setCurrentScript(newScript);
-					} else {
-						Brick brickClone = getBrickClone(addedBrick);
-						projectManager.getCurrentScript().addBrick(brickClone);
-					}
-				} else if (addedBrick instanceof BroadcastReceiverBrick) {
-					if (projectManager.getCurrentScriptPosition() < 0) {
-						(getScriptTabActivity()).setNewScript();
-						Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
-						projectManager.addScript(newScript);
-
-						projectManager.setCurrentScript(newScript);
-					} else {
-						Brick brickClone = getBrickClone(addedBrick);
-						projectManager.getCurrentScript().addBrick(brickClone);
-					}
-					//				} 
-					//				else if (addedBrick instanceof LoopBeginBrick
-					//						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
-					//						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
-					//					//Don't add new loop brick, only one loop per script for now
-				} else {
-					Brick brickClone = getBrickClone(adapter.getItem(position));
-
-					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
-
-						Script newScript = new StartScript(projectManager.getCurrentSprite());
-						projectManager.addScript(newScript);
-
-						Script temp;
-						if (projectManager.getCurrentScriptPosition() < 0) {
-							temp = newScript;
-						} else {
-							temp = projectManager.getCurrentScript();
-						}
-
-						projectManager.setCurrentScript(newScript);
-						projectManager.getCurrentScript().addBrick(brickClone);
-						projectManager.setCurrentScript(temp);
-
-					} else {
-						projectManager.getCurrentScript().addBrick(brickClone);
-					}
-					//					if (addedBrick instanceof LoopBeginBrick) {
-					//						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
-					//								(LoopBeginBrick) brickClone);
-					//						projectManager.getCurrentScript().addBrick(loopEndBrick);
-					//						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
-					//					}
-				}
 				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
 				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_BRICK_CATEGORY);
 			}

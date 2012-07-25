@@ -21,7 +21,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="stage_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
@@ -82,6 +82,18 @@
         <item name="android:textSize">18dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="brick_new">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+    </style>
+    
+    <style name="brick_delete">
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+    
+    <style name="brick_blink">
+        <item name="android:windowEnterAnimation">@anim/blink</item>
     </style>
 
 </resources>

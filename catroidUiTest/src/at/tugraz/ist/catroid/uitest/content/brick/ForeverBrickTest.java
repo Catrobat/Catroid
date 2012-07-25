@@ -67,7 +67,7 @@ public class ForeverBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	@Smoke
 	public void testForeverBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		int groupCount = getActivity().getAdapter().getGroupCount();
+		int groupCount = getActivity().getAdapter().getScriptCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
