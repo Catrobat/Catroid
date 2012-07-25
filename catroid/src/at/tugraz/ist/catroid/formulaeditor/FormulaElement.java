@@ -199,24 +199,30 @@ public class FormulaElement implements Serializable {
 				double max = rightChild.interpretRecursive();
 				return min + (java.lang.Math.random() * (max - min));
 			}
+			if (value.equals("abs")) {
+				return java.lang.Math.abs(left);
+			}
+			if (value.equals("round")) {
+				return (double) java.lang.Math.round(left);
+			}
 		} else if (type == ElementType.SENSOR) {
-			if (value.equals("X_Accelerometer")) {
+			if (value.equals("XACC_")) {
 				//Log.i("info", "Acc-X: " + Gdx.input.getAccelerometerX());
 				return Double.valueOf(Gdx.input.getAccelerometerX());
 			}
-			if (value.equals("Y_Accelerometer")) {
+			if (value.equals("YACC_")) {
 				return Double.valueOf(Gdx.input.getAccelerometerY());
 			}
-			if (value.equals("Z_Accelerometer")) {
+			if (value.equals("ZACC_")) {
 				return Double.valueOf(Gdx.input.getAccelerometerZ());
 			}
-			if (value.equals("Azimuth_Orientation")) {
+			if (value.equals("AZIM_")) {
 				return Double.valueOf(Gdx.input.getAzimuth());
 			}
-			if (value.equals("Pitch_Orientation")) {
+			if (value.equals("PITCH_")) {
 				return Double.valueOf(Gdx.input.getPitch());
 			}
-			if (value.equals("Roll_Orientation")) {
+			if (value.equals("ROLL_")) {
 				return Double.valueOf(Gdx.input.getRoll());
 			}
 		} else if (type == ElementType.CONSTANT) {
