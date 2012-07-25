@@ -1,4 +1,4 @@
-// $ANTLR 3.4 src/CalcGrammar.g 2012-07-25 14:12:33
+// $ANTLR 3.4 src/CalcGrammar.g 2012-07-25 16:23:37
 package at.tugraz.ist.catroid.formulaeditor;
 
 import org.antlr.runtime.CharStream;
@@ -639,17 +639,17 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = ID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:312:11: ( LETTER ( LETTER | DIGIT | '_' )* )
-			// src/CalcGrammar.g:312:15: LETTER ( LETTER | DIGIT | '_' )*
+			// src/CalcGrammar.g:312:11: ( LETTER ( LETTER )* )
+			// src/CalcGrammar.g:312:15: LETTER ( LETTER )*
 			{
 				mLETTER();
 
-				// src/CalcGrammar.g:312:21: ( LETTER | DIGIT | '_' )*
+				// src/CalcGrammar.g:312:21: ( LETTER )*
 				loop6: do {
 					int alt6 = 2;
 					int LA6_0 = input.LA(1);
 
-					if (((LA6_0 >= '0' && LA6_0 <= '9') || LA6_0 == '_' || (LA6_0 >= 'a' && LA6_0 <= 'z'))) {
+					if (((LA6_0 >= 'a' && LA6_0 <= 'z'))) {
 						alt6 = 1;
 					}
 
@@ -657,8 +657,7 @@ public class CalcGrammarLexer extends Lexer {
 						case 1:
 						// src/CalcGrammar.g:
 						{
-							if ((input.LA(1) >= '0' && input.LA(1) <= '9') || input.LA(1) == '_'
-									|| (input.LA(1) >= 'a' && input.LA(1) <= 'z')) {
+							if ((input.LA(1) >= 'a' && input.LA(1) <= 'z')) {
 								input.consume();
 							} else {
 								MismatchedSetException mse = new MismatchedSetException(null, input);
@@ -783,17 +782,17 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = UPID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:314:11: ( UPPERCASE ( LETTER | DIGIT | '_' )* )
-			// src/CalcGrammar.g:314:15: UPPERCASE ( LETTER | DIGIT | '_' )*
+			// src/CalcGrammar.g:314:11: ( UPPERCASE ( LETTER )* )
+			// src/CalcGrammar.g:314:15: UPPERCASE ( LETTER )*
 			{
 				mUPPERCASE();
 
-				// src/CalcGrammar.g:314:24: ( LETTER | DIGIT | '_' )*
+				// src/CalcGrammar.g:314:24: ( LETTER )*
 				loop8: do {
 					int alt8 = 2;
 					int LA8_0 = input.LA(1);
 
-					if (((LA8_0 >= '0' && LA8_0 <= '9') || LA8_0 == '_' || (LA8_0 >= 'a' && LA8_0 <= 'z'))) {
+					if (((LA8_0 >= 'a' && LA8_0 <= 'z'))) {
 						alt8 = 1;
 					}
 
@@ -801,8 +800,7 @@ public class CalcGrammarLexer extends Lexer {
 						case 1:
 						// src/CalcGrammar.g:
 						{
-							if ((input.LA(1) >= '0' && input.LA(1) <= '9') || input.LA(1) == '_'
-									|| (input.LA(1) >= 'a' && input.LA(1) <= 'z')) {
+							if ((input.LA(1) >= 'a' && input.LA(1) <= 'z')) {
 								input.consume();
 							} else {
 								MismatchedSetException mse = new MismatchedSetException(null, input);
@@ -905,7 +903,7 @@ public class CalcGrammarLexer extends Lexer {
 				if ((LA9_5 == 'i')) {
 					int LA9_23 = input.LA(3);
 
-					if (((LA9_23 >= '0' && LA9_23 <= '9') || LA9_23 == '_' || (LA9_23 >= 'a' && LA9_23 <= 'z'))) {
+					if (((LA9_23 >= 'a' && LA9_23 <= 'z'))) {
 						alt9 = 14;
 					} else {
 						alt9 = 5;
@@ -918,7 +916,7 @@ public class CalcGrammarLexer extends Lexer {
 			case 'e': {
 				int LA9_6 = input.LA(2);
 
-				if (((LA9_6 >= '0' && LA9_6 <= '9') || LA9_6 == '_' || (LA9_6 >= 'a' && LA9_6 <= 'z'))) {
+				if (((LA9_6 >= 'a' && LA9_6 <= 'z'))) {
 					alt9 = 14;
 				} else {
 					alt9 = 5;
