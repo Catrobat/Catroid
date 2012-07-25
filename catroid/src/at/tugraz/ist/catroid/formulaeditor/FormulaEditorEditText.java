@@ -92,7 +92,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setEnabled(false);
 		//this.setBackgroundColor(getResources().getColor(R.color.transparent));
 		this.catKeyboardView = ckv;
-		this.setCursorVisible(true);
+		//this.setCursorVisible(true);
 
 		if (brickHeight < 100) { //this height seems buggy for some high bricks, still need it...
 			this.setLines(7);
@@ -112,7 +112,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setText(formulaAsText);
 		super.setSelection(formulaAsText.length());
 		updateSelectionIndices();
-		this.setCursorVisible(true);
+		//this.setCursorVisible(true);
 
 	}
 

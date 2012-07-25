@@ -46,7 +46,6 @@
         android:scrollbars="vertical"
         android:hint="@string/formula_nothing_selected"
         android:textSize="@dimen/text_size_large" 
-        android:cursorVisible="true"
         />
       
     <at.tugraz.ist.catroid.formulaeditor.CatKeyboardView
