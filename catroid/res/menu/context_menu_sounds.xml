@@ -25,6 +25,7 @@
 
     <item
         android:id="@+id/menu_sound_edit"
+        android:icon="@drawable/ic_menu_edit"
         android:showAsAction="ifRoom|withText"
         android:title="@string/edit_costume"/>
     

@@ -22,7 +22,6 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -59,7 +58,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	private static final String TAG = "MainMenuActivity";
 	private static final String PROJECTNAME_TAG = "fname=";
-	
+
 	private ProjectManager projectManager;
 
 	private ActionBar actionBar;
@@ -128,6 +127,28 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				}
 				return true;
 			}
+			case R.id.menu_web_resources: {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website)
+						.toString()));
+				startActivity(browserIntent);
+				return true;
+			}
+			case R.id.menu_settings: {
+				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
+			}
+			case R.id.menu_forum: {
+				Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_forum)
+						.toString()));
+				startActivity(browerIntent);
+				return true;
+			}
+			case R.id.menu_about: {
+				AboutDialog aboutDialog = new AboutDialog(this);
+				aboutDialog.show();
+				return true;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -186,7 +207,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		
+
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
@@ -234,26 +255,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 	}
 
-	public void handleWebResourcesButton(View v) {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
-		startActivity(browserIntent);
-	}
-
-	public void handleSettingsButton(View v) {
-		Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-		startActivity(intent);
-	}
-
-	public void handleForumButton(View v) {
-		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_forum).toString()));
-		startActivity(browerIntent);
-	}
-
-	public void handleAboutCatroidButton(View v) {
-		AboutDialog aboutDialog = new AboutDialog(this);
-		aboutDialog.show();
-	}
-
 	@Override
 	public void onTokenNotValid() {
 		showLoginRegisterDialog();
@@ -264,22 +265,22 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
 		uploadProjectDialog.show(getSupportFragmentManager(), "dialog_upload_project");
 	}
-	
+
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
 		loginRegisterDialog.show(getSupportFragmentManager(), "dialog_login_register");
 	}
-	
+
 	private String getProjectName(String zipUrl) {
 		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
 		String projectName = zipUrl.substring(projectNameIndex);
-		
+
 		try {
 			projectName = URLDecoder.decode(projectName, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			Log.e(TAG, "Could not decode project name: " + projectName, e);
 		}
-		
+
 		return projectName;
 	}
 }
