@@ -281,6 +281,29 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		solo.clickOnButton(2);
 	}
 
+	//	public void testLanguageKeys() {
+	//
+	//		solo.clickOnEditText(0);
+	//		solo.clickOnEditText(0);
+	//		solo.clickOnEditText(1);
+	//
+	//		this.clickOnKey("del");
+	//		this.clickOnKey("del");
+	//		this.clickOnKey("del");
+	//		this.clickOnKey("del");
+	//
+	//		Log.i("info", "searchText for ',' " + solo.searchText(","));
+	//		Log.i("info", "searchButton for ',' " + solo.searchButton(","));
+	//		Log.i("info", "imageButton size: " + solo.getCurrentImageButtons().size());
+	//		Log.i("info", "imageViews size: " + solo.getCurrentImageViews().size());
+	//		Log.i("info", "listViews size: " + solo.getCurrentListViews().size());
+	//		Log.i("info", "allOpenedActivities size: " + solo.getAllOpenedActivities().size());
+	//		Log.i("info", "currentActivity: " + solo.getCurrentActivity());
+	//		Log.i("info", "allCurrentButtons size: " + solo.getCurrentButtons().size());
+	//
+	//		assertEquals(solo.searchText(","), true);
+	//	}
+
 	private void createProject(String projectName) throws InterruptedException {
 
 		this.project = new Project(null, projectName);
