@@ -75,6 +75,10 @@ public class WhenStartedBrick implements ScriptBrick {
 	}
 
 	public Script initScript(Sprite sprite) {
-		return new StartScript(sprite);
+		if (script == null) {
+			script = new StartScript(sprite, this);
+		}
+
+		return script;
 	}
 }

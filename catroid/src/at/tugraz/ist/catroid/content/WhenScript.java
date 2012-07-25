@@ -38,6 +38,7 @@ public class WhenScript extends Script {
 	private static final String[] actions = { TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
 			SWIPERIGHT };
 	private String action;
+	private WhenBrick brick;
 	private transient int position;
 
 	public WhenScript(Sprite sprite) {
@@ -45,6 +46,11 @@ public class WhenScript extends Script {
 		super.isFinished = true;
 		this.position = 0;
 		this.action = TAPPED;
+	}
+
+	public WhenScript(Sprite sprite, WhenBrick brick) {
+		this(sprite);
+		this.brick = brick;
 	}
 
 	@Override
@@ -69,6 +75,10 @@ public class WhenScript extends Script {
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		return new WhenBrick(sprite, this);
+		if (brick == null) {
+			brick = new WhenBrick(sprite, this);
+		}
+
+		return brick;
 	}
 }

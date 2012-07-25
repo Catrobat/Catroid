@@ -111,7 +111,11 @@ public class WhenBrick implements ScriptBrick {
 	}
 
 	public Script initScript(Sprite sprite) {
-		return new WhenScript(sprite);
+		if (whenScript == null) {
+			whenScript = new WhenScript(sprite, this);
+		}
+
+		return whenScript;
 	}
 
 }
