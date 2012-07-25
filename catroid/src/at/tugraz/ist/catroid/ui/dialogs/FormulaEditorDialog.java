@@ -22,17 +22,13 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import java.util.Locale;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -46,7 +42,7 @@ import at.tugraz.ist.catroid.formulaeditor.Formula;
 import at.tugraz.ist.catroid.formulaeditor.FormulaEditorEditText;
 import at.tugraz.ist.catroid.formulaeditor.FormulaElement;
 
-public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener, OnGestureListener {
+public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDismissListener {
 
 	private final Context context;
 	private Brick currentBrick;
@@ -57,8 +53,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 	private LinearLayout brickSpace;
 	private View brickView;
 	private Button okButton = null;
-
-	//private GestureDetector gestureDetector = null;
 
 	public FormulaEditorDialog(Context context, Brick brick) {
 
@@ -125,14 +119,10 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 		textArea = (FormulaEditorEditText) findViewById(R.id.formula_editor_edit_field);
 		brickSpace.measure(0, 0);
-		textArea.init(this, brickSpace.getMeasuredHeight());
-
-		Log.i("info", "DisplayLanguage: " + Locale.getDefault().getDisplayLanguage());
-
 		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
 		catKeyboardView.setEditText(textArea);
-		textArea.catKeyboardView = catKeyboardView;
 
+		textArea.init(this, brickSpace.getMeasuredHeight(), catKeyboardView);
 	}
 
 	public void setInputFocusAndFormula(Formula formula) {
@@ -176,7 +166,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 				if (err == -1) {
 					formula.refreshTextField(brickView);
 					textArea.formulaSaved();
-					Log.i("info", "asd: " + brickView.getMeasuredHeight());
 					Toast.makeText(context, R.string.formula_editor_changes_saved, Toast.LENGTH_SHORT).show();
 				} else if (err == -2) {
 					//Crashed it like a BOSS! 
@@ -221,7 +210,6 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.i("info", "FormulaEditorDialog.onKeyDown(), keyCode:" + String.valueOf(keyCode));
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				if (textArea.hasChanges()) {
@@ -235,33 +223,4 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 
 	}
 
-	public boolean onDown(MotionEvent arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2, float arg3) {
-		Log.i("info", "FLING!");
-		return true;
-	}
-
-	public void onLongPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public boolean onSingleTapUp(MotionEvent e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

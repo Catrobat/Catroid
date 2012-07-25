@@ -26,28 +26,11 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
     android:windowFullscreen="true"
-	android:theme="@android:style/Theme.Light">
+	android:theme="@android:style/Theme.Light">
 	<LinearLayout
 	    android:id="@+id/formula_editor_brick_space"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" />
-	
-	<!-- <ViewFlipper
-        android:id="@+id/catflip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:layout_alignParentTop="true">
-	    <LinearLayout
-	        xmlns:android="http://schemas.android.com/apk/res/android"
-	        android:id="@+id/datview"
-	        android:layout_height="match_parent"
-	        android:layout_width="match_parent" />
-	    <LinearLayout  
-	        xmlns:android="http://schemas.android.com/apk/res/android"
-	        android:id="@+id/catview"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"/>
-    </ViewFlipper> -->
 	
     <at.tugraz.ist.catroid.formulaeditor.FormulaEditorEditText
         android:id="@+id/formula_editor_edit_field"
@@ -58,11 +41,12 @@
         android:layout_marginRight="2dp"
         android:gravity="top"
         android:inputType="textMultiLine"
+        android:singleLine="false"
         android:minLines="3"
         android:scrollbars="vertical"
-        android:singleLine="false"
         android:hint="@string/formula_nothing_selected"
         android:textSize="@dimen/text_size_large" 
+        android:cursorVisible="true"
         />
       
     <at.tugraz.ist.catroid.formulaeditor.CatKeyboardView

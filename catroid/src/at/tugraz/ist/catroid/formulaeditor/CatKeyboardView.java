@@ -44,7 +44,6 @@ import android.content.Context;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import at.tugraz.ist.catroid.R;
 
@@ -80,7 +79,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 			this.symbolsSensors = new CatKeyboard(this.getContext(), R.xml.symbols_eng_sensors);
 			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is ENG");
 		}
-		Log.i("info", "CatKeyBoardView() - DisplayLanguage:" + Locale.getDefault().getDisplayLanguage());
+		//Log.i("info", "CatKeyBoardView() - DisplayLanguage:" + Locale.getDefault().getDisplayLanguage());
 		this.setKeyboard(symbolsNumbers);
 		//		this.symbols.setShifted(false);
 		//		this.symbols_shifted.setShifted(true);
@@ -109,7 +108,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 		//				getOnKeyboardActionListener().onKey(KEYCODE_OPTIONS, null);
 		//				return true;
 		//			} else {
-		Log.i("info", "CatKeyboard.onLongPress() called");
+		//Log.i("info", "CatKeyboard.onLongPress() called");
 		return super.onLongPress(key);
 
 	}
@@ -120,7 +119,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	 * @see android.inputmethodservice.KeyboardView.OnKeyboardActionListener#onKey(int, int[])
 	 */
 	public void onKey(int primaryCode, int[] keyCodes) {
-		Log.i("info", "CatKeyboarView.onKey(), primaryCode:" + String.valueOf(primaryCode));
+		//Log.i("info", "CatKeyboarView.onKey(), primaryCode:" + String.valueOf(primaryCode));
 
 		CatKeyEvent cKE = null;
 
@@ -313,17 +312,17 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	private void handleKeyboardChange() {
 
 		if (this.getKeyboard() == this.symbolsNumbers) {
-			Log.i("info", "Keyboard change from Numbers -> Fuctions");
+			//Log.i("info", "Keyboard change from Numbers -> Fuctions");
 			this.setKeyboard(this.symbolsFunctions);
 			return;
 		}
 		if (this.getKeyboard() == this.symbolsFunctions) {
-			Log.i("info", "Keyboard change from Functions -> Sensors");
+			//Log.i("info", "Keyboard change from Functions -> Sensors");
 			this.setKeyboard(this.symbolsSensors);
 			return;
 		}
 		if (this.getKeyboard() == this.symbolsSensors) {
-			Log.i("info", "Keyboard change from Sensors -> Numbers");
+			//Log.i("info", "Keyboard change from Sensors -> Numbers");
 			this.setKeyboard(this.symbolsNumbers);
 			return;
 		}
@@ -331,7 +330,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.i("info", "CatKeyboarView.onKeyDown(), keyCode:" + String.valueOf(keyCode));
+		//Log.i("info", "CatKeyboarView.onKeyDown(), keyCode:" + String.valueOf(keyCode));
 		switch (keyCode) {
 			default:
 				return super.onKeyDown(keyCode, event);
@@ -342,7 +341,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		Log.i("info", "CatKeyboarView.onKeyUp(), keyCode:" + String.valueOf(keyCode));
+		//Log.i("info", "CatKeyboarView.onKeyUp(), keyCode:" + String.valueOf(keyCode));
 		return super.onKeyUp(keyCode, event);
 
 	}
@@ -355,7 +354,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 
 	@Override
 	public void swipeLeft() {
-		Log.i("info", "swipeRight()");
+		//Log.i("info", "swipeRight()");
 
 		if (this.getKeyboard() == this.symbolsNumbers) {
 			this.setKeyboard(this.symbolsSensors);
@@ -375,7 +374,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	@Override
 	public void swipeRight() {
 
-		Log.i("info", "swipeRight()");
+		//Log.i("info", "swipeRight()");
 		this.onKey(KeyEvent.KEYCODE_SHIFT_RIGHT, null);
 		//		super.swipeRight();
 	}

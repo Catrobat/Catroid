@@ -28,7 +28,6 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -84,7 +83,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		super(context, attrs, defStyle);
 	}
 
-	public void init(FormulaEditorDialog dialog, int brickHeight) {
+	public void init(FormulaEditorDialog dialog, int brickHeight, CatKeyboardView ckv) {
 		this.dialog = dialog;
 		this.setOnClickListener(this);
 		this.setOnTouchListener(this);
@@ -92,11 +91,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setSelectAllOnFocus(false);
 		this.setEnabled(false);
 		//this.setBackgroundColor(getResources().getColor(R.color.transparent));
+		this.catKeyboardView = ckv;
 		this.setCursorVisible(true);
-		Log.i("info", "BrickHeight in FormulaEditor:" + brickHeight);
-		//this height seems buggy for some high bricks 
 
-		if (brickHeight < 100) {
+		if (brickHeight < 100) { //this height seems buggy for some high bricks, still need it...
 			this.setLines(7);
 		} else if (brickHeight < 200) {
 			this.setLines(6);
@@ -114,11 +112,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setText(formulaAsText);
 		super.setSelection(formulaAsText.length());
 		updateSelectionIndices();
+		this.setCursorVisible(true);
 
 	}
 
 	public synchronized void updateSelectionIndices() {
-		Log.i("info", "update selection");
+		//Log.i("info", "update selection indices");
 
 		if (ignoreNextUpdate) {
 			ignoreNextUpdate = false;
@@ -133,16 +132,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		setSelection(selectionStartIndex);
 	}
 
-	//highlight the selected word
 	public synchronized void doSelectionAndHighlighting() {
-
-		//TODO: Interpreter Test
-		Log.i("info", "Formula Interpretation: deactivated"); // + formula.interpret());
-		Log.i("info", "do Selection");
-
+		//Log.i("info", "do Selection and highlighting, cursor position: " + cursor pos);
 		String currentInput = this.getText().toString();
 		int cursorPos = this.getSelectionStart();
-		Log.i("info", "cursor: " + cursorPos);
 
 		if (currentInput.length() == 0) {
 			return;
@@ -188,8 +181,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		editMode = true;
 		currentlySelectedElement = getText().subSequence(selectionStartIndex, selectionEndIndex).toString();
 		checkAndSetSelectedType();
-		Log.i("info", "FEEditText: check selected Type " + currentlySelectedElement + " "
-				+ currentlySelectedElementType);
+		//Log.i("info", "FEEditText: check selected Type " + currentlySelectedElement + " "
+		//		+ currentlySelectedElementType);
 		if (currentlySelectedElementType == FUNCTION) {
 			extendSelectionForFunction();
 			//TODO: extend selection across formula
@@ -205,18 +198,18 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			extendSelectionForNumber();
 		}
 
-		Log.i("info", "FEEditText: check selected Type " + selectionStartIndex + " " + selectionEndIndex);
+		//Log.i("info", "FEEditText: check selected Type " + selectionStartIndex + " " + selectionEndIndex);
 
 	}
 
-	public void selectOperator() {
-		Log.i("info", "operatore ");
-		if (selectionEndIndex + 1 >= getText().length()) {
-			return;
-		} else {
-			selectionEndIndex++;
-		}
-	}
+	//	public void selectOperator() {
+	//		Log.i("info", "operator ");
+	//		if (selectionEndIndex + 1 >= getText().length()) {
+	//			return;
+	//		} else {
+	//			selectionEndIndex++;
+	//		}
+	//	}
 
 	public void extendSelectionForFunction() {
 		int bracketCount = 1;
@@ -225,7 +218,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			return;
 		}
 		String text = getText().toString().substring(selectionEndIndex + 1);
-		Log.i("info", "extendSelection for function " + text + " ");
+		//Log.i("info", "extendSelection for function " + text + " ");
 		int textLen = text.length();
 		int i = 0;
 		while (i < textLen && bracketCount > 0) {
@@ -250,12 +243,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void extendSelectionForBracketFromEnd() {
-		Log.i("info", "extendSelection from close bracket");
+		//Log.i("info", "extendSelection from close bracket");
 		int bracketCount = 1;
 		String text = getText().toString().substring(0, selectionStartIndex);
-		Log.i("info", "extendSelection for function from end bracket " + text);
+		//Log.i("info", "extendSelection for function from end bracket " + text);
 		selectionStartIndex--;
-		//int textLen = text.length();
+
 		while (selectionStartIndex > 0) {
 			if (text.charAt(selectionStartIndex) == '(') {
 				bracketCount--;
@@ -270,10 +263,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		while (selectionStartIndex > 0) {
-			//			if ((text.charAt(selectionStartIndex - 1) == ' ' || text.charAt(selectionStartIndex - 1) == '(')) {
-			//				break;
-			//			}
-			Log.i("info", "CHAR IS: " + text.charAt(selectionStartIndex - 1));
+			//Log.i("info", "CHAR IS: " + text.charAt(selectionStartIndex - 1));
 			if ((text.charAt(selectionStartIndex - 1) < 97) || (text.charAt(selectionStartIndex - 1) > 123)) {
 				break;
 			}
@@ -283,13 +273,13 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void extendSelectionForBracketFromBegin() {
-		Log.i("info", "extendSelection from begin bracket");
+		//Log.i("info", "extendSelection from begin bracket");
 		extendSelectionForFunction();
 		Editable text = getText();
 
 		while (selectionStartIndex > 0) {
 
-			Log.i("info", "CHAR IS: " + text.charAt(selectionStartIndex - 1));
+			//Log.i("info", "CHAR IS: " + text.charAt(selectionStartIndex - 1));
 			if ((text.charAt(selectionStartIndex - 1) < 97) || (text.charAt(selectionStartIndex - 1) > 123)) {
 				break;
 			}
@@ -299,11 +289,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void extendSelectionForNumber() {
-		Log.i("info", "extendSelection for a number");
+		//Log.i("info", "extendSelection for a number");
 		String currentInput = getText().toString();
 
 		while (selectionStartIndex > 0) {
-			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionStartIndex - 1));
+			//Log.i("info", "CHAR IS: " + currentInput.charAt(selectionStartIndex - 1));
 			if (!(((currentInput.charAt(selectionStartIndex - 1) >= 48) && (currentInput
 					.charAt(selectionStartIndex - 1) <= 58)) || (currentInput.charAt(selectionStartIndex - 1) == '.'))) {
 				break;
@@ -312,7 +302,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		while (selectionEndIndex < currentInput.length()) {
-			Log.i("info", "CHAR IS: " + currentInput.charAt(selectionEndIndex));
 			if (!(((currentInput.charAt(selectionEndIndex) >= 48) && (currentInput.charAt(selectionEndIndex) <= 58)) || (currentInput
 					.charAt(selectionEndIndex) == '.'))) {
 				break;
@@ -377,7 +366,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		clearSelectionHighlighting();
 		errorSpan = this.getText();
-		Log.i("info", "" + firstError);
+		//Log.i("info", "" + firstError);
 
 		if (errorSpan.length() <= firstError) {
 			firstError--;
@@ -388,10 +377,16 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		setSelection(firstError);
 
 		String text = getText().toString();
+		//error at start of function or variable/constant
 		if (!(((text.charAt(firstError) < 97) || (text.charAt(firstError) > 123))
 				&& ((text.charAt(firstError) < 65) || (text.charAt(firstError) > 91)) && (text.charAt(firstError) != '_'))) {
 			doSelectionAndHighlighting();
 			selectionEndIndex++;
+		}
+
+		//error at start of a number 
+		if (((text.charAt(firstError) >= 48) && (text.charAt(firstError) <= 58))) {
+			doSelectionAndHighlighting();
 		}
 
 		editMode = true;
@@ -425,7 +420,10 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		String text = getText().toString();
 		int cursor = this.getSelectionStart();
 		if (cursor > 0
+				&& cursor < text.length()
 				&& !editMode
+				&& ((((text.charAt(cursor) >= 97) && (text.charAt(cursor) <= 123))
+						|| ((text.charAt(cursor) >= 65) && (text.charAt(cursor) <= 91)) || (text.charAt(cursor) == '_')))
 				&& (!(((text.charAt(cursor - 1) < 97) || (text.charAt(cursor - 1) > 123))
 						&& ((text.charAt(cursor - 1) < 65) || (text.charAt(cursor - 1) > 91)) && (text
 						.charAt(cursor - 1) != '_')))) {
@@ -561,13 +559,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	@Override
 	public void setSelection(int index) {
-		Log.i("text", "SetSelection called " + index);
+		//Log.i("text", "SetSelection called " + index);
 		super.setSelection(index);
 	}
 
 	@Override
 	public void setSelection(int start, int end) {
-		Log.i("text", "SetSelection 2 param called");
 		//Standard selection cannot be used for our highlighting, would make it very unpracticable to write things >1 char
 		//...maybe we could use standard selection when changing its behaviour in BaseInputConnection
 	}
@@ -578,7 +575,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	@Override
 	public void extendSelection(int index) {
-		Log.i("info", "extendSelection");
+		//Log.i("info", "extendSelection");
 		updateSelectionIndices();
 
 	};
