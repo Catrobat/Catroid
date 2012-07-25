@@ -37,7 +37,7 @@ public class NewProjectDialog extends TextDialog {
 	@Override
 	protected void initialize() {
 	}
-	
+
 	@Override
 	protected boolean handleOkButton() {
 		String projectName = (input.getText().toString().trim());
@@ -47,7 +47,7 @@ public class NewProjectDialog extends TextDialog {
 			return false;
 		}
 
-		if (StorageHandler.getInstance().projectExists(projectName)) {
+		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_project_exists));
 			return false;
 		}
@@ -62,7 +62,7 @@ public class NewProjectDialog extends TextDialog {
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
 		getActivity().startActivity(intent);
-		
+
 		return true;
 	}
 

@@ -475,6 +475,61 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 	}
 
+	public void testRenameCurrentProjectMixedCase() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertEquals("rename to Mixed Case was not successfull", ProjectManager.getInstance().getCurrentProject()
+				.getName(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.sleep(200);
+		solo.goBack();
+		assertEquals("current project not updated", UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, ProjectManager
+				.getInstance().getCurrentProject().getName());
+	}
+
+	public void testRenameToSameName() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		solo.assertCurrentActivity("Should be My Projects Activity", MyProjectsActivity.class);
+		assertEquals("Should not be renamed", UiTestUtils.DEFAULT_TEST_PROJECT_NAME, ProjectManager.getInstance()
+				.getCurrentProject().getName());
+	}
+
+	public void testRenameWithNoInput() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		String errorMessageInvalidInput = solo.getString(R.string.notification_invalid_text_entered);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
+	}
+
 	public void testRenameProjectWithWhitelistedCharacters() {
 		createProjects();
 		solo.sleep(200);
@@ -505,6 +560,24 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForDialogToClose(500);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
+	}
+
+	public void testRenameToExistingProjectMixedCase() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		solo.goBack();
+		assertFalse("Project was renamed by mistake", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE));
 	}
 
 	public void testAddNewProject() {
@@ -559,6 +632,27 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+	}
+
+	public void testAddNewProjectMixedCase() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertTrue("No or wrong error message shown",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		solo.sleep(100);
+		solo.clickOnButton(getActivity().getString(R.string.close));
+		solo.sleep(100);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertTrue("No or wrong error message shown",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
 	public void testSetDescriptionCurrentProject() {
