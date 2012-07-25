@@ -40,6 +40,8 @@ public class CatKeyEvent extends KeyEvent {
 	public static final int KEYCODE_SQUAREROOT = 1006;
 	public static final int KEYCODE_EULER = 1007;
 	public static final int KEYCODE_RANDOM = 1008;
+	public static final int KEYCODE_ABS = 1009;
+	public static final int KEYCODE_ROUND = 1010;
 
 	/* SENSOR */
 	public static final int KEYCODE_SENSOR1 = 1100;
@@ -68,13 +70,15 @@ public class CatKeyEvent extends KeyEvent {
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SQUAREROOT)), new String("sqrt( 0 )"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_EULER)), new String("e"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_RANDOM)), new String("rand( 0 , 1 )"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_ABS)), new String("abs( 0 )"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_ROUND)), new String("round( 0 )"));
 
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR1)), new String("X_Accelerometer"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR2)), new String("Y_Accelerometer"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR3)), new String("Z_Accelerometer"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR4)), new String("Azimuth_Orientation"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR5)), new String("Pitch_Orientation"));
-		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR6)), new String("Roll_Orientation"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR1)), new String("XACC_"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR2)), new String("YACC_"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR3)), new String("ZACC_"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR4)), new String("AZIM_"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR5)), new String("PITCH_"));
+		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_SENSOR6)), new String("ROLL_"));
 
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_PLUS)), new String("+"));
 		this.keyMap.put(new Integer(Integer.valueOf(CatKeyEvent.KEYCODE_MINUS)), new String("-"));
