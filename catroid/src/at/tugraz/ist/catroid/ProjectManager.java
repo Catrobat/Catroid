@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
@@ -90,6 +91,7 @@ public class ProjectManager {
 
 			return true;
 		} catch (Exception e) {
+			Log.e("CATROID", "Cannot load project.", e);
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 			return false;
 		}
@@ -106,6 +108,7 @@ public class ProjectManager {
 
 	public boolean saveProject() {
 		if (project == null) {
+			Log.e("CATROID", "[SAVE_PROJECT] project is null");
 			return false;
 		}
 		return StorageHandler.getInstance().saveProject(project);
@@ -120,7 +123,7 @@ public class ProjectManager {
 			currentScript = null;
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Cannot initialize default project.", e);
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 			return false;
 		}
