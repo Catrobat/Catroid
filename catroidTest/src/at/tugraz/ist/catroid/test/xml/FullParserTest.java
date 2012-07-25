@@ -139,15 +139,10 @@ public class FullParserTest extends InstrumentationTestCase {
 
 	public void testCostumeListParsing() {
 		FullParser parser = new FullParser();
-		InputStream xmlFileStream = null;
+
 		Project testProject = null;
 		try {
-			xmlFileStream = androidContext.getAssets().open("test_standard_project.xml");
-			testProject = parser.fullParser("test_standard_project.xml");
-		} catch (IOException e) {
-
-			e.printStackTrace();
-			fail("Exception caught at getting filestream");
+			testProject = parser.fullParser("test_standard_project_new_version.xml");
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parser Exception");
