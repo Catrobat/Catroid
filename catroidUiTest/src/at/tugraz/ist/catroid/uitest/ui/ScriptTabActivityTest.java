@@ -80,7 +80,8 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	public void testMainMenuButton() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.clickOnActionBarItem(android.R.id.home);
+		//		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
 				solo.getCurrentActivity() instanceof MainMenuActivity);
@@ -121,7 +122,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String spriteToTest = "";
 		String backgroundTabLabel = solo.getString(R.string.backgrounds);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.goToHomeActivity(getActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -151,7 +152,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	public void testTabImagesAndLabelColor() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.goToHomeActivity(getActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -196,7 +197,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(300);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
 		solo.enterText(0, spriteName);
 		solo.clickOnButton(solo.getString(R.string.ok));

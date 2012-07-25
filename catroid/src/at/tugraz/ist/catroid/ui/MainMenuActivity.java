@@ -82,9 +82,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 
+		projectManager = ProjectManager.getInstance();
 		Utils.loadProjectIfNeeded(this);
 
-		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
+		if (projectManager.getCurrentProject() == null) {
 			findViewById(R.id.current_project_button).setEnabled(false);
 		}
 
@@ -115,7 +116,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
 				Utils.displayErrorMessage(this, getResources().getString(R.string.error_load_project));
 			} else {
-				if (ProjectManager.INSTANCE.loadProject(projectName, this, true)) {
+				if (projectManager.loadProject(projectName, this, true)) {
 					writeProjectTitleInTextfield();
 				}
 			}

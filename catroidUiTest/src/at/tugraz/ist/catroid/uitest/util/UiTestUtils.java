@@ -39,7 +39,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
@@ -65,6 +67,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -591,5 +594,10 @@ public class UiTestUtils {
 		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 		ProjectManager.INSTANCE.setCurrentScript(testScript);
 		return ProjectManager.INSTANCE.saveProject();
+	}
+
+	public static void goToHomeActivity(Activity activity) {
+		Intent intent = new Intent(activity, MainMenuActivity.class);
+		activity.startActivity(intent);
 	}
 }

@@ -62,13 +62,8 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		// should be disabled no matter if test failed or succeeded
 		String settingsText = solo.getString(R.string.settings);
 		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
-		String buttonHomeText = solo.getString(R.string.home);
 
-		while (!solo.searchText(buttonHomeText)) {
-			solo.goBack();
-		}
-
-		solo.clickOnText(buttonHomeText);
+		UiTestUtils.goToHomeActivity(getActivity());
 		solo.clickOnText(settingsText);
 		solo.clickOnText(prefMsBricks);
 
@@ -88,7 +83,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 
 		//disable mindstorm bricks, if enabled at start
 		if (!prefs.getBoolean("setting_mindstorm_bricks", false)) {
-			solo.clickOnText(solo.getString(R.string.home));
+			UiTestUtils.goToHomeActivity(getActivity());
 			solo.clickOnText(settingsText);
 			solo.clickOnText(prefMsBricks);
 			solo.goBack();
@@ -106,7 +101,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		float screenWidth = 0;
 		float getTextViewXPosition = 0;
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -121,7 +116,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_y);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -137,7 +132,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
