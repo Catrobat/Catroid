@@ -28,6 +28,7 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -381,20 +382,15 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		if (!(((text.charAt(firstError) < 97) || (text.charAt(firstError) > 123))
 				&& ((text.charAt(firstError) < 65) || (text.charAt(firstError) > 91)) && (text.charAt(firstError) != '_'))) {
 			doSelectionAndHighlighting();
-			selectionEndIndex++;
-		}
-
-		//error at start of a number 
-		if (((text.charAt(firstError) >= 48) && (text.charAt(firstError) <= 58))) {
+			//selectionEndIndex++;
+		} else if (((text.charAt(firstError) >= 48) && (text.charAt(firstError) <= 58))) {
 			doSelectionAndHighlighting();
 		}
 
 		editMode = true;
 
-		//		if (selectionEndIndex == selectionStartIndex) {
-		//
-		//			selectionStartIndex = firstError;
-		//			selectionEndIndex = firstError + 1;
+		//		if (selectionEndIndex > getText().length()) {
+		//			selectionEndIndex = getText().length;
 		//		}
 
 		errorSpan.setSpan(COLOR_ERROR, selectionStartIndex, selectionEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -517,7 +513,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public void checkAndSetSelectedType() {
-
+		Log.i("info", currentlySelectedElement + " start: " + selectionStartIndex + " end: " + selectionEndIndex);
 		currentlySelectedElementType = NUMBER;
 
 		if (currentlySelectedElement.contains(",")) {
