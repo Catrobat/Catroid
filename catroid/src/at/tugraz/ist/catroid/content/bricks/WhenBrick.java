@@ -107,15 +107,17 @@ public class WhenBrick implements ScriptBrick {
 
 	@Override
 	public Brick clone() {
-		return new WhenBrick(getSprite(), whenScript);
+		return new WhenBrick(getSprite(), null);
 	}
 
 	public Script initScript(Sprite sprite) {
 		if (whenScript == null) {
-			whenScript = new WhenScript(sprite, this);
+			whenScript = new WhenScript(sprite);
 		}
 
 		return whenScript;
+		// TODO delete me
+		//return new WhenScript(sprite);
 	}
 
 }

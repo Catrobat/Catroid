@@ -214,6 +214,7 @@ public class UiTestUtils {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
+		solo.clickOnScreen(200, 200);
 	}
 
 	public static List<Brick> createTestProject() {

@@ -71,14 +71,16 @@ public class WhenStartedBrick implements ScriptBrick {
 
 	@Override
 	public Brick clone() {
-		return new WhenStartedBrick(getSprite(), script);
+		return new WhenStartedBrick(getSprite(), null);
 	}
 
 	public Script initScript(Sprite sprite) {
 		if (script == null) {
-			script = new StartScript(sprite, this);
+			script = new StartScript(sprite);
 		}
 
 		return script;
+		// TODO delete me
+		//return new StartScript(sprite);
 	}
 }

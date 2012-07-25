@@ -46,7 +46,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class BroadcastReceiverBrick implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient final ProjectManager projectManager;
 	protected BroadcastScript receiveScript;
 	private Sprite sprite;
 
@@ -56,7 +55,6 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
 		this.receiveScript = receiveScript;
-		this.projectManager = ProjectManager.getInstance();
 	}
 
 	public int getRequiredResources() {
@@ -71,11 +69,14 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 	}
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+		if (receiveScript == null) {
+			receiveScript = new BroadcastScript(sprite);
+		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
-		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
+		broadcastSpinner.setAdapter(ProjectManager.getInstance().messageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
 		broadcastSpinner.setFocusable(true);
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -99,7 +100,7 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 			}
 		});
 
-		int position = projectManager.messageContainer.getPositionOfMessageInAdapter(receiveScript
+		int position = ProjectManager.getInstance().messageContainer.getPositionOfMessageInAdapter(receiveScript
 				.getBroadcastMessage());
 		if (position > 0) {
 			broadcastSpinner.setSelection(position);
@@ -125,7 +126,8 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 						}
 						receiveScript.setBroadcastMessage(newMessage);
 
-						int position = projectManager.messageContainer.getPositionOfMessageInAdapter(newMessage);
+						int position = ProjectManager.getInstance().messageContainer
+								.getPositionOfMessageInAdapter(newMessage);
 
 						broadcastSpinner.setSelection(position);
 					}
@@ -160,15 +162,17 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 
 	@Override
 	public Brick clone() {
-		return new BroadcastReceiverBrick(sprite, receiveScript);
+		return new BroadcastReceiverBrick(sprite, null);
 	}
 
 	public Script initScript(Sprite sprite) {
 		if (receiveScript == null) {
-			receiveScript = new BroadcastScript(sprite, this);
+			receiveScript = new BroadcastScript(sprite);
 		}
 
 		return receiveScript;
+		// TODO delete me
+		//return new BroadcastScript(sprite);
 	}
 
 }

@@ -165,7 +165,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 				sprite.removeScript(scriptToEdit);
 				if (sprite.getNumberOfScripts() == 0) {
 					ProjectManager.getInstance().setCurrentScript(null);
-					adapter.notifyDataSetChanged();
+					adapter.updateProjectBrickList();
 					return true;
 				}
 				int lastScriptIndex = sprite.getNumberOfScripts() - 1;

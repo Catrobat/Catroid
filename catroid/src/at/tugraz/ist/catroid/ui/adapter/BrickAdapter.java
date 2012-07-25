@@ -257,8 +257,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				newScript.addBrick(brick);
 			}
 		}
-		// TODO check if this is needed
-		//		ProjectManager.getInstance().setCurrentScript(newScript);
+		ProjectManager.getInstance().setCurrentScript(newScript);
 		ProjectManager.getInstance().saveProject();
 	}
 
@@ -492,8 +491,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		Object item = getItem(position);
 
-		if (item instanceof ScriptBrick && !initInsertedBrick) {
-			return ((ScriptBrick) item).initScript(sprite).getScriptBrick().getView(context, position, this);
+		if (item instanceof ScriptBrick && (!initInsertedBrick || position != positionOfInsertedBrick)) {
+			// TODO delete me
+			//return ((ScriptBrick) item).initScript(sprite).getScriptBrick().getView(context, position, this);
+			return ((ScriptBrick) item).getView(context, position, this);
+			//return null;
 		}
 
 		View currentBrickView = ((Brick) item).getView(context, position, this);
@@ -530,48 +532,46 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void updateProjectBrickList() {
+		Log.e("blah", "blub");
 		initBrickList();
 		notifyDataSetChanged();
 	}
 
-	public void setTouchedScript(int index) {
-		if (!(index == currentScriptPosition)) {
-			if (!(index < 0)) {
-				if (!(brickList.get(index) instanceof ScriptBrick)) {
-					if (draggedBrick == null) {
-						ProjectManager.getInstance().setCurrentScript(
-								sprite.getScript(getScriptAndBrickIndexFromProject(index)[0]));
-						setCurrentScriptPosition(index);
-					}
-				}
+	private int getScriptIndexFromProject(int index) {
+		int scriptIndex = 0;
+		for (int i = 0; i < index;) {
+
+			i += sprite.getScript(scriptIndex).getBrickList().size() + 1;
+			if (i <= index) {
+				scriptIndex++;
 			}
 		}
+
+		return scriptIndex;
+	}
+
+	public void setTouchedScript(int index) {
+		int scriptIndex = getScriptIndexFromProject(index);
+		ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
+		setCurrentScriptPosition(index);
 	}
 
 	public void setCurrentScriptPosition(int position) {
 		currentScriptPosition = position;
 	}
 
-	@Deprecated
 	public int getChildCountFromLastGroup() {
 		return ProjectManager.getInstance().getCurrentSprite().getScript(getScriptCount() - 1).getBrickList().size();
 	}
 
-	@Deprecated
 	public Brick getChild(int scriptPosition, int brickPosition) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		return sprite.getScript(scriptPosition).getBrick(brickPosition);
 	}
 
-	@Deprecated
-	public int getGroupCount() {
-		return ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
-	}
-
-	@Deprecated
 	public int getScriptCount() {
-		return getGroupCount();
+		return ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 	}
 
 }

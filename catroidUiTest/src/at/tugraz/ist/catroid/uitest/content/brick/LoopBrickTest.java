@@ -113,7 +113,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.drag(20, 20, addedYPos, yPos.get(2) + 20, 100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		projectBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance: " + projectBrickList.get(1).getClass().getSimpleName(),
 				(projectBrickList.get(1) instanceof ChangeYByBrick));
 

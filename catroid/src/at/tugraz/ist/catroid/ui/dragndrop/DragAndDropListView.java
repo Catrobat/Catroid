@@ -172,7 +172,13 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 						WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView
 								.getLayoutParams();
 						dragViewParameters.windowAnimations = R.style.brick_delete;
-						getWindowManager().updateViewLayout(dragView, dragViewParameters);
+						// TODO delete me
+						// getWindowManager().updateViewLayout(dragView, dragViewParameters);
+						try {
+							getWindowManager().updateViewLayout(dragView, dragViewParameters);
+						} catch (IllegalArgumentException e) {
+							getWindowManager().addView(dragView, dragViewParameters);
+						}
 						dragAndDropListener.remove(itemPosition);
 						isVibrating = false;
 					} else {
@@ -234,7 +240,13 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		if (!dragNewBrick) {
 			WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
 			dragViewParameters.windowAnimations = 0;
-			getWindowManager().updateViewLayout(dragView, dragViewParameters);
+			// TODO delete me
+			// getWindowManager().updateViewLayout(dragView, dragViewParameters);
+			try {
+				getWindowManager().updateViewLayout(dragView, dragViewParameters);
+			} catch (IllegalArgumentException e) {
+				getWindowManager().addView(dragView, dragViewParameters);
+			}
 			dragNewBrick = false;
 		}
 
@@ -321,7 +333,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		dragViewParameters.y = y - dragView.getHeight() / 2;
 
 		WindowManager windowManager = getWindowManager();
-		windowManager.updateViewLayout(dragView, dragViewParameters);
+		try {
+			windowManager.updateViewLayout(dragView, dragViewParameters);
+		} catch (IllegalArgumentException e) {
+			windowManager.addView(dragView, dragViewParameters);
+		}
 	}
 
 	private void stopDragging() {
