@@ -36,6 +36,8 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -56,7 +58,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getScriptCount() > 0) {
-			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
+			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
 			adapter.setCurrentScriptPosition(0);
 		}
 
@@ -116,31 +118,22 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	private View.OnClickListener createAddBrickClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
-				listView.setHoveringBrick();
+				if (listView.setHoveringBrick()) {
+					return;
+				}
 				adapter.notifyDataSetChanged();
 				getParent().showDialog(DIALOG_ADD_BRICK);
 			}
 		};
 	}
 
-	public void setAddNewScript() {
-		addNewScript = true;
-	}
+	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
 
-	public void updateAdapterAfterAddNewBrick(DialogInterface dialog) {
-
-		if (addNewScript) {
-			addNewScript = false;
-		} else {
-			int visibleF = listView.getFirstVisiblePosition();
-			int visibleL = listView.getLastVisiblePosition();
-			int pos = ((visibleL - visibleF) / 2);
-			pos += visibleF;
-			pos = adapter.rearangeBricks(pos);
-			adapter.setInsertedBrickpos(pos);
-			listView.setInsertedBrick(pos);
-		}
-		adapter.notifyDataSetChanged();
+		int visibleF = listView.getFirstVisiblePosition();
+		int visibleL = listView.getLastVisiblePosition();
+		int pos = ((visibleL - visibleF) / 2);
+		pos += visibleF;
+		adapter.addNewBrick(pos, brickToBeAdded);
 	}
 
 	public void onCancel(DialogInterface arg0) {
@@ -157,8 +150,8 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
-			if (adapter.getItem(listView.getTouchedListPosition()) instanceof Script) {
-				scriptToEdit = (Script) adapter.getItem(listView.getTouchedListPosition());
+			if (adapter.getItem(listView.getTouchedListPosition()) instanceof ScriptBrick) {
+				scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition())).initScript(sprite);
 				MenuInflater inflater = getMenuInflater();
 				inflater.inflate(R.menu.script_menu, menu);
 			}
@@ -172,14 +165,13 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 				sprite.removeScript(scriptToEdit);
 				if (sprite.getNumberOfScripts() == 0) {
 					ProjectManager.getInstance().setCurrentScript(null);
-					adapter.notifyDataSetChanged();
+					adapter.updateProjectBrickList();
 					return true;
 				}
 				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
 				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
-				adapter.setCurrentScriptPosition(lastScriptIndex);
-				adapter.notifyDataSetChanged();
+				adapter.updateProjectBrickList();
 			}
 		}
 		return true;

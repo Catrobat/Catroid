@@ -83,9 +83,9 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.drag(10, 10, yPositionList.get(1), yPositionList.get(2) + 100, 30);
 		solo.sleep(200);
 		assertEquals("Two Bricks should be in bricklist", 2, brickListToCheck.size());
-		assertTrue("First brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
-		assertTrue("Second brick should be instance of StopAllSoundsBrick",
-				brickListToCheck.get(1) instanceof StopAllSoundsBrick);
+		assertTrue("First brick should be instance of StopAllSoundsBrick",
+				brickListToCheck.get(0) instanceof StopAllSoundsBrick);
+		assertTrue("Second brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
 		solo.clickOnText(spriteName);

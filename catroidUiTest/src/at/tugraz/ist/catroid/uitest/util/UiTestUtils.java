@@ -40,13 +40,18 @@ import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -209,6 +214,7 @@ public class UiTestUtils {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
+		solo.clickOnScreen(200, 200);
 	}
 
 	public static List<Brick> createTestProject() {
@@ -559,5 +565,60 @@ public class UiTestUtils {
 		}
 
 		return yPositionList;
+	}
+
+	public static int getAddedListItemYPosition(Solo solo) {
+		ArrayList<Integer> yPositionList = getListItemYPositions(solo);
+		int pos = (yPositionList.size() - 1) / 2;
+
+		return yPositionList.get(pos);
+	}
+
+	public static void longClickAndDrag(final Solo solo, final Activity activity, final float xFrom, final float yFrom,
+			final float xTo, final float yTo, final int steps) {
+		Handler handler = new Handler(activity.getMainLooper());
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
+				activity.dispatchTouchEvent(downEvent);
+			}
+		});
+
+		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
+
+		handler.post(new Runnable() {
+			public void run() {
+				double offsetX = xTo - xFrom;
+				offsetX /= steps;
+				double offsetY = yTo - yFrom;
+				offsetY /= steps;
+				for (int i = 0; i <= steps; i++) {
+					float x = xFrom + (float) (offsetX * i);
+					float y = yFrom + (float) (offsetY * i);
+					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+							MotionEvent.ACTION_MOVE, x, y, 0);
+					activity.dispatchTouchEvent(moveEvent);
+
+					solo.sleep(20);
+				}
+			}
+		});
+
+		solo.sleep(steps * 20 + 200);
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_UP, xTo, yTo, 0);
+				activity.dispatchTouchEvent(upEvent);
+			}
+		});
+
+		solo.sleep(1000);
+
 	}
 }

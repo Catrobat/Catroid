@@ -96,7 +96,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	public void testSetSizeToBrick() {
 		int childrenCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter()
 				.getChildCountFromLastGroup();
-		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
+		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getScriptCount();
 		assertEquals("Incorrect number of bricks.", 3, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 

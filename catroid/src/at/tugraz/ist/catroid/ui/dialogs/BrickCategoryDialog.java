@@ -70,7 +70,7 @@ public class BrickCategoryDialog extends Dialog {
 	}
 
 	private void abort() {
-		activity.setDontcreateNewBrick();
+		activity.setDontCreateNewBrick();
 	}
 
 	private void setupBrickCategories(ListView listView) {

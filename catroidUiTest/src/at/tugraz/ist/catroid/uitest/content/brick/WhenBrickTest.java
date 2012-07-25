@@ -69,7 +69,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 	}
 
 	public void testWhenBrick() {
-		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
+		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getScriptCount();
 		ArrayList<Integer> yPos;
 		int addedYPos;
 

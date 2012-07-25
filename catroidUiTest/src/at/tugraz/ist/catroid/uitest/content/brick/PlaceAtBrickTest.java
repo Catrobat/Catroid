@@ -79,7 +79,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	@Smoke
 	public void testPlaceAtBrick() throws InterruptedException {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		int groupCount = getActivity().getAdapter().getGroupCount();
+		int groupCount = getActivity().getAdapter().getScriptCount();
 
 		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);

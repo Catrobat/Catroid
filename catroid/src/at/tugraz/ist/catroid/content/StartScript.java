@@ -22,16 +22,23 @@
  */
 package at.tugraz.ist.catroid.content;
 
+import android.util.Log;
 import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 
 public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
+	private WhenStartedBrick brick;
 
 	public StartScript(Sprite sprite) {
 		super(sprite);
 		super.isFinished = false;
+	}
+
+	public StartScript(Sprite sprite, WhenStartedBrick brick) {
+		this(sprite);
+		this.brick = brick;
 	}
 
 	@Override
@@ -43,6 +50,12 @@ public class StartScript extends Script {
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		return new WhenStartedBrick(sprite, this);
+		Log.e("blah", "reached");
+		if (brick == null) {
+			brick = new WhenStartedBrick(sprite, this);
+		}
+		Log.e("blah", "StartScript: " + brick.initScript(sprite) + ", " + this);
+
+		return brick;
 	}
 }

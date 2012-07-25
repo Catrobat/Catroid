@@ -79,6 +79,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	private boolean dimBackground;
 	private boolean isVibrating;
+	private boolean dragNewBrick;
+
+	private long blinkAnimationTimestamp;
 
 	private DragAndDropListener dragAndDropListener;
 
@@ -110,7 +113,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	}
 
 	public void setInsertedBrick(int pos) {
-
 		this.position = pos;
 		newView = true;
 	}
@@ -166,16 +168,25 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			switch (action) {
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
-
-					stopDragging();
-					hideTrashView();
-
 					if (x > getWidth() * 3 / 4) {
+						WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView
+								.getLayoutParams();
+						dragViewParameters.windowAnimations = R.style.brick_delete;
+						// TODO delete me
+						// getWindowManager().updateViewLayout(dragView, dragViewParameters);
+						try {
+							getWindowManager().updateViewLayout(dragView, dragViewParameters);
+						} catch (IllegalArgumentException e) {
+							getWindowManager().addView(dragView, dragViewParameters);
+						}
 						dragAndDropListener.remove(itemPosition);
 						isVibrating = false;
 					} else {
 						dragAndDropListener.drop(itemPosition);
 					}
+
+					stopDragging();
+					hideTrashView();
 
 					dimBackground = false;
 					break;
@@ -185,10 +196,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 					scrollListWithDraggedItem(y);
 
 					dragTouchedListItem(x, (int) event.getRawY());
-
-					if (itemPosition != INVALID_POSITION) {
-						dragItemInList(y, itemPosition);
-					}
+					dragItemInList(y, itemPosition);
 
 					dimBackground = true;
 					break;
@@ -229,6 +237,19 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		startDragging(bitmap, touchPointY);
 
+		if (!dragNewBrick) {
+			WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
+			dragViewParameters.windowAnimations = 0;
+			// TODO delete me
+			// getWindowManager().updateViewLayout(dragView, dragViewParameters);
+			try {
+				getWindowManager().updateViewLayout(dragView, dragViewParameters);
+			} catch (IllegalArgumentException e) {
+				getWindowManager().addView(dragView, dragViewParameters);
+			}
+			dragNewBrick = false;
+		}
+
 		dragAndDropListener.drag(itemPosition, itemPosition);
 		dimBackground = true;
 
@@ -266,16 +287,18 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
 		dragViewParameters.y = y - bitmap.getHeight() / 2;
+		dragViewParameters.windowAnimations = R.style.brick_new;
 
 		WindowManager windowManager = getWindowManager();
+
 		windowManager.addView(imageView, dragViewParameters);
+
 		dragView = imageView;
 	}
 
 	private void dragTouchedListItem(int x, int y) {
 
 		ViewGroup.LayoutParams trashViewParameters = trashView.getLayoutParams();
-		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
 
 		if (x > 100 && x < getWidth() - 100) {
 			float alpha = ((float) (getWidth() - x)) / (getWidth() - 100);
@@ -306,10 +329,15 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			}
 		}
 
+		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
 		dragViewParameters.y = y - dragView.getHeight() / 2;
 
 		WindowManager windowManager = getWindowManager();
-		windowManager.updateViewLayout(dragView, dragViewParameters);
+		try {
+			windowManager.updateViewLayout(dragView, dragViewParameters);
+		} catch (IllegalArgumentException e) {
+			windowManager.addView(dragView, dragViewParameters);
+		}
 	}
 
 	private void stopDragging() {
@@ -351,8 +379,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		int[] location = new int[2];
 		if (newView) {
 			itemPosition = this.position;
-			(getChildAt(getChildCount() - 1)).getLocationOnScreen(location);
-			touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
+			View tempView = (getChildAt(getChildCount() - 1));
+			if (tempView != null) {
+				tempView.getLocationOnScreen(location);
+				touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
+			}
 			newView = false;
 		} else {
 			itemPosition = pointToPosition(view.getLeft(), view.getTop());
@@ -404,19 +435,41 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 
 		if ((y > lowerDragBound || y < upperDragBound)) {
-			dragAndDropListener.drag(previousItemPosition, itemPosition);
+			if (previousItemPosition != itemPosition) {
+				dragAndDropListener.drag(previousItemPosition, itemPosition);
+			}
 			previousItemPosition = itemPosition;
-
 		}
 	}
 
-	public void setHoveringBrick() {
-		if (dragAndDropListener != null && dragView != null) {
-			dragAndDropListener.setTouchedScript(position);
-			stopDragging();
-			dragAndDropListener.drop(position);
-			trashView.setVisibility(GONE);
-			dimBackground = false;
+	public boolean setHoveringBrick() {
+		if (dragView == null) {
+			return false;
 		}
+
+		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
+
+		long now = System.currentTimeMillis();
+		if (blinkAnimationTimestamp < now) {
+			dragViewParameters.windowAnimations = R.style.brick_blink;
+			getWindowManager().removeView(dragView);
+			getWindowManager().addView(dragView, dragViewParameters);
+			blinkAnimationTimestamp = now + 800;
+		}
+
+		return true;
+
+		// TODO check if above version is ok
+		//		if (dragAndDropListener != null && dragView != null) {
+		//			dragAndDropListener.setTouchedScript(position);
+		//			stopDragging();
+		//			dragAndDropListener.drop(position);
+		//			trashView.setVisibility(GONE);
+		//			dimBackground = false;
+		//		}
+	}
+
+	public void setDraggingNewBrick() {
+		dragNewBrick = true;
 	}
 }
