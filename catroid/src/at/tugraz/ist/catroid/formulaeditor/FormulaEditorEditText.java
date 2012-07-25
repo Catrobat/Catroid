@@ -49,7 +49,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	public static final String[] GROUP_NUMBERS = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "." };
 	public static final String[] GROUP_OPERATORS = new String[] { "+", "-", "*", "/", "^" };
 	public static final String[] GROUP_FUNCTIONS = new String[] { "sin", "cos", "tan", "ln", "log", "pi", "sqrt", "e",
-			"rand" };
+			"rand", "abs", "round" };
 
 	public static final int NUMBER = 0;
 	public static final int OPERATOR = 1;
