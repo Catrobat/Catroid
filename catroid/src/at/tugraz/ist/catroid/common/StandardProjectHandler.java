@@ -179,8 +179,8 @@ public class StandardProjectHandler {
 	private static File savePictureFromResourceInProject(String project, String outputName, int fileId, Context context)
 			throws IOException {
 
-		final String imagePath = Utils.buildPath(Utils.buildProjectPath(project), Constants.IMAGE_DIRECTORY, outputName);
-		File testImage = new File(imagePath);
+		final String path = Utils.buildPath(Utils.buildProjectPath(project), Constants.IMAGE_DIRECTORY, outputName);
+		File testImage = new File(path);
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
