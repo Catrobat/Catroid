@@ -125,6 +125,12 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		ProjectManager.INSTANCE.saveProject();
+	}
+
+	@Override
 	public ArrayList<Object> onRetainNonConfigurationInstance() {
 		ArrayList<Object> savedMember = new ArrayList<Object>();
 		savedMember.add(selectedCategory);

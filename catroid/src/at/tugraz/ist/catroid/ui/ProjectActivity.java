@@ -236,16 +236,4 @@ public class ProjectActivity extends ListActivity {
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-		}
-	}
-
-	public void handleProjectActivityItemLongClick(View view) {
-	}
 }

@@ -194,11 +194,10 @@ public class MyProjectsActivity extends ListActivity {
 		}
 
 		projectList.remove(projectToEdit);
-		if (projectList.size() == 0) { // no projects left
+		if (projectList.size() == 0) {
 			projectManager.initializeDefaultProject(MyProjectsActivity.this);
 		} else {
 			projectManager.loadProject((projectList.get(0)).projectName, MyProjectsActivity.this, false);
-			projectManager.saveProject();
 		}
 
 		updateProjectTitle();

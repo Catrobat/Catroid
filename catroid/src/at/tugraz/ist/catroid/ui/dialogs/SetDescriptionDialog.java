@@ -60,7 +60,6 @@ public class SetDescriptionDialog extends TextDialog {
 
 	private void setDescription(String description) {
 		projectManager.getCurrentProject().description = description;
-		projectManager.saveProject();
 	}
 
 	private void initKeyAndClickListener() {

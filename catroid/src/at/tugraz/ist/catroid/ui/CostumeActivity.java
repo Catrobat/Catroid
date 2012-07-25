@@ -97,15 +97,6 @@ public class CostumeActivity extends ListActivity {
 
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-		}
-	}
-
 	public void updateCostumeAdapter(String name, String fileName) {
 		name = Utils.getUniqueCostumeName(name);
 		CostumeData costumeData = new CostumeData();

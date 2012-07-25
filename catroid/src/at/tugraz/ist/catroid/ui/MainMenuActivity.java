@@ -39,7 +39,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
@@ -154,12 +153,6 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		if (ProjectManager.INSTANCE.getCurrentProject() != null
-				&& StorageHandler.getInstance().projectExistsCheckCase(
-						ProjectManager.INSTANCE.getCurrentProject().getName())) {
-			ProjectManager.INSTANCE.saveProject();
-		}
-
 		switch (id) {
 			case DIALOG_NEW_PROJECT:
 				dialog = new NewProjectDialog(this).dialog;
@@ -249,11 +242,7 @@ public class MainMenuActivity extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		// onPause is sufficient --> gets called before "process_killed",
-		// onStop(), onDestroy(), onRestart()
-		// also when you switch activities
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
-			ProjectManager.INSTANCE.saveProject();
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
 					.getName());
 		}
