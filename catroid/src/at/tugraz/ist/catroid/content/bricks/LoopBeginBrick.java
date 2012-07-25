@@ -22,6 +22,9 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import at.tugraz.ist.catroid.content.Sprite;
 
 public abstract class LoopBeginBrick implements NestingBrick {
@@ -73,6 +76,18 @@ public abstract class LoopBeginBrick implements NestingBrick {
 		} else {
 			return true;
 		}
+	}
+
+	public void createFully() {
+		loopEndBrick = new LoopEndBrick(sprite, this);
+	}
+
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		nestingBrickList.add(this);
+		nestingBrickList.add(loopEndBrick);
+
+		return nestingBrickList;
 	}
 
 	@Override

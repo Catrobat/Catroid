@@ -164,7 +164,11 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 	}
 
 	public Script initScript(Sprite sprite) {
-		return new BroadcastScript(sprite);
+		if (receiveScript == null) {
+			receiveScript = new BroadcastScript(sprite, this);
+		}
+
+		return receiveScript;
 	}
 
 }

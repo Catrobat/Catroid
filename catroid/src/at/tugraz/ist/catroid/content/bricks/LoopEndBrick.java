@@ -22,7 +22,11 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -122,5 +126,18 @@ public class LoopEndBrick implements NestingBrick {
 		} else {
 			return true;
 		}
+	}
+
+	public void createFully() {
+		loopBeginBrick = new ForeverBrick(sprite);
+		Log.w("LoopEndBrick", "Not supposed to create the LoopBeginBrick!");
+	}
+
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		nestingBrickList.add(loopBeginBrick);
+		nestingBrickList.add(this);
+
+		return nestingBrickList;
 	}
 }

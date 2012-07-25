@@ -44,6 +44,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
@@ -59,7 +60,6 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	protected ActivityHelper activityHelper;
 
 	private TabHost tabHost;
-	private boolean addScript;
 	private boolean isCanceled;
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
@@ -76,7 +76,8 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	public static final int DIALOG_DELETE_COSTUME = 4;
 	public static final int DIALOG_DELETE_SOUND = 5;
 
-	private boolean dontcreateNewBrick;
+	private boolean dontCreateNewBrick;
+	private Brick brickToBeAdded;
 
 	private void setupTabHost() {
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -86,9 +87,8 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addScript = false;
 		isCanceled = false;
-		dontcreateNewBrick = false;
+		dontCreateNewBrick = false;
 
 		setContentView(R.layout.activity_scripttab);
 		Utils.loadProjectIfNeeded(this);
@@ -272,32 +272,22 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	}
 
 	public void onDismiss(DialogInterface dialogInterface) {
-
-		if (!dontcreateNewBrick) {
-			if (!isCanceled) {
-				if (addScript) {
-
-					((ScriptActivity) getCurrentActivity()).setAddNewScript();
-					addScript = false;
-				}
-
-				((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(dialogInterface);
-
-			}
-			isCanceled = false;
+		if (!dontCreateNewBrick && !isCanceled) {
+			((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(brickToBeAdded);
 		}
-		dontcreateNewBrick = false;
+		isCanceled = false;
+		dontCreateNewBrick = false;
 	}
 
 	public void onCancel(DialogInterface dialog) {
 		isCanceled = true;
 	}
 
-	public void setNewScript() {
-		addScript = true;
+	public void setDontCreateNewBrick() {
+		dontCreateNewBrick = true;
 	}
 
-	public void setDontcreateNewBrick() {
-		dontcreateNewBrick = true;
+	public void addThisBrick(Brick brick) {
+		brickToBeAdded = brick;
 	}
 }
