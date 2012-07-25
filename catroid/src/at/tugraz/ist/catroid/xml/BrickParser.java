@@ -63,7 +63,6 @@ public class BrickParser {
 				String brickName = currentBrickNode.getNodeName();
 				String brickReferenceAttr = References.getReferenceAttribute(brickElement);
 				if (brickReferenceAttr != null) {
-					//NodeList loopEndBricksInThisScript = scriptElement.getElementsByTagName("Bricks.LoopEndBrick");
 					String referenceQuery = brickReferenceAttr.substring(brickReferenceAttr.lastIndexOf("Bricks"));
 					if (brickName.equals("Bricks.LoopEndBrick") && (referencedObjects.containsKey(referenceQuery))) {
 						foundBrickObj = (Brick) referencedObjects.get(referenceQuery);

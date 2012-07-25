@@ -83,7 +83,6 @@ public class CostumeParser {
 			return false;
 		} else {
 			valueField.set(brickObject, referencedCostume);
-			//referencedObjects.remove(query + suffix);
 		}
 		return true;
 	}
