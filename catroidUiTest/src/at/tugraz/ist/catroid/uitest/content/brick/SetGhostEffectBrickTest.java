@@ -69,7 +69,7 @@ public class SetGhostEffectBrickTest extends ActivityInstrumentationTestCase2<Sc
 	@Smoke
 	public void testSetGhostEffectBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		int groupCount = getActivity().getAdapter().getGroupCount();
+		int groupCount = getActivity().getAdapter().getScriptCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 

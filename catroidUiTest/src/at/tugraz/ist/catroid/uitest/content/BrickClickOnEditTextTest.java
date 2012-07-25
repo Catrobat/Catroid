@@ -116,7 +116,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
 
 		solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(1));
-		solo.clickOnText(spriteName);
+		solo.clickOnScreen(200, 200);
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
@@ -131,8 +131,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
 
 		solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(2));
-
-		solo.clickOnText(spriteName);
+		solo.clickOnScreen(200, 200);
 
 		brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist", 2, brickListToCheck.size());
