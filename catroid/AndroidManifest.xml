@@ -47,7 +47,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
-            android:name=".io.StartActivity"
+            android:name=".ui.StartActivity"
             android:configChanges="keyboardHidden|orientation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -16,45 +16,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.io;
+package at.tugraz.ist.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.io.LoadingDaemon;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
 /**
- * @author Markus
+ * @author MH
  * 
  */
 public class StartActivity extends AndroidApplication {
 
-	public static LoadingDaemon daemon;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		daemon = LoadingDaemon.getInstance();
+		LoadingDaemon daemon = LoadingDaemon.getInstance();
 		initialize(daemon, false);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onPostCreate(android.os.Bundle)
-	 */
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onPostCreate(savedInstanceState);
-		Intent intent = new Intent(StartActivity.this, MainMenuActivity.class);
+		Intent intent = new Intent(this, MainMenuActivity.class);
 		startActivity(intent);
+		finish();
+
 	}
 }
