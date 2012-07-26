@@ -16,20 +16,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.io;
+package at.tugraz.ist.catroid.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.files.FileHandle;
+import android.content.Intent;
+import android.os.Bundle;
+import at.tugraz.ist.catroid.io.LoadingDaemon;
+
+import com.badlogic.gdx.backends.android.AndroidApplication;
 
 /**
- * @author Markus
+ * @author MH
  * 
  */
-public class AbsoluteFileHandleResolver implements FileHandleResolver {
+public class StartActivity extends AndroidApplication {
 
-	public FileHandle resolve(String fileName) {
-		return Gdx.files.absolute(fileName);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		LoadingDaemon daemon = LoadingDaemon.getInstance();
+		initialize(daemon, false);
+		Intent intent = new Intent(this, MainMenuActivity.class);
+		startActivity(intent);
+		finish();
+
 	}
-
 }

@@ -33,6 +33,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -112,6 +113,8 @@ public class StageListener implements ApplicationListener {
 	private int testHeight = 0;
 
 	private StageDialog stageDialog;
+
+	private boolean texturesRendered = false;
 
 	public StageListener() {
 	}
@@ -254,9 +257,15 @@ public class StageListener implements ApplicationListener {
 			paused = true;
 			firstStart = true;
 			reloadProject = false;
+			texturesRendered = false;
 			synchronized (stageDialog) {
 				stageDialog.notify();
 			}
+		}
+
+		if (!texturesRendered) {
+			renderTextures();
+			texturesRendered = true;
 		}
 
 		stage.getRoot().sortChildren(costumeComparator);
@@ -433,6 +442,17 @@ public class StageListener implements ApplicationListener {
 			case STRETCH:
 				screenMode = ScreenModes.MAXIMIZE;
 				break;
+		}
+	}
+
+	private void renderTextures() {
+		List<Sprite> sprites = project.getSpriteList();
+		for (int i = 0; i < sprites.size(); i++) {
+			List<CostumeData> data = sprites.get(i).getCostumeDataList();
+			for (int j = 0; j < data.size(); j++) {
+				CostumeData costumeData = data.get(j);
+				costumeData.setTextureRegion();
+			}
 		}
 	}
 

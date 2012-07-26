@@ -24,11 +24,9 @@ package at.tugraz.ist.catroid;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
@@ -38,8 +36,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.LoadingDaemon;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
-
-import com.badlogic.gdx.graphics.Pixmap;
 
 public class ProjectManager {
 
@@ -67,8 +63,6 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
-			LoadingDaemon.getInstance().stopDaemon();
-			LoadingDaemon.getInstance().clear();
 
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
@@ -86,10 +80,9 @@ public class ProjectManager {
 			currentSprite = null;
 			currentScript = null;
 
-			loadCurrentCostumesInDaemon();
-			LoadingDaemon.getInstance().startDaemon();
-
 			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
+
+			LoadingDaemon.getInstance().initAndStart();
 
 			return true;
 		} catch (Exception e) {
@@ -253,14 +246,4 @@ public class ProjectManager {
 		return true;
 	}
 
-	private void loadCurrentCostumesInDaemon() {
-		Iterator<Sprite> spriteIter = project.getSpriteList().iterator();
-		while (spriteIter.hasNext()) {
-			Iterator<CostumeData> costumeDataIter = spriteIter.next().getCostumeDataList().iterator();
-			while (costumeDataIter.hasNext()) {
-				LoadingDaemon.getInstance().load(costumeDataIter.next().getAbsolutePath(), Pixmap.class);
-				//LoadingDaemon.getInstance().load(costumeDataIter.next().getAbsolutePath(), Texture.class);
-			}
-		}
-	}
 }
