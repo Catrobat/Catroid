@@ -38,7 +38,7 @@ public class DataStructureTest extends AndroidTestCase {
 			assertNotNull("Formula is not parsed correctly: " + parserTest.getInput() + "=", parserFormulaElement);
 
 			assertEquals("Formula interpretation is not as expected: " + parserTest.getInput() + "=",
-					parserTest.getOutput(), parserFormulaElement.interpretRecursive());
+					parserTest.getOutput(), parserFormulaElement.interpretRecursive(null));
 		}
 	}
 

@@ -121,6 +121,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		brickSpace.measure(0, 0);
 		catKeyboardView = (CatKeyboardView) findViewById(R.id.keyboardcat);
 		catKeyboardView.setEditText(textArea);
+		catKeyboardView.setCurrentBrick(currentBrick);
 
 		textArea.init(this, brickSpace.getMeasuredHeight(), catKeyboardView);
 	}

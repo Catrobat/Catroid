@@ -1,4 +1,4 @@
-// $ANTLR 3.4 src/CalcGrammar.g 2012-07-25 14:12:33
+// $ANTLR 3.4 src/CalcGrammar.g 2012-07-26 14:42:36
 
 package at.tugraz.ist.catroid.formulaeditor;
 

@@ -189,6 +189,38 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:text="@string/plus_symbol" />
+                
+                <TextView
+                    android:id="@+id/nxt_tone_freq_seekBar_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/white"
+                    android:gravity="right"
+                    android:minHeight="30dip"
+                    android:minWidth="50dip"
+                    android:paddingRight="5dip"
+                    android:text="0.0"
+                    android:textSize="20dip" >
+                </TextView>
+
+                <EditText
+                    android:id="@+id/nxt_tone_freq_seekBar_edit_text"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:visibility="gone"
+                    android:gravity="right"
+                    android:inputType="number|numberDecimal|numberSigned"
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    android:text="0.0" >
+                </EditText>
+
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

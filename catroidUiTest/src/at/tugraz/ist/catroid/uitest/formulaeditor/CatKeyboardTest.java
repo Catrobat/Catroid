@@ -99,7 +99,7 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		UiTestUtils.clearAllUtilTestProjects();
 		this.project = null;
 		super.tearDown();
-		solo.sleep(1000);
+		Thread.sleep(1000);
 	}
 
 	@Smoke
@@ -108,17 +108,6 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(0);
 		solo.clickOnEditText(1);// View.performclick()
-		//		solo.clickOnEditText(1);
-		//		int size = solo.getViews().size();
-		//		Log.i("info", "solo.getViews().size():" + size);
-		//		solo.getViews().get(1).performClick();
-		//		solo.getViews().get(1).performClick();
-
-		//Didnt worked to test the keyboard:
-		//				solo.sendKey(8); 
-		//		solo.sleep(1000);
-		//		solo.clickOnText("+");
-		//		solo.clickOnImage(0);
 
 		this.clickOnKey("del");
 		this.clickOnKey("del");
@@ -189,11 +178,6 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		assertEquals("Wrong button clicked", "^", text.getText().toString().substring(0, 1));
 		this.clickOnKey("del");
 
-		//Test the 3 Buttons with this methods:
-		//		solo.clickOnButton(0); // Ok-Button
-		//		solo.clickOnButton(1); // UNDO - Button
-		//		solo.clickOnButton(2); // Cancel - Button 
-
 		solo.clickOnButton(2);
 
 	}
@@ -242,10 +226,10 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 				text.getText().toString().substring(0, "rand( 0 , 1 )".length()));
 		this.clickOnKey("del");
 
-		//		this.clickOnKey("pi");
-		//		assertEquals("Wrong button clicked", "pi", text.getText().toString().substring(0, "pi".length()));
-		//		this.clickOnKey("del");
-		//		this.clickOnKey("del");
+		this.clickOnKey("pi");
+		assertEquals("Wrong button clicked", "pi", text.getText().toString().substring(0, "pi".length()));
+		this.clickOnKey("del");
+		this.clickOnKey("del");
 
 		this.clickOnKey("e");
 		assertEquals("Wrong button clicked", "e", text.getText().toString().substring(0, "e".length()));
@@ -271,32 +255,54 @@ public class CatKeyboardTest extends android.test.ActivityInstrumentationTestCas
 		this.clickOnKey("keyboardswitch");
 		this.clickOnKey("keyboardswitch");
 		this.clickOnKey("x-accel");
-		assertEquals("Wrong button clicked", "X_Accelerometer",
-				text.getText().toString().substring(0, "X_Accelerometer".length()));
+		assertEquals("Wrong button clicked", "XACC_", text.getText().toString().substring(0, "XACC_".length()));
 		this.clickOnKey("del");
 
-		//		this.clickOnKey("y-accel");
-		//		assertEquals("Wrong button clicked", "Y_Accelerometer", text.getText().toString().substring(0, "Y_Accelerometer".length()));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("z-accel");
-		//		assertEquals("Wrong button clicked", "Z_Accelerometer", text.getText().toString().substring(0, "Z_Accelerometer".length()));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("pitch");
-		//		assertEquals("Wrong button clicked", "Pitch_Orientation", text.getText().toString().substring(0, "Pitch_Orientation".length()));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("roll");
-		//		assertEquals("Wrong button clicked", "'Roll_Orientation", text.getText().toString().substring(0, "Roll_Orientation".length()));
-		//		this.clickOnKey("del");
-		//
-		//		this.clickOnKey("azimuth");
-		//		assertEquals("Wrong button clicked", "'Azimuth_Orientation", text.getText().toString().substring(0, "Azimuth_Orientation".length()));
-		//		this.clickOnKey("del");
+		this.clickOnKey("y-accel");
+		assertEquals("Wrong button clicked", "YACC_", text.getText().toString().substring(0, "YACC_".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("z-accel");
+		assertEquals("Wrong button clicked", "ZACC_", text.getText().toString().substring(0, "ZACC_".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("pitch");
+		assertEquals("Wrong button clicked", "PITCH_", text.getText().toString().substring(0, "PITCH_".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("roll");
+		assertEquals("Wrong button clicked", "ROLL_", text.getText().toString().substring(0, "ROLL_".length()));
+		this.clickOnKey("del");
+
+		this.clickOnKey("azimuth");
+		assertEquals("Wrong button clicked", "AZIM_", text.getText().toString().substring(0, "AZIM_".length()));
+		this.clickOnKey("del");
 
 		solo.clickOnButton(2);
 	}
+
+	//	public void testLanguageKeys() {
+	//
+	//		solo.clickOnEditText(0);
+	//		solo.clickOnEditText(0);
+	//		solo.clickOnEditText(1);
+	//
+	//		this.clickOnKey("del");
+	//		this.clickOnKey("del");
+	//		this.clickOnKey("del");
+	//		this.clickOnKey("del");
+	//
+	//		Log.i("info", "searchText for ',' " + solo.searchText(","));
+	//		Log.i("info", "searchButton for ',' " + solo.searchButton(","));
+	//		Log.i("info", "imageButton size: " + solo.getCurrentImageButtons().size());
+	//		Log.i("info", "imageViews size: " + solo.getCurrentImageViews().size());
+	//		Log.i("info", "listViews size: " + solo.getCurrentListViews().size());
+	//		Log.i("info", "allOpenedActivities size: " + solo.getAllOpenedActivities().size());
+	//		Log.i("info", "currentActivity: " + solo.getCurrentActivity());
+	//		Log.i("info", "allCurrentButtons size: " + solo.getCurrentButtons().size());
+	//
+	//		assertEquals(solo.searchText(","), true);
+	//	}
 
 	private void createProject(String projectName) throws InterruptedException {
 

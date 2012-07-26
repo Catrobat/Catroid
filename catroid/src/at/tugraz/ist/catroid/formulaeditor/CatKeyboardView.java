@@ -38,14 +38,17 @@
 
 package at.tugraz.ist.catroid.formulaeditor;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import android.content.Context;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyboardActionListener {
 
@@ -56,6 +59,7 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 	//	CatKeyboard symbols_shifted;
 	private CatKeyboard symbolsFunctions;
 	private CatKeyboard symbolsSensors;
+	private Brick currentBrick;
 
 	public CatKeyboardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -71,13 +75,15 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 			//			this.symbols_shifted = new CatKeyboard(this.getContext(), R.xml.symbols_de_shift);
 			this.symbolsFunctions = new CatKeyboard(this.getContext(), R.xml.symbols_de_functions);
 			this.symbolsSensors = new CatKeyboard(this.getContext(), R.xml.symbols_de_sensors);
-			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is DE");
+			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is DE");
+
 		} else {//if (Locale.getDefault().getDisplayLanguage().contentEquals(Locale.ENGLISH.getDisplayLanguage())) {
 			this.symbolsNumbers = new CatKeyboard(this.getContext(), R.xml.symbols_eng_numbers);
 			//			this.symbols_shifted = new CatKeyboard(this.getContext(), R.xml.symbols_eng_shift);
 			this.symbolsFunctions = new CatKeyboard(this.getContext(), R.xml.symbols_eng_functions);
 			this.symbolsSensors = new CatKeyboard(this.getContext(), R.xml.symbols_eng_sensors);
-			//			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is ENG");
+			Log.i("info", "FormulaEditorDialog.onCreate() - DisplayLanguage is ENG");
+
 		}
 		//Log.i("info", "CatKeyBoardView() - DisplayLanguage:" + Locale.getDefault().getDisplayLanguage());
 		this.setKeyboard(symbolsNumbers);
@@ -100,6 +106,21 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 
 	public void setEditText(FormulaEditorEditText editText) {
 		this.editText = editText;
+	}
+
+	public void setCurrentBrick(Brick currentBrick) {
+		this.currentBrick = currentBrick;
+		Log.i("info", "currentBrick:" + this.currentBrick);
+
+		if (this.currentBrick.toString().startsWith("at.tugraz.ist.catroid.content.bricks.NXTMotorActionBri")
+				|| this.currentBrick.toString().startsWith("at.tugraz.catroid.content.bricks.NXTPlayToneBri")) {
+			Log.i("info", "SeekBar Bricket selected:");
+			ArrayList<Key> sensorKeys = (ArrayList<Key>) this.symbolsSensors.getKeys();
+			Key slider = sensorKeys.get(sensorKeys.size() - 3);
+			slider.label = new String("Slider");
+			slider.codes[0] = CatKeyEvent.KEYCODE_SENSOR7;
+
+		}
 	}
 
 	@Override
@@ -308,6 +329,10 @@ public class CatKeyboardView extends KeyboardView implements KeyboardView.OnKeyb
 				break;
 			case CatKeyEvent.KEYCODE_SENSOR6:
 				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, CatKeyEvent.KEYCODE_SENSOR6));
+				editText.checkAndModifyKeyInput(cKE);
+				break;
+			case CatKeyEvent.KEYCODE_SENSOR7:
+				cKE = new CatKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, CatKeyEvent.KEYCODE_SENSOR7));
 				editText.checkAndModifyKeyInput(cKE);
 				break;
 		}
