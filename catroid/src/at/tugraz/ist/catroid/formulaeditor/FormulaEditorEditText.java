@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.formulaeditor;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
@@ -94,6 +95,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		//this.setBackgroundColor(getResources().getColor(R.color.transparent));
 		this.catKeyboardView = ckv;
 		//this.setCursorVisible(true);
+		//		int inType = getInputType(); // backup the input type
+		//		setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE); // disable soft input
+		//		this.onTouchEvent(motion); // call native handler
+		//		this.setInputType(inType); // restore input type
+		this.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
 		if (brickHeight < 100) { //this height seems buggy for some high bricks, still need it...
 			this.setLines(7);
@@ -113,6 +119,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setText(formulaAsText);
 		super.setSelection(formulaAsText.length());
 		updateSelectionIndices();
+
 		//this.setCursorVisible(true);
 
 	}
@@ -582,12 +589,19 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	}
 
 	public boolean onTouch(View v, MotionEvent motion) {
+
+		//		int inType = getInputType(); // backup the input type
+		//		setInputType(InputType.TYPE_NULL); // disable soft input
+		//		this.onTouchEvent(motion); // call native handler
+		//		this.setInputType(inType); // restore input type
+
 		if (motion.getAction() == android.view.MotionEvent.ACTION_DOWN) {
 			//updateSelectionIndices();
 		} else if (motion.getAction() == android.view.MotionEvent.ACTION_UP) {
 			//Log.i("info", "Act up");
 			//updateSelectionIndices();
 		}
+
 		gestureDetector.onTouchEvent(motion);
 		return false;
 	}

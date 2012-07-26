@@ -31,19 +31,33 @@ public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final int ROOT_ELEMENT = 0;
-	private FormulaElement root;
+	private transient FormulaElement root;
+	private String textRepresentation = "0";
 	private transient Integer formulaTextFieldId = null;
 
+	//	public Formula() {
+	//		root = new FormulaElement(FormulaElement.ElementType.VALUE, "0", null);
+	//		textRepresentation = "0";
+	//	}
 	public Formula() {
-		root = new FormulaElement(FormulaElement.ElementType.VALUE, "0", null);
+
+	}
+
+	public Object readResolve() {
+		CalcGrammarParser parser = CalcGrammarParser.getFormulaParser(textRepresentation);
+		root = parser.parseFormula();
+
+		return this;
 	}
 
 	public Formula(FormulaElement formEle) {
 		root = formEle;
+		textRepresentation = root.getEditTextRepresentation();
 	}
 
 	public Formula(String value) {
 		root = new FormulaElement(FormulaElement.ElementType.VALUE, value, null);
+		textRepresentation = root.getEditTextRepresentation();
 	}
 
 	//	public Formula(String value, int formulaTextFieldId) {
@@ -58,11 +72,13 @@ public class Formula implements Serializable {
 	}
 
 	public String getEditTextRepresentation() {
-		return root.getEditTextRepresentation();
+		//return root.getEditTextRepresentation();
+		return textRepresentation;
 	}
 
 	public void setRoot(FormulaElement formula) {
 		root = formula;
+		textRepresentation = root.getEditTextRepresentation();
 
 	}
 
@@ -73,7 +89,7 @@ public class Formula implements Serializable {
 	public void refreshTextField(View view) {
 		if (formulaTextFieldId != null && root != null) {
 			EditText formulaTextField = (EditText) view.findViewById(formulaTextFieldId);
-			formulaTextField.setText(root.getEditTextRepresentation());
+			formulaTextField.setText(textRepresentation);
 		}
 
 	}
