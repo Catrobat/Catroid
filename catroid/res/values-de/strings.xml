@@ -270,6 +270,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
+    <string name="load_project_cancel">Projekt laden abgebrochen.</string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>

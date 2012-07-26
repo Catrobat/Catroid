@@ -296,6 +296,7 @@
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="size_of_project">Size of project:</string>
+    <string name="load_project_cancel">Canceled loading project.</string>
 
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
