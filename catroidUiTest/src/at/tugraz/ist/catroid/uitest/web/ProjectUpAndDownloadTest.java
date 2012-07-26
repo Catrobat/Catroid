@@ -120,7 +120,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void addABrickToProject() {
 		solo.clickInList(0);
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.goToHomeActivity(getActivity());
 	}
 
 	private void uploadProject() {

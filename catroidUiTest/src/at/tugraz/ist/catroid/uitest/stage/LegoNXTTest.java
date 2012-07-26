@@ -201,7 +201,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		DeviceListActivity dla = new DeviceListActivity();
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.sleep(6500);// increase this sleep if probs!
 
 		solo.goBack();
@@ -211,7 +211,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(1000);
 		//Device is still connected (until visiting main menu or exiting program)!
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("BT connection was not there anymore!!!", StageActivity.class);
 
@@ -227,7 +227,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
 		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
@@ -254,12 +254,12 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			solo.sleep(5000);
 		}
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 		solo.goBack();
 		solo.sleep(1000);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 

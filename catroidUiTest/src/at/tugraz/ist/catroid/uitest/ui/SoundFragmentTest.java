@@ -161,7 +161,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	public void testToStageButton() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("not in stage", StageActivity.class);
 

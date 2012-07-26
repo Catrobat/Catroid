@@ -159,7 +159,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
@@ -196,7 +196,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
@@ -586,7 +586,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String buttonMyProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(buttonMyProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
 		EditText addNewProjectEditText = solo.getEditText(0);
 		String buttonOkText = solo.getString(R.string.ok);
@@ -619,7 +619,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME1);
 		solo.sleep(100);
@@ -639,7 +639,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
