@@ -24,8 +24,9 @@
 package at.tugraz.ist.catroid.formulaeditor;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.text.Editable;
-import android.text.InputType;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
@@ -70,6 +71,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private Spannable errorSpan = null;
 	private boolean ignoreNextUpdate = false;
 	private boolean hasChanges = false;
+	private int cursorPosition = 0;
+	private int cursorYOffset = 0;
+	private int cursorXOffset = 0;
 
 	FormulaEditorDialog dialog = null;
 
@@ -94,13 +98,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setEnabled(false);
 		//this.setBackgroundColor(getResources().getColor(R.color.transparent));
 		this.catKeyboardView = ckv;
-		//this.setCursorVisible(true);
-		//		int inType = getInputType(); // backup the input type
-		//		setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE); // disable soft input
-		//		this.onTouchEvent(motion); // call native handler
-		//		this.setInputType(inType); // restore input type
-		this.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+		this.setCursorVisible(false);
 
+		//setText(getText(), selectable ? BufferType.SPANNABLE : BufferType.NORMAL);
 		if (brickHeight < 100) { //this height seems buggy for some high bricks, still need it...
 			this.setLines(7);
 		} else if (brickHeight < 200) {
@@ -135,22 +135,30 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		clearSelectionHighlighting();
 		editMode = false;
 
-		selectionStartIndex = getSelectionStart();
-		selectionEndIndex = getSelectionEnd();
-		setSelection(selectionStartIndex);
+		selectionStartIndex = cursorPosition;
+		selectionEndIndex = cursorPosition;
+		//setSelection(selectionStartIndex);
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		//		canvas.drawLine(10 + 20 * cursorPosition, 20 + 20 * cursorYOffset, 10 + 20 * cursorPosition,
+		//				50 + 20 * cursorYOffset, this.getPaint());
+
 	}
 
 	public synchronized void doSelectionAndHighlighting() {
 		//Log.i("info", "do Selection and highlighting, cursor position: " + cursor pos);
 		String currentInput = this.getText().toString();
-		int cursorPos = this.getSelectionStart();
+		//int cursorPos = this.getSelectionStart();
 
 		if (currentInput.length() == 0) {
 			return;
 		}
 
-		selectionStartIndex = cursorPos;
-		selectionEndIndex = cursorPos;
+		selectionStartIndex = cursorPosition;
+		selectionEndIndex = cursorPosition;
 
 		while (selectionStartIndex > 0) {
 			//this reads: (char is not 'a'...'z' or 'A'...'Z' or '_'), which is the naming convention for our variables/sensors
@@ -382,7 +390,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		selectionStartIndex = firstError;
 		selectionEndIndex = firstError + 1;
-		setSelection(firstError);
+		//setSelection(firstError);
+		cursorPosition = firstError;
 
 		String text = getText().toString();
 		//error at start of function or variable/constant
@@ -421,15 +430,16 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		clearSelectionHighlighting();
 
 		String text = getText().toString();
-		int cursor = this.getSelectionStart();
-		if (cursor > 0
-				&& cursor < text.length()
+		//int cursor = this.getSelectionStart();
+		if (cursorPosition > 0
+				&& cursorPosition < text.length()
 				&& !editMode
-				&& ((((text.charAt(cursor) >= 97) && (text.charAt(cursor) <= 123))
-						|| ((text.charAt(cursor) >= 65) && (text.charAt(cursor) <= 91)) || (text.charAt(cursor) == '_')))
-				&& (!(((text.charAt(cursor - 1) < 97) || (text.charAt(cursor - 1) > 123))
-						&& ((text.charAt(cursor - 1) < 65) || (text.charAt(cursor - 1) > 91)) && (text
-						.charAt(cursor - 1) != '_')))) {
+				&& ((((text.charAt(cursorPosition) >= 97) && (text.charAt(cursorPosition) <= 123))
+						|| ((text.charAt(cursorPosition) >= 65) && (text.charAt(cursorPosition) <= 91)) || (text
+						.charAt(cursorPosition) == '_')))
+				&& (!(((text.charAt(cursorPosition - 1) < 97) || (text.charAt(cursorPosition - 1) > 123))
+						&& ((text.charAt(cursorPosition - 1) < 65) || (text.charAt(cursorPosition - 1) > 91)) && (text
+						.charAt(cursorPosition - 1) != '_')))) {
 			doSelectionAndHighlighting();
 			editMode = true;
 			return;
@@ -467,21 +477,25 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			editMode = false;
 		} else {
 			if (text.charAt(selectionEndIndex - 1) == ',') {
-				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				//super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				cursorPosition = selectionEndIndex - 1;
 				doSelectionAndHighlighting();
 				return;
 			} else if (text.charAt(selectionEndIndex - 1) == ')') {
-				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				//super.setSelection(selectionEndIndex - 1, selectionEndIndex);sdf
+				cursorPosition = selectionEndIndex - 1;
 				doSelectionAndHighlighting();
 				return;
 			} else if (text.charAt(selectionEndIndex - 1) == '(') {
-				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				//super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				cursorPosition = selectionEndIndex - 1;
 				doSelectionAndHighlighting();
 				return;
 			} else if (((text.charAt(selectionEndIndex - 1) >= 97) && (text.charAt(selectionEndIndex - 1) <= 123))
 					|| ((text.charAt(selectionEndIndex - 1) >= 65) && (text.charAt(selectionEndIndex - 1) <= 91))
 					|| (text.charAt(selectionEndIndex - 1) == '_')) {
-				super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				//super.setSelection(selectionEndIndex - 1, selectionEndIndex);
+				cursorPosition = selectionEndIndex - 1;
 				doSelectionAndHighlighting();
 				return;
 			}
@@ -550,6 +564,11 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	}
 
+	//	private void updateCursorPosition(int position) {
+	//		cursorPosition = position;
+	//		updateSelectionIndices();
+	//	}
+
 	public boolean hasChanges() {
 		return hasChanges;
 	}
@@ -562,14 +581,13 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	@Override
 	public void setSelection(int index) {
-		//Log.i("text", "SetSelection called " + index);
-		super.setSelection(index);
+		//Do not use! 
+
 	}
 
 	@Override
 	public void setSelection(int start, int end) {
-		//Standard selection cannot be used for our highlighting, would make it very unpracticable to write things >1 char
-		//...maybe we could use standard selection when changing its behaviour in BaseInputConnection
+		//Do not use!
 	}
 
 	@Override
@@ -584,22 +602,26 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	};
 
 	public void onClick(View v) {
-		updateSelectionIndices();
+		//updateSelectionIndices();
+
+		//		TextPaint paint = this.getPaint();
+		//		paint.
 
 	}
 
 	public boolean onTouch(View v, MotionEvent motion) {
 
-		//		int inType = getInputType(); // backup the input type
-		//		setInputType(InputType.TYPE_NULL); // disable soft input
-		//		this.onTouchEvent(motion); // call native handler
-		//		this.setInputType(inType); // restore input type
-
 		if (motion.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-			//updateSelectionIndices();
+			Layout layout = this.getLayout();
+			if (layout != null) {
+				cursorYOffset = layout.getLineForVertical((int) motion.getY());
+				cursorXOffset = (int) motion.getX();
+				cursorPosition = layout.getOffsetForHorizontal(cursorYOffset, cursorXOffset);
+
+				updateSelectionIndices();
+			}
+
 		} else if (motion.getAction() == android.view.MotionEvent.ACTION_UP) {
-			//Log.i("info", "Act up");
-			//updateSelectionIndices();
 		}
 
 		gestureDetector.onTouchEvent(motion);
@@ -609,7 +631,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
-			ignoreNextUpdate = true;
+			Log.i("info", "double tap ");
+			//ignoreNextUpdate = true;
 			doSelectionAndHighlighting();
 			return true;
 		}
