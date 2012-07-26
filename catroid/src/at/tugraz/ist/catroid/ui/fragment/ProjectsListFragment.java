@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.fragment;
@@ -51,11 +55,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class ProjectsListFragment extends SherlockListFragment
-		implements OnProjectRenameListener, OnUpdateProjectDescriptionListener {
+public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
+		OnUpdateProjectDescriptionListener {
 
 	private static final String ARGS_PROJECT_DATA = "project_data";
-	
+
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
@@ -63,43 +67,43 @@ public class ProjectsListFragment extends SherlockListFragment
 	private static final int CONTEXT_MENU_ITEM_RENAME = 2;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 3;
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_projects_list, null);
 		return rootView;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		if (savedInstanceState !=null) {
+
+		if (savedInstanceState != null) {
 			projectToEdit = (ProjectData) savedInstanceState.getSerializable(ARGS_PROJECT_DATA);
 		}
-		
+
 		initAdapter();
 		initClickListener();
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putSerializable(ARGS_PROJECT_DATA, projectToEdit);
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	@Override
 	public void onProjectRename(boolean isCurrentProject) {
 		if (isCurrentProject) {
 			updateProjectTitle();
 		}
-		
+
 		initAdapter();
 	}
 
@@ -107,7 +111,7 @@ public class ProjectsListFragment extends SherlockListFragment
 	public void onUpdateProjectDescription() {
 		initAdapter();
 	}
-	
+
 	private void initAdapter() {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
@@ -117,21 +121,23 @@ public class ProjectsListFragment extends SherlockListFragment
 			projectList.add(new ProjectData(projectName, projectCodeFile.lastModified()));
 		}
 		Collections.sort(projectList, new Comparator<ProjectData>() {
+			@Override
 			public int compare(ProjectData project1, ProjectData project2) {
 				return Long.valueOf(project2.lastUsed).compareTo(project1.lastUsed);
 			}
 		});
 
-		adapter = new ProjectAdapter(getActivity(), R.layout.activity_my_projects_item, 
+		adapter = new ProjectAdapter(getActivity(), R.layout.activity_my_projects_item,
 				R.id.my_projects_activity_project_title, projectList);
 		setListAdapter(adapter);
 	}
 
 	private void initClickListener() {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
+			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance()
-						.loadProject((adapter.getItem(position)).projectName, getActivity(), true)) {
+				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName, getActivity(),
+						true)) {
 					return; // error message already in ProjectManager
 							// loadProject
 				}
@@ -140,12 +146,13 @@ public class ProjectsListFragment extends SherlockListFragment
 			}
 		});
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				projectToEdit = projectList.get(position);
 				if (projectToEdit == null) {
 					return true;
 				}
-				
+
 				CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
 				initCustomContextMenu(dialog);
 				dialog.show(getFragmentManager(), "dialog_custom_icon_context_menu");
@@ -153,10 +160,10 @@ public class ProjectsListFragment extends SherlockListFragment
 			}
 		});
 	}
-	
+
 	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
 		Resources resources = getResources();
-		
+
 		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
 		adapter.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
 				CONTEXT_MENU_ITEM_RENAME);
@@ -165,19 +172,20 @@ public class ProjectsListFragment extends SherlockListFragment
 		adapter.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
 				CONTEXT_MENU_ITEM_DELETE);
 		iconContextMenu.setAdapter(adapter);
-		
+
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+			@Override
 			public void onClick(int menuId) {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
-						RenameProjectDialog dialogRenameProject = 
-							RenameProjectDialog.newInstance(projectToEdit.projectName);
+						RenameProjectDialog dialogRenameProject = RenameProjectDialog
+								.newInstance(projectToEdit.projectName);
 						dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
 						dialogRenameProject.show(getFragmentManager(), "dialog_rename_project");
 						break;
 					case CONTEXT_MENU_ITEM_DESCRIPTION:
-						SetDescriptionDialog dialogSetDescription = 
-							SetDescriptionDialog.newInstance(projectToEdit.projectName);
+						SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
+								.newInstance(projectToEdit.projectName);
 						dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
 						dialogSetDescription.show(getFragmentManager(), "dialog_set_description");
 						break;
@@ -212,17 +220,17 @@ public class ProjectsListFragment extends SherlockListFragment
 		updateProjectTitle();
 		initAdapter();
 	}
-	
+
 	private void updateProjectTitle() {
 		String title = getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName();
 		getSherlockActivity().getSupportActionBar().setTitle(title);
 	}
-	
+
 	public class ProjectData implements Serializable {
-		
+
 		private static final long serialVersionUID = -1086067470908722316L;
-		
+
 		public String projectName;
 		public long lastUsed;
 
