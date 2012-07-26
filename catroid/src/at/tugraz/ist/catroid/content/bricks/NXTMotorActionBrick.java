@@ -62,6 +62,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 	private static final int MAX_SPEED = 100;
 
 	private transient EditText editSpeed;
+	private transient EditText editSeekBarValue;
 	private transient SeekBar speedBar;
 	private transient EditIntegerDialog dialogSpeed;
 
@@ -84,7 +85,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		this.motor = motorEnum.name();
 		this.speed = speed;
 
-		speedFormula = new Formula(Integer.toString(speed));
+		speedFormula = new Formula("SLIDER_");
 	}
 
 	public int getRequiredResources() {
@@ -127,10 +128,6 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 			instance = this;
 		}
 
-		if (speedFormula == null) {
-			speedFormula = new Formula(Integer.toString(speed));
-		}
-
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 
 		TextView textSpeed = (TextView) brickView.findViewById(R.id.motor_action_speed_text_view);
@@ -170,7 +167,15 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		speedBar.setOnSeekBarChangeListener(this);
 		speedBar.setMax(MAX_SPEED * 2);
 		speedBar.setEnabled(true);
+
+		TextView textSeekBarValue = (TextView) brickView.findViewById(R.id.motor_action_seekBar_text_view);
+		editSeekBarValue = (EditText) brickView.findViewById(R.id.motor_action_seekBar_edit_text);
+
+		textSeekBarValue.setVisibility(View.GONE);
+		editSeekBarValue.setVisibility(View.VISIBLE);
+
 		speedToSeekBarVal();
+		speedToSeekBarEditText();
 
 		Button speedDown = (Button) brickView.findViewById(R.id.speed_down_btn);
 		speedDown.setOnClickListener(new OnClickListener() {
@@ -182,7 +187,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 				speed--;
 				speedToSeekBarVal();
-				editSpeed.setText(String.valueOf(speed));
+				speedToSeekBarEditText();
 			}
 		});
 
@@ -196,7 +201,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 				speed++;
 				speedToSeekBarVal();
-				editSpeed.setText(String.valueOf(speed));
+				speedToSeekBarEditText();
 			}
 		});
 
@@ -212,9 +217,7 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 		if (progress != (speed + 100)) {
 			seekbarValToSpeed();
-			if (dialogSpeed != null) {
-				dialogSpeed.setValue(progress - 100);
-			}
+			speedToSeekBarEditText();
 		}
 
 	}
@@ -227,9 +230,12 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 	}
 
+	private void speedToSeekBarEditText() {
+		editSeekBarValue.setText(String.valueOf(speed));
+	}
+
 	private void seekbarValToSpeed() {
 		speed = speedBar.getProgress() - 100;
-		editSpeed.setText(String.valueOf(speed));
 	}
 
 	private void speedToSeekBarVal() {
