@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -56,7 +57,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 	private transient EditText editFreq;
 	private transient EditText editSeekBarValue;
-	private transient SeekBar freqBar;
+	private transient SeekBar frequencyBar;
 	private transient EditIntegerDialog dialogFreq;
 
 	private Formula hertzFormula;
@@ -67,6 +68,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	public transient boolean editorActive = false;
 
 	public NXTPlayToneBrick(Sprite sprite, int hertz, int duration) {
+		Log.i("info", "NXTPlayToneBrick: Konstruktor");
 		this.sprite = sprite;
 		this.hertz = hertz;
 		this.durationInMs = duration;
@@ -107,6 +109,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		Log.i("info", "NXTPlayToneBrick: getView");
 
 		if (instance == null) {
 			instance = this;
@@ -145,10 +148,10 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 		editFreq.setOnClickListener(this);
 
-		freqBar = (SeekBar) brickView.findViewById(R.id.seekBarNXTToneFrequency);
-		freqBar.setOnSeekBarChangeListener(this);
-		freqBar.setMax(MAX_FREQ_IN_HERTZ / 100);
-		freqBar.setEnabled(true);
+		frequencyBar = (SeekBar) brickView.findViewById(R.id.seekBarNXTToneFrequency);
+		frequencyBar.setOnSeekBarChangeListener(this);
+		frequencyBar.setMax(MAX_FREQ_IN_HERTZ / 100);
+		frequencyBar.setEnabled(true);
 
 		TextView textViewSeekBarValue = (TextView) brickView.findViewById(R.id.nxt_tone_freq_seekBar_text_view);
 		editSeekBarValue = (EditText) brickView.findViewById(R.id.nxt_tone_freq_seekBar_edit_text);
@@ -156,8 +159,10 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		textViewSeekBarValue.setVisibility(View.GONE);
 		editSeekBarValue.setVisibility(View.VISIBLE);
 
-		freqToSeekBarVal();
+		freqToSeekBarVal(frequencyBar);
 		freqToSeekBarEditText();
+
+		editSeekBarValue.setText("TEST");
 
 		Button freqDown = (Button) brickView.findViewById(R.id.freq_down_btn);
 		freqDown.setOnClickListener(new OnClickListener() {
@@ -168,7 +173,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 				}
 
 				hertz -= 100;
-				freqToSeekBarVal();
+				freqToSeekBarVal(frequencyBar);
 				freqToSeekBarEditText();
 			}
 		});
@@ -182,7 +187,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 				}
 
 				hertz += 100;
-				freqToSeekBarVal();
+				freqToSeekBarVal(frequencyBar);
 				freqToSeekBarEditText();
 			}
 		});
@@ -191,6 +196,8 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	}
 
 	public void onProgressChanged(SeekBar freqBar, int progress, boolean fromUser) {
+		Log.i("info", "onProgressChanged: enter");
+		Log.i("info", "onProgressChanged.freqBarValue = " + freqBar.getProgress());
 		if (!fromUser) { //Robotium fromUser=false
 			if (progress == 0) {
 				return;
@@ -198,7 +205,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		}
 
 		if (progress != (hertz / 100)) {
-			seekbarValToFreq();
+			seekbarValToFreq(freqBar);
 			freqToSeekBarEditText();
 		}
 
@@ -216,7 +223,8 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		editSeekBarValue.setText(String.valueOf(hertz / 100));
 	}
 
-	private void seekbarValToFreq() {
+	private void seekbarValToFreq(SeekBar freqBar) {
+
 		hertz = freqBar.getProgress() * 100;
 
 		if (hertz < 200) {
@@ -225,7 +233,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		}
 	}
 
-	private void freqToSeekBarVal() {
+	private void freqToSeekBarVal(SeekBar freqBar) {
 		if (hertz < 200) {
 			hertz = 200;
 			freqBar.setProgress(2);
