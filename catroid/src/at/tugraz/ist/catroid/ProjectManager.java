@@ -59,36 +59,42 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
+			Project oldProject = project;
 			project = StorageHandler.getInstance().loadProject(projectName);
 
 			if (project == null) {
-				project = Utils.findValidProject();
-				if (project == null) {
-					project = StandardProjectHandler.createAndSaveStandardProject(context);
+				if (oldProject != null) {
+					project = oldProject;
+				} else {
+					project = Utils.findValidProject();
+					if (project == null) {
+						project = StandardProjectHandler.createAndSaveStandardProject(context);
+					}
 				}
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-					return false;
 				}
+				return false;
 			} else if (project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+				project = oldProject;
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
 					// TODO show dialog to download latest catroid version instead
 				}
 				return false;
+			} else {
+				// adapt name of background sprite to the current language and place
+				// on lowest layer
+				project.getSpriteList().get(0).setName(context.getString(R.string.background));
+				project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+
+				currentSprite = null;
+				currentScript = null;
+
+				Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
+
+				return true;
 			}
-
-			// adapt name of background sprite to the current language and place
-			// on lowest layer
-			project.getSpriteList().get(0).setName(context.getString(R.string.background));
-			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
-
-			currentSprite = null;
-			currentScript = null;
-
-			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
-
-			return true;
 		} catch (Exception e) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 			return false;
