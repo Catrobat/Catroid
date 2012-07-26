@@ -37,6 +37,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.formulaeditor.Formula;
+import at.tugraz.ist.catroid.formulaeditor.FormulaElement;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
@@ -70,7 +71,8 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		this.hertz = hertz;
 		this.durationInMs = duration;
 
-		hertzFormula = new Formula("SLIDER_");
+		FormulaElement sliderElement = new FormulaElement(FormulaElement.ElementType.SENSOR, "SLIDER_", null);
+		hertzFormula = new Formula(sliderElement);
 		durationInMsFormula = new Formula(Integer.toString(duration));
 	}
 

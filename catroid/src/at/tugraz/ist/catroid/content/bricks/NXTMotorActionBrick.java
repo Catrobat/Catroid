@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.formulaeditor.Formula;
+import at.tugraz.ist.catroid.formulaeditor.FormulaElement;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
@@ -85,7 +86,8 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		this.motor = motorEnum.name();
 		this.speed = speed;
 
-		speedFormula = new Formula("SLIDER_");
+		FormulaElement sliderElement = new FormulaElement(FormulaElement.ElementType.SENSOR, "SLIDER_", null);
+		speedFormula = new Formula(sliderElement);
 	}
 
 	public int getRequiredResources() {
