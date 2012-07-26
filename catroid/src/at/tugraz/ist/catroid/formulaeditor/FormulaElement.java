@@ -136,14 +136,14 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public Double interpretRecursive() {
+	public Double interpretRecursive(Double sliderValue) {
 
 		if (type == ElementType.VALUE) {
 			return Double.parseDouble(value);
 		} else if (type == ElementType.OPERATOR) {
 			if (leftChild != null) {// binär operator
-				Double left = leftChild.interpretRecursive();
-				Double right = rightChild.interpretRecursive();
+				Double left = leftChild.interpretRecursive(sliderValue);
+				Double right = rightChild.interpretRecursive(sliderValue);
 
 				if (value.equals("+")) {
 					return left + right;
@@ -161,7 +161,7 @@ public class FormulaElement implements Serializable {
 					return java.lang.Math.pow(left, right);
 				}
 			} else {//unär operators
-				Double right = rightChild.interpretRecursive();
+				Double right = rightChild.interpretRecursive(sliderValue);
 				//				if (value.equals("+")) {
 				//					return right;
 				//				}
@@ -173,7 +173,7 @@ public class FormulaElement implements Serializable {
 		} else if (type == ElementType.FUNCTION) {
 			Double left = 0.0d;
 			if (leftChild != null) {
-				left = leftChild.interpretRecursive();
+				left = leftChild.interpretRecursive(sliderValue);
 			}
 
 			if (value.equals("sin")) {
@@ -196,7 +196,7 @@ public class FormulaElement implements Serializable {
 			}
 			if (value.equals("rand")) {
 				double min = left;
-				double max = rightChild.interpretRecursive();
+				double max = rightChild.interpretRecursive(sliderValue);
 				return min + (java.lang.Math.random() * (max - min));
 			}
 			if (value.equals("abs")) {
@@ -224,6 +224,9 @@ public class FormulaElement implements Serializable {
 			}
 			if (value.equals("ROLL_")) {
 				return Double.valueOf(Gdx.input.getRoll());
+			}
+			if (value.equals("SLIDER_")) {
+				return (sliderValue == null ? 0.0 : sliderValue);
 			}
 		} else if (type == ElementType.CONSTANT) {
 			if (value.equals("pi")) {

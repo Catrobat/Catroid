@@ -1,4 +1,4 @@
-// $ANTLR 3.4 src/CalcGrammar.g 2012-07-25 16:23:37
+// $ANTLR 3.4 src/CalcGrammar.g 2012-07-26 14:42:36
 package at.tugraz.ist.catroid.formulaeditor;
 
 import org.antlr.runtime.CharStream;
@@ -689,8 +689,8 @@ public class CalcGrammarLexer extends Lexer {
 		try {
 			int _type = SENSOR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// src/CalcGrammar.g:313:11: ( 'XACC_' | 'YACC_' | 'ZACC_' | 'AZIM_' | 'PITCH_' | 'ROLL_' )
-			int alt7 = 6;
+			// src/CalcGrammar.g:313:11: ( 'XACC_' | 'YACC_' | 'ZACC_' | 'AZIM_' | 'PITCH_' | 'ROLL_' | 'SLIDER_' )
+			int alt7 = 7;
 			switch (input.LA(1)) {
 				case 'X': {
 					alt7 = 1;
@@ -714,6 +714,10 @@ public class CalcGrammarLexer extends Lexer {
 					break;
 				case 'R': {
 					alt7 = 6;
+				}
+					break;
+				case 'S': {
+					alt7 = 7;
 				}
 					break;
 				default:
@@ -763,6 +767,13 @@ public class CalcGrammarLexer extends Lexer {
 				// src/CalcGrammar.g:313:56: 'ROLL_'
 				{
 					match("ROLL_");
+
+				}
+					break;
+				case 7:
+				// src/CalcGrammar.g:313:64: 'SLIDER_'
+				{
+					match("SLIDER_");
 
 				}
 					break;
@@ -901,9 +912,9 @@ public class CalcGrammarLexer extends Lexer {
 				int LA9_5 = input.LA(2);
 
 				if ((LA9_5 == 'i')) {
-					int LA9_23 = input.LA(3);
+					int LA9_24 = input.LA(3);
 
-					if (((LA9_23 >= 'a' && LA9_23 <= 'z'))) {
+					if (((LA9_24 >= 'a' && LA9_24 <= 'z'))) {
 						alt9 = 14;
 					} else {
 						alt9 = 5;
@@ -1056,6 +1067,16 @@ public class CalcGrammarLexer extends Lexer {
 				}
 			}
 				break;
+			case 'S': {
+				int LA9_22 = input.LA(2);
+
+				if ((LA9_22 == 'L')) {
+					alt9 = 15;
+				} else {
+					alt9 = 16;
+				}
+			}
+				break;
 			case 'B':
 			case 'C':
 			case 'D':
@@ -1071,7 +1092,6 @@ public class CalcGrammarLexer extends Lexer {
 			case 'N':
 			case 'O':
 			case 'Q':
-			case 'S':
 			case 'T':
 			case 'U':
 			case 'V':

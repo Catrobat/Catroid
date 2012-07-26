@@ -54,6 +54,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	private int durationInMs;
 
 	private transient EditText editFreq;
+	private transient EditText editSeekBarValue;
 	private transient SeekBar freqBar;
 	private transient EditIntegerDialog dialogFreq;
 
@@ -69,7 +70,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		this.hertz = hertz;
 		this.durationInMs = duration;
 
-		hertzFormula = new Formula(Integer.toString(hertz));
+		hertzFormula = new Formula("SLIDER_");
 		durationInMsFormula = new Formula(Integer.toString(duration));
 	}
 
@@ -78,8 +79,8 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	}
 
 	public void execute() {
-		hertz = Math.min(MAX_FREQ_IN_HERTZ, hertzFormula.interpret().intValue());
-		hertz = Math.max(MIN_FREQ_IN_HERTZ, hertz);
+		int interpretHertz = Math.min(MAX_FREQ_IN_HERTZ, hertzFormula.interpret(Double.valueOf(hertz)).intValue());
+		interpretHertz = Math.max(MIN_FREQ_IN_HERTZ, interpretHertz);
 		durationInMs = Math.min(MAX_DURATION, durationInMsFormula.interpret().intValue());
 		durationInMs = Math.max(MIN_DURATION, durationInMs);
 
@@ -107,14 +108,6 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 		if (instance == null) {
 			instance = this;
-		}
-
-		if (hertzFormula == null) {
-			hertzFormula = new Formula(Integer.toString(hertz));
-		}
-
-		if (durationInMsFormula == null) {
-			durationInMsFormula = new Formula(Integer.toString(durationInMs));
 		}
 
 		View brickView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
@@ -154,7 +147,15 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 		freqBar.setOnSeekBarChangeListener(this);
 		freqBar.setMax(MAX_FREQ_IN_HERTZ / 100);
 		freqBar.setEnabled(true);
+
+		TextView textViewSeekBarValue = (TextView) brickView.findViewById(R.id.nxt_tone_freq_seekBar_text_view);
+		editSeekBarValue = (EditText) brickView.findViewById(R.id.nxt_tone_freq_seekBar_edit_text);
+
+		textViewSeekBarValue.setVisibility(View.GONE);
+		editSeekBarValue.setVisibility(View.VISIBLE);
+
 		freqToSeekBarVal();
+		freqToSeekBarEditText();
 
 		Button freqDown = (Button) brickView.findViewById(R.id.freq_down_btn);
 		freqDown.setOnClickListener(new OnClickListener() {
@@ -166,7 +167,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 				hertz -= 100;
 				freqToSeekBarVal();
-				editFreq.setText(String.valueOf(hertz / 100));
+				freqToSeekBarEditText();
 			}
 		});
 
@@ -180,7 +181,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 				hertz += 100;
 				freqToSeekBarVal();
-				editFreq.setText(String.valueOf(hertz / 100));
+				freqToSeekBarEditText();
 			}
 		});
 
@@ -196,9 +197,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 		if (progress != (hertz / 100)) {
 			seekbarValToFreq();
-			if (dialogFreq != null) {
-				dialogFreq.setValue(progress);
-			}
+			freqToSeekBarEditText();
 		}
 
 	}
@@ -211,6 +210,10 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 	}
 
+	private void freqToSeekBarEditText() {
+		editSeekBarValue.setText(String.valueOf(hertz / 100));
+	}
+
 	private void seekbarValToFreq() {
 		hertz = freqBar.getProgress() * 100;
 
@@ -218,8 +221,6 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 			hertz = 200;
 			freqBar.setProgress(2);
 		}
-
-		editFreq.setText(String.valueOf(hertz / 100));
 	}
 
 	private void freqToSeekBarVal() {
