@@ -90,15 +90,17 @@ public class UtilFileTest extends InstrumentationTestCase {
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		assertEquals("not the expected string", "84.2 KB", UtilFile.getSizeAsString(testDirectory));
+		DecimalFormat decimalFormat = new DecimalFormat("#.#");
+		String expected = decimalFormat.format(84.2) + " KB";
+		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
 
 		for (int i = 2; i < 48; i++) {
 			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		DecimalFormat decimalFormat = new DecimalFormat("#.0");
-		String expected = decimalFormat.format(2.0) + " MB";
+		decimalFormat = new DecimalFormat("#.0");
+		expected = decimalFormat.format(2.0) + " MB";
 		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
 
 		PrintWriter printWriter = null;

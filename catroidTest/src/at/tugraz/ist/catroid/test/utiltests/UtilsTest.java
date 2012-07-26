@@ -206,8 +206,13 @@ public class UtilsTest extends TestCase {
 	}
 
 	public void testBuildProjectPath() {
-		String projectName1 = "test?Projekt\"1";
-		String result1 = "/mnt/sdcard/catroid/testProjekt1";
-		assertEquals("Paths are different!", result1, Utils.buildProjectPath(projectName1));
+		String projectPath1 = Utils.buildProjectPath("test?Projekt\"1");
+
+		int i = projectPath1.indexOf("/catroid/testProjekt1");
+		assertFalse("Bad path.", i == -1);
+		assertFalse("Bad path.", i == 0);
+
+		boolean b = projectPath1.indexOf("/mnt/") == 0 ? true : projectPath1.indexOf("/storage/") == 0;
+		assertTrue("Wrong path root.", b);
 	}
 }
