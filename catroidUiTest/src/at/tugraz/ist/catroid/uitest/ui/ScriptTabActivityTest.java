@@ -80,8 +80,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	public void testMainMenuButton() {
-		solo.clickOnActionBarItem(android.R.id.home);
-		//		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
 				solo.getCurrentActivity() instanceof MainMenuActivity);

@@ -123,7 +123,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
 		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 
@@ -161,7 +161,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.goToHomeActivity(getActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		createTestProject();
 		solo.sleep(500);

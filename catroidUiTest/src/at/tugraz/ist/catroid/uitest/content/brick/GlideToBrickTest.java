@@ -90,7 +90,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	}
 
 	public void testResizeInputFields() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.goToHomeActivity(getActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		createProject();
 		solo.sleep(200);
