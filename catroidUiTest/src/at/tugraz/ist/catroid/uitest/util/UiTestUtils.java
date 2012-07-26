@@ -600,4 +600,14 @@ public class UiTestUtils {
 		Intent intent = new Intent(activity, MainMenuActivity.class);
 		activity.startActivity(intent);
 	}
+
+	/**
+	 * This method is needed because sometimes bricks are staying in hovering state.
+	 */
+	public static void clickOnAddBrickAndGoBack(Solo solo) {
+		solo.sleep(300);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		solo.goBack();
+		solo.sleep(300);
+	}
 }
