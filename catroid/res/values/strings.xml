@@ -271,6 +271,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
+    <string name="notification_load_project_cancel">Canceled loading project</string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
@@ -296,7 +297,6 @@
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="size_of_project">Size of project:</string>
-    <string name="load_project_cancel">Canceled loading project</string>
 
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->

@@ -104,7 +104,7 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 
 			case R.id.dialog_overwrite_project_button_cancel:
 				dismiss();
-				Toast.makeText(activity, R.string.load_project_cancel, Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, R.string.notification_load_project_cancel, Toast.LENGTH_SHORT).show();
 				break;
 
 			case R.id.dialog_overwrite_project_radio_replace:
