@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class BrickSerializer extends Serializer {
-	private final String brickTagPrefix = "Bricks.";
+	private final String brickTagPrefix = "";
 	private final String brickListTag = "brickList";
 
 	public BrickSerializer(Sprite serializedSprite, Script serializedScript, Project serializedProject) {
@@ -48,13 +48,28 @@ public class BrickSerializer extends Serializer {
 
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException {
-		fieldMap = objectCreator.getFieldMap(object.getClass());
+
 		List<String> brickStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		Collection<Field> fields = fieldMap.values();
+
 		xmlElementString = getStartTag(brickTagPrefix + object.getClass().getSimpleName());
 		//xmlElementString = "<Bricks." + object.getClass().getSimpleName() + ">\n";
 		brickStringList.add(xmlElementString);
+
+		setBrickfieldsAsElements(object, brickStringList, object.getClass().getSuperclass());
+		setBrickfieldsAsElements(object, brickStringList, object.getClass());
+
+		xmlElementString = getEndTag(brickTagPrefix + object.getClass().getSimpleName());
+		brickStringList.add(xmlElementString);
+		//Log.i("serializer", xmlElementString);
+		return brickStringList;
+	}
+
+	private void setBrickfieldsAsElements(Object object, List<String> brickStringList, Class cls)
+			throws IllegalAccessException {
+		String xmlElementString;
+		fieldMap = objectCreator.getFieldMapOfThisClass(cls);
+		Collection<Field> fields = fieldMap.values();
 		for (Field brickClassField : fields) {
 			String fieldName = objectCreator.extractTagName(brickClassField);
 			brickClassField.setAccessible(true);
@@ -75,10 +90,6 @@ public class BrickSerializer extends Serializer {
 				brickStringList.add(xmlElementString);
 			}
 		}
-		xmlElementString = getEndTag(brickTagPrefix + object.getClass().getSimpleName());
-		brickStringList.add(xmlElementString);
-		//Log.i("serializer", xmlElementString);
-		return brickStringList;
 	}
 
 	public List<String> serializeBrickList(List<Brick> brickList) throws IllegalArgumentException,

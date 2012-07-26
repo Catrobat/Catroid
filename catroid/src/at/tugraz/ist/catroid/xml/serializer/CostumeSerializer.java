@@ -25,7 +25,7 @@ import at.tugraz.ist.catroid.common.CostumeData;
 
 public class CostumeSerializer extends Serializer {
 
-	private final String costumeDataTag = "Common.CostumeData";
+	private final String costumeDataTag = "CostumeData";
 	private final String costumeFileNameTag = "fileName";
 	private final String costumeNameTag = "name";
 	private final String costumeListTag = "costumeDataList";

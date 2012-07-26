@@ -25,7 +25,7 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 
 public class SoundSerializer extends Serializer {
 
-	private final String soundInfoTag = "Common.SoundInfo";
+	private final String soundInfoTag = "SoundInfo";
 	private final String soundFileNameTag = "fileName";
 	private final String soundNameTag = "name";
 	private final String soundListTag = "soundList";

@@ -25,7 +25,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class SpriteSerializer extends Serializer {
-	private final String spriteTag = "Content.Sprite";
+	private final String spriteTag = "Sprite";
 	private final String scriptListTag = "scriptList";
 
 	public SpriteSerializer(Project serializedProject) {
@@ -73,9 +73,11 @@ public class SpriteSerializer extends Serializer {
 	public List<String> serializeList() throws IllegalArgumentException, SecurityException, IllegalAccessException,
 			NoSuchFieldException {
 		List<String> spriteListStrings = new ArrayList<String>();
+		spriteListStrings.add(getStartTag("spriteList"));
 		for (Sprite projectSprite : serializedProject.getSpriteList()) {
 			spriteListStrings.addAll(serialize(projectSprite));
 		}
+		spriteListStrings.add(getEndTag("spriteList"));
 		return spriteListStrings;
 
 	}

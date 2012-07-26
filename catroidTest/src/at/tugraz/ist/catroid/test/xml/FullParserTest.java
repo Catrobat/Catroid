@@ -22,6 +22,7 @@
  */
 package at.tugraz.ist.catroid.test.xml;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
@@ -42,10 +44,12 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
 import at.tugraz.ist.catroid.xml.serializer.ProjectSerializer;
 import at.tugraz.ist.catroid.xml.serializer.SoundSerializer;
+import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 public class FullParserTest extends InstrumentationTestCase {
 
@@ -167,6 +171,15 @@ public class FullParserTest extends InstrumentationTestCase {
 			for (String element : script2) {
 				Log.i("script element", element);
 			}
+			String projectDirectoryName = Utils.buildProjectPath("test__" + testProject.getName());
+			File projectDirectory = new File(projectDirectoryName);
+
+			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+				projectDirectory.mkdir();
+
+			}
+			XmlSerializer xs = new XmlSerializer();
+			xs.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

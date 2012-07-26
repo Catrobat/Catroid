@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class ScriptSerializer extends Serializer {
 
-	private final String scriptTagPrefix = "Content.";
+	private final String scriptTagPrefix = "";
 
 	public ScriptSerializer(Sprite serializedSprite, Project serializedProject) {
 		super.serializedSprite = serializedSprite;
@@ -40,18 +40,32 @@ public class ScriptSerializer extends Serializer {
 
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException {
-		fieldMap = objectCreator.getFieldMap(object.getClass());
+
 		List<String> scriptStringList = new ArrayList<String>();
 		serializedScript = (Script) object;
 		String xmlElementString = "";
-		Collection<Field> fields = fieldMap.values();
 		xmlElementString = getStartTag(scriptTagPrefix + object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
+
+		if (!(object.getClass().getSuperclass().equals(Object.class))) {
+			getScriptFieldsAsElements(object, scriptStringList, object.getClass().getSuperclass());
+		}
+		getScriptFieldsAsElements(object, scriptStringList, object.getClass());
+
+		xmlElementString = getEndTag(scriptTagPrefix + object.getClass().getSimpleName());
+		scriptStringList.add(xmlElementString);
+		return scriptStringList;
+	}
+
+	private void getScriptFieldsAsElements(Object object, List<String> scriptStringList, Class cls)
+			throws IllegalAccessException {
+		String xmlElementString;
+		fieldMap = objectCreator.getFieldMapOfThisClass(cls);
+		Collection<Field> fields = fieldMap.values();
 		for (Field scriptClassField : fields) {
 			String fieldName = objectCreator.extractTagName(scriptClassField);
 			scriptClassField.setAccessible(true);
 			if (!scriptClassField.getType().isPrimitive()) {
-				//Log.i("primitive", fieldName + " is not primitive");
 				if (fieldName.equals("sprite")) {
 					xmlElementString = spriteElementPrefix + "\"../../..\"/>" + "\n";
 					scriptStringList.add(xmlElementString);
@@ -75,9 +89,6 @@ public class ScriptSerializer extends Serializer {
 				scriptStringList.add(xmlElementString);
 			}
 		}
-		xmlElementString = getEndTag(scriptTagPrefix + object.getClass().getSimpleName());
-		scriptStringList.add(xmlElementString);
-		return scriptStringList;
 	}
 
 }

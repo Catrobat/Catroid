@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class ProjectSerializer extends Serializer {
 
-	private final String projectTag = "Content.Project";
+	private final String projectTag = "Project";
 
 	public ProjectSerializer() {
 		objectCreator = new ObjectCreator();
