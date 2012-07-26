@@ -71,7 +71,7 @@ public class ProjectManager {
 				if (project == null) {
 					try {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
-					} catch (Exception e) {
+					} catch (IOException e) {
 						if (errorMessage) {
 							Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 						}
