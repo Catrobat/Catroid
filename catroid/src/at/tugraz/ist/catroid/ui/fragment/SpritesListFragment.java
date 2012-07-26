@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.fragment;
@@ -51,166 +55,165 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
 public class SpritesListFragment extends SherlockListFragment {
-	
+
 	private static final String ARGS_SPRITE_TO_EDIT = "sprite_to_edit";
 	public static final String ACTION_SPRITE_RENAMED = "at.tugraz.ist.catroid.SPRITE_RENAMED";
-	
+
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
-	
-    private SpriteAdapter spriteAdapter;
-    private ArrayList<Sprite> spriteList;
-    private Sprite spriteToEdit;
 
-    private ActionBar actionBar;
-    private SpriteRenamedReceiver spriteRenamedReceiver;
+	private SpriteAdapter spriteAdapter;
+	private ArrayList<Sprite> spriteList;
+	private Sprite spriteToEdit;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-    	setRetainInstance(true);
-    }
-    
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	View rootView = inflater.inflate(R.layout.fragment_sprites_list, null);
-    	return rootView;
-    }
-    
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-    	super.onActivityCreated(savedInstanceState);
-    	
-    	String title = this.getResources().getString(R.string.project_name) + " "
-                + ProjectManager.getInstance().getCurrentProject().getName();
-    	actionBar = getSherlockActivity().getSupportActionBar();
-    	actionBar.setTitle(title);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        setHasOptionsMenu(true);
-        
-        if (savedInstanceState !=null) {
+	private ActionBar actionBar;
+	private SpriteRenamedReceiver spriteRenamedReceiver;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_sprites_list, null);
+		return rootView;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		String title = this.getResources().getString(R.string.project_name) + " "
+				+ ProjectManager.getInstance().getCurrentProject().getName();
+		actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setTitle(title);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		setHasOptionsMenu(true);
+
+		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(ARGS_SPRITE_TO_EDIT);
 		}
-        
-        Utils.loadProjectIfNeeded(getActivity());
-    }
-    
-    @Override
+
+		Utils.loadProjectIfNeeded(getActivity());
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putSerializable(ARGS_SPRITE_TO_EDIT, spriteToEdit);
 		super.onSaveInstanceState(outState);
 	}
-    
-    @Override
-    public void onStart() {
-        super.onStart();
-        initListeners();
-    }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-      inflater.inflate(R.menu.menu_current_project, menu);
-      super.onCreateOptionsMenu(menu, inflater);
-    }
+	@Override
+	public void onStart() {
+		super.onStart();
+		initListeners();
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!Utils.checkForSdCard(getActivity())) {
-            return;
-        }
-        
-        if (spriteRenamedReceiver == null) {
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_current_project, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (!Utils.checkForSdCard(getActivity())) {
+			return;
+		}
+
+		if (spriteRenamedReceiver == null) {
 			spriteRenamedReceiver = new SpriteRenamedReceiver();
 		}
-		
+
 		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ACTION_SPRITE_RENAMED);
 		getActivity().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
-        
-        spriteAdapter.notifyDataSetChanged();
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        ProjectManager projectManager = ProjectManager.getInstance();
-        if (projectManager.getCurrentProject() != null) {
-            projectManager.saveProject();
-        }
-        
-        if (spriteRenamedReceiver != null) {
+		spriteAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		if (projectManager.getCurrentProject() != null) {
+			projectManager.saveProject();
+		}
+
+		if (spriteRenamedReceiver != null) {
 			getActivity().unregisterReceiver(spriteRenamedReceiver);
 		}
-    }
+	}
 
-    public Sprite getSpriteToEdit() {
+	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
-    
-    public void notifySpriteAdapter() {
-    	spriteAdapter.notifyDataSetChanged();
-    }
-    
-    public void handleProjectActivityItemLongClick(View view) {}
-    
-    private void initListeners() {
-        spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-        spriteAdapter = new SpriteAdapter(getActivity(), 
-        		R.layout.activity_project_spritelist_item, R.id.sprite_title, spriteList);
 
-        setListAdapter(spriteAdapter);
-        getListView().setTextFilterEnabled(true);
-        getListView().setDivider(null);
-        getListView().setDividerHeight(0);
+	public void notifySpriteAdapter() {
+		spriteAdapter.notifyDataSetChanged();
+	}
 
-        getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-                Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
-                startActivity(intent);
-            }
-        });
-        
-        getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                spriteToEdit = spriteList.get(position);
+	public void handleProjectActivityItemLongClick(View view) {
+	}
 
-                // as long as background sprite is always the first one, we're fine
-                if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
-                    return true;
-                }
-                
-                showEditSpriteContextDialog();
-                return true;
-            }
-        });
-    }
-    
-    private void showEditSpriteContextDialog() {
-    	FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("dialog_custom_icon_context_menu");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-        
-        CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(spriteToEdit.getName());
+	private void initListeners() {
+		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item, R.id.sprite_title,
+				spriteList);
+
+		setListAdapter(spriteAdapter);
+		getListView().setTextFilterEnabled(true);
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
+
+		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+				Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				spriteToEdit = spriteList.get(position);
+
+				// as long as background sprite is always the first one, we're fine
+				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
+					return true;
+				}
+
+				showEditSpriteContextDialog();
+				return true;
+			}
+		});
+	}
+
+	private void showEditSpriteContextDialog() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag("dialog_custom_icon_context_menu");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(spriteToEdit.getName());
 		initCustomContextMenu(dialog);
 		dialog.show(ft, "dialog_custom_icon_context_menu");
-    }
-    
-    private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
+	}
+
+	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
 		Resources resources = getResources();
-		
+
 		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
-		adapter.addItem(resources, getString(R.string.rename), R.drawable.ic_context_rename,
-				CONTEXT_MENU_ITEM_RENAME);
-		adapter.addItem(resources, getString(R.string.delete), R.drawable.ic_context_delete,
-				CONTEXT_MENU_ITEM_DELETE);
+		adapter.addItem(resources, getString(R.string.rename), R.drawable.ic_context_rename, CONTEXT_MENU_ITEM_RENAME);
+		adapter.addItem(resources, getString(R.string.delete), R.drawable.ic_context_delete, CONTEXT_MENU_ITEM_DELETE);
 		iconContextMenu.setAdapter(adapter);
-		
+
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
 			@Override
 			public void onClick(int menuId) {
@@ -231,8 +234,8 @@ public class SpritesListFragment extends SherlockListFragment {
 			}
 		});
 	}
-    
-    private class SpriteRenamedReceiver extends BroadcastReceiver {
+
+	private class SpriteRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ACTION_SPRITE_RENAMED)) {

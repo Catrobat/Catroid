@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.adapter;
@@ -37,9 +41,9 @@ import at.tugraz.ist.catroid.R;
  * Menu-like list adapter with icon.
  */
 public class IconMenuAdapter extends BaseAdapter {
-	
+
 	private static final int LIST_HEIGHT = 65;
-	
+
 	private Context context = null;
 	private ArrayList<CustomContextMenuItem> items = new ArrayList<CustomContextMenuItem>();
 
@@ -50,12 +54,13 @@ public class IconMenuAdapter extends BaseAdapter {
 	public void addItem(Resources resource, String title, int imageResourceId, int id) {
 		addItem(new CustomContextMenuItem(resource, title, imageResourceId, id));
 	}
-	
+
 	public void addItem(CustomContextMenuItem menuItem) {
 		items.add(menuItem);
 	}
 
 	//View for each list element (icon and text)
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		CustomContextMenuItem item = (CustomContextMenuItem) getItem(position);
 
@@ -95,19 +100,22 @@ public class IconMenuAdapter extends BaseAdapter {
 		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, resource.getDisplayMetrics());
 	}
 
+	@Override
 	public Object getItem(int position) {
 		return items.get(position);
 	}
 
+	@Override
 	public int getCount() {
 		return items.size();
 	}
 
+	@Override
 	public long getItemId(int position) {
 		CustomContextMenuItem item = (CustomContextMenuItem) getItem(position);
 		return item.contextMenuItemId;
 	}
-	
+
 	public class CustomContextMenuItem {
 		public String text;
 		public Drawable icon;
