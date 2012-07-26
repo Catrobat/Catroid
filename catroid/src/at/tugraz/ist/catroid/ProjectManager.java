@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
@@ -56,48 +57,52 @@ public class ProjectManager {
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
-		try {
-			fileChecksumContainer = new FileChecksumContainer();
-			messageContainer = new MessageContainer();
-			Project oldProject = project;
-			project = StorageHandler.getInstance().loadProject(projectName);
 
-			if (project == null) {
-				if (oldProject != null) {
-					project = oldProject;
-				} else {
-					project = Utils.findValidProject();
-					if (project == null) {
+		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
+		Project oldProject = project;
+		project = StorageHandler.getInstance().loadProject(projectName);
+
+		if (project == null) {
+			if (oldProject != null) {
+				project = oldProject;
+			} else {
+				project = Utils.findValidProject();
+				if (project == null) {
+					try {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
+					} catch (Exception e) {
+						if (errorMessage) {
+							Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+						}
+						Log.e("CATROID", "Cannot load project.", e);
+						return false;
 					}
 				}
-				if (errorMessage) {
-					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-				}
-				return false;
-			} else if (project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
-				project = oldProject;
-				if (errorMessage) {
-					Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
-					// TODO show dialog to download latest catroid version instead
-				}
-				return false;
-			} else {
-				// adapt name of background sprite to the current language and place
-				// on lowest layer
-				project.getSpriteList().get(0).setName(context.getString(R.string.background));
-				project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
-
-				currentSprite = null;
-				currentScript = null;
-
-				Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
-
-				return true;
 			}
-		} catch (Exception e) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+			if (errorMessage) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+			}
 			return false;
+		} else if (project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+			project = oldProject;
+			if (errorMessage) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+				// TODO show dialog to download latest catroid version instead
+			}
+			return false;
+		} else {
+			// adapt name of background sprite to the current language and place
+			// on lowest layer
+			project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+
+			currentSprite = null;
+			currentScript = null;
+
+			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
+
+			return true;
 		}
 	}
 
