@@ -90,17 +90,25 @@ public class ObjectCreator {
 
 	@SuppressWarnings("rawtypes")
 	public Map<String, Field> getFieldMap(Class cls) {
-		Map<String, Field> fieldsToSet = new TreeMap<String, Field>();
+		//		if (superClassFields.length > 0) {
+		//			Field[] combined = new Field[superClassFields.length + classFields.length];
+		//			System.arraycopy(classFields, 0, combined, 0, classFields.length);
+		//			System.arraycopy(superClassFields, 0, combined, classFields.length, superClassFields.length);
+		//			classFields = combined;
+		//		}
+		Map<String, Field> fieldsToSetofSuperClass = getFieldMapOfSuperClass(cls);
+		Map<String, Field> fieldsToSetofClass = getFieldMapOfThisClass(cls);
+		Map<String, Field> allFieldsMap = new TreeMap<String, Field>();
+		allFieldsMap.putAll(fieldsToSetofClass);
+		allFieldsMap.putAll(fieldsToSetofSuperClass);
 
-		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
-		Field[] brickFields = cls.getDeclaredFields();
-		if (superClassFields.length > 0) {
-			Field[] combined = new Field[superClassFields.length + brickFields.length];
-			System.arraycopy(brickFields, 0, combined, 0, brickFields.length);
-			System.arraycopy(superClassFields, 0, combined, brickFields.length, superClassFields.length);
-			brickFields = combined;
-		}
-		for (Field field : brickFields) {
+		return allFieldsMap;
+	}
+
+	public Map<String, Field> getFieldMapOfThisClass(Class cls) {
+		Map<String, Field> fieldsToSetofClass = new TreeMap<String, Field>();
+		Field[] classFields = cls.getDeclaredFields();
+		for (Field field : classFields) {
 			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
 			boolean isCurrentFieldFinal = Modifier.isFinal(field.getModifiers());
 			if (isCurrentFieldTransient || isCurrentFieldFinal) {
@@ -109,11 +117,28 @@ public class ObjectCreator {
 
 			String tagName = extractTagName(field);
 
-			fieldsToSet.put(tagName, field);
+			fieldsToSetofClass.put(tagName, field);
 
 		}
+		return fieldsToSetofClass;
+	}
 
-		return fieldsToSet;
+	public Map<String, Field> getFieldMapOfSuperClass(Class cls) {
+		Map<String, Field> fieldsToSetofSuperClass = new TreeMap<String, Field>();
+		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
+		for (Field field : superClassFields) {
+			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
+			boolean isCurrentFieldFinal = Modifier.isFinal(field.getModifiers());
+			if (isCurrentFieldTransient || isCurrentFieldFinal) {
+				continue;
+			}
+
+			String tagName = extractTagName(field);
+
+			fieldsToSetofSuperClass.put(tagName, field);
+
+		}
+		return fieldsToSetofSuperClass;
 	}
 
 	public static Object createWithoutConstructor(final Class clazz) throws IllegalArgumentException,
