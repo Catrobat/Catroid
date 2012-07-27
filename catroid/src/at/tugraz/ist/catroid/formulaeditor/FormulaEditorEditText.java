@@ -71,11 +71,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private Spannable errorSpan = null;
 	private boolean ignoreNextUpdate = false;
 	private boolean hasChanges = false;
-	float lineHeight = 0;
+	private int numberOfVisibleLines = 0;
+	private float lineHeight = 0;
+	private int currentYScrollPosition = 0;
 	private int absoluteCursorPosition = 0;
-	int relativeCursorPosition = 0;
 	private int cursorYOffset = 0;
-	private int cursorXOffset = 0;
+	//private int cursorXOffset = 0;
 
 	FormulaEditorDialog dialog = null;
 
@@ -104,11 +105,14 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		//setText(getText(), selectable ? BufferType.SPANNABLE : BufferType.NORMAL);
 		if (brickHeight < 100) { //this height seems buggy for some high bricks, still need it...
-			this.setLines(7);
+			numberOfVisibleLines = 7;
+			this.setLines(numberOfVisibleLines);
 		} else if (brickHeight < 200) {
-			this.setLines(6);
+			numberOfVisibleLines = 6;
+			this.setLines(numberOfVisibleLines);
 		} else {
-			this.setLines(4);
+			numberOfVisibleLines = 4;
+			this.setLines(numberOfVisibleLines);
 		}
 
 		//this.setBackgroundResource(0);
@@ -120,6 +124,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		this.setEnabled(true);
 		this.setText(formulaAsText);
 		super.setSelection(formulaAsText.length());
+		absoluteCursorPosition = formulaAsText.length();
+		//scrollToEnd();
 		updateSelectionIndices();
 
 		//this.setCursorVisible(true);
@@ -139,6 +145,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		selectionStartIndex = absoluteCursorPosition;
 		selectionEndIndex = absoluteCursorPosition;
+		//snapToLine();
 		//setSelection(selectionStartIndex);
 	}
 
@@ -153,22 +160,20 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		Log.i("info", "Scroll: " + this.getScrollY());
 		float scrollOffset = this.getScrollY();
 		//float horizontalOffset = layout.getPrimaryHorizontal(absoluteCursorPosition);
-		float horizontalOffset = layout.getPrimaryHorizontal(relativeCursorPosition);
+		float horizontalOffset = layout.getPrimaryHorizontal(absoluteCursorPosition);
 
 		lineHeight = layout.getSpacingMultiplier() * this.getTextSize() + 5;
 
-		float betweenLineOffset = scrollOffset % 41;
-		Log.i("info", "Vertical: " + lineHeight + " " + betweenLineOffset);
-		//		if (layout != null) {
-		//			for (int i = 0; i < cursorYOffset; i++) {
-		//				textPosition = textPosition - layout.getLineEnd(i);
-		//				Log.i("info", "line:" + i + " num:" + layout.getLineEnd(i));
-		//				//				cursorYOffset = layout.getLineForVertical((int) motion.getY());
-		//				//				cursorXOffset = (int) motion.getX();
-		//				//				cursorPosition = layout.getOffsetForHorizontal(cursorYOffset, cursorXOffset);
-		//			}
-		//		}
-		//		Log.i("info", "pos now:" + textPosition);
+		float betweenLineOffset = scrollOffset % lineHeight;
+		Log.i("info", "Vertical: " + lineHeight + " " + betweenLineOffset + " " + scrollOffset + " " + cursorYOffset);
+
+		if (cursorYOffset == 0 && betweenLineOffset > 2.1) { //2.0 is some margin, mostly the scroll thingy scrolls back up/down this margin after scrolling to bottom/top
+			betweenLineOffset -= lineHeight; //when scrollable there sometimes is half a line additionaly visible on top
+		}
+		if (cursorYOffset == numberOfVisibleLines && betweenLineOffset > 2.1) {
+			betweenLineOffset += lineHeight; //when scrollable there sometimes is half a line additionaly visible on top
+		}
+
 		float startX = horizontalOffset + 15;
 		float endX = horizontalOffset + 15;
 		float startY = (15 + scrollOffset + lineHeight * cursorYOffset) - betweenLineOffset;
@@ -538,11 +543,12 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		}
 
 		setText(text);
-		super.setSelection(selectionEndIndex);
+		setSelection(selectionEndIndex);
 	}
 
 	private void appendToTextFieldAtCurrentPosition(String newElement) {
 		Editable text = getText();
+
 		if (newElement.equals("null")) { //Spacebar!
 			newElement = " ";
 		}
@@ -613,7 +619,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	@Override
 	public void setSelection(int index) {
-		//Do not use! 
+		//scrollToCurrentLine();
+		//This is only used to get the scrollbar to the right position easily
+		super.setSelection(index);
 
 	}
 
@@ -643,42 +651,100 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 	public boolean onTouch(View v, MotionEvent motion) {
 
-		if (motion.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+		if (motion.getAction() == android.view.MotionEvent.ACTION_UP) {
 			Layout layout = this.getLayout();
 			if (layout != null) {
-				cursorYOffset = (layout.getLineForVertical((int) motion.getY()));
-				cursorXOffset = (int) motion.getX();
+
+				int yCoordinate = (int) motion.getY();
+				//Log.i("info", "Raw Y: " + yCoordinate + " lc: " + this.getLineCount());
+				//				if (yCoordinate <= 15) { //would snap to line above 0 if any exists
+				//					yCoordinate = 15;
+				//				} else if (yCoordinate > lineHeight * this.getLineCount()) {
+				//
+				//				}
+				int cursorY = (layout.getLineForVertical(yCoordinate));
+				int cursorXOffset = (int) motion.getX();
 
 				//layout.getLineCount()
 				int linesDown = (int) (getScrollY() / lineHeight);
-				int scrolledOverCharacters = 0;
-				Log.i("info", " scrolled down lines " + linesDown + " len: " + getText().length() + " bla: "
-						+ getText().toString().lastIndexOf("\n"));
+				//				Log.i("info",
+				//						" scrolled down lines " + linesDown + " len: " + getText().length() + " bla: "
+				//								+ layout.getLineCount());
 
-				scrolledOverCharacters = layout.getLineEnd(linesDown);
+				while (cursorY + linesDown >= layout.getLineCount()) {
+					linesDown--;
+				}
 
-				relativeCursorPosition = layout.getOffsetForHorizontal(cursorYOffset, cursorXOffset);
+				int tempCursorPosition = layout.getOffsetForHorizontal(cursorY + linesDown, cursorXOffset);
+
+				while (tempCursorPosition > getText().length()) {
+					tempCursorPosition--;
+				}
+
+				absoluteCursorPosition = tempCursorPosition;
+				cursorYOffset = cursorY;
 				//absoluteCursorPosition = relativeCursorPosition + scrolledOverCharacters;
 				//TODO absolute pos!
-				absoluteCursorPosition = relativeCursorPosition;
 				//absoluteCursorPosition = cursorPositionAbsolute;
-				Log.i("info", "YOff: " + layout.getLineForVertical((int) motion.getY()) + " Corr: " + cursorYOffset
-						+ " num lines: " + layout.getLineCount() + "scrolled over: " + scrolledOverCharacters);
+				//				Log.i("info", "YOff: " + layout.getLineForVertical((int) motion.getY()) + " Corr: " + cursorYOffset
+				//						+ " num lines: " + layout.getLineCount());
+
 				updateSelectionIndices();
+				//snapToLine();
 			}
 
-		} else if (motion.getAction() == android.view.MotionEvent.ACTION_UP) {
+		} else if (motion.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+
+			//float scrollOffset = this.getScrollY() % lineHeight;
+			//int betweenLineOffset = scrollOffset % 41;
+			//int snapToLineOffset = (int) ((scrollOffset + lineHeight * cursorYOffset) - betweenLineOffset);
+
+			//if (snapToLine <= lineHeight / 2) {
+
+			//} else {
+			//this.scrollTo(0, snapToLineOffset);f
+
+		} else if (motion.getAction() == android.view.MotionEvent.ACTION_CANCEL) {
+			Log.i("info", "ACTION_CANCEL");
+
+		} else {
+
 		}
 
 		gestureDetector.onTouchEvent(motion);
 		return false;
 	}
 
+	//	private void snapToLine() {
+	//		float numLines = FloatMath.floor((this.getScrollY() / lineHeight));
+	//		Log.i("info", "Snap to: " + currentYScrollPosition + " " + numLines);
+	//
+	//		if (numLines > 0 && numLines + 1 <= numberOfVisibleLines) {
+	//			numLines += 0.5;
+	//		}
+	//
+	//		currentYScrollPosition = (int) (numLines * lineHeight);
+	//		this.scrollTo(0, currentYScrollPosition);
+	//	}
+	//
+	//	private void scrollToCurrentLine() {
+	//		Log.i("info", "Scroll to: " + currentYScrollPosition);
+	//		this.scrollTo(0, currentYScrollPosition);
+	//	}
+	//
+	//	private void scrollToEnd() {
+	//		Layout layout = this.getLayout();
+	//		if (layout != null) {
+	//			scrollTo(0, (int) (layout.getLineCount() * lineHeight));
+	//		}
+	//
+	//	}
+
 	final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
 			Log.i("info", "double tap ");
-			//ignoreNextUpdate = true;
+			ignoreNextUpdate = true;
 			doSelectionAndHighlighting();
 			return true;
 		}
