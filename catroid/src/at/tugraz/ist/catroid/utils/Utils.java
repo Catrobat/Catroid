@@ -53,12 +53,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -109,12 +110,11 @@ public class Utils {
 		return true;
 	}
 
-	public static void updateScreenWidthAndHeight(Activity currentActivity) {
-		DisplayMetrics dm = new DisplayMetrics();
-		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-		Values.SCREEN_WIDTH = dm.widthPixels;
-		Values.SCREEN_HEIGHT = dm.heightPixels;
+	public static void updateScreenWidthAndHeight(Context context) {
+		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = windowManager.getDefaultDisplay();
+		Values.SCREEN_WIDTH = display.getWidth();
+		Values.SCREEN_HEIGHT = display.getHeight();
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
