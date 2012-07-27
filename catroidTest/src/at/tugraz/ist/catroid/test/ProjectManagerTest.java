@@ -27,6 +27,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends AndroidTestCase {
 	private static final String OLD_PROJECT = "OLD_PROJECT";
@@ -38,6 +39,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		Utils.updateScreenWidthAndHeight(getContext());
 		projectManager = ProjectManager.getInstance();
 	}
 
