@@ -123,7 +123,7 @@ public class FormulaEditorDialog extends Dialog implements OnClickListener, OnDi
 		catKeyboardView.setEditText(textArea);
 		catKeyboardView.setCurrentBrick(currentBrick);
 
-		textArea.init(this, brickSpace.getMeasuredHeight(), catKeyboardView);
+		textArea.init(this, brickSpace.getMeasuredHeight(), catKeyboardView, context);
 	}
 
 	public void setInputFocusAndFormula(Formula formula) {

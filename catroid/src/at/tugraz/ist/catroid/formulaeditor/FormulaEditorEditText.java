@@ -71,7 +71,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 	private Spannable errorSpan = null;
 	private boolean ignoreNextUpdate = false;
 	private boolean hasChanges = false;
-	private int cursorPosition = 0;
+	float lineHeight = 0;
+	private int absoluteCursorPosition = 0;
+	int relativeCursorPosition = 0;
 	private int cursorYOffset = 0;
 	private int cursorXOffset = 0;
 
@@ -89,7 +91,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		super(context, attrs, defStyle);
 	}
 
-	public void init(FormulaEditorDialog dialog, int brickHeight, CatKeyboardView ckv) {
+	public void init(FormulaEditorDialog dialog, int brickHeight, CatKeyboardView ckv, Context context) {
 		this.dialog = dialog;
 		this.setOnClickListener(this);
 		this.setOnTouchListener(this);
@@ -135,16 +137,43 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		clearSelectionHighlighting();
 		editMode = false;
 
-		selectionStartIndex = cursorPosition;
-		selectionEndIndex = cursorPosition;
+		selectionStartIndex = absoluteCursorPosition;
+		selectionEndIndex = absoluteCursorPosition;
 		//setSelection(selectionStartIndex);
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		//		canvas.drawLine(10 + 20 * cursorPosition, 20 + 20 * cursorYOffset, 10 + 20 * cursorPosition,
-		//				50 + 20 * cursorYOffset, this.getPaint());
+
+		Log.i("info", absoluteCursorPosition + " " + cursorYOffset);
+		//int textPosition = cursorPosition;
+
+		Layout layout = this.getLayout();
+		Log.i("info", "Scroll: " + this.getScrollY());
+		float scrollOffset = this.getScrollY();
+		//float horizontalOffset = layout.getPrimaryHorizontal(absoluteCursorPosition);
+		float horizontalOffset = layout.getPrimaryHorizontal(relativeCursorPosition);
+
+		lineHeight = layout.getSpacingMultiplier() * this.getTextSize() + 5;
+
+		float betweenLineOffset = scrollOffset % 41;
+		Log.i("info", "Vertical: " + lineHeight + " " + betweenLineOffset);
+		//		if (layout != null) {
+		//			for (int i = 0; i < cursorYOffset; i++) {
+		//				textPosition = textPosition - layout.getLineEnd(i);
+		//				Log.i("info", "line:" + i + " num:" + layout.getLineEnd(i));
+		//				//				cursorYOffset = layout.getLineForVertical((int) motion.getY());
+		//				//				cursorXOffset = (int) motion.getX();
+		//				//				cursorPosition = layout.getOffsetForHorizontal(cursorYOffset, cursorXOffset);
+		//			}
+		//		}
+		//		Log.i("info", "pos now:" + textPosition);
+		float startX = horizontalOffset + 15;
+		float endX = horizontalOffset + 15;
+		float startY = (15 + scrollOffset + lineHeight * cursorYOffset) - betweenLineOffset;
+		float endY = (15 + scrollOffset + lineHeight * (cursorYOffset + 1)) - betweenLineOffset;
+		canvas.drawLine(startX, startY, endX, endY, this.getPaint());
 
 	}
 
@@ -157,8 +186,8 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			return;
 		}
 
-		selectionStartIndex = cursorPosition;
-		selectionEndIndex = cursorPosition;
+		selectionStartIndex = absoluteCursorPosition;
+		selectionEndIndex = absoluteCursorPosition;
 
 		while (selectionStartIndex > 0) {
 			//this reads: (char is not 'a'...'z' or 'A'...'Z' or '_'), which is the naming convention for our variables/sensors
@@ -391,7 +420,7 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		selectionStartIndex = firstError;
 		selectionEndIndex = firstError + 1;
 		//setSelection(firstError);
-		cursorPosition = firstError;
+		absoluteCursorPosition = firstError;
 
 		String text = getText().toString();
 		//error at start of function or variable/constant
@@ -431,16 +460,17 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		String text = getText().toString();
 		//int cursor = this.getSelectionStart();
-		if (cursorPosition > 0
-				&& cursorPosition < text.length()
+		if (absoluteCursorPosition > 0
+				&& absoluteCursorPosition < text.length()
 				&& !editMode
-				&& ((((text.charAt(cursorPosition) >= 97) && (text.charAt(cursorPosition) <= 123))
-						|| ((text.charAt(cursorPosition) >= 65) && (text.charAt(cursorPosition) <= 91)) || (text
-						.charAt(cursorPosition) == '_')))
-				&& (!(((text.charAt(cursorPosition - 1) < 97) || (text.charAt(cursorPosition - 1) > 123))
-						&& ((text.charAt(cursorPosition - 1) < 65) || (text.charAt(cursorPosition - 1) > 91)) && (text
-						.charAt(cursorPosition - 1) != '_')))) {
+				&& ((((text.charAt(absoluteCursorPosition) >= 97) && (text.charAt(absoluteCursorPosition) <= 123))
+						|| ((text.charAt(absoluteCursorPosition) >= 65) && (text.charAt(absoluteCursorPosition) <= 91)) || (text
+						.charAt(absoluteCursorPosition) == '_')))
+				&& (!(((text.charAt(absoluteCursorPosition - 1) < 97) || (text.charAt(absoluteCursorPosition - 1) > 123))
+						&& ((text.charAt(absoluteCursorPosition - 1) < 65) || (text.charAt(absoluteCursorPosition - 1) > 91)) && (text
+						.charAt(absoluteCursorPosition - 1) != '_')))) {
 			doSelectionAndHighlighting();
+
 			editMode = true;
 			return;
 		}
@@ -462,6 +492,9 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 			dialog.showOkayButton();
 		}
 
+		absoluteCursorPosition = selectionEndIndex;
+		Log.i("info", "Cursor Pos: " + absoluteCursorPosition);
+
 	}
 
 	public void deleteOneCharAtCurrentPosition() {
@@ -478,24 +511,24 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		} else {
 			if (text.charAt(selectionEndIndex - 1) == ',') {
 				//super.setSelection(selectionEndIndex - 1, selectionEndIndex);
-				cursorPosition = selectionEndIndex - 1;
+				absoluteCursorPosition = selectionEndIndex - 1;
 				doSelectionAndHighlighting();
 				return;
 			} else if (text.charAt(selectionEndIndex - 1) == ')') {
 				//super.setSelection(selectionEndIndex - 1, selectionEndIndex);sdf
-				cursorPosition = selectionEndIndex - 1;
+				absoluteCursorPosition = selectionEndIndex - 1;
 				doSelectionAndHighlighting();
 				return;
 			} else if (text.charAt(selectionEndIndex - 1) == '(') {
 				//super.setSelection(selectionEndIndex - 1, selectionEndIndex);
-				cursorPosition = selectionEndIndex - 1;
+				absoluteCursorPosition = selectionEndIndex - 1;
 				doSelectionAndHighlighting();
 				return;
 			} else if (((text.charAt(selectionEndIndex - 1) >= 97) && (text.charAt(selectionEndIndex - 1) <= 123))
 					|| ((text.charAt(selectionEndIndex - 1) >= 65) && (text.charAt(selectionEndIndex - 1) <= 91))
 					|| (text.charAt(selectionEndIndex - 1) == '_')) {
 				//super.setSelection(selectionEndIndex - 1, selectionEndIndex);
-				cursorPosition = selectionEndIndex - 1;
+				absoluteCursorPosition = selectionEndIndex - 1;
 				doSelectionAndHighlighting();
 				return;
 			}
@@ -516,7 +549,6 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 
 		if (editMode) {
 			text.replace(selectionStartIndex, selectionEndIndex, newElement);
-			selectionEndIndex = selectionStartIndex + newElement.length();
 
 			editMode = false;
 		} else {
@@ -614,10 +646,24 @@ public class FormulaEditorEditText extends EditText implements OnClickListener, 
 		if (motion.getAction() == android.view.MotionEvent.ACTION_DOWN) {
 			Layout layout = this.getLayout();
 			if (layout != null) {
-				cursorYOffset = layout.getLineForVertical((int) motion.getY());
+				cursorYOffset = (layout.getLineForVertical((int) motion.getY()));
 				cursorXOffset = (int) motion.getX();
-				cursorPosition = layout.getOffsetForHorizontal(cursorYOffset, cursorXOffset);
 
+				//layout.getLineCount()
+				int linesDown = (int) (getScrollY() / lineHeight);
+				int scrolledOverCharacters = 0;
+				Log.i("info", " scrolled down lines " + linesDown + " len: " + getText().length() + " bla: "
+						+ getText().toString().lastIndexOf("\n"));
+
+				scrolledOverCharacters = layout.getLineEnd(linesDown);
+
+				relativeCursorPosition = layout.getOffsetForHorizontal(cursorYOffset, cursorXOffset);
+				//absoluteCursorPosition = relativeCursorPosition + scrolledOverCharacters;
+				//TODO absolute pos!
+				absoluteCursorPosition = relativeCursorPosition;
+				//absoluteCursorPosition = cursorPositionAbsolute;
+				Log.i("info", "YOff: " + layout.getLineForVertical((int) motion.getY()) + " Corr: " + cursorYOffset
+						+ " num lines: " + layout.getLineCount() + "scrolled over: " + scrolledOverCharacters);
 				updateSelectionIndices();
 			}
 
