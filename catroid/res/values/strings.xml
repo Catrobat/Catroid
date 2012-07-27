@@ -249,7 +249,9 @@
     <string name="brick_repeat">Repeat</string>
     <string name="times_label">times</string>
     <string name="brick_loop_end">End of loop</string>
-
+	<string name="brick_if">If</string>
+	<string name="brick_else">Else</string>
+	
     <!-- Actions -->
     <string name="action_tapped">tapped</string>
     <string name="action_doubleTapped">double tapped</string>
@@ -336,7 +338,7 @@
     <string name="formula_editor_changes_saved">Changes saved!</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
     <string name="formula_editor_parse_fail">Error in the input! Changes not saved.</string>
-    <string name="formula_nothing_selected">Define the brick´s input value</string>
+    <string name="formula_nothing_selected">Define the brick麓s input value</string>
      
     <!-- Num Pad Strings -->
     <string name="ime_name">CatKeyboard</string>

@@ -206,6 +206,7 @@ public class FormulaElement implements Serializable {
 				return (double) java.lang.Math.round(left);
 			}
 		} else if (type == ElementType.SENSOR) {
+
 			if (value.equals("XACC_")) {
 				//Log.i("info", "Acc-X: " + Gdx.input.getAccelerometerX());
 				return Double.valueOf(Gdx.input.getAccelerometerX());
