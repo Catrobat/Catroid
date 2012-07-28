@@ -62,7 +62,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private boolean insertLoop;
 	private int pos;
 	private int fromTest;
-	
+
 	private BrickInteractionListener brickInteractionListener;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
@@ -78,7 +78,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	public void setBrickInteractionListener(BrickInteractionListener listener) {
 		brickInteractionListener = listener;
 	}
-	
+
 	@Override
 	public void drag(int from, int to) {
 		fromTest = from;
@@ -237,7 +237,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 							}
 							setInsertedBrickpos(brickToScript + sId + 1 + additional);
 							intersect = true;
-							
+
 							if (brickInteractionListener != null) {
 								brickInteractionListener.onInsertedBrickChanged(brickToScript + sId + 1 + additional);
 							}
@@ -344,7 +344,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 							}
 							setInsertedBrickpos(brickToScript + sId + 1 + additional);
 							intersect = true;
-							
+
 							if (brickInteractionListener != null) {
 								brickInteractionListener.onInsertedBrickChanged(brickToScript + sId + 1 + additional);
 							}
@@ -650,11 +650,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			if (position == pos) {
 				if (insertedBrick) {
 					insertedBrick = false;
-					
+
 					if (brickInteractionListener != null) {
 						brickInteractionListener.onBrickLongClick(currentBrickView);
 					}
-					
+
 					return insertionView;
 				}
 			}
@@ -760,8 +760,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public int rearangeBricks(int pos) {
-
 		Script script = ProjectManager.getInstance().getCurrentScript();
+		if (script == null) {
+			return -1;
+		}
+
 		Brick brick = script.getBrick(script.getBrickList().size() - 1);
 		ProjectManager.getInstance().getCurrentScript().removeBrick(brick);
 
@@ -815,12 +818,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		return false;
 	}
-	
+
 	public interface BrickInteractionListener {
-		
+
 		public void onInsertedBrickChanged(int position);
-		
+
 		public void onBrickLongClick(View brickView);
-		
+
 	}
 }

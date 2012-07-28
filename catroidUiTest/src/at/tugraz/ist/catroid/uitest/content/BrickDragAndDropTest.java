@@ -74,8 +74,6 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 		assertTrue("Hovering brick should be instance of StopAllSoundsBrick",
 				brickListToCheck.get(0) instanceof StopAllSoundsBrick);
 
-		UiTestUtils.clickOnAddBrickAndGoBack(solo);
-
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		solo.drag(10, 10, yPositionList.get(1), yPositionList.get(2) + 100, 30);
 		solo.sleep(200);
@@ -86,8 +84,8 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
 		solo.clickOnText(spriteName);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
-		solo.goBack();
+		yPositionList = UiTestUtils.getListItemYPositions(solo);
+		solo.clickOnScreen(10, yPositionList.get(3));
 
 		solo.clickOnText(spriteName);
 		ImageView trash = (ImageView) solo.getView(R.id.trash);
