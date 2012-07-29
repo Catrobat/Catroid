@@ -33,10 +33,11 @@ import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.fragment.SpritesListFragment;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class ProjectActivity extends SherlockFragmentActivity {
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,28 +45,34 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        	case android.R.id.home: {
-                Intent intent = new Intent(this, MainMenuActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            }
-            case R.id.menu_add: {
-            	NewSpriteDialog dialog = new NewSpriteDialog();
-            	dialog.show(getSupportFragmentManager(), "dialog_new_sprite");
-                return true;
-            }
-            case R.id.menu_start: {
-                Intent intent = new Intent(this, PreStageActivity.class);
-                startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home: {
+				Intent intent = new Intent(this, MainMenuActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				return true;
+			}
+			case R.id.menu_add: {
+				NewSpriteDialog dialog = new NewSpriteDialog();
+				dialog.show(getSupportFragmentManager(), "dialog_new_sprite");
+				return true;
+			}
+			case R.id.menu_start: {
+				Intent intent = new Intent(this, PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+				return true;
+			}
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
@@ -73,7 +80,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 			startActivity(intent);
 		}
 	}
-	
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
@@ -87,7 +94,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 		SpritesListFragment spritesListFragment = (SpritesListFragment) fm.findFragmentById(R.id.fr_sprites_list);
 		spritesListFragment.notifySpriteAdapter();
 	}
-	
+
 	public void handleProjectActivityItemLongClick(View view) {
 	}
 }
