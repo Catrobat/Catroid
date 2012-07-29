@@ -51,6 +51,7 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter.OnSoundCheckedListener;
+import at.tugraz.ist.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter.OnSoundPlayPauseListener;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteSoundDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
@@ -64,7 +65,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class SoundFragment extends SherlockListFragment implements OnSoundCheckedListener, OnSoundPlayPauseListener,
-		LoaderManager.LoaderCallbacks<Cursor> {
+		OnSoundEditListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final String ARGS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
@@ -98,6 +99,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundCheckedListener(this);
 		adapter.setOnSoundPlayPauseListener(this);
+		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 
 		mediaPlayer = new MediaPlayer();
@@ -231,6 +233,11 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 	}
 
 	@Override
+	public void onSoundRename(int position) {
+		handleSoundRename(position);
+	}
+
+	@Override
 	public void onSoundChecked(int position, boolean isChecked) {
 		int checkedSoundsCount = adapter.getCheckedSoundsCount();
 		if (checkedSoundsCount > 0) {
@@ -275,6 +282,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundCheckedListener(this);
 		adapter.setOnSoundPlayPauseListener(this);
+		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 	}
 

@@ -58,6 +58,7 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter.OnCostumeCheckedListener;
+import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter.OnCostumeEditListener;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -71,7 +72,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class CostumeFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor>,
-		OnCostumeCheckedListener {
+		OnCostumeCheckedListener, OnCostumeEditListener {
 
 	private static final String ARGS_SELECTED_COSTUME = "selected_costume";
 	private static final String ARGS_IMAGE_URI = "image_uri";
@@ -105,6 +106,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
+		adapter.setOnCostumeEditListener(this);
 		adapter.setOnCostumeCheckedListener(this);
 		setListAdapter(adapter);
 		setHasOptionsMenu(true);
@@ -209,6 +211,16 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 				loadPaintroidImageIntoCatroid(data);
 				break;
 		}
+	}
+
+	@Override
+	public void onCostumeRename(int position) {
+		handleRenameCostumeButton(position);
+	}
+
+	@Override
+	public void onCostumeEditPaintroid(int position) {
+		handleEditCostumeButton(position);
 	}
 
 	@Override
@@ -460,6 +472,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	private void reloadAdapter() {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
+		adapter.setOnCostumeEditListener(this);
 		adapter.setOnCostumeCheckedListener(this);
 		setListAdapter(adapter);
 	}

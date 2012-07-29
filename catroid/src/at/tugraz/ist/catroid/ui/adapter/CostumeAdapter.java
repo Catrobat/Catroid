@@ -29,6 +29,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -48,6 +49,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	private Set<Integer> checkedCostumes = new HashSet<Integer>();
 
 	private OnCostumeCheckedListener onCostumeCheckedListener;
+	private OnCostumeEditListener onCostumeEditListener;
 
 	public CostumeAdapter(final Context context, int textViewResourceId, ArrayList<CostumeData> items) {
 		super(context, textViewResourceId, items);
@@ -57,6 +59,10 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 
 	public void setOnCostumeCheckedListener(OnCostumeCheckedListener listener) {
 		onCostumeCheckedListener = listener;
+	}
+
+	public void setOnCostumeEditListener(OnCostumeEditListener listener) {
+		onCostumeEditListener = listener;
 	}
 
 	public Set<Integer> getCheckedCostumes() {
@@ -113,6 +119,24 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 				}
 			}
 
+			costumeNameTextField.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onCostumeEditListener != null) {
+						onCostumeEditListener.onCostumeRename(position);
+					}
+				}
+			});
+
+			costumeImage.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onCostumeEditListener != null) {
+						onCostumeEditListener.onCostumeEditPaintroid(position);
+					}
+				}
+			});
+
 			costumeCheckBox.setChecked(checkedCostumes.contains(position));
 			costumeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
@@ -136,6 +160,14 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	public interface OnCostumeCheckedListener {
 
 		public void onCostumeChecked(int position, boolean isChecked);
+
+	}
+
+	public interface OnCostumeEditListener {
+
+		public void onCostumeRename(int position);
+
+		public void onCostumeEditPaintroid(int position);
 
 	}
 }

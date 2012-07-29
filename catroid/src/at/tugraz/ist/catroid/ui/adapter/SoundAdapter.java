@@ -53,6 +53,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 	private OnSoundCheckedListener onSoundCheckedListener;
 	private OnSoundPlayPauseListener onSoundPlayPauseListener;
+	private OnSoundEditListener onSoundEditListener;
 
 	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
 		super(context, textViewResourceId, items);
@@ -66,6 +67,10 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 	public void setOnSoundPlayPauseListener(OnSoundPlayPauseListener listener) {
 		onSoundPlayPauseListener = listener;
+	}
+
+	public void setOnSoundEditListener(OnSoundEditListener listener) {
+		onSoundEditListener = listener;
 	}
 
 	public Set<Integer> getCheckedSounds() {
@@ -144,6 +149,14 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			}
 
 			soundNameTextView.setText(soundInfo.getTitle());
+			soundNameTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onSoundEditListener != null) {
+						onSoundEditListener.onSoundRename(position);
+					}
+				}
+			});
 
 			soundCheckBox.setChecked(checkedSounds.contains(position));
 			soundCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -188,6 +201,12 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		public void onSoundPlay(View v);
 
 		public void onSoundPause(View v);
+
+	}
+
+	public interface OnSoundEditListener {
+
+		public void onSoundRename(int position);
 
 	}
 
