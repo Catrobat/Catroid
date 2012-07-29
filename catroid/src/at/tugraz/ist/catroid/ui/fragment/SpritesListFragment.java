@@ -51,8 +51,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 
 public class SpritesListFragment extends SherlockListFragment {
 
@@ -90,7 +88,6 @@ public class SpritesListFragment extends SherlockListFragment {
 		actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		setHasOptionsMenu(true);
 
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(ARGS_SPRITE_TO_EDIT);
@@ -109,12 +106,6 @@ public class SpritesListFragment extends SherlockListFragment {
 	public void onStart() {
 		super.onStart();
 		initListeners();
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_current_project, menu);
-		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
