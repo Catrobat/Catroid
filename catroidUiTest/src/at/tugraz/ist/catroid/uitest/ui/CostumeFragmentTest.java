@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
@@ -61,6 +60,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		super(ScriptTabActivity.class);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -89,10 +89,8 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		Point displaySize = new Point();
-		display.getSize(displaySize);
-		projectManager.getCurrentProject().virtualScreenWidth = displaySize.x;
-		projectManager.getCurrentProject().virtualScreenHeight = displaySize.y;
+		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
+		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 
