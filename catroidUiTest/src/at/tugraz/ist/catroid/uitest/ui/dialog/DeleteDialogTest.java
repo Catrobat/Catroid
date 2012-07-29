@@ -26,7 +26,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
@@ -78,6 +77,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		super.tearDown();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void createTestProject() throws Exception {
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
@@ -98,12 +98,10 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		costumeData.setCostumeName("costumeNameTest2");
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
-		Display display = getActivity().getWindowManager().getDefaultDisplay();
 
-		Point displaySize = new Point();
-		display.getSize(displaySize);
-		projectManager.getCurrentProject().virtualScreenWidth = displaySize.x;
-		projectManager.getCurrentProject().virtualScreenHeight = displaySize.y;
+		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
+		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 

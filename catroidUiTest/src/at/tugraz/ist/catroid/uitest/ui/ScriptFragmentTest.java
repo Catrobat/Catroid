@@ -27,7 +27,6 @@ import java.util.List;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -155,9 +154,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		Point displaySize = new Point();
-		display.getSize(displaySize);
-		int displayWidth = displaySize.x;
+		@SuppressWarnings("deprecation")
+		int displayWidth = display.getWidth();
 
 		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2) + 500, 40);
 		solo.sleep(1000);
