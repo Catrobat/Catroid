@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -31,18 +32,13 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class ElseBrick implements Brick {
-	static final int FOREVER = -1;
-	private static final int LOOP_DELAY = 20;
-	private static final int MILLION = 1000 * 1000;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private IfBeginBrick ifBeginBrick;
-	private transient int timesToRepeat;
-	private transient int conditionToCheck;
+	private IfThenElseBrick ifThenElseBrick;
 
-	public ElseBrick(Sprite sprite, IfBeginBrick ifStartingBrick) {
+	public ElseBrick(Sprite sprite, IfThenElseBrick ifStartingBrick) {
 		this.sprite = sprite;
-		this.ifBeginBrick = ifStartingBrick;
+		this.ifThenElseBrick = ifStartingBrick;
 	}
 
 	public int getRequiredResources() {
@@ -50,24 +46,19 @@ public class ElseBrick implements Brick {
 	}
 
 	public void execute() {
-		ifBeginBrick.setBeginLoopTime(System.nanoTime());
+		Script script = getScript();
 
-		if (timesToRepeat == FOREVER) {
-			Script script = getScript();
-			script.setExecutingBrickIndex(script.getBrickList().indexOf(ifBeginBrick));
-		} else if (--timesToRepeat > 0) {
-			Script script = getScript();
-			script.setExecutingBrickIndex(script.getBrickList().indexOf(ifBeginBrick));
-		}
+		while (!sprite.isFinished) {
 
-		long loopBeginTime = ifBeginBrick.getBeginLoopTime() / MILLION;
-		long loopEndTime = System.nanoTime() / MILLION;
-		long waitForNextLoop = (LOOP_DELAY - (loopEndTime - loopBeginTime));
-		if (waitForNextLoop > 0) {
-			try {
-				Thread.sleep(waitForNextLoop);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (script.getExecutingBrickIndex() == script.getBrickList().size()) {
+				script.setExecutingBrickIndex(script.getBrickList().indexOf(ifThenElseBrick));
+				Log.i(this.getClass().toString(), "Executed!!!!");
+				return;
+			}
+			if (ifThenElseBrick.checkCondition()) {
+				script.setExecutingBrickIndex(script.getBrickList().indexOf(ifThenElseBrick));
+				Log.i(this.getClass().toString(), "Executed!!!!");
+				return;
 			}
 		}
 	}
@@ -86,22 +77,18 @@ public class ElseBrick implements Brick {
 		return sprite;
 	}
 
-	public void setTimesToRepeat(int timesToRepeat) {
-		this.timesToRepeat = timesToRepeat;
-	}
-
-	public IfBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
+	public IfThenElseBrick getIfThenElseBrick() {
+		return ifThenElseBrick;
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_loop_end, null);
+		return inflater.inflate(R.layout.brick_else, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ElseBrick(getSprite(), getIfBeginBrick());
+		return new ElseBrick(getSprite(), getIfThenElseBrick());
 	}
 
 	public View getPrototypeView(Context context) {

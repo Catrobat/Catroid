@@ -250,7 +250,7 @@
     <string name="times_label">times</string>
     <string name="brick_loop_end">End of loop</string>
 	<string name="brick_if">If</string>
-	<string name="brick_else">Else</string>
+	<string name="brick_else">End of if</string>
 	
     <!-- Actions -->
     <string name="action_tapped">tapped</string>

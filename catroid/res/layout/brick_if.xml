@@ -35,11 +35,11 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:text="@string/brick_if" 
-        android:paddingRight="10dip">
+        android:paddingRight="5dip">
     </TextView>
 
     <TextView
-        android:id="@+id/brick_if_text_view"
+        android:id="@+id/brick_if_text_view1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -55,11 +55,56 @@
     </TextView>
 
     <EditText
-        android:id="@+id/brick_if_edit_text"
+        android:id="@+id/brick_if_edit_text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/ValueTextView"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:visibility="gone"
+        android:gravity="right"
+        android:inputType="number|numberDecimal"
+        android:maxLength="10"
+        android:maxLines="1"
+        android:minWidth="75dip"
+        android:text="3" >
+    </EditText>
+    
+    <Spinner
+        android:id="@+id/logic_operator_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="110dip"
+        android:clickable="false"
+        android:focusable="false" />
+        
+    <TextView
+        android:id="@+id/brick_if_text_view2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dip"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/logic_operator_spinner"
+        android:background="@color/white"
+        android:gravity="right"
+        android:minHeight="30dip"
+        android:minWidth="50dip"
+        android:paddingRight="5dip"
+        android:text="3"
+        android:textSize="20dip" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/brick_if_edit_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/logic_operator_spinner"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
