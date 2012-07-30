@@ -484,7 +484,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 				if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 					selectedCostumeData.setCostumeName(newCostumeName);
-					adapter.notifyDataSetChanged();
+					reloadAdapter();
 				}
 			}
 		}

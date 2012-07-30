@@ -127,14 +127,8 @@ public abstract class TextDialog extends DialogFragment {
 	protected void onOkButtonHandled() {
 	}
 
-	private void initTextChangedListener() {
-		final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
-
-		if (input.getText().toString().length() == 0) {
-			buttonPositive.setEnabled(false);
-		}
-
-		input.addTextChangedListener(new TextWatcher() {
+	protected TextWatcher getInputTextChangedListener(final Button buttonPositive) {
+		return new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0) {
@@ -151,6 +145,16 @@ public abstract class TextDialog extends DialogFragment {
 			@Override
 			public void afterTextChanged(Editable s) {
 			}
-		});
+		};
+	}
+
+	private void initTextChangedListener() {
+		final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
+
+		if (input.getText().toString().length() == 0) {
+			buttonPositive.setEnabled(false);
+		}
+
+		input.addTextChangedListener(getInputTextChangedListener(buttonPositive));
 	}
 }
