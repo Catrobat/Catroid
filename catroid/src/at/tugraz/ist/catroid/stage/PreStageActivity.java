@@ -58,7 +58,7 @@ public class PreStageActivity extends Activity {
 	public static StageListener stageListener;
 	private static LegoNXT legoNXT;
 	private ProgressDialog connectingProgressDialog;
-	public static TextToSpeech textToSpeech;
+	private static TextToSpeech textToSpeech;
 	private int requiredResourceCounter;
 
 	private boolean autoConnect = false;
@@ -103,10 +103,20 @@ public class PreStageActivity extends Activity {
 			}
 		}
 
+		textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
+			public void onInit(int status) {
+				resourceInitialized();
+				if (status == TextToSpeech.ERROR) {
+					Toast.makeText(PreStageActivity.this, "Error occurred while initializing Text-To-Speech engine",
+							Toast.LENGTH_LONG).show();
+					resourceFailed();
+				}
+			}
+		});
+
 		if (noResources == true) {
 			startStage();
 		}
-
 	}
 
 	@Override
@@ -226,18 +236,6 @@ public class PreStageActivity extends Activity {
 			case MY_DATA_CHECK_CODE:
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 					// success, create the TTS instance
-					textToSpeech = new TextToSpeech(this.getApplicationContext(), new OnInitListener() {
-						public void onInit(int status) {
-							resourceInitialized();
-							if (status == TextToSpeech.ERROR) {
-								Toast.makeText(PreStageActivity.this,
-										"Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG)
-										.show();
-								resourceFailed();
-							}
-						}
-					});
-
 					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
 						Intent installIntent = new Intent();
 						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
