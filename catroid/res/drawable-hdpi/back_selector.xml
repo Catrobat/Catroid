@@ -19,10 +19,15 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:state_pressed="true" android:drawable="@drawable/ic_back_pressed" /> <!-- pressed -->
-	<item android:state_focused="true" android:drawable="@drawable/ic_back" /> <!-- focused -->
-	<item android:drawable="@drawable/ic_back" /> <!-- default -->
+
+    <item android:drawable="@drawable/ic_back_pressed" android:state_pressed="true"/>
+ <!-- pressed -->
+    <item android:drawable="@drawable/ic_back" android:state_focused="true"/>
+ <!-- focused -->
+    <item android:drawable="@drawable/ic_back"/>
+ <!-- default -->
+
 </selector>

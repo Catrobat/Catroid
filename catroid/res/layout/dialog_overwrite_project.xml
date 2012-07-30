@@ -19,15 +19,14 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:theme="@android:style/Theme.Light"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Light" >
 
     <RadioGroup
         android:id="@+id/dialog_overwrite_project_radiogroup"
@@ -47,7 +46,7 @@
             android:layout_height="wrap_content"
             android:text="@string/overwrite_rename" />
     </RadioGroup>
-
+
     <EditText
         android:id="@+id/dialog_overwrite_project_edit"
         android:layout_width="268dp"
@@ -57,7 +56,7 @@
         android:ems="10"
         android:inputType="text"
         android:visibility="gone" />
-
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

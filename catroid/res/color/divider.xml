@@ -19,17 +19,12 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<layer-list
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<item>
-		<shape>
-			<gradient
-				android:startColor="@color/egg_yellow"
-				android:centerColor="@color/egg_yellow"
-				android:endColor="@color/egg_yellow"
-				android:angle="0" />
-		</shape>
-	</item>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item><shape>
+            <gradient android:angle="0" android:centerColor="@color/egg_yellow" android:endColor="@color/egg_yellow" android:startColor="@color/egg_yellow" />
+        </shape></item>
+
 </layer-list>

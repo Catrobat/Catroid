@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -26,11 +26,14 @@
  *			Copyright (c) Josh Clemm 2010
  *			Licensed under the Apache License, Version 2.0
  *
- -->
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-	android:shape="rectangle">
-	<gradient android:startColor="#5C5C5C" 
-		android:centerColor="#424242" 
-		android:endColor="#222222"
-		android:angle="-90" />
+    android:shape="rectangle" >
+
+    <gradient
+        android:angle="-90"
+        android:centerColor="#424242"
+        android:endColor="#222222"
+        android:startColor="#5C5C5C" />
+
 </shape>

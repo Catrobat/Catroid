@@ -19,22 +19,22 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
-  <!-- Point in direction spinner -->
-  <string-array name="point_in_direction_values">
-    <item>90</item>
-    <item>-90</item>
-    <item>0</item>
-    <item>180</item>
-  </string-array>
-  
-  <string-array name="point_in_direction_strings">
-    <item>(90) dreapta</item>
-    <item>(-90) stînga</item>
-    <item>(0) sus</item>
-    <item>(180) jos</item>
-  </string-array>
-  
+
+    <!-- Point in direction spinner -->
+    <string-array name="point_in_direction_values">
+        <item>90</item>
+        <item>-90</item>
+        <item>0</item>
+        <item>180</item>
+    </string-array>
+    <string-array name="point_in_direction_strings">
+        <item>(90) dreapta</item>
+        <item>(-90) stînga</item>
+        <item>(0) sus</item>
+        <item>(180) jos</item>
+    </string-array>
+
 </resources>

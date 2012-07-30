@@ -19,12 +19,18 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<set xmlns:android="http://schemas.android.com/apk/res/android">
-        <translate android:fromXDelta="0" android:toXDelta="-50%p"
-            android:duration="@android:integer/config_mediumAnimTime"/>	    
-        <alpha android:fromAlpha="1.0" android:toAlpha="0.0"
-            android:duration="@android:integer/config_mediumAnimTime" />
-</set>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<set xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <translate
+        android:duration="@android:integer/config_mediumAnimTime"
+        android:fromXDelta="0"
+        android:toXDelta="-50%p" />
+
+    <alpha
+        android:duration="@android:integer/config_mediumAnimTime"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0" />
+
+</set>

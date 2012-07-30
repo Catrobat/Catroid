@@ -19,39 +19,37 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
-  <!-- Point in direction spinner -->
-  <string-array name="point_in_direction_strings">
-    <item>(90) rechts</item>
-    <item>(-90) links</item>
-    <item>(0) oben</item>
-    <item>(180) unten</item>
-  </string-array>
-  
-  <!-- Mindroid motors spinner -->
- 	<string-array name="nxt_stop_motor_chooser">
-	  <item>A</item>
-	  <item>B</item>
-	  <item>C</item>
-	  <item>A+C</item>
-	  <item>Alle</item>
-	</string-array>
-	
- 	<string-array name="fancy_directions_chooser">
-    <item>links (45°)</item>
-    <item>links (90°)</item>
-    <item>rechts  (45°)</item>
-    <item>rechts  (90°)</item>
-    <item>umdrehen (180°)</item>
-    <item>ganz Drehen (360°)</item>
- 	</string-array>
-  	
-	
-	<string-array name="yes_no_array">
-	  <item>Ja</item>
-	  <item>Nein</item>
-  </string-array>
-  
+
+    <!-- Point in direction spinner -->
+    <string-array name="point_in_direction_strings">
+        <item>(90) rechts</item>
+        <item>(-90) links</item>
+        <item>(0) oben</item>
+        <item>(180) unten</item>
+    </string-array>
+
+    <!-- Mindroid motors spinner -->
+    <string-array name="nxt_stop_motor_chooser">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>A+C</item>
+        <item>Alle</item>
+    </string-array>
+    <string-array name="fancy_directions_chooser">
+        <item>links (45°)</item>
+        <item>links (90°)</item>
+        <item>rechts  (45°)</item>
+        <item>rechts  (90°)</item>
+        <item>umdrehen (180°)</item>
+        <item>ganz Drehen (360°)</item>
+    </string-array>
+    <string-array name="yes_no_array">
+        <item>Ja</item>
+        <item>Nein</item>
+    </string-array>
+
 </resources>

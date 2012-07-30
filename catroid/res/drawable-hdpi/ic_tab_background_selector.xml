@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -25,27 +25,18 @@
  * 		permission notice:  
  *			Copyright (c) Josh Clemm 2010
  *			Licensed under the Apache License, Version 2.0
- *
- -->
+ *
+-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<!--  Active tab -->
-	<item android:state_selected="true" 
-		android:state_focused="false"
-		android:state_pressed="false" 
-		android:drawable="@drawable/ic_tab_background_selected" />
-	<!--  Inactive tab -->
-	<item android:state_selected="false" 
-		android:state_focused="false"
-		android:state_pressed="false" 
-		android:drawable="@drawable/ic_tab_background" />
-	<!--  Pressed tab -->
-	<item android:state_pressed="true" 
-		android:drawable="@drawable/ic_tab_background_selected" />
-	<!--  Selected tab (using d-pad) -->
-	<item android:state_focused="true" 
-		android:state_selected="true"
-		android:state_pressed="false" 
-		android:drawable="@drawable/ic_tab_background_selected" />
-	<item android:drawable="@drawable/ic_tab_background_selected" />
-</selector> 
+    <!-- Active tab -->
+    <item android:drawable="@drawable/ic_tab_background_selected" android:state_focused="false" android:state_pressed="false" android:state_selected="true"/>
+    <!-- Inactive tab -->
+    <item android:drawable="@drawable/ic_tab_background" android:state_focused="false" android:state_pressed="false" android:state_selected="false"/>
+    <!-- Pressed tab -->
+    <item android:drawable="@drawable/ic_tab_background_selected" android:state_pressed="true"/>
+    <!-- Selected tab (using d-pad) -->
+    <item android:drawable="@drawable/ic_tab_background_selected" android:state_focused="true" android:state_pressed="false" android:state_selected="true"/>
+    <item android:drawable="@drawable/ic_tab_background_selected"/>
+
+</selector>
