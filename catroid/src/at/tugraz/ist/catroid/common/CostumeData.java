@@ -44,10 +44,49 @@ public class CostumeData {
 	private transient Integer height;
 	private transient static final int THUMBNAIL_WIDTH = 150;
 	private transient static final int THUMBNAIL_HEIGHT = 150;
-	private transient Pixmap pixmap;
-	private transient TextureRegion region;
+	private transient Pixmap pixmap = null;
+	private transient Pixmap originalPixmap = null;
+	private transient TextureRegion region = null;
 	private Semaphore pixmapLock = new Semaphore(1);
+	private Semaphore originalPixmapLock = new Semaphore(1);
 	private Semaphore textureRegionLock = new Semaphore(1);
+
+	public void adjustBrightness(float brightnessValue) {
+		Pixmap currentPixmap = getOriginalPixmap();
+		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(), currentPixmap.getHeight(), currentPixmap.getFormat());
+		newPixmap.drawPixmap(currentPixmap, 0, 0);
+		for (int y = 0; y < currentPixmap.getHeight(); y++) {
+			for (int x = 0; x < currentPixmap.getWidth(); x++) {
+				int pixel = currentPixmap.getPixel(x, y);
+				int r = (int) (((pixel >> 24) & 0xff) + (255 * (brightnessValue - 1)));
+				int g = (int) (((pixel >> 16) & 0xff) + (255 * (brightnessValue - 1)));
+				int b = (int) (((pixel >> 8) & 0xff) + (255 * (brightnessValue - 1)));
+				int a = pixel & 0xff;
+
+				if (r > 255) {
+					r = 255;
+				} else if (r < 0) {
+					r = 0;
+				}
+				if (g > 255) {
+					g = 255;
+				} else if (g < 0) {
+					g = 0;
+				}
+				if (b > 255) {
+					b = 255;
+				} else if (b < 0) {
+					b = 0;
+				}
+
+				newPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
+				newPixmap.drawPixel(x, y);
+			}
+		}
+		setPixmap(newPixmap);
+		setTextureRegion();
+
+	}
 
 	public TextureRegion getTextureRegion() {
 
@@ -61,7 +100,8 @@ public class CostumeData {
 
 	public synchronized void setTextureRegion() {
 		textureRegionLock.acquireUninterruptibly();
-		this.region = new TextureRegion(new Texture(getPixmap()));
+		Texture texture = new Texture(getPixmap());
+		this.region = new TextureRegion(texture);
 		textureRegionLock.release();
 	}
 
@@ -79,6 +119,17 @@ public class CostumeData {
 		pixmapLock.acquireUninterruptibly();
 		this.pixmap = pixmap;
 		pixmapLock.release();
+	}
+
+	public Pixmap getOriginalPixmap() {
+
+		if (originalPixmap == null) {
+			originalPixmapLock.acquireUninterruptibly();
+			originalPixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
+			originalPixmapLock.release();
+		}
+		return originalPixmap;
+
 	}
 
 	public String getAbsolutePath() {

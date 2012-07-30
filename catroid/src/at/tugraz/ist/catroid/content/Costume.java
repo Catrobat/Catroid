@@ -40,6 +40,7 @@ public class Costume extends Image {
 	protected Semaphore brightnessLock = new Semaphore(1);
 	protected Semaphore disposeTexturesLock = new Semaphore(1);
 	protected boolean imageChanged = false;
+	protected boolean brightnessChanged = false;
 	protected CostumeData costumeData;
 	protected Pixmap currentAlphaPixmap;
 	protected Sprite sprite;
@@ -131,7 +132,9 @@ public class Costume extends Image {
 				return;
 			}
 
+			brightnessLock.acquireUninterruptibly();
 			pixmap = costumeData.getPixmap();
+			brightnessLock.release();
 
 			xYWidthHeightLock.acquireUninterruptibly();
 			this.x += this.width / 2f;
@@ -151,13 +154,33 @@ public class Costume extends Image {
 			}*/
 
 			brightnessLock.acquireUninterruptibly();
-			if (brightnessValue != 1f) {
-				pixmap = this.adjustBrightness(pixmap);
-				costumeData.setPixmap(pixmap);
-				costumeData.setTextureRegion();
+			if (brightnessChanged) {
+				//costumeData.adjustBrightness(brightnessValue);
+				//pixmap = this.adjustBrightness(costumeData.getOriginalPixmap());
+				//costumeData.setPixmap(pixmap);
+				//costumeData.setTextureRegion();
+				this.color.r = 0.5f;
+				this.color.g = 0.5f;
+				this.color.b = 0.5f;
+				brightnessChanged = false;
 			}
 			brightnessLock.release();
 
+			/*if (brightnessChanged) {
+				Thread t = new Thread(new Runnable() {
+					Costume costume = Costume.this;
+					CostumeData data = costumeData;
+
+					public void run() {
+						data.adjustBrightness(brightnessValue);
+						costume.acquireImageLock();
+						imageChanged = true;
+					}
+				});
+				t.start();
+				brightnessChanged = false;
+			}
+			*/
 			TextureRegion region = costumeData.getTextureRegion();
 			setRegion(region);
 
@@ -166,7 +189,7 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
-	protected Pixmap adjustBrightness(Pixmap currentPixmap) {
+	public Pixmap adjustBrightness(Pixmap currentPixmap) {
 		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(), currentPixmap.getHeight(), currentPixmap.getFormat());
 		for (int y = 0; y < currentPixmap.getHeight(); y++) {
 			for (int x = 0; x < currentPixmap.getWidth(); x++) {
@@ -194,10 +217,27 @@ public class Costume extends Image {
 
 				newPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
 				newPixmap.drawPixel(x, y);
+				/*currentPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
+				currentPixmap.drawPixel(x, y);*/
 			}
 		}
-		currentPixmap.dispose();
+		//currentPixmap.dispose();
 		return newPixmap;
+		/*imageLock.acquireUninterruptibly();
+		costumeData.setPixmap(currentPixmap);
+		costumeData.setTextureRegion();
+		brightnessChanged = false;
+		imageChanged = true;
+		imageLock.release();
+		return currentPixmap;*/
+	}
+
+	public void acquireImageLock() {
+		imageLock.acquireUninterruptibly();
+	}
+
+	public void releaseImageLock() {
+		imageLock.release();
 	}
 
 	public void disposeTextures() {
@@ -343,6 +383,7 @@ public class Costume extends Image {
 		brightnessValue = percent;
 		brightnessLock.release();
 		imageLock.acquireUninterruptibly();
+		brightnessChanged = true;
 		imageChanged = true;
 		imageLock.release();
 	}
@@ -355,6 +396,7 @@ public class Costume extends Image {
 		}
 		brightnessLock.release();
 		imageLock.acquireUninterruptibly();
+		brightnessChanged = true;
 		imageChanged = true;
 		imageLock.release();
 	}
