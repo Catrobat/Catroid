@@ -84,6 +84,9 @@ public class Costume extends Image {
 		float height = this.height;
 		xYWidthHeightLock.release();
 
+		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
+		y = height - y;
+
 		if (x >= 0 && x <= width && y >= 0 && y <= height) {
 			if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				sprite.startWhenScripts("Tapped");
