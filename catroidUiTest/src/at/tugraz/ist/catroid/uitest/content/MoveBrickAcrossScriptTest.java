@@ -88,7 +88,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager
 				.getInstance().getCurrentSprite().getScript(0).getBrickList().size());
 
-		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(5) instanceof WaitBrick,
+		assertEquals("Incorrect Brick after dragging over Script", (Brick) adapter.getItem(7) instanceof WaitBrick,
 				true);
 	}
 
