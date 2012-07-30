@@ -20,42 +20,44 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/dialog_text_EditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-                android:id="@+id/dialog_text_EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:selectAllOnFocus="true">
-        </EditText>
-                <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:inputType="text"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true" >
+    </EditText>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <Button
-                android:id="@+id/dialog_text_ok"
-                android:text="@string/ok"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5" 
-                android:onClick="handlePositiveButton"/>
+            android:id="@+id/dialog_text_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:onClick="handlePositiveButton"
+            android:text="@string/ok" />
+
         <Button
-                android:id="@+id/dialog_text_cancel"
-                android:text="@string/cancel_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:onClick="handleNegativeButton" />
-        </LinearLayout>
+            android:id="@+id/dialog_text_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:onClick="handleNegativeButton"
+            android:text="@string/cancel_button" />
+    </LinearLayout>
+
 </LinearLayout>
-
-

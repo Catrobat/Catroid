@@ -19,16 +19,17 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
-	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@+id/actionbar"
-		android:orientation="horizontal"
-		android:layout_height="@dimen/actionbar_height"
-		android:layout_width="match_parent"
-		android:layout_weight="0"
-		android:background="@drawable/actionbar_background"
-	>
-	</LinearLayout>
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:layout_weight="0"
+        android:background="@drawable/actionbar_background"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
 </merge>
