@@ -43,10 +43,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivity> {
-
 	private Solo solo;
-	private TurnLeftBrick turnLeftBrick;
-	private final static double ROTATION = 180;
 
 	public TouchAxisTest() {
 		super("at.tugraz.ist.catroid", StageActivity.class);
@@ -100,7 +97,7 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 		touchSprite.addScript(startScript);
 
 		WhenScript touchWhenScript = new WhenScript(touchSprite);
-		turnLeftBrick = new TurnLeftBrick(touchSprite, ROTATION);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(touchSprite, 180.0);
 		touchWhenScript.addBrick(turnLeftBrick);
 
 		touchSprite.addScript(touchWhenScript);
