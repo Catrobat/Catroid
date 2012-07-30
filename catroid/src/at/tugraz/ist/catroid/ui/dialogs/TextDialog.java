@@ -47,80 +47,86 @@ import at.tugraz.ist.catroid.R;
  * enter empty strings you have to implement the key listener in the subclass.
  */
 public abstract class TextDialog extends DialogFragment {
-	
+
 	protected EditText input;
-	
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_text_dialog, null);
 		input = (EditText) dialogView.findViewById(R.id.dialog_text_EditText);
-		
+
 		if (getHint() != null) {
 			input.setHint(getHint());
 		}
-		
+
 		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+					getDialog().getWindow()
+							.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 				}
 			}
 		});
-		
+
 		initialize();
-		
-		Dialog dialog = new AlertDialog.Builder(getActivity())
-			.setView(dialogView)
-			.setTitle(getTitle())
-			.setNegativeButton(R.string.cancel_button, new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dismiss();
-				}
-			})
-			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					handleOkButton();
-				}
-			}).create();
-		
+
+		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(getTitle())
+				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dismiss();
+					}
+				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						handleOkButton();
+						onOkButtonHandled();
+					}
+				}).create();
+
 		dialog.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					boolean okButtonResult = handleOkButton();
-					if (okButtonResult) dismiss();
+					onOkButtonHandled();
+					if (okButtonResult) {
+						dismiss();
+					}
 					return okButtonResult;
 				}
-				
+
 				return false;
 			}
 		});
-		
+
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) getActivity()
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-				
+
 				initTextChangedListener();
 			}
 		});
-		
+
 		return dialog;
 	}
-	
+
 	protected abstract void initialize();
-	
+
 	protected abstract boolean handleOkButton();
-	
+
 	protected abstract String getTitle();
-	
+
 	protected abstract String getHint();
-	
+
+	protected void onOkButtonHandled() {
+	}
+
 	private void initTextChangedListener() {
 		final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 
@@ -129,6 +135,7 @@ public abstract class TextDialog extends DialogFragment {
 		}
 
 		input.addTextChangedListener(new TextWatcher() {
+			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0) {
 					buttonPositive.setEnabled(false);
@@ -137,9 +144,11 @@ public abstract class TextDialog extends DialogFragment {
 				}
 			}
 
+			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 
+			@Override
 			public void afterTextChanged(Editable s) {
 			}
 		});

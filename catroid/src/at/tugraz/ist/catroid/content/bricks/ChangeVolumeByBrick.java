@@ -49,10 +49,12 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		this.volume = changeVolume;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		float currentVolume = SoundManager.getInstance().getVolume();
 		currentVolume += volume;
@@ -64,6 +66,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		SoundManager.getInstance().setVolume(currentVolume);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -72,8 +75,8 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		return volume;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_text_view);
@@ -88,6 +91,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_change_volume_by, null);
 		return view;
@@ -98,9 +102,10 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		return new ChangeVolumeByBrick(getSprite(), getVolume());
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -109,7 +114,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -117,11 +122,11 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
 	}
 }
