@@ -57,28 +57,21 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	@Smoke
 	public void testWaitBrick() {
-
 		BrickAdapter adapter = getActivity().getAdapter();
 		int childrenCount = adapter.getBrickCount(adapter.getScriptCount() - 1);
-		int groupCount = adapter.getScriptCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getItem(0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getItem(1));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_wait)));
 
 		double waitTime = 2.25;
@@ -86,10 +79,8 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, waitTime + "");
-		solo.goBack();
-		solo.clickOnButton(0);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(1000);
 		int actualWaitTime = (Integer) UiTestUtils.getPrivateField("timeToWaitInMilliSeconds", waitBrick);
 		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
@@ -103,7 +94,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		waitBrick = new WaitBrick(sprite, 1000);

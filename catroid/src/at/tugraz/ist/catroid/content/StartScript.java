@@ -28,7 +28,6 @@ import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	private WhenStartedBrick brick;
 
 	public StartScript(Sprite sprite) {
 		super(sprite);

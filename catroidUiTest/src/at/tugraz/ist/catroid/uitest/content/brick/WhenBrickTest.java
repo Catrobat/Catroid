@@ -44,8 +44,6 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 	private Solo solo;
 	private Project project;
 
-	//private static final String TAG = WhenBrickTest.class.getSimpleName();
-
 	public WhenBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
@@ -58,13 +56,8 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -103,7 +96,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 		solo.drag(20, 20, addedYPos, yPos.get(yPos.size() - 1) + 20, 100);
 		solo.sleep(1000);
-		projectBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
 				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
@@ -170,7 +163,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 	private void createProject() {
 
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
@@ -184,5 +177,4 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

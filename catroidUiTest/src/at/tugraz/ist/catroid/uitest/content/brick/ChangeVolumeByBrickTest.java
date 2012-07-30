@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final float VOLUME_TO_CHANGE = 50.0f;
+
 	private Solo solo;
 	private Project project;
 	private ChangeVolumeByBrick changeVolumeByBrick;
-	private float volumeToChange;
 
 	public ChangeVolumeByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -57,13 +58,8 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -85,12 +81,10 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, volumeToChange + "");
-		solo.goBack();
-		solo.clickOnButton(0);
+		solo.enterText(0, VOLUME_TO_CHANGE + "");
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(300);
-		assertEquals("Text not updated", volumeToChange, Float.parseFloat(solo.getEditText(0).getText().toString()));
+		assertEquals("Text not updated", VOLUME_TO_CHANGE, Float.parseFloat(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
@@ -101,8 +95,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 	}
 
 	private void createProject() {
-		volumeToChange = 50.0f;
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		changeVolumeByBrick = new ChangeVolumeByBrick(sprite, 100);
@@ -115,5 +108,4 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

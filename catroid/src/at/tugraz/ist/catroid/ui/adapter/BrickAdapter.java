@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
@@ -54,7 +53,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
 	private View insertionView;
-	private int currentScriptPosition;
 	private boolean initInsertedBrick;
 	private boolean insertedBrick;
 	private int positionOfInsertedBrick;
@@ -148,7 +146,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private int getDraggedNestingBricksToPosition(NestingBrick nestingBrick, int from, int to) {
 		List<NestingBrick> nestingBrickList = nestingBrick.getAllNestingBrickParts();
 		int restrictedTop = 0;
-		int restrictedBottom = brickList.size() - 1;
+		int restrictedBottom = brickList.size();
 
 		int tempPosition;
 		int currentPosition = to;
@@ -201,7 +199,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drop(int to) {
-		if (retryScriptDragging) {
+		if (retryScriptDragging || to != getNewPositionForScriptBrick(to, draggedBrick)) {
 			scrollToPosition(dragTargetPosition);
 			draggedBrick = null;
 			initInsertedBrick = true;
@@ -265,28 +263,24 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		int[] tempFrom = getScriptAndBrickIndexFromProject(from);
-		int[] tempTo = getScriptAndBrickIndexFromProject(to);
-
 		int scriptPositionFrom = tempFrom[0];
 		int brickPositionFrom = tempFrom[1];
-		int scriptPositionTo = tempTo[0];
-		int brickPositionTo = tempTo[1];
 
 		Script fromScript = currentSprite.getScript(scriptPositionFrom);
-		Script toScript = currentSprite.getScript(scriptPositionTo);
-
-		if (fromScript == null || toScript == null) {
-			Log.e("BrickAdapter", "Want to save project, but scripts are null");
-			return;
-		}
 
 		Brick brick = fromScript.getBrick(brickPositionFrom);
 		if (draggedBrick != brick) {
 			Log.e("BrickAdapter", "Want to save wrong brick");
 			return;
 		}
-
 		fromScript.removeBrick(brick);
+
+		int[] tempTo = getScriptAndBrickIndexFromProject(to);
+		int scriptPositionTo = tempTo[0];
+		int brickPositionTo = tempTo[1];
+
+		Script toScript = currentSprite.getScript(scriptPositionTo);
+
 		toScript.addBrick(brickPositionTo, brick);
 		ProjectManager.getInstance().saveProject();
 	}
@@ -315,44 +309,48 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	private int[] getScriptAndBrickIndexFromProject(int position) {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
 		int[] returnValue = new int[2];
-		int countPosition = 0;
-		int scriptCount = 0;
-
-		if (position > 0) {
-			position--;
-			for (int i = 0; i < currentSprite.getNumberOfScripts(); i++) {
-				if (countPosition + currentSprite.getScript(i).getBrickList().size() < position) {
-					countPosition += currentSprite.getScript(i).getBrickList().size() + 1;
-					scriptCount++;
-				} else {
-					break;
-				}
+		int scriptPosition = 0;
+		int scriptOffset;
+		for (scriptOffset = 0; scriptOffset < position;) {
+			scriptOffset += sprite.getScript(scriptPosition).getBrickList().size() + 1;
+			if (scriptOffset < position) {
+				scriptPosition++;
 			}
+		}
+		scriptOffset -= sprite.getScript(scriptPosition).getBrickList().size();
+
+		returnValue[0] = scriptPosition;
+		List<Brick> brickListFromProject = sprite.getScript(scriptPosition).getBrickList();
+		int brickPosition = position - scriptOffset;
+		Brick brickFromProject;
+		if (brickListFromProject.size() != 0 && brickPosition < brickListFromProject.size()) {
+			brickFromProject = brickListFromProject.get(brickPosition);
 		} else {
-			scriptCount = 0;
+			brickFromProject = null;
 		}
 
-		returnValue[0] = scriptCount;
-		int brickPosition = position - countPosition;
-		returnValue[1] = brickPosition < 0 ? currentSprite.getScript(scriptCount).getBrickList().size() : brickPosition;
+		returnValue[1] = sprite.getScript(scriptPosition).getBrickList().indexOf(brickFromProject);
+		if (returnValue[1] < 0) {
+			returnValue[1] = sprite.getScript(scriptPosition).getBrickList().size();
+		}
 
 		return returnValue;
 	}
 
-	private void scrollToPosition(int position) {
-		ListView list = ((ListView) longClickListener);
+	private void scrollToPosition(final int position) {
+		DragAndDropListView list = ((DragAndDropListView) longClickListener);
 		if (list.getFirstVisiblePosition() < position && position < list.getLastVisiblePosition()) {
 			return;
 		}
 
+		list.setIsScrolling();
 		if (position <= list.getFirstVisiblePosition()) {
-			list.smoothScrollToPosition(0, position);
+			list.smoothScrollToPosition(0, position + 2);
 		} else {
-			list.smoothScrollToPosition(brickList.size() - 1, position);
+			list.smoothScrollToPosition(brickList.size() - 1, position - 2);
 		}
+
 	}
 
 	public void addNewBrick(int position, Brick brickToBeAdded) {
@@ -378,9 +376,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		}
 
 		if (brickToBeAdded instanceof ScriptBrick) {
-			position = getNewPositionForScriptBrick(position, brickToBeAdded);
-			scrollToPosition(position);
 			brickList.add(position, brickToBeAdded);
+			position = getNewPositionForScriptBrick(position, brickToBeAdded);
+			brickList.remove(brickToBeAdded);
+			brickList.add(position, brickToBeAdded);
+			scrollToPosition(position);
 		} else {
 			position = position <= 0 ? 1 : position;
 			position = position > brickList.size() ? brickList.size() : position;
@@ -403,6 +403,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private int getNewPositionForScriptBrick(int position, Brick brick) {
 		if (brickList.size() == 0) {
 			return 0;
+		}
+		if (!(brick instanceof ScriptBrick)) {
+			return position;
 		}
 
 		int lastPossiblePosition = position;
@@ -468,6 +471,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public Object getItem(int element) {
+		if (element < 0 || element >= brickList.size()) {
+			return null;
+		}
 		return brickList.get(element);
 	}
 
@@ -492,10 +498,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		Object item = getItem(position);
 
 		if (item instanceof ScriptBrick && (!initInsertedBrick || position != positionOfInsertedBrick)) {
-			// TODO delete me
-			//return ((ScriptBrick) item).initScript(sprite).getScriptBrick().getView(context, position, this);
 			return ((ScriptBrick) item).getView(context, position, this);
-			//return null;
 		}
 
 		View currentBrickView = ((Brick) item).getView(context, position, this);
@@ -532,7 +535,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void updateProjectBrickList() {
-		Log.e("blah", "blub");
 		initBrickList();
 		notifyDataSetChanged();
 	}
@@ -551,13 +553,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void setTouchedScript(int index) {
-		int scriptIndex = getScriptIndexFromProject(index);
-		ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
-		setCurrentScriptPosition(index);
-	}
-
-	public void setCurrentScriptPosition(int position) {
-		currentScriptPosition = position;
+		if (index >= 0 && brickList.get(index) instanceof ScriptBrick && draggedBrick == null) {
+			int scriptIndex = getScriptIndexFromProject(index);
+			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
+		}
 	}
 
 	public int getChildCountFromLastGroup() {
@@ -572,6 +571,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public int getScriptCount() {
 		return ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+	}
+
+	public View getInsertionView() {
+		return insertionView;
 	}
 
 }

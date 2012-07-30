@@ -25,11 +25,12 @@ package at.tugraz.ist.catroid.web;
 // this class is a dummy class just to initialize ACRA (our bug reporting tool)
 
 import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
 
 import android.app.Application;
 
 // the formKey represents the GoogleDoc-file
-//@ReportsCrashes(formKey = "dGh5c0k2anJOalVvdThxUzFEUk9tcUE6MQ")
+@ReportsCrashes(formKey = "dGh5c0k2anJOalVvdThxUzFEUk9tcUE6MQ")
 public class CatroidApplication extends Application {
 	@Override
 	public void onCreate() {

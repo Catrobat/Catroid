@@ -41,7 +41,7 @@ public class ProjectManager {
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
-	private static ProjectManager instance;
+	public static final ProjectManager INSTANCE = new ProjectManager();
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -52,29 +52,32 @@ public class ProjectManager {
 	}
 
 	public static ProjectManager getInstance() {
-		if (instance == null) {
-			instance = new ProjectManager();
-		}
-		return instance;
+		return INSTANCE;
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
-
 			project = StorageHandler.getInstance().loadProject(projectName);
+
 			if (project == null) {
 				project = Utils.findValidProject();
 				if (project == null) {
 					project = StandardProjectHandler.createAndSaveStandardProject(context);
 				}
-
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 					return false;
 				}
+			} else if (project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+				if (errorMessage) {
+					Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+					// TODO show dialog to download latest catroid version instead
+				}
+				return false;
 			}
+
 			// adapt name of background sprite to the current language and place
 			// on lowest layer
 			project.getSpriteList().get(0).setName(context.getString(R.string.background));
@@ -101,11 +104,11 @@ public class ProjectManager {
 		}
 	}
 
-	public void saveProject() {
+	public boolean saveProject() {
 		if (project == null) {
-			return;
+			return false;
 		}
-		StorageHandler.getInstance().saveProject(project);
+		return StorageHandler.getInstance().saveProject(project);
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -151,7 +154,7 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
 			return false;
 		}
@@ -162,11 +165,22 @@ public class ProjectManager {
 		String newProjectPath = Utils.buildProjectPath(newProjectName);
 		File newProjectDirectory = new File(newProjectPath);
 
-		project.setName(newProjectName);
+		boolean directoryRenamed = false;
 
-		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
+			String tmpProjectPath = Utils.buildProjectPath(createTemporaryDirectoryName(newProjectName));
+			File tmpProjectDirectory = new File(tmpProjectPath);
+			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
+			if (directoryRenamed) {
+				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
+			}
+		} else {
+
+			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+		}
 
 		if (directoryRenamed) {
+			project.setName(newProjectName);
 			this.saveProject();
 		}
 
@@ -247,4 +261,14 @@ public class ProjectManager {
 		return true;
 	}
 
+	private String createTemporaryDirectoryName(String projectDirectoryName) {
+		String temporaryDirectorySuffix = "_tmp";
+		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
+		int suffixCounter = 0;
+		while (StorageHandler.getInstance().projectExistsIgnoreCase(temporaryDirectoryName)) {
+			temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix + suffixCounter;
+			suffixCounter++;
+		}
+		return temporaryDirectoryName;
+	}
 }

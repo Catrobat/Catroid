@@ -83,45 +83,42 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testBroadCastBrick() {
 		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		script.addBrick(broadcastBrick);
+		String buttonNewText = solo.getString(R.string.new_broadcast_message);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.new_broadcast_message));
+		solo.clickOnText(buttonNewText);
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.new_broadcast_message));
+		solo.clickOnText(buttonNewText);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
 	public void testBroadcastWaitBrick() {
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		script.addBrick(broadcastWaitBrick);
+		String buttonNewText = solo.getString(R.string.new_broadcast_message);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.new_broadcast_message));
+		solo.clickOnText(buttonNewText);
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.new_broadcast_message));
+		solo.clickOnText(buttonNewText);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
@@ -207,32 +204,34 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	}
 
 	public void testPlaySoundBrick() {
+		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(sprite);
 		script.addBrick(playSoundBrick);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
 	public void testSetCostumeBrick() {
+		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		script.addBrick(setCostumeBrick);
 
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
@@ -316,18 +315,18 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 
 	public void clickEditTextGoBackAndClickAgain() {
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(spriteName);
-		solo.sleep(500);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.clickOnEditText(0);
-		solo.sleep(500);
+		solo.sleep(100);
 		solo.goBack();
-		solo.sleep(300);
 		solo.goBack();
-		solo.sleep(300);
 		solo.goBack();
-		solo.sleep(500);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.clickOnEditText(0);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}

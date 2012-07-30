@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final int X_TO_CHANGE = 17;
+
 	private Solo solo;
 	private Project project;
 	private ChangeXByBrick changeXByBrick;
-	private int xToChange;
 
 	public ChangeXByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -57,13 +58,8 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -84,14 +80,12 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, xToChange + "");
-		solo.goBack();
-		solo.clickOnButton(0);
+		solo.enterText(0, X_TO_CHANGE + "");
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(300);
 		int xMovementValue = (Integer) UiTestUtils.getPrivateField("xMovement", changeXByBrick);
-		assertEquals("Wrong text in field.", xToChange, xMovementValue);
-		assertEquals("Value in Brick is not updated.", xToChange + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field.", X_TO_CHANGE, xMovementValue);
+		assertEquals("Value in Brick is not updated.", X_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
@@ -102,8 +96,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	private void createProject() {
-		xToChange = 17;
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		changeXByBrick = new ChangeXByBrick(sprite, 0);

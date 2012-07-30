@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final float VOLUME = 50.0f;
+
 	private Solo solo;
 	private Project project;
 	private SetVolumeToBrick setVolumeToBrick;
-	private float volume;
 
 	public SetVolumeToBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -57,13 +58,8 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -84,12 +80,10 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, volume + "");
-		solo.goBack();
-		solo.clickOnButton(0);
+		solo.enterText(0, VOLUME + "");
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(300);
-		assertEquals("Value in Brick is not updated.", volume + "", solo.getEditText(0).getText().toString());
+		assertEquals("Value in Brick is not updated.", VOLUME + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
@@ -100,8 +94,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	private void createProject() {
-		volume = 50.0f;
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		setVolumeToBrick = new SetVolumeToBrick(sprite, 0);
@@ -114,5 +107,4 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

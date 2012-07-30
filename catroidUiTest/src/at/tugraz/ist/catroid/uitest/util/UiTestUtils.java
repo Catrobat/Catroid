@@ -36,7 +36,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -49,6 +48,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -82,15 +82,19 @@ public class UiTestUtils {
 	private static final String TAG = UiTestUtils.class.getSimpleName();
 
 	private static ProjectManager projectManager = ProjectManager.getInstance();
-	private static HashMap<Integer, Integer> brickCategoryMap;
+	private static SparseIntArray brickCategoryMap;
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String PROJECTNAME1 = "testproject1";
 	public static final String PROJECTNAME2 = "testproject2";
 	public static final String PROJECTNAME3 = "testproject3";
+	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
+	};
+
+	private UiTestUtils() {
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
@@ -130,19 +134,17 @@ public class UiTestUtils {
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
-		solo.goBack();
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
 		enterText(solo, 0, value);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(50);
 	}
 
 	private static void initBrickCategoryMap() {
-		brickCategoryMap = new HashMap<Integer, Integer>();
+		brickCategoryMap = new SparseIntArray();
 
 		brickCategoryMap.put(R.string.brick_place_at, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_x, R.string.category_motion);
@@ -214,7 +216,7 @@ public class UiTestUtils {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
-		solo.clickOnScreen(200, 200);
+		//		solo.clickOnScreen(200, 200);
 	}
 
 	public static List<Brick> createTestProject() {
@@ -619,6 +621,35 @@ public class UiTestUtils {
 		});
 
 		solo.sleep(1000);
+	}
 
+	private static class ProjectWithVersionCode extends Project {
+		static final long serialVersionUID = 1L;
+		private final int mCatroidVersionCode;
+
+		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+			super(null, name);
+			mCatroidVersionCode = catroidVersionCode;
+		}
+
+		@Override
+		public int getCatroidVersionCode() {
+			return mCatroidVersionCode;
+		}
+	}
+
+	public static boolean createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript(firstSprite);
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setCurrentScript(testScript);
+		return ProjectManager.INSTANCE.saveProject();
 	}
 }

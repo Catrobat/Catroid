@@ -41,10 +41,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final double EFFECT_TO_CHANGE = 11.2;
+
 	private Solo solo;
 	private Project project;
 	private ChangeGhostEffectBrick changeGhostEffectBrick;
-	private double effectToChange;
 
 	public ChangeGhostEffectTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -58,13 +59,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -88,24 +83,14 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, effectToChange + "");
-		solo.goBack();
-		solo.clickOnButton(0);
+		solo.enterText(0, EFFECT_TO_CHANGE + "");
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(1000);
-
-		assertEquals("Wrong text in field", effectToChange, changeGhostEffectBrick.getChangeGhostEffect());
-		assertEquals("Text not updated", effectToChange, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectBrick.getChangeGhostEffect());
+		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
-		createProject();
-		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.sleep(100);
-
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
@@ -113,7 +98,6 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	private void createProject() {
-		effectToChange = 11.2;
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

@@ -115,7 +115,7 @@
     <!-- My Projects activity -->
     <string name="last_used">Last used:</string>
     <string name="description">Description:</string>
-    <string name="set_description">set Description</string>
+    <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
 
     <!-- Soundrecorder activity -->
@@ -285,6 +285,7 @@
     <string name="error_load_image">An error occurred while loading the image.</string>
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
+    <string name="error_project_compatability">The project is not compatible with this version of catroid.</string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
