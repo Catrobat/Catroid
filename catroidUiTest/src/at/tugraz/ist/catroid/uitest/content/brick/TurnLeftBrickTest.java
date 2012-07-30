@@ -40,7 +40,6 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
 	private Solo solo;
 	private Project project;
 	private TurnLeftBrick turnLeftBrick;
@@ -57,13 +56,8 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -86,10 +80,7 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, turnDegrees + "");
-		solo.goBack();
-		solo.clickOnButton(0);
-
-		solo.sleep(1000);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
@@ -104,7 +95,7 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		turnLeftBrick = new TurnLeftBrick(sprite, 0);

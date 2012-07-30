@@ -40,6 +40,8 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final double SIZE_TO_CHANGE = 25;
+
 	private Solo solo;
 	private Project project;
 	private ChangeSizeByNBrick changeSizeByNBrick;
@@ -56,13 +58,8 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -80,19 +77,14 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_change_size_by)));
 
-		double newSize = 25;
-
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, newSize + "");
-
-		solo.goBack();
+		solo.enterText(0, SIZE_TO_CHANGE + "");
 		solo.clickOnButton(0);
-		solo.sleep(1000);
-		double actualSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);
 
-		assertEquals("Wrong text in field", newSize, actualSize);
-		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		double actualSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);
+		assertEquals("Wrong text in field", SIZE_TO_CHANGE, actualSize);
+		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
@@ -103,7 +95,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		changeSizeByNBrick = new ChangeSizeByNBrick(sprite, 20);
@@ -116,5 +108,4 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

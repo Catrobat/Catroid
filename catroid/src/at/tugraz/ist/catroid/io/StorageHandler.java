@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -108,7 +109,7 @@ public class StorageHandler {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Cannot load project.", e);
 			return null;
 		}
 	}
@@ -164,7 +165,17 @@ public class StorageHandler {
 		return false;
 	}
 
-	public boolean projectExists(String projectName) {
+	public boolean projectExistsCheckCase(String projectName) {
+		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+		for (String projectNameIterator : projectNameList) {
+			if ((projectNameIterator.equals(projectName))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean projectExistsIgnoreCase(String projectName) {
 		File projectDirectory = new File(Utils.buildProjectPath(projectName));
 		if (!projectDirectory.exists()) {
 			return false;

@@ -80,7 +80,5 @@ public class WhenStartedBrick implements ScriptBrick {
 		}
 
 		return script;
-		// TODO delete me
-		//return new StartScript(sprite);
 	}
 }

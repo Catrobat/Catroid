@@ -39,6 +39,7 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
@@ -70,6 +71,7 @@ import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
@@ -214,6 +216,12 @@ public class AddBrickDialog extends Dialog {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Brick brickToBeAdded = getBrickClone(adapter.getItem(position));
 				scriptTabActivity.addThisBrick(brickToBeAdded);
+
+				if (brickToBeAdded instanceof ScriptBrick) {
+					Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
+							.getCurrentSprite());
+					ProjectManager.getInstance().setCurrentScript(script);
+				}
 
 				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
 				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_BRICK_CATEGORY);

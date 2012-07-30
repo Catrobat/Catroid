@@ -20,21 +20,17 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.web;
+package at.tugraz.ist.catroid.test.utils;
 
-// this class is a dummy class just to initialize ACRA (our bug reporting tool)
+import android.os.Bundle;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
-import org.acra.ACRA;
-import org.acra.annotation.ReportsCrashes;
-
-import android.app.Application;
-
-// the formKey represents the GoogleDoc-file
-@ReportsCrashes(formKey = "dGh5c0k2anJOalVvdThxUzFEUk9tcUE6MQ")
-public class CatroidApplication extends Application {
+/**
+ * This class simply provides public access to protected methods which shall be tested.
+ */
+public class TestMainMenuActivity extends MainMenuActivity {
 	@Override
-	public void onCreate() {
-		ACRA.init(this);
-		super.onCreate();
+	public void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
 	}
 }

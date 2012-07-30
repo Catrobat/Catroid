@@ -20,21 +20,34 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.web;
+package at.tugraz.ist.catroid.test.ui;
 
-// this class is a dummy class just to initialize ACRA (our bug reporting tool)
+import android.content.Intent;
+import android.test.ActivityUnitTestCase;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.test.utils.TestMainMenuActivity;
 
-import org.acra.ACRA;
-import org.acra.annotation.ReportsCrashes;
+public class MainMenuActivityTest extends ActivityUnitTestCase<TestMainMenuActivity> {
+	public MainMenuActivityTest() {
+		super(TestMainMenuActivity.class);
+	}
 
-import android.app.Application;
-
-// the formKey represents the GoogleDoc-file
-@ReportsCrashes(formKey = "dGh5c0k2anJOalVvdThxUzFEUk9tcUE6MQ")
-public class CatroidApplication extends Application {
 	@Override
-	public void onCreate() {
-		ACRA.init(this);
-		super.onCreate();
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
+
+	public void testShouldNotCrashIfProjectIsNull() {
+		startActivity(new Intent(), null, null);
+
+		ProjectManager.getInstance().setProject(null);
+
+		getActivity().onPostCreate(null);
+		assertTrue("Test failed!", true);
 	}
 }

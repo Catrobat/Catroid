@@ -20,21 +20,26 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.web;
+package at.tugraz.ist.catroid.test;
 
-// this class is a dummy class just to initialize ACRA (our bug reporting tool)
+import android.test.AndroidTestCase;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
-import org.acra.ACRA;
-import org.acra.annotation.ReportsCrashes;
+public class ProjectManagerTest extends AndroidTestCase {
 
-import android.app.Application;
+	public void testShouldReturnFalseIfVersionNumberTooHigh() {
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
 
-// the formKey represents the GoogleDoc-file
-@ReportsCrashes(formKey = "dGh5c0k2anJOalVvdThxUzFEUk9tcUE6MQ")
-public class CatroidApplication extends Application {
-	@Override
-	public void onCreate() {
-		ACRA.init(this);
-		super.onCreate();
+		boolean result = ProjectManager.INSTANCE.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
+		assertFalse("Load project didn't return false", result);
+
+		TestUtils.clearAllUtilTestProjects();
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
+
+		result = ProjectManager.INSTANCE.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
+		assertTrue("Load project didn't return true", result);
+
+		TestUtils.clearAllUtilTestProjects();
 	}
 }

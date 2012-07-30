@@ -47,7 +47,6 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
-	private boolean addNewScript;
 	private static final int DIALOG_ADD_BRICK = 2;
 
 	private void initListeners() {
@@ -59,7 +58,6 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getScriptCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
-			adapter.setCurrentScriptPosition(0);
 		}
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
@@ -68,7 +66,6 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		listView.setAdapter(adapter);
 
 		registerForContextMenu(listView);
-		addNewScript = false;
 	}
 
 	@Override
@@ -80,6 +77,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		listView.resetDraggingScreen();
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();

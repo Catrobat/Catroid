@@ -171,8 +171,6 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 		}
 
 		return receiveScript;
-		// TODO delete me
-		//return new BroadcastScript(sprite);
 	}
 
 }

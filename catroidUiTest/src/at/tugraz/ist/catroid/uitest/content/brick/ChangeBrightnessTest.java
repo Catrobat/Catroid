@@ -41,10 +41,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
+
 	private Solo solo;
 	private Project project;
 	private ChangeBrightnessBrick changeBrightnessBrick;
-	private double brightnessToChange;
 
 	public ChangeBrightnessTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -58,13 +59,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -88,25 +83,15 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, brightnessToChange + "");
-		solo.goBack();
-		solo.clickOnButton(0);
+		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
+		solo.clickOnButton(solo.getString(R.string.ok));
 
-		solo.sleep(1000);
-
-		assertEquals("Wrong text in field", brightnessToChange, changeBrightnessBrick.getChangeBrightness());
-		assertEquals("Text not updated", brightnessToChange,
+		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
+		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
 				Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
-		createProject();
-		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.sleep(100);
-
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
@@ -114,7 +99,6 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	private void createProject() {
-		brightnessToChange = 56.6;
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);

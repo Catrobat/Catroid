@@ -51,6 +51,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
@@ -80,6 +81,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private boolean dimBackground;
 	private boolean isVibrating;
 	private boolean dragNewBrick;
+	private boolean isScrolling;
 
 	private long blinkAnimationTimestamp;
 
@@ -155,6 +157,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 
 		int itemPosition = pointToPosition(x, y);
+		itemPosition = itemPosition < 0 ? ((BrickAdapter) dragAndDropListener).getCount() - 1 : itemPosition;
 
 		if (touchedListPosition != itemPosition) {
 			touchedListPosition = itemPosition;
@@ -169,19 +172,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
 					if (x > getWidth() * 3 / 4) {
-						WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView
-								.getLayoutParams();
-						dragViewParameters.windowAnimations = R.style.brick_delete;
-						// TODO delete me
-						// getWindowManager().updateViewLayout(dragView, dragViewParameters);
-						try {
-							getWindowManager().updateViewLayout(dragView, dragViewParameters);
-						} catch (IllegalArgumentException e) {
-							getWindowManager().addView(dragView, dragViewParameters);
-						}
+						setDragViewAnimation(R.style.brick_delete);
 						dragAndDropListener.remove(itemPosition);
 						isVibrating = false;
 					} else {
+						setDragViewAnimation(0);
 						dragAndDropListener.drop(itemPosition);
 					}
 
@@ -189,6 +184,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 					hideTrashView();
 
 					dimBackground = false;
+					dragNewBrick = false;
 					break;
 
 				case MotionEvent.ACTION_MOVE:
@@ -238,15 +234,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		startDragging(bitmap, touchPointY);
 
 		if (!dragNewBrick) {
-			WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
-			dragViewParameters.windowAnimations = 0;
-			// TODO delete me
-			// getWindowManager().updateViewLayout(dragView, dragViewParameters);
-			try {
-				getWindowManager().updateViewLayout(dragView, dragViewParameters);
-			} catch (IllegalArgumentException e) {
-				getWindowManager().addView(dragView, dragViewParameters);
-			}
+			setDragViewAnimation(0);
 			dragNewBrick = false;
 		}
 
@@ -286,7 +274,13 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		imageView.setImageBitmap(glowingBitmap);
 
 		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
-		dragViewParameters.y = y - bitmap.getHeight() / 2;
+		if (isScrolling) {
+			isScrolling = false;
+
+			dragViewParameters.y = getHeight() / 2 - bitmap.getHeight() / 2;
+		} else {
+			dragViewParameters.y = y - bitmap.getHeight() / 2;
+		}
 		dragViewParameters.windowAnimations = R.style.brick_new;
 
 		WindowManager windowManager = getWindowManager();
@@ -355,6 +349,14 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 	}
 
+	public void resetDraggingScreen() {
+		stopDragging();
+		hideTrashView();
+
+		dimBackground = false;
+		dragNewBrick = false;
+	}
+
 	private WindowManager.LayoutParams createLayoutParameters() {
 
 		WindowManager.LayoutParams windowParameters = new WindowManager.LayoutParams();
@@ -377,6 +379,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private int calculateItemPositionAndTouchPointY(View view) {
 		int itemPosition = -1;
 		int[] location = new int[2];
+
 		if (newView) {
 			itemPosition = this.position;
 			View tempView = (getChildAt(getChildCount() - 1));
@@ -385,6 +388,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 				touchPointY = location[1] + (getChildAt(getChildCount() - 1)).getHeight();
 			}
 			newView = false;
+
 		} else {
 			itemPosition = pointToPosition(view.getLeft(), view.getTop());
 			int visiblePosition = itemPosition - getFirstVisiblePosition();
@@ -458,18 +462,23 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 
 		return true;
+	}
 
-		// TODO check if above version is ok
-		//		if (dragAndDropListener != null && dragView != null) {
-		//			dragAndDropListener.setTouchedScript(position);
-		//			stopDragging();
-		//			dragAndDropListener.drop(position);
-		//			trashView.setVisibility(GONE);
-		//			dimBackground = false;
-		//		}
+	private void setDragViewAnimation(int style) {
+		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
+		dragViewParameters.windowAnimations = style;
+		try {
+			getWindowManager().updateViewLayout(dragView, dragViewParameters);
+		} catch (IllegalArgumentException e) {
+			getWindowManager().addView(dragView, dragViewParameters);
+		}
 	}
 
 	public void setDraggingNewBrick() {
 		dragNewBrick = true;
+	}
+
+	public void setIsScrolling() {
+		isScrolling = true;
 	}
 }

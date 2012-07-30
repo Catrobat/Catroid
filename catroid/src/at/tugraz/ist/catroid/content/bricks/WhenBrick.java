@@ -116,8 +116,6 @@ public class WhenBrick implements ScriptBrick {
 		}
 
 		return whenScript;
-		// TODO delete me
-		//return new WhenScript(sprite);
 	}
 
 }
