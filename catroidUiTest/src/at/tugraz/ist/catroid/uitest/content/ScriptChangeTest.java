@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -55,20 +56,15 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void setUp() throws Exception {
-		createTestProject("testProject");
+		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
-
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -77,20 +73,20 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		View testScriptBrick = parent.getChildAt(0);
 
 		solo.clickOnView(testScriptBrick);
-		solo.sleep(1500);
+		solo.sleep(100);
 
 		assertEquals("Current Script in List is not testScript", testScript, ProjectManager.getInstance()
 				.getCurrentScript());
 
 		View startBrick = parent.getChildAt(4);
 		solo.clickOnView(startBrick);
-		solo.sleep(1500);
+		solo.sleep(100);
 		assertEquals("Current Script in List is not testScript", testScript3, ProjectManager.getInstance()
 				.getCurrentScript());
 
 		startBrick = parent.getChildAt(5);
 		solo.clickOnView(startBrick);
-		solo.sleep(1500);
+		solo.sleep(100);
 		assertEquals("Current Script in List is not testScript", testScript2, ProjectManager.getInstance()
 				.getCurrentScript());
 
@@ -131,5 +127,4 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 	}
-
 }

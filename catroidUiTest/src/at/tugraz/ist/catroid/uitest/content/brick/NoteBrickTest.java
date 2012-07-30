@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+	private static final String TEST_STRING = "test";
+
 	private Solo solo;
 	private Project project;
 	private NoteBrick noteBrick;
-	private String testString = "test";
 
 	public NoteBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -57,13 +58,8 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -78,44 +74,36 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_note)));
 
+		String buttonPositiveText = solo.getString(R.string.ok);
 		solo.clickOnEditText(0);
-		solo.enterText(0, testString);
-		solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(300);
+		solo.enterText(0, TEST_STRING);
+		solo.clickOnButton(buttonPositiveText);
 
 		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
-
-		assertEquals("Wrong text in field.", testString, note);
+		assertEquals("Wrong text in field.", TEST_STRING, note);
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
-		solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(300);
+		solo.clickOnButton(buttonPositiveText);
 
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
-
 		assertEquals("Wrong text in field.", "", note);
 
 		//used testString again, cause robotium can't find button otherwise....
 		solo.clickOnEditText(0);
-		solo.enterText(0, testString);
-		solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(300);
+		solo.enterText(0, TEST_STRING);
+		solo.clickOnButton(buttonPositiveText);
+
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
-
-		assertEquals("Wrong text in field.", testString, note);
-
+		assertEquals("Wrong text in field.", TEST_STRING, note);
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		noteBrick = new NoteBrick(sprite);
@@ -127,6 +115,5 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-
 	}
 }

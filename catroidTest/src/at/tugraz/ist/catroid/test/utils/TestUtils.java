@@ -35,7 +35,13 @@ import java.lang.reflect.Method;
 
 import android.content.Context;
 import android.util.Log;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
@@ -43,6 +49,10 @@ public class TestUtils {
 	private static final String TAG = TestUtils.class.getSimpleName();
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
+	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+
+	private TestUtils() {
+	};
 
 	/**
 	 * saves a file into the project folder
@@ -180,5 +190,44 @@ public class TestUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static class ProjectWithVersionCode extends Project {
+		static final long serialVersionUID = 1L;
+		private final int mCatroidVersionCode;
+
+		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+			super(null, name);
+			mCatroidVersionCode = catroidVersionCode;
+		}
+
+		@Override
+		public int getCatroidVersionCode() {
+			return mCatroidVersionCode;
+		}
+	}
+
+	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript(firstSprite);
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setCurrentScript(testScript);
+		ProjectManager.INSTANCE.saveProject();
+	}
+
+	public static void clearAllUtilTestProjects() {
+		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
+
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
 	}
 }

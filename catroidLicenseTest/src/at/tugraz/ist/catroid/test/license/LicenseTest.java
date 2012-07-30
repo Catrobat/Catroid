@@ -54,6 +54,7 @@ public class LicenseTest extends TestCase {
 				licenseText.add(line);
 			}
 		}
+		reader.close();
 		return licenseText;
 	}
 
@@ -89,6 +90,7 @@ public class LicenseTest extends TestCase {
 			allLicenseTextsPresentAndCorrect = false;
 			errorMessages.append("License text was found in the wrong order in file " + file.getCanonicalPath() + "\n");
 		}
+		reader.close();
 	}
 
 	public void testLicensePresentInAllFiles() throws IOException {

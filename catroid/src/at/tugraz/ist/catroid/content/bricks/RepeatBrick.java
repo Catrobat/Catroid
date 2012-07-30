@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
@@ -70,8 +71,12 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 		View view = View.inflate(context, R.layout.brick_repeat, null);
 
+		TextView text = (TextView) view.findViewById(R.id.brick_repeat_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");
+
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;

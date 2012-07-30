@@ -37,7 +37,7 @@ public class CheckForAssertionsTest extends TestCase {
 	private boolean assertionNotFound;
 	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest" };
 	private static final String[] IGNORED_FILES = { "MockGalleryActivity.java", "UiTestUtils.java", "TestUtils.java",
-			"MockPaintroidActivity.java" };
+			"MockPaintroidActivity.java", "TestMainMenuActivity.java" };
 
 	private void checkFileForAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -46,11 +46,13 @@ public class CheckForAssertionsTest extends TestCase {
 
 		while ((line = reader.readLine()) != null) {
 			if (line.matches("[^(//)]*assert[A-Za-z]+\\(.*")) {
+				reader.close();
 				return;
 			}
 		}
 		errorMessages.append(file.getName() + " does not seem to contain assertions\n");
 		assertionNotFound = true;
+		reader.close();
 	}
 
 	public void testForAssertions() throws IOException {

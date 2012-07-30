@@ -56,13 +56,8 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -85,10 +80,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, newBrightness + "");
-		solo.goBack();
-		solo.clickOnButton(0);
-
-		solo.sleep(1000);
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
 		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
@@ -102,7 +94,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		SetBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
@@ -115,5 +107,4 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

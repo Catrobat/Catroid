@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -108,7 +109,7 @@ public class StorageHandler {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Cannot load project.", e);
 			return null;
 		}
 	}
@@ -164,7 +165,17 @@ public class StorageHandler {
 		return false;
 	}
 
-	public boolean projectExists(String projectName) {
+	public boolean projectExistsCheckCase(String projectName) {
+		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+		for (String projectNameIterator : projectNameList) {
+			if ((projectNameIterator.equals(projectName))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean projectExistsIgnoreCase(String projectName) {
 		File projectDirectory = new File(Utils.buildProjectPath(projectName));
 		if (!projectDirectory.exists()) {
 			return false;
@@ -174,7 +185,8 @@ public class StorageHandler {
 
 	public File copySoundFile(String path) throws IOException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject), Constants.SOUND_DIRECTORY));
+		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject),
+				Constants.SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -270,8 +282,10 @@ public class StorageHandler {
 	}
 
 	private File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
-		FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
-		FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
+		FileInputStream inputStream = new FileInputStream(sourceFile);
+		FileChannel inputChannel = inputStream.getChannel();
+		FileOutputStream outputStream = new FileOutputStream(destinationFile);
+		FileChannel outputChannel = outputStream.getChannel();
 
 		String checksumSource = Utils.md5Checksum(sourceFile);
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
@@ -287,8 +301,14 @@ public class StorageHandler {
 			if (inputChannel != null) {
 				inputChannel.close();
 			}
+			if (inputStream != null) {
+				inputStream.close();
+			}
 			if (outputChannel != null) {
 				outputChannel.close();
+			}
+			if (outputStream != null) {
+				outputStream.close();
 			}
 		}
 	}
