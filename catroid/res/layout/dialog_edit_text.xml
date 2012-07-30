@@ -20,28 +20,28 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutDialog"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <EditText
-        android:id="@+id/dialog_edit_dialog_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:inputType="text"
-        android:maxLines="1"
-        android:minWidth="100dp"
-        android:selectAllOnFocus="true" >
-    </EditText>
-
-    <Button
-        android:id="@+id/dialog_edit_dialog_ok_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ok" />
-
+ -->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/layoutDialog"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+>
+	<EditText
+		android:id="@+id/dialog_edit_dialog_edit_text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="right"
+		android:inputType="text"
+		android:maxLines="1"
+		android:minWidth="100dp"
+		android:selectAllOnFocus="true"
+	>
+	</EditText>
+	<Button
+		android:id="@+id/dialog_edit_dialog_ok_button"
+		android:text="@string/ok"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
 </LinearLayout>
