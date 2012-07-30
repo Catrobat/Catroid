@@ -46,66 +46,60 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	public ScriptDeleteTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
-
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		createTestProject("testProject");
+		createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
-
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
-
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testAddLooksCategoryBrick() {
+		String brickSetCostumeText = solo.getString(R.string.brick_set_costume);
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
 		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
-		assertTrue("Set costume brick was not added",
-				solo.searchText(getActivity().getString(R.string.brick_set_costume)));
+		assertTrue("Set costume brick was not added", solo.searchText(brickSetCostumeText));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_size_to);
-		solo.clickOnText(getActivity().getString(R.string.brick_set_costume));
+		solo.clickOnText(brickSetCostumeText);
 		assertTrue("Set size to brick was not added",
 				solo.searchText(getActivity().getString(R.string.brick_set_size_to)));
-
 	}
 
 	public void testDeleteScript() {
+		String brickWhenStartedText = solo.getString(R.string.brick_when_started);
+		String buttonDeleteText = solo.getString(R.string.delete);
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(brickWhenStartedText);
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 2, numberOfScripts);
 
-		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
-		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.sleep(1000);
+		solo.clickLongOnText(brickWhenStartedText);
+		solo.clickOnText(buttonDeleteText);
+		solo.sleep(200);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
 		solo.clickLongOnText(getActivity().getString(R.string.brick_broadcast_receive));
-		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.sleep(1000);
+		solo.clickOnText(buttonDeleteText);
+		solo.sleep(200);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_hide);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(brickWhenStartedText);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
@@ -137,5 +131,4 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 	}
-
 }

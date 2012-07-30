@@ -51,6 +51,7 @@ public class SleepTest extends TestCase {
 			}
 			++lineCount;
 		}
+		reader.close();
 	}
 
 	public void testThreadSleepNotPresentInAnyUiTests() throws IOException {

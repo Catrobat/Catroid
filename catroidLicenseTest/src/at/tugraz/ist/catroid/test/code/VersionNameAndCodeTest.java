@@ -67,6 +67,7 @@ public class VersionNameAndCodeTest extends TestCase {
 					versionInfos.put(directory.getName() + " versionName", matcher.group(1));
 				}
 			}
+			reader.close();
 		}
 
 		assertEquals("There was a versionName or versionCode mismatch in one of the AndroidManifest.xml files\n"

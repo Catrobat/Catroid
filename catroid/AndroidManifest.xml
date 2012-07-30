@@ -56,14 +56,21 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="*"
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="http" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="*"
+                    android:mimeType="application/zip"
+                    android:pathPattern=".*\\.catroid"
+                    android:scheme="file" />
             </intent-filter>
         </activity>
         <activity

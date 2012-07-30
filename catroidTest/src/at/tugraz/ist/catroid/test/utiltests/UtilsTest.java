@@ -47,15 +47,20 @@ public class UtilsTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		OutputStream outputStream = null;
 		try {
 			mTestFile = File.createTempFile("testCopyFiles", ".txt");
 			if (mTestFile.canWrite()) {
-				OutputStream stream = new FileOutputStream(mTestFile);
-				stream.write(testFileContent.getBytes());
-				stream.flush();
+				outputStream = new FileOutputStream(mTestFile);
+				outputStream.write(testFileContent.getBytes());
+				outputStream.flush();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			if (outputStream != null) {
+				outputStream.close();
+			}
 		}
 
 		super.setUp();
@@ -128,14 +133,14 @@ public class UtilsTest extends TestCase {
 
 		Integer secretInteger = (Integer) TestUtils.getPrivateField("SECRET_INTEGER", new Sub(), false);
 		Log.v(TAG, secretInteger.toString());
-		assertEquals("Getting private Integer failed!", new Integer(42), secretInteger);
+		assertEquals("Getting private Integer failed!", Integer.valueOf(42), secretInteger);
 
 		Float secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), false);
 		assertNull("Getting private float succeeded!", secretFloat);
 
 		secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), true);
 		Log.v(TAG, secretFloat.toString());
-		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
+		assertEquals("Getting private float failed!", Float.valueOf(3.1415f), secretFloat);
 	}
 
 	public void testBuildPath() {
