@@ -19,10 +19,9 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources>
-
     <color name="solid_red">#f00</color>
     <color name="solid_blue">#0000ff</color>
     <color name="solid_green">#f0f0</color>
@@ -37,5 +36,4 @@
     <color name="dark_gray">#5a5858</color>
     <color name="gray">#808080</color>
     <color name="website_blue">#d8e0f5</color>
-
 </resources>

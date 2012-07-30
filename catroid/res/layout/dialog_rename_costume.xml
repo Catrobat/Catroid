@@ -19,45 +19,44 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
-
-    <EditText
-        android:id="@+id/dialog_rename_costume_editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:inputType="text"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true" >
-    </EditText>
-
-    <LinearLayout
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
+>
+        <EditText
+                android:id="@+id/dialog_rename_costume_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:selectAllOnFocus="true"
+        >
+        </EditText>
+                <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
         <Button
-            android:id="@+id/btn_rename_costume"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:onClick="handlePositiveButtonRenameCostume"
-            android:text="@string/ok" />
-
+                android:id="@+id/btn_rename_costume"
+                android:text="@string/ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:onClick="handlePositiveButtonRenameCostume"/>
         <Button
-            android:id="@+id/btn_cancel_costume"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:onClick="handleNegativeButtonRenameCostume"
-            android:text="@string/cancel_button" />
-    </LinearLayout>
-
+                android:id="@+id/btn_cancel_costume"
+                android:text="@string/cancel_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:onClick="handleNegativeButtonRenameCostume"/>
+        </LinearLayout>
 </LinearLayout>
+
