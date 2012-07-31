@@ -275,8 +275,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				.getText().toString());
 		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1)
 				.getText().toString());
-		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList
-				.get(2).getText().toString());
+		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_catroid_license_link_text),
+				textViewList.get(2).getText().toString());
 	}
 
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
