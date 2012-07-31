@@ -32,7 +32,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,6 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class SpritesListFragment extends SherlockListFragment {
 
 	private static final String ARGS_SPRITE_TO_EDIT = "sprite_to_edit";
-	public static final String ACTION_SPRITE_RENAMED = "at.tugraz.ist.catroid.SPRITE_RENAMED";
 
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
@@ -65,7 +63,9 @@ public class SpritesListFragment extends SherlockListFragment {
 	private Sprite spriteToEdit;
 
 	private ActionBar actionBar;
+
 	private SpriteRenamedReceiver spriteRenamedReceiver;
+	private SpritesListChangedReceiver spritesListChangedReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -119,8 +119,15 @@ public class SpritesListFragment extends SherlockListFragment {
 			spriteRenamedReceiver = new SpriteRenamedReceiver();
 		}
 
-		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ACTION_SPRITE_RENAMED);
+		if (spritesListChangedReceiver == null) {
+			spritesListChangedReceiver = new SpritesListChangedReceiver();
+		}
+
+		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptTabActivity.ACTION_SPRITE_RENAMED);
 		getActivity().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
+
+		IntentFilter intentFilterSpriteListChanged = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED);
+		getActivity().registerReceiver(spritesListChangedReceiver, intentFilterSpriteListChanged);
 
 		spriteAdapter.notifyDataSetChanged();
 	}
@@ -136,14 +143,14 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (spriteRenamedReceiver != null) {
 			getActivity().unregisterReceiver(spriteRenamedReceiver);
 		}
+
+		if (spritesListChangedReceiver != null) {
+			getActivity().unregisterReceiver(spritesListChangedReceiver);
+		}
 	}
 
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
-	}
-
-	public void notifySpriteAdapter() {
-		spriteAdapter.notifyDataSetChanged();
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
@@ -229,10 +236,18 @@ public class SpritesListFragment extends SherlockListFragment {
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ACTION_SPRITE_RENAMED)) {
-				Log.v("SPritesList", "sprite renamed");
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
 				spriteToEdit.setName(newSpriteName);
+			}
+		}
+	}
+
+	private class SpritesListChangedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED)) {
+				spriteAdapter.notifyDataSetChanged();
 			}
 		}
 	}

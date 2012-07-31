@@ -22,10 +22,11 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import android.content.Intent;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewSpriteDialog extends TextDialog {
@@ -33,17 +34,17 @@ public class NewSpriteDialog extends TextDialog {
 	@Override
 	protected void initialize() {
 	}
-	
+
 	@Override
 	protected boolean handleOkButton() {
 		String newSpriteName = (input.getText().toString()).trim();
 		ProjectManager projectManager = ProjectManager.getInstance();
-		
+
 		if (projectManager.spriteExists(newSpriteName)) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
 			return false;
 		}
-		
+
 		String spriteName = input.getText().toString();
 
 		if (spriteName == null || spriteName.equalsIgnoreCase("")) {
@@ -55,12 +56,11 @@ public class NewSpriteDialog extends TextDialog {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
 			return false;
 		}
-		
+
 		Sprite sprite = new Sprite(spriteName);
 		projectManager.addSprite(sprite);
-		
-		//TODO this should be refactored later
-		((ProjectActivity) getActivity()).notifySpritesAdapterDataChanged();
+
+		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
 
 		return true;
 	}

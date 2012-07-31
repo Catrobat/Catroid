@@ -49,22 +49,24 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class ScriptTabActivity extends SherlockFragmentActivity {
-	
+
+	public static final String ACTION_SPRITE_RENAMED = "at.tugraz.ist.catroid.SPRITE_RENAMED";
+	public static final String ACTION_SPRITES_LIST_CHANGED = "at.tugraz.ist.catroid.SPRITES_LIST_CHANGED";
 	public static final String ACTION_NEW_BRICK_ADDED = "at.tugraz.ist.catroid.NEW_BRICK_ADDED";
 	public static final String ACTION_BRICK_LIST_CHANGED = "at.tugraz.ist.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
 	public static final String ACTION_COSTUME_RENAMED = "at.tugraz.ist.catroid.COSTUME_RENAMED";
 	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
 	public static final String ACTION_SOUND_RENAMED = "at.tugraz.ist.catroid.SOUND_RENAMED";
-	
+
 	public static final int INDEX_TAB_SCRIPTS = 0;
 	public static final int INDEX_TAB_COSTUMES = 1;
 	public static final int INDEX_TAB_SOUNDS = 2;
-	
+
 	private ActionBar actionBar;
 	private ViewPager viewPager;
 	private TabsPagerAdapter tabsAdapter;
-	
+
 	private TabHost tabHost;
 
 	@Override
@@ -80,7 +82,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 
 		tabsAdapter = new TabsPagerAdapter(this, tabHost, viewPager);
 		setupTab(R.drawable.ic_tab_scripts_selector, getString(R.string.scripts), ScriptFragment.class, null);
-		
+
 		int costumeIcon;
 		String costumeLabel;
 
@@ -92,7 +94,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 			costumeIcon = R.drawable.ic_tab_costumes_selector;
 			costumeLabel = this.getString(R.string.costumes);
 		}
-		
+
 		setupTab(costumeIcon, costumeLabel, CostumeFragment.class, null);
 		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundFragment.class, null);
 
@@ -123,17 +125,17 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
 			startActivity(intent);
 		}
 	}
-	
+
 	private void setupTabHost() {
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
 		tabHost.setup();
@@ -147,7 +149,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
-	
+
 	private void setupTab(Integer drawableId, final String tag, Class<?> clss, Bundle args) {
 		tabsAdapter.addTab(tabHost.newTabSpec(tag).setIndicator(createTabView(drawableId, this, tag)), clss, args);
 	}
@@ -169,10 +171,10 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 		if (position < 0 || position > 2) {
 			throw new IllegalArgumentException("There is no tab Fragment with index: " + position);
 		}
-		
+
 		return getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + position);
 	}
-	
+
 	public Fragment getCurrentTabFragment() {
 		return getTabFragment(tabHost.getCurrentTab());
 	}
