@@ -70,7 +70,7 @@ public abstract class LoopBeginBrick implements NestingBrick {
 		}
 	}
 
-	public boolean isFullyCreated() {
+	public boolean isInitialized() {
 		if (loopEndBrick == null) {
 			return false;
 		} else {
@@ -78,7 +78,7 @@ public abstract class LoopBeginBrick implements NestingBrick {
 		}
 	}
 
-	public void createFully() {
+	public void initialize() {
 		loopEndBrick = new LoopEndBrick(sprite, this);
 	}
 
