@@ -24,12 +24,8 @@ package at.tugraz.ist.catroid.uitest.content;
 
 import java.util.ArrayList;
 
-import android.os.Handler;
-import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.view.MotionEvent;
-import android.view.ViewConfiguration;
 import android.widget.Adapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
@@ -73,53 +69,13 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		super.tearDown();
 	}
 
-	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,
-			final int steps) {
-		Handler handler = new Handler(getActivity().getMainLooper());
-
-		handler.post(new Runnable() {
-
-			public void run() {
-				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
-				getActivity().dispatchTouchEvent(downEvent);
-			}
-		});
-
-		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
-
-		handler.post(new Runnable() {
-			public void run() {
-
-				for (int i = 0; i <= steps; i++) {
-					float x = xFrom + (((xTo - xFrom) / steps) * i);
-					float y = yFrom + (((yTo - yFrom) / steps) * i);
-					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-							MotionEvent.ACTION_MOVE, x, y, 0);
-					getActivity().dispatchTouchEvent(moveEvent);
-					solo.sleep(20);
-				}
-			}
-		});
-
-		solo.sleep(steps * 20 + 200);
-		handler.post(new Runnable() {
-			public void run() {
-				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-						MotionEvent.ACTION_UP, xTo, yTo, 0);
-				getActivity().dispatchTouchEvent(upEvent);
-			}
-		});
-		solo.sleep(1000);
-	}
-
 	@Smoke
 	public void testMoveBrickAcrossScript() {
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
-		longClickAndDrag(10, yPositionList.get(7), 10, yPositionList.get(2), 20);
+		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPositionList.get(7), 10, yPositionList.get(2), 20);
 		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks + 1) == ProjectManager
 				.getInstance().getCurrentScript().getBrickList().size());
 
