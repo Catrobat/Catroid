@@ -62,7 +62,7 @@ public class RenameSpriteDialog extends TextDialog {
 			return false;
 		}
 
-		if (newSpriteName.equalsIgnoreCase(oldSpriteName)) {
+		if (newSpriteName.equals(oldSpriteName)) {
 			dismiss();
 			return false;
 		}

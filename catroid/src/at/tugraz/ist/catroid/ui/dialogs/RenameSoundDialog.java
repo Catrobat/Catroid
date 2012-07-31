@@ -59,7 +59,7 @@ public class RenameSoundDialog extends TextDialog {
 	protected boolean handleOkButton() {
 		String newSoundTitle = (input.getText().toString()).trim();
 
-		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
+		if (newSoundTitle.equals(oldSoundTitle)) {
 			dismiss();
 		}
 

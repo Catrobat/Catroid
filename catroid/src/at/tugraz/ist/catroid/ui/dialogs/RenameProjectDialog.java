@@ -70,7 +70,7 @@ public class RenameProjectDialog extends TextDialog {
 			return false;
 		}
 
-		if (newProjectName.equalsIgnoreCase(oldProjectName)) {
+		if (newProjectName.equals(oldProjectName)) {
 			dismiss();
 			return false;
 		}
