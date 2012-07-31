@@ -26,23 +26,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.fragment.SpritesListFragment;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSpriteDialog extends TextDialog {
 
 	private static final String ARGS_OLD_SPRITE_NAME = "old_sprite_name";
 	public static final String EXTRA_NEW_SPRITE_NAME = "new_sprite_name";
-	
+
 	private String oldSpriteName;
-	
+
 	public static RenameSpriteDialog newInstance(String oldSpriteName) {
 		RenameSpriteDialog dialog = new RenameSpriteDialog();
-		
+
 		Bundle args = new Bundle();
 		args.putString(ARGS_OLD_SPRITE_NAME, oldSpriteName);
 		dialog.setArguments(args);
-		
+
 		return dialog;
 	}
 
@@ -51,31 +51,31 @@ public class RenameSpriteDialog extends TextDialog {
 		oldSpriteName = getArguments().getString(ARGS_OLD_SPRITE_NAME);
 		input.setText(oldSpriteName);
 	}
-	
+
 	@Override
 	protected boolean handleOkButton() {
 		String newSpriteName = (input.getText().toString()).trim();
 		ProjectManager projectManager = ProjectManager.getInstance();
-		
+
 		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
 			return false;
-		} 
-		
+		}
+
 		if (newSpriteName.equalsIgnoreCase(oldSpriteName)) {
 			dismiss();
 			return false;
 		}
-		
+
 		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
-			Intent intent = new Intent(SpritesListFragment.ACTION_SPRITE_RENAMED);
+			Intent intent = new Intent(ScriptTabActivity.ACTION_SPRITE_RENAMED);
 			intent.putExtra(EXTRA_NEW_SPRITE_NAME, newSpriteName);
 			getActivity().sendBroadcast(intent);
 		} else {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_invalid));
 			return false;
 		}
-		
+
 		return true;
 	}
 

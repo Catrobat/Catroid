@@ -24,13 +24,11 @@ package at.tugraz.ist.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
-import at.tugraz.ist.catroid.ui.fragment.SpritesListFragment;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -85,14 +83,8 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			notifySpritesAdapterDataChanged();
+			sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
 		}
-	}
-
-	public void notifySpritesAdapterDataChanged() {
-		FragmentManager fm = getSupportFragmentManager();
-		SpritesListFragment spritesListFragment = (SpritesListFragment) fm.findFragmentById(R.id.fr_sprites_list);
-		spritesListFragment.notifySpriteAdapter();
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
