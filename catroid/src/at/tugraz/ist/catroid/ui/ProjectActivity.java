@@ -56,7 +56,7 @@ public class ProjectActivity extends ListActivity implements OnClickListener {
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
-	private View spriteListFooterView;
+	private View viewBelowSpritelist;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
 	public static final int DIALOG_NEW_SPRITE = 0;
@@ -127,8 +127,8 @@ public class ProjectActivity extends ListActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
-		spriteListFooterView = findViewById(R.id.view_under_spritelist);
-		spriteListFooterView.setOnClickListener(this);
+		viewBelowSpritelist = findViewById(R.id.view_under_spritelist);
+		viewBelowSpritelist.setOnClickListener(this);
 		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}

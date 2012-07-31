@@ -136,6 +136,34 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Sprite not shown in Adapter", solo.searchText(spriteName2));
 	}
 
+	public void testAddNewSpriteUnderList() {
+		final String spriteName = "testSprite";
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+
+		solo.clickOnView(solo.getView(R.id.view_under_spritelist));
+		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
+
+		EditText addNewSpriteEditText = solo.getEditText(0);
+		//check if hint is set
+		assertEquals("Not the proper hint set",
+				getActivity().getString(R.string.new_sprite_dialog_default_sprite_name), addNewSpriteEditText.getHint());
+		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
+		solo.clearEditText(0);
+		solo.enterText(0, spriteName);
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(100);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
+
+		ListView spriteList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		assertEquals("Sprite was not added", 2, spriteList.getChildCount());
+	}
+
 	public void testContextMenu() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
