@@ -77,32 +77,34 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof LoopBeginBrick));
 
-		solo.sleep(500);
+		solo.sleep(200);
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(3), 10, yPos.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
-		solo.sleep(500);
+		solo.sleep(200);
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(2), 10, 0, 60);
-		solo.sleep(500);
+		solo.clickInList(0); // needed because of bug in Nexus S 2.3.6
+		solo.sleep(200);
+		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(2), 10, 0, 20);
+		solo.sleep(200);
 
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected LoopBeginBrick but was "
 				+ projectBrickList.get(0).getClass().getSimpleName(),
 				(projectBrickList.get(0) instanceof LoopBeginBrick));
 
-		solo.sleep(500);
+		solo.sleep(200);
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(3), 10, yPos.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
-		solo.sleep(500);
+		solo.sleep(200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		solo.clickOnText(solo.getString(R.string.brick_change_y_by));
@@ -116,12 +118,12 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(3), getActivity().getWindowManager()
 				.getDefaultDisplay().getWidth() - 10, yPos.get(3), 100);
 
-		solo.sleep(1000);
+		solo.sleep(500);
 
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof ChangeYByBrick));
 
-		solo.sleep(500);
+		solo.sleep(200);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(1), 10, yPos.get(2) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
@@ -134,7 +136,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
 		solo.clickOnText(solo.getString(R.string.brick_loop_end));
 
-		solo.sleep(500);
+		solo.sleep(200);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(4), 10, yPos.get(5) + 20, 20);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
