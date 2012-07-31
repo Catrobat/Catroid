@@ -150,11 +150,6 @@ public abstract class TextDialog extends DialogFragment {
 
 	private void initTextChangedListener() {
 		final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
-
-		if (input.getText().toString().length() == 0) {
-			buttonPositive.setEnabled(false);
-		}
-
 		input.addTextChangedListener(getInputTextChangedListener(buttonPositive));
 	}
 }

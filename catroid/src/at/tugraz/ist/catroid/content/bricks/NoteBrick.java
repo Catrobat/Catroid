@@ -23,9 +23,12 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
@@ -47,6 +50,7 @@ public class NoteBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
@@ -56,9 +60,11 @@ public class NoteBrick implements Brick {
 		this.note = note;
 	}
 
+	@Override
 	public void execute() {
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -67,6 +73,7 @@ public class NoteBrick implements Brick {
 		return this.note;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_note, null);
@@ -80,23 +87,41 @@ public class NoteBrick implements Brick {
 
 		editText.setOnClickListener(new OnClickListener() {
 
+			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-				
+
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override
 					protected void initialize() {
 						input.setText(note);
 						input.setSelectAllOnFocus(true);
 					}
-					
+
+					@Override
+					protected TextWatcher getInputTextChangedListener(Button buttonPositive) {
+						return new TextWatcher() {
+							@Override
+							public void onTextChanged(CharSequence s, int start, int before, int count) {
+							}
+
+							@Override
+							public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+							}
+
+							@Override
+							public void afterTextChanged(Editable s) {
+							}
+						};
+					}
+
 					@Override
 					protected boolean handleOkButton() {
 						note = (input.getText().toString()).trim();
 						return true;
 					}
 				};
-				
+
 				editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
 			}
 		});
@@ -104,6 +129,7 @@ public class NoteBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_note, null);
 	}
