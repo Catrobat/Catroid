@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
@@ -46,7 +47,7 @@ import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectActivity extends ListActivity {
+public class ProjectActivity extends ListActivity implements OnClickListener {
 
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
@@ -55,6 +56,7 @@ public class ProjectActivity extends ListActivity {
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
+	private View spriteListFooterView;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
 	public static final int DIALOG_NEW_SPRITE = 0;
@@ -125,6 +127,8 @@ public class ProjectActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
+		spriteListFooterView = findViewById(R.id.view_under_spritelist);
+		spriteListFooterView.setOnClickListener(this);
 		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}
@@ -247,5 +251,13 @@ public class ProjectActivity extends ListActivity {
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.view_under_spritelist:
+				showDialog(DIALOG_NEW_SPRITE);
+				break;
+		}
 	}
 }
