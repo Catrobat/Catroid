@@ -59,7 +59,7 @@ public class RenameCostumeDialog extends TextDialog {
 	protected boolean handleOkButton() {
 		String newCostumeName = (input.getText().toString()).trim();
 
-		if (newCostumeName.equalsIgnoreCase(oldCostumeName)) {
+		if (newCostumeName.equals(oldCostumeName)) {
 			dismiss();
 		}
 
