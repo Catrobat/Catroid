@@ -44,15 +44,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -77,6 +80,8 @@ public class Utils {
 	private static final String TAG = Utils.class.getSimpleName();
 	private static long uniqueLong = 0;
 	private static Semaphore uniqueNameLock = new Semaphore(1);
+	public static final int PICTURE_INTENT = 1;
+	public static final int FILE_INTENT = 2;
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -385,4 +390,38 @@ public class Utils {
 		return newTitle;
 	}
 
+	public static ArrayList<InstalledApplicationInfo> createApplicationsInfoList(PackageManager packageManager) {
+		ArrayList<InstalledApplicationInfo> applicationsInfoList = new ArrayList<InstalledApplicationInfo>();
+		Intent pictureFileManagerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+		pictureFileManagerIntent.setType("image/*");
+
+		Intent cameraAppIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+		final List<ResolveInfo> cammeraApplicationsList = packageManager.queryIntentActivities(cameraAppIntent, 0);
+		final List<ResolveInfo> pictureFileManagerApplicationList = packageManager.queryIntentActivities(
+				pictureFileManagerIntent, 0);
+
+		addApplicationInfoToList(applicationsInfoList, cammeraApplicationsList, PICTURE_INTENT, packageManager);
+		addApplicationInfoToList(applicationsInfoList, pictureFileManagerApplicationList, FILE_INTENT, packageManager);
+
+		return applicationsInfoList;
+
+	}
+
+	private static void addApplicationInfoToList(ArrayList<InstalledApplicationInfo> applicationInfoList,
+			List<ResolveInfo> installedApplicationsList, int INTENT_CODE, PackageManager packageManager) {
+		ResolveInfo currentInfo;
+		InstalledApplicationInfo currentAppInfo;
+		if (installedApplicationsList != null) {
+			for (int i = 0; i < installedApplicationsList.size(); i++) {
+				currentInfo = installedApplicationsList.get(i);
+
+				currentAppInfo = new InstalledApplicationInfo(INTENT_CODE, currentInfo.activityInfo.packageName,
+						currentInfo.activityInfo.name, currentInfo.loadLabel(packageManager).toString(),
+						currentInfo.loadIcon(packageManager));
+				applicationInfoList.add(currentAppInfo);
+			}
+		}
+
+	}
 }
