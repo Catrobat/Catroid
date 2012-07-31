@@ -120,7 +120,7 @@ public class LoopEndBrick implements NestingBrick {
 		}
 	}
 
-	public boolean isFullyCreated() {
+	public boolean isInitialized() {
 		if (loopBeginBrick == null) {
 			return false;
 		} else {
@@ -128,7 +128,7 @@ public class LoopEndBrick implements NestingBrick {
 		}
 	}
 
-	public void createFully() {
+	public void initialize() {
 		loopBeginBrick = new ForeverBrick(sprite);
 		Log.w("LoopEndBrick", "Not supposed to create the LoopBeginBrick!");
 	}

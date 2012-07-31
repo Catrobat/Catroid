@@ -127,11 +127,11 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
 
-		int visibleF = listView.getFirstVisiblePosition();
-		int visibleL = listView.getLastVisiblePosition();
-		int pos = ((visibleL - visibleF) / 2);
-		pos += visibleF;
-		adapter.addNewBrick(pos, brickToBeAdded);
+		int firstVisibleBrick = listView.getFirstVisiblePosition();
+		int lastVisibleBrick = listView.getLastVisiblePosition();
+		int position = ((lastVisibleBrick - firstVisibleBrick) / 2);
+		position += firstVisibleBrick;
+		adapter.addNewBrick(position, brickToBeAdded);
 	}
 
 	public void onCancel(DialogInterface arg0) {

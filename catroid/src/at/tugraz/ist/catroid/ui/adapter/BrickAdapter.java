@@ -110,7 +110,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		if (draggedBrick instanceof NestingBrick) {
 			NestingBrick nestingBrick = (NestingBrick) draggedBrick;
-			if (nestingBrick.isFullyCreated()) {
+			if (nestingBrick.isInitialized()) {
 				to = getDraggedNestingBricksToPosition(nestingBrick, from, to);
 			}
 		} else if (draggedBrick instanceof ScriptBrick) {
@@ -294,7 +294,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		Script script = currentSprite.getScript(scriptPosition);
 
 		if (brick instanceof NestingBrick) {
-			((NestingBrick) draggedBrick).createFully();
+			((NestingBrick) draggedBrick).initialize();
 			List<NestingBrick> nestingBrickList = ((NestingBrick) draggedBrick).getAllNestingBrickParts();
 			for (int i = 0; i < nestingBrickList.size(); i++) {
 				script.addBrick(brickPosition + i, nestingBrickList.get(i));
