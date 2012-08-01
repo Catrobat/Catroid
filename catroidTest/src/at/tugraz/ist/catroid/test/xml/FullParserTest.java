@@ -22,15 +22,12 @@
  */
 package at.tugraz.ist.catroid.test.xml;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
@@ -38,18 +35,18 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.PointToBrick;
+import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
-import at.tugraz.ist.catroid.xml.serializer.ProjectSerializer;
-import at.tugraz.ist.catroid.xml.serializer.SoundSerializer;
-import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 public class FullParserTest extends InstrumentationTestCase {
 
@@ -146,7 +143,7 @@ public class FullParserTest extends InstrumentationTestCase {
 
 		Project testProject = null;
 		try {
-			testProject = parser.fullParser("test_standard_project_new_version.xml");
+			testProject = parser.fullParser("test_standard_project.xml");
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parser Exception");
@@ -164,61 +161,22 @@ public class FullParserTest extends InstrumentationTestCase {
 		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 		WhenScript script = (WhenScript) testSprite.getScript(1);
-		ProjectSerializer ps = new ProjectSerializer();
-		try {
-
-			List<String> script2 = ps.serialize(testProject);
-			for (String element : script2) {
-				Log.i("script element", element);
-			}
-			String projectDirectoryName = Utils.buildProjectPath("test__" + testProject.getName());
-			File projectDirectory = new File(projectDirectoryName);
-
-			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
-				projectDirectory.mkdir();
-
-			}
-			XmlSerializer xs = new XmlSerializer();
-			xs.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		SetCostumeBrick costumeBrick = (SetCostumeBrick) script.getBrick(0);
 		testData = (CostumeData) TestUtils.getPrivateField("costumeData", costumeBrick, false);
 		testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("costume data wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
+		StartScript startScript = (StartScript) testSprite.getScript(0);
+		RepeatBrick repeatBrick = (RepeatBrick) startScript.getBrick(1);
 
-		//RepeatBrick repeatBrick = (RepeatBrick) script.getBrick(1);
-		//		BrickSerializer bs = new BrickSerializer(testSprite, script, testProject);
-		//		try {
-		//			bs.serialize(costumeBrick);
-		//		} catch (IllegalArgumentException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		} catch (IllegalAccessException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
-		//		assertNotNull("repeat brick is null", repeatBrick);
-		//		int timestoRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", repeatBrick, false);
-		//		assertEquals("repeat brick times to repeat incorrect", 3, timestoRepeat);
-		//		LoopEndBrick leb = repeatBrick.getLoopEndBrick();
-		//		//CostumeData testCostData = (CostumeData) TestUtils.getPrivateField("costumeData", costBrick, false);
-		//		assertNotNull("Costume data null", leb);
-		//		LoopEndBrick lebFromXML = (LoopEndBrick) script.getBrick(3);
-		//		assertNotNull("The LoopEndBrick is null", lebFromXML);
-		//		LoopBeginBrick rb = lebFromXML.getLoopBeginBrick();
-		//		assertNotNull("The Loop BeginBrick is null", rb);
+		assertNotNull("repeat brick is null", repeatBrick);
+		int timestoRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", repeatBrick, false);
+		assertEquals("repeat brick times to repeat incorrect", 3, timestoRepeat);
+		LoopEndBrick loopEndBrick = repeatBrick.getLoopEndBrick();
+		assertNotNull("Costume data null", loopEndBrick);
+		LoopEndBrick lebFromXML = (LoopEndBrick) startScript.getBrick(3);
+		assertNotNull("The LoopEndBrick is null", lebFromXML);
+		LoopBeginBrick repeatBrickFromLoopEnd = lebFromXML.getLoopBeginBrick();
+		assertNotNull("The Loop BeginBrick is null", repeatBrickFromLoopEnd);
 
 	}
 
@@ -251,16 +209,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		WhenScript testScript = (WhenScript) testSprite.getScript(1);
 
 		PlaySoundBrick playSoundBrick = (PlaySoundBrick) testScript.getBrick(4);
-		//		BrickSerializer bs = new BrickSerializer(testSprite, testScript, testProject);
-		//		try {
-		//			bs.serialize(playSoundBrick);
-		//		} catch (IllegalArgumentException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		} catch (IllegalAccessException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
+
 		assertNotNull("The PlaySoundBrick is null", playSoundBrick);
 		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", playSoundBrick, false);
 		assertEquals("SoundInfo name is not correct", "Geige", si2.getTitle());
@@ -285,32 +234,13 @@ public class FullParserTest extends InstrumentationTestCase {
 		List<Sprite> sprites = null;
 		sprites = testProject.getSpriteList();
 		assertEquals("all sprites not given", 9, sprites.size());
-		SoundSerializer ss = new SoundSerializer();
 
-		try {
-			List<String> script2 = ss.serializeSoundList(sprites.get(3).getSoundList());
-			for (String element : script2) {
-				Log.i("script element", element);
-			}
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//		StartScript testScript = (StartScript) sprites.get(7).getScript(0);
-		//		PointToBrick pointtoBrick = (PointToBrick) testScript.getBrick(6);
-		//		assertNotNull("Point to brick is null", pointtoBrick);
-		//		Sprite pointedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", pointtoBrick, false);
-		//		assertNotNull(pointedSprite);
-		//		assertEquals(pointedSprite.getName(), sprites.get(1).getName());
+		StartScript testScript = (StartScript) sprites.get(7).getScript(0);
+		PointToBrick pointtoBrick = (PointToBrick) testScript.getBrick(6);
+		assertNotNull("Point to brick is null", pointtoBrick);
+		Sprite pointedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", pointtoBrick, false);
+		assertNotNull(pointedSprite);
+		assertEquals(pointedSprite.getName(), sprites.get(1).getName());
 	}
 
 	public void testParseMalformedProject() {

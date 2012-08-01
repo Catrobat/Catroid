@@ -53,11 +53,11 @@ public class ProjectSerializer extends Serializer {
 			if (fieldValue != null) {
 				if (!projectField.getType().isPrimitive()) {
 					if (projectField.getType().equals(String.class)) {
-						xmlElementString = getElementString(fieldName, (String) fieldValue);
+						xmlElementString = tab + getElementString(fieldName, (String) fieldValue);
 						projectStringList.add(xmlElementString);
 					}
 				} else {
-					xmlElementString = getElementString(fieldName, fieldValue.toString());
+					xmlElementString = tab + getElementString(fieldName, fieldValue.toString());
 					projectStringList.add(xmlElementString);
 				}
 			}

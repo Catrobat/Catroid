@@ -38,22 +38,22 @@ public class SpriteSerializer extends Serializer {
 		Sprite sprite = (Sprite) object;
 		List<String> spriteStrings = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = getStartTag(spriteTag);
+		xmlElementString = tab + tab + getStartTag(spriteTag);
 		spriteStrings.add(xmlElementString);
 
 		if (sprite.getCostumeDataList().size() > 0) {
 			CostumeSerializer costumeStrings = new CostumeSerializer();
 			spriteStrings.addAll(costumeStrings.serializeCostumeList(sprite.getCostumeDataList()));
 		}
-		spriteStrings.add(getSpriteNameElement(sprite));
+		spriteStrings.add(tab + tab + tab + getSpriteNameElement(sprite));
 
 		if (sprite.getNumberOfScripts() > 0) {
 			ScriptSerializer scriptSerializer = new ScriptSerializer(sprite, serializedProject);
-			spriteStrings.add(getStartTag(scriptListTag));
+			spriteStrings.add(tab + tab + tab + getStartTag(scriptListTag));
 			for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
 				spriteStrings.addAll(scriptSerializer.serialize(sprite.getScript(i)));
 			}
-			spriteStrings.add(getEndTag(scriptListTag));
+			spriteStrings.add(tab + tab + tab + getEndTag(scriptListTag));
 		}
 
 		if (sprite.getSoundList().size() > 0) {
@@ -61,7 +61,7 @@ public class SpriteSerializer extends Serializer {
 			spriteStrings.addAll(soundSerializer.serializeSoundList(sprite.getSoundList()));
 		}
 
-		spriteStrings.add(getEndTag(spriteTag));
+		spriteStrings.add(tab + tab + getEndTag(spriteTag));
 
 		return spriteStrings;
 	}
@@ -73,11 +73,11 @@ public class SpriteSerializer extends Serializer {
 	public List<String> serializeList() throws IllegalArgumentException, SecurityException, IllegalAccessException,
 			NoSuchFieldException {
 		List<String> spriteListStrings = new ArrayList<String>();
-		spriteListStrings.add(getStartTag("spriteList"));
+		spriteListStrings.add(tab + getStartTag("spriteList"));
 		for (Sprite projectSprite : serializedProject.getSpriteList()) {
 			spriteListStrings.addAll(serialize(projectSprite));
 		}
-		spriteListStrings.add(getEndTag("spriteList"));
+		spriteListStrings.add(tab + getEndTag("spriteList"));
 		return spriteListStrings;
 
 	}

@@ -29,6 +29,7 @@ public class SoundSerializer extends Serializer {
 	private final String soundFileNameTag = "fileName";
 	private final String soundNameTag = "name";
 	private final String soundListTag = "soundList";
+	private final String soundTabs = tab + tab + tab;
 
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
@@ -38,13 +39,13 @@ public class SoundSerializer extends Serializer {
 		String costumeName = soundInfo.getTitle();
 		List<String> soundStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = getStartTag(soundInfoTag);
+		xmlElementString = soundTabs + tab + getStartTag(soundInfoTag);
 		soundStringList.add(xmlElementString);
-		xmlElementString = getElementString(soundFileNameTag, costumeFileName);
+		xmlElementString = soundTabs + tab + tab + getElementString(soundFileNameTag, costumeFileName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = getElementString(soundNameTag, costumeName);
+		xmlElementString = soundTabs + tab + tab + getElementString(soundNameTag, costumeName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = getEndTag(soundInfoTag);
+		xmlElementString = soundTabs + tab + getEndTag(soundInfoTag);
 		soundStringList.add(xmlElementString);
 
 		return soundStringList;
@@ -53,11 +54,11 @@ public class SoundSerializer extends Serializer {
 	public List<String> serializeSoundList(List<SoundInfo> soundList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
 		List<String> soundStrings = new ArrayList<String>();
-		soundStrings.add(getStartTag(soundListTag));
+		soundStrings.add(soundTabs + getStartTag(soundListTag));
 		for (SoundInfo soundInfo : soundList) {
 			soundStrings.addAll(this.serialize(soundInfo));
 		}
-		soundStrings.add(getEndTag(soundListTag));
+		soundStrings.add(soundTabs + getEndTag(soundListTag));
 		return soundStrings;
 	}
 

@@ -44,6 +44,7 @@ public abstract class Serializer {
 	List<SoundInfo> soundList;
 
 	public final String spriteElementPrefix = "<sprite reference=";
+	public final String tab = "\t";
 
 	public abstract List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
 			SecurityException, NoSuchFieldException;
