@@ -507,6 +507,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.sleep(5000);
 		expectedCostumeName = defaultCostumeName + "3";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(4).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
@@ -541,7 +542,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
 		solo.clickOnText(currentCostumeName);
-		EditText editTextCostumeName = (EditText) solo.getView(R.id.dialog_rename_costume_editText);
+		EditText editTextCostumeName = solo.getEditText(0);
 		solo.clearEditText(editTextCostumeName);
 		solo.enterText(editTextCostumeName, newCostumeName);
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
