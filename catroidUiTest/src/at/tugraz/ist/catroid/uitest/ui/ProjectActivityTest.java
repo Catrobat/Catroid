@@ -187,11 +187,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		boolean buttonFound = solo.getView(R.id.btn_home) != null ? true : false;
-		assertTrue("Main menu is not visible", buttonFound);
+		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
+				solo.getCurrentActivity() instanceof MainMenuActivity);
 	}
 
 	public void testChangeOrientation() {
