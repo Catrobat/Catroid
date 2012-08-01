@@ -29,6 +29,7 @@ public class CostumeSerializer extends Serializer {
 	private final String costumeFileNameTag = "fileName";
 	private final String costumeNameTag = "name";
 	private final String costumeListTag = "costumeDataList";
+	private final String costumeTabs = tab + tab + tab;
 
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
@@ -38,13 +39,13 @@ public class CostumeSerializer extends Serializer {
 		String costumeName = costumedata.getCostumeName();
 		List<String> costumeStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = getStartTag(costumeDataTag);
+		xmlElementString = costumeTabs + tab + getStartTag(costumeDataTag);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = getElementString(costumeFileNameTag, costumeFileName);
+		xmlElementString = costumeTabs + tab + tab + getElementString(costumeFileNameTag, costumeFileName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = getElementString(costumeNameTag, costumeName);
+		xmlElementString = costumeTabs + tab + tab + getElementString(costumeNameTag, costumeName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = getEndTag(costumeDataTag);
+		xmlElementString = costumeTabs + tab + getEndTag(costumeDataTag);
 		costumeStringList.add(xmlElementString);
 
 		return costumeStringList;
@@ -53,11 +54,11 @@ public class CostumeSerializer extends Serializer {
 	public List<String> serializeCostumeList(List<CostumeData> costumeList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
 		List<String> costumeStrings = new ArrayList<String>();
-		costumeStrings.add(getStartTag(costumeListTag));
+		costumeStrings.add(costumeTabs + getStartTag(costumeListTag));
 		for (CostumeData costumeData : costumeList) {
 			costumeStrings.addAll(this.serialize(costumeData));
 		}
-		costumeStrings.add(getEndTag(costumeListTag));
+		costumeStrings.add(costumeTabs + getEndTag(costumeListTag));
 		return costumeStrings;
 	}
 

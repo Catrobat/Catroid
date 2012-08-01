@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.xml.ObjectCreator;
 public class ScriptSerializer extends Serializer {
 
 	private final String scriptTagPrefix = "";
+	private final String scriptTabs = tab + tab + tab + tab;
 
 	public ScriptSerializer(Sprite serializedSprite, Project serializedProject) {
 		super.serializedSprite = serializedSprite;
@@ -44,7 +45,7 @@ public class ScriptSerializer extends Serializer {
 		List<String> scriptStringList = new ArrayList<String>();
 		serializedScript = (Script) object;
 		String xmlElementString = "";
-		xmlElementString = getStartTag(scriptTagPrefix + object.getClass().getSimpleName());
+		xmlElementString = scriptTabs + getStartTag(scriptTagPrefix + object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 
 		if (!(object.getClass().getSuperclass().equals(Object.class))) {
@@ -52,7 +53,7 @@ public class ScriptSerializer extends Serializer {
 		}
 		getScriptFieldsAsElements(object, scriptStringList, object.getClass());
 
-		xmlElementString = getEndTag(scriptTagPrefix + object.getClass().getSimpleName());
+		xmlElementString = scriptTabs + getEndTag(scriptTagPrefix + object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 		return scriptStringList;
 	}
@@ -67,7 +68,7 @@ public class ScriptSerializer extends Serializer {
 			scriptClassField.setAccessible(true);
 			if (!scriptClassField.getType().isPrimitive()) {
 				if (fieldName.equals("sprite")) {
-					xmlElementString = spriteElementPrefix + "\"../../..\"/>" + "\n";
+					xmlElementString = scriptTabs + tab + spriteElementPrefix + "\"../../..\"/>" + "\n";
 					scriptStringList.add(xmlElementString);
 				} else if (fieldName.equals("brickList")) {
 					if (serializedScript.getBrickList().size() > 0) {
@@ -77,11 +78,13 @@ public class ScriptSerializer extends Serializer {
 						scriptStringList.addAll(brickStrings);
 					}
 				} else if (scriptClassField.getType().equals(String.class)) {
-					xmlElementString = getElementString(fieldName, (String) scriptClassField.get(object));
+					xmlElementString = scriptTabs + tab
+							+ getElementString(fieldName, (String) scriptClassField.get(object));
 					scriptStringList.add(xmlElementString);
 				} else {
 					String referenceString = getReference(scriptClassField, object);
-					xmlElementString = "<" + fieldName + " reference=\"" + referenceString + "\"/>" + "\n";
+					xmlElementString = scriptTabs + tab + "<" + fieldName + " reference=\"" + referenceString + "\"/>"
+							+ "\n";
 					scriptStringList.add(xmlElementString);
 				}
 			} else {

@@ -26,7 +26,7 @@ import java.util.List;
 import at.tugraz.ist.catroid.content.Project;
 
 public class XmlSerializer {
-	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>";
 
 	public void toXml(Project projectToSerialize, String pathToXML) {
 		ProjectSerializer projectSerializer = new ProjectSerializer();
