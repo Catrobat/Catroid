@@ -32,6 +32,7 @@ import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.io.LoadingDaemon;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -65,6 +66,8 @@ public class DeleteCostumeDialog {
 
 		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		int position = scriptTabActivity.selectedPosition;
+
+		LoadingDaemon.getInstance().removeCostumeDataFromList(position);
 
 		StorageHandler.getInstance().deleteFile(costumeDataList.get(position).getAbsolutePath());
 		costumeDataList.remove(position);

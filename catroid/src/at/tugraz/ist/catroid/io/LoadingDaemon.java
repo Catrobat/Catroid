@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
@@ -29,7 +30,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 
 /**
@@ -46,34 +46,45 @@ public class LoadingDaemon extends Thread implements ApplicationListener {
 	private boolean projectLoading = false;
 	private Semaphore costumeDataListLock = new Semaphore(1);
 
+	private LoadingDaemon() {
+		setDaemon(true);
+		setName("CatroidLoadingDaemon");
+	}
+
+	public static LoadingDaemon getInstance() {
+		if (instance == null) {
+			instance = new LoadingDaemon();
+		}
+		return instance;
+	}
+
 	@Override
 	public void run() {
 		try {
-			if (costumeDataList.isEmpty()) {
-				Thread.yield();
-			} else {
-				costumeDataListLock.acquireUninterruptibly();
-				for (int j = 0; j < costumeDataList.size(); j++) {
-					if (projectLoading) {
+			while (true) {
+				if (costumeDataList.isEmpty()) {
+					Thread.yield();
+				} else {
+
+					for (int j = 0; j < costumeDataList.size(); j++) {
+						costumeDataListLock.acquireUninterruptibly();
+						if (projectLoading) {
+							costumeDataListLock.release();
+							break;
+						}
+						CostumeData data = costumeDataList.get(j);
+						data.setPixmap(new Pixmap(Gdx.files.absolute(data.getAbsolutePath())));
 						costumeDataListLock.release();
-						return;
 					}
-					CostumeData data = costumeDataList.get(j);
-					String path = data.getAbsolutePath();
-					FileHandle file = Gdx.files.absolute(path);
-					Pixmap pixmap = new Pixmap(file);
-					data.setPixmap(pixmap);
-					//Texture texture = new Texture(file);
-					//TextureRegion region = new TextureRegion(texture);
-					//data.setTextureRegion(region);
-				}
-				costumeDataListLock.release();
-				if (!costumeDataList.isEmpty()) {
-					costumeDataList.clear();
+					costumeDataListLock.acquireUninterruptibly();
+					if (!costumeDataList.isEmpty()) {
+						costumeDataList.clear();
+					}
+					costumeDataListLock.release();
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("CATROID", "LoadingDaemon: Failed to load pixmap!", e);
 			return;
 		}
 
@@ -99,53 +110,39 @@ public class LoadingDaemon extends Thread implements ApplicationListener {
 		}
 	}
 
-	private LoadingDaemon() {
-		setDaemon(true);
+	public void addCostumeDataToList(CostumeData data) {
+		CostumeData costumeData = data;
+		costumeDataListLock.acquireUninterruptibly();
+		costumeDataList.add(costumeData);
+		costumeDataListLock.release();
 	}
 
-	public static LoadingDaemon getInstance() {
-		if (instance == null) {
-			instance = new LoadingDaemon();
+	public void removeCostumeDataFromList(int position) {
+		int pos = position;
+		costumeDataListLock.acquireUninterruptibly();
+		if (pos < costumeDataList.size()) {
+			costumeDataList.remove(pos);
 		}
-		return instance;
+		costumeDataListLock.release();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#create()
-	 */
 	public void create() {
-		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#resize(int, int)
-	 */
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#render()
-	 */
 	public void render() {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#pause()
-	 */
 	public void pause() {
-		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#dispose()
-	 */
 	public void dispose() {
-		// TODO Auto-generated method stub
 
 	}
 
