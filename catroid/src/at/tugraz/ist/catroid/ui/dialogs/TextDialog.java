@@ -80,8 +80,6 @@ public abstract class TextDialog extends DialogFragment {
 				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						handleOkButton();
-						onOkButtonHandled();
 					}
 				}).create();
 
@@ -105,6 +103,11 @@ public abstract class TextDialog extends DialogFragment {
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
+				Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
+				buttonPositive.setEnabled(getPositiveButtonEnabled());
+
+				setPositiveButtonClickCustomListener(dialog);
+
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
@@ -148,8 +151,33 @@ public abstract class TextDialog extends DialogFragment {
 		};
 	}
 
+	protected boolean getPositiveButtonEnabled() {
+		if (input.getText().toString().length() == 0) {
+			return false;
+		}
+
+		return true;
+	}
+
 	private void initTextChangedListener() {
 		final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 		input.addTextChangedListener(getInputTextChangedListener(buttonPositive));
+	}
+
+	/**
+	 * This method overrides standart AlertDialog's positive button click listener to prevent dialog dismissing.
+	 */
+	private void setPositiveButtonClickCustomListener(final DialogInterface dialog) {
+		Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
+		buttonPositive.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				boolean okButtonResult = handleOkButton();
+				onOkButtonHandled();
+				if (okButtonResult) {
+					dismiss();
+				}
+			}
+		});
 	}
 }

@@ -178,7 +178,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
