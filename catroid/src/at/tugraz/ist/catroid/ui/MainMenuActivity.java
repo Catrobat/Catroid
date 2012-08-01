@@ -183,6 +183,7 @@ public class MainMenuActivity extends Activity {
 			case DIALOG_UPLOAD_PROJECT:
 				Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 				String currentProjectName = currentProject.getName();
+
 				TextView projectRenameHint = (TextView) dialog
 						.findViewById(R.id.textview_dialog_upload_project_rename_hint);
 				EditText editTextProjectDescription = (EditText) dialog
@@ -195,7 +196,7 @@ public class MainMenuActivity extends Activity {
 
 				projectRenameHint.setVisibility(View.GONE);
 				editTextProjectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
-				editTextProjectDescription.setText("");
+				editTextProjectDescription.setText(currentProject.description);
 				editTextProjectUploadName.requestFocus();
 				editTextProjectUploadName.selectAll();
 				break;
