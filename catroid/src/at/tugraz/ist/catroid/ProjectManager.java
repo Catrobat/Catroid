@@ -84,8 +84,8 @@ public class ProjectManager {
 				Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 			}
 			return false;
-		} else if (Utils.isApplicationDebuggable(context)
-				|| project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+		} else if (!Utils.isApplicationDebuggable(context)
+				&& project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
 			project = oldProject;
 			if (errorMessage) {
 				Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
