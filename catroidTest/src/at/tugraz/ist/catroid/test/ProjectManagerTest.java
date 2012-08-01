@@ -41,6 +41,8 @@ public class ProjectManagerTest extends AndroidTestCase {
 		super.setUp();
 		Utils.updateScreenWidthAndHeight(getContext());
 		projectManager = ProjectManager.getInstance();
+		// Prevent Utils from returning true in isApplicationDebuggable
+		TestUtils.setPrivateField(Utils.class, null, "isUnderTest", true);
 	}
 
 	@Override
@@ -82,7 +84,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 
-	public void testShouldLoadDefaultProjectIfCannotLoadAnotherProject() {
+	public void testShouldLoadDefaultProjectIfCannotLoadAnotherProject() throws Exception {
 		assertNull("Current project not null.", projectManager.getCurrentProject());
 
 		boolean result = projectManager.loadProject(DOES_NOT_EXIST, getContext(), false);
