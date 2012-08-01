@@ -437,6 +437,13 @@ public class UiTestUtils {
 		}
 	}
 
+	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = classFromObject.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		field.set(object, value);
+	}
+
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
