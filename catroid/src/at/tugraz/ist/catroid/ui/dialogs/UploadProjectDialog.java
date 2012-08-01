@@ -47,7 +47,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class UploadProjectDialog extends Dialog implements OnClickListener {
 
-	private final Context context;
 	private String currentProjectName;
 	private EditText editTextProjectUploadName;
 	private EditText editTextProjectDescription;
@@ -57,7 +56,6 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 
 	public UploadProjectDialog(Context context) {
 		super(context);
-		this.context = context;
 	}
 
 	@Override
@@ -101,7 +99,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 					projectRenameHint.setVisibility(View.GONE);
 				}
 				if (s.length() == 0) {
-					Toast.makeText(context, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getContext(), R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT).show();
 					uploadButton.setEnabled(false);
 				} else {
 					uploadButton.setEnabled(true);
@@ -117,8 +115,8 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 
 		this.setOnShowListener(new OnShowListener() {
 			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) context
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(editTextProjectUploadName, InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
@@ -132,6 +130,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 
 		switch (v.getId()) {
 			case R.id.button_dialog_upload_positive:
+				Context context = getContext();
 				String uploadName = editTextProjectUploadName.getText().toString();
 				if (uploadName.length() == 0) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
