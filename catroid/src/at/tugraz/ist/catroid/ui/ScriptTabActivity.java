@@ -76,6 +76,8 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_scripttab);
 		Utils.loadProjectIfNeeded(this);
 
+		setUpActionBar();
+
 		setupTabHost();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
@@ -97,12 +99,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 
 		setupTab(costumeIcon, costumeLabel, CostumeFragment.class, null);
 		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundFragment.class, null);
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		setUpActionBar();
 	}
 
 	@Override
