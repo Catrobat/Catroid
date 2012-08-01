@@ -241,7 +241,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		TextView textView = solo.getText(9);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
 		solo.clickLongOnText(spriteName);
-		expectedLineCount = 3;
+		expectedLineCount = 2;
 		TextView textView2 = solo.getText(0);
 		assertEquals("linecount is wrong", expectedLineCount, textView2.getLineCount());
 	}

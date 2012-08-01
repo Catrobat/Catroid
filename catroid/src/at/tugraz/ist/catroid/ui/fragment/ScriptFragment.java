@@ -76,6 +76,12 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	private BrickListChangedReceiver brickListChangedReceiver;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_script, null);
 

@@ -97,7 +97,7 @@ import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 public class AddBrickDialog extends DialogFragment {
-	
+
 	private static final String ARGS_SELECTED_CATEGORY = "selected_category";
 
 	private HashMap<String, List<Brick>> brickMap;
@@ -105,34 +105,36 @@ public class AddBrickDialog extends DialogFragment {
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
 	private String selectedCategory;
-	
+
 	public static AddBrickDialog newInstance(String selectedCategory) {
 		AddBrickDialog dialog = new AddBrickDialog();
-		
+
 		Bundle args = new Bundle();
 		args.putString(ARGS_SELECTED_CATEGORY, selectedCategory);
 		dialog.setArguments(args);
-		
+
 		return dialog;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		setRetainInstance(true);
+
 		selectedCategory = getArguments().getString(ARGS_SELECTED_CATEGORY);
 		getScriptFragment().setDontCreateNewBrick(false);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.dialog_add_brick, null);
-		
+
 		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.btn_close_dialog);
 		TextView textView = (TextView) rootView.findViewById(R.id.tv_dialog_title);
 		listView = (ListView) rootView.findViewById(R.id.addBrickDialogListView);
-		
+
 		closeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				abort();
 				dismiss();
@@ -140,13 +142,13 @@ public class AddBrickDialog extends DialogFragment {
 		});
 
 		textView.setText(selectedCategory);
-		
+
 		Window window = getDialog().getWindow();
 		window.requestFeature(Window.FEATURE_NO_TITLE);
 		window.setGravity(Gravity.CENTER | Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL);
 		window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
+
 		return rootView;
 	}
 
@@ -155,7 +157,7 @@ public class AddBrickDialog extends DialogFragment {
 		super.onStart();
 
 		Context context = getActivity();
-		
+
 		brickMap = setupBrickMap(ProjectManager.getInstance().getCurrentSprite(), context);
 		adapter = new PrototypeBrickAdapter(context, brickMap.get(selectedCategory));
 		listView.setAdapter(adapter);
@@ -168,14 +170,22 @@ public class AddBrickDialog extends DialogFragment {
 		});
 	}
 
+	@Override
+	public void onDestroyView() {
+		if (getDialog() != null && getRetainInstance()) {
+			getDialog().setOnDismissListener(null);
+		}
+		super.onDestroyView();
+	}
+
 	public Brick getBrickClone(Brick brick) {
 		return brick.clone();
 	}
-	
+
 	private void abort() {
 		getScriptFragment().setDontCreateNewBrick(true);
 	}
-	
+
 	private void handleOnBrickItemClick(int position) {
 		Brick addedBrick = adapter.getItem(position);
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -247,19 +257,19 @@ public class AddBrickDialog extends DialogFragment {
 			//						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
 			//					}
 		}
-		
+
 		dismiss();
-		
-		BrickCategoryDialog brickCategoryDialog = (BrickCategoryDialog) 
-				getFragmentManager().findFragmentByTag("dialog_brick_category");
+
+		BrickCategoryDialog brickCategoryDialog = (BrickCategoryDialog) getFragmentManager().findFragmentByTag(
+				"dialog_brick_category");
 		brickCategoryDialog.dismiss();
 	}
-	
+
 	private ScriptFragment getScriptFragment() {
 		ScriptTabActivity activity = ((ScriptTabActivity) getActivity());
 		return (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 	}
-	
+
 	private static boolean isBackground(Sprite sprite) {
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
 			return true;
