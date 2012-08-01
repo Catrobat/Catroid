@@ -316,9 +316,4 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		getActivity().startActivity(intent);
 	}
-
-	private void goToScripTabActivity() {
-		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
-		getActivity().startActivity(intent);
-	}
 }
