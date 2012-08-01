@@ -121,7 +121,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String spriteToTest = "";
 		String backgroundTabLabel = solo.getString(R.string.backgrounds);
 
-		UiTestUtils.goToHomeActivity(getActivity());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -151,7 +151,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	public void testTabImagesAndLabelColor() {
-		UiTestUtils.goToHomeActivity(getActivity());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
