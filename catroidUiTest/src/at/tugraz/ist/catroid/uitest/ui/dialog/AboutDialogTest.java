@@ -51,7 +51,8 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(getActivity().getString(R.string.about));
 		assertTrue("AboutDialog title not found", solo.searchText(getActivity().getString(R.string.about_title)));
 		assertTrue("AboutDialog text not found", solo.searchText(getActivity().getString(R.string.about_text)));
-		assertTrue("AboutDialog linktext not found", solo.searchText(getActivity().getString(R.string.about_link_text)));
+		assertTrue("AboutDialog linktext not found",
+				solo.searchText(getActivity().getString(R.string.about_catroid_license_link_text)));
 		assertTrue("AboutDialog version not found", solo.searchText(Utils.getVersionName(solo.getCurrentActivity())));
 	}
 }
