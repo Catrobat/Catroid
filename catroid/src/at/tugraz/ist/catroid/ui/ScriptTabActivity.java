@@ -97,7 +97,11 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 
 		setupTab(costumeIcon, costumeLabel, CostumeFragment.class, null);
 		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundFragment.class, null);
+	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
 		setUpActionBar();
 	}
 

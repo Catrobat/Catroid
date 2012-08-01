@@ -44,6 +44,11 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 
 		String title = getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName();
