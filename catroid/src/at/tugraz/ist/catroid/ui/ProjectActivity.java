@@ -159,6 +159,12 @@ public class ProjectActivity extends ListActivity {
 	}
 
 	@Override
+	protected void onPause() {
+		super.onPause();
+		ProjectManager.getInstance().saveProject();
+	}
+
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);

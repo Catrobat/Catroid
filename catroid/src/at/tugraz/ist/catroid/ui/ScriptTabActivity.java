@@ -125,9 +125,9 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	}
 
 	@Override
-	public void onPause() {
+	protected void onPause() {
 		super.onPause();
-		ProjectManager.INSTANCE.saveProject();
+		ProjectManager.getInstance().saveProject();
 	}
 
 	@Override
