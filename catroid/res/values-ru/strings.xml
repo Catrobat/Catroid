@@ -20,8 +20,6 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 -->
 <resources>
 
@@ -88,7 +86,7 @@
         Техническом Университете Граца в Австрии.\n\n
         Эта программа лицензированна под лицензией GNU GPL v3.\n\n
 </string>
-    <string name="about_link_text">О Catroid</string>
+    <string name="about_catroid_license_link_text">О Catroid</string>
 
     <!-- Project activity view -->
     <string name="project_name">Проект:</string>
@@ -98,7 +96,8 @@
 
     <!-- Script activity view -->
     <!-- <string name="script_name">Скритп:</string> -->
-    <!-- <string name="brick_list">Блоки:</string> -->
+    
+<!-- <string name="brick_list">Блоки:</string> -->
     <!-- <string name="add_new_brick">Добавить новый блок</string> -->
 
 

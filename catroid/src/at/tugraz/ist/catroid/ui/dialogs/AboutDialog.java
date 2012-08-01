@@ -38,7 +38,7 @@ public class AboutDialog extends Dialog {
 	private Context context;
 
 	public AboutDialog(Context context) {
-		super(context, R.style.custom_dialog);
+		super(context);
 		this.context = context;
 	}
 
@@ -57,7 +57,8 @@ public class AboutDialog extends Dialog {
 
 		Resources resources = context.getResources();
 		String aboutUrl = String.format(resources.getString(R.string.about_link_template),
-				resources.getString(R.string.about_catroid_url), resources.getString(R.string.about_link_text));
+				resources.getString(R.string.about_catroid_license_url),
+				resources.getString(R.string.about_catroid_license_link_text));
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 
