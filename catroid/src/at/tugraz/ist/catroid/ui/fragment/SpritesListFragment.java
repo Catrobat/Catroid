@@ -48,7 +48,6 @@ import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class SpritesListFragment extends SherlockListFragment {
@@ -61,8 +60,6 @@ public class SpritesListFragment extends SherlockListFragment {
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
-
-	private ActionBar actionBar;
 
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
@@ -82,12 +79,6 @@ public class SpritesListFragment extends SherlockListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName();
-		actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setTitle(title);
-		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(ARGS_SPRITE_TO_EDIT);
