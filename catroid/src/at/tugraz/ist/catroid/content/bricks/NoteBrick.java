@@ -99,6 +99,11 @@ public class NoteBrick implements Brick {
 					}
 
 					@Override
+					protected boolean getPositiveButtonEnabled() {
+						return true;
+					}
+
+					@Override
 					protected TextWatcher getInputTextChangedListener(Button buttonPositive) {
 						return new TextWatcher() {
 							@Override
