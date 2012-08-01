@@ -23,8 +23,12 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -32,6 +36,7 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -39,6 +44,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -374,5 +380,60 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		project.addSprite(fourthSprite);
 
 		storageHandler.saveProject(project);
+	}
+
+	public void testOverrideMyFirstProject() {
+		String std_project_name = solo.getString(R.string.default_project_name);
+		Project std_project = null;
+
+		try {
+			std_project = StandardProjectHandler.createAndSaveStandardProject(std_project_name, getInstrumentation()
+					.getTargetContext());
+		} catch (IOException e) {
+			fail("Could not create standard project");
+			e.printStackTrace();
+		}
+
+		if (std_project == null) {
+			fail("Could not create standard project");
+		}
+		ProjectManager.INSTANCE.setProject(std_project);
+		StorageHandler.getInstance().saveProject(std_project);
+
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(300);
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+
+		Sprite background_sprite = std_project.getSpriteList().get(0);
+		Script starting_script = background_sprite.getScript(0);
+		assertEquals("Number of Bricks in Background Sprite was wrong", 1, background_sprite.getNumberOfBricks());
+		starting_script.addBrick(new SetCostumeBrick(background_sprite));
+		starting_script.addBrick(new SetCostumeBrick(background_sprite));
+		starting_script.addBrick(new SetCostumeBrick(background_sprite));
+		assertEquals("Number of Bricks in Background Sprite was wrong", 4, background_sprite.getNumberOfBricks());
+		ProjectManager.INSTANCE.setCurrentSprite(background_sprite);
+		ProjectManager.INSTANCE.setCurrentScript(starting_script);
+		ProjectManager.INSTANCE.saveProject();
+
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(300);
+		SharedPreferences default_shared_preferences = PreferenceManager
+				.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
+		assertEquals("Standard project was not set in shared preferences", std_project_name,
+				default_shared_preferences.getString(Constants.PREF_PROJECTNAME_KEY, null));
+
+		Utils.saveToPreferences(getInstrumentation().getTargetContext(), Constants.PREF_PROJECTNAME_KEY, null);
+		assertEquals("Standard project was not reset to null in shared preferences", null,
+				default_shared_preferences.getString(Constants.PREF_PROJECTNAME_KEY, null));
+
+		Intent intent = new Intent(solo.getCurrentActivity(), ProjectActivity.class);
+		ProjectManager.INSTANCE.setProject(null);
+		solo.getCurrentActivity().startActivity(intent);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.sleep(500);
+		assertEquals("Number of Bricks in Background Sprite was wrong - standard project was overwritten", 4,
+				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 }
