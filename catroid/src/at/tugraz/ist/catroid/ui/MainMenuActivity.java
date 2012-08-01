@@ -223,9 +223,7 @@ public class MainMenuActivity extends Activity {
 		}
 		ignoreResume = false;
 
-		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
 		writeProjectTitleInTextfield();
-
 	}
 
 	public void writeProjectTitleInTextfield() {
