@@ -105,7 +105,7 @@ public class LoadingDaemon extends Thread implements ApplicationListener {
 			costumeDataListLock.release();
 		}
 		if (!daemonRunning) {
-			start();
+			//start();
 			daemonRunning = true;
 		}
 	}
