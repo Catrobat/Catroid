@@ -22,7 +22,6 @@
  */
 package at.tugraz.ist.catroid.content;
 
-import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
 import at.tugraz.ist.catroid.common.CostumeData;
@@ -50,8 +49,6 @@ public class Costume extends Image {
 	public boolean show;
 	public int zPosition;
 	protected Pixmap pixmap;
-	protected HashMap<String, Pixmap> pixmapMap = new HashMap<String, Pixmap>();
-	protected HashMap<String, TextureRegion> textureRegionMap = new HashMap<String, TextureRegion>();
 
 	public Costume(Sprite sprite) {
 		this.sprite = sprite;
@@ -135,9 +132,7 @@ public class Costume extends Image {
 				return;
 			}
 
-			brightnessLock.acquireUninterruptibly();
 			pixmap = costumeData.getPixmap();
-			brightnessLock.release();
 
 			xYWidthHeightLock.acquireUninterruptibly();
 			this.x += this.width / 2f;
@@ -150,40 +145,22 @@ public class Costume extends Image {
 			this.originY = this.height / 2f;
 			xYWidthHeightLock.release();
 
-			/*if (currentAlphaPixmap != null) {
-				currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
-				currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
-				pixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
-			}*/
+			/*
+			 * if (currentAlphaPixmap != null) {
+			 * currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
+			 * currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
+			 * pixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
+			 * }
+			 */
 
 			brightnessLock.acquireUninterruptibly();
 			if (brightnessChanged) {
-				//costumeData.adjustBrightness(brightnessValue);
-				//pixmap = this.adjustBrightness(costumeData.getOriginalPixmap());
-				//costumeData.setPixmap(pixmap);
-				//costumeData.setTextureRegion();
-				this.color.r = 0.5f;
-				this.color.g = 0.5f;
-				this.color.b = 0.5f;
+				costumeData.setPixmap(adjustBrightness(costumeData.getOriginalPixmap()));
+				costumeData.setTextureRegion();
 				brightnessChanged = false;
 			}
 			brightnessLock.release();
 
-			/*if (brightnessChanged) {
-				Thread t = new Thread(new Runnable() {
-					Costume costume = Costume.this;
-					CostumeData data = costumeData;
-
-					public void run() {
-						data.adjustBrightness(brightnessValue);
-						costume.acquireImageLock();
-						imageChanged = true;
-					}
-				});
-				t.start();
-				brightnessChanged = false;
-			}
-			*/
 			TextureRegion region = costumeData.getTextureRegion();
 			setRegion(region);
 
@@ -220,19 +197,9 @@ public class Costume extends Image {
 
 				newPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
 				newPixmap.drawPixel(x, y);
-				/*currentPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
-				currentPixmap.drawPixel(x, y);*/
 			}
 		}
-		//currentPixmap.dispose();
 		return newPixmap;
-		/*imageLock.acquireUninterruptibly();
-		costumeData.setPixmap(currentPixmap);
-		costumeData.setTextureRegion();
-		brightnessChanged = false;
-		imageChanged = true;
-		imageLock.release();
-		return currentPixmap;*/
 	}
 
 	public void acquireImageLock() {
@@ -246,7 +213,7 @@ public class Costume extends Image {
 	public void disposeTextures() {
 		disposeTexturesLock.acquireUninterruptibly();
 		if (this.getRegion() != null && this.getRegion().getTexture() != null) {
-			//this.getRegion().getTexture().dispose();
+			this.setRegion(null);
 		}
 
 		if (currentAlphaPixmap != null) {
