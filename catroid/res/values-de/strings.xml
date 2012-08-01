@@ -21,9 +21,9 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources> 
+<resources>
 
-    <!-- General terms -->    
+    <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">Projekt</string>
     <string name="sprite">Objekt</string>
@@ -67,12 +67,12 @@
 
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>
-    <string name="about_text">Catroid ist eine grafische Programmiersprache für Android, inspiriert vom
-        Scratch Projekt des MIT.\n
-        Es wird am Institut für Software Technologie an der
-        Technischen Universität Graz in Österreich entwickelt.\n\n
-        Dieses Programm steht unter der GNU GPL v3 Lizenz.\n\n    </string>
-    <string name="about_link_text">Über Catroid</string>
+    <string name="about_text">Catroid ist eine Programmierumgebung für Androidgeräte für die grafische
+        Programmiersprache Catrobat.\n\n
+        Der Großteil von Catroid steht unter der GNU AGPL v3 Lizenz.
+        Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n
+    </string>
+    <string name="about_catroid_license_link_text">Catroid Lizenz</string>
 
     <!-- Project activity view -->
     <string name="project_name">Projekt:</string>
@@ -177,9 +177,9 @@
     <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
     <string name="size_of_project">Größe des Projekts:</string>
-     <string name="upload_project_description_hint">Description of your project</string>
+    <string name="upload_project_description_hint">Description of your project</string>
     
-    <!--  OverwriteRenameDialog Strings -->
+    <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
     <string name="overwrite_replace">ersetze bestehendes Projekt</string>
     <string name="overwrite_rename">benenne heruntergeladenes Projekt um</string>
