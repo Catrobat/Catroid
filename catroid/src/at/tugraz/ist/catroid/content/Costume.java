@@ -87,8 +87,8 @@ public class Costume extends Image {
 		y = height - y;
 
 		if (x >= 0 && x <= width && y >= 0 && y <= height) {
-			//if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
+			if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
+				//if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				sprite.startWhenScripts("Tapped");
 				return true;
 			}
@@ -145,13 +145,7 @@ public class Costume extends Image {
 			this.originY = this.height / 2f;
 			xYWidthHeightLock.release();
 
-			/*
-			 * if (currentAlphaPixmap != null) {
-			 * currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
-			 * currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
-			 * pixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
-			 * }
-			 */
+			currentAlphaPixmap = costumeData.getAlphaPixmap();
 
 			brightnessLock.acquireUninterruptibly();
 			if (brightnessChanged) {
@@ -202,22 +196,14 @@ public class Costume extends Image {
 		return newPixmap;
 	}
 
-	public void acquireImageLock() {
-		imageLock.acquireUninterruptibly();
-	}
-
-	public void releaseImageLock() {
-		imageLock.release();
-	}
-
 	public void disposeTextures() {
 		disposeTexturesLock.acquireUninterruptibly();
 		if (this.getRegion() != null && this.getRegion().getTexture() != null) {
-			this.setRegion(null);
+			this.setRegion(new TextureRegion());
 		}
 
 		if (currentAlphaPixmap != null) {
-			currentAlphaPixmap.dispose();
+			//currentAlphaPixmap.dispose();
 		}
 
 		disposeTexturesLock.release();

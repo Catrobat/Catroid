@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -45,6 +46,7 @@ public class CostumeData {
 	private transient static final int THUMBNAIL_WIDTH = 150;
 	private transient static final int THUMBNAIL_HEIGHT = 150;
 	private transient Pixmap pixmap = null;
+	private transient Pixmap alphaPixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
 	private Semaphore pixmapLock = new Semaphore(1);
@@ -77,9 +79,23 @@ public class CostumeData {
 		return pixmap;
 	}
 
+	public Pixmap getAlphaPixmap() {
+		if (alphaPixmap == null) {
+			pixmapLock.acquireUninterruptibly();
+			Pixmap pixmap = getPixmap();
+			this.alphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
+			this.alphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
+			pixmapLock.release();
+		}
+		return alphaPixmap;
+
+	}
+
 	public synchronized void setPixmap(Pixmap pixmap) {
 		pixmapLock.acquireUninterruptibly();
 		this.pixmap = pixmap;
+		this.alphaPixmap = new Pixmap(this.pixmap.getWidth(), this.pixmap.getHeight(), Format.Alpha);
+		this.alphaPixmap.drawPixmap(this.pixmap, 0, 0, 0, 0, this.pixmap.getWidth(), this.pixmap.getHeight());
 		pixmapLock.release();
 	}
 

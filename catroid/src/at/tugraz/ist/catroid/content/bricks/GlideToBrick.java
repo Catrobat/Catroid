@@ -71,6 +71,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		//			latch.await();
 		//		} catch (InterruptedException e) {
 		//		}
+
 		long startTime = System.currentTimeMillis();
 		int duration = durationInMilliSeconds;
 		while (duration > 0) {
@@ -109,6 +110,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 			sprite.costume.setXYPosition(xDestination, yDestination);
 			sprite.costume.releaseXYWidthHeightLock();
 		}
+
 	}
 
 	private void updatePositions(int timePassed, int duration) {
