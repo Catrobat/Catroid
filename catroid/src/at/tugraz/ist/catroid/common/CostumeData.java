@@ -63,8 +63,7 @@ public class CostumeData {
 
 	public synchronized void setTextureRegion() {
 		textureRegionLock.acquireUninterruptibly();
-		Texture texture = new Texture(getPixmap());
-		this.region = new TextureRegion(texture);
+		this.region = new TextureRegion(new Texture(getPixmap()));
 		textureRegionLock.release();
 	}
 
