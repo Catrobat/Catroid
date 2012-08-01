@@ -22,35 +22,6 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import java.util.List;
-
-public abstract class NestingBrick implements Brick {
-
-	private static final long serialVersionUID = 1L;
-
-	public boolean containsDeadEnd() {
-		for (Brick brick : getAllNestingBrickParts()) {
-			if (brick instanceof DeadEndBrick) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	@Override
-	public abstract Brick clone();
-
-	public abstract boolean isInitialized();
-
-	public abstract void initialize();
-
-	public abstract boolean isDraggableOver(Brick brick);
-
-	/**
-	 * 
-	 * @return List of NestingBricks in order of their appearance
-	 */
-	public abstract List<NestingBrick> getAllNestingBrickParts();
+public interface DeadEndBrick extends Brick {
 
 }

@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -19,38 +20,15 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package at.tugraz.ist.catroid.content.bricks;
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_yellow_end"
+    android:orientation="horizontal" >
 
-import java.util.List;
+    <TextView
+        style="@style/brick_text_style"
+        android:text="@string/brick_loop_end" />
 
-public abstract class NestingBrick implements Brick {
-
-	private static final long serialVersionUID = 1L;
-
-	public boolean containsDeadEnd() {
-		for (Brick brick : getAllNestingBrickParts()) {
-			if (brick instanceof DeadEndBrick) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	@Override
-	public abstract Brick clone();
-
-	public abstract boolean isInitialized();
-
-	public abstract void initialize();
-
-	public abstract boolean isDraggableOver(Brick brick);
-
-	/**
-	 * 
-	 * @return List of NestingBricks in order of their appearance
-	 */
-	public abstract List<NestingBrick> getAllNestingBrickParts();
-
-}
+</LinearLayout>

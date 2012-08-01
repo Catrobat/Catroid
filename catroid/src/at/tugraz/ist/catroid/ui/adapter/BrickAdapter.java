@@ -28,22 +28,27 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.DeadEndBrick;
 import at.tugraz.ist.catroid.content.bricks.NestingBrick;
 import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 
-public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
+public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener {
 
 	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
 
@@ -63,6 +68,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	private List<Brick> brickList;
 
+	// TODO delete this if it is really not needed
+	@SuppressWarnings("unused")
+	private long timeAnimationStarted;
+	private List<Brick> animatedBricks;
+
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
@@ -72,7 +82,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		insertedBrick = false;
 		firstDrag = true;
 		retryScriptDragging = false;
-
+		animatedBricks = new ArrayList<Brick>();
 		initBrickList();
 	}
 
@@ -126,6 +136,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 		}
 
+		to = getNewPositionIfEndingBrickIsThere(to, draggedBrick);
+
 		if (!(draggedBrick instanceof ScriptBrick)) {
 			if (to != 0) {
 				dragTargetPosition = to;
@@ -141,6 +153,53 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		toEndDrag = to;
 
 		notifyDataSetChanged();
+	}
+
+	// TODO make this working again
+	private int getNewPositionIfEndingBrickIsThere(int to, Brick brick) {
+		int currentPosition = brickList.indexOf(brick);
+		int firstPossiblePosition = -1;
+		int lastPossiblePosition = -1;
+		boolean temp = to < brickList.size() - 1
+				&& (brickList.get(to + 1) instanceof AllowedAfterDeadEndBrick || brickList.get(to + 1) instanceof DeadEndBrick);
+		if (brickList.get(to) instanceof DeadEndBrick && temp) {
+			if (currentPosition > to && currentPosition > 0) {
+				Log.e("blah", "reaced 1");
+				lastPossiblePosition = to;
+			} else {
+				for (int i = to + 1; i < brickList.size(); i++) {
+					if (!(brickList.get(i) instanceof DeadEndBrick)) {
+						Log.e("blah", "reaced 2");
+						lastPossiblePosition = i;
+						break;
+					}
+				}
+			}
+		}
+		if (to > 0 && brickList.get(to - 1) instanceof DeadEndBrick
+				&& brickList.get(to) instanceof AllowedAfterDeadEndBrick) {
+			if (currentPosition < to && currentPosition > 0) {
+				Log.e("blah", "reaced 3");
+				firstPossiblePosition = to;
+			} else {
+
+				for (int i = to - 1; i >= 0; i--) {
+					if (!(brickList.get(i) instanceof DeadEndBrick)) {
+						Log.e("blah", "reaced 4");
+						firstPossiblePosition = i + 1;
+						break;
+					}
+				}
+			}
+		}
+
+		firstPossiblePosition = firstPossiblePosition < 0 ? currentPosition : firstPossiblePosition;
+		lastPossiblePosition = lastPossiblePosition < 0 ? currentPosition : lastPossiblePosition;
+
+		Log.e("blah", "firstPossiblePosition: " + firstPossiblePosition);
+		Log.e("blah", "lastPossiblePosition: " + lastPossiblePosition);
+
+		return firstPossiblePosition;
 	}
 
 	private int getDraggedNestingBricksToPosition(NestingBrick nestingBrick, int from, int to) {
@@ -208,6 +267,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 			retryScriptDragging = false;
 			return;
+		}
+		int tempTo = getNewPositionIfEndingBrickIsThere(to, draggedBrick);
+		if (to != tempTo) {
+			to = tempTo;
 		}
 
 		if (insertedBrick) {
@@ -297,11 +360,37 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			((NestingBrick) draggedBrick).initialize();
 			List<NestingBrick> nestingBrickList = ((NestingBrick) draggedBrick).getAllNestingBrickParts();
 			for (int i = 0; i < nestingBrickList.size(); i++) {
-				script.addBrick(brickPosition + i, nestingBrickList.get(i));
+				if (nestingBrickList.get(i) instanceof DeadEndBrick) {
+					if (i < nestingBrickList.size() - 1) {
+						Log.w("BrickAdapter", "Adding a DeadEndBrick in the middle of the NestingBricks");
+					}
+					position = getPositionForDeadEndBrick(position);
+					temp = getScriptAndBrickIndexFromProject(position);
+					script.addBrick(temp[1], nestingBrickList.get(i));
+				} else {
+					script.addBrick(brickPosition + i, nestingBrickList.get(i));
+				}
 			}
 		} else {
 			script.addBrick(brickPosition, brick);
 		}
+	}
+
+	private int getPositionForDeadEndBrick(int position) {
+		for (int i = position + 1; i < brickList.size(); i++) {
+			if (brickList.get(i) instanceof AllowedAfterDeadEndBrick || brickList.get(i) instanceof DeadEndBrick) {
+				return i;
+			}
+			if (brickList.get(i) instanceof NestingBrick) {
+				List<NestingBrick> tempList = ((NestingBrick) brickList.get(i)).getAllNestingBrickParts();
+				int index = brickList.indexOf(tempList.get(tempList.size() - 1));
+				if (index >= 0) {
+					i = index;
+				}
+			}
+		}
+
+		return brickList.size();
 	}
 
 	private int[] getScriptAndBrickIndexFromProject(int position) {
@@ -378,6 +467,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			brickList.add(position, brickToBeAdded);
 			scrollToPosition(position);
 		} else {
+			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
 			position = position <= 0 ? 1 : position;
 			position = position > brickList.size() ? brickList.size() : position;
 			brickList.add(position, brickToBeAdded);
@@ -510,7 +600,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		wrapper.addView(currentBrickView);
 		if (draggedBrick == null) {
-			wrapper.setOnLongClickListener(longClickListener);
+			wrapper.setOnClickListener(this);
+			if (!(item instanceof DeadEndBrick)) {
+				wrapper.setOnLongClickListener(longClickListener);
+			}
 		}
 
 		if (position == positionOfInsertedBrick && initInsertedBrick) {
@@ -524,6 +617,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			listView.onLongClick(currentBrickView);
 
 			return insertionView;
+		}
+
+		// TODO check if this is ok
+		if (animatedBricks.contains(brickList.get(position))) {
+			Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
+			//			long duration = timeAnimationStarted - System.currentTimeMillis() + animation.computeDurationHint();
+			//			if (duration > 0) {
+			//				animation.restrictDuration(duration);
+			wrapper.startAnimation(animation);
+			//			}
+			animatedBricks.remove(brickList.get(position));
 		}
 
 		return wrapper;
@@ -570,6 +674,27 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public View getInsertionView() {
 		return insertionView;
+	}
+
+	public void onClick(View view) {
+		animatedBricks.clear();
+		int itemPosition = calculateItemPositionAndTouchPointY(view);
+		Brick brick = brickList.get(itemPosition);
+		if (brick instanceof NestingBrick) {
+			List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts();
+			timeAnimationStarted = System.currentTimeMillis();
+			for (Brick tempBrick : list) {
+				animatedBricks.add(tempBrick);
+			}
+		}
+		notifyDataSetChanged();
+	}
+
+	private int calculateItemPositionAndTouchPointY(View view) {
+		int itemPosition = -1;
+		itemPosition = ((DragAndDropListView) longClickListener).pointToPosition(view.getLeft(), view.getTop());
+
+		return itemPosition;
 	}
 
 }

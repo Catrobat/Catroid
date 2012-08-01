@@ -25,6 +25,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public interface ScriptBrick extends Brick {
+public interface ScriptBrick extends AllowedAfterDeadEndBrick {
 	public Script initScript(Sprite sprite);
 }

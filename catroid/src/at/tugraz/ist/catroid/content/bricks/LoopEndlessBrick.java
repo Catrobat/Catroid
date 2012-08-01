@@ -22,35 +22,29 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Sprite;
 
-public abstract class NestingBrick implements Brick {
+public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public boolean containsDeadEnd() {
-		for (Brick brick : getAllNestingBrickParts()) {
-			if (brick instanceof DeadEndBrick) {
-				return true;
-			}
-		}
-
-		return false;
+	public LoopEndlessBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
+		super(sprite, loopStartingBrick);
 	}
 
 	@Override
-	public abstract Brick clone();
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_endless, null);
+	}
 
-	public abstract boolean isInitialized();
-
-	public abstract void initialize();
-
-	public abstract boolean isDraggableOver(Brick brick);
-
-	/**
-	 * 
-	 * @return List of NestingBricks in order of their appearance
-	 */
-	public abstract List<NestingBrick> getAllNestingBrickParts();
-
+	@Override
+	public Brick clone() {
+		return new LoopEndlessBrick(getSprite(), getLoopBeginBrick());
+	}
 }
