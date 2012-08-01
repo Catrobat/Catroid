@@ -60,7 +60,7 @@ public class CostumeParser {
 				if (costumeIndex > 1) {
 					costumeindexString = "[" + costumeIndex + "]";
 				}
-				referencedObjects.put("Common.CostumeData" + costumeindexString, foundCostumeData);
+				referencedObjects.put("CostumeData" + costumeindexString, foundCostumeData);
 				costumeIndex++;
 			}
 		}
@@ -72,7 +72,7 @@ public class CostumeParser {
 	public Boolean setCostumedataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
 			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs) throws IllegalAccessException {
 		int lastIndex = referenceAttribute.lastIndexOf('[');
-		String query = "Common.CostumeData";
+		String query = "CostumeData";
 		String suffix = "";
 		if (lastIndex != -1) {
 			char referenceNo = referenceAttribute.charAt(referenceAttribute.lastIndexOf('[') + 1);

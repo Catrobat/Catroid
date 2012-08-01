@@ -43,6 +43,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.xml.FullParser;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
@@ -55,6 +56,7 @@ public class StorageHandler {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static StorageHandler instance;
 	private XStream xstream;
+	private FullParser fullParser;
 
 	private StorageHandler() throws IOException {
 
@@ -63,7 +65,7 @@ public class StorageHandler {
 		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
 		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
 		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
-
+		fullParser = new FullParser();
 		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
@@ -94,7 +96,8 @@ public class StorageHandler {
 		try {
 			if (NativeAppActivity.isRunning()) {
 				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
-				return (Project) xstream.fromXML(spfFileStream);
+				//return (Project) xstream.fromXML(spfFileStream);
+				return fullParser.parseSpritesWithProject(spfFileStream);
 			}
 
 			File projectDirectory = new File(Utils.buildProjectPath(projectName));
@@ -102,7 +105,8 @@ public class StorageHandler {
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
-				return (Project) xstream.fromXML(projectFileStream);
+				//return (Project) xstream.fromXML(projectFileStream);
+				return fullParser.parseSpritesWithProject(projectFileStream);
 			} else {
 				return null;
 			}

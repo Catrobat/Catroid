@@ -64,7 +64,7 @@ public class BrickParser {
 				String brickReferenceAttr = References.getReferenceAttribute(brickElement);
 				if (brickReferenceAttr != null) {
 					String referenceQuery = brickReferenceAttr.substring(brickReferenceAttr.lastIndexOf("Bricks"));
-					if (brickName.equals("Bricks.LoopEndBrick") && (referencedObjects.containsKey(referenceQuery))) {
+					if (brickName.equals("LoopEndBrick") && (referencedObjects.containsKey(referenceQuery))) {
 						foundBrickObj = (Brick) referencedObjects.get(referenceQuery);
 						referencedObjects.remove(referenceQuery);
 
@@ -98,7 +98,7 @@ public class BrickParser {
 			InvocationTargetException, NoSuchMethodException, ClassNotFoundException, XPathExpressionException,
 			ParseException {
 
-		String brickClassName = brickName.substring(7);
+		String brickClassName = brickName;
 		Brick brickObject = null;
 		Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickClassName);
 		Map<String, Field> brickFieldsToSet = objectGetter.getFieldMap(brickClass);
@@ -186,7 +186,7 @@ public class BrickParser {
 
 						Character d = (brickvalueName.toUpperCase().charAt(0));
 						brickvalueName = d.toString().concat(brickvalueName.substring(1));
-						String prefix = "Bricks.";
+						String prefix = "";
 						brickvalueName = prefix.concat(brickvalueName);
 						Brick valueBrick = getBrickObject(brickvalueName, foundSprite, brickValue.getChildNodes(),
 								(Element) brickValue, referencedObjects, forwardRefs);

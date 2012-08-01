@@ -83,7 +83,7 @@ public class FullParser {
 			Document doc = docBuilder.parse(xmlInputStream);
 			doc.getDocumentElement().normalize();
 
-			NodeList spriteNodes = doc.getElementsByTagName("Content.Sprite");
+			NodeList spriteNodes = doc.getElementsByTagName("Sprite");
 			for (int i = 0; i < spriteNodes.getLength(); i++) {
 				Element spriteElement = (Element) spriteNodes.item(i);
 				String spriteName = getSpriteName(spriteElement);
@@ -144,7 +144,7 @@ public class FullParser {
 			NoSuchMethodException {
 		Project newProject = (Project) objectGetter.getobjectOfClass(Project.class, "0");
 		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(Project.class);
-		NodeList projectNodes = doc.getElementsByTagName("Content.Project");
+		NodeList projectNodes = doc.getElementsByTagName("Project");
 		NodeList projectNodeChildren = projectNodes.item(0).getChildNodes();
 		for (int i = 0; i < projectNodeChildren.getLength(); i++) {
 			if (projectNodeChildren.item(i).getNodeType() != Node.TEXT_NODE) {
