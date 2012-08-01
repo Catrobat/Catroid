@@ -179,6 +179,13 @@ public class TestUtils {
 		return field;
 	}
 
+	public static void setPrivateField(Class<?> classFromObject, Object object, String fieldName, Object value)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = classFromObject.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		field.set(object, value);
+	}
+
 	public static Object invokeMethod(Object classObject, String methodName, Class<?>[] methodParams,
 			Object[] methodArgs) {
 		try {
