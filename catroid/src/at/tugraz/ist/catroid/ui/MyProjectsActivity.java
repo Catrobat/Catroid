@@ -139,13 +139,11 @@ public class MyProjectsActivity extends ListActivity {
 	private void initClickListener() {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
+				if (ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
 						MyProjectsActivity.this, true)) {
-					return; // error message already in ProjectManager
-							// loadProject
+					Intent intent = new Intent(MyProjectsActivity.this, ProjectActivity.class);
+					MyProjectsActivity.this.startActivity(intent);
 				}
-				Intent intent = new Intent(MyProjectsActivity.this, ProjectActivity.class);
-				MyProjectsActivity.this.startActivity(intent);
 			}
 		});
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
