@@ -481,4 +481,5 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	public void setIsScrolling() {
 		isScrolling = true;
 	}
+
 }

@@ -23,52 +23,28 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
-public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
-	@XStreamOmitField
-	private transient View view;
-
-	public ForeverBrick(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public LoopEndlessBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
+		super(sprite, loopStartingBrick);
 	}
 
 	@Override
-	public void execute() {
-		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
-		super.setFirstStartTime();
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_endless, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ForeverBrick(getSprite());
-	}
-
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_forever, null);
-		}
-
-		return view;
-	}
-
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_forever, null);
-	}
-
-	@Override
-	public void initialize() {
-		loopEndBrick = new LoopEndlessBrick(sprite, this);
+		return new LoopEndlessBrick(getSprite(), getLoopBeginBrick());
 	}
 }

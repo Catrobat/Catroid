@@ -22,9 +22,10 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import at.tugraz.ist.catroid.content.Script;
-import at.tugraz.ist.catroid.content.Sprite;
+/**
+ * There are just certain Bricks, which may be applicable behind/after a DeadEndBrick.<br />
+ * Examples are: Scripts, Condition-Ends (e.g. Else-Brick or End-If-Else-Brick)
+ */
+public interface AllowedAfterDeadEndBrick extends Brick {
 
-public interface ScriptBrick extends AllowedAfterDeadEndBrick {
-	public Script initScript(Sprite sprite);
 }

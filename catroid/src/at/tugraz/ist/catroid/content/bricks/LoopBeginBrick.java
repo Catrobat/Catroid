@@ -27,7 +27,7 @@ import java.util.List;
 
 import at.tugraz.ist.catroid.content.Sprite;
 
-public abstract class LoopBeginBrick implements NestingBrick {
+public abstract class LoopBeginBrick extends NestingBrick {
 	private static final long serialVersionUID = 1L;
 	protected Sprite sprite;
 	protected LoopEndBrick loopEndBrick;
@@ -62,6 +62,7 @@ public abstract class LoopBeginBrick implements NestingBrick {
 		this.loopEndBrick = loopEndBrick;
 	}
 
+	@Override
 	public boolean isDraggableOver(Brick brick) {
 		if (brick == loopEndBrick) {
 			return false;
@@ -70,6 +71,7 @@ public abstract class LoopBeginBrick implements NestingBrick {
 		}
 	}
 
+	@Override
 	public boolean isInitialized() {
 		if (loopEndBrick == null) {
 			return false;
@@ -78,10 +80,12 @@ public abstract class LoopBeginBrick implements NestingBrick {
 		}
 	}
 
+	@Override
 	public void initialize() {
 		loopEndBrick = new LoopEndBrick(sprite, this);
 	}
 
+	@Override
 	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		nestingBrickList.add(this);
@@ -92,4 +96,5 @@ public abstract class LoopBeginBrick implements NestingBrick {
 
 	@Override
 	public abstract Brick clone();
+
 }
