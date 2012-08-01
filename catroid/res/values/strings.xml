@@ -176,6 +176,14 @@
     <string name="stagemenu_axes_on">Axes On</string>
     <string name="stagemenu_axes_off">Axes Off</string>
     <string name="stagemenu_screenshot">Screenshot</string>
+    
+    <!-- Upload project dialog -->
+    <string name="upload_button">Upload</string>
+    <string name="upload_project_dialog_title">Upload project</string>
+    <string name="upload_description">Description:</string>
+    <string name="project_rename">(Your project will be renamed.)</string>
+    <string name="size_of_project">Size of project:</string>
+    <string name="upload_project_description_hint">Description of your project</string>
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">new...</string>
@@ -268,10 +276,6 @@
     <string name="default_project_backgroundname">background</string>
     <string name="default_project_backgroundcolor">#604fff</string>
 
-    <!-- Notifications -->
-    <string name="notification_invalid_text_entered">Please enter a value</string>
-    <string name="notification_screenshot_ok">Screenshot saved</string>
-
     <!-- Error messages -->
     <string name="error_no_sd_card">Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
@@ -291,11 +295,8 @@
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
     <string name="load_project">Load project</string>
-    <string name="upload_button">Upload</string>
-    <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
-    <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="size_of_project">Size of project:</string>
+    <string name="notification_invalid_text_entered">Please enter a value</string>
+    <string name="notification_screenshot_ok">Screenshot saved</string>
 
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->

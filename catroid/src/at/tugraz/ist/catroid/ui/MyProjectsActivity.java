@@ -96,6 +96,12 @@ public class MyProjectsActivity extends ListActivity {
 		initCustomContextMenu();
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		ProjectManager.getInstance().saveProject();
+	}
+
 	private void setUpActionBar() {
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName();
@@ -268,7 +274,7 @@ public class MyProjectsActivity extends ListActivity {
 	}
 
 	public void updateProjectTitle() {
-		TextView titleTextView = (TextView) MyProjectsActivity.this.findViewById(R.id.tv_title);
+		TextView titleTextView = (TextView) MyProjectsActivity.this.findViewById(R.id.textview_actionbar_project_title);
 		titleTextView.setText(MyProjectsActivity.this.getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName());
 	}

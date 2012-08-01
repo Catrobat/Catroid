@@ -137,7 +137,7 @@ public class ActivityHelper {
 
 		titleText = new TextView(activity);
 		titleText.setLayoutParams(textViewLayout);
-		titleText.setId(R.id.tv_title);
+		titleText.setId(R.id.textview_actionbar_project_title);
 		titleText.setText(title);
 		titleText.setGravity(Gravity.CENTER_VERTICAL);
 		titleText.setTypeface(null, Typeface.BOLD);

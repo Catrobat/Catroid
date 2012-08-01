@@ -138,7 +138,7 @@ public class MainMenuActivity extends Activity {
 							}
 						}
 					}, false);
-			this.titleText = (TextView) findViewById(R.id.tv_title);
+			this.titleText = (TextView) findViewById(R.id.textview_actionbar_project_title);
 		}
 	}
 
@@ -183,18 +183,21 @@ public class MainMenuActivity extends Activity {
 			case DIALOG_UPLOAD_PROJECT:
 				Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 				String currentProjectName = currentProject.getName();
-				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
-				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
-				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
-				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
+				TextView projectRenameHint = (TextView) dialog
+						.findViewById(R.id.textview_dialog_upload_project_rename_hint);
+				EditText editTextProjectDescription = (EditText) dialog
+						.findViewById(R.id.edittext_dialog_upload_project_description);
+				EditText editTextProjectUploadName = (EditText) dialog
+						.findViewById(R.id.edittext_dialog_upload_project_name);
+				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.textview_dialog_upload_project_file_size);
 				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
 						+ currentProjectName)));
 
-				projectRename.setVisibility(View.GONE);
-				projectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
-				projectDescriptionField.setText("");
-				projectUploadName.requestFocus();
-				projectUploadName.selectAll();
+				projectRenameHint.setVisibility(View.GONE);
+				editTextProjectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
+				editTextProjectDescription.setText("");
+				editTextProjectUploadName.requestFocus();
+				editTextProjectUploadName.selectAll();
 				break;
 			case DIALOG_LOGIN_REGISTER:
 				EditText usernameEditText = (EditText) dialog.findViewById(R.id.username);
