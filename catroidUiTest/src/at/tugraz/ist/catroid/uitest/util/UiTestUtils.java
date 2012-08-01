@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -74,6 +77,9 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.internal.ActionBarSherlockCompat;
+import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
@@ -440,6 +446,31 @@ public class UiTestUtils {
 		}
 	}
 
+	public static Object invokePrivateMethodWithoutParameters(Class<?> clazz, String methodName, Object receiver) {
+		Method method = null;
+		try {
+			method = clazz.getDeclaredMethod(methodName, (Class<?>[]) null);
+		} catch (NoSuchMethodException e) {
+			Log.e(TAG, e.getClass().getName() + ": " + methodName);
+		}
+
+		if (method != null) {
+			method.setAccessible(true);
+
+			try {
+				return method.invoke(receiver, (Object[]) null);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
@@ -599,6 +630,16 @@ public class UiTestUtils {
 	public static void goToHomeActivity(Activity activity) {
 		Intent intent = new Intent(activity, MainMenuActivity.class);
 		activity.startActivity(intent);
+	}
+
+	/**
+	 * This method invokes Up button press. You should pass {@link Solo.getCurrentActivity} to it.
+	 */
+	public static void clickOnUpActionBarButton(Activity activity) {
+		ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
+		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
+				SherlockFragmentActivity.class, "getSherlock", activity);
+		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 	}
 
 	/**
