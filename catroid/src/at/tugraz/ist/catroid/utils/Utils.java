@@ -46,6 +46,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -78,6 +79,7 @@ public class Utils {
 	private static final String TAG = Utils.class.getSimpleName();
 	private static long uniqueLong = 0;
 	private static Semaphore uniqueNameLock = new Semaphore(1);
+	private static boolean isUnderTest;
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -385,4 +387,11 @@ public class Utils {
 		return newTitle;
 	}
 
+	public static boolean isApplicationDebuggable(Context context) {
+		if (isUnderTest) {
+			return false;
+		} else {
+			return (context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+		}
+	}
 }
