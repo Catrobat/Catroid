@@ -578,7 +578,7 @@ public class UiTestUtils {
 		}
 	}
 
-	public static boolean createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
 		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
@@ -586,10 +586,10 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
-		ProjectManager.INSTANCE.setCurrentScript(testScript);
-		return ProjectManager.INSTANCE.saveProject();
+		ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+		ProjectManager.getInstance().saveProject();
 	}
 }

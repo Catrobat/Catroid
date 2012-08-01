@@ -106,12 +106,11 @@ public class ProjectManager {
 		}
 	}
 
-	public boolean saveProject() {
+	public void saveProject() {
 		if (project == null) {
 			Log.e("CATROID", "[SAVE_PROJECT] project is null");
-			return false;
 		}
-		return StorageHandler.getInstance().saveProject(project);
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 	public boolean initializeDefaultProject(Context context) {

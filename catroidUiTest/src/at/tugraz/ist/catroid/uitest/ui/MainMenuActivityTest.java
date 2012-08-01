@@ -282,8 +282,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		boolean result = UiTestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
-		assertTrue("Could not create test project.", result);
+		UiTestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
 
 		runTestOnUiThread(new Runnable() {
 			public void run() {

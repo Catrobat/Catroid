@@ -30,11 +30,13 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.os.AsyncTask;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
@@ -51,11 +53,80 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 
 public class StorageHandler {
 
+	private class SaveProjectTask extends AsyncTask<Project, Void, Boolean> {
+		private boolean isCurrentlySavingProject;
+
+		@Override
+		protected void onPreExecute() {
+			isCurrentlySavingProject = true;
+		}
+
+		@Override
+		protected Boolean doInBackground(Project... array) {
+			createCatroidRoot();
+			final Project project = array[0];
+
+			if (project == null || isCancelled()) {
+				return false;
+			}
+			try {
+				String projectFile = xstream.toXML(project);
+				String projectDirectoryName = Utils.buildProjectPath(project.getName());
+				File projectDirectory = new File(projectDirectoryName);
+
+				if (!isCancelled()
+						&& !(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+					projectDirectory.mkdir();
+
+					File imageDirectory = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY));
+					imageDirectory.mkdir();
+
+					File noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY,
+							Constants.NO_MEDIA_FILE));
+					noMediaFile.createNewFile();
+
+					File soundDirectory = new File(projectDirectoryName + "/" + Constants.SOUND_DIRECTORY);
+					soundDirectory.mkdir();
+
+					noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.SOUND_DIRECTORY,
+							Constants.NO_MEDIA_FILE));
+					noMediaFile.createNewFile();
+				}
+				if (!isCancelled()) {
+					Writer writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
+							Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
+					writer.write(XML_HEADER.concat(projectFile));
+					writer.flush();
+					writer.close();
+					return true;
+				} else {
+					return false;
+				}
+			} catch (IOException e) {
+				Log.e(TAG, "Could not save project.", e);
+				return false;
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			isCurrentlySavingProject = false;
+			Log.w("CATROID", "Cancelled save project task.");
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			isCurrentlySavingProject = false;
+			Log.d("CATROID", "Saved project succesfully: " + result);
+		}
+	}
+
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static StorageHandler instance;
 	private XStream xstream;
+	private SaveProjectTask currentSaveProjectTask;
 
 	private StorageHandler() throws IOException {
 
@@ -114,48 +185,12 @@ public class StorageHandler {
 		}
 	}
 
-	public boolean saveProject(Project project) {
-		createCatroidRoot();
-		if (project == null) {
-			return false;
+	public void saveProject(Project project) {
+		if (currentSaveProjectTask != null && currentSaveProjectTask.isCurrentlySavingProject) {
+			currentSaveProjectTask.cancel(false);
 		}
-		try {
-			String projectFile = xstream.toXML(project);
-
-			String projectDirectoryName = Utils.buildProjectPath(project.getName());
-			File projectDirectory = new File(projectDirectoryName);
-
-			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
-				projectDirectory.mkdir();
-
-				File imageDirectory = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY));
-				imageDirectory.mkdir();
-
-				File noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY,
-						Constants.NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				File soundDirectory = new File(projectDirectoryName + "/" + Constants.SOUND_DIRECTORY);
-				soundDirectory.mkdir();
-
-				noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.SOUND_DIRECTORY,
-						Constants.NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-			}
-
-			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
-
-			writer.write(XML_HEADER.concat(projectFile));
-			writer.flush();
-			writer.close();
-
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.e(TAG, "saveProject threw an exception and failed.");
-			return false;
-		}
+		currentSaveProjectTask = new SaveProjectTask();
+		currentSaveProjectTask.execute(project);
 	}
 
 	public boolean deleteProject(Project project) {
