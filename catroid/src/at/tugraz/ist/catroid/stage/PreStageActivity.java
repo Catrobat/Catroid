@@ -102,18 +102,6 @@ public class PreStageActivity extends Activity {
 
 			}
 		}
-
-		textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
-			public void onInit(int status) {
-				resourceInitialized();
-				if (status == TextToSpeech.ERROR) {
-					Toast.makeText(PreStageActivity.this, "Error occurred while initializing Text-To-Speech engine",
-							Toast.LENGTH_LONG).show();
-					resourceFailed();
-				}
-			}
-		});
-
 		if (noResources == true) {
 			startStage();
 		}
@@ -236,6 +224,17 @@ public class PreStageActivity extends Activity {
 			case MY_DATA_CHECK_CODE:
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 					// success, create the TTS instance
+					textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
+						public void onInit(int status) {
+							resourceInitialized();
+							if (status == TextToSpeech.ERROR) {
+								Toast.makeText(PreStageActivity.this,
+										"Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG)
+										.show();
+								resourceFailed();
+							}
+						}
+					});
 					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
 						Intent installIntent = new Intent();
 						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
@@ -265,7 +264,6 @@ public class PreStageActivity extends Activity {
 
 				}
 				break;
-
 			default:
 				resourceFailed();
 				break;
@@ -278,7 +276,6 @@ public class PreStageActivity extends Activity {
 
 	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
-
 		textToSpeech.setOnUtteranceCompletedListener(listener);
 		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
 	}
@@ -296,7 +293,7 @@ public class PreStageActivity extends Activity {
 					resourceInitialized();
 					break;
 				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
-					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT);
+					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
 					connectingProgressDialog.dismiss();
 					legoNXT.destroyCommunicator();
 					legoNXT = null;
@@ -306,13 +303,7 @@ public class PreStageActivity extends Activity {
 						resourceFailed();
 					}
 					break;
-				default:
-
-					//Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
-					break;
-
 			}
 		}
 	};
-
 }
