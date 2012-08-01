@@ -68,7 +68,7 @@
     <!-- About Dialog -->
     <string name="about_title">"キャットロイドについて"</string>
     <string name="about_text">"キャットロイドは、マサチューセッツ工科大学のメディアラボで生涯幼稚園グループによって開発されたパソコン用のスクラッチプログラミング言語に着想を得、Androidデバイスのためのオンデバイス ビジュアルプログラミング言語です。\n\nのキャットロイドは、主にGNU AGPL v3の下でライセンスされています。ライセンスの詳細については、下記リンクをご参照ください。\n"</string>
-    <string name="about_link_text">"キャットロイドについて"</string>
+    <string name="about_catroid_license_link_text">"キャットロイドについて"</string>
 
     <!-- Project activity view -->
     <string name="project_name">"プロジェクト："</string>
