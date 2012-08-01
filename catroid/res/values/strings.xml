@@ -19,8 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.-->
 <resources>
 
     <!-- General terms -->
@@ -67,13 +66,12 @@
 
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
-    <string name="about_text">Catroid is an on-device visual programming language for 
-        Android devices that is inspired by the Scratch programming 
-        language developed by the Lifelong Kindergarten Group at 
-        the Media Lab of the Massachusetts Institute of Technology.\n\n
+    <string name="about_text">Catroid is a programming 
+        environment and interpreter for Android devices for the visual 
+        programming language Catrobat.\n\n
         Catroid is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
-    <string name="about_link_text">About Catroid</string>
+    <string name="about_catroid_license_link_text">Catroid License</string>
 
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
@@ -161,8 +159,8 @@
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
-    
-    <!--  OverwriteRenameDialog Strings -->
+
+    <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Project with same name already exists!</string>
     <string name="overwrite_replace">replace existing Project</string>
     <string name="overwrite_rename">rename downloaded Project</string>

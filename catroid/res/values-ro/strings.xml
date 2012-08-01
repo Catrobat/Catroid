@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -85,7 +85,7 @@
         Catroid este dezvoltat în Instituția Tehnologiilor Software la
         Universitatea Tehnologică din Graz în Austria.\n\n
         Această programă este licențiată sub licența GNU GPL v3.\n\n</string>
-    <string name="about_link_text">Despre Catroid</string>
+    <string name="about_catroid_license_link_text">Despre Catroid</string>
 
     <!-- Project activity view -->
     <string name="project_name">Proiect:</string>
