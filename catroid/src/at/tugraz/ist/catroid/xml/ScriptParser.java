@@ -65,7 +65,8 @@ public class ScriptParser {
 	private Script getpopulatedScript(Element element, Sprite sprite) throws IllegalArgumentException,
 			IllegalAccessException, SecurityException, InstantiationException, InvocationTargetException,
 			NoSuchMethodException, ClassNotFoundException {
-		String scriptClassName = element.getNodeName().substring(8);
+		String g = element.getNodeName();
+		String scriptClassName = element.getNodeName();
 
 		Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptClassName);
 		Script newScript = objectGetter.getScriptObject(scriptClassName, sprite);
