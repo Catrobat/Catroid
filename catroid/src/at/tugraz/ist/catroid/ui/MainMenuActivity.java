@@ -67,11 +67,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private static final int DIALOG_LOAD_PROJECT = 1;
 	private boolean ignoreResume = false;
 
-	public void updateProjectName() {
-		onPause();
-		onResume();
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
