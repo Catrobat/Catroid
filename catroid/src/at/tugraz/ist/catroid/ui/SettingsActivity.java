@@ -26,10 +26,6 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import at.tugraz.ist.catroid.R;
 
-/**
- * @author David Reisenberger
- * 
- */
 public class SettingsActivity extends PreferenceActivity {
 
 	@Override
