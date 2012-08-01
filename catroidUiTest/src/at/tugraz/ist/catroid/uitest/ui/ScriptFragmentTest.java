@@ -248,7 +248,9 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("dialog closed after orientation change", solo.searchText(brickPlaceAtText));
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(1000);
 		solo.goBack();
+		solo.sleep(1000);
 
 		solo.clickOnText(getActivity().getString(R.string.category_looks));
 		assertTrue("Not in AddBrickDialog - category looks", solo.searchText(brickSetCostume));

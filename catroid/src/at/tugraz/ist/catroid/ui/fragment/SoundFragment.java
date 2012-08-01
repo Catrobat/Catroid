@@ -60,9 +60,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class SoundFragment extends SherlockListFragment 
-		implements OnSoundEditListener, LoaderManager.LoaderCallbacks<Cursor> {
-	
+public class SoundFragment extends SherlockListFragment implements OnSoundEditListener,
+		LoaderManager.LoaderCallbacks<Cursor> {
+
 	private static final String ARGS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 	private final int REQUEST_SELECT_MUSIC = 0;
@@ -71,7 +71,7 @@ public class SoundFragment extends SherlockListFragment
 	private SoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
 	public SoundInfo selectedSoundInfo;
-	
+
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
 
@@ -85,10 +85,10 @@ public class SoundFragment extends SherlockListFragment
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		if (savedInstanceState !=null) {
+		if (savedInstanceState != null) {
 			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(ARGS_SELECTED_SOUND);
 		}
-		
+
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundEditListener(this);
@@ -103,7 +103,7 @@ public class SoundFragment extends SherlockListFragment
 		outState.putSerializable(ARGS_SELECTED_SOUND, selectedSoundInfo);
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
@@ -122,11 +122,11 @@ public class SoundFragment extends SherlockListFragment
 			}
 		});
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		if (!Utils.checkForSdCard(getActivity())) {
 			return;
 		}
@@ -134,17 +134,17 @@ public class SoundFragment extends SherlockListFragment
 		if (soundDeletedReceiver == null) {
 			soundDeletedReceiver = new SoundDeletedReceiver();
 		}
-		
+
 		if (soundRenamedReceiver == null) {
 			soundRenamedReceiver = new SoundRenamedReceiver();
 		}
-		
+
 		IntentFilter intentFilterDeleteSound = new IntentFilter(ScriptTabActivity.ACTION_SOUND_DELETED);
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
-		
+
 		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptTabActivity.ACTION_SOUND_RENAMED);
 		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
-		
+
 		stopSound(null);
 		reloadAdapter();
 	}
@@ -152,22 +152,22 @@ public class SoundFragment extends SherlockListFragment
 	@Override
 	public void onPause() {
 		super.onPause();
-		
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
 		stopSound(null);
-		
+
 		if (soundDeletedReceiver != null) {
 			getActivity().unregisterReceiver(soundDeletedReceiver);
 		}
-		
+
 		if (soundRenamedReceiver != null) {
 			getActivity().unregisterReceiver(soundRenamedReceiver);
 		}
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -182,7 +182,7 @@ public class SoundFragment extends SherlockListFragment
 			}
 		}
 	}
-	
+
 	@Override
 	public void onSoundRename(View v) {
 		handleSoundRenameButton(v);
@@ -202,14 +202,14 @@ public class SoundFragment extends SherlockListFragment
 	public void onSoundDelete(View v) {
 		handleDeleteSoundButton(v);
 	}
-	
+
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Uri audioUri = null;
 		if (args != null) {
 			audioUri = (Uri) args.get(ARGS_SELECTED_SOUND);
 		}
-		
+
 		String[] projection = { MediaStore.Audio.Media.DATA };
 		return new CursorLoader(getActivity(), audioUri, projection, null, null, null);
 	}
@@ -218,7 +218,7 @@ public class SoundFragment extends SherlockListFragment
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		String audioPath = "";
 		CursorLoader cursorLoader = (CursorLoader) loader;
-		
+
 		if (data == null) {
 			audioPath = cursorLoader.getUri().getPath();
 		} else {
@@ -226,33 +226,32 @@ public class SoundFragment extends SherlockListFragment
 			data.moveToFirst();
 			audioPath = data.getString(actualSoundColumnIndex);
 		}
-		
+
 		copySoundToCatroid(audioPath);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
-	
+
 	private void copySoundToCatroid(String audioPath) {
 		try {
 			if (audioPath.equalsIgnoreCase("")) {
 				throw new IOException("Audio path can not be empty.");
 			}
-			
+
 			File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
 			String soundFileName = soundFile.getName();
-			String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1,
-					soundFileName.lastIndexOf('.'));
+			String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1, soundFileName.lastIndexOf('.'));
 			updateSoundAdapter(soundTitle, soundFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Utils.displayErrorMessage(getActivity(), getActivity().getString(R.string.error_load_sound));
 		}
-		
+
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 	}
-	
+
 	private void reloadAdapter() {
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		adapter = new SoundAdapter(getActivity(), R.layout.activity_sound_soundlist_item, soundInfoList);
@@ -260,7 +259,7 @@ public class SoundFragment extends SherlockListFragment
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
-	
+
 	private void updateSoundAdapter(String title, String fileName) {
 		title = Utils.getUniqueSoundName(title);
 
@@ -274,6 +273,7 @@ public class SoundFragment extends SherlockListFragment
 		{
 			final ListView listView = getListView();
 			listView.post(new Runnable() {
+				@Override
 				public void run() {
 					listView.setSelection(listView.getCount() - 1);
 				}
@@ -285,7 +285,7 @@ public class SoundFragment extends SherlockListFragment
 	private void handleSoundRenameButton(View v) {
 		int position = (Integer) v.getTag();
 		selectedSoundInfo = soundInfoList.get(position);
-		
+
 		RenameSoundDialog renameSoundDialog = RenameSoundDialog.newInstance(selectedSoundInfo.getTitle());
 		renameSoundDialog.show(getFragmentManager(), "dialog_rename_sound");
 	}
@@ -298,6 +298,7 @@ public class SoundFragment extends SherlockListFragment
 		startSound(soundInfo);
 
 		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+			@Override
 			public void onCompletion(MediaPlayer mp) {
 				soundInfo.isPlaying = false;
 				soundInfo.isPaused = false;
@@ -318,11 +319,11 @@ public class SoundFragment extends SherlockListFragment
 		final int position = (Integer) v.getTag();
 		stopSound(null);
 		selectedSoundInfo = soundInfoList.get(position);
-		
+
 		DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(position);
 		deleteSoundDialog.show(getFragmentManager(), "dialog_delete_sound");
 	}
-	
+
 	private void pauseSound(SoundInfo soundInfo) {
 		mediaPlayer.pause();
 
@@ -367,17 +368,17 @@ public class SoundFragment extends SherlockListFragment
 			}
 		}
 	}
-	
+
 	private class SoundRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_RENAMED)) {
 				String newSoundTitle = intent.getExtras().getString(RenameSoundDialog.EXTRA_NEW_SOUND_TITLE);
-				
+
 				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 					selectedSoundInfo.setTitle(newSoundTitle);
 					adapter.notifyDataSetChanged();
-				} 
+				}
 			}
 		}
 	}
