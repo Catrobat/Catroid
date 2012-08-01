@@ -25,21 +25,31 @@ package at.tugraz.ist.catroid.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class ProjectActivity extends SherlockFragmentActivity {
 
+	private ActionBar actionBar;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
+
+		String title = getString(R.string.project_name) + " "
+				+ ProjectManager.getInstance().getCurrentProject().getName();
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(title);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
