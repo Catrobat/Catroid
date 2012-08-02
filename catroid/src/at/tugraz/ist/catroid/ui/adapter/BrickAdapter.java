@@ -152,54 +152,34 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		toEndDrag = to;
 
+		animatedBricks.clear();
+
 		notifyDataSetChanged();
 	}
 
-	// TODO make this working again
 	private int getNewPositionIfEndingBrickIsThere(int to, Brick brick) {
 		int currentPosition = brickList.indexOf(brick);
-		int firstPossiblePosition = -1;
-		int lastPossiblePosition = -1;
-		boolean temp = to < brickList.size() - 1
-				&& (brickList.get(to + 1) instanceof AllowedAfterDeadEndBrick || brickList.get(to + 1) instanceof DeadEndBrick);
-		if (brickList.get(to) instanceof DeadEndBrick && temp) {
-			if (currentPosition > to && currentPosition > 0) {
-				Log.e("blah", "reaced 1");
-				lastPossiblePosition = to;
-			} else {
-				for (int i = to + 1; i < brickList.size(); i++) {
-					if (!(brickList.get(i) instanceof DeadEndBrick)) {
-						Log.e("blah", "reaced 2");
-						lastPossiblePosition = i;
-						break;
-					}
-				}
-			}
-		}
-		if (to > 0 && brickList.get(to - 1) instanceof DeadEndBrick
-				&& brickList.get(to) instanceof AllowedAfterDeadEndBrick) {
-			if (currentPosition < to && currentPosition > 0) {
-				Log.e("blah", "reaced 3");
-				firstPossiblePosition = to;
-			} else {
 
-				for (int i = to - 1; i >= 0; i--) {
-					if (!(brickList.get(i) instanceof DeadEndBrick)) {
-						Log.e("blah", "reaced 4");
-						firstPossiblePosition = i + 1;
-						break;
+		if (getItem(to) instanceof AllowedAfterDeadEndBrick && !(getItem(to) instanceof DeadEndBrick)
+				&& getItem(to - 1) instanceof DeadEndBrick) {
+			if (currentPosition > to) {
+				return to + 1;
+			} else {
+				return to;
+			}
+		} else if (getItem(to) instanceof DeadEndBrick) {
+			for (int i = to - 1; i >= 0; i--) {
+				if (!(getItem(i) instanceof DeadEndBrick)) {
+					if (currentPosition > i) {
+						return i + 1;
+					} else {
+						return i;
 					}
 				}
 			}
 		}
 
-		firstPossiblePosition = firstPossiblePosition < 0 ? currentPosition : firstPossiblePosition;
-		lastPossiblePosition = lastPossiblePosition < 0 ? currentPosition : lastPossiblePosition;
-
-		Log.e("blah", "firstPossiblePosition: " + firstPossiblePosition);
-		Log.e("blah", "lastPossiblePosition: " + lastPossiblePosition);
-
-		return firstPossiblePosition;
+		return to;
 	}
 
 	private int getDraggedNestingBricksToPosition(NestingBrick nestingBrick, int from, int to) {
@@ -290,6 +270,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		initBrickList();
 		notifyDataSetChanged();
+
+		scrollToPosition(to);
 	}
 
 	private void addScriptToProject(int position, ScriptBrick scriptBrick) {
@@ -381,11 +363,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (brickList.get(i) instanceof AllowedAfterDeadEndBrick || brickList.get(i) instanceof DeadEndBrick) {
 				return i;
 			}
+
 			if (brickList.get(i) instanceof NestingBrick) {
 				List<NestingBrick> tempList = ((NestingBrick) brickList.get(i)).getAllNestingBrickParts();
-				int index = brickList.indexOf(tempList.get(tempList.size() - 1));
-				if (index >= 0) {
-					i = index;
+				int oldI = i;
+				i = brickList.indexOf(tempList.get(tempList.size() - 1));
+				if (i < 0) {
+					i = oldI;
 				}
 			}
 		}
