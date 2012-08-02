@@ -130,7 +130,7 @@ public class ProjectManager {
 			currentScript = null;
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Cannot initialize default project.", e);
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 			return false;
 		}
@@ -159,7 +159,6 @@ public class ProjectManager {
 
 	public void deleteCurrentProject() {
 		StorageHandler.getInstance().deleteProject(project);
-
 		project = null;
 	}
 
