@@ -323,6 +323,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Wert ist zu klein!</string>
     <string name="number_to_big">Wert ist zu groß!</string>
-    <string name="number_of_backgrounds">Hintergründe:</string>
 
 </resources>
