@@ -23,13 +23,13 @@
 package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -38,6 +38,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -50,10 +52,11 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
-import at.tugraz.ist.catroid.ui.adapter.InstalledAppAdapter;
+import at.tugraz.ist.catroid.ui.dialogs.AddCostumeDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.InstalledApplicationInfo;
@@ -66,10 +69,9 @@ public class CostumeActivity extends ListActivity {
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 4;
 	public static final int REQUEST_TAKE_PICTURE = 5;
 	public static final int DIALOG_IMPORT_COSTUME_ID = 0;
-	private static final String standardCostumeName = "costume";
 	private static final String savedInstanceStateUriIsSetKey = "UriIsSet";
 	private Activity activity = this;
-	private Dialog installedAppDialog;
+	private AddCostumeDialog installedAppDialog;
 	private Uri costumeFromCameraUri = null;
 
 	@Override
@@ -106,6 +108,11 @@ public class CostumeActivity extends ListActivity {
 				addButtonIcon = R.drawable.ic_actionbar_shirt;
 			}
 			activityHelper.changeButtonIcon(R.id.btn_action_add_button, addButtonIcon);
+		}
+
+		installedAppDialog = scriptTabActivity.getAddCostumeDialog();
+		if (installedAppDialog != null) {
+			createClickListener((ListView) installedAppDialog.findViewById(R.id.listViewInstalledApps));
 		}
 
 	}
@@ -157,10 +164,23 @@ public class CostumeActivity extends ListActivity {
 				loadPaintroidImageIntoCatroid(data);
 				break;
 			case REQUEST_TAKE_PICTURE:
-				Uri costumeUri = null;
-				if (data != null) {
-					costumeUri = data.getData();
-				} else {
+				Uri costumeUri = costumeFromCameraUri;
+				int rotate = getCameraPhotoOrientation(costumeUri, costumeUri.getPath());
+
+				if (rotate != 0) {
+					Project project = ProjectManager.getInstance().getCurrentProject();
+					File fullSizeImage = new File(costumeUri.getPath());
+					Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
+							project.virtualScreenWidth, project.virtualScreenHeight, true);
+					Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
+					File downScaledCameraPicture = new File(Environment.getExternalStorageDirectory(),
+							CostumeActivity.this.getString(R.string.default_costume_name) + ".jpg");
+					costumeFromCameraUri = Uri.fromFile(downScaledCameraPicture);
+					try {
+						StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
 					costumeUri = costumeFromCameraUri;
 				}
 				loadPictureFromCameraIntoCatroid(costumeUri);
@@ -212,7 +232,6 @@ public class CostumeActivity extends ListActivity {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 				return;
 			}
-
 		}
 		//-----------------------------------------------------
 		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
@@ -285,9 +304,8 @@ public class CostumeActivity extends ListActivity {
 	private View.OnClickListener createAddCostumeClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
-				installedAppDialog = onCreateDialog(DIALOG_IMPORT_COSTUME_ID);
+				handleAddCostumeButton();
 				createClickListener((ListView) installedAppDialog.findViewById(R.id.listViewInstalledApps));
-				installedAppDialog.show();
 			}
 		};
 	}
@@ -304,7 +322,7 @@ public class CostumeActivity extends ListActivity {
 
 	private void destroyDialog() {
 		installedAppDialog.dismiss();
-		removeDialog(DIALOG_IMPORT_COSTUME_ID);
+		//removeDialog(ScriptTabActivity.DIALOG_ADD_COSTUME);
 	}
 
 	private void itemClickedHandling(InstalledApplicationInfo clickedApplicationInfo) {
@@ -348,20 +366,10 @@ public class CostumeActivity extends ListActivity {
 		startActivityForResult(intent, REQUEST_CODE);
 	}
 
-	@Override
-	public Dialog onCreateDialog(int id) {
-		Dialog installedAppDialog = new Dialog(activity);
-
-		installedAppDialog.setContentView(R.layout.add_costume_list_view);
-		installedAppDialog.setTitle(R.string.add_costume_dialog_title);
-		PackageManager packageManager = this.getPackageManager();
-		ArrayList<InstalledApplicationInfo> installedAppInfo = Utils.createApplicationsInfoList(packageManager);
-
-		ListView listView = (ListView) installedAppDialog.findViewById(R.id.listViewInstalledApps);
-		listView.setAdapter(new InstalledAppAdapter(activity, R.layout.add_costume_applicationlist_item,
-				installedAppInfo));
-
-		return installedAppDialog;
+	public void handleAddCostumeButton() {
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_ADD_COSTUME);
+		installedAppDialog = scriptTabActivity.getAddCostumeDialog();
 	}
 
 	public void handleDeleteCostumeButton(View v) {
@@ -451,7 +459,34 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	private void setCostumeFromCameraUri() {
-		File pictureFile = new File(Environment.getExternalStorageDirectory(), standardCostumeName + ".jpg");
+		File pictureFile = new File(Environment.getExternalStorageDirectory(),
+				CostumeActivity.this.getString(R.string.default_costume_name) + ".jpg");
 		costumeFromCameraUri = Uri.fromFile(pictureFile);
+	}
+
+	public static int getCameraPhotoOrientation(Uri imageUri, String imagePath) {
+		int rotate = 0;
+		try {
+			File imageFile = new File(imagePath);
+			ExifInterface exifDataReader = new ExifInterface(imageFile.getAbsolutePath());
+			int orientation = exifDataReader.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+					ExifInterface.ORIENTATION_NORMAL);
+
+			switch (orientation) {
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					rotate = 270;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					rotate = 180;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					rotate = 90;
+					break;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rotate;
 	}
 }

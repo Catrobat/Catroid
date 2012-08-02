@@ -35,6 +35,7 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Matrix;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
@@ -323,6 +324,15 @@ public class StorageHandler {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static Bitmap rotateBitmap(Bitmap bitmap, int roation) {
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		Matrix matrix = new Matrix();
+		matrix.postRotate(roation);
+		Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, height, width, matrix, true);
+		return rotatedBitmap;
 	}
 
 }
