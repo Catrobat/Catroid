@@ -50,7 +50,7 @@ public class ReflectionTest extends InstrumentationTestCase {
 		Project createdProject = null;
 
 		try {
-			createdProject = populator.reflectionSet(xmlFileStream);
+			createdProject = populator.getProjectWithHeaderValues(xmlFileStream);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Excption when parsing");

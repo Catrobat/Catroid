@@ -63,7 +63,8 @@ public class BrickParser {
 				String brickName = currentBrickNode.getNodeName();
 				String brickReferenceAttr = References.getReferenceAttribute(brickElement);
 				if (brickReferenceAttr != null) {
-					String referenceQuery = brickReferenceAttr.substring(brickReferenceAttr.lastIndexOf("Bricks"));
+					//String referenceQuery = brickReferenceAttr.substring(brickReferenceAttr.lastIndexOf("brickList"));
+					String referenceQuery = brickReferenceAttr.replace("..", "brickList");
 					if (brickName.equals("LoopEndBrick") && (referencedObjects.containsKey(referenceQuery))) {
 						foundBrickObj = (Brick) referencedObjects.get(referenceQuery);
 						referencedObjects.remove(referenceQuery);
@@ -104,14 +105,15 @@ public class BrickParser {
 		Map<String, Field> brickFieldsToSet = objectGetter.getFieldMap(brickClass);
 		brickObject = (Brick) objectGetter.getobjectOfClass(brickClass, "0");
 		if (valueNodes != null) {
-			parseBrickValues(foundSprite, valueNodes, brickObject, brickFieldsToSet, referencedObjects, forwardRefs);
+			brickObject = parseBrickValues(foundSprite, valueNodes, brickObject, brickFieldsToSet, referencedObjects,
+					forwardRefs);
 		}
 		String xp = ParserUtil.getElementXpath(brickElement);
 		referencedObjects.put(xp, brickObject);
 		return brickObject;
 	}
 
-	private void parseBrickValues(Sprite foundSprite, NodeList valueNodes, Brick brickObject,
+	private Brick parseBrickValues(Sprite foundSprite, NodeList valueNodes, Brick brickObject,
 			Map<String, Field> brickFieldsToSet, Map<String, Object> referencedObjects,
 			List<ForwardReferences> forwardRefs) throws IllegalAccessException, XPathExpressionException,
 			InstantiationException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException,
@@ -146,7 +148,23 @@ public class BrickParser {
 						continue;
 
 					}
+					if (brickvalueName.equals("loopEndBrick")) {
+						LoopEndBrick parsedLoopEndBrick = new LoopEndBrick(foundSprite, (LoopBeginBrick) brickObject);
+						String brickValueXpath = ParserUtil.getElementXpath((Element) brickValue);
+						String referenceString = brickValueXpath.substring(brickValueXpath.lastIndexOf("brickList"));
+						referencedObjects.put("loopEndBrickRef" + referenceString, parsedLoopEndBrick);
+						valueField.set(brickObject, parsedLoopEndBrick);
+						continue;
+					}
+					if (brickvalueName.equals("loopBeginBrick")) {
 
+						referenceAttribute = referenceAttribute.replace("../..", "brickList");
+						brickObject = (Brick) referencedObjects.get("loopEndBrickRef" + referenceAttribute
+								+ "/loopEndBrick");
+						if (brickObject != null) {
+							return brickObject;
+						}
+					}
 					XPathExpression exp = xpath.compile(referenceAttribute);
 					Log.i("get brick obj", "xpath evaluated :" + referenceAttribute);
 					Element referencedElement = (Element) exp.evaluate(brickValue, XPathConstants.NODE);
@@ -163,6 +181,7 @@ public class BrickParser {
 						forwardRefs.add(forwardRef);
 					}
 					continue;
+
 				}
 
 				if (brickValue.getChildNodes().getLength() > 1) {
@@ -178,7 +197,7 @@ public class BrickParser {
 										(LoopBeginBrick) brickObject);
 								valueField.set(brickObject, foundLoopEndBrick);
 								String childBrickXPath = ParserUtil.getElementXpath((Element) brickValue);
-								String key = childBrickXPath.substring(childBrickXPath.lastIndexOf("Bricks"));
+								String key = childBrickXPath.substring(childBrickXPath.lastIndexOf("brickList"));
 								referencedObjects.put(key, foundLoopEndBrick);
 								continue;
 							}
@@ -225,6 +244,7 @@ public class BrickParser {
 			}
 
 		}
+		return brickObject;
 	}
 
 	public void getValueObject(Object nodeObj, Node node, Map<String, Field> nodeClassFieldsToSet,

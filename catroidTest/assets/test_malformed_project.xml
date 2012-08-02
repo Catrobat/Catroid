@@ -21,7 +21,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<Content.Project>
+<Project>
   <androidVersion>10</androidVersion>
   <catroidVersionCode>10</catroidVersionCode>
   <catroidVersionName>0.5.6a</catroidVersionName>
@@ -30,87 +30,87 @@
   <screenHeight>800</screenHeight>
   <screenWidth>480</screenWidth>
   <spriteList>
-    <Content.Sprite>
+    <Sprite>
       <name>Hintergrund</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
+        </StartScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>143780EBC24495149123CCAF3A1CDC35_normalCat</fileName>
           <name>normalCat</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</fileName>
           <name>banzaiCat</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>3673EC84679EE425A215B86B085EC292_cheshireCat</fileName>
           <name>cheshireCat</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Catroid</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.RepeatBrick>
+            </SetCostumeBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>3</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.ShowBrick>
+            </RepeatBrick>
+            <ShowBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ShowBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </ShowBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.WaitBrick>
-              <sprite reference="../../../../.."/>
-              <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[3]"/>
-              <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.WaitBrick>
+            </SetCostumeBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </WaitBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[3]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
+            <WaitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+            </WaitBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
+              <sprite reference="../../../../.."/>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
+    </Sprite>
   </spriteList>  
-</Content.Project>
+</Project>

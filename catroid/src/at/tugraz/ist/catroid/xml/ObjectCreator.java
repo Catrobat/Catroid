@@ -38,7 +38,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 public class ObjectCreator {
 
-	public Project reflectionSet(InputStream XMLFile) throws ParseException {
+	public Project getProjectWithHeaderValues(InputStream XMLFile) throws ParseException {
 		HeaderTagsParser parser = new HeaderTagsParser();
 
 		Project project = null;
@@ -90,12 +90,6 @@ public class ObjectCreator {
 
 	@SuppressWarnings("rawtypes")
 	public Map<String, Field> getFieldMap(Class cls) {
-		//		if (superClassFields.length > 0) {
-		//			Field[] combined = new Field[superClassFields.length + classFields.length];
-		//			System.arraycopy(classFields, 0, combined, 0, classFields.length);
-		//			System.arraycopy(superClassFields, 0, combined, classFields.length, superClassFields.length);
-		//			classFields = combined;
-		//		}
 		Map<String, Field> fieldsToSetofSuperClass = getFieldMapOfSuperClass(cls);
 		Map<String, Field> fieldsToSetofClass = getFieldMapOfThisClass(cls);
 		Map<String, Field> allFieldsMap = new TreeMap<String, Field>();

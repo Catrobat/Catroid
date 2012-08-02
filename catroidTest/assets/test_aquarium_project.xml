@@ -21,7 +21,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<Content.Project>
+<Project>
   <androidVersion>10</androidVersion>
   <catroidVersionCode>405</catroidVersionCode>
   <catroidVersionName>0.5a-405-debug</catroidVersionName>
@@ -30,968 +30,968 @@
   <screenHeight>960</screenHeight>
   <screenWidth>540</screenWidth>
   <spriteList>
-    <Content.Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>D68982F1936C1BDC88624CFE205D8488_catroidTemp.png</fileName>
           <name>underwater</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Hintergrund</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>120.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </SetSizeToBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
+        </StartScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>B38C5DF23D9EEBD1D33D1E249D1A01BD_fish 1 left.jpg</fileName>
           <name>fish 1 left</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>EE6226F5A8512EFF13D2DC4A3EE80FC2_fish 1 right.jpg</fileName>
           <name>fish 1 right</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Fish 1</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.PlaceAtBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>100</xPosition>
               <yPosition>600</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetSizeToBrick>
+            </PlaceAtBrick>
+            <SetSizeToBrick>
               <size>80.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.ForeverBrick>
+            </SetSizeToBrick>
+            <ForeverBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.ForeverBrick" reference="../.."/>
+                <loopBeginBrick class="ForeverBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ForeverBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+            </ForeverBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.GlideToBrick>
+            </SetCostumeBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>7000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>-10</xDestination>
               <yDestination>20</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.GlideToBrick>
+            </GlideToBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>8000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>50</xDestination>
               <yDestination>-700</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </GlideToBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.GlideToBrick>
+            </SetCostumeBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>7500</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>50</xDestination>
               <yDestination>-100</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.GlideToBrick>
+            </GlideToBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>6000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>-50</xDestination>
               <yDestination>650</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+            </GlideToBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.GlideToBrick>
+            </SetCostumeBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>15000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>300</xDestination>
               <yDestination>-800</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </GlideToBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.GlideToBrick>
+            </SetCostumeBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>6000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>0</xDestination>
               <yDestination>100</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.GlideToBrick>
+            </GlideToBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>7000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>150</xDestination>
               <yDestination>900</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.ForeverBrick/loopEndBrick"/>
+            </GlideToBrick>
+            <LoopEndBrick reference="../ForeverBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.RepeatBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>7</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.ChangeXByBrick>
+            </RepeatBrick>
+            <ChangeXByBrick>
               <sprite reference="../../../../.."/>
               <xMovement>30</xMovement>
-            </Bricks.ChangeXByBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </ChangeXByBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
-        <Content.StartScript>
+        </WhenScript>
+        <StartScript>
           <brickList>
-            <Bricks.WaitBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>4000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.GoNStepsBackBrick>
+            </WaitBrick>
+            <GoNStepsBackBrick>
               <sprite reference="../../../../.."/>
               <steps>1</steps>
-            </Bricks.GoNStepsBackBrick>
-            <Bricks.WaitBrick>
+            </GoNStepsBackBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>5000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+            </WaitBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.WaitBrick>
+            </SetCostumeBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>7000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.ForeverBrick>
+            </WaitBrick>
+            <ForeverBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.ForeverBrick" reference="../.."/>
+                <loopBeginBrick class="ForeverBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ForeverBrick>
-            <Bricks.BroadcastWaitBrick>
+            </ForeverBrick>
+            <BroadcastWaitBrick>
               <broadcastMessage>fish 1 come nearer</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastWaitBrick>
-            <Bricks.ComeToFrontBrick>
+            </BroadcastWaitBrick>
+            <ComeToFrontBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ComeToFrontBrick>
-            <Bricks.BroadcastWaitBrick>
+            </ComeToFrontBrick>
+            <BroadcastWaitBrick>
               <broadcastMessage>fish 1 come nearer</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastWaitBrick>
-            <Bricks.WaitBrick>
+            </BroadcastWaitBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>5000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.BroadcastWaitBrick>
+            </WaitBrick>
+            <BroadcastWaitBrick>
               <broadcastMessage>fish 1 go back</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastWaitBrick>
-            <Bricks.GoNStepsBackBrick>
+            </BroadcastWaitBrick>
+            <GoNStepsBackBrick>
               <sprite reference="../../../../.."/>
               <steps>2</steps>
-            </Bricks.GoNStepsBackBrick>
-            <Bricks.BroadcastWaitBrick>
+            </GoNStepsBackBrick>
+            <BroadcastWaitBrick>
               <broadcastMessage>fish 1 go back</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastWaitBrick>
-            <Bricks.GoNStepsBackBrick>
+            </BroadcastWaitBrick>
+            <GoNStepsBackBrick>
               <sprite reference="../../../../.."/>
               <steps>3</steps>
-            </Bricks.GoNStepsBackBrick>
-            <Bricks.WaitBrick>
+            </GoNStepsBackBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>3000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.ForeverBrick/loopEndBrick"/>
+            </WaitBrick>
+            <LoopEndBrick reference="../ForeverBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.BroadcastScript>
+        </StartScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.RepeatBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>15</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.ChangeSizeByNBrick>
+            </RepeatBrick>
+            <ChangeSizeByNBrick>
               <size>1.25</size>
               <sprite reference="../../../../.."/>
-            </Bricks.ChangeSizeByNBrick>
-            <Bricks.WaitBrick>
+            </ChangeSizeByNBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>200</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </WaitBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>fish 1 come nearer</receivedMessage>
-        </Content.BroadcastScript>
-        <Content.BroadcastScript>
+        </BroadcastScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.RepeatBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>15</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.WaitBrick>
+            </RepeatBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>230</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.ChangeSizeByNBrick>
+            </WaitBrick>
+            <ChangeSizeByNBrick>
               <size>-1.25</size>
               <sprite reference="../../../../.."/>
-            </Bricks.ChangeSizeByNBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </ChangeSizeByNBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>fish 1 go back</receivedMessage>
-        </Content.BroadcastScript>
+        </BroadcastScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>4AF0EADC5AAA085F76449488C80DD1D6_catroidTemp.png</fileName>
           <name>catroidTemp.png</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Bottom</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>170.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.SetXBrick>
+            </SetSizeToBrick>
+            <SetXBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-200</xPosition>
-            </Bricks.SetXBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </SetXBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.ComeToFrontBrick>
+            </SetCostumeBrick>
+            <ComeToFrontBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ComeToFrontBrick>
+            </ComeToFrontBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
+        </StartScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>3D2595F2ECBDE4337090E03C85DE3A6D_catroidTemp.png</fileName>
           <name>bubbles 1</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>93700A1D5697AAEFF40B3311FAFF68A9_catroidTemp.png</fileName>
           <name>bubbles 2</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Bubbles 1</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetGhostEffectBrick>
+            <SetGhostEffectBrick>
               <sprite reference="../../../../.."/>
               <transparency>50.0</transparency>
-            </Bricks.SetGhostEffectBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </SetGhostEffectBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.ForeverBrick>
+            </SetCostumeBrick>
+            <ForeverBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.ForeverBrick" reference="../.."/>
+                <loopBeginBrick class="ForeverBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ForeverBrick>
-            <Bricks.BroadcastBrick>
+            </ForeverBrick>
+            <BroadcastBrick>
               <broadcastMessage>bubbles!</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastBrick>
-            <Bricks.PlaceAtBrick>
+            </BroadcastBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-500</xPosition>
               <yPosition>270</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.GlideToBrick>
+            </PlaceAtBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>4000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>500</xDestination>
               <yDestination>270</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.NextCostumeBrick>
+            </GlideToBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.ForeverBrick/loopEndBrick"/>
+            </NextCostumeBrick>
+            <LoopEndBrick reference="../ForeverBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.BroadcastScript>
+        </StartScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.PlaySoundBrick>
+            <PlaySoundBrick>
               <soundInfo>
                 <fileName>D32285BE8042D8D8071FAF0A33054DD0_recording-1463975658.3gpp</fileName>
                 <name>blublublub</name>
               </soundInfo>
               <sprite reference="../../../../.."/>
-            </Bricks.PlaySoundBrick>
-            <Bricks.SetVolumeToBrick>
+            </PlaySoundBrick>
+            <SetVolumeToBrick>
               <sprite reference="../../../../.."/>
               <volume>20.0</volume>
-            </Bricks.SetVolumeToBrick>
+            </SetVolumeToBrick>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>bubbles!</receivedMessage>
-        </Content.BroadcastScript>
+        </BroadcastScript>
       </scriptList>
       <soundList>
-        <Common.SoundInfo reference="../../scriptList/Content.BroadcastScript/brickList/Bricks.PlaySoundBrick/soundInfo"/>
+        <SoundInfo reference="../../scriptList/BroadcastScript/brickList/PlaySoundBrick/soundInfo"/>
       </soundList>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>93700A1D5697AAEFF40B3311FAFF68A9_catroidTemp.png</fileName>
           <name>bubbles 2</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>3D2595F2ECBDE4337090E03C85DE3A6D_catroidTemp.png</fileName>
           <name>bubbles 1</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Bubbles 2</name>
       <scriptList>
-        <Content.BroadcastScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.WaitBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>300</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.PlaceAtBrick>
+            </WaitBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-500</xPosition>
               <yPosition>280</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.NextCostumeBrick>
+            </PlaceAtBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
-            <Bricks.GlideToBrick>
+            </NextCostumeBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>3600</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>500</xDestination>
               <yDestination>280</yDestination>
-            </Bricks.GlideToBrick>
+            </GlideToBrick>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>bubbles!</receivedMessage>
-        </Content.BroadcastScript>
-        <Content.StartScript>
+        </BroadcastScript>
+        <StartScript>
           <brickList>
-            <Bricks.PlaceAtBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-500</xPosition>
               <yPosition>130</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetGhostEffectBrick>
+            </PlaceAtBrick>
+            <SetGhostEffectBrick>
               <sprite reference="../../../../.."/>
               <transparency>50.0</transparency>
-            </Bricks.SetGhostEffectBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+            </SetGhostEffectBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
+        </StartScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>4D0615BDD4CADDF9DC3522573F6DCC26_catroidTemp.png</fileName>
           <name>algue 1</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>D6163C4750C888CE6F180AD8D7B52A51_catroidTemp.png</fileName>
           <name>algue 2</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>26591FB93CAFA3B235E95785C144CA19_catroidTemp.png</fileName>
           <name>algue 3</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>53D24813C2E606CF8F8778A34BEBA317_catroidTemp.png</fileName>
           <name>algue 4</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Algue</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>60.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.SetGhostEffectBrick>
+            </SetSizeToBrick>
+            <SetGhostEffectBrick>
               <sprite reference="../../../../.."/>
               <transparency>20.0</transparency>
-            </Bricks.SetGhostEffectBrick>
-            <Bricks.PlaceAtBrick>
+            </SetGhostEffectBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-60</xPosition>
               <yPosition>300</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </PlaceAtBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.ForeverBrick>
+            </SetCostumeBrick>
+            <ForeverBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.ForeverBrick" reference="../.."/>
+                <loopBeginBrick class="ForeverBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ForeverBrick>
-            <Bricks.NextCostumeBrick>
+            </ForeverBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
-            <Bricks.WaitBrick>
+            </NextCostumeBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>2000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.ForeverBrick/loopEndBrick"/>
+            </WaitBrick>
+            <LoopEndBrick reference="../ForeverBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.BroadcastScript>
+        </StartScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.WaitBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>600</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.NextCostumeBrick>
+            </WaitBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
-            <Bricks.WaitBrick>
+            </NextCostumeBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>100</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.NextCostumeBrick>
+            </WaitBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
-            <Bricks.WaitBrick>
+            </NextCostumeBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>300</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.NextCostumeBrick>
+            </WaitBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
+            </NextCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>bubbles!</receivedMessage>
-        </Content.BroadcastScript>
+        </BroadcastScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>E56908A202C2647EC732B4FA1675B0A9_catroidTemp.png</fileName>
           <name>coral</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Coral</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.PlaceAtBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-50</xPosition>
               <yPosition>-200</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </PlaceAtBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.BroadcastBrick>
+            <BroadcastBrick>
               <broadcastMessage>Puff</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastBrick>
-            <Bricks.SetBrightnessBrick>
+            </BroadcastBrick>
+            <SetBrightnessBrick>
               <brightness>200.0</brightness>
               <sprite reference="../../../../.."/>
-            </Bricks.SetBrightnessBrick>
-            <Bricks.WaitBrick>
+            </SetBrightnessBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>1000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetBrightnessBrick>
+            </WaitBrick>
+            <SetBrightnessBrick>
               <brightness>100.0</brightness>
               <sprite reference="../../../../.."/>
-            </Bricks.SetBrightnessBrick>
+            </SetBrightnessBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>28B2A76A9C10A2E5840F2631BE068F62_catroidTemp.png</fileName>
           <name>star 1</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>4D1F5E6F4A42C3B7089302998E0A78E0_catroidTemp.png</fileName>
           <name>star 2</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>5A99AF4C1E710050FBF9C7F5110B6B55_catroidTemp.png</fileName>
           <name>star 3</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Starfish</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.PlaceAtBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-190</xPosition>
               <yPosition>-530</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetSizeToBrick>
+            </PlaceAtBrick>
+            <SetSizeToBrick>
               <size>80.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </SetSizeToBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.ComeToFrontBrick>
+            </SetCostumeBrick>
+            <ComeToFrontBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ComeToFrontBrick>
-            <Bricks.ForeverBrick>
+            </ComeToFrontBrick>
+            <ForeverBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.ForeverBrick" reference="../.."/>
+                <loopBeginBrick class="ForeverBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ForeverBrick>
-            <Bricks.BroadcastWaitBrick>
+            </ForeverBrick>
+            <BroadcastWaitBrick>
               <broadcastMessage>star: roll left</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastWaitBrick>
-            <Bricks.WaitBrick>
+            </BroadcastWaitBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>400</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.BroadcastWaitBrick>
+            </WaitBrick>
+            <BroadcastWaitBrick>
               <broadcastMessage>star: roll right</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastWaitBrick>
-            <Bricks.WaitBrick>
+            </BroadcastWaitBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>1000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.ForeverBrick/loopEndBrick"/>
+            </WaitBrick>
+            <LoopEndBrick reference="../ForeverBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.BroadcastScript>
+        </StartScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.NextCostumeBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
-            <Bricks.RepeatBrick>
+            </NextCostumeBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>10</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.TurnLeftBrick>
+            </RepeatBrick>
+            <TurnLeftBrick>
               <degrees>1.5</degrees>
               <sprite reference="../../../../.."/>
-            </Bricks.TurnLeftBrick>
-            <Bricks.ChangeYByBrick>
+            </TurnLeftBrick>
+            <ChangeYByBrick>
               <sprite reference="../../../../.."/>
               <yMovement>4</yMovement>
-            </Bricks.ChangeYByBrick>
-            <Bricks.WaitBrick>
+            </ChangeYByBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>300</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </WaitBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>star: roll left fast</receivedMessage>
-        </Content.BroadcastScript>
-        <Content.BroadcastScript>
+        </BroadcastScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.RepeatBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>20</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.BroadcastWaitBrick>
+            </RepeatBrick>
+            <BroadcastWaitBrick>
               <broadcastMessage>star: roll left fast</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastWaitBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </BroadcastWaitBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>star: roll left</receivedMessage>
-        </Content.BroadcastScript>
-        <Content.BroadcastScript>
+        </BroadcastScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.RepeatBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>20</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.BroadcastWaitBrick>
+            </RepeatBrick>
+            <BroadcastWaitBrick>
               <broadcastMessage>star: roll right fast</broadcastMessage>
               <sprite reference="../../../../.."/>
-            </Bricks.BroadcastWaitBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </BroadcastWaitBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>star: roll right</receivedMessage>
-        </Content.BroadcastScript>
-        <Content.BroadcastScript>
+        </BroadcastScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.NextCostumeBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
-            <Bricks.RepeatBrick>
+            </NextCostumeBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>10</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.TurnRightBrick>
+            </RepeatBrick>
+            <TurnRightBrick>
               <degrees>1.5</degrees>
               <sprite reference="../../../../.."/>
-            </Bricks.TurnRightBrick>
-            <Bricks.ChangeYByBrick>
+            </TurnRightBrick>
+            <ChangeYByBrick>
               <sprite reference="../../../../.."/>
               <yMovement>-4</yMovement>
-            </Bricks.ChangeYByBrick>
-            <Bricks.WaitBrick>
+            </ChangeYByBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>450</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </WaitBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>star: roll right fast</receivedMessage>
-        </Content.BroadcastScript>
-        <Content.WhenScript>
+        </BroadcastScript>
+        <WhenScript>
           <brickList>
-            <Bricks.RepeatBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>150</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.TurnLeftBrick>
+            </RepeatBrick>
+            <TurnLeftBrick>
               <degrees>10.0</degrees>
               <sprite reference="../../../../.."/>
-            </Bricks.TurnLeftBrick>
-            <Bricks.NextCostumeBrick>
+            </TurnLeftBrick>
+            <NextCostumeBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.NextCostumeBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+            </NextCostumeBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>5EA3351329ABAD1DC4FD277113D8AAE2_catroidTemp.png</fileName>
           <name>spawning</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Spawning</name>
       <scriptList>
-        <Content.BroadcastScript>
+        <BroadcastScript>
           <brickList>
-            <Bricks.SetGhostEffectBrick>
+            <SetGhostEffectBrick>
               <sprite reference="../../../../.."/>
               <transparency>0.0</transparency>
-            </Bricks.SetGhostEffectBrick>
-            <Bricks.SetSizeToBrick>
+            </SetGhostEffectBrick>
+            <SetSizeToBrick>
               <size>100.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.PlaceAtBrick>
+            </SetSizeToBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-100</xPosition>
               <yPosition>-200</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.GoNStepsBackBrick>
+            </PlaceAtBrick>
+            <GoNStepsBackBrick>
               <sprite reference="../../../../.."/>
               <steps>2</steps>
-            </Bricks.GoNStepsBackBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </GoNStepsBackBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.ShowBrick>
+            </SetCostumeBrick>
+            <ShowBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ShowBrick>
-            <Bricks.RepeatBrick>
+            </ShowBrick>
+            <RepeatBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <loopBeginBrick class="RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
               <timesToRepeat>300</timesToRepeat>
-            </Bricks.RepeatBrick>
-            <Bricks.TurnLeftBrick>
+            </RepeatBrick>
+            <TurnLeftBrick>
               <degrees>163.0</degrees>
               <sprite reference="../../../../.."/>
-            </Bricks.TurnLeftBrick>
-            <Bricks.ChangeSizeByNBrick>
+            </TurnLeftBrick>
+            <ChangeSizeByNBrick>
               <size>1.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.ChangeSizeByNBrick>
-            <Bricks.ChangeGhostEffectBrick>
+            </ChangeSizeByNBrick>
+            <ChangeGhostEffectBrick>
               <changeGhostEffect>0.1</changeGhostEffect>
               <sprite reference="../../../../.."/>
-            </Bricks.ChangeGhostEffectBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
-            <Bricks.HideBrick>
+            </ChangeGhostEffectBrick>
+            <LoopEndBrick reference="../RepeatBrick/loopEndBrick"/>
+            <HideBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.HideBrick>
+            </HideBrick>
           </brickList>
           <sprite reference="../../.."/>
           <receivedMessage>Puff</receivedMessage>
-        </Content.BroadcastScript>
+        </BroadcastScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>012F78F9677D0E73067A24C9D41A0769_fish 2 right.jpg</fileName>
           <name>fish 2 right.jpg</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>922542B0DD39D325C052C81CE8F052CA_fish 2 left.jpg</fileName>
           <name>fish 2 left.jpg</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Fish 2</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.PlaceAtBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>170</xPosition>
               <yPosition>-400</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetSizeToBrick>
+            </PlaceAtBrick>
+            <SetSizeToBrick>
               <size>60.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+            </SetSizeToBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.GoNStepsBackBrick>
+            </SetCostumeBrick>
+            <GoNStepsBackBrick>
               <sprite reference="../../../../.."/>
               <steps>5</steps>
-            </Bricks.GoNStepsBackBrick>
+            </GoNStepsBackBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.GlideToBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>600</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>-100</xDestination>
               <yDestination>600</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </GlideToBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.PlaceAtBrick>
+            </SetCostumeBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>200</xPosition>
               <yPosition>600</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.WaitBrick>
+            </PlaceAtBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>1000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.GlideToBrick>
+            </WaitBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>5000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>50</xDestination>
               <yDestination>-600</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.WaitBrick>
+            </GlideToBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>2000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.PlaceAtBrick>
+            </WaitBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>150</xPosition>
               <yPosition>-600</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+            </PlaceAtBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.GlideToBrick>
+            </SetCostumeBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>3000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>170</xDestination>
               <yDestination>-100</yDestination>
-            </Bricks.GlideToBrick>
+            </GlideToBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>3E7C78DA3576C6BEC463E14901954CAD_shark left.jpg</fileName>
           <name>shark left.jpg</name>
-        </Common.CostumeData>
-        <Common.CostumeData>
+        </CostumeData>
+        <CostumeData>
           <fileName>A3DF3C493A9720B3E8012E2733DD87CD_shark right.jpg</fileName>
           <name>shark right.jpg</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Shark</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>65.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.PlaceAtBrick>
+            </SetSizeToBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>110</xPosition>
               <yPosition>-600</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.GoNStepsBackBrick>
+            </PlaceAtBrick>
+            <GoNStepsBackBrick>
               <sprite reference="../../../../.."/>
               <steps>10</steps>
-            </Bricks.GoNStepsBackBrick>
-            <Bricks.ForeverBrick>
+            </GoNStepsBackBrick>
+            <ForeverBrick>
               <loopEndBrick>
-                <loopBeginBrick class="Bricks.ForeverBrick" reference="../.."/>
+                <loopBeginBrick class="ForeverBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
               </loopEndBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.ForeverBrick>
-            <Bricks.WaitBrick>
+            </ForeverBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>5000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </WaitBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.GlideToBrick>
+            </SetCostumeBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>4000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>110</xDestination>
               <yDestination>600</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.WaitBrick>
+            </GlideToBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>6000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+            </WaitBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.GlideToBrick>
+            </SetCostumeBrick>
+            <GlideToBrick>
               <durationInMilliSeconds>3000</durationInMilliSeconds>
               <sprite reference="../../../../.."/>
               <xDestination>110</xDestination>
               <yDestination>-600</yDestination>
-            </Bricks.GlideToBrick>
-            <Bricks.LoopEndBrick reference="../Bricks.ForeverBrick/loopEndBrick"/>
+            </GlideToBrick>
+            <LoopEndBrick reference="../ForeverBrick/loopEndBrick"/>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
+        </StartScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
+    </Sprite>
   </spriteList>
-</Content.Project>
+</Project>
