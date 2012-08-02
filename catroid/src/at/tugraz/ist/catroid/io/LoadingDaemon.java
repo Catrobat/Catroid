@@ -32,10 +32,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 
-/**
- * @author MH
- * 
- */
 public class LoadingDaemon extends Thread implements ApplicationListener {
 
 	private static LoadingDaemon instance;

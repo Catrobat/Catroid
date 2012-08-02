@@ -24,10 +24,6 @@ import at.tugraz.ist.catroid.io.LoadingDaemon;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
-/**
- * @author MH
- * 
- */
 public class StartActivity extends AndroidApplication {
 
 	@Override
