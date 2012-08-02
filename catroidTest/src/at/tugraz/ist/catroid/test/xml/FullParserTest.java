@@ -143,7 +143,7 @@ public class FullParserTest extends InstrumentationTestCase {
 
 		Project testProject = null;
 		try {
-			testProject = parser.fullParser("test_standard_project.xml");
+			testProject = parser.fullParser("test_standard_project_new_version.xml");
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parser Exception");
@@ -176,7 +176,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		LoopEndBrick lebFromXML = (LoopEndBrick) startScript.getBrick(3);
 		assertNotNull("The LoopEndBrick is null", lebFromXML);
 		LoopBeginBrick repeatBrickFromLoopEnd = lebFromXML.getLoopBeginBrick();
-		assertNotNull("The Loop BeginBrick is null", repeatBrickFromLoopEnd);
+		assertNotNull("The LoopBeginBrick is null", repeatBrickFromLoopEnd);
 
 	}
 

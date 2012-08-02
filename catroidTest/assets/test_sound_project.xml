@@ -21,7 +21,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<Content.Project>
+<Project>
   <androidVersion>15</androidVersion>
   <catroidVersionCode>515</catroidVersionCode>
   <catroidVersionName>0.6.0beta-515-debug</catroidVersionName>
@@ -30,320 +30,320 @@
   <screenHeight>800</screenHeight>
   <screenWidth>480</screenWidth>
   <spriteList>
-    <Content.Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>0DEF8C14B49199844FD59481AA9D41D5_catroidTemp.png</fileName>
           <name>catroidTemp</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Hintergrund</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
+        </StartScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>DDE77D9A1B82482DF205137F1DBE1359_geige.png</fileName>
           <name>geige</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>geige</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.PlaceAtBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-127</xPosition>
               <yPosition>155</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </PlaceAtBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.SetSizeToBrick>
+            </SetCostumeBrick>
+            <SetSizeToBrick>
               <size>115.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
+            </SetSizeToBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>150.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.WaitBrick>
+            </SetSizeToBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>100</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetSizeToBrick>
+            </WaitBrick>
+            <SetSizeToBrick>
               <size>115.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.StopAllSoundsBrick>
+            </SetSizeToBrick>
+            <StopAllSoundsBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.StopAllSoundsBrick>
-            <Bricks.PlaySoundBrick>
+            </StopAllSoundsBrick>
+            <PlaySoundBrick>
               <soundInfo>
                 <fileName>B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3</fileName>
                 <name>Geige</name>
               </soundInfo>
               <sprite reference="../../../../.."/>
-            </Bricks.PlaySoundBrick>
+            </PlaySoundBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList>
-        <Common.SoundInfo reference="../../scriptList/Content.WhenScript/brickList/Bricks.PlaySoundBrick/soundInfo"/>
-        <Common.SoundInfo>
+        <SoundInfo reference="../../scriptList/WhenScript/brickList/PlaySoundBrick/soundInfo"/>
+        <SoundInfo>
           <fileName>B80274734BCA2F03B2D932ED404826F5_GuitarChords2.mp3</fileName>
           <name>Gitarre</name>
-        </Common.SoundInfo>
+        </SoundInfo>
       </soundList>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>2D9B2E92AA843760991AC43CA6B9F29D_schlagzeug.png</fileName>
           <name>schlagzeug</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>schlagzeug</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>90.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.PlaceAtBrick>
+            </SetSizeToBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>130</xPosition>
               <yPosition>-200</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </PlaceAtBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>130.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.WaitBrick>
+            </SetSizeToBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>100</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetSizeToBrick>
+            </WaitBrick>
+            <SetSizeToBrick>
               <size>90.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.StopAllSoundsBrick>
+            </SetSizeToBrick>
+            <StopAllSoundsBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.StopAllSoundsBrick>
-            <Bricks.PlaySoundBrick>
+            </StopAllSoundsBrick>
+            <PlaySoundBrick>
               <soundInfo>
                 <fileName>A4A16FFE9972266AB24217FB89CE7732_Kleiner Junge spielt Schlagzeug.mp3</fileName>
                 <name>Kleiner Junge spielt Schlagzeug</name>
               </soundInfo>
               <sprite reference="../../../../.."/>
-            </Bricks.PlaySoundBrick>
+            </PlaySoundBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList>
-        <Common.SoundInfo reference="../../scriptList/Content.WhenScript/brickList/Bricks.PlaySoundBrick/soundInfo"/>
+        <SoundInfo reference="../../scriptList/WhenScript/brickList/PlaySoundBrick/soundInfo"/>
       </soundList>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>B11E89643ACD8B48ACC8BE956557D3EF_saxo.png</fileName>
           <name>saxo</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>saxophon</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>100.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.PlaceAtBrick>
+            </SetSizeToBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>-130</xPosition>
               <yPosition>-200</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </PlaceAtBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>130.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.WaitBrick>
+            </SetSizeToBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>100</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetSizeToBrick>
+            </WaitBrick>
+            <SetSizeToBrick>
               <size>100.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.StopAllSoundsBrick>
+            </SetSizeToBrick>
+            <StopAllSoundsBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.StopAllSoundsBrick>
-            <Bricks.PlaySoundBrick>
+            </StopAllSoundsBrick>
+            <PlaySoundBrick>
               <soundInfo>
                 <fileName>E6EE4E71FEB185DC70261885C5C3D6DA_Super Mario Bros Theme Song.mp3</fileName>
                 <name>Super Mario Bros Theme Song</name>
               </soundInfo>
               <sprite reference="../../../../.."/>
-            </Bricks.PlaySoundBrick>
+            </PlaySoundBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList>
-        <Common.SoundInfo reference="../../scriptList/Content.WhenScript/brickList/Bricks.PlaySoundBrick/soundInfo"/>
+        <SoundInfo reference="../../scriptList/WhenScript/brickList/PlaySoundBrick/soundInfo"/>
       </soundList>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>FC6E4546FB8D3A1448B379A3A9144AEF_klavier.png</fileName>
           <name>klavier</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>klavier</name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>145.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.PlaceAtBrick>
+            </SetSizeToBrick>
+            <PlaceAtBrick>
               <sprite reference="../../../../.."/>
               <xPosition>130</xPosition>
               <yPosition>155</yPosition>
-            </Bricks.PlaceAtBrick>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            </PlaceAtBrick>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
+            </SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>180.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.WaitBrick>
+            </SetSizeToBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>100</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetSizeToBrick>
+            </WaitBrick>
+            <SetSizeToBrick>
               <size>145.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.StopAllSoundsBrick>
+            </SetSizeToBrick>
+            <StopAllSoundsBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.StopAllSoundsBrick>
-            <Bricks.PlaySoundBrick>
+            </StopAllSoundsBrick>
+            <PlaySoundBrick>
               <soundInfo>
                 <fileName>026BF347C2BC1E9715C87570DCD3432A_klavier.mp3</fileName>
                 <name>klavier</name>
               </soundInfo>
               <sprite reference="../../../../.."/>
-            </Bricks.PlaySoundBrick>
+            </PlaySoundBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList>
-        <Common.SoundInfo reference="../../scriptList/Content.WhenScript/brickList/Bricks.PlaySoundBrick/soundInfo"/>
+        <SoundInfo reference="../../scriptList/WhenScript/brickList/PlaySoundBrick/soundInfo"/>
       </soundList>
-    </Content.Sprite>
-    <Content.Sprite>
+    </Sprite>
+    <Sprite>
       <costumeDataList>
-        <Common.CostumeData>
+        <CostumeData>
           <fileName>20C0147B08D1DBCD108F8A5E640C278E_a_button.png</fileName>
           <name>a_button</name>
-        </Common.CostumeData>
+        </CostumeData>
       </costumeDataList>
       <name>Catroid </name>
       <scriptList>
-        <Content.StartScript>
+        <StartScript>
           <brickList>
-            <Bricks.SetCostumeBrick>
-              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+            <SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/CostumeData"/>
               <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-            <Bricks.SetSizeToBrick>
+            </SetCostumeBrick>
+            <SetSizeToBrick>
               <size>180.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
+            </SetSizeToBrick>
           </brickList>
           <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
+        </StartScript>
+        <WhenScript>
           <brickList>
-            <Bricks.SetSizeToBrick>
+            <SetSizeToBrick>
               <size>300.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.WaitBrick>
+            </SetSizeToBrick>
+            <WaitBrick>
               <sprite reference="../../../../.."/>
               <timeToWaitInMilliSeconds>100</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.SetSizeToBrick>
+            </WaitBrick>
+            <SetSizeToBrick>
               <size>180.0</size>
               <sprite reference="../../../../.."/>
-            </Bricks.SetSizeToBrick>
-            <Bricks.StopAllSoundsBrick>
+            </SetSizeToBrick>
+            <StopAllSoundsBrick>
               <sprite reference="../../../../.."/>
-            </Bricks.StopAllSoundsBrick>
-            <Bricks.SpeakBrick>
+            </StopAllSoundsBrick>
+            <SpeakBrick>
               <sprite reference="../../../../.."/>
               <text>Instrument wählen</text>
-            </Bricks.SpeakBrick>
+            </SpeakBrick>
           </brickList>
           <sprite reference="../../.."/>
           <action>Tapped</action>
-        </Content.WhenScript>
+        </WhenScript>
       </scriptList>
       <soundList/>
-    </Content.Sprite>
+    </Sprite>
   </spriteList>
-</Content.Project>
+</Project>
