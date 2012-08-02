@@ -67,10 +67,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private boolean retryScriptDragging;
 
 	private List<Brick> brickList;
-
-	// TODO delete this if it is really not needed
-	@SuppressWarnings("unused")
-	private long timeAnimationStarted;
 	private List<Brick> animatedBricks;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
@@ -391,7 +387,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		returnValue[0] = scriptPosition;
 		List<Brick> brickListFromProject = sprite.getScript(scriptPosition).getBrickList();
-		int brickPosition = position - scriptOffset;
+		int brickPosition = position;
+		if (scriptOffset > 0) {
+			brickPosition -= scriptOffset;
+		}
 		Brick brickFromProject;
 		if (brickListFromProject.size() != 0 && brickPosition < brickListFromProject.size()) {
 			brickFromProject = brickListFromProject.get(brickPosition);
@@ -603,14 +602,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			return insertionView;
 		}
 
-		// TODO check if this is ok
 		if (animatedBricks.contains(brickList.get(position))) {
 			Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
-			//			long duration = timeAnimationStarted - System.currentTimeMillis() + animation.computeDurationHint();
-			//			if (duration > 0) {
-			//				animation.restrictDuration(duration);
 			wrapper.startAnimation(animation);
-			//			}
 			animatedBricks.remove(brickList.get(position));
 		}
 
@@ -666,7 +660,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		Brick brick = brickList.get(itemPosition);
 		if (brick instanceof NestingBrick) {
 			List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts();
-			timeAnimationStarted = System.currentTimeMillis();
 			for (Brick tempBrick : list) {
 				animatedBricks.add(tempBrick);
 			}
