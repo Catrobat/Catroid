@@ -92,7 +92,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 
-		solo.clickOnText(getActivity().getString(R.string.add));
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		String soundRecorderText = getActivity().getString(R.string.soundrecorder_name);
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
