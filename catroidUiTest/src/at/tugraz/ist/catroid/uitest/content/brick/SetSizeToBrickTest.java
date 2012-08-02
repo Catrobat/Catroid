@@ -200,8 +200,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		costumeData.setCostumeName("image");
 		setCostumeBrick.setCostume(costumeData);
 		sprite.getCostumeDataList().add(costumeData);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
-				image.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(costumeData.getChecksum(), image.getAbsolutePath());
 		ProjectManager.getInstance().saveProject();
 	}
 
