@@ -98,8 +98,14 @@ public class MyProjectsActivity extends ListActivity {
 	}
 
 	private void setUpActionBar() {
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName();
+		String title;
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+
+		if (currentProject != null) {
+			title = getResources().getString(R.string.project_name) + " " + currentProject.getName();
+		} else {
+			title = getResources().getString(android.R.string.unknownName);
+		}
 
 		activityHelper = new ActivityHelper(this);
 		activityHelper.setupActionBar(false, title);
