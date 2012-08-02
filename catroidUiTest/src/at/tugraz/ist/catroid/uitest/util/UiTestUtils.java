@@ -47,6 +47,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -94,7 +95,12 @@ public class UiTestUtils {
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
 		solo.sleep(50);
-		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
+		final EditText editText = solo.getEditText(editTextIndex);
+		solo.getCurrentActivity().runOnUiThread(new Runnable() {
+			public void run() {
+				editText.setInputType(InputType.TYPE_NULL);
+			}
+		});
 		solo.clearEditText(editTextIndex);
 		solo.enterText(editTextIndex, text);
 		solo.sleep(50);
