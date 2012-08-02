@@ -221,7 +221,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	private void renameSound(String currentSoundTitle, String newSoundTitle) {
 		solo.clickOnText(currentSoundTitle);
-		EditText editTextSoundTitle = (EditText) solo.getView(R.id.dialog_rename_sound_editText);
+		EditText editTextSoundTitle = solo.getEditText(0);
 		solo.clearEditText(editTextSoundTitle);
 		solo.enterText(editTextSoundTitle, newSoundTitle);
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
