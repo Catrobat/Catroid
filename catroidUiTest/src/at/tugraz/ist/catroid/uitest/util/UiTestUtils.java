@@ -50,6 +50,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -604,5 +605,17 @@ public class UiTestUtils {
 		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 		ProjectManager.INSTANCE.setCurrentScript(testScript);
 		return ProjectManager.INSTANCE.saveProject();
+	}
+
+	public static boolean clickOnTextInList(Solo solo, String text) {
+		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+		for (int i = 0; i < textViews.size(); i++) {
+			TextView view = textViews.get(i);
+			if (view.getText().toString().equalsIgnoreCase(text)) {
+				solo.clickOnView(view);
+				return true;
+			}
+		}
+		return false;
 	}
 }
