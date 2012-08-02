@@ -64,10 +64,9 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	@Override
 	public void setUp() throws Exception {
-		UiTestUtils.clearAllUtilTestProjects();
-
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
+		UiTestUtils.clearAllUtilTestProjects();
+		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
@@ -92,7 +91,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		createTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickOnText(testProject);
+		solo.clickInList(0);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		Activity previousActivity = getActivity();
@@ -138,7 +137,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		createTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickOnText(testProject);
+		solo.clickInList(0);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		Activity currentActivity = solo.getCurrentActivity();
@@ -265,7 +264,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		createTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickOnText(testProject);
+		solo.clickInList(0);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -310,7 +309,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		storageHandler.saveProject(project);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickOnText(testProject);
+		solo.clickInList(0);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
