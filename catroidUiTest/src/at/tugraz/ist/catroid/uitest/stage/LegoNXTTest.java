@@ -55,12 +55,6 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
-	private StorageHandler storageHandler;
-	private final String projectName = UiTestUtils.PROJECTNAME1;
-
-	private File image1;
-	private String imageName1 = "image1";
 	private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.icon;
 	private static final int MOTOR_ACTION = 0;
 	private static final int MOTOR_STOP = 1;
@@ -72,6 +66,14 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	public static final String KITTYROID_MAC_ADDRESS = "00:15:83:3F:E3:2C";
 	public static final String SOME_OTHER_MAC = "00:0D:F0:48:01:93";
 	public static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
+
+	private Solo solo;
+	private StorageHandler storageHandler;
+	private final String projectName = UiTestUtils.PROJECTNAME1;
+
+	private File image1;
+	private String imageName1 = "image1";
+
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
 	public LegoNXTTest() {
@@ -82,21 +84,14 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	@Override
 	public void setUp() throws Exception {
 		UiTestUtils.clearAllUtilTestProjects();
-
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-
-		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -235,8 +230,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
-		assertTrue("I should be on the bluetooth device choosing screen, but am not!", solo
-				.searchText(KITTYROID_MAC_ADDRESS));
+		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
+				solo.searchText(KITTYROID_MAC_ADDRESS));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
@@ -271,7 +266,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	}
 
 	public void createTestproject(String projectName) {
-
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript(firstSprite);
 		Script whenScript = new WhenScript(firstSprite);
@@ -325,5 +319,4 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		storageHandler.saveProject(project);
 	}
-
 }

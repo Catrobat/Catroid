@@ -89,7 +89,7 @@ public class RenameSoundDialog {
 		String newSoundTitle = (input.getText().toString()).trim();
 		String oldSoundTitle = scriptTabActivity.selectedSoundInfo.getTitle();
 
-		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
+		if (newSoundTitle.equals(oldSoundTitle)) {
 			scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
 			return;
 		}

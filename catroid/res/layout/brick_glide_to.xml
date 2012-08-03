@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -45,6 +45,21 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" >
 
+            <TextView
+                android:id="@+id/brick_glide_to_duration_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
+                android:background="@color/white"
+                android:gravity="right"
+                android:minHeight="30dip"
+                android:minWidth="50dip"
+                android:paddingRight="5dip"
+                android:text="3"
+                android:textSize="20dip" >
+            </TextView>
+
             <EditText
                 android:id="@+id/brick_glide_to_duration_edit_text"
                 android:layout_width="wrap_content"
@@ -57,7 +72,8 @@
                 android:maxLength="8"
                 android:maxLines="1"
                 android:minWidth="60dip"
-                android:text="3" >
+                android:text="3"
+                android:visibility="gone" >
             </EditText>
 
             <TextView
@@ -85,12 +101,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" >
+            android:layout_centerVertical="true"
+            android:paddingTop="5dip" >
 
             <TextView
                 style="@style/brick_text_style"
                 android:paddingRight="10dip"
                 android:text="@string/x_label" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/brick_glide_to_x_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
+                android:background="@color/white"
+                android:gravity="right"
+                android:minHeight="30dip"
+                android:minWidth="50dip"
+                android:paddingRight="5dip"
+                android:text="0"
+                android:textSize="20dip" >
             </TextView>
 
             <EditText
@@ -105,7 +137,8 @@
                 android:maxLength="6"
                 android:maxLines="1"
                 android:minWidth="60dip"
-                android:text="0" >
+                android:text="0"
+                android:visibility="gone" >
             </EditText>
 
             <TextView
@@ -115,6 +148,21 @@
                 android:text="@string/y_label" >
             </TextView>
 
+            <TextView
+                android:id="@+id/brick_glide_to_y_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
+                android:background="@color/white"
+                android:gravity="right"
+                android:minHeight="30dip"
+                android:minWidth="50dip"
+                android:paddingRight="5dip"
+                android:text="0"
+                android:textSize="20dip" >
+            </TextView>
+
             <EditText
                 android:id="@+id/brick_glide_to_y_edit_text"
                 android:layout_width="wrap_content"
@@ -122,6 +170,7 @@
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
+                android:visibility="gone"
                 android:gravity="right"
                 android:inputType="number|numberDecimal|numberSigned"
                 android:maxLength="6"

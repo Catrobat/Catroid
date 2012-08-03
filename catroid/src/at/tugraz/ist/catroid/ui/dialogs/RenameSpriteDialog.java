@@ -48,7 +48,7 @@ public class RenameSpriteDialog extends TextDialog {
 			return;
 		}
 
-		if (newSpriteName.equalsIgnoreCase(((ProjectActivity) activity).getSpriteToEdit().getName())) {
+		if (newSpriteName.equals(((ProjectActivity) activity).getSpriteToEdit().getName())) {
 			dialog.cancel();
 			return;
 		}
