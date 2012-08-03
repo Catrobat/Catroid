@@ -99,6 +99,7 @@ public class ObjectCreator {
 		return allFieldsMap;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Map<String, Field> getFieldMapOfThisClass(Class cls) {
 		Map<String, Field> fieldsToSetofClass = new TreeMap<String, Field>();
 		Field[] classFields = cls.getDeclaredFields();
@@ -117,6 +118,7 @@ public class ObjectCreator {
 		return fieldsToSetofClass;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Map<String, Field> getFieldMapOfSuperClass(Class cls) {
 		Map<String, Field> fieldsToSetofSuperClass = new TreeMap<String, Field>();
 		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
@@ -135,6 +137,7 @@ public class ObjectCreator {
 		return fieldsToSetofSuperClass;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static Object createWithoutConstructor(final Class clazz) throws IllegalArgumentException,
 			IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
 		Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);

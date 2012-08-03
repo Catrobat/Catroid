@@ -92,6 +92,7 @@ public abstract class Serializer {
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	private String getReferenceIndexSuffix(String reference, Object referencedObject, List sameTypeList) {
 		int index = 0;
 		for (int j = 0; j < sameTypeList.size(); j++) {
