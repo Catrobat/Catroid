@@ -34,6 +34,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -57,7 +58,8 @@ public class ProjectActivity extends ListActivity implements OnClickListener {
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
 	private View viewBelowSpritelistNonScrollable;
-	private View footerViewbelowSpritelist;
+	private View spritelistFooterView;
+	private static final int FOOTER_ADD_SPRITE_ALPHA_VALUE = 35;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
 	public static final int DIALOG_NEW_SPRITE = 0;
@@ -128,13 +130,18 @@ public class ProjectActivity extends ListActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
+
 		viewBelowSpritelistNonScrollable = findViewById(R.id.view_below_spritelist_non_scrollable);
 		viewBelowSpritelistNonScrollable.setOnClickListener(this);
+
 		View footerView = getLayoutInflater()
 				.inflate(R.layout.activity_project_spritelist_footer, getListView(), false);
-		footerViewbelowSpritelist = footerView.findViewById(R.id.footerview_below_spritelist);
-		footerViewbelowSpritelist.setOnClickListener(this);
+		spritelistFooterView = footerView.findViewById(R.id.spritelist_footerview);
+		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.spritelist_footerview_add_image);
+		footerAddImage.setAlpha(FOOTER_ADD_SPRITE_ALPHA_VALUE);
+		spritelistFooterView.setOnClickListener(this);
 		getListView().addFooterView(footerView);
+
 		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}
@@ -264,7 +271,7 @@ public class ProjectActivity extends ListActivity implements OnClickListener {
 			case R.id.view_below_spritelist_non_scrollable:
 				showDialog(DIALOG_NEW_SPRITE);
 				break;
-			case R.id.footerview_below_spritelist:
+			case R.id.spritelist_footerview:
 				showDialog(DIALOG_NEW_SPRITE);
 				break;
 		}
