@@ -85,6 +85,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
