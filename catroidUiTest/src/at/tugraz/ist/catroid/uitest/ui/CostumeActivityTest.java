@@ -427,6 +427,43 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				projectManager.fileChecksumContainer.getUsage(md5ImageFile));
 	}
 
+	public void testAddButton() {
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.clickOnView(getActivity().findViewById(R.id.btn_action_add_button));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		String dialogTitle = solo.getString(R.string.add_costume_dialog_title);
+		assertTrue("Add image dialog should be displayed", solo.searchText(dialogTitle));
+	}
+
+	public void testAddDialogRotate() {
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.clickOnView(getActivity().findViewById(R.id.btn_action_add_button));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(100);
+		solo.sleep(100);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		String dialogTitle = solo.getString(R.string.add_costume_dialog_title);
+		assertTrue("Dialog should be displayed after device rotation", solo.searchText(dialogTitle));
+	}
+
+	public void testDialogCanceledOnTouchOutside() {
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.clickOnView(getActivity().findViewById(R.id.btn_action_add_button));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		float screenWidth = solo.getCurrentActivity().getResources().getDisplayMetrics().widthPixels;
+		solo.clickOnScreen(1.0f, (screenWidth / 4));
+		String dialogTitle = solo.getString(R.string.add_costume_dialog_title);
+		assertFalse("Dialog should disappear", solo.searchText(dialogTitle));
+
+	}
+
 	public void testCostumeNames() {
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
