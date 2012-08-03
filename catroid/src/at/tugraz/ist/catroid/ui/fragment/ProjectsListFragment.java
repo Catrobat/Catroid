@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.ProjectAdapter;
@@ -201,16 +202,14 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
 
-		String project = projectToEdit.projectName;
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(project)));
-
-		if (!(currentProject != null && currentProject.getName().equalsIgnoreCase(project))) {
-			initAdapter();
-			return;
+		if (currentProject != null && currentProject.getName().equalsIgnoreCase(projectToEdit.projectName)) {
+			projectManager.deleteCurrentProject();
+		} else {
+			StorageHandler.getInstance().deleteProject(projectToEdit);
 		}
 
 		projectList.remove(projectToEdit);
-		if (projectList.size() == 0) { // no projects left
+		if (projectList.size() == 0) {
 			projectManager.initializeDefaultProject(getActivity());
 		} else {
 			projectManager.loadProject((projectList.get(0)).projectName, getActivity(), false);

@@ -73,6 +73,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 	@Override
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}

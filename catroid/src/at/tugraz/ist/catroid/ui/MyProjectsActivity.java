@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -69,8 +70,14 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 	}
 
 	private void setUpActionBar() {
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName();
+		String title;
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+
+		if (currentProject != null) {
+			title = getResources().getString(R.string.project_name) + " " + currentProject.getName();
+		} else {
+			title = getResources().getString(android.R.string.unknownName);
+		}
 
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
