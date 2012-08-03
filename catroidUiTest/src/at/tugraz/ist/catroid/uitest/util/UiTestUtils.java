@@ -47,8 +47,10 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -94,7 +96,12 @@ public class UiTestUtils {
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
 		solo.sleep(50);
-		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
+		final EditText editText = solo.getEditText(editTextIndex);
+		solo.getCurrentActivity().runOnUiThread(new Runnable() {
+			public void run() {
+				editText.setInputType(InputType.TYPE_NULL);
+			}
+		});
 		solo.clearEditText(editTextIndex);
 		solo.enterText(editTextIndex, text);
 		solo.sleep(50);
@@ -437,6 +444,13 @@ public class UiTestUtils {
 		}
 	}
 
+	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = classFromObject.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		field.set(object, value);
+	}
+
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
@@ -591,5 +605,17 @@ public class UiTestUtils {
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 		ProjectManager.getInstance().saveProject();
+	}
+
+	public static boolean clickOnTextInList(Solo solo, String text) {
+		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+		for (int i = 0; i < textViews.size(); i++) {
+			TextView view = textViews.get(i);
+			if (view.getText().toString().equalsIgnoreCase(text)) {
+				solo.clickOnView(view);
+				return true;
+			}
+		}
+		return false;
 	}
 }

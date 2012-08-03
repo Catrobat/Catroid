@@ -57,6 +57,7 @@ public class StageDialog extends Dialog {
 
 		Button closeDialogButton = (Button) findViewById(R.id.exit_stage_button);
 		closeDialogButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				exitStage();
 			}
@@ -64,6 +65,7 @@ public class StageDialog extends Dialog {
 
 		Button resumeCurrentProjectButton = (Button) findViewById(R.id.resume_current_project_button);
 		resumeCurrentProjectButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				dismiss();
 				stageActivity.pauseOrContinue();
@@ -72,6 +74,7 @@ public class StageDialog extends Dialog {
 
 		Button restartCurrentProjectButton = (Button) findViewById(R.id.restart_current_project_button);
 		restartCurrentProjectButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				restartProject();
 			}
@@ -79,6 +82,7 @@ public class StageDialog extends Dialog {
 
 		Button axesToggleButton = (Button) findViewById(R.id.axes_toggle_button);
 		axesToggleButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				toggleAxes();
 			}
@@ -87,6 +91,7 @@ public class StageDialog extends Dialog {
 		Button maximizeButton = (Button) findViewById(R.id.maximize_button);
 		if (stageActivity.getResizePossible()) {
 			maximizeButton.setOnClickListener(new View.OnClickListener() {
+				@Override
 				public void onClick(View v) {
 					stageListener.changeScreenSize();
 				}
@@ -97,6 +102,7 @@ public class StageDialog extends Dialog {
 
 		Button snapshotButton = (Button) findViewById(R.id.screenshot_button);
 		snapshotButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				if (stageListener.makeScreenshot()) {
 					Utils.displayToast(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok));
