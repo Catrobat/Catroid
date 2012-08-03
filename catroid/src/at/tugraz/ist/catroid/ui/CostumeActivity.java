@@ -70,7 +70,6 @@ public class CostumeActivity extends ListActivity {
 	public static final int REQUEST_TAKE_PICTURE = 5;
 	public static final int DIALOG_IMPORT_COSTUME_ID = 0;
 	private static final String savedInstanceStateUriIsSetKey = "UriIsSet";
-	private Activity activity = this;
 	private AddCostumeDialog installedAppDialog;
 	private Uri costumeFromCameraUri = null;
 
@@ -322,7 +321,7 @@ public class CostumeActivity extends ListActivity {
 
 	private void destroyDialog() {
 		installedAppDialog.dismiss();
-		//removeDialog(ScriptTabActivity.DIALOG_ADD_COSTUME);
+		removeDialog(ScriptTabActivity.DIALOG_ADD_COSTUME);
 	}
 
 	private void itemClickedHandling(InstalledApplicationInfo clickedApplicationInfo) {

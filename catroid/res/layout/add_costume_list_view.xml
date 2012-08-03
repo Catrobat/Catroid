@@ -29,6 +29,7 @@
 	android:background="@color/website_blue"
 >
 	<!-- Application list -->
+
 	<ListView
 		android:id="@+id/listViewInstalledApps"
 		android:layout_width="match_parent"
