@@ -22,12 +22,10 @@
  */
 package at.tugraz.ist.catroid.io;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
@@ -44,6 +42,7 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.FullParser;
+import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
@@ -57,6 +56,7 @@ public class StorageHandler {
 	private static StorageHandler instance;
 	private XStream xstream;
 	private FullParser fullParser;
+	private XmlSerializer serailizer;
 
 	private StorageHandler() throws IOException {
 
@@ -66,6 +66,7 @@ public class StorageHandler {
 		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
 		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 		fullParser = new FullParser();
+		serailizer = new XmlSerializer();
 		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
@@ -122,6 +123,7 @@ public class StorageHandler {
 		if (project == null) {
 			return false;
 		}
+
 		try {
 			String projectFile = xstream.toXML(project);
 
@@ -146,12 +148,13 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
-
-			writer.write(XML_HEADER.concat(projectFile));
-			writer.flush();
-			writer.close();
+			serailizer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			//			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
+			//					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
+			//
+			//			writer.write(XML_HEADER.concat(projectFile));
+			//			writer.flush();
+			//			writer.close();
 
 			return true;
 		} catch (Exception e) {
