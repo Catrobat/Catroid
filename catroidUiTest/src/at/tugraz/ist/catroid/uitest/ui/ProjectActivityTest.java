@@ -138,11 +138,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testAddNewSpriteUnderList() {
 		final String spriteName = "testSprite";
+		String newSpriteDialogTitle = solo.getString(R.string.new_sprite_dialog_title);
 		solo.clickOnButton(solo.getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		solo.clickOnView(solo.getView(R.id.view_under_spritelist));
-		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
+		solo.clickOnView(solo.getView(R.id.footerview_below_spritelist));
+		solo.waitForText(newSpriteDialogTitle);
+		assertTrue("New Sprite dialog did not appear", solo.searchText(newSpriteDialogTitle));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
 		assertEquals("Not the proper hint set",

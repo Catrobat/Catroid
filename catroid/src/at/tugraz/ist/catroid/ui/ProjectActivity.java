@@ -56,7 +56,8 @@ public class ProjectActivity extends ListActivity implements OnClickListener {
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
-	private View viewBelowSpritelist;
+	private View viewBelowSpritelistNonScrollable;
+	private View footerViewbelowSpritelist;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
 	public static final int DIALOG_NEW_SPRITE = 0;
@@ -127,8 +128,13 @@ public class ProjectActivity extends ListActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
-		viewBelowSpritelist = findViewById(R.id.view_under_spritelist);
-		viewBelowSpritelist.setOnClickListener(this);
+		viewBelowSpritelistNonScrollable = findViewById(R.id.view_below_spritelist_non_scrollable);
+		viewBelowSpritelistNonScrollable.setOnClickListener(this);
+		View footerView = getLayoutInflater()
+				.inflate(R.layout.activity_project_spritelist_footer, getListView(), false);
+		footerViewbelowSpritelist = footerView.findViewById(R.id.footerview_below_spritelist);
+		footerViewbelowSpritelist.setOnClickListener(this);
+		getListView().addFooterView(footerView);
 		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}
@@ -255,7 +261,10 @@ public class ProjectActivity extends ListActivity implements OnClickListener {
 
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.view_under_spritelist:
+			case R.id.view_below_spritelist_non_scrollable:
+				showDialog(DIALOG_NEW_SPRITE);
+				break;
+			case R.id.footerview_below_spritelist:
 				showDialog(DIALOG_NEW_SPRITE);
 				break;
 		}
