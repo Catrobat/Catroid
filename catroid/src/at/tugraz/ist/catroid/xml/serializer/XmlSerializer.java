@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.xml.serializer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -28,7 +27,7 @@ import at.tugraz.ist.catroid.content.Project;
 public class XmlSerializer {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>";
 
-	public void toXml(Project projectToSerialize, String pathToXML) {
+	public void toXml(Project projectToSerialize, String pathToXML) throws SerializeException {
 		ProjectSerializer projectSerializer = new ProjectSerializer();
 
 		PrintWriter xmlWriter;
@@ -41,22 +40,9 @@ public class XmlSerializer {
 				xmlWriter.print(xmlLine);
 			}
 			xmlWriter.flush();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
 			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SerializeException("Exception when Serializing to xml", e);
 		}
-
 	}
 }
