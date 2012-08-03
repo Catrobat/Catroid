@@ -78,21 +78,23 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		double waitTime = 2.25;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, waitTime + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, waitTime, "timeToWaitInSecondsFormula", waitBrick);
 
-		int actualWaitTime = (Integer) UiTestUtils.getPrivateField("timeToWaitInMilliSeconds", waitBrick);
-		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
-		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, waitTime + "");
+		//		solo.clickOnButton(solo.getString(R.string.ok));
+		//
+		//		int actualWaitTime = (Integer) UiTestUtils.getPrivateField("timeToWaitInMilliSeconds", waitBrick);
+		//		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
+		//		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.67, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 0.5, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.678, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 12345.67, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 0.5, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 12345.678, 60, false);
 	}
 
 	private void createProject() {

@@ -77,21 +77,23 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 		double turnDegrees = 25;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, turnDegrees + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, turnDegrees, "degreesFormula", turnLeftBrick);
 
-		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
-		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
-		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, turnDegrees + "");
+		//		solo.clickOnButton(solo.getString(R.string.ok));
+		//
+		//		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
+		//		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
+		//		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 75, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1080.55, 75, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 0.75, 75, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1080.555, 75, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1080.55, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 0.75, 75, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1080.555, 75, false);
 	}
 
 	private void createProject() {

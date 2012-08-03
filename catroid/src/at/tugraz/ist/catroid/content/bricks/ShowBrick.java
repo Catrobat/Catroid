@@ -68,4 +68,5 @@ public class ShowBrick implements Brick {
 	public Brick clone() {
 		return new ShowBrick(getSprite());
 	}
+
 }

@@ -39,6 +39,8 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
+import at.tugraz.ist.catroid.content.bricks.ElseBrick;
+import at.tugraz.ist.catroid.content.bricks.IfThenElseBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
@@ -61,6 +63,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private int currentScriptPosition;
 	private boolean insertedBrick;
 	private boolean insertLoop;
+	private boolean insertIf;
 	private int pos;
 	private int fromTest;
 
@@ -72,6 +75,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
 		insertedBrick = false;
 		insertLoop = false;
+		insertIf = false;
 	}
 
 	public void drag(int from, int to) {
@@ -127,6 +131,36 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 						|| getScriptPosition(from, scriptFrom) <= brickList.indexOf(loopBeginBrick)) {
 					return;
 				}
+			} else if (draggedBrick instanceof IfThenElseBrick) {
+				ElseBrick elseBrick = ((IfThenElseBrick) draggedBrick).getElseBrick();
+				if (elseBrick != null) {
+
+					//NEW
+					Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
+					if (script.getBrickList().indexOf(((IfThenElseBrick) draggedBrick).getElseBrick()) == -1) {
+						dragTargetPosition = -1;
+						return;
+					}
+					//NEW END
+					if (getScriptPosition(to, scriptTo) >= brickList.indexOf(elseBrick)
+							|| getScriptPosition(from, scriptFrom) >= brickList.indexOf(elseBrick)) {
+						return;
+					}
+				} else {
+					insertIf = true;
+				}
+			} else if (draggedBrick instanceof ElseBrick) {
+				IfThenElseBrick ifThenElseBrick = ((ElseBrick) draggedBrick).getIfThenElseBrick();
+
+				Script script = ProjectManager.getInstance().getCurrentSprite().getScript(scriptTo);
+				if (script.getBrickList().indexOf(((ElseBrick) draggedBrick).getIfThenElseBrick()) == -1) {
+					dragTargetPosition = -1;
+					return;
+				}
+				if (getScriptPosition(to, scriptTo) <= brickList.indexOf(ifThenElseBrick)
+						|| getScriptPosition(from, scriptFrom) <= brickList.indexOf(ifThenElseBrick)) {
+					return;
+				}
 			}
 
 			if (from != to) {
@@ -155,12 +189,30 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				return;
 			}
 
+			if (draggedBrick instanceof IfThenElseBrick) {
+				if (((IfThenElseBrick) draggedBrick).getElseBrick() != null) {
+					dragTargetPosition = -1;
+					return;
+				}
+			}
+
+			if (draggedBrick instanceof ElseBrick) {
+				dragTargetPosition = -1;
+				return;
+			}
+
 			if (from < to) {
 
 				if (draggedBrick instanceof LoopEndBrick) {
 					dragTargetPosition = -1;
 					return;
 				}
+
+				if (draggedBrick instanceof ElseBrick) {
+					dragTargetPosition = -1;
+					return;
+				}
+
 				sprite.getScript(getScriptId(to)).addBrick(0, draggedBrick);
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
 				if (currentScriptPosition != 0 && from < currentScriptPosition) {
@@ -169,6 +221,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			} else if (from > to && to > 0) {
 
 				if (draggedBrick instanceof LoopEndBrick) {
+					dragTargetPosition = -1;
+					return;
+				}
+
+				if (draggedBrick instanceof ElseBrick) {
 					dragTargetPosition = -1;
 					return;
 				}
@@ -411,6 +468,51 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					insertLoop = false;
 				}
 			}
+		} else if (draggedBrick instanceof IfThenElseBrick) {
+			if (insertIf) {
+				if (toLastScript) {
+					ElseBrick elseBrick = new ElseBrick(ProjectManager.getInstance().getCurrentSprite(),
+							(IfThenElseBrick) draggedBrick);
+
+					int del = -1;
+					int nrScripts = sprite.getNumberOfScripts();
+					for (int i = 0; i < nrScripts; i++) {
+						boolean breaker = false;
+						ArrayList<Brick> bricks = sprite.getScript(i).getBrickList();
+						for (Brick brick : bricks) {
+							if (brick == draggedBrick) {
+								del = i;
+								breaker = true;
+								break;
+							}
+						}
+						if (breaker) {
+							break;
+						}
+					}
+					if (del >= 0) {
+						ProjectManager.getInstance().getCurrentSprite().getScript(del).removeBrick(draggedBrick);
+					}
+					ProjectManager.getInstance().getCurrentSprite().getScript(nrScripts - 1).addBrick(draggedBrick);
+					ProjectManager.getInstance().getCurrentSprite().getScript(nrScripts - 1).addBrick(elseBrick);
+
+					((IfThenElseBrick) draggedBrick).setElseBrick(elseBrick);
+					insertIf = false;
+
+				} else {
+					ElseBrick elseBrick = new ElseBrick(ProjectManager.getInstance().getCurrentSprite(),
+							(IfThenElseBrick) draggedBrick);
+
+					int sId = getScriptId(to);
+					int bId = ProjectManager.getInstance().getCurrentSprite().getScript(sId).getBrickList()
+							.indexOf(draggedBrick) + 1;
+
+					ProjectManager.getInstance().getCurrentSprite().getScript(sId).addBrick(bId, elseBrick);
+
+					((IfThenElseBrick) draggedBrick).setElseBrick(elseBrick);
+					insertIf = false;
+				}
+			}
 		} else {
 
 			if (toLastScript) {
@@ -421,6 +523,23 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					boolean begin = false;
 					for (Brick brick : bricks) {
 						if (brick.equals(loopBegin)) {
+							begin = true;
+							break;
+						}
+					}
+					if (begin) {
+						int sId = getScriptId(fromTest);
+						int toSCript = sprite.getNumberOfScripts() - 1;
+						sprite.getScript(sId).removeBrick(draggedBrick);
+						sprite.getScript(toSCript).addBrick(draggedBrick);
+					}
+				} else if (draggedBrick instanceof ElseBrick) {
+					IfThenElseBrick ifThenElse = ((ElseBrick) draggedBrick).getIfThenElseBrick();
+					Script lScript = sprite.getScript((sprite.getNumberOfScripts() - 1));
+					ArrayList<Brick> bricks = lScript.getBrickList();
+					boolean begin = false;
+					for (Brick brick : bricks) {
+						if (brick.equals(ifThenElse)) {
 							begin = true;
 							break;
 						}
@@ -555,6 +674,73 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 
 			sprite.getScript(del).removeBrick(loopBegin);
+			sprite.getScript(del).removeBrick(draggedBrick);
+		} else if (draggedBrick instanceof IfThenElseBrick) {
+			int del = 0;
+
+			IfThenElseBrick ifThenElseBrick = (IfThenElseBrick) draggedBrick;
+			ElseBrick elseState = ifThenElseBrick.getElseBrick();
+			if (elseState != null) {
+				int nrScripts = sprite.getNumberOfScripts();
+				for (int i = 0; i < nrScripts; i++) {
+					boolean breaker = false;
+					ArrayList<Brick> bricks = sprite.getScript(i).getBrickList();
+					for (Brick brick : bricks) {
+						if (brick == elseState) {
+							del = i;
+							breaker = true;
+							break;
+						}
+					}
+					if (breaker) {
+						break;
+					}
+				}
+
+				sprite.getScript(del).removeBrick(draggedBrick);
+				sprite.getScript(del).removeBrick(elseState);
+			} else {
+				int nrScripts = sprite.getNumberOfScripts();
+				for (int i = 0; i < nrScripts; i++) {
+					boolean breaker = false;
+					ArrayList<Brick> bricks = sprite.getScript(i).getBrickList();
+					for (Brick brick : bricks) {
+						if (brick == draggedBrick) {
+							del = i;
+							breaker = true;
+							break;
+						}
+					}
+					if (breaker) {
+						break;
+					}
+				}
+				sprite.getScript(del).removeBrick(draggedBrick);
+			}
+
+		} else if (draggedBrick instanceof ElseBrick) {
+			int del = 0;
+
+			ElseBrick elseBrick = (ElseBrick) draggedBrick;
+			IfThenElseBrick ifThenElse = elseBrick.getIfThenElseBrick();
+
+			int nrScripts = sprite.getNumberOfScripts();
+			for (int i = 0; i < nrScripts; i++) {
+				boolean breaker = false;
+				ArrayList<Brick> bricks = sprite.getScript(i).getBrickList();
+				for (Brick brick : bricks) {
+					if (brick == ifThenElse) {
+						del = i;
+						breaker = true;
+						break;
+					}
+				}
+				if (breaker) {
+					break;
+				}
+			}
+
+			sprite.getScript(del).removeBrick(ifThenElse);
 			sprite.getScript(del).removeBrick(draggedBrick);
 		} else {
 			sprite.getScript(getScriptId(index)).removeBrick(draggedBrick);
@@ -786,9 +972,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		int loopEnd = 0;
 		int globalCount = 0;
 		for (Brick brick : bricks) {
-			if (brick instanceof LoopBeginBrick) {
+			if (brick instanceof LoopBeginBrick || brick instanceof IfThenElseBrick) {
 				loopBegin = globalCount;
-			} else if (brick instanceof LoopEndBrick) {
+			} else if (brick instanceof LoopEndBrick || brick instanceof ElseBrick) {
 				loopEnd = globalCount;
 			}
 			globalCount++;
@@ -799,4 +985,27 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 		return false;
 	}
+
+	//	public boolean intersectLoop(int sId, int to) {
+	//
+	//		Script dropScript = sprite.getScript(sId);
+	//		ArrayList<Brick> bricks = dropScript.getBrickList();
+	//
+	//		int ifBegin = 0;
+	//		int ifEnd = 0;
+	//		int globalCount = 0;
+	//		for (Brick brick : bricks) {
+	//			if (brick instanceof IfThenElseBrick) {
+	//				ifBegin = globalCount;
+	//			} else if (brick instanceof ElseBrick) {
+	//				ifEnd = globalCount;
+	//			}
+	//			globalCount++;
+	//			if (ifEnd != 0 && ifBegin < to && to <= ifEnd) {
+	//				return true;
+	//			}
+	//		}
+	//
+	//		return false;
+	//	}
 }

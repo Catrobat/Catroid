@@ -96,26 +96,13 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		int xPosition = 987;
 		int yPosition = 654;
-		String buttonPositiveText = solo.getString(R.string.ok);
 
-		solo.clickOnEditText(0);
-		solo.waitForText(buttonPositiveText);
-		solo.clearEditText(0);
-		solo.enterText(0, xPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, xPosition, "xPositionFormula", placeAtBrick);
 
-		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
-		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
+		solo.sleep(100);
 
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, yPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.testBrickWithFormulaEditor(solo, 1, 2, yPosition, "yPositionFormula", placeAtBrick);
 
-		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
-		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
 	}
 
 	public void testResizeInputFields() {
@@ -123,10 +110,10 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		createTestProject();
 
 		for (int i = 0; i < 2; i++) {
-			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 12345, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, false);
+			UiTestUtils.testIntegerEditText(solo, i, 2, 1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 2, 12345, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 2, -1, 60, true);
+			UiTestUtils.testIntegerEditText(solo, i, 2, 123456, 60, false);
 		}
 	}
 

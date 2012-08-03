@@ -22,31 +22,40 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
+import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class ChangeBrightnessBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeBrightness;
+
 	private Sprite sprite;
 
 	private transient View view;
 
+	private Formula changeBrightnessFormula;
+
+	private transient Brick instance = null;
+	private transient FormulaEditorDialog formulaEditor;
+	public transient boolean editorActive = false;
+
 	public ChangeBrightnessBrick(Sprite sprite, double changeBrightness) {
 		this.sprite = sprite;
-		this.changeBrightness = changeBrightness;
+		changeBrightnessFormula = new Formula(Double.toString(changeBrightness));
+	}
+
+	public ChangeBrightnessBrick(Sprite sprite, Formula changeBrightness) {
+		this.sprite = sprite;
+		changeBrightnessFormula = changeBrightness;
 	}
 
 	public int getRequiredResources() {
@@ -54,24 +63,32 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		sprite.costume.changeBrightnessValueBy((float) (this.changeBrightness / 100));
+		//		sprite.costume.changeBrightnessValueBy((float) (this.changeBrightness / 100));
+		double changeBrightness = changeBrightnessFormula.interpret() / 100;
+
+		sprite.costume.changeBrightnessValueBy((float) changeBrightness);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public double getChangeBrightness() {
-		return changeBrightness;
-	}
+	//	public double getChangeBrightness() {
+	//		return changeBrightness;
+	//	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (instance == null) {
+			instance = this;
+		}
 
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
-		editX.setText(String.valueOf(changeBrightness));
+		//		editX.setText(String.valueOf(changeBrightness));
+		changeBrightnessFormula.setTextFieldId(R.id.brick_change_brightness_edit_text);
+		changeBrightnessFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -87,39 +104,57 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeBrightnessBrick(getSprite(), getChangeBrightness());
+		return new ChangeBrightnessBrick(getSprite(), changeBrightnessFormula);
 	}
 
 	public void onClick(View view) {
 		final Context context = view.getContext();
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(changeBrightness));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					changeBrightness = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
 				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+			});
+			formulaEditor.show();
+		}
 
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		formulaEditor.setInputFocusAndFormula(changeBrightnessFormula);
 
-		finishedDialog.show();
+		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		//		final EditText input = new EditText(context);
+		//		input.setText(String.valueOf(changeBrightness));
+		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+		//				| InputType.TYPE_NUMBER_FLAG_SIGNED);
+		//		input.setSelectAllOnFocus(true);
+		//		dialog.setView(input);
+		//		dialog.setOnCancelListener((OnCancelListener) context);
+		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				try {
+		//					changeBrightness = Double.parseDouble(input.getText().toString());
+		//				} catch (NumberFormatException exception) {
+		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		//				}
+		//				dialog.cancel();
+		//			}
+		//		});
+		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				dialog.cancel();
+		//			}
+		//		});
+		//
+		//		AlertDialog finishedDialog = dialog.create();
+		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		//
+		//		finishedDialog.show();
 	}
+
 }

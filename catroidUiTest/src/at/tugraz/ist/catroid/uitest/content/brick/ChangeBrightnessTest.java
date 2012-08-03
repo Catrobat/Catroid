@@ -81,21 +81,16 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 		assertNotNull("TextView does not exist",
 				solo.getText(getActivity().getString(R.string.brick_change_brightness)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, BRIGHTNESS_TO_CHANGE, "changeBrightnessFormula",
+				changeBrightnessBrick);
 
-		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
-		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
-				Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1000.55, 60, false);
 	}
 
 	private void createProject() {

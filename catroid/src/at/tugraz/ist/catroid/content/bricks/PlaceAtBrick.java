@@ -22,36 +22,47 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
+import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class PlaceAtBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xPosition;
-	private int yPosition;
 	private Sprite sprite;
+
+	private Formula xPositionFormula;
+	private Formula yPositionFormula;
 
 	@XStreamOmitField
 	private transient View view;
 
+	private transient Brick instance = null;
+	private transient FormulaEditorDialog formulaEditor;
+	public transient boolean editorActive = false;
+
 	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
 		this.sprite = sprite;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
+
+		xPositionFormula = new Formula(Integer.toString(xPosition));
+		yPositionFormula = new Formula(Integer.toString(yPosition));
+	}
+
+	public PlaceAtBrick(Sprite sprite, Formula xPosition, Formula yPosition) {
+		this.sprite = sprite;
+
+		xPositionFormula = xPosition;
+		yPositionFormula = yPosition;
 	}
 
 	public int getRequiredResources() {
@@ -59,6 +70,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		int xPosition = xPositionFormula.interpret().intValue();
+		int yPosition = yPositionFormula.interpret().intValue();
+
 		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setXYPosition(xPosition, yPosition);
 		sprite.costume.releaseXYWidthHeightLock();
@@ -70,10 +84,17 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
+		if (instance == null) {
+			instance = this;
+		}
+
 		view = View.inflate(context, R.layout.brick_place_at, null);
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_x_edit_text);
-		editX.setText(String.valueOf(xPosition));
+		//		editX.setText(String.valueOf(xPosition));
+		//		editX.setText(xPositionFormula.getEditTextRepresentation());
+		xPositionFormula.setTextFieldId(R.id.brick_place_at_x_edit_text);
+		xPositionFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -81,7 +102,10 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_y_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_y_edit_text);
-		editY.setText(String.valueOf(yPosition));
+		//		editY.setText(String.valueOf(yPosition));
+		//		yPositionFormula.refreshTextField(view);
+		yPositionFormula.setTextFieldId(R.id.brick_place_at_y_edit_text);
+		yPositionFormula.refreshTextField(view);
 
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
@@ -96,47 +120,72 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new PlaceAtBrick(getSprite(), xPosition, yPosition);
+		return new PlaceAtBrick(getSprite(), xPositionFormula, yPositionFormula);
 	}
 
 	public void onClick(final View view) {
 		final Context context = view.getContext();
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		if (view.getId() == R.id.brick_place_at_x_edit_text) {
-			input.setText(String.valueOf(xPosition));
-		} else if (view.getId() == R.id.brick_place_at_y_edit_text) {
-			input.setText(String.valueOf(yPosition));
-		}
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					if (view.getId() == R.id.brick_place_at_x_edit_text) {
-						xPosition = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_place_at_y_edit_text) {
-						yPosition = Integer.parseInt(input.getText().toString());
-					}
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
 				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+			});
+			formulaEditor.show();
+		}
 
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		switch (view.getId()) {
+			case R.id.brick_place_at_x_edit_text:
+				formulaEditor.setInputFocusAndFormula(xPositionFormula);
+				break;
 
-		finishedDialog.show();
+			case R.id.brick_place_at_y_edit_text:
+				formulaEditor.setInputFocusAndFormula(yPositionFormula);
+				break;
+		}
+
+		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		//		final EditText input = new EditText(context);
+		//		if (view.getId() == R.id.brick_place_at_x_edit_text) {
+		//			input.setText(String.valueOf(xPosition));
+		//		} else if (view.getId() == R.id.brick_place_at_y_edit_text) {
+		//			input.setText(String.valueOf(yPosition));
+		//		}
+		//		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		//		input.setSelectAllOnFocus(true);
+		//		dialog.setView(input);
+		//		dialog.setOnCancelListener((OnCancelListener) context);
+		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				try {
+		//					if (view.getId() == R.id.brick_place_at_x_edit_text) {
+		//						xPosition = Integer.parseInt(input.getText().toString());
+		//					} else if (view.getId() == R.id.brick_place_at_y_edit_text) {
+		//						yPosition = Integer.parseInt(input.getText().toString());
+		//					}
+		//				} catch (NumberFormatException exception) {
+		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		//				}
+		//				dialog.cancel();
+		//			}
+		//		});
+		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				dialog.cancel();
+		//			}
+		//		});
+		//
+		//		AlertDialog finishedDialog = dialog.create();
+		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		//
+		//		finishedDialog.show();
 
 	}
 }

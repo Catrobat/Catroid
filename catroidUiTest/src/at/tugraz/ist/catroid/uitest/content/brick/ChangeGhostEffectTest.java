@@ -81,20 +81,16 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		assertNotNull("TextView does not exist",
 				solo.getText(getActivity().getString(R.string.brick_change_ghost_effect)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, EFFECT_TO_CHANGE + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, EFFECT_TO_CHANGE, "changeGhostEffectFormula",
+				changeGhostEffectBrick);
 
-		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectBrick.getChangeGhostEffect());
-		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1000.55, 60, false);
 	}
 
 	private void createProject() {

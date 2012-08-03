@@ -78,21 +78,14 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_set_y)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, SET_Y + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		int yPosition = (Integer) UiTestUtils.getPrivateField("yPosition", setYBrick);
-		assertEquals("Wrong text in field.", SET_Y, yPosition);
-		assertEquals("Value in Brick is not updated.", SET_Y + "", solo.getEditText(0).getText().toString());
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SET_Y, "yPositionFormula", setYBrick);
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 123456, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, -1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 1234567, 50, false);
 	}
 
 	private void createProject() {

@@ -84,7 +84,8 @@
         <activity android:name=".ui.ProjectActivity" />
         <activity android:name=".ui.ScriptActivity" />
         <activity android:name=".ui.SpriteActivity" />
-        <activity android:name=".ui.ScriptTabActivity" />
+        <activity android:name=".ui.ScriptTabActivity" 
+             android:configChanges="orientation"/>
         <activity android:name=".ui.CostumeActivity" />
         <activity android:name=".ui.SoundActivity" />
         <activity android:name=".ui.MyProjectsActivity" 

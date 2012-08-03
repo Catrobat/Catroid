@@ -72,4 +72,5 @@ public class WhenStartedBrick implements Brick {
 	public Brick clone() {
 		return new WhenStartedBrick(getSprite(), script);
 	}
+
 }

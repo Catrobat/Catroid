@@ -78,21 +78,15 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_x_by)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, X_TO_CHANGE + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, X_TO_CHANGE, "xMovementFormula", changeXByBrick);
 
-		int xMovementValue = (Integer) UiTestUtils.getPrivateField("xMovement", changeXByBrick);
-		assertEquals("Wrong text in field.", X_TO_CHANGE, xMovementValue);
-		assertEquals("Value in Brick is not updated.", X_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 123456, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, -1, 50, true);
+		UiTestUtils.testIntegerEditText(solo, 0, 1, 1234567, 50, false);
 	}
 
 	private void createProject() {

@@ -106,4 +106,5 @@ public class LoopEndBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		return null;
 	}
+
 }

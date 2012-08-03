@@ -64,6 +64,7 @@ import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.UtilToken;
@@ -108,8 +109,8 @@ public class UiTestUtils {
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertIntegerIntoEditText(Solo solo, int editTextId, int value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertIntegerIntoEditText(Solo solo, int editTextId, int editorEditFieldId, int value) {
+		insertValue(solo, editTextId, editorEditFieldId, value + "");
 	}
 
 	/**
@@ -120,15 +121,15 @@ public class UiTestUtils {
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertDoubleIntoEditText(Solo solo, int editTextId, double value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertDoubleIntoEditText(Solo solo, int editTextId, int editorEditFieldId, double value) {
+		insertValue(solo, editTextId, editorEditFieldId, value + "");
 	}
 
-	private static void insertValue(Solo solo, int editTextId, String value) {
+	private static void insertValue(Solo solo, int editTextId, int editorEditFieldId, String value) {
 		solo.clickOnEditText(editTextId);
 		solo.sleep(50);
-		solo.clearEditText(0);
-		solo.enterText(0, value);
+		solo.clearEditText(editorEditFieldId);
+		solo.enterText(editorEditFieldId, value);
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
@@ -513,24 +514,37 @@ public class UiTestUtils {
 		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], 10);
 	}
 
-	public static void testIntegerEditText(Solo solo, int editTextIndex, int value, int editTextMinWidth,
-			boolean assertMode) {
-		insertIntegerIntoEditText(solo, editTextIndex, value);
+	public static void testIntegerEditText(Solo solo, int editTextIndex, int editorEditFieldId, int value,
+			int editTextMinWidth, boolean assertMode) {
+		insertIntegerIntoEditText(solo, editTextIndex, editorEditFieldId, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
-	public static void testDoubleEditText(Solo solo, int editTextIndex, double value, int editTextMinWidth,
-			boolean assertMode) {
-		insertDoubleIntoEditText(solo, editTextIndex, value);
+	public static void testDoubleEditText(Solo solo, int editTextIndex, int editorEditFieldId, double value,
+			int editTextMinWidth, boolean assertMode) {
+		insertDoubleIntoEditText(solo, editTextIndex, editorEditFieldId, value);
 		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
 	}
 
 	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth,
 			boolean assertMode) {
-		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
+		//be aware, negativ numbers are displayed as "- 0.1", not "-0.1" by the FE
+
+		if (value.startsWith("-")) {
+			value = "- " + value.substring(1);
+
+		}
+
+		String buttonOKText = solo.getCurrentActivity().getString(R.string.formula_editor_button_save);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
 		solo.sleep(100);
+
+		String buttonBackText = solo.getCurrentActivity().getString(R.string.formula_editor_button_return);
+		solo.waitForText(buttonBackText);
+		solo.clickOnText(buttonBackText);
+		solo.sleep(100);
+
 		int width = 0;
 		if (assertMode) {
 			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(value));
@@ -540,6 +554,32 @@ public class UiTestUtils {
 		} else {
 			assertFalse("Number too long - should not be resized and fully visible", solo.searchText(value));
 		}
+	}
+
+	/**
+	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
+	 * ensures its set correctly to the brick´s edit text field
+	 */
+	public static void testBrickWithFormulaEditor(Solo solo, int editTextNumber, int numberOfEditTextsInBrick,
+			double newValue, String fieldName, Object theBrick) {
+
+		solo.clickOnEditText(editTextNumber);
+		solo.clearEditText(numberOfEditTextsInBrick);
+		solo.enterText(numberOfEditTextsInBrick, newValue + "");
+		solo.clickOnButton(solo.getString(R.string.formula_editor_button_save));
+		solo.sleep(300);
+
+		assertEquals("Text not updated within FormulaEditor", newValue,
+				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString()));
+		solo.clickOnButton(solo.getString(R.string.formula_editor_button_return));
+		solo.sleep(300);
+
+		Formula formula = (Formula) UiTestUtils.getPrivateField(fieldName, theBrick);
+
+		assertEquals("Wrong text in field", newValue, formula.interpret());
+		assertEquals("Text not updated in the brick list", newValue,
+				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString()));
+
 	}
 
 	/**

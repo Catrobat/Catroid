@@ -79,19 +79,21 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertNotNull("TextView does not exist.",
 				solo.getText(getActivity().getString(R.string.brick_change_volume_by)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, VOLUME_TO_CHANGE + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, VOLUME_TO_CHANGE, "volumeFormula", changeVolumeByBrick);
 
-		assertEquals("Text not updated", VOLUME_TO_CHANGE, Float.parseFloat(solo.getEditText(0).getText().toString()));
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, VOLUME_TO_CHANGE + "");
+		//		solo.clickOnButton(solo.getString(R.string.ok));
+		//
+		//		assertEquals("Text not updated", VOLUME_TO_CHANGE, Float.parseFloat(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 100.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12.5, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 100.12, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 100.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 12.5, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 100.12, 60, false);
 	}
 
 	private void createProject() {

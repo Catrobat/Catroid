@@ -22,31 +22,39 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
+import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private double size;
+	private Formula sizeFormula;
+	public transient boolean editorActive = false;
 
+	private transient ChangeSizeByNBrick instance = null;
+	private transient FormulaEditorDialog formulaEditor;
 	private transient View view;
 
 	public ChangeSizeByNBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
-		this.size = size;
+
+		sizeFormula = new Formula(Double.toString(size));
+	}
+
+	public ChangeSizeByNBrick(Sprite sprite, Formula size) {
+		this.sprite = sprite;
+
+		sizeFormula = size;
 	}
 
 	public int getRequiredResources() {
@@ -54,6 +62,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		double size = sizeFormula.interpret();
 		float newSize = sprite.costume.getSize() + ((float) size / 100f);
 		if (newSize < 0f) {
 			newSize = 0f;
@@ -67,11 +76,16 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
+		if (instance == null) {
+			instance = this;
+		}
+
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 
 		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
-		edit.setText(String.valueOf(size));
+		sizeFormula.setTextFieldId(R.id.brick_change_size_by_edit_text);
+		sizeFormula.refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -87,39 +101,28 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeSizeByNBrick(getSprite(), size);
+		return new ChangeSizeByNBrick(getSprite(), sizeFormula);
 	}
 
 	public void onClick(View view) {
+
 		final Context context = view.getContext();
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(size));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					size = Double.parseDouble(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
+
+					formulaEditor.dismiss();
+
+					editorActive = false;
 				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+			});
+			formulaEditor.show();
+		}
 
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		formulaEditor.setInputFocusAndFormula(sizeFormula);
 
-		finishedDialog.show();
 	}
 }

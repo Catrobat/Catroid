@@ -189,4 +189,5 @@ public class BroadcastWaitBrick implements Brick {
 	public Brick clone() {
 		return new BroadcastWaitBrick(sprite);
 	}
+
 }

@@ -22,35 +22,50 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.formulaeditor.Formula;
+import at.tugraz.ist.catroid.ui.dialogs.FormulaEditorDialog;
 
 public class GlideToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xDestination;
-	private int yDestination;
-	private int durationInMilliSeconds;
+	//private int xDestination;
+	//private int yDestination;
+	//private int durationInMilliSeconds;
 	private Sprite sprite;
+
+	private Formula xDestinationFormula;
+	private Formula yDestinationFormula;
+	private Formula durationInSecondsFormula;
+
+	private transient Brick instance = null;
+	private transient FormulaEditorDialog formulaEditor;
+	public transient boolean editorActive = false;
 
 	private transient View view;
 
 	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
 		this.sprite = sprite;
-		this.xDestination = xDestination;
-		this.yDestination = yDestination;
-		this.durationInMilliSeconds = durationInMilliSeconds;
+
+		xDestinationFormula = new Formula(Integer.toString(xDestination));
+		yDestinationFormula = new Formula(Integer.toString(yDestination));
+		durationInSecondsFormula = new Formula(Double.toString(durationInMilliSeconds / 1000.0));
+	}
+
+	public GlideToBrick(Sprite sprite, Formula xDestination, Formula yDestination, Formula durationInMilliSeconds) {
+		this.sprite = sprite;
+
+		xDestinationFormula = xDestination;
+		yDestinationFormula = yDestination;
+		durationInSecondsFormula = durationInMilliSeconds;
 	}
 
 	public int getRequiredResources() {
@@ -58,6 +73,9 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+
+		Double temp = durationInSecondsFormula.interpret() * 1000;
+		int durationInMilliSeconds = temp.intValue();
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
 		//		final CountDownLatch latch = new CountDownLatch(1);
@@ -105,8 +123,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 		if (!sprite.isAlive(Thread.currentThread())) {
 			// -stay at last position
 		} else {
+			double xDest = xDestinationFormula.interpret();
+			double yDest = yDestinationFormula.interpret();
 			sprite.costume.aquireXYWidthHeightLock();
-			sprite.costume.setXYPosition(xDestination, yDestination);
+			sprite.costume.setXYPosition((float) xDest, (float) yDest);
 			sprite.costume.releaseXYWidthHeightLock();
 		}
 	}
@@ -116,8 +136,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 		float xPosition = sprite.costume.getXPosition();
 		float yPosition = sprite.costume.getYPosition();
 
-		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
-		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
+		xPosition += ((float) timePassed / duration) * (xDestinationFormula.interpret() - xPosition);
+		yPosition += ((float) timePassed / duration) * (yDestinationFormula.interpret() - yPosition);
 
 		sprite.costume.setXYPosition(xPosition, yPosition);
 		sprite.costume.releaseXYWidthHeightLock();
@@ -128,26 +148,32 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	public int getDurationInMilliSeconds() {
-		return durationInMilliSeconds;
+		return durationInSecondsFormula.interpret().intValue();
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		if (instance == null) {
+			instance = this;
+		}
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_x_edit_text);
-		editX.setText(String.valueOf(xDestination));
+		xDestinationFormula.setTextFieldId(R.id.brick_glide_to_x_edit_text);
+		xDestinationFormula.refreshTextField(view);
 		editX.setOnClickListener(this);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_y_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_y_edit_text);
-		editY.setText(String.valueOf(yDestination));
+		yDestinationFormula.setTextFieldId(R.id.brick_glide_to_y_edit_text);
+		yDestinationFormula.refreshTextField(view);
 		editY.setOnClickListener(this);
 
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_duration_text_view);
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_duration_edit_text);
-		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+		durationInSecondsFormula.setTextFieldId(R.id.brick_glide_to_duration_edit_text);
+		durationInSecondsFormula.refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -167,54 +193,84 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
+		return new GlideToBrick(getSprite(), xDestinationFormula, yDestinationFormula, durationInSecondsFormula);
 	}
 
 	public void onClick(final View view) {
 		final Context context = view.getContext();
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		if (view.getId() == R.id.brick_glide_to_x_edit_text) {
-			input.setText(String.valueOf(xDestination));
-			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
-			input.setText(String.valueOf(yDestination));
-			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
-			input.setText(String.valueOf(durationInMilliSeconds / 1000.0));
-			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-					| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		}
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
+		if (!editorActive) {
+			editorActive = true;
+			formulaEditor = new FormulaEditorDialog(context, instance);
+			formulaEditor.setOnDismissListener(new OnDismissListener() {
+				public void onDismiss(DialogInterface editor) {
 
-				try {
-					if (view.getId() == R.id.brick_glide_to_x_edit_text) {
-						xDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
-						yDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
-						durationInMilliSeconds = (int) Math.round(Double.parseDouble(input.getText().toString()) * 1000);
-					}
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+					//size = formulaEditor.getReturnValue();
+					formulaEditor.dismiss();
+
+					editorActive = false;
 				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+			});
+			formulaEditor.show();
+		}
 
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		switch (view.getId()) {
+			case R.id.brick_glide_to_x_edit_text:
+				formulaEditor.setInputFocusAndFormula(xDestinationFormula);
+				break;
 
-		finishedDialog.show();
+			case R.id.brick_glide_to_y_edit_text:
+				formulaEditor.setInputFocusAndFormula(yDestinationFormula);
+				break;
+
+			case R.id.brick_glide_to_duration_edit_text:
+				formulaEditor.setInputFocusAndFormula(durationInSecondsFormula);
+				break;
+		}
+
+		//		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		//		final EditText input = new EditText(context);
+		//		if (view.getId() == R.id.brick_glide_to_x_edit_text) {
+		//			input.setText(String.valueOf(xDestination));
+		//			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		//		} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
+		//			input.setText(String.valueOf(yDestination));
+		//			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		//		} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
+		//			input.setText(String.valueOf(durationInMilliSeconds / 1000.0));
+		//			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+		//					| InputType.TYPE_NUMBER_FLAG_SIGNED);
+		//		}
+		//		input.setSelectAllOnFocus(true);
+		//		dialog.setView(input);
+		//		dialog.setOnCancelListener((OnCancelListener) context);
+		//		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//
+		//				try {
+		//					if (view.getId() == R.id.brick_glide_to_x_edit_text) {
+		//						xDestination = Integer.parseInt(input.getText().toString());
+		//					} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
+		//						yDestination = Integer.parseInt(input.getText().toString());
+		//					} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
+		//						durationInMilliSeconds = (int) Math.round(Double.parseDouble(input.getText().toString()) * 1000);
+		//					}
+		//				} catch (NumberFormatException exception) {
+		//					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+		//				}
+		//				dialog.cancel();
+		//			}
+		//		});
+		//		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		//			public void onClick(DialogInterface dialog, int which) {
+		//				dialog.cancel();
+		//			}
+		//		});
+		//
+		//		AlertDialog finishedDialog = dialog.create();
+		//		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		//
+		//		finishedDialog.show();
 	}
+
 }

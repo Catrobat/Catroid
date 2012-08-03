@@ -77,21 +77,15 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_change_size_by)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, SIZE_TO_CHANGE + "");
-		solo.clickOnButton(0);
+		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SIZE_TO_CHANGE, "sizeFormula", changeSizeByNBrick);
 
-		double actualSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);
-		assertEquals("Wrong text in field", SIZE_TO_CHANGE, actualSize);
-		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1, 1000.55, 60, false);
 	}
 
 	private void createProject() {
