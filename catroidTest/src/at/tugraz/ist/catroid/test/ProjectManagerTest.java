@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -20,24 +19,27 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ */
+package at.tugraz.ist.catroid.test;
 
-<!-- Strings that need no translation -->
-<resources>
+import android.test.AndroidTestCase;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
-    <!-- Language independent -->
-    <string name="percent">%</string>
-    <string name="catroid_extension_pathPattern">.*\\.catroid</string>
+public class ProjectManagerTest extends AndroidTestCase {
 
-    <!-- Lego Mindstorms -->
-    <string name="minus_symbol">-</string>
-    <string name="plus_symbol">+</string>
-    <string name="degree">°</string>
+	public void testShouldReturnFalseIfVersionNumberTooHigh() {
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
 
-    <!-- Website URLs -->
-    <string name="catroid_website">http://www.catroid.org</string>
-    <string name="about_catroid_license_url">http://catroid.org/catroid/licenseofsystem</string>
-    <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
-    <string name="catrobat_forum">https://groups.google.com/group/catrobat</string>
+		boolean result = ProjectManager.INSTANCE.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
+		assertFalse("Load project didn't return false", result);
 
-</resources>
+		TestUtils.clearAllUtilTestProjects();
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
+
+		result = ProjectManager.INSTANCE.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
+		assertTrue("Load project didn't return true", result);
+
+		TestUtils.clearAllUtilTestProjects();
+	}
+}

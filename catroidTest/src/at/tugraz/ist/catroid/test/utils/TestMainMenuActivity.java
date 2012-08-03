@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -20,24 +19,18 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ */
+package at.tugraz.ist.catroid.test.utils;
 
-<!-- Strings that need no translation -->
-<resources>
+import android.os.Bundle;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
-    <!-- Language independent -->
-    <string name="percent">%</string>
-    <string name="catroid_extension_pathPattern">.*\\.catroid</string>
-
-    <!-- Lego Mindstorms -->
-    <string name="minus_symbol">-</string>
-    <string name="plus_symbol">+</string>
-    <string name="degree">°</string>
-
-    <!-- Website URLs -->
-    <string name="catroid_website">http://www.catroid.org</string>
-    <string name="about_catroid_license_url">http://catroid.org/catroid/licenseofsystem</string>
-    <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
-    <string name="catrobat_forum">https://groups.google.com/group/catrobat</string>
-
-</resources>
+/**
+ * This class simply provides public access to protected methods which shall be tested.
+ */
+public class TestMainMenuActivity extends MainMenuActivity {
+	@Override
+	public void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+	}
+}

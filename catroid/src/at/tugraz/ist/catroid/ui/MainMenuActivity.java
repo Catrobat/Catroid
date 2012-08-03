@@ -51,11 +51,11 @@ import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PROJECTNAME_TAG = "fname=";
-	private ProjectManager projectManager;
 	private ActivityHelper activityHelper;
 	private TextView titleText;
 	public static final int DIALOG_NEW_PROJECT = 0;
@@ -77,22 +77,42 @@ public class MainMenuActivity extends Activity {
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
-		projectManager = ProjectManager.getInstance();
 
 		Utils.loadProjectIfNeeded(this);
 
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
 			findViewById(R.id.current_project_button).setEnabled(false);
 		}
 
-		String projectDownloadUrl = getIntent().getDataString();
-		if (projectDownloadUrl == null || projectDownloadUrl.length() <= 0) {
+		// Load external project from URL or local file system.
+		Uri loadExternalProjectUri = getIntent().getData();
+		getIntent().setData(null);
+
+		if (loadExternalProjectUri == null) {
 			return;
 		}
-		String projectName = getProjectName(projectDownloadUrl);
+		if (loadExternalProjectUri.getScheme().equals("http")) {
 
-		this.getIntent().setData(null);
-		new ProjectDownloadTask(this, projectDownloadUrl, projectName).execute();
+			String url = loadExternalProjectUri.toString();
+			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+			String projectName = url.substring(projectNameIndex);
+			projectName = URLDecoder.decode(projectName);
+			new ProjectDownloadTask(this, url, projectName).execute();
+
+		} else if (loadExternalProjectUri.getScheme().equals("file")) {
+
+			String path = loadExternalProjectUri.getPath();
+			int a = path.lastIndexOf('/') + 1;
+			int b = path.lastIndexOf('.');
+			String projectName = path.substring(a, b);
+			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
+				Utils.displayErrorMessage(this, getResources().getString(R.string.error_load_project));
+			} else {
+				if (ProjectManager.INSTANCE.loadProject(projectName, this, true)) {
+					writeProjectTitleInTextfield();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -102,21 +122,25 @@ public class MainMenuActivity extends Activity {
 		ignoreResume = false;
 		PreStageActivity.shutdownPersistentResources();
 
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ projectManager.getCurrentProject().getName();
-		activityHelper.setupActionBar(true, title);
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						if (projectManager.getCurrentProject() != null) {
-							Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-							ignoreResume = true;
-							startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-						}
-					}
-				}, false);
-		this.titleText = (TextView) findViewById(R.id.tv_title);
+		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 
+		if (currentProject != null) {
+
+			activityHelper.setupActionBar(true,
+					getResources().getString(R.string.project_name) + " " + currentProject.getName());
+
+			activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
+					new View.OnClickListener() {
+						public void onClick(View v) {
+							if (ProjectManager.INSTANCE.getCurrentProject() != null) {
+								Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+								ignoreResume = true;
+								startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+							}
+						}
+					}, false);
+			this.titleText = (TextView) findViewById(R.id.tv_title);
+		}
 	}
 
 	@Override
@@ -130,9 +154,10 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		if (projectManager.getCurrentProject() != null
-				&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
-			projectManager.saveProject();
+		if (ProjectManager.INSTANCE.getCurrentProject() != null
+				&& StorageHandler.getInstance().projectExistsCheckCase(
+						ProjectManager.INSTANCE.getCurrentProject().getName())) {
+			ProjectManager.INSTANCE.saveProject();
 		}
 
 		switch (id) {
@@ -163,17 +188,17 @@ public class MainMenuActivity extends Activity {
 		super.onPrepareDialog(id, dialog);
 		switch (id) {
 			case DIALOG_UPLOAD_PROJECT:
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 				String currentProjectName = currentProject.getName();
 				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
 				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
 				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile
-						.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/" + currentProjectName)));
+				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
+						+ currentProjectName)));
 
 				projectRename.setVisibility(View.GONE);
-				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
+				projectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
 				projectDescriptionField.setText("");
 				projectUploadName.requestFocus();
 				projectUploadName.selectAll();
@@ -193,7 +218,7 @@ public class MainMenuActivity extends Activity {
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
 			return;
 		}
 		if (!ignoreResume) {
@@ -201,21 +226,21 @@ public class MainMenuActivity extends Activity {
 		}
 		ignoreResume = false;
 
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
 		writeProjectTitleInTextfield();
 
 	}
 
 	public void writeProjectTitleInTextfield() {
 		String title = this.getResources().getString(R.string.project_name) + " "
-				+ projectManager.getCurrentProject().getName();
+				+ ProjectManager.INSTANCE.getCurrentProject().getName();
 		titleText.setText(title);
 	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
 			return;
 		}
 
@@ -227,14 +252,15 @@ public class MainMenuActivity extends Activity {
 		// onPause is sufficient --> gets called before "process_killed",
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
+		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
+			ProjectManager.INSTANCE.saveProject();
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
+					.getName());
 		}
 	}
 
 	public void handleCurrentProjectButton(View v) {
-		if (projectManager.getCurrentProject() != null) {
+		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
@@ -271,20 +297,11 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleForumButton(View v) {
-		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_forum).toString()));
+		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
 		startActivity(browerIntent);
 	}
 
 	public void handleAboutCatroidButton(View v) {
 		showDialog(DIALOG_ABOUT);
 	}
-
-	private String getProjectName(String zipUrl) {
-		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-		String projectName = zipUrl.substring(projectNameIndex);
-		projectName = URLDecoder.decode(projectName);
-
-		return projectName;
-	}
-
 }
