@@ -4,20 +4,31 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.test.AndroidTestCase;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.PointToBrick;
+import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
@@ -25,6 +36,23 @@ import at.tugraz.ist.catroid.xml.serializer.SerializeException;
 import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 public class SerializerTest extends AndroidTestCase {
+
+	//	@Override
+	//	public void tearDown() {
+	//		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
+	//		TestUtils.clearProject("testSerializeProject");
+	//	}
+	//
+	@Override
+	public void setUp() {
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
+				+ getContext().getString(R.string.default_project_name));
+
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
+		}
+
+	}
 
 	public void testSerializingToXml() {
 		XmlSerializer serializer = new XmlSerializer();
@@ -63,16 +91,14 @@ public class SerializerTest extends AndroidTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
+		String projectDirectoryName = Utils.buildProjectPath("test__" + project.getName());
+		File projectDirectory = new File(projectDirectoryName);
 		try {
-
-			String projectDirectoryName = Utils.buildProjectPath("test__" + project.getName());
-			File projectDirectory = new File(projectDirectoryName);
 
 			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
 				projectDirectory.mkdir();
 
 			}
-
 			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -81,7 +107,7 @@ public class SerializerTest extends AndroidTestCase {
 		} catch (SerializeException e) {
 			e.printStackTrace();
 		}
-		File projectDirectory = new File(Utils.buildProjectPath("test__" + project.getName()));
+
 		Project loadedProject = null;
 		if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 
@@ -141,6 +167,131 @@ public class SerializerTest extends AndroidTestCase {
 		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
 		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
 		assertEquals("Version names are not equal", preVersionName, postVersionName);
+
+	}
+
+	public void testReferenceSerializing() {
+		Sprite testSprite = new Sprite("test");
+		Sprite pointedSprite = new Sprite("pointed");
+
+		CostumeData referenceCostume = new CostumeData();
+		referenceCostume.setCostumeFilename("testfileName");
+		referenceCostume.setCostumeName("testName");
+
+		SoundInfo referencedSound = new SoundInfo();
+		referencedSound.setSoundFileName("soundFile");
+		referencedSound.setTitle("SongTitle");
+
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, 4);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		SetCostumeBrick costumeBrick = new SetCostumeBrick(testSprite);
+		costumeBrick.setCostume(referenceCostume);
+
+		PlaySoundBrick soundBrick = new PlaySoundBrick(testSprite);
+		soundBrick.setSoundInfo(referencedSound);
+
+		PointToBrick pointBrick = new PointToBrick(testSprite, pointedSprite);
+
+		Script testScript = new StartScript(testSprite);
+		Script otherScript = new StartScript(pointedSprite);
+		HideBrick hideBrick = new HideBrick(pointedSprite);
+		ShowBrick showBrick = new ShowBrick(pointedSprite);
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(costumeBrick);
+		testScript.addBrick(soundBrick);
+		testScript.addBrick(loopEndBrick);
+		testScript.addBrick(pointBrick);
+		testSprite.addScript(testScript);
+		try {
+			Field costumeField = Sprite.class.getDeclaredField("costumeDataList");
+			Field soundField = Sprite.class.getDeclaredField("soundList");
+			List<CostumeData> costumeList = new ArrayList<CostumeData>();
+			List<SoundInfo> soundList = new ArrayList<SoundInfo>();
+			costumeList.add(referenceCostume);
+			costumeField.setAccessible(true);
+			costumeField.set(testSprite, costumeList);
+			soundList.add(referencedSound);
+			soundField.setAccessible(true);
+			soundField.set(testSprite, soundList);
+		} catch (SecurityException e1) {
+
+			e1.printStackTrace();
+		} catch (NoSuchFieldException e1) {
+
+			e1.printStackTrace();
+		} catch (IllegalArgumentException e) {
+
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+
+			e.printStackTrace();
+		}
+		otherScript.addBrick(hideBrick);
+		otherScript.addBrick(showBrick);
+		pointedSprite.addScript(otherScript);
+
+		Project testProject = new Project(getContext(), "referenceProject");
+		testProject.addSprite(testSprite);
+		testProject.addSprite(pointedSprite);
+
+		XmlSerializer serializer = new XmlSerializer();
+
+		String projectDirectoryName = Utils.buildProjectPath("test__" + testProject.getName());
+		File projectDirectory = new File(projectDirectoryName);
+
+		if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+			projectDirectory.mkdir();
+
+		}
+		try {
+			serializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+		} catch (SerializeException e) {
+			fail("unexpected SerilizeException");
+			e.printStackTrace();
+		}
+
+		Project loadedProject = null;
+		if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
+
+			try {
+				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
+						Constants.PROJECTCODE_NAME));
+				FullParser parser = new FullParser();
+				loadedProject = parser.parseSpritesWithProject(projectFileStream);
+			} catch (ParseException e) {
+
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+
+				e.printStackTrace();
+			}
+
+		}
+		assertNotNull("loaded project is null", loadedProject);
+		Sprite loadedFirstSprite = loadedProject.getSpriteList().get(1);
+		RepeatBrick loadedRepeatBrick = (RepeatBrick) loadedFirstSprite.getScript(0).getBrick(0);
+		LoopEndBrick referenceLoopEndBrick = loadedRepeatBrick.getLoopEndBrick();
+		LoopEndBrick loadedLoopEndBrick = (LoopEndBrick) loadedFirstSprite.getScript(0).getBrick(3);
+		assertEquals("LoopEndBrick not referenced right", loadedLoopEndBrick, referenceLoopEndBrick);
+
+		CostumeData loadedCostume = loadedFirstSprite.getCostumeDataList().get(0);
+		assertNotNull("Costume not in sprite costumeList", loadedCostume);
+		SetCostumeBrick loadedCostumeBrick = (SetCostumeBrick) loadedFirstSprite.getScript(0).getBrick(1);
+		CostumeData brickReferencedCostumeData = (CostumeData) TestUtils.getPrivateField("costumeData",
+				loadedCostumeBrick, false);
+		assertEquals("Costume data referencing wrong", loadedCostume, brickReferencedCostumeData);
+
+		SoundInfo loadedSound = loadedFirstSprite.getSoundList().get(0);
+		PlaySoundBrick loadedPlaySoundBrick = (PlaySoundBrick) loadedFirstSprite.getScript(0).getBrick(2);
+		SoundInfo brickReferenceSoundInfo = (SoundInfo) TestUtils.getPrivateField("soundInfo", loadedPlaySoundBrick,
+				false);
+		assertEquals("Sound Info referencing wrong", loadedSound, brickReferenceSoundInfo);
+
+		PointToBrick loadedPointBrick = (PointToBrick) loadedFirstSprite.getScript(0).getBrick(4);
+		Sprite referencedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", loadedPointBrick, false);
+		assertEquals("SpriteReferencing wrong", loadedProject.getSpriteList().get(2), referencedSprite);
 
 	}
 }
