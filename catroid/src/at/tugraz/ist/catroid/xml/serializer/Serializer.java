@@ -58,7 +58,7 @@ public abstract class Serializer {
 			if (objectWIthField.getClass().getSimpleName().endsWith("Brick")) {
 				if (referencedObjectName.endsWith("Brick")) {
 					if (brickList.contains(referencedObject)) {
-						reference = "../../Bricks." + referencedObjectName;
+						reference = "../../" + referencedObjectName;
 
 						List<Brick> sameBrickList = new ArrayList<Brick>();
 						for (int i = 0; i < brickList.size(); i++) {
@@ -75,13 +75,13 @@ public abstract class Serializer {
 						reference = "TODO for bricks of other scripts";
 					}
 				} else if (referencedObjectName.equals("CostumeData")) {
-					reference = "../../../../../costumeDataList/Common.CostumeData";
+					reference = "../../../../../costumeDataList/CostumeData";
 					reference = getReferenceIndexSuffix(reference, referencedObject, costumeList);
 				} else if (referencedObjectName.equals("Sprite")) {
-					reference = "../../../../../../Content.Sprite";
+					reference = "../../../../../../Sprite";
 					reference = getReferenceIndexSuffix(reference, referencedObject, spriteList);
 				} else if (referencedObjectName.equals("SoundInfo")) {
-					reference = "../../../../../soundList/Common.SoundInfo";
+					reference = "../../../../../soundList/SoundInfo";
 					reference = getReferenceIndexSuffix(reference, referencedObject, soundList);
 				}
 			} else if (objectWIthField.getClass().getSimpleName().endsWith("Script")) {
