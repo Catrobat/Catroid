@@ -54,7 +54,6 @@ public class BrickSerializer extends Serializer {
 		String xmlElementString = "";
 
 		xmlElementString = brickTabs + tab + getStartTag(brickTagPrefix + object.getClass().getSimpleName());
-		//xmlElementString = "<Bricks." + object.getClass().getSimpleName() + ">\n";
 		brickStringList.add(xmlElementString);
 
 		setBrickfieldsAsElements(object, brickStringList, object.getClass().getSuperclass());
@@ -62,10 +61,10 @@ public class BrickSerializer extends Serializer {
 
 		xmlElementString = brickTabs + tab + getEndTag(brickTagPrefix + object.getClass().getSimpleName());
 		brickStringList.add(xmlElementString);
-		//Log.i("serializer", xmlElementString);
 		return brickStringList;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void setBrickfieldsAsElements(Object object, List<String> brickStringList, Class cls)
 			throws IllegalAccessException {
 		String xmlElementString;

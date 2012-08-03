@@ -58,6 +58,7 @@ public class ScriptSerializer extends Serializer {
 		return scriptStringList;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void getScriptFieldsAsElements(Object object, List<String> scriptStringList, Class cls)
 			throws IllegalAccessException {
 		String xmlElementString;
