@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
@@ -178,6 +179,13 @@ public class TestUtils {
 		return field;
 	}
 
+	public static void setPrivateField(Class<?> classFromObject, Object object, String fieldName, Object value)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = classFromObject.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		field.set(object, value);
+	}
+
 	public static Object invokeMethod(Object classObject, String methodName, Class<?>[] methodParams,
 			Object[] methodArgs) {
 		try {
@@ -207,27 +215,34 @@ public class TestUtils {
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
-		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
+	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name) {
+		Project project = new ProjectWithVersionCode(name, versionCode);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
 
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
-		ProjectManager.INSTANCE.setCurrentScript(testScript);
-		ProjectManager.INSTANCE.saveProject();
+		StorageHandler.getInstance().saveProject(project);
 	}
 
-	public static void clearAllUtilTestProjects() {
-		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
+	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, DEFAULT_TEST_PROJECT_NAME);
+	}
+
+	public static void deleteTestProjects(String... additionalProjectNames) {
+		ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
+		}
+
+		for (String name : additionalProjectNames) {
+			directory = new File(Constants.DEFAULT_ROOT + "/" + name);
+			if (directory.exists()) {
+				UtilFile.deleteDirectory(directory);
+			}
 		}
 	}
 }

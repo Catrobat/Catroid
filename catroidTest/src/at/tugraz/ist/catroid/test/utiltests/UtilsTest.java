@@ -28,14 +28,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-import junit.framework.TestCase;
+import android.test.AndroidTestCase;
+import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class UtilsTest extends TestCase {
+public class UtilsTest extends AndroidTestCase {
 
 	private static final String TAG = UtilsTest.class.getSimpleName();
 	private final String testFileContent = "Hello, this is a Test-String";
@@ -209,5 +210,12 @@ public class UtilsTest extends TestCase {
 		String projectName1 = "test?Projekt\"1";
 		String result1 = "/mnt/sdcard/catroid/testProjekt1";
 		assertEquals("Paths are different!", result1, Utils.buildProjectPath(projectName1));
+	}
+
+	@Smoke
+	public void testDebuggableFlagShouldBeSet() throws Exception {
+		// Ensure Utils  returns true in isApplicationDebuggable
+		TestUtils.setPrivateField(Utils.class, null, "isUnderTest", false);
+		assertTrue("Debug flag not set!", Utils.isApplicationDebuggable(getContext()));
 	}
 }

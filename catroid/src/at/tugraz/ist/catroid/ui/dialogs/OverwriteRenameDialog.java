@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.util.UUID;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,17 +39,14 @@ import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class OverwriteRenameDialog extends Dialog implements OnClickListener {
-
 	protected Button okButton, cancelButton;
 	protected RadioButton replaceButton, renameButton;
-	protected Context context;
 	protected String projectName, zipFileString;
 	protected MainMenuActivity activity;
 	protected EditText projectText;
 
-	public OverwriteRenameDialog(Context context, MainMenuActivity activity, String projectName, String zipFileString) {
-		super(context);
-		this.context = context;
+	public OverwriteRenameDialog(MainMenuActivity activity, String projectName, String zipFileString) {
+		super(activity);
 		this.projectName = projectName;
 		this.zipFileString = zipFileString;
 		this.activity = activity;
@@ -85,16 +81,16 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 				} else if (renameButton.isChecked()) {
 					String newProjectName = projectName + UUID.randomUUID();
 					ProjectManager.getInstance().loadProject(projectName, activity, true);
-					ProjectManager.getInstance().renameProject(newProjectName, context);
+					ProjectManager.getInstance().renameProject(newProjectName, activity);
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 					ProjectManager.getInstance().loadProject(projectName, activity, true);
 					boolean error = !ProjectManager.getInstance().renameProject(projectText.getText().toString(),
-							context);
+							activity);
 					if (error) {
 						ProjectManager.getInstance().deleteCurrentProject();
 					}
 					ProjectManager.getInstance().loadProject(newProjectName, activity, true);
-					ProjectManager.getInstance().renameProject(projectName, context);
+					ProjectManager.getInstance().renameProject(projectName, activity);
 					if (error) {
 						break;
 					} else {
@@ -108,7 +104,7 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 
 			case R.id.dialog_overwrite_project_button_cancel:
 				dismiss();
-				Toast.makeText(activity, R.string.error_project_download, Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, R.string.notification_load_project_cancel, Toast.LENGTH_SHORT).show();
 				break;
 
 			case R.id.dialog_overwrite_project_radio_replace:
@@ -122,6 +118,5 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 			default:
 				break;
 		}
-
 	}
 }

@@ -46,6 +46,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -53,12 +54,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -77,6 +79,7 @@ public class Utils {
 	private static final String TAG = Utils.class.getSimpleName();
 	private static long uniqueLong = 0;
 	private static Semaphore uniqueNameLock = new Semaphore(1);
+	private static boolean isUnderTest;
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -109,12 +112,11 @@ public class Utils {
 		return true;
 	}
 
-	public static void updateScreenWidthAndHeight(Activity currentActivity) {
-		DisplayMetrics dm = new DisplayMetrics();
-		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-		Values.SCREEN_WIDTH = dm.widthPixels;
-		Values.SCREEN_HEIGHT = dm.heightPixels;
+	public static void updateScreenWidthAndHeight(Context context) {
+		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = windowManager.getDefaultDisplay();
+		Values.SCREEN_WIDTH = display.getWidth();
+		Values.SCREEN_HEIGHT = display.getHeight();
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -385,4 +387,11 @@ public class Utils {
 		return newTitle;
 	}
 
+	public static boolean isApplicationDebuggable(Context context) {
+		if (isUnderTest) {
+			return false;
+		} else {
+			return (context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+		}
+	}
 }

@@ -38,7 +38,7 @@
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
-    <string name="loading">Laden...</string>
+    <string name="loading">Laden…</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">Ok</string>
@@ -113,7 +113,7 @@
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Aufnehmen</string>
     <string name="soundrecorder_record_stop">Beenden</string>
-    <string name="soundrecorder_recording">Aufnahme gestartet...</string>
+    <string name="soundrecorder_recording">Aufnahme gestartet…</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
 
@@ -175,8 +175,8 @@
     <string name="overwrite_rename">benenne heruntergeladenes Projekt um</string>
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">Neu...</string>
-    <string name="broadcast_nothing_selected">Nichts...</string>
+    <string name="new_broadcast_message">Neu…</string>
+    <string name="broadcast_nothing_selected">Nichts…</string>
 
     <!-- Brick categories -->
     <string name="categories">Kategorien</string>
@@ -268,6 +268,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
+    <string name="notification_load_project_cancel">Projekt laden abgebrochen</string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
@@ -302,7 +303,7 @@
     <string name="button_scan">Suche Bluetooth Geräte</string>
     <string name="scanning">Suche</string>
     <string name="select_device">Wähle dein Mindstorms NXT</string>
-    <string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
+    <string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten…</string>
     <string name="pairing_message">Nach dem Pairing, verbinde.</string>
     <string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
     <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
