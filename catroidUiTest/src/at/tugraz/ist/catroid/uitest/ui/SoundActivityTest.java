@@ -210,6 +210,19 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		assertTrue("Sounds wasnt renamed", solo.searchText(newName));
 	}
 
+	public void testAddNewSoundDialog() {
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
+
+		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
+
+		solo.clickOnView(solo.getView(R.id.view_below_soundlist_non_scrollable));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+
+		solo.sleep(2000);
+	}
+
 	public void testSoundNames() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		renameSound(soundName, "sound");
