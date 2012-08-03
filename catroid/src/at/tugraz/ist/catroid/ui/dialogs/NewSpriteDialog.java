@@ -28,6 +28,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -57,6 +58,13 @@ public class NewSpriteDialog extends TextDialog {
 		Sprite sprite = new Sprite(spriteName);
 		projectManager.addSprite(sprite);
 		((ArrayAdapter<?>) ((ProjectActivity) activity).getListAdapter()).notifyDataSetChanged();
+
+		final ListView listView = ((ProjectActivity) activity).getListView();
+		listView.post(new Runnable() {
+			public void run() {
+				listView.setSelection(listView.getCount() - 1);
+			}
+		});
 
 		input.setText(null);
 		activity.dismissDialog(ProjectActivity.DIALOG_NEW_SPRITE);
