@@ -55,20 +55,12 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-
 		super.tearDown();
-
 	}
 
 	public void testRecordMultipleSounds() throws InterruptedException {
-
 		prepareRecording();
 		recordSoundWithChangingOrientation();
 		assertSoundRecording(1);

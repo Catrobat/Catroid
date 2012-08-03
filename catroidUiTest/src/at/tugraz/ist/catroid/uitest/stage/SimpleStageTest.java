@@ -48,18 +48,13 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testSimple() {
-		solo.waitForActivity("StageActivity");
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 
 		byte[] result = StageActivity.stageListener.getPixels(0, 0, 1, 1);
@@ -71,7 +66,6 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		result = StageActivity.stageListener.getPixels(-1, -1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, result);
 		assertTrue("Just for FileTest", true);
-
 	}
 
 	private void createProject() {
@@ -82,5 +76,4 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		ProjectManager.getInstance().setProject(project);
 		StorageHandler.getInstance().saveProject(project);
 	}
-
 }

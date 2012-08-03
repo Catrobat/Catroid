@@ -49,7 +49,6 @@ public class Project implements Serializable {
 	private String catroidVersionName;
 	@SuppressWarnings("unused")
 	private int catroidVersionCode;
-
 	@XStreamAlias("screenWidth")
 	@XMLAlias("screenWidth")
 	public int virtualScreenWidth = 0;
@@ -62,7 +61,10 @@ public class Project implements Serializable {
 
 	public Project(Context context, String name) {
 		this.projectName = name;
-
+		ifLandscapeSwitchWidthAndHeight();
+		virtualScreenWidth = Values.SCREEN_WIDTH;
+		virtualScreenHeight = Values.SCREEN_HEIGHT;
+		setDeviceData(context);
 		ifLandscapeSwitchWidthAndHeight();
 		virtualScreenWidth = Values.SCREEN_WIDTH;
 		virtualScreenHeight = Values.SCREEN_HEIGHT;
@@ -83,6 +85,7 @@ public class Project implements Serializable {
 			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
 			Values.SCREEN_WIDTH = tmp;
 		}
+
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -90,10 +93,12 @@ public class Project implements Serializable {
 			return;
 		}
 		spriteList.add(sprite);
+
 	}
 
 	public synchronized boolean removeSprite(Sprite sprite) {
 		return spriteList.remove(sprite);
+
 	}
 
 	public List<Sprite> getSpriteList() {
@@ -106,6 +111,10 @@ public class Project implements Serializable {
 
 	public String getName() {
 		return projectName;
+	}
+
+	public int getCatroidVersionCode() {
+		return catroidVersionCode;
 	}
 
 	public void setDeviceData(Context context) {
@@ -124,4 +133,5 @@ public class Project implements Serializable {
 	public Project() {
 
 	}
+
 }
