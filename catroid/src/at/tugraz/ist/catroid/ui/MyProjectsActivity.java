@@ -43,6 +43,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.ProjectAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
@@ -97,14 +98,21 @@ public class MyProjectsActivity extends ListActivity {
 	}
 
 	private void setUpActionBar() {
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName();
+		String title;
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+
+		if (currentProject != null) {
+			title = getResources().getString(R.string.project_name) + " " + currentProject.getName();
+		} else {
+			title = getResources().getString(android.R.string.unknownName);
+		}
 
 		activityHelper = new ActivityHelper(this);
 		activityHelper.setupActionBar(false, title);
 
 		activityHelper.addActionButton(R.id.btn_action_add_button, R.drawable.ic_plus_black, R.string.add,
 				new View.OnClickListener() {
+					@Override
 					public void onClick(View v) {
 						showDialog(DIALOG_NEW_PROJECT);
 					}
@@ -120,6 +128,7 @@ public class MyProjectsActivity extends ListActivity {
 			projectList.add(new ProjectData(projectName, projectCodeFile.lastModified()));
 		}
 		Collections.sort(projectList, new Comparator<ProjectData>() {
+			@Override
 			public int compare(ProjectData project1, ProjectData project2) {
 				return Long.valueOf(project2.lastUsed).compareTo(project1.lastUsed);
 			}
@@ -132,6 +141,7 @@ public class MyProjectsActivity extends ListActivity {
 
 	private void initClickListener() {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
+			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
 						MyProjectsActivity.this, true)) {
@@ -143,6 +153,7 @@ public class MyProjectsActivity extends ListActivity {
 			}
 		});
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				projectToEdit = projectList.get(position);
 				if (projectToEdit == null) {
@@ -165,6 +176,7 @@ public class MyProjectsActivity extends ListActivity {
 				CONTEXT_MENU_ITEM_DELETE);
 
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+			@Override
 			public void onClick(int menuId) {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
@@ -185,19 +197,17 @@ public class MyProjectsActivity extends ListActivity {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
 
-		String project = projectToEdit.projectName;
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(project)));
-
-		if (!(currentProject != null && currentProject.getName().equalsIgnoreCase(project))) {
-			initAdapter();
-			return;
+		if (currentProject != null && currentProject.getName().equalsIgnoreCase(projectToEdit.projectName)) {
+			projectManager.deleteCurrentProject();
+		} else {
+			StorageHandler.getInstance().deleteProject(projectToEdit);
 		}
 
 		projectList.remove(projectToEdit);
-		if (projectList.size() == 0) { // no projects left
+		if (projectList.size() == 0) {
 			projectManager.initializeDefaultProject(MyProjectsActivity.this);
 		} else {
-			projectManager.loadProject((projectList.get(0)).projectName, MyProjectsActivity.this, false);
+			projectManager.loadProject((projectList.get(0)).projectName, this, false);
 			projectManager.saveProject();
 		}
 

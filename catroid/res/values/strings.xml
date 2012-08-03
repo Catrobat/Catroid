@@ -38,7 +38,7 @@
     <string name="close">Close</string>
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
@@ -120,7 +120,7 @@
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Start recording</string>
     <string name="soundrecorder_record_stop">Stop recording</string>
-    <string name="soundrecorder_recording">recording in progress...</string>
+    <string name="soundrecorder_recording">recording in progress…</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
 
@@ -176,8 +176,8 @@
     <string name="stagemenu_screenshot">Screenshot</string>
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">new...</string>
-    <string name="broadcast_nothing_selected">Nothing...</string>
+    <string name="new_broadcast_message">new…</string>
+    <string name="broadcast_nothing_selected">Nothing…</string>
 
     <!-- Brick categories -->
     <string name="categories">Categories</string>
@@ -269,6 +269,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
+    <string name="notification_load_project_cancel">Canceled loading project</string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
@@ -304,7 +305,7 @@
     <string name="button_scan">Search Bluetooth devices</string>
     <string name="select_device">Select your Lego Mindstorms NXT</string>
     <string name="scanning">Scanning</string>
-    <string name="connecting_please_wait">Connecting to your device.\nPlease wait...</string>
+    <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
     <string name="pairing_message">After pairing, connect.</string>
     <string name="problem_at_closing">Problem in closing the connection!</string>
     <string name="bt_connection_failed">Connection to device failed!</string>
