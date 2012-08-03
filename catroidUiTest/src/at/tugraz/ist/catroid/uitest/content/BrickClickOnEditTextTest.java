@@ -134,8 +134,8 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 
 		brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist", 2, brickListToCheck.size());
-		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
-		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(1) instanceof SetYBrick);
+		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
+		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);

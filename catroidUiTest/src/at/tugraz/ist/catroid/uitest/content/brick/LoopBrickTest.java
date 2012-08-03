@@ -71,6 +71,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		}
 
 		getActivity().finish();
+		ProjectManager.getInstance().deleteCurrentProject();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -93,7 +95,6 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.sleep(200);
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		solo.clickInList(0); // needed because of bug in Nexus S 2.3.6
 		solo.sleep(200);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(2), 10, 0, 20);
 		solo.sleep(200);
@@ -141,13 +142,16 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.clickOnText(solo.getString(R.string.brick_change_y_by));
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
 		solo.clickOnText(solo.getString(R.string.brick_loop_end));
+		solo.clickInList(0); // needed because of bug(?) in Nexus S 2.3.6
 
 		solo.sleep(200);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(4), 10, yPos.get(5) + 20, 20);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof SetCostumeBrick));
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(3) instanceof LoopEndBrick));
+
 	}
 
 	public void testForeverBrick() {
@@ -216,7 +220,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 20, yPos.get(1), getActivity().getWindowManager()
 				.getDefaultDisplay().getWidth() - 10, 20, 20);
-		solo.sleep(200);
+
 		UiTestUtils.longClickAndDrag(solo, getActivity(), 20, yPos.get(1), getActivity().getWindowManager()
 				.getDefaultDisplay().getWidth() - 10, 20, 20);
 		solo.sleep(200);
