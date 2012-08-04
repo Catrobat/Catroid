@@ -22,8 +22,6 @@
  */
 package at.tugraz.ist.catroid.nativetest.io;
 
-import java.io.IOException;
-
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
@@ -37,15 +35,10 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
-	private StorageHandler storageHandler;
-
-	public StorageHandlerTest() throws IOException {
-		storageHandler = StorageHandler.getInstance();
-	}
-
 	@Override
 	protected void tearDown() throws Exception {
 		NativeAppActivity.setContext(null);
+		super.tearDown();
 	}
 
 	public void testLoadProject() throws Exception {
@@ -66,7 +59,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		String thirdSpriteName = "second";
 
 		NativeAppActivity.setContext(getInstrumentation().getContext());
-		Project loadedProject = storageHandler.loadProject("test_project.xml");
+		Project loadedProject = StorageHandler.getInstance().loadProject("test_project.xml");
 
 		assertEquals("Project title missmatch.", projectName, loadedProject.getName());
 
@@ -147,7 +140,5 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				steps,
 				TestUtils.getPrivateField("steps", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
 						.get(6), false));
-
 	}
-
 }
