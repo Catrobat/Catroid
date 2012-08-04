@@ -42,6 +42,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,6 +51,7 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -476,7 +478,7 @@ public class UiTestUtils {
 		}
 
 		return null;
-	}	
+	}
 
 	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
 			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
@@ -678,5 +680,16 @@ public class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	public static void goBackToHome(Instrumentation instrumentation) {
+		boolean more = true;
+		while (more) {
+			try {
+				instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+			} catch (SecurityException e) { // Done, at Home.
+				more = false;
+			}
+		}
 	}
 }
