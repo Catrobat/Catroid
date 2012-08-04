@@ -27,6 +27,7 @@ import java.io.IOException;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -49,6 +50,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -56,6 +58,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -64,7 +67,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		createTestProject(testProject);
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.clickOnText(testProject);
+		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.clickLongOnText(cat);
 
 		solo.clickOnText(solo.getString(R.string.rename));
@@ -83,7 +86,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 	public void testRenameSpriteDialogMixedCase() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.clickOnText(testProject);
+		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.clickLongOnText(cat);
 
 		solo.sleep(1000);

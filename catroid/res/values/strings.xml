@@ -19,8 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.-->
 <resources>
 
     <!-- General terms -->
@@ -39,7 +38,7 @@
     <string name="close">Close</string>
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
@@ -67,13 +66,12 @@
 
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
-    <string name="about_text">Catroid is an on-device visual programming language for 
-        Android devices that is inspired by the Scratch programming 
-        language developed by the Lifelong Kindergarten Group at 
-        the Media Lab of the Massachusetts Institute of Technology.\n\n
+    <string name="about_text">Catroid is a programming 
+        environment and interpreter for Android devices for the visual 
+        programming language Catrobat.\n\n
         Catroid is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
-    <string name="about_link_text">About Catroid</string>
+    <string name="about_catroid_license_link_text">Catroid License</string>
 
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
@@ -122,7 +120,7 @@
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Start recording</string>
     <string name="soundrecorder_record_stop">Stop recording</string>
-    <string name="soundrecorder_recording">recording in progress...</string>
+    <string name="soundrecorder_recording">recording in progress…</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
 
@@ -161,8 +159,8 @@
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
-    
-    <!--  OverwriteRenameDialog Strings -->
+
+    <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Project with same name already exists!</string>
     <string name="overwrite_replace">replace existing Project</string>
     <string name="overwrite_rename">rename downloaded Project</string>
@@ -178,8 +176,8 @@
     <string name="stagemenu_screenshot">Screenshot</string>
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">new...</string>
-    <string name="broadcast_nothing_selected">Nothing...</string>
+    <string name="new_broadcast_message">new…</string>
+    <string name="broadcast_nothing_selected">Nothing…</string>
 
     <!-- Brick categories -->
     <string name="categories">Categories</string>
@@ -271,6 +269,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
+    <string name="notification_load_project_cancel">Canceled loading project</string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
@@ -306,7 +305,7 @@
     <string name="button_scan">Search Bluetooth devices</string>
     <string name="select_device">Select your Lego Mindstorms NXT</string>
     <string name="scanning">Scanning</string>
-    <string name="connecting_please_wait">Connecting to your device.\nPlease wait...</string>
+    <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
     <string name="pairing_message">After pairing, connect.</string>
     <string name="problem_at_closing">Problem in closing the connection!</string>
     <string name="bt_connection_failed">Connection to device failed!</string>
