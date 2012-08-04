@@ -125,9 +125,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		ignoreResume = false;
 		PreStageActivity.shutdownPersistentResources();
 
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ projectManager.getCurrentProject().getName();
-		actionBar.setTitle(title);
+		if (projectManager.getCurrentProject() != null) {
+			String title = getString(R.string.project_name) + " " + projectManager.getCurrentProject().getName();
+			actionBar.setTitle(title);
+		}
 	}
 
 	@Override
