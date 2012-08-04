@@ -529,6 +529,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		String errorMessageInvalidInput = solo.getString(R.string.notification_invalid_text_entered);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testRenameProjectWithWhitelistedCharacters() {
@@ -633,6 +634,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testAddNewProjectMixedCase() {
@@ -654,6 +656,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No or wrong error message shown",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testSetDescriptionCurrentProject() {
