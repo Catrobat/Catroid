@@ -226,7 +226,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		getSherlockActivity().getSupportActionBar().setTitle(title);
 	}
 
-	public class ProjectData implements Serializable {
+	public static class ProjectData implements Serializable {
 
 		private static final long serialVersionUID = -1086067470908722316L;
 
