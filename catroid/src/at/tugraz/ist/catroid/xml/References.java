@@ -64,7 +64,6 @@ public class References {
 			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs)
 			throws XPathExpressionException, IllegalArgumentException, SecurityException, InstantiationException,
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException, ParseException {
-
 		XPathExpression exp = xpath.compile(referenceString);
 		Log.i("resolveRef", "xpath evaluated for :" + referenceString);
 		Element refferredElement = (Element) exp.evaluate(elementWithReference, XPathConstants.NODE);

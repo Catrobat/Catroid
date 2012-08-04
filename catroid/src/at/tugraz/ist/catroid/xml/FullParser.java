@@ -62,7 +62,8 @@ public class FullParser {
 			InputStream inputStreamForSprites = NativeAppActivity.getContext().getAssets().open(xmlFile);
 
 			parsedProject = this.parseSpritesWithProject(inputStreamForSprites);
-
+			inputStreamForSprites.close();
+			inputStreamForSprites = null;
 		} catch (ParseException e) {
 			e.printStackTrace();
 			throw e;
@@ -115,6 +116,7 @@ public class FullParser {
 			References references = new References();
 			references.resolveForwardReferences(referencedObjects, forwardRefs);
 			parsedProject = getProjectObject(doc, sprites);
+			doc = null;
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new ParseException(e);
