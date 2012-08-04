@@ -28,7 +28,7 @@ import xml.dom.minidom
 '''
 Automatically build and sign Catroid application.
 
-python handle_project.py <path_to_project> <path_to_catroid> <project_id> <ouput_folder>
+python handle_project.py <path_to_project> <path_to_catroid> <project_id> <output_folder>
 
 Example:
 python handle_project.py test.zip ~/hg/catroid 42 .
@@ -152,7 +152,7 @@ def edit_manifest(path_to_project):
 def main():
     if len(sys.argv) != 5:
         print 'Invalid arguments. Correct usage:'
-        print 'python handle_project.py <path_to_project> <path_to_catroid> <project_id> <ouput_folder>'
+        print 'python handle_project.py <path_to_project> <path_to_catroid> <project_id> <output_folder>'
         return 1
     path_to_project, archive_name = os.path.split(sys.argv[1])
     path_to_catroid = sys.argv[2]
