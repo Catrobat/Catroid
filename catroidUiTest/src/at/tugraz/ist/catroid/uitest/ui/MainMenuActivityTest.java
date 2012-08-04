@@ -167,6 +167,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 
 		UtilFile.deleteDirectory(directory);
 	}
@@ -278,6 +279,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				.getText().toString());
 		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_catroid_license_link_text),
 				textViewList.get(2).getText().toString());
+		solo.goBack();
 	}
 
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
