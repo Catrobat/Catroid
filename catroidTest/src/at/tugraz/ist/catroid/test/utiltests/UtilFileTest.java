@@ -30,6 +30,7 @@ import java.util.List;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -46,16 +47,14 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		final String catroidDirectory = "/sdcard/catroid";
-		UtilFile.deleteDirectory(new File(catroidDirectory + "/testDirectory"));
-		TestUtils.clearProject(projectName);
+		super.setUp();
 
-		testDirectory = new File(catroidDirectory + "/testDirectory");
-		testDirectory.mkdir();
+		testDirectory = new File(Constants.DEFAULT_ROOT + "/testDirectory");
+		testDirectory.mkdirs();
 		file1 = new File(testDirectory.getAbsolutePath() + "/file1");
 		file1.createNewFile();
 		subDirectory = new File(testDirectory.getAbsolutePath() + "/subDirectory");
-		subDirectory.mkdir();
+		subDirectory.mkdirs();
 		file2 = new File(subDirectory.getAbsolutePath() + "/file2");
 		file2.createNewFile();
 
@@ -64,8 +63,8 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		UtilFile.deleteDirectory(testDirectory);
-		TestUtils.clearProject(projectName);
+		UtilFile.deleteCatroidRootDirectory();
+		super.tearDown();
 	}
 
 	public void testClearDirectory() {
@@ -125,14 +124,15 @@ public class UtilFileTest extends InstrumentationTestCase {
 		UtilFile.deleteDirectory(testDirectory);
 	}
 
-	public void testGetProjectFiles() {
+	public void testGetProjectFiles() throws InterruptedException {
 		Project project = new Project(null, projectName);
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
-		ProjectManager.getInstance().saveProject();
+		assertTrue("could not save project",
+				TestUtils.saveProjectAndWait(ProjectManager.getInstance().getCurrentProject()));
 
-		String catroidDirectoryPath = "/sdcard/catroid";
+		String catroidDirectoryPath = Constants.DEFAULT_ROOT;
 		File catroidDirectory = new File(catroidDirectoryPath);
 		File project1Directory = new File(catroidDirectory + "/" + projectName);
 
@@ -142,5 +142,11 @@ public class UtilFileTest extends InstrumentationTestCase {
 				projectList.contains(project1Directory));
 		assertFalse("testDirectory should not be in Projectlist - not a Catroid project",
 				projectList.contains(testDirectory));
+	}
+
+	public void testDeleteRecursively() {
+		assertTrue("test directory doesn't exist", testDirectory.exists());
+		assertTrue("deleteRecursively failed", UtilFile.deleteRecursively(testDirectory));
+		assertFalse("test directory wasn't deleted", testDirectory.exists());
 	}
 }

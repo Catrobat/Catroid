@@ -100,6 +100,7 @@ public class Utils {
 			builder.setTitle(context.getString(R.string.error));
 			builder.setMessage(context.getString(R.string.error_no_sd_card));
 			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// finish parent activity
 					// parentActivity.finish();
@@ -178,6 +179,7 @@ public class Utils {
 		builder.setTitle(context.getString(R.string.error));
 		builder.setMessage(errorMessage);
 		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
@@ -295,6 +297,7 @@ public class Utils {
 
 	public static OnShowListener getBrickDialogOnClickListener(final Context context, final EditText input) {
 		return new OnShowListener() {
+			@Override
 			public void onShow(DialogInterface dialog) {
 				InputMethodManager inputManager = (InputMethodManager) context
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
