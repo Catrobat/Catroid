@@ -28,7 +28,6 @@ import java.util.ArrayList;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
@@ -53,34 +52,31 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.io.StorageHandler.SaveProjectTaskCallback;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private StorageHandler storageHandler;
 
-	public StorageHandlerTest() throws IOException {
+	public StorageHandlerTest() {
 		storageHandler = StorageHandler.getInstance();
 	}
 
 	@Override
-	public void tearDown() {
-		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
-		TestUtils.clearProject("testProject");
+	public void setUp() throws Exception {
+		super.setUp();
+		Utils.updateScreenWidthAndHeight(getContext());
 	}
 
 	@Override
-	public void setUp() {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
-				+ getContext().getString(R.string.default_project_name));
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
+	public void tearDown() throws Exception {
+		TestUtils.deleteCatroidRootDirectory();
+		super.tearDown();
 	}
 
 	public void testSerializeProject() throws InterruptedException {
-
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
@@ -204,7 +200,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	public void testAliasesAndXmlHeader() throws InterruptedException {
-
 		String projectName = "myProject";
 
 		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
@@ -257,4 +252,28 @@ public class StorageHandlerTest extends AndroidTestCase {
 		}
 	}
 
+	public void testAsyncSaveTaskCallbackShouldBeCalled() throws InterruptedException {
+		Project project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = new Sprite("testSprite");
+		Script startScript = new StartScript(sprite);
+		Script whenScript = new WhenScript(sprite);
+		sprite.addScript(startScript);
+		sprite.addScript(whenScript);
+		project.addSprite(sprite);
+
+		final boolean[] lock = { false };
+
+		storageHandler.saveProject(project, new SaveProjectTaskCallback() {
+			public void onProjectSaved(boolean success) {
+				synchronized (lock) {
+					lock[0] = success;
+					lock.notify();
+				}
+			}
+		});
+		synchronized (lock) {
+			lock.wait();
+		}
+		assertTrue("Callback was not called or project couldn't be saved.", lock[0]);
+	}
 }
