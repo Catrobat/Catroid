@@ -3,6 +3,7 @@ package com.actionbarsherlock.internal;
 import android.content.Context;
 import android.os.Build;
 import android.util.DisplayMetrics;
+
 import com.actionbarsherlock.R;
 
 public final class ResourcesCompat {
@@ -26,34 +27,38 @@ public final class ResourcesCompat {
             return context.getResources().getBoolean(id);
         }
 
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        float widthDp = metrics.widthPixels / metrics.density;
-        float heightDp = metrics.heightPixels / metrics.density;
-        float smallestWidthDp = (widthDp < heightDp) ? widthDp : heightDp;
+        try {
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            float widthDp = metrics.widthPixels / metrics.density;
+            float heightDp = metrics.heightPixels / metrics.density;
+            float smallestWidthDp = (widthDp < heightDp) ? widthDp : heightDp;
 
-        if (id == R.bool.abs__action_bar_embed_tabs) {
-            if (widthDp >= 480) {
-                return true; //values-w480dp
+            if (id == R.bool.abs__action_bar_embed_tabs) {
+                if (widthDp >= 480) {
+                    return true; // values-w480dp
+                }
+                return false; // values
             }
-            return false; //values
-        }
-        if (id == R.bool.abs__split_action_bar_is_narrow) {
-            if (widthDp >= 480) {
-                return false; //values-w480dp
+            if (id == R.bool.abs__split_action_bar_is_narrow) {
+                if (widthDp >= 480) {
+                    return false; // values-w480dp
+                }
+                return true; // values
             }
-            return true; //values
-        }
-        if (id == R.bool.abs__action_bar_expanded_action_views_exclusive) {
-            if (smallestWidthDp >= 600) {
-                return false; //values-sw600dp
+            if (id == R.bool.abs__action_bar_expanded_action_views_exclusive) {
+                if (smallestWidthDp >= 600) {
+                    return false; // values-sw600dp
+                }
+                return true; // values
             }
-            return true; //values
-        }
-        if (id == R.bool.abs__config_allowActionMenuItemTextWithIcon) {
-            if (widthDp >= 480) {
-                return true; //values-w480dp
+            if (id == R.bool.abs__config_allowActionMenuItemTextWithIcon) {
+                if (widthDp >= 480) {
+                    return true; // values-w480dp
+                }
+                return false; // values
             }
-            return false; //values
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            return context.getResources().getBoolean(id);
         }
 
         throw new IllegalArgumentException("Unknown boolean resource ID " + id);
