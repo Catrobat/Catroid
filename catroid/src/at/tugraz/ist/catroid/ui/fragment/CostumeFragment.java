@@ -86,6 +86,12 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_costume, null);
 		return rootView;
@@ -103,7 +109,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
 		adapter.setOnCostumeEditListener(this);
 		setListAdapter(adapter);
-		setHasOptionsMenu(true);
 	}
 
 	@Override
