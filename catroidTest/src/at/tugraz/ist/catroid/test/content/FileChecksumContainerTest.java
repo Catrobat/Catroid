@@ -60,7 +60,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		testCopyFile.virtualScreenHeight = 1000;
 		testCopyFile.virtualScreenWidth = 1000;
 		projectManager = ProjectManager.getInstance();
-		storageHandler.saveProject(testCopyFile);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(testCopyFile));
 		projectManager.setProject(testCopyFile);
 
 		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
@@ -123,8 +123,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		Thread.sleep(2000);
 
 		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
-		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + Constants.IMAGE_DIRECTORY
-				+ "/");
+		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/"
+				+ Constants.IMAGE_DIRECTORY + "/");
 		File[] filesImage = imageDirectory.listFiles();
 
 		//nomedia file is also in images folder
@@ -133,7 +133,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		String checksumSound = Utils.md5Checksum(testSound);
 		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumSound));
-		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + Constants.SOUND_DIRECTORY);
+		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/"
+				+ Constants.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
 
 		//nomedia file is also in sounds folder
@@ -153,14 +154,16 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		Thread.sleep(2000);
 
 		storageHandler.deleteFile(newTestImage1.getAbsolutePath());
-		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + Constants.IMAGE_DIRECTORY);
+		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/"
+				+ Constants.IMAGE_DIRECTORY);
 		File[] filesImage = imageDirectory.listFiles();
 		assertEquals("Wrong amount of files in folder", 1, filesImage.length);
 
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		storageHandler.deleteFile(newTestSound.getAbsolutePath());
 
-		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/" + Constants.SOUND_DIRECTORY);
+		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/"
+				+ Constants.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
 
 		assertEquals("Wrong amount of files in folder", 1, filesSound.length);

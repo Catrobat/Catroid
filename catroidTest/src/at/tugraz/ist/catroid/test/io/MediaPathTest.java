@@ -54,6 +54,7 @@ import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MediaPathTest extends InstrumentationTestCase {
@@ -79,17 +80,17 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 
-		TestUtils.clearProject(projectName);
-		TestUtils.clearProject("mockProject");
+		Utils.updateScreenWidthAndHeight(getInstrumentation().getContext());
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
 
 		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
-		StorageHandler.getInstance().saveProject(mockProject);
+		TestUtils.saveProjectAndWait(mockProject);
 
 		testImage = TestUtils.saveFileToProject(mockProject.getName(), imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
@@ -104,16 +105,15 @@ public class MediaPathTest extends InstrumentationTestCase {
 		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
-
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.clearProject(projectName);
-		TestUtils.clearProject("mockProject");
+		UtilFile.deleteCatroidRootDirectory();
+		super.tearDown();
 	}
 
-	public void testPathsInProjectFile() throws IOException {
+	public void testPathsInProjectFile() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String project = TestUtils.getProjectfileAsString(projectName);
 
@@ -123,7 +123,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("project contains sdcard/", project.contains("sdcard/"));
 	}
 
-	public void testFilenameChecksum() throws IOException {
+	public void testFilenameChecksum() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 
 		String project = TestUtils.getProjectfileAsString(projectName);
@@ -148,12 +148,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertTrue("unexpected imagename", project.contains(expectedImagenameTags));
 		assertTrue("unexpected soundname", project.contains(expectedSoundnameTags));
 
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage), Utils
-				.md5Checksum(testImageCopy));
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage), Utils
-				.md5Checksum(testImageCopy2));
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testSound), Utils
-				.md5Checksum(testSoundCopy));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage),
+				Utils.md5Checksum(testImageCopy));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage),
+				Utils.md5Checksum(testImageCopy2));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testSound),
+				Utils.md5Checksum(testSoundCopy));
 
 		//check if copy doesn't save more instances of the same file:
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
@@ -182,22 +182,21 @@ public class MediaPathTest extends InstrumentationTestCase {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		storageHandler.deleteFile(testImageCopy.getAbsolutePath());
 		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
-		assertTrue("checksum not in project although file should exist", container.containsChecksum(Utils
-				.md5Checksum(testImageCopy)));
+		assertTrue("checksum not in project although file should exist",
+				container.containsChecksum(Utils.md5Checksum(testImageCopy)));
 		storageHandler.deleteFile(testImageCopy2.getAbsolutePath());
-		assertFalse("checksum in project although file should not exist", container.containsChecksum(Utils
-				.md5Checksum(testImageCopy2)));
+		assertFalse("checksum in project although file should not exist",
+				container.containsChecksum(Utils.md5Checksum(testImageCopy2)));
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
-		File[] filesImage = directory.listFiles();
 
-		//nomedia file is also in images folder
-		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, filesImage.length);
+		// .nomedia file is also in images folder
+		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, directory.listFiles().length);
 
 		storageHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caught (this is expected behavior)
 	}
 
-	public void testContainerOnLoadProject() throws IOException {
+	public void testContainerOnLoadProject() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 		ProjectManager projectManager = ProjectManager.getInstance();
 		String checksumImage = Utils.md5Checksum(testImage);
@@ -208,8 +207,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumImage));
 		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumSound));
-		assertFalse("returns true even when the checksum is for sure not added", projectManager.fileChecksumContainer
-				.containsChecksum(checksumImage + "5"));
+		assertFalse("returns true even when the checksum is for sure not added",
+				projectManager.fileChecksumContainer.containsChecksum(checksumImage + "5"));
 
 		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(),
 				projectManager.fileChecksumContainer.getPath(checksumImage));
@@ -218,7 +217,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 				projectManager.fileChecksumContainer.getPath(checksumSound));
 	}
 
-	public void testFileChecksumContainerNotInProjectFile() throws IOException {
+	public void testFileChecksumContainerNotInProjectFile() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
@@ -227,7 +226,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 	}
 
-	public void testCostumeDataListAndSoundInfoListInProjectFile() throws IOException {
+	public void testCostumeDataListAndSoundInfoListInProjectFile() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
@@ -238,7 +237,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertTrue("soundList not in project", projectString.contains("soundList"));
 	}
 
-	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
+	private void fillProjectWithAllBricksAndMediaFiles() throws IOException, InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);
@@ -293,6 +292,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 			whenScript.addBrick(brick);
 		}
 
-		StorageHandler.getInstance().saveProject(project);
+		TestUtils.saveProjectAndWait(project);
 	}
 }

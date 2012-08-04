@@ -41,7 +41,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.test.utils.XMLValidationUtil;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
@@ -65,7 +64,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 
 	@SuppressWarnings("unchecked")
 	public void testSerializeProjectWithAllBricks() throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException, IOException, JSONException {
+			InvocationTargetException, IOException, JSONException, InterruptedException {
 
 		File projectDirectory = new File(Constants.DEFAULT_ROOT + "/" + testProjectName);
 		if (projectDirectory.exists()) {
@@ -103,7 +102,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		}
 
 		assertTrue("no bricks added to the start script", startScript.getBrickList().size() > 0);
-		StorageHandler.getInstance().saveProject(project);
+		assertTrue("could not save project", TestUtils.saveProjectAndWait(project));
 
 		XMLValidationUtil.sendProjectXMLToServerForValidating(project);
 	}

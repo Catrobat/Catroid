@@ -52,7 +52,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		TestUtils.deleteTestProjects();
 	}
 
-	public void testShouldReturnFalseIfVersionNumberTooHigh() {
+	public void testShouldReturnFalseIfVersionNumberTooHigh() throws InterruptedException {
 		TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
 
 		boolean result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
@@ -65,7 +65,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		assertTrue("Load project didn't return true", result);
 	}
 
-	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {
+	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws InterruptedException {
 		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(0, OLD_PROJECT);
 
 		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), false);

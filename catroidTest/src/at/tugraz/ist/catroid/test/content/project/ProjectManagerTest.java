@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
@@ -41,11 +41,11 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectManagerTest extends InstrumentationTestCase {
+public class ProjectManagerTest extends AndroidTestCase {
 
 	private String projectNameOne = "Ulumulu";
 	private String spriteNameOne = "Zuul";
@@ -55,21 +55,27 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	private Script otherScript;
 
 	@Override
-	public void tearDown() {
-		TestUtils.clearProject(projectNameOne);
-		TestUtils.clearProject("oldProject");
-		TestUtils.clearProject("newProject");
+	protected void setUp() throws Exception {
+		super.setUp();
+		Utils.updateScreenWidthAndHeight(getContext());
 	}
 
-	public void testBasicFunctions() throws NameNotFoundException, IOException {
+	@Override
+	protected void tearDown() throws Exception {
+		UtilFile.deleteCatroidRootDirectory();
+		super.tearDown();
+	}
+
+	public void testBasicFunctions() throws NameNotFoundException, IOException, InterruptedException {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
-		Context context = getInstrumentation().getContext().createPackageContext("at.tugraz.ist.catroid",
-				Context.CONTEXT_IGNORE_SECURITY);
+		Context context = getContext();
 
 		// initializeNewProject
 		projectManager.initializeNewProject(projectNameOne, context);
+		// Wait for asynchronous project saving to finish.
+		Thread.sleep(1000);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
@@ -124,16 +130,16 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				projectManager.getCurrentScript().getBrickList().contains(setCostumeBrick));
 	}
 
-	public void testRenameProject() throws IOException {
+	public void testRenameProject() throws IOException, InterruptedException {
 		String oldProjectName = "oldProject";
 		String newProjectName = "newProject";
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		createTestProject(oldProjectName);
-		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
+		if (!projectManager.renameProject(newProjectName, getContext())) {
 			fail("could not rename Project");
 		}
-		projectManager.saveProject();
+		assertTrue("could not save project", TestUtils.saveProjectAndWait(projectManager.getCurrentProject()));
 
 		File oldProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName + "/" + Constants.PROJECTCODE_NAME);
@@ -153,15 +159,13 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
 	}
 
-	public Project createTestProject(String projectName) throws IOException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
+	public Project createTestProject(String projectName) throws IOException, InterruptedException {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		storageHandler.saveProject(project);
+		Project project = new Project(getContext(), projectName);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
 		ProjectManager.getInstance().setProject(project);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -173,7 +177,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
 		File image = TestUtils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
-				getInstrumentation().getContext(), 0);
+				getContext(), 0);
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image.getName());
 		costumeData.setCostumeName("name");
@@ -203,7 +207,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image),
 				image.getAbsolutePath());
 
-		storageHandler.saveProject(project);
+		TestUtils.saveProjectAndWait(project);
 		return project;
 	}
 }

@@ -41,6 +41,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		testSprite = new Sprite("testSprite");
 	}
 

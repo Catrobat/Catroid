@@ -71,14 +71,15 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void setUp() {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
+				+ getContext().getString(R.string.default_project_name));
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
 		}
 	}
 
-	public void testSerializeProject() {
+	public void testSerializeProject() throws InterruptedException {
 
 		int xPosition = 457;
 		int yPosition = 598;
@@ -115,7 +116,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
+		assertTrue("could not save project", TestUtils.saveProjectAndWait(project));
 
 		Project loadedProject = storageHandler.loadProject("testProject");
 
@@ -162,9 +163,11 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 
-	public void testDefaultProject() throws IOException {
+	public void testDefaultProject() throws IOException, InterruptedException {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(getContext()));
+		// Wait for asynchronous project saving to finish.
+		Thread.sleep(742);
 		assertEquals("not the right number of sprites in the default project", 2, projectManager.getCurrentProject()
 				.getSpriteList().size());
 		assertEquals("not the right number of scripts in the second sprite of default project", 2, projectManager
@@ -200,7 +203,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertTrue("Image " + catroidCostumeList.get(2).getCostumeFileName() + " does not exist", testFile.exists());
 	}
 
-	public void testAliasesAndXmlHeader() {
+	public void testAliasesAndXmlHeader() throws InterruptedException {
 
 		String projectName = "myProject";
 
@@ -241,7 +244,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 			whenScript.addBrick(b);
 		}
 
-		storageHandler.saveProject(project);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 

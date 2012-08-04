@@ -31,30 +31,24 @@ import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.WhenScript;
-import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StandardProjectHandlerTest extends AndroidTestCase {
-
 	private String testProjectName = "testStandardProjectBuilding";
 
-	public StandardProjectHandlerTest() throws IOException {
-	}
-
 	@Override
-	public void tearDown() {
-		TestUtils.clearProject(testProjectName);
+	protected void tearDown() throws Exception {
+		UtilFile.deleteCatroidRootDirectory();
+		super.tearDown();
 	}
 
-	@Override
-	public void setUp() {
-		TestUtils.clearProject(testProjectName);
-	}
-
-	public void testCreateStandardProject() throws IOException {
+	public void testCreateStandardProject() throws IOException, InterruptedException {
 		Values.SCREEN_WIDTH = 500;
 		Values.SCREEN_HEIGHT = 1000;
 
 		Project testProject = StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
+		// Wait for asynchronous project saving to finish.
+		Thread.sleep(842);
 
 		assertEquals("The Project has the wrong name.", testProjectName, testProject.getName());
 		assertEquals("wrong number of sprites.", 2, testProject.getSpriteList().size());

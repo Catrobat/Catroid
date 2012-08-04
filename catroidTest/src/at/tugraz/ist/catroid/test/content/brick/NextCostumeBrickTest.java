@@ -27,14 +27,12 @@ import java.io.File;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.NextCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -47,15 +45,12 @@ public class NextCostumeBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
+		super.setUp();
+		projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
+
 		ProjectManager.getInstance().setProject(project);
 
 		testImage = TestUtils.saveFileToProject(projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
@@ -67,18 +62,11 @@ public class NextCostumeBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
-		}
+		UtilFile.deleteCatroidRootDirectory();
+		super.tearDown();
 	}
 
 	public void testNextCostume() {
-
 		Sprite sprite = new Sprite("cat");
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
@@ -130,7 +118,6 @@ public class NextCostumeBrickTest extends InstrumentationTestCase {
 	}
 
 	public void testCostumeGalleryNull() {
-
 		Sprite sprite = new Sprite("cat");
 		NextCostumeBrick nextCostumeBrick = new NextCostumeBrick(sprite);
 		nextCostumeBrick.execute();
@@ -158,7 +145,6 @@ public class NextCostumeBrickTest extends InstrumentationTestCase {
 	}
 
 	public void testNextCostumeWithNoCostumeSet() {
-
 		Sprite sprite = new Sprite("cat");
 
 		NextCostumeBrick nextCostumeBrick = new NextCostumeBrick(sprite);
