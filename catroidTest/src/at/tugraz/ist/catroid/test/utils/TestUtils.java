@@ -103,7 +103,6 @@ public class TestUtils {
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
-
 		File testImage = new File(filePath);
 
 		if (!testImage.exists()) {
@@ -215,7 +214,8 @@ public class TestUtils {
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name) {
+	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name)
+			throws InterruptedException {
 		Project project = new ProjectWithVersionCode(name, versionCode);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
@@ -223,10 +223,10 @@ public class TestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		saveProjectAndWait(project);
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) throws InterruptedException {
 		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, DEFAULT_TEST_PROJECT_NAME);
 	}
 
@@ -244,5 +244,23 @@ public class TestUtils {
 				UtilFile.deleteDirectory(directory);
 			}
 		}
+	}
+
+	public static boolean saveProjectAndWait(Project project) throws InterruptedException {
+		// Lock needs to be final in anonymous class. We use a mutable array to return a result.
+		final Boolean[] lock = { false };
+
+		StorageHandler.getInstance().saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
+			public void onProjectSaved(boolean success) {
+				synchronized (lock) {
+					lock[0] = success;
+					lock.notify();
+				}
+			}
+		});
+		synchronized (lock) {
+			lock.wait();
+		}
+		return lock[0];
 	}
 }
