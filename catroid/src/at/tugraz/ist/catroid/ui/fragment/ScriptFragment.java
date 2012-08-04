@@ -78,6 +78,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 		setRetainInstance(true);
 	}
 
@@ -99,7 +100,6 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		addScript = false;
 		isCanceled = false;
 
-		setHasOptionsMenu(true);
 		if (savedInstanceState != null) {
 			selectedCategory = savedInstanceState.getString(ARGS_SELECTED_CATEGORY);
 		}
