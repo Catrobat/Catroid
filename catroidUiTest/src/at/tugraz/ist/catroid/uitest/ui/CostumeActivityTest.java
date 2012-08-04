@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -508,6 +509,46 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	}
 
+	public void testAddNewSoundDialog() {
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+
+		String addCostumeDialogTitle = solo.getString(R.string.select_image);
+		String buttonPositiveText = solo.getString(R.string.ok);
+		solo.clickOnText(solo.getString(R.string.sound_delete));
+		solo.waitForText(buttonPositiveText);
+		solo.clickOnText(buttonPositiveText);
+
+		solo.clickOnView(solo.getView(R.id.view_below_costumelist_non_scrollable));
+		solo.waitForText(addCostumeDialogTitle, 0, 1000);
+		assertTrue("Add costume dialog did not appear", solo.searchText(addCostumeDialogTitle));
+		solo.goBack();
+
+		solo.clickOnView(solo.getView(R.id.costumelist_footerview_add_image));
+		solo.waitForText(addCostumeDialogTitle, 0, 1000);
+		assertTrue("Add costume dialog did not appear", solo.searchText(addCostumeDialogTitle));
+		solo.goBack();
+
+		solo.clickOnView(solo.getView(R.id.costumelist_footerview));
+		solo.waitForText(addCostumeDialogTitle, 0, 1000);
+		assertTrue("Add costume dialog did not appear", solo.searchText(addCostumeDialogTitle));
+		solo.goBack();
+
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		addNewCostume("costume1");
+		addNewCostume("costume2");
+		addNewCostume("costume3");
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+
+		solo.clickOnView(solo.getView(R.id.costumelist_footerview));
+		solo.waitForText(addCostumeDialogTitle, 0, 1000);
+		assertTrue("Add costume dialog did not appear", solo.searchText(addCostumeDialogTitle));
+	}
+
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
 		solo.clickOnText(currentCostumeName);
 		EditText editTextCostumeName = (EditText) solo.getView(R.id.dialog_rename_costume_editText);
@@ -515,5 +556,17 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(editTextCostumeName, newCostumeName);
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
+	}
+
+	private void addNewCostume(String costumeName) {
+		File newCostumeImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, costumeName
+				+ ".png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+		costumeDataList = ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList();
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(newCostumeImageFile.getName());
+		costumeData.setCostumeName(costumeName);
+		costumeDataList.add(costumeData);
+		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		ProjectManager.INSTANCE.saveProject();
 	}
 }

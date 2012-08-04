@@ -101,6 +101,7 @@
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
     <string name="default_costume_name">costume</string>
     <string name="delete_costume_dialog">Delete costume?</string>
+    <string name="costumelist_footer_image_description">Tap to add new costume</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>

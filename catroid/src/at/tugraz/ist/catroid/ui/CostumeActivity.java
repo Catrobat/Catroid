@@ -41,6 +41,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -53,8 +55,12 @@ import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class CostumeActivity extends ListActivity {
+public class CostumeActivity extends ListActivity implements OnClickListener {
 	private ArrayList<CostumeData> costumeDataList;
+	private View viewBelowCostumelistNonScrollable;
+	private View costumelistFooterView;
+
+	private static final int FOOTER_ADD_COSTUME_ALPHA_VALUE = 35;
 
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
@@ -64,8 +70,18 @@ public class CostumeActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_costume);
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		viewBelowCostumelistNonScrollable = findViewById(R.id.view_below_costumelist_non_scrollable);
+		viewBelowCostumelistNonScrollable.setOnClickListener(this);
 
+		View footerView = getLayoutInflater().inflate(R.layout.activity_costume_costumelist_footer, getListView(),
+				false);
+		costumelistFooterView = footerView.findViewById(R.id.costumelist_footerview);
+		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.costumelist_footerview_add_image);
+		footerAddImage.setAlpha(FOOTER_ADD_COSTUME_ALPHA_VALUE);
+		costumelistFooterView.setOnClickListener(this);
+		getListView().addFooterView(footerView);
+
+		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
 	}
 
@@ -247,19 +263,23 @@ public class CostumeActivity extends ListActivity {
 	private View.OnClickListener createAddCostumeClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-
-				Bundle bundleForPaintroid = new Bundle();
-				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
-				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
-						CostumeActivity.this.getString(R.string.default_costume_name));
-
-				intent.setType("image/*");
-				intent.putExtras(bundleForPaintroid);
-				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
-				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
+				startSelectCostumeIntent();
 			}
 		};
+	}
+
+	private void startSelectCostumeIntent() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
+				CostumeActivity.this.getString(R.string.default_costume_name));
+
+		intent.setType("image/*");
+		intent.putExtras(bundleForPaintroid);
+		Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
+		startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 	}
 
 	public void handleDeleteCostumeButton(View v) {
@@ -332,5 +352,16 @@ public class CostumeActivity extends ListActivity {
 		intent.putExtras(bundleForPaintroid);
 		intent.addCategory("android.intent.category.LAUNCHER");
 		startActivityForResult(intent, REQUEST_PAINTROID_EDIT_IMAGE);
+	}
+
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.view_below_costumelist_non_scrollable:
+				startSelectCostumeIntent();
+				break;
+			case R.id.costumelist_footerview:
+				startSelectCostumeIntent();
+				break;
+		}
 	}
 }
