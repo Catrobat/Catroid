@@ -51,6 +51,7 @@ public class TestUtils {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	private static final File CATROID_ROOT_DIR = new File(Constants.DEFAULT_ROOT);
 
 	private TestUtils() {
 	};
@@ -262,5 +263,18 @@ public class TestUtils {
 			lock.wait();
 		}
 		return lock[0];
+	}
+
+	public static boolean deleteRecursively(File file) {
+		if (file.isDirectory()) {
+			for (File f : file.listFiles()) {
+				deleteRecursively(f);
+			}
+		}
+		return file.delete();
+	}
+
+	public static boolean deleteCatroidRootDirectory() {
+		return deleteRecursively(CATROID_ROOT_DIR);
 	}
 }

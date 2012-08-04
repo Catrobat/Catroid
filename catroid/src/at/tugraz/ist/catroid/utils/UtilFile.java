@@ -38,8 +38,6 @@ public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
-	private static final File CATROID_ROOT_DIR = new File(Constants.DEFAULT_ROOT);
-
 	private UtilFile() {
 	}
 
@@ -175,18 +173,5 @@ public class UtilFile {
 			}
 		}
 		return projectList;
-	}
-
-	public static boolean deleteRecursively(File file) {
-		if (file.isDirectory()) {
-			for (File f : file.listFiles()) {
-				deleteRecursively(f);
-			}
-		}
-		return file.delete();
-	}
-
-	public static boolean deleteCatroidRootDirectory() {
-		return deleteRecursively(CATROID_ROOT_DIR);
 	}
 }

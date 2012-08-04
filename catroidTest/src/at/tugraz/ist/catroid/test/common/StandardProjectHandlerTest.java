@@ -31,14 +31,14 @@ import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.WhenScript;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StandardProjectHandlerTest extends AndroidTestCase {
 	private String testProjectName = "testStandardProjectBuilding";
 
 	@Override
 	protected void tearDown() throws Exception {
-		UtilFile.deleteCatroidRootDirectory();
+		TestUtils.deleteCatroidRootDirectory();
 		super.tearDown();
 	}
 

@@ -62,7 +62,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		UtilFile.deleteCatroidRootDirectory();
+		TestUtils.deleteCatroidRootDirectory();
 		super.tearDown();
 	}
 

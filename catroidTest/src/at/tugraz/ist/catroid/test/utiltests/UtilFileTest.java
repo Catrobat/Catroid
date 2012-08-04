@@ -63,7 +63,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		UtilFile.deleteCatroidRootDirectory();
+		TestUtils.deleteCatroidRootDirectory();
 		super.tearDown();
 	}
 
@@ -146,7 +146,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	public void testDeleteRecursively() {
 		assertTrue("test directory doesn't exist", testDirectory.exists());
-		assertTrue("deleteRecursively failed", UtilFile.deleteRecursively(testDirectory));
+		assertTrue("deleteRecursively failed", TestUtils.deleteRecursively(testDirectory));
 		assertFalse("test directory wasn't deleted", testDirectory.exists());
 	}
 }

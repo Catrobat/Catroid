@@ -109,7 +109,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		UtilFile.deleteCatroidRootDirectory();
+		TestUtils.deleteCatroidRootDirectory();
 		super.tearDown();
 	}
 
