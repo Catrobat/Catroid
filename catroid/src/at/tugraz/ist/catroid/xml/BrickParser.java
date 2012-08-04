@@ -142,6 +142,7 @@ public class BrickParser {
 								referenceAttribute, referencedObjects, forwardRefs);
 						if (!costumeSet) {
 							references = new References();
+							CostumeData c = (CostumeData) objectGetter.getobjectOfClass(CostumeData.class, "");
 							references.resolveReference(objectGetter.getobjectOfClass(CostumeData.class, ""),
 									brickValue, referenceAttribute, referencedObjects, forwardRefs);
 						}
@@ -158,9 +159,8 @@ public class BrickParser {
 					}
 					if (brickvalueName.equals("loopBeginBrick")) {
 
-						referenceAttribute = referenceAttribute.replace("../..", "brickList");
-						brickObject = (Brick) referencedObjects.get("loopEndBrickRef" + referenceAttribute
-								+ "/loopEndBrick");
+						String loopEndref = referenceAttribute.replace("../..", "brickList");
+						brickObject = (Brick) referencedObjects.get("loopEndBrickRef" + loopEndref + "/loopEndBrick");
 						if (brickObject != null) {
 							return brickObject;
 						}
@@ -203,8 +203,8 @@ public class BrickParser {
 							}
 						}
 
-						Character d = (brickvalueName.toUpperCase().charAt(0));
-						brickvalueName = d.toString().concat(brickvalueName.substring(1));
+						Character bickvalueStartCharacter = (brickvalueName.toUpperCase().charAt(0));
+						brickvalueName = bickvalueStartCharacter.toString().concat(brickvalueName.substring(1));
 						String prefix = "";
 						brickvalueName = prefix.concat(brickvalueName);
 						Brick valueBrick = getBrickObject(brickvalueName, foundSprite, brickValue.getChildNodes(),

@@ -8,8 +8,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.R;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
@@ -27,15 +28,16 @@ import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
 import at.tugraz.ist.catroid.xml.serializer.SerializeException;
 import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
-public class SerializerTest extends AndroidTestCase {
+public class SerializerTest extends InstrumentationTestCase {
+	Context androidContext;
 
 	//	@Override
 	//	public void tearDown() {
@@ -44,14 +46,22 @@ public class SerializerTest extends AndroidTestCase {
 	//	}
 	//
 	@Override
+	protected void tearDown() throws Exception {
+		androidContext = null;
+		NativeAppActivity.setContext(androidContext);
+	}
+
+	@Override
 	public void setUp() {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
-				+ getContext().getString(R.string.default_project_name));
+		//		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
+		//				+ getInstrumentation().getContext().getString(R.string.default_project_name));
+		//
+		//		if (projectFile.exists()) {
+		//			UtilFile.deleteDirectory(projectFile);
+		//		}
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
+		androidContext = getInstrumentation().getContext();
+		NativeAppActivity.setContext(androidContext);
 	}
 
 	public void testSerializingToXml() {
@@ -60,7 +70,8 @@ public class SerializerTest extends AndroidTestCase {
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(getContext(), "testSerializeProject");
+		Project project = new Project();
+		project.setName("testSerializeProject");
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
@@ -138,35 +149,35 @@ public class SerializerTest extends AndroidTestCase {
 				postSpriteList.get(2).getName());
 		assertEquals("Fourth sprite does not match after deserialization", preSpriteList.get(3).getName(),
 				postSpriteList.get(3).getName());
-		assertEquals("Fifth sprite does not match after deserialization", preSpriteList.get(4).getName(),
-				postSpriteList.get(4).getName());
+		//		assertEquals("Fifth sprite does not match after deserialization", preSpriteList.get(4).getName(),
+		//				postSpriteList.get(4).getName());
 
 		// Test project name:
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		int actualXPosition = (Integer) TestUtils.getPrivateField("xPosition", (postSpriteList.get(2).getScript(0)
+		int actualXPosition = (Integer) TestUtils.getPrivateField("xPosition", (postSpriteList.get(1).getScript(0)
 				.getBrickList().get(0)), false);
-		int actualYPosition = (Integer) TestUtils.getPrivateField("yPosition", (postSpriteList.get(2).getScript(0)
+		int actualYPosition = (Integer) TestUtils.getPrivateField("yPosition", (postSpriteList.get(1).getScript(0)
 				.getBrickList().get(0)), false);
 
-		double actualSize = (Double) TestUtils.getPrivateField("size", (postSpriteList.get(1).getScript(0)
+		double actualSize = (Double) TestUtils.getPrivateField("size", (postSpriteList.get(0).getScript(0)
 				.getBrickList().get(2)), false);
 
 		assertEquals("Size was not deserialized right", size, actualSize);
 		assertEquals("XPosition was not deserialized right", xPosition, actualXPosition);
 		assertEquals("YPosition was not deserialized right", yPosition, actualYPosition);
 
-		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
+		assertFalse("paused should not be set in script", preSpriteList.get(0).getScript(0).isPaused());
 
-		// Test version codes and names
-		final int preVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", project, false);
-		final int postVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", loadedProject, false);
-		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
-
-		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
-		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
-		assertEquals("Version names are not equal", preVersionName, postVersionName);
+		//		// Test version codes and names
+		//		final int preVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", project, false);
+		//		final int postVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", loadedProject, false);
+		//		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
+		//
+		//		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
+		//		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
+		//		assertEquals("Version names are not equal", preVersionName, postVersionName);
 
 	}
 
@@ -232,7 +243,8 @@ public class SerializerTest extends AndroidTestCase {
 		otherScript.addBrick(showBrick);
 		pointedSprite.addScript(otherScript);
 
-		Project testProject = new Project(getContext(), "referenceProject");
+		Project testProject = new Project();
+		testProject.setName("testReferenceSerializerProject");
 		testProject.addSprite(testSprite);
 		testProject.addSprite(pointedSprite);
 
@@ -270,7 +282,7 @@ public class SerializerTest extends AndroidTestCase {
 
 		}
 		assertNotNull("loaded project is null", loadedProject);
-		Sprite loadedFirstSprite = loadedProject.getSpriteList().get(1);
+		Sprite loadedFirstSprite = loadedProject.getSpriteList().get(0);
 		RepeatBrick loadedRepeatBrick = (RepeatBrick) loadedFirstSprite.getScript(0).getBrick(0);
 		LoopEndBrick referenceLoopEndBrick = loadedRepeatBrick.getLoopEndBrick();
 		LoopEndBrick loadedLoopEndBrick = (LoopEndBrick) loadedFirstSprite.getScript(0).getBrick(3);
@@ -291,7 +303,52 @@ public class SerializerTest extends AndroidTestCase {
 
 		PointToBrick loadedPointBrick = (PointToBrick) loadedFirstSprite.getScript(0).getBrick(4);
 		Sprite referencedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", loadedPointBrick, false);
-		assertEquals("SpriteReferencing wrong", loadedProject.getSpriteList().get(2), referencedSprite);
+		assertEquals("SpriteReferencing wrong", loadedProject.getSpriteList().get(1), referencedSprite);
 
+	}
+
+	public void testSerializePerformanceTest() {
+		FullParser parser = new FullParser();
+		Project bigProject = null;
+		try {
+			bigProject = parser.fullParser("test_aquarium_project.xml");
+		} catch (ParseException e) {
+			fail("Unexpected ParseException");
+			e.printStackTrace();
+		}
+
+		XmlSerializer serializer = new XmlSerializer();
+
+		String bigProjectDirectoryName = Utils.buildProjectPath("test_1_" + bigProject.getName());
+		File bigProjectDirectory = new File(bigProjectDirectoryName);
+
+		if (!(bigProjectDirectory.exists() && bigProjectDirectory.isDirectory() && bigProjectDirectory.canWrite())) {
+			bigProjectDirectory.mkdir();
+
+		}
+		try {
+			long starTime = System.currentTimeMillis();
+			serializer.toXml(bigProject, Utils.buildPath(bigProjectDirectoryName, Constants.PROJECTCODE_NAME));
+			long endTime = System.currentTimeMillis();
+			long duration = endTime - starTime;
+			Log.i("SerializerTest", "big project duration is " + duration + " ms");
+		} catch (SerializeException e) {
+			fail("Unexpected exception");
+			e.printStackTrace();
+		}
+		Project loadedBigProject = null;
+		try {
+			parser = null;
+			parser = new FullParser();
+			InputStream bigProjectFileStream = new FileInputStream(Utils.buildPath(
+					bigProjectDirectory.getAbsolutePath(), Constants.PROJECTCODE_NAME));
+			loadedBigProject = parser.parseSpritesWithProject(bigProjectFileStream);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		assertNotNull("big project null", loadedBigProject);
+		assertEquals("number of sprites wrong", 11, loadedBigProject.getSpriteList().size());
 	}
 }
