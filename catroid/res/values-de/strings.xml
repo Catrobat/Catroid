@@ -109,6 +109,7 @@
     <string name="sound_delete">löschen</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
+    <string name="soundlist_footer_image_description">Hier drücken, um neuen Klang hinzuzufügen</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
