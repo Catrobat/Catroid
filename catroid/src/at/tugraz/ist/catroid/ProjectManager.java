@@ -115,10 +115,13 @@ public class ProjectManager {
 	}
 
 	public void saveProject() {
-		if (project == null) {
-			Log.e("CATROID", "[SAVE_PROJECT] project is null");
+		saveProject(null);
+	}
+
+	public void saveProject(StorageHandler.SaveProjectTaskCallback callback) {
+		if (project != null) {
+			StorageHandler.getInstance().saveProject(project, callback);
 		}
-		StorageHandler.getInstance().saveProject(project);
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -143,7 +146,6 @@ public class ProjectManager {
 
 		currentSprite = null;
 		currentScript = null;
-		saveProject();
 	}
 
 	public Project getCurrentProject() {
@@ -190,7 +192,7 @@ public class ProjectManager {
 
 		if (directoryRenamed) {
 			project.setName(newProjectName);
-			this.saveProject();
+			saveProject();
 		}
 
 		return (directoryRenamed);

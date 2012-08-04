@@ -54,8 +54,17 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 
 public class StorageHandler {
 
+	public interface SaveProjectTaskCallback {
+		public void onProjectSaved(boolean success);
+	}
+
 	private class SaveProjectTask extends AsyncTask<Project, Void, Boolean> {
+		private final SaveProjectTaskCallback mCallback;
 		private boolean isCurrentlySavingProject;
+
+		protected SaveProjectTask(SaveProjectTaskCallback callback) {
+			mCallback = callback;
+		}
 
 		@Override
 		protected void onPreExecute() {
@@ -118,6 +127,9 @@ public class StorageHandler {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			isCurrentlySavingProject = false;
+			if (mCallback != null) {
+				mCallback.onProjectSaved(result);
+			}
 			Log.d("CATROID", "Saved project succesfully: " + result);
 		}
 	}
@@ -186,11 +198,11 @@ public class StorageHandler {
 		}
 	}
 
-	public void saveProject(Project project) {
+	public void saveProject(Project project, SaveProjectTaskCallback callback) {
 		if (currentSaveProjectTask != null && currentSaveProjectTask.isCurrentlySavingProject) {
 			currentSaveProjectTask.cancel(false);
 		}
-		currentSaveProjectTask = new SaveProjectTask();
+		currentSaveProjectTask = new SaveProjectTask(callback);
 		currentSaveProjectTask.execute(project);
 	}
 
