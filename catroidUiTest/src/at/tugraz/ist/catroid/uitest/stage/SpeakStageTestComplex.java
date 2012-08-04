@@ -39,7 +39,6 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -100,7 +99,7 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 
 	}
 
-	private void createProject() {
+	private void createProject() throws InterruptedException {
 		Values.SCREEN_HEIGHT = 20;
 		Values.SCREEN_WIDTH = 20;
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -147,6 +146,6 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		projectManager.setCurrentScript(testScript);
 
 		projectManager.setProject(project);
-		StorageHandler.getInstance().saveProject(project);
+		UiTestUtils.saveProjectAndWait(project);
 	}
 }

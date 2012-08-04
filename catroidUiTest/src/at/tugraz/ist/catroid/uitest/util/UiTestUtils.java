@@ -87,6 +87,8 @@ public class UiTestUtils {
 	public static final String PROJECTNAME3 = "testproject3";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 
+	private static final File CATROID_ROOT_DIR = new File(Constants.DEFAULT_ROOT);
+
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
@@ -351,16 +353,17 @@ public class UiTestUtils {
 		return false;
 	}
 
-	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context) {
+	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context)
+			throws InterruptedException {
 		Project project = new Project(context, projectName);
-		StorageHandler.getInstance().saveProject(project);
+		saveProjectAndWait(project);
 		ProjectManager.getInstance().setProject(project);
 
 		for (Sprite sprite : spriteList) {
 			ProjectManager.getInstance().addSprite(sprite);
 		}
 
-		StorageHandler.getInstance().saveProject(project);
+		saveProjectAndWait(project);
 		return project;
 	}
 
@@ -617,5 +620,36 @@ public class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	public static boolean saveProjectAndWait(Project project) throws InterruptedException {
+		// Lock needs to be final in anonymous class. We use a mutable array to return a result.
+		final Boolean[] lock = { false };
+
+		StorageHandler.getInstance().saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
+			public void onProjectSaved(boolean success) {
+				synchronized (lock) {
+					lock[0] = success;
+					lock.notify();
+				}
+			}
+		});
+		synchronized (lock) {
+			lock.wait();
+		}
+		return lock[0];
+	}
+
+	public static boolean deleteRecursively(File file) {
+		if (file.isDirectory()) {
+			for (File f : file.listFiles()) {
+				deleteRecursively(f);
+			}
+		}
+		return file.delete();
+	}
+
+	public static boolean deleteCatroidRootDirectory() {
+		return deleteRecursively(CATROID_ROOT_DIR);
 	}
 }

@@ -331,7 +331,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
-	public void createProject() {
+	public void createProject() throws InterruptedException {
 		sprite = new Sprite(spriteName);
 		script = new StartScript(sprite);
 		sprite.addScript(script);

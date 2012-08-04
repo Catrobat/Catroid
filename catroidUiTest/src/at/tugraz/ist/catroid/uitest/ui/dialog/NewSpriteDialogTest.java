@@ -31,7 +31,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -64,7 +63,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		super.tearDown();
 	}
 
-	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
+	public void testNewSpriteDialog() throws NameNotFoundException, IOException, InterruptedException {
 		createTestProject(testingproject);
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -83,11 +82,10 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
 	}
 
-	public void createTestProject(String projectName) {
-		StorageHandler storageHandler = StorageHandler.getInstance();
+	public void createTestProject(String projectName) throws InterruptedException {
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 		project.addSprite(firstSprite);
-		storageHandler.saveProject(project);
+		UiTestUtils.saveProjectAndWait(project);
 	}
 }

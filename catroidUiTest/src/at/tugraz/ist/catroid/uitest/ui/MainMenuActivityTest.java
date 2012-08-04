@@ -41,7 +41,6 @@ import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -216,7 +215,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
 	}
 
-	public void testLoadProject() {
+	public void testLoadProject() throws InterruptedException {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject2 + " was not deleted!", directory.exists());
@@ -238,7 +237,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 	}
 
-	public void testResume() {
+	public void testResume() throws InterruptedException {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject3);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject3 + " was not deleted!", directory.exists());
@@ -336,9 +335,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	//		UtilFile.deleteDirectory(directory);
 	//	}
 
-	public void createTestProject(String projectName) {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
+	public void createTestProject(String projectName) throws InterruptedException {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
@@ -374,6 +371,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
+		UiTestUtils.saveProjectAndWait(project);
 	}
 }

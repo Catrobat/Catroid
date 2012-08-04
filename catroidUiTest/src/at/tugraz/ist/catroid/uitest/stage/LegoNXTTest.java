@@ -47,7 +47,6 @@ import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -68,7 +67,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	public static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
 
 	private Solo solo;
-	private StorageHandler storageHandler;
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 
 	private File image1;
@@ -78,7 +76,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	public LegoNXTTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
-		storageHandler = StorageHandler.getInstance();
 	}
 
 	@Override
@@ -96,7 +93,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
-	public void testNXTFunctionality() {
+	public void testNXTFunctionality() throws InterruptedException {
 		createTestproject(projectName);
 
 		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(true);
@@ -180,7 +177,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
-	public void testNXTPersistentConnection() {
+	public void testNXTPersistentConnection() throws InterruptedException {
 		createTestproject(projectName);
 
 		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(false);
@@ -239,7 +236,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	}
 
-	public void testNXTConnectionDialogGoBack() {
+	public void testNXTConnectionDialogGoBack() throws InterruptedException {
 		createTestproject(projectName);
 
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
@@ -265,7 +262,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	}
 
-	public void createTestproject(String projectName) {
+	public void createTestproject(String projectName) throws InterruptedException {
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript(firstSprite);
 		Script whenScript = new WhenScript(firstSprite);
@@ -317,6 +314,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		setCostumeBrick.setCostume(costumeData);
 		firstSprite.getCostumeDataList().add(costumeData);
 
-		storageHandler.saveProject(project);
+		UiTestUtils.saveProjectAndWait(project);
 	}
 }

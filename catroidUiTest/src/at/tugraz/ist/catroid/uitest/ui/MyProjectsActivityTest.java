@@ -41,7 +41,6 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
@@ -220,7 +219,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Standard Project should be restored", spriteList.size() == 2);
 	}
 
-	public void testProjectsAndImagesVisible() {
+	public void testProjectsAndImagesVisible() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -269,18 +268,18 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 	}
 
-	public void testImageCache() {
+	public void testImageCache() throws InterruptedException {
 		deleteCacheProjects = true;
 
 		//create first cache test project and set it as current project 
 		Project firstCacheTestProject = new Project(getActivity(), "cachetestProject" + 0);
-		StorageHandler.getInstance().saveProject(firstCacheTestProject);
+		UiTestUtils.saveProjectAndWait(firstCacheTestProject);
 		UiTestUtils.saveFileToProject(cacheProjectName + 0, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.ROOT);
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
-			StorageHandler.getInstance().saveProject(new Project(getActivity(), "cachetestProject" + i));
+			UiTestUtils.saveProjectAndWait(new Project(getActivity(), "cachetestProject" + i));
 			UiTestUtils.saveFileToProject(cacheProjectName + i, "screenshot.png", IMAGE_RESOURCE_2,
 					getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		}
@@ -342,7 +341,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 	}
 
-	public void testDeleteProject() {
+	public void testDeleteProject() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -362,7 +361,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " not deleted", projectDeleted);
 	}
 
-	public void testDeleteCurrentProject() {
+	public void testDeleteCurrentProject() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		//current project is UiTestUtils.DEFAULT_TEST_PROJECT_NAME
@@ -379,7 +378,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				projectManager.getCurrentProject().getName());
 	}
 
-	public void testDeleteAllProjects() {
+	public void testDeleteAllProjects() throws InterruptedException {
 		unzip = true;
 		saveProjectsToZip();
 		createProjects();
@@ -423,7 +422,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 	}
 
-	public void testRenameProject() {
+	public void testRenameProject() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
@@ -458,7 +457,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME1);
 	}
 
-	public void testRenameCurrentProject() {
+	public void testRenameCurrentProject() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -475,7 +474,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 	}
 
-	public void testRenameCurrentProjectMixedCase() {
+	public void testRenameCurrentProjectMixedCase() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -496,7 +495,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getInstance().getCurrentProject().getName());
 	}
 
-	public void testRenameToSameName() {
+	public void testRenameToSameName() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -514,7 +513,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.getCurrentProject().getName());
 	}
 
-	public void testRenameWithNoInput() {
+	public void testRenameWithNoInput() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -530,7 +529,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
 	}
 
-	public void testRenameProjectWithWhitelistedCharacters() {
+	public void testRenameProjectWithWhitelistedCharacters() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		final String renameString = "[Hey+, =lo_ok. I'm; -special! too!]";
@@ -546,7 +545,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
-	public void testRenameProjectWithBlacklistedCharacters() {
+	public void testRenameProjectWithBlacklistedCharacters() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		final String renameString = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
@@ -562,7 +561,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
-	public void testRenameToExistingProjectMixedCase() {
+	public void testRenameToExistingProjectMixedCase() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -580,7 +579,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertFalse("Project was renamed by mistake", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE));
 	}
 
-	public void testAddNewProject() {
+	public void testAddNewProject() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		String buttonMyProjectsText = solo.getString(R.string.my_projects);
@@ -614,7 +613,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				solo.searchText(UiTestUtils.PROJECTNAME2, 1, true));
 	}
 
-	public void testAddNewProject2() {
+	public void testAddNewProject2() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -634,7 +633,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 	}
 
-	public void testAddNewProjectMixedCase() {
+	public void testAddNewProjectMixedCase() throws InterruptedException {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -655,7 +654,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
-	public void testSetDescriptionCurrentProject() {
+	public void testSetDescriptionCurrentProject() throws InterruptedException {
 		createProjects();
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -684,7 +683,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
 	}
 
-	public void testSetDescription() {
+	public void testSetDescription() throws InterruptedException {
 		createProjects();
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -715,9 +714,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
 	}
 
-	public void createProjects() {
+	public void createProjects() throws InterruptedException {
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		StorageHandler.getInstance().saveProject(project1);
+		UiTestUtils.saveProjectAndWait(project1);
 		ProjectManager.getInstance().setProject(project1);
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -735,12 +734,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 
-		StorageHandler.getInstance().saveProject(project1);
+		UiTestUtils.saveProjectAndWait(project1);
 
 		//-------------------------------------------------
 
 		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
-		StorageHandler.getInstance().saveProject(project2);
+		UiTestUtils.saveProjectAndWait(project2);
 
 		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png", IMAGE_RESOURCE_2,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);

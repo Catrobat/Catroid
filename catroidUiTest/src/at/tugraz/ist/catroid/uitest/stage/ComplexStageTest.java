@@ -39,7 +39,6 @@ import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -147,7 +146,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		assertTrue("Just for FileTest", true);
 	}
 
-	private void createProject() {
+	private void createProject() throws InterruptedException {
 		Values.SCREEN_HEIGHT = screenHeight;
 		Values.SCREEN_WIDTH = screenWidth;
 
@@ -280,7 +279,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		project.addSprite(greenSprite);
 		project.addSprite(blueSprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		UiTestUtils.saveProjectAndWait(project);
 
 		File yellowImageFile = UiTestUtils.saveFileToProject(project.getName(), yellowImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
@@ -303,7 +302,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		redCostumeData.setCostumeFilename(redImageFile.getName());
 		blackCostumeData.setCostumeFilename(blackImageFile.getName());
 
-		StorageHandler.getInstance().saveProject(project);
+		UiTestUtils.saveProjectAndWait(project);
 		ProjectManager.getInstance().setProject(project);
 	}
 }

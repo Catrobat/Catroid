@@ -31,7 +31,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -62,7 +61,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		super.tearDown();
 	}
 
-	public void testLoadProjectDialog() throws NameNotFoundException, IOException {
+	public void testLoadProjectDialog() throws NameNotFoundException, IOException, InterruptedException {
 		createTestProject(testProject);
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -81,9 +80,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 	}
 
-	public void createTestProject(String projectName) {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
+	public void createTestProject(String projectName) throws InterruptedException {
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -95,6 +92,6 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
+		UiTestUtils.saveProjectAndWait(project);
 	}
 }

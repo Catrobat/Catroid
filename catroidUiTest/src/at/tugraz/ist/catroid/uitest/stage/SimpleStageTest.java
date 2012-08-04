@@ -26,7 +26,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -68,12 +67,12 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		assertTrue("Just for FileTest", true);
 	}
 
-	private void createProject() {
+	private void createProject() throws InterruptedException {
 		Values.SCREEN_HEIGHT = 20;
 		Values.SCREEN_WIDTH = 20;
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		ProjectManager.getInstance().setProject(project);
-		StorageHandler.getInstance().saveProject(project);
+		UiTestUtils.saveProjectAndWait(project);
 	}
 }
