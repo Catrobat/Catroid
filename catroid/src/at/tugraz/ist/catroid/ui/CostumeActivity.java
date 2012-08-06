@@ -65,10 +65,10 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class CostumeActivity extends ListActivity {
 	private ArrayList<CostumeData> costumeDataList;
 
-	public static final int REQUEST_SELECT_IMAGE = 3;
-	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 4;
-	public static final int REQUEST_TAKE_PICTURE = 5;
-	public static final int DIALOG_IMPORT_COSTUME_ID = 0;
+	public static final int REQUEST_SELECT_IMAGE = 0;
+	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
+	public static final int REQUEST_TAKE_PICTURE = 2;
+	public static final int DIALOG_IMPORT_COSTUME_ID = 3;
 	private static final String savedInstanceStateUriIsSetKey = "UriIsSet";
 	private AddCostumeDialog installedAppDialog;
 	private Uri costumeFromCameraUri = null;
@@ -136,6 +136,7 @@ public class CostumeActivity extends ListActivity {
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
 		listView.post(new Runnable() {
+			@Override
 			public void run() {
 				listView.setSelection(listView.getCount() - 1);
 			}
@@ -304,6 +305,7 @@ public class CostumeActivity extends ListActivity {
 
 	private View.OnClickListener createAddCostumeClickListener() {
 		return new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				handleAddCostumeButton();
 				createClickListener((ListView) installedAppDialog.findViewById(R.id.listViewInstalledApps));
@@ -314,6 +316,7 @@ public class CostumeActivity extends ListActivity {
 	private void createClickListener(ListView installedAppsListView) {
 		installedAppsListView.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
 			public void onItemClick(AdapterView<?> parent, View clickedView, int clickedItemIndex, long rowId) {
 				itemClickedHandling((InstalledApplicationInfo) parent.getAdapter().getItem(clickedItemIndex));
 				destroyDialog();
@@ -415,12 +418,14 @@ public class CostumeActivity extends ListActivity {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(getString(R.string.paintroid_not_installed)).setCancelable(false)
 					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
 									.parse(Constants.PAINTROID_DOWNLOAD_LINK));
 							startActivity(downloadPaintroidIntent);
 						}
 					}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
 						}

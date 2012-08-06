@@ -33,7 +33,7 @@
 	<ListView
 		android:id="@+id/listViewInstalledApps"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="0dip"
 		android:layout_weight="1.0"
 		android:cacheColorHint="#00000000"
 	/>
