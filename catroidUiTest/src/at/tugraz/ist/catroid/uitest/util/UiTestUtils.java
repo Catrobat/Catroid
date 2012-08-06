@@ -87,8 +87,6 @@ public class UiTestUtils {
 	public static final String PROJECTNAME3 = "testproject3";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 
-	private static final File CATROID_ROOT_DIR = new File(Constants.DEFAULT_ROOT);
-
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
@@ -622,22 +620,42 @@ public class UiTestUtils {
 		return false;
 	}
 
+	/**
+	 * This lock blocks the Thread calling lock() until unlock() is called or if it was called before. The mValue is
+	 * used to pass information from the releasing to the blocking Thread.
+	 */
+	private static class BooleanWaitLock {
+		private boolean mValue = false;
+		private boolean mUnlocked = false;
+
+		public BooleanWaitLock(boolean value) {
+			mValue = value;
+		}
+
+		public synchronized void unlock(boolean value) {
+			mUnlocked = true;
+			mValue = value;
+			notify();
+		}
+
+		public synchronized boolean lock() throws InterruptedException {
+			while (!mUnlocked) {
+				wait();
+			}
+			return mValue;
+		}
+	}
+
 	public static boolean saveProjectAndWait(Project project) throws InterruptedException {
-		// Lock needs to be final in anonymous class. We use a mutable array to return a result.
-		final Boolean[] lock = { false };
+		final BooleanWaitLock lock = new BooleanWaitLock(false);
 
 		StorageHandler.getInstance().saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
 			public void onProjectSaved(boolean success) {
-				synchronized (lock) {
-					lock[0] = success;
-					lock.notify();
-				}
+				lock.unlock(success);
 			}
 		});
-		synchronized (lock) {
-			lock.wait();
-		}
-		return lock[0];
+
+		return lock.lock();
 	}
 
 	public static boolean deleteRecursively(File file) {
@@ -647,9 +665,5 @@ public class UiTestUtils {
 			}
 		}
 		return file.delete();
-	}
-
-	public static boolean deleteCatroidRootDirectory() {
-		return deleteRecursively(CATROID_ROOT_DIR);
 	}
 }
