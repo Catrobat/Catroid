@@ -74,7 +74,7 @@ public class BroadcastReceiverBrick implements Brick {
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
-		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
+		broadcastSpinner.setAdapter(projectManager.getMessageContainer().getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
 		broadcastSpinner.setFocusable(true);
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -98,8 +98,8 @@ public class BroadcastReceiverBrick implements Brick {
 			}
 		});
 
-		int position = projectManager.messageContainer.getPositionOfMessageInAdapter(receiveScript
-				.getBroadcastMessage());
+		int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(
+				receiveScript.getBroadcastMessage());
 		if (position > 0) {
 			broadcastSpinner.setSelection(position);
 		}
@@ -124,7 +124,7 @@ public class BroadcastReceiverBrick implements Brick {
 						}
 						receiveScript.setBroadcastMessage(newMessage);
 
-						int position = projectManager.messageContainer.getPositionOfMessageInAdapter(newMessage);
+						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(newMessage);
 
 						broadcastSpinner.setSelection(position);
 					}
