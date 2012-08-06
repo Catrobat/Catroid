@@ -73,6 +73,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	@Override
 	protected void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();

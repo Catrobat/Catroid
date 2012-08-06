@@ -67,6 +67,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		solo.clickOnText(settingsText);
 		solo.clickOnText(prefMsBricks);
 
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

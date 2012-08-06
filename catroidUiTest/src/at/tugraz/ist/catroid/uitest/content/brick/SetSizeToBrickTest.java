@@ -81,6 +81,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 		if (directory.exists()) {

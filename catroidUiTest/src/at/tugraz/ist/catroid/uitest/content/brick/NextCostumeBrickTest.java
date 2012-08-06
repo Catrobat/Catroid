@@ -58,6 +58,7 @@ public class NextCostumeBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
