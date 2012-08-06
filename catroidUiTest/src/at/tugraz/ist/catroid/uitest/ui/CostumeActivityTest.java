@@ -569,7 +569,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeData.setCostumeFilename(newCostumeImageFile.getName());
 		costumeData.setCostumeName(costumeName);
 		costumeDataList.add(costumeData);
-		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 		ProjectManager.INSTANCE.saveProject();
 	}
 }

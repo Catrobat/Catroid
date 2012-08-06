@@ -272,7 +272,8 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		soundInfo.setTitle("sound3");
 
 		soundInfoList.add(soundInfo);
-		ProjectManager.INSTANCE.fileChecksumContainer.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
+				soundInfo.getAbsolutePath());
 		ProjectManager.INSTANCE.saveProject();
 	}
 }
