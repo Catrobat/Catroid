@@ -52,13 +52,11 @@ public class InstalledAppAdapter extends ArrayAdapter<InstalledApplicationInfo> 
 		InstalledApplicationInfo appInfo = applicationInfoItems.get(position);
 
 		if (appInfo != null) {
-			ImageView appImage = (ImageView) convertView.findViewById(R.id.imageView1);
-			TextView appName = (TextView) convertView.findViewById(R.id.textView1);
+			ImageView appImage = (ImageView) convertView.findViewById(R.id.addCostumeApplicationIcon);
+			TextView appName = (TextView) convertView.findViewById(R.id.addCostumeApplicationName);
 			appImage.setImageDrawable(appInfo.getApplicationIcon());
 			appName.setText(appInfo.getDisplayText());
-
 		}
 		return convertView;
 	}
-
 }
