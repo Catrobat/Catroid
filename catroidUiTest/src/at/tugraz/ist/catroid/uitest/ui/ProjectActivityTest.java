@@ -495,7 +495,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		costumeData.setCostumeFilename(imageFile.getName());
 		costumeData.setCostumeName("Catroid sun");
 		costumeDataList.add(costumeData);
-		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 
 		File soundFile = UiTestUtils.saveFileToProject(project.getName(), "longsound.mp3",
 				at.tugraz.ist.catroid.uitest.R.raw.longsound, getInstrumentation().getContext(),
@@ -506,7 +506,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(),
-				soundInfo.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 	}
 }
