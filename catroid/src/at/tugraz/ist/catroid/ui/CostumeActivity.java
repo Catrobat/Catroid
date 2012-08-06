@@ -169,8 +169,9 @@ public class CostumeActivity extends ListActivity {
 				if (rotate != 0) {
 					Project project = ProjectManager.getInstance().getCurrentProject();
 					File fullSizeImage = new File(costumeUri.getPath());
+
 					Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
-							project.virtualScreenWidth, project.virtualScreenHeight, true);
+							project.virtualScreenHeight, project.virtualScreenWidth, true);
 					Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
 					File downScaledCameraPicture = new File(Environment.getExternalStorageDirectory(),
 							CostumeActivity.this.getString(R.string.default_costume_name) + ".jpg");
