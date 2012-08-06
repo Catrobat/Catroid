@@ -47,6 +47,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 
 	@Override
 	protected void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();

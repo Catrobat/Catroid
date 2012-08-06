@@ -682,6 +682,13 @@ public class UiTestUtils {
 		return false;
 	}
 
+	/**
+	 * Returns to the main screen.
+	 * This method should be called in tearDown() in tests which use Robotium.
+	 * See explanation here:
+	 * http://stackoverflow.com/questions/7851351/robotium-in-the-suite-of-tests-each-next-test-is-
+	 * affected-by-the-previous-test
+	 */
 	public static void goBackToHome(Instrumentation instrumentation) {
 		boolean more = true;
 		while (more) {

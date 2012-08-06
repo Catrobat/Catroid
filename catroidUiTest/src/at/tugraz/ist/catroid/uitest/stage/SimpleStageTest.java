@@ -49,6 +49,7 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
