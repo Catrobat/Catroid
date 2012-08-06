@@ -732,7 +732,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		costumeData.setCostumeFilename(imageFile.getName());
 		costumeData.setCostumeName("testname");
 		costumeDataList.add(costumeData);
-		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 
 		UiTestUtils.saveProjectAndWait(project1);
 

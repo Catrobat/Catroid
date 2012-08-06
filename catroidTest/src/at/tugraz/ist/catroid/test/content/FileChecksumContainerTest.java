@@ -104,7 +104,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 		String checksumImage = Utils.md5Checksum(testImage);
 
-		FileChecksumContainer fileChecksumContainer = projectManager.fileChecksumContainer;
+		FileChecksumContainer fileChecksumContainer = projectManager.getFileChecksumContainer();
 		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumImage));
 
 		//wait to get a different timestamp on next file
