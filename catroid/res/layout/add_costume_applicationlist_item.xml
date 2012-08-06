@@ -30,7 +30,7 @@
         android:id="@+id/addCostumeApplicationIcon"
         android:layout_width="50dip"
         android:layout_height="50dip"
-        android:src="@android:drawable/alert_light_frame" />
+        android:src="@null" />
 
     <TextView
         android:id="@+id/addCostumeApplicationName"

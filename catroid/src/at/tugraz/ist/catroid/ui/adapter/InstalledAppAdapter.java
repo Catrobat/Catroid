@@ -43,19 +43,30 @@ public class InstalledAppAdapter extends ArrayAdapter<InstalledApplicationInfo> 
 		this.applicationInfoItems = objects;
 	}
 
+	public static class ViewHolder {
+		public TextView displayTest;
+		public ImageView applicationIcon;
+	}
+
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convView, ViewGroup parent) {
+		View convertView = convView;
+		ViewHolder holder;
 		if (convertView == null) {
+			holder = new ViewHolder();
 			convertView = View.inflate(activity, R.layout.add_costume_applicationlist_item, null);
+			holder.applicationIcon = (ImageView) convertView.findViewById(R.id.addCostumeApplicationIcon);
+			holder.displayTest = (TextView) convertView.findViewById(R.id.addCostumeApplicationName);
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
 		}
 
 		InstalledApplicationInfo appInfo = applicationInfoItems.get(position);
 
 		if (appInfo != null) {
-			ImageView appImage = (ImageView) convertView.findViewById(R.id.addCostumeApplicationIcon);
-			TextView appName = (TextView) convertView.findViewById(R.id.addCostumeApplicationName);
-			appImage.setImageDrawable(appInfo.getApplicationIcon());
-			appName.setText(appInfo.getDisplayText());
+			holder.applicationIcon.setImageDrawable(appInfo.getApplicationIcon());
+			holder.displayTest.setText(appInfo.getDisplayText());
 		}
 		return convertView;
 	}
