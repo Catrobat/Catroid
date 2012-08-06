@@ -453,12 +453,11 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
 		solo.clickOnView(getActivity().findViewById(R.id.btn_action_add_button));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
 		float screenHeight = solo.getCurrentActivity().getResources().getDisplayMetrics().heightPixels;
 		float screenWidth = solo.getCurrentActivity().getResources().getDisplayMetrics().widthPixels;
 		solo.clickOnScreen(screenWidth, screenHeight);
 		String dialogTitle = solo.getString(R.string.add_costume_dialog_title);
-		assertFalse("Dialog should disappear", solo.searchText(dialogTitle));
+		assertFalse("Dialog should disappear", solo.searchText(dialogTitle, 0, false));
 
 	}
 
