@@ -42,8 +42,8 @@ import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -164,29 +164,33 @@ public class CostumeActivity extends ListActivity {
 				loadPaintroidImageIntoCatroid(data);
 				break;
 			case REQUEST_TAKE_PICTURE:
-				Uri costumeUri = costumeFromCameraUri;
-				int rotate = getCameraPhotoOrientation(costumeUri, costumeUri.getPath());
-
-				if (rotate != 0) {
-					Project project = ProjectManager.getInstance().getCurrentProject();
-					File fullSizeImage = new File(costumeUri.getPath());
-
-					// Height and Width switched for proper scaling for portrait format photos from camera
-					Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
-							project.virtualScreenHeight, project.virtualScreenWidth, true);
-					Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
-					File downScaledCameraPicture = new File(Environment.getExternalStorageDirectory(),
-							CostumeActivity.this.getString(R.string.default_costume_name) + ".jpg");
-					costumeFromCameraUri = Uri.fromFile(downScaledCameraPicture);
-					try {
-						StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-					costumeUri = costumeFromCameraUri;
-				}
-				loadPictureFromCameraIntoCatroid(costumeUri);
+				rotatePictureIfNecessary();
+				loadPictureFromCameraIntoCatroid(costumeFromCameraUri);
 				break;
+		}
+	}
+
+	private void rotatePictureIfNecessary() {
+		int rotate = getPhotoRotationDegree(costumeFromCameraUri, costumeFromCameraUri.getPath());
+
+		if (rotate != 0) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			File fullSizeImage = new File(costumeFromCameraUri.getPath());
+
+			// Height and Width switched for proper scaling for portrait format photos from camera
+			Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
+					project.virtualScreenHeight, project.virtualScreenWidth, true);
+			Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
+			File downScaledCameraPicture = new File(Constants.TMP_PATH,
+					CostumeActivity.this.getString(R.string.default_costume_name) + ".jpg");
+			costumeFromCameraUri = Uri.fromFile(downScaledCameraPicture);
+			try {
+				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
+			} catch (FileNotFoundException e) {
+				{
+					Log.e("CATROID", "Could not find file to save bitmap.", e);
+				}
+			}
 		}
 	}
 
@@ -272,7 +276,7 @@ public class CostumeActivity extends ListActivity {
 				selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
 				selectedCostumeData.resetThumbnailBitmap();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e("CATROID", "Could not copy image.", e);
 			}
 		}
 	}
@@ -319,25 +323,21 @@ public class CostumeActivity extends ListActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View clickedView, int clickedItemIndex, long rowId) {
 				itemClickedHandling((InstalledApplicationInfo) parent.getAdapter().getItem(clickedItemIndex));
-				destroyDialog();
+				installedAppDialog.dismiss();
+				removeDialog(ScriptTabActivity.DIALOG_ADD_COSTUME);
 			}
 		});
 	}
 
-	private void destroyDialog() {
-		installedAppDialog.dismiss();
-		removeDialog(ScriptTabActivity.DIALOG_ADD_COSTUME);
-	}
-
 	private void itemClickedHandling(InstalledApplicationInfo clickedApplicationInfo) {
 		Intent intent = null;
-		int request_code = -1;
+		int requestCode = -1;
 
 		switch (clickedApplicationInfo.getIntentCode()) {
 			case Utils.FILE_INTENT:
 				intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("image/*");
-				request_code = REQUEST_SELECT_IMAGE;
+				requestCode = REQUEST_SELECT_IMAGE;
 				Bundle bundleForPaintroid = new Bundle();
 				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
 				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
@@ -346,7 +346,7 @@ public class CostumeActivity extends ListActivity {
 				break;
 			case Utils.PICTURE_INTENT:
 				intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				request_code = REQUEST_TAKE_PICTURE;
+				requestCode = REQUEST_TAKE_PICTURE;
 				setCostumeFromCameraUri();
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, costumeFromCameraUri);
 				break;
@@ -355,7 +355,7 @@ public class CostumeActivity extends ListActivity {
 		try {
 			prepareIntent(intent, clickedApplicationInfo.getPackageName(),
 					clickedApplicationInfo.getNameOfApplication());
-			startActivityWithIntent(intent, request_code);
+			startActivityWithIntent(intent, requestCode);
 		} catch (NullPointerException exception) {
 			exception.printStackTrace();
 		}
@@ -402,7 +402,7 @@ public class CostumeActivity extends ListActivity {
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
 			Utils.displayErrorMessage(this, getString(R.string.error_load_image));
-			e.printStackTrace();
+			Log.e("CATROID", "Could not copy image.", e);
 		}
 	}
 
@@ -465,12 +465,12 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	private void setCostumeFromCameraUri() {
-		File pictureFile = new File(Environment.getExternalStorageDirectory(),
-				CostumeActivity.this.getString(R.string.default_costume_name) + ".jpg");
+		File pictureFile = new File(Constants.TMP_PATH, CostumeActivity.this.getString(R.string.default_costume_name)
+				+ ".jpg");
 		costumeFromCameraUri = Uri.fromFile(pictureFile);
 	}
 
-	public static int getCameraPhotoOrientation(Uri imageUri, String imagePath) {
+	public static int getPhotoRotationDegree(Uri imageUri, String imagePath) {
 		int rotate = 0;
 		try {
 			File imageFile = new File(imagePath);
@@ -489,9 +489,8 @@ public class CostumeActivity extends ListActivity {
 					rotate = 90;
 					break;
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			Log.e("CATROID", "Could not find file to initialize ExifInterface.", e);
 		}
 		return rotate;
 	}

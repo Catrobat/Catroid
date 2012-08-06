@@ -402,11 +402,11 @@ public class Utils {
 
 		Intent cameraAppIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-		final List<ResolveInfo> cammeraApplicationsList = packageManager.queryIntentActivities(cameraAppIntent, 0);
+		final List<ResolveInfo> cameraApplicationsList = packageManager.queryIntentActivities(cameraAppIntent, 0);
 		final List<ResolveInfo> pictureFileManagerApplicationList = packageManager.queryIntentActivities(
 				pictureFileManagerIntent, 0);
 
-		addApplicationInfoToList(applicationsInfoList, cammeraApplicationsList, PICTURE_INTENT, packageManager);
+		addApplicationInfoToList(applicationsInfoList, cameraApplicationsList, PICTURE_INTENT, packageManager);
 		addApplicationInfoToList(applicationsInfoList, pictureFileManagerApplicationList, FILE_INTENT, packageManager);
 
 		return applicationsInfoList;
@@ -415,12 +415,10 @@ public class Utils {
 
 	private static void addApplicationInfoToList(ArrayList<InstalledApplicationInfo> applicationInfoList,
 			List<ResolveInfo> installedApplicationsList, int INTENT_CODE, PackageManager packageManager) {
-		ResolveInfo currentInfo;
+
 		InstalledApplicationInfo currentAppInfo;
 		if (installedApplicationsList != null) {
-			for (int i = 0; i < installedApplicationsList.size(); i++) {
-				currentInfo = installedApplicationsList.get(i);
-
+			for (ResolveInfo currentInfo : installedApplicationsList) {
 				currentAppInfo = new InstalledApplicationInfo(INTENT_CODE, currentInfo.activityInfo.packageName,
 						currentInfo.activityInfo.name, currentInfo.loadLabel(packageManager).toString(),
 						currentInfo.loadIcon(packageManager));
