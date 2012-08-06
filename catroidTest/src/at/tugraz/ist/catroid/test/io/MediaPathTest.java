@@ -86,7 +86,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 
 		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
 		StorageHandler.getInstance().saveProject(mockProject);
@@ -148,12 +148,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertTrue("unexpected imagename", project.contains(expectedImagenameTags));
 		assertTrue("unexpected soundname", project.contains(expectedSoundnameTags));
 
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage), Utils
-				.md5Checksum(testImageCopy));
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage), Utils
-				.md5Checksum(testImageCopy2));
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testSound), Utils
-				.md5Checksum(testSoundCopy));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage),
+				Utils.md5Checksum(testImageCopy));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage),
+				Utils.md5Checksum(testImageCopy2));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testSound),
+				Utils.md5Checksum(testSoundCopy));
 
 		//check if copy doesn't save more instances of the same file:
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
@@ -181,12 +181,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 	public void testDecrementUsage() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		storageHandler.deleteFile(testImageCopy.getAbsolutePath());
-		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
-		assertTrue("checksum not in project although file should exist", container.containsChecksum(Utils
-				.md5Checksum(testImageCopy)));
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+		assertTrue("checksum not in project although file should exist",
+				container.containsChecksum(Utils.md5Checksum(testImageCopy)));
 		storageHandler.deleteFile(testImageCopy2.getAbsolutePath());
-		assertFalse("checksum in project although file should not exist", container.containsChecksum(Utils
-				.md5Checksum(testImageCopy2)));
+		assertFalse("checksum in project although file should not exist",
+				container.containsChecksum(Utils.md5Checksum(testImageCopy2)));
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
@@ -203,19 +203,21 @@ public class MediaPathTest extends InstrumentationTestCase {
 		String checksumImage = Utils.md5Checksum(testImage);
 		String checksumSound = Utils.md5Checksum(testSound);
 
-		projectManager.fileChecksumContainer = null; //hack to delete the filechecksumcontainer and see if a new one is created on load
+		projectManager.setFileChecksumContainer(null); //hack to delete the filechecksumcontainer and see if a new one is created on load
 		projectManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
 
-		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumImage));
-		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumSound));
-		assertFalse("returns true even when the checksum is for sure not added", projectManager.fileChecksumContainer
-				.containsChecksum(checksumImage + "5"));
+		assertTrue("does not contain checksum",
+				projectManager.getFileChecksumContainer().containsChecksum(checksumImage));
+		assertTrue("does not contain checksum",
+				projectManager.getFileChecksumContainer().containsChecksum(checksumSound));
+		assertFalse("returns true even when the checksum is for sure not added", projectManager
+				.getFileChecksumContainer().containsChecksum(checksumImage + "5"));
 
-		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(),
-				projectManager.fileChecksumContainer.getPath(checksumImage));
+		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(), projectManager
+				.getFileChecksumContainer().getPath(checksumImage));
 
-		assertEquals("The path to the file is not found or wrong", testSoundCopy.getAbsolutePath(),
-				projectManager.fileChecksumContainer.getPath(checksumSound));
+		assertEquals("The path to the file is not found or wrong", testSoundCopy.getAbsolutePath(), projectManager
+				.getFileChecksumContainer().getPath(checksumSound));
 	}
 
 	public void testFileChecksumContainerNotInProjectFile() throws IOException {
