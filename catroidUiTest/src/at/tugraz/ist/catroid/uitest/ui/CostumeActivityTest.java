@@ -150,12 +150,12 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testRenameCostumeMixedCase() {
-		String newNameMixedCase = "coSTuMeNamEtESt";
-		solo.clickOnText(getActivity().getString(R.string.background));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.sleep(500);
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.sleep(300);
 		solo.clearEditText(0);
+		String newNameMixedCase = "coSTuMeNamEtESt";
 		solo.enterText(0, newNameMixedCase);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(100);

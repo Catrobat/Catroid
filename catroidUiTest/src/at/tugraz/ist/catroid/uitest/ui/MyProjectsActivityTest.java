@@ -758,7 +758,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("CATROID", e.toString());
 		}
 	}
 }

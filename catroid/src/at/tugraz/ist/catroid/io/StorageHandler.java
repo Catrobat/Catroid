@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -161,6 +162,13 @@ public class StorageHandler {
 	public boolean deleteProject(Project project) {
 		if (project != null) {
 			return UtilFile.deleteDirectory(new File(Utils.buildProjectPath(project.getName())));
+		}
+		return false;
+	}
+
+	public boolean deleteProject(ProjectData projectData) {
+		if (projectData != null) {
+			return UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectData.projectName)));
 		}
 		return false;
 	}
