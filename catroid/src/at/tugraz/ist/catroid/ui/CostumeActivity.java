@@ -170,6 +170,7 @@ public class CostumeActivity extends ListActivity {
 					Project project = ProjectManager.getInstance().getCurrentProject();
 					File fullSizeImage = new File(costumeUri.getPath());
 
+					// Height and Width switched for proper scaling for portrait format photos from camera
 					Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
 							project.virtualScreenHeight, project.virtualScreenWidth, true);
 					Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
