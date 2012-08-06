@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
@@ -41,10 +42,10 @@ public class ProjectManager {
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
-	private static ProjectManager instance;
+	public static final ProjectManager INSTANCE = new ProjectManager();
 
-	public FileChecksumContainer fileChecksumContainer;
-	public MessageContainer messageContainer;
+	private FileChecksumContainer fileChecksumContainer;
+	private MessageContainer messageContainer;
 
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
@@ -52,43 +53,55 @@ public class ProjectManager {
 	}
 
 	public static ProjectManager getInstance() {
-		if (instance == null) {
-			instance = new ProjectManager();
-		}
-		return instance;
+		return INSTANCE;
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
-		try {
-			fileChecksumContainer = new FileChecksumContainer();
-			messageContainer = new MessageContainer();
 
-			project = StorageHandler.getInstance().loadProject(projectName);
-			if (project == null) {
+		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
+		Project oldProject = project;
+		project = StorageHandler.getInstance().loadProject(projectName);
+
+		if (project == null) {
+			if (oldProject != null) {
+				project = oldProject;
+			} else {
 				project = Utils.findValidProject();
 				if (project == null) {
-					project = StandardProjectHandler.createAndSaveStandardProject(context);
-				}
-
-				if (errorMessage) {
-					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-					return false;
+					try {
+						project = StandardProjectHandler.createAndSaveStandardProject(context);
+					} catch (IOException e) {
+						if (errorMessage) {
+							Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+						}
+						Log.e("CATROID", "Cannot load project.", e);
+						return false;
+					}
 				}
 			}
-			// adapt name of background sprite to the current language and place
-			// on lowest layer
-			project.getSpriteList().get(0).setName(context.getString(R.string.background));
-			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
-
+			if (errorMessage) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+			}
+			return false;
+		} else if (!Utils.isApplicationDebuggable(context)
+				&& project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+			project = oldProject;
+			if (errorMessage) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+				// TODO show dialog to download latest catroid version instead
+			}
+			return false;
+		} else {
+			// Set generic localized name on background sprite and move it to the back.
+			if (project.getSpriteList().size() > 0) {
+				project.getSpriteList().get(0).setName(context.getString(R.string.background));
+				project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+			}
 			currentSprite = null;
 			currentScript = null;
-
 			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
-
 			return true;
-		} catch (Exception e) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-			return false;
 		}
 	}
 
@@ -101,11 +114,11 @@ public class ProjectManager {
 		}
 	}
 
-	public void saveProject() {
+	public boolean saveProject() {
 		if (project == null) {
-			return;
+			return false;
 		}
-		StorageHandler.getInstance().saveProject(project);
+		return StorageHandler.getInstance().saveProject(project);
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -117,7 +130,7 @@ public class ProjectManager {
 			currentScript = null;
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Cannot initialize default project.", e);
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 			return false;
 		}
@@ -146,7 +159,6 @@ public class ProjectManager {
 
 	public void deleteCurrentProject() {
 		StorageHandler.getInstance().deleteProject(project);
-
 		project = null;
 	}
 
@@ -267,5 +279,17 @@ public class ProjectManager {
 			suffixCounter++;
 		}
 		return temporaryDirectoryName;
+	}
+
+	public FileChecksumContainer getFileChecksumContainer() {
+		return this.fileChecksumContainer;
+	}
+
+	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
+		this.fileChecksumContainer = fileChecksumContainer;
+	}
+
+	public MessageContainer getMessageContainer() {
+		return this.messageContainer;
 	}
 }

@@ -28,10 +28,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-import junit.framework.TestCase;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.test.AndroidTestCase;
+import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -39,7 +40,7 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class UtilsTest extends TestCase {
+public class UtilsTest extends AndroidTestCase {
 
 	private static final String TAG = UtilsTest.class.getSimpleName();
 	private final String testFileContent = "Hello, this is a Test-String";
@@ -215,10 +216,6 @@ public class UtilsTest extends TestCase {
 		assertEquals("Paths are different!", result1, Utils.buildProjectPath(projectName1));
 	}
 
-	public void testDeleteFile() {
-
-	}
-
 	public void testRotatePicture() {
 		Bitmap testBitmap = BitmapFactory.decodeResource(Resources.getSystem(), android.R.drawable.bottom_bar);
 
@@ -236,6 +233,12 @@ public class UtilsTest extends TestCase {
 		for (int i = 0; i < widthBeforeRotation; i++) {
 			assertFalse("Pixelvalues should be different", (testBitmapPixels[i] == roatatedBitmapPixels[i]));
 		}
+	}
 
+	@Smoke
+	public void testDebuggableFlagShouldBeSet() throws Exception {
+		// Ensure Utils  returns true in isApplicationDebuggable
+		TestUtils.setPrivateField(Utils.class, null, "isUnderTest", false);
+		assertTrue("Debug flag not set!", Utils.isApplicationDebuggable(getContext()));
 	}
 }

@@ -26,6 +26,8 @@ import java.io.IOException;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -57,6 +59,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -66,11 +69,11 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickOnText(testingproject);
+		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-		solo.sleep(100);
+		solo.waitForView(EditText.class);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
 		solo.sendKey(Solo.ENTER);
