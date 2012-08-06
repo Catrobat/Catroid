@@ -231,7 +231,7 @@ public class TestUtils {
 	}
 
 	public static void deleteTestProjects(String... additionalProjectNames) {
-		ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
 		if (directory.exists()) {

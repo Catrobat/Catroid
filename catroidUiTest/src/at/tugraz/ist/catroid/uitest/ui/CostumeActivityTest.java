@@ -79,12 +79,12 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeData.setCostumeFilename(imageFile.getName());
 		costumeData.setCostumeName(costumeName);
 		costumeDataList.add(costumeData);
-		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 		costumeData = new CostumeData();
 		costumeData.setCostumeFilename(imageFile2.getName());
 		costumeData.setCostumeName("costumeNameTest2");
 		costumeDataList.add(costumeData);
-		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
@@ -216,7 +216,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
+				projectManager.getFileChecksumContainer().containsChecksum(checksumPaintroidImageFile));
 
 		boolean isInCostumeDataList = false;
 		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
@@ -286,7 +286,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		int newNumberOfCostumeDatas = costumeDataList.size();
 		assertEquals("CostumeData was added", numberOfCostumeDatas, newNumberOfCostumeDatas);
 
-		assertEquals("too many references for checksum", 1, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
+		assertEquals("too many references for checksum", 1,
+				projectManager.getFileChecksumContainer().getUsage(md5ImageFile));
 	}
 
 	public void testEditImageWithPaintroidNoPath() {
@@ -310,7 +311,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		int newNumberOfCostumeDatas = costumeDataList.size();
 		assertEquals("CostumeData was added", numberOfCostumeDatas, newNumberOfCostumeDatas);
-		assertEquals("too many references for checksum", 1, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
+		assertEquals("too many references for checksum", 1,
+				projectManager.getFileChecksumContainer().getUsage(md5ImageFile));
 	}
 
 	public void testGetImageFromPaintroidNoPath() {
@@ -350,7 +352,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
+				projectManager.getFileChecksumContainer().containsChecksum(checksumPaintroidImageFile));
 
 		boolean isInCostumeDataList = false;
 		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
@@ -388,9 +390,10 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		int newNumberOfCostumeDatas = costumeDataList.size();
 		assertEquals("CostumeData was added", numberOfCostumeDatas, newNumberOfCostumeDatas);
-		assertEquals("too many references for checksum", 0, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
-		assertEquals("not the right number of checksum references", 2,
-				projectManager.fileChecksumContainer.getUsage(md5PaintroidImageFile));
+		assertEquals("too many references for checksum", 0,
+				projectManager.getFileChecksumContainer().getUsage(md5ImageFile));
+		assertEquals("not the right number of checksum references", 2, projectManager.getFileChecksumContainer()
+				.getUsage(md5PaintroidImageFile));
 	}
 
 	public void testEditImageWhichIsAlreadyUsed() {
@@ -400,7 +403,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeDataToAdd.setCostumeFilename(tempImageFile.getName());
 		costumeDataToAdd.setCostumeName("justforthistest");
 		costumeDataList.add(costumeDataToAdd);
-		projectManager.fileChecksumContainer.addChecksum(costumeDataToAdd.getChecksum(),
+		projectManager.getFileChecksumContainer().addChecksum(costumeDataToAdd.getChecksum(),
 				costumeDataToAdd.getAbsolutePath());
 
 		solo.sleep(200);
@@ -424,8 +427,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 		assertEquals("wrong number of costumedatas", 3, costumeDataList.size());
 		assertTrue("new added image has been deleted", tempImageFile.exists());
-		assertEquals("wrong number of checksum references of sunnglasses picture", 1,
-				projectManager.fileChecksumContainer.getUsage(md5ImageFile));
+		assertEquals("wrong number of checksum references of sunnglasses picture", 1, projectManager
+				.getFileChecksumContainer().getUsage(md5ImageFile));
 	}
 
 	public void testCostumeNames() {
@@ -480,7 +483,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		expectedCostumeName = defaultCostumeName + "3";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(4).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.fileChecksumContainer.containsChecksum(checksumImageFile));
+				projectManager.getFileChecksumContainer().containsChecksum(checksumImageFile));
 
 		// test that Image from gallery is correctly renamed
 		fileName = defaultCostumeName;
@@ -505,7 +508,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		expectedCostumeName = defaultCostumeName + "4";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(5).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.fileChecksumContainer.containsChecksum(checksumImageFile));
+				projectManager.getFileChecksumContainer().containsChecksum(checksumImageFile));
 
 	}
 
