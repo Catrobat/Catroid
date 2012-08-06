@@ -29,6 +29,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
@@ -64,7 +65,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void setUp() throws Exception {
-		UiTestUtils.clearAllUtilTestProjects();
+		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -274,16 +275,36 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				.getText().toString());
 		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1)
 				.getText().toString());
-		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList
-				.get(2).getText().toString());
+		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_catroid_license_link_text),
+				textViewList.get(2).getText().toString());
+	}
+
+	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		// Prevent Utils from returning true in isApplicationDebuggable
+		UiTestUtils.setPrivateField2(Utils.class, null, "isUnderTest", true);
+
+		boolean result = UiTestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
+		assertTrue("Could not create test project.", result);
+
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(), true);
+			}
+		});
+
+		solo.getText(solo.getString(R.string.error_project_compatability), true);
+		solo.clickOnButton(0);
+		solo.waitForDialogToClose(500);
 	}
 
 	public void testPlayButton() {
+		// FIXME
 		//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		//		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
 	}
 
-	//edit this to work with login dialog
+	// TODO edit this to work with login dialog
 
 	//	public void testRenameToExistingProject() {
 	//		createTestProject(existingProject);

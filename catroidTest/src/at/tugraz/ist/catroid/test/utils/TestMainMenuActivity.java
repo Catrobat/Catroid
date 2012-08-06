@@ -20,17 +20,17 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.ui;
+package at.tugraz.ist.catroid.test.utils;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
-public class SettingsActivity extends PreferenceActivity {
-
+/**
+ * This class simply provides public access to protected methods which shall be tested.
+ */
+public class TestMainMenuActivity extends MainMenuActivity {
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.preferences);
+	public void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
 	}
 }

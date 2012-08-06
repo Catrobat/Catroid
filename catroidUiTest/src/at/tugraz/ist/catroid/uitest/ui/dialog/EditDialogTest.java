@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -46,6 +47,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	@Override
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}

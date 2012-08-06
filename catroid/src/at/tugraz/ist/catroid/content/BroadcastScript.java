@@ -40,16 +40,16 @@ public class BroadcastScript extends Script {
 	protected Object readResolve() {
 		isFinished = true;
 		if (receivedMessage != null && receivedMessage.length() != 0) {
-			ProjectManager.getInstance().messageContainer.addMessage(receivedMessage, this);
+			ProjectManager.getInstance().getMessageContainer().addMessage(receivedMessage, this);
 		}
 		super.readResolve();
 		return this;
 	}
 
 	public void setBroadcastMessage(String selectedMessage) {
-		ProjectManager.getInstance().messageContainer.deleteReceiverScript(this.receivedMessage, this);
+		ProjectManager.getInstance().getMessageContainer().deleteReceiverScript(this.receivedMessage, this);
 		this.receivedMessage = selectedMessage;
-		ProjectManager.getInstance().messageContainer.addMessage(this.receivedMessage, this);
+		ProjectManager.getInstance().getMessageContainer().addMessage(this.receivedMessage, this);
 	}
 
 	public String getBroadcastMessage() {
