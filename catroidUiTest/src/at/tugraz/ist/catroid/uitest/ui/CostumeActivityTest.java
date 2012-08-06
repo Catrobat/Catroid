@@ -441,10 +441,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		solo.clickOnView(getActivity().findViewById(R.id.btn_action_add_button));
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
-		solo.sleep(200);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		solo.sleep(100);
+		solo.sleep(500);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		String dialogTitle = solo.getString(R.string.add_costume_dialog_title);
 		assertTrue("Dialog should be displayed after device rotation", solo.searchText(dialogTitle));
@@ -453,12 +451,12 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void testDialogCanceledOnTouchOutside() {
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+
 		solo.clickOnView(getActivity().findViewById(R.id.btn_action_add_button));
-		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		float screenHeight = solo.getCurrentActivity().getResources().getDisplayMetrics().heightPixels;
 		float screenWidth = solo.getCurrentActivity().getResources().getDisplayMetrics().widthPixels;
-		solo.clickOnScreen(1.0f, (screenWidth / 4));
+		solo.clickOnScreen(screenWidth, screenHeight);
 		String dialogTitle = solo.getString(R.string.add_costume_dialog_title);
 		assertFalse("Dialog should disappear", solo.searchText(dialogTitle));
 
