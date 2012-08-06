@@ -34,7 +34,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class WhenStartedBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 
-	protected Script script;
+	private Script script;
 	private Sprite sprite;
 
 	@XStreamOmitField
@@ -45,17 +45,21 @@ public class WhenStartedBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, final BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_started, null);
@@ -64,6 +68,7 @@ public class WhenStartedBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_started, null);
 	}
