@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
@@ -40,56 +41,42 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class FileChecksumContainerTest extends InstrumentationTestCase {
-
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private static final String currentProjectName = TestUtils.TEST_PROJECT_NAME1;
+
+	private Context context;
 	private StorageHandler storageHandler;
 	private ProjectManager projectManager;
 	private File testImage;
 	private File testSound;
-	private String currentProjectName = "testCopyFile2";
-
-	public FileChecksumContainerTest() throws IOException {
-	}
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
 
-		TestUtils.clearProject(currentProjectName);
-		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
 		testCopyFile.virtualScreenHeight = 1000;
 		testCopyFile.virtualScreenWidth = 1000;
+
+		storageHandler = StorageHandler.getInstance();
 		projectManager = ProjectManager.getInstance();
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(testCopyFile));
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, testCopyFile));
 		projectManager.setProject(testCopyFile);
 
-		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
-		testImage = new File(imagePath);
-		if (!testImage.exists()) {
-			testImage.createNewFile();
-		}
-		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Constants.BUFFER_8K);
+		testImage = new File(Constants.DEFAULT_ROOT + "/testImage.png");
+		writeResourceStream(IMAGE_FILE_ID, testImage);
+
+		testSound = new File(Constants.DEFAULT_ROOT + "/testsound.mp3");
+		writeResourceStream(R.raw.testsound, testSound);
+	}
+
+	private void writeResourceStream(int rawResourceID, File file) throws IOException {
+		InputStream in = context.getResources().openRawResource(rawResourceID);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(file), Constants.BUFFER_8K);
 
 		byte[] buffer = new byte[Constants.BUFFER_8K];
 		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		final String soundPath = Constants.DEFAULT_ROOT + "/testsound.mp3";
-		testSound = new File(soundPath);
-		if (!testSound.exists()) {
-			testSound.createNewFile();
-		}
-		in = getInstrumentation().getContext().getResources().openRawResource(R.raw.testsound);
-		out = new BufferedOutputStream(new FileOutputStream(testSound), Constants.BUFFER_8K);
-		buffer = new byte[Constants.BUFFER_8K];
-		length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
 		}
@@ -101,13 +88,14 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.clearProject(currentProjectName);
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
 		if (testSound != null && testSound.exists()) {
 			testSound.delete();
 		}
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testContainer() throws IOException, InterruptedException {

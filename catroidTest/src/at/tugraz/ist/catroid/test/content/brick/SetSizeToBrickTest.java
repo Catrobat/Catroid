@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
@@ -33,18 +34,20 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class SetSizeToBrickTest extends InstrumentationTestCase {
-
-	private double size = 70;
-
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private static final String projectName = "testProject";
 
+	private Context context;
 	private File testImage;
-	private final String projectName = "testProject";
+	private double size = 70;
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
 
 		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 
@@ -52,12 +55,14 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
+		Project project = new Project(context, projectName);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = TestUtils.saveFileToProject(projectName, "testImage.png", IMAGE_FILE_ID, context,
+				TestUtils.TYPE_IMAGE_FILE);
+
+		Utils.updateScreenWidthAndHeight(context);
 	}
 
 	@Override
@@ -70,6 +75,7 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
+		super.tearDown();
 	}
 
 	public void testSize() {

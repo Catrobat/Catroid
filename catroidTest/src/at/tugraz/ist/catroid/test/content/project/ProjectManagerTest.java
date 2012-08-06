@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.AndroidTestCase;
+import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
@@ -44,19 +44,20 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectManagerTest extends AndroidTestCase {
+public class ProjectManagerTest extends InstrumentationTestCase {
+	private static final String projectNameOne = TestUtils.TEST_PROJECT_NAME1;
+	private static final String spriteNameOne = "Zuul";
+	private static final String spriteNameTwo = "Zuuul";
 
-	private String projectNameOne = "Ulumulu";
-	private String spriteNameOne = "Zuul";
-	private String spriteNameTwo = "Zuuul";
-
+	private Context context;
 	private Script testScript;
 	private Script otherScript;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.updateScreenWidthAndHeight(getContext());
+		context = getInstrumentation().getTargetContext();
+		Utils.updateScreenWidthAndHeight(context);
 	}
 
 	@Override
@@ -69,7 +70,6 @@ public class ProjectManagerTest extends AndroidTestCase {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
-		Context context = getContext();
 
 		// initializeNewProject
 		projectManager.initializeNewProject(projectNameOne, context);
@@ -135,10 +135,10 @@ public class ProjectManagerTest extends AndroidTestCase {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		createTestProject(oldProjectName);
-		if (!projectManager.renameProject(newProjectName, getContext())) {
+		if (!projectManager.renameProject(newProjectName, context)) {
 			fail("could not rename Project");
 		}
-		assertTrue("could not save project", TestUtils.saveProjectAndWait(projectManager.getCurrentProject()));
+		assertTrue("could not save project", TestUtils.saveProjectAndWait(this, projectManager.getCurrentProject()));
 
 		File oldProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName + "/" + Constants.PROJECTCODE_NAME);
@@ -163,8 +163,8 @@ public class ProjectManagerTest extends AndroidTestCase {
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(getContext(), projectName);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
+		Project project = new Project(context, projectName);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -176,7 +176,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
 		File image = TestUtils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
-				getContext(), 0);
+				context, 0);
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image.getName());
 		costumeData.setCostumeName("name");
@@ -206,7 +206,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image),
 				image.getAbsolutePath());
 
-		TestUtils.saveProjectAndWait(project);
+		TestUtils.saveProjectAndWait(this, project);
 		return project;
 	}
 }

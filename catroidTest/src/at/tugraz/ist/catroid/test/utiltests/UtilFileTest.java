@@ -38,12 +38,12 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilFileTest extends InstrumentationTestCase {
+	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
+
 	private File testDirectory;
 	private File subDirectory;
 	private File file1;
 	private File file2;
-
-	private String projectName = "project1";
 
 	@Override
 	protected void setUp() throws Exception {
@@ -63,7 +63,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteCatroidRootDirectory();
+		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 
@@ -130,7 +130,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
 		assertTrue("could not save project",
-				TestUtils.saveProjectAndWait(ProjectManager.getInstance().getCurrentProject()));
+				TestUtils.saveProjectAndWait(this, ProjectManager.getInstance().getCurrentProject()));
 
 		String catroidDirectoryPath = Constants.DEFAULT_ROOT;
 		File catroidDirectory = new File(catroidDirectoryPath);
@@ -142,11 +142,5 @@ public class UtilFileTest extends InstrumentationTestCase {
 				projectList.contains(project1Directory));
 		assertFalse("testDirectory should not be in Projectlist - not a Catroid project",
 				projectList.contains(testDirectory));
-	}
-
-	public void testDeleteRecursively() {
-		assertTrue("test directory doesn't exist", testDirectory.exists());
-		assertTrue("deleteRecursively failed", TestUtils.deleteRecursively(testDirectory));
-		assertFalse("test directory wasn't deleted", testDirectory.exists());
 	}
 }

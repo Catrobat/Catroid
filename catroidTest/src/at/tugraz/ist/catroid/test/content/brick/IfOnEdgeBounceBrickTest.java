@@ -76,7 +76,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		project.virtualScreenHeight = Values.SCREEN_HEIGHT;
 		project.virtualScreenWidth = Values.SCREEN_WIDTH;
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()

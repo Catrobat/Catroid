@@ -37,12 +37,8 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class UpAndDownloadTest extends AndroidTestCase {
-
+	private static final String testProject = TestUtils.TEST_PROJECT_NAME1;
 	private File projectZipOnMockServer;
-
-	public UpAndDownloadTest() {
-		super();
-	}
 
 	@Override
 	protected void setUp() throws Exception {
@@ -52,7 +48,8 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.clearProject("uploadtestProject");
+		projectZipOnMockServer.delete();
+		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 
@@ -60,7 +57,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		// service not ready now
 
 		//		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
-		//		String pathToDefaultProject = Constants.DEFAULT_ROOT + "/uploadtestProject";
+		//		String pathToDefaultProject = Constants.DEFAULT_ROOT + "/" + testProject;
 		//		new File(pathToDefaultProject).mkdirs();
 		//		String projectFilename = "test" + Constants.PROJECT_EXTENTION;
 		//		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
@@ -83,7 +80,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	public void testUpAndDownload() throws Throwable {
 		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
-		String pathToDefaultProject = Constants.DEFAULT_ROOT + "/uploadtestProject";
+		String pathToDefaultProject = Constants.DEFAULT_ROOT + "/" + testProject;
 		new File(pathToDefaultProject).mkdirs();
 		String projectFilename = Constants.PROJECTCODE_NAME;
 		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
@@ -124,5 +121,4 @@ public class UpAndDownloadTest extends AndroidTestCase {
 			projectZipOnMockServer.renameTo(new File(filePath));
 		}
 	}
-
 }

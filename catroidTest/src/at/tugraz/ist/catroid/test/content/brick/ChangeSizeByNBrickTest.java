@@ -24,53 +24,48 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
+	private Context context;
 	private float positiveSize = 20;
 	//	private float negativeSize = -30;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
 	private File testImage;
-	private final String projectName = "testProject";
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
 
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+		Utils.updateScreenWidthAndHeight(context);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
+		Project project = new Project(context, TestUtils.TEST_PROJECT_NAME1);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = TestUtils.saveFileToProject(TestUtils.TEST_PROJECT_NAME1, "testImage.png", IMAGE_FILE_ID, context,
+				TestUtils.TYPE_IMAGE_FILE);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testSize() {
@@ -83,7 +78,6 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 		brick.execute();
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize
 				+ (positiveSize / 100), sprite.costume.getSize());
-
 	}
 
 	public void testNullSprite() {
@@ -96,5 +90,4 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 			// expected behavior
 		}
 	}
-
 }

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import android.util.Log;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SoundManager {
@@ -66,7 +67,7 @@ public class SoundManager {
 		}
 	}
 
-	public synchronized MediaPlayer playSoundFile(String pathToSoundfile) {
+	public synchronized boolean playSoundFile(String pathToSoundfile) {
 		MediaPlayer mediaPlayer = getMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
@@ -78,11 +79,14 @@ public class SoundManager {
 				}
 				mediaPlayer.prepare();
 				mediaPlayer.start();
+				return true;
 			} catch (IOException e) {
-				throw new IllegalArgumentException("IO error", e);
+				Log.e("CATROID", "Cannot play soundfile.", e);
+				return false;
 			}
+		} else {
+			return false;
 		}
-		return mediaPlayer;
 	}
 
 	public synchronized void setVolume(float volume) {

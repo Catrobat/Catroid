@@ -23,12 +23,11 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
-import java.io.IOException;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -37,18 +36,30 @@ import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.longtestsound;
+	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
+	private static final String soundFileName = "LongTestSound";
+
+	private Context context;
 	private File soundFile;
-	private String projectName = "projectName";
 
 	@Override
 	protected void setUp() throws Exception {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-		UtilFile.deleteDirectory(directory);
-		this.createTestProject();
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
+
+		Utils.updateScreenWidthAndHeight(context);
+
+		Project project = new Project(context, projectName);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		ProjectManager.getInstance().setProject(project);
+
+		soundFile = TestUtils.saveFileToProject(projectName, soundFileName, SOUND_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_SOUND_FILE);
+		assertTrue("Cannot read sound file", soundFile.canRead());
 	}
 
 	@Override
@@ -56,8 +67,9 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		TestUtils.clearProject(projectName);
 		SoundManager.getInstance().clear();
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testStopOneSound() {
@@ -70,7 +82,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		Sprite testSprite = new Sprite("1");
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
 		StopAllSoundsBrick stopAllSoundsBrick = new StopAllSoundsBrick(new Sprite("1"));
-		SoundInfo soundInfo = getSoundInfo();
+		SoundInfo soundInfo = createSoundInfo(soundFile);
 		playSoundBrick.setSoundInfo(soundInfo);
 		testSprite.getSoundList().add(soundInfo);
 		playSoundBrick.execute();
@@ -84,35 +96,31 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		final MediaPlayer mediaPlayer1 = SoundManager.getInstance().getMediaPlayer();
 		final MediaPlayer mediaPlayer2 = SoundManager.getInstance().getMediaPlayer();
 
-		class ThreadSound1 extends Thread {
-			Sprite testSprite = new Sprite("8");
-			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
-
-			@Override
+		Thread threadSound1 = new Thread(new Runnable() {
 			public void run() {
-				SoundInfo soundInfo = getSoundInfo();
+				Sprite testSprite = new Sprite("8");
+				PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
+
+				SoundInfo soundInfo = createSoundInfo(soundFile);
 				playSoundBrick.setSoundInfo(soundInfo);
 				testSprite.getSoundList().add(soundInfo);
 				playSoundBrick.execute();
 			}
-		}
+		});
 
-		class ThreadSound2 extends Thread {
-			Sprite testSprite = new Sprite("9");
-			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
-
-			@Override
+		Thread threadSound2 = new Thread(new Runnable() {
 			public void run() {
-				SoundInfo soundInfo = getSoundInfo();
+				Sprite testSprite = new Sprite("9");
+				PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
+
+				SoundInfo soundInfo = createSoundInfo(soundFile);
 				playSoundBrick.setSoundInfo(soundInfo);
 				testSprite.getSoundList().add(soundInfo);
 				playSoundBrick.execute();
 			}
-		}
+		});
 
 		StopAllSoundsBrick testBrick1 = new StopAllSoundsBrick(new Sprite("10"));
-		ThreadSound1 threadSound1 = new ThreadSound1();
-		ThreadSound2 threadSound2 = new ThreadSound2();
 		threadSound1.start();
 		threadSound2.start();
 		Thread.sleep(200);
@@ -124,23 +132,10 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		Thread.sleep(1000);
 	}
 
-	private void createTestProject() throws IOException, InterruptedException {
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
-		ProjectManager.getInstance().setProject(project);
-
-		setUpSoundFile();
-	}
-
-	private void setUpSoundFile() throws IOException {
-		soundFile = TestUtils.saveFileToProject(projectName, "longtestsound", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_SOUND_FILE);
-	}
-
-	private SoundInfo getSoundInfo() {
+	private static SoundInfo createSoundInfo(File file) {
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName(soundFile.getName());
-		soundInfo.setTitle("testsSoundFile");
+		soundInfo.setSoundFileName(file.getName());
+		soundInfo.setTitle(file.getName() + "Title");
 		return soundInfo;
 	}
 }

@@ -28,7 +28,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-import android.test.AndroidTestCase;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
@@ -36,18 +37,22 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class UtilsTest extends AndroidTestCase {
-
+public class UtilsTest extends InstrumentationTestCase {
 	private static final String TAG = UtilsTest.class.getSimpleName();
-	private final String testFileContent = "Hello, this is a Test-String";
-	private final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
-	private final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
-	private final String MD5_HELLO_WORLD = "ED076287532E86365E841E92BFC50D8C";
+	private static final String testFileContent = "Hello, this is a Test-String";
+	private static final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
+	private static final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
+	private static final String MD5_HELLO_WORLD = "ED076287532E86365E841E92BFC50D8C";
+
+	private Context context;
 	private File mTestFile;
 	private File copiedFile;
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
+
 		OutputStream outputStream = null;
 		try {
 			mTestFile = File.createTempFile("testCopyFiles", ".txt");
@@ -63,8 +68,6 @@ public class UtilsTest extends AndroidTestCase {
 				outputStream.close();
 			}
 		}
-
-		super.setUp();
 	}
 
 	@Override
@@ -75,6 +78,7 @@ public class UtilsTest extends AndroidTestCase {
 		if (copiedFile != null && copiedFile.exists()) {
 			copiedFile.delete();
 		}
+		super.tearDown();
 	}
 
 	public void testMD5CheckSumOfFile() {
@@ -221,6 +225,14 @@ public class UtilsTest extends AndroidTestCase {
 	public void testDebuggableFlagShouldBeSet() throws Exception {
 		// Ensure Utils  returns true in isApplicationDebuggable
 		TestUtils.setPrivateField(Utils.class, null, "isUnderTest", false);
-		assertTrue("Debug flag not set!", Utils.isApplicationDebuggable(getContext()));
+		assertTrue("Debug flag not set!", Utils.isApplicationDebuggable(context));
+	}
+
+	public void testDeleteRecursively() throws InterruptedException {
+		assertFalse("test directory already exists", TestUtils.TEST_PROJECT_DIR1.exists());
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(this, 0);
+		assertTrue("test directory doesn't exist", TestUtils.TEST_PROJECT_DIR1.exists());
+		assertTrue("deleteRecursively failed", TestUtils.deleteRecursively(TestUtils.TEST_PROJECT_DIR1));
+		assertFalse("test directory wasn't deleted", TestUtils.TEST_PROJECT_DIR1.exists());
 	}
 }

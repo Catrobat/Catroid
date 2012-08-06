@@ -26,7 +26,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.test.AndroidTestCase;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
@@ -57,17 +58,16 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class StorageHandlerTest extends AndroidTestCase {
+public class StorageHandlerTest extends InstrumentationTestCase {
+	private Context context;
 	private StorageHandler storageHandler;
-
-	public StorageHandlerTest() {
-		storageHandler = StorageHandler.getInstance();
-	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		Utils.updateScreenWidthAndHeight(getContext());
+		context = getInstrumentation().getTargetContext();
+		storageHandler = StorageHandler.getInstance();
+		Utils.updateScreenWidthAndHeight(context);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(context, "testProject");
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
@@ -112,7 +112,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		assertTrue("could not save project", TestUtils.saveProjectAndWait(project));
+		assertTrue("could not save project", TestUtils.saveProjectAndWait(this, project));
 
 		Project loadedProject = storageHandler.loadProject("testProject");
 
@@ -161,7 +161,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testDefaultProject() throws IOException, InterruptedException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(getContext()));
+		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(context));
 		// Wait for asynchronous project saving to finish.
 		Thread.sleep(742);
 		assertEquals("not the right number of sprites in the default project", 2, projectManager.getCurrentProject()
@@ -207,7 +207,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 
-		Project project = new Project(getContext(), projectName);
+		Project project = new Project(context, projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);
@@ -239,7 +239,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 			whenScript.addBrick(b);
 		}
 
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 
@@ -253,7 +253,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	public void testAsyncSaveTaskCallbackShouldBeCalled() throws InterruptedException {
-		Project project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(context, TestUtils.TEST_PROJECT_NAME1);
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);

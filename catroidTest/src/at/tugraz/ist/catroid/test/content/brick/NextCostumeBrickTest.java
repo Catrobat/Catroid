@@ -45,10 +45,10 @@ public class NextCostumeBrickTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
+		projectName = TestUtils.TEST_PROJECT_NAME1;
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 
 		ProjectManager.getInstance().setProject(project);
 

@@ -34,24 +34,24 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 import android.util.Log;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
-
-	private static final String TAG = TestUtils.class.getSimpleName();
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
-	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	public static final String TEST_PROJECT_NAME1 = "TestProject1";
+	public static final String TEST_PROJECT_NAME2 = "TestProject2";
+	public static final File TEST_PROJECT_DIR1 = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME1);
+	public static final File TEST_PROJECT_DIR2 = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME2);
 	private static final File CATROID_ROOT_DIR = new File(Constants.DEFAULT_ROOT);
+	private static final String TAG = TestUtils.class.getSimpleName();
 
 	private TestUtils() {
 	};
@@ -93,14 +93,6 @@ public class TestUtils {
 		}
 
 		return createTestMediaFile(filePath, fileID, context);
-	}
-
-	public static boolean clearProject(String projectname) {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectname);
-		if (directory.exists()) {
-			return UtilFile.deleteDirectory(directory);
-		}
-		return false;
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
@@ -152,7 +144,6 @@ public class TestUtils {
 	}
 
 	public static Object getPrivateField(String fieldName, Object object, boolean ofSuperclass) {
-
 		Field field = null;
 
 		try {
@@ -215,8 +206,9 @@ public class TestUtils {
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name)
-			throws InterruptedException {
+	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(
+			InstrumentationTestCase instrumentationTestCase, int versionCode, String name) throws InterruptedException {
+
 		Project project = new ProjectWithVersionCode(name, versionCode);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
@@ -224,45 +216,17 @@ public class TestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		saveProjectAndWait(project);
+		saveProjectAndWait(instrumentationTestCase, project);
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) throws InterruptedException {
-		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, DEFAULT_TEST_PROJECT_NAME);
+	public static void createTestProjectOnLocalStorageWithVersionCode(InstrumentationTestCase instrumentationTestCase,
+			int versionCode) throws InterruptedException {
+		createTestProjectOnLocalStorageWithVersionCodeAndName(instrumentationTestCase, versionCode, TEST_PROJECT_NAME1);
 	}
 
-	public static void deleteTestProjects(String... additionalProjectNames) {
-		ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
-
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
-
-		for (String name : additionalProjectNames) {
-			directory = new File(Constants.DEFAULT_ROOT + "/" + name);
-			if (directory.exists()) {
-				UtilFile.deleteDirectory(directory);
-			}
-		}
-	}
-
-	public static boolean saveProjectAndWait(Project project) throws InterruptedException {
-		// Lock needs to be final in anonymous class. We use a mutable array to return a result.
-		final Boolean[] lock = { false };
-
-		StorageHandler.getInstance().saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
-			public void onProjectSaved(boolean success) {
-				synchronized (lock) {
-					lock[0] = success;
-					lock.notify();
-				}
-			}
-		});
-		synchronized (lock) {
-			lock.wait();
-		}
-		return lock[0];
+	public static void deleteTestProjects() {
+		deleteRecursively(TEST_PROJECT_DIR1);
+		deleteRecursively(TEST_PROJECT_DIR2);
 	}
 
 	public static boolean deleteRecursively(File file) {
@@ -276,5 +240,64 @@ public class TestUtils {
 
 	public static boolean deleteCatroidRootDirectory() {
 		return deleteRecursively(CATROID_ROOT_DIR);
+	}
+
+	/**
+	 * This lock blocks the Thread calling lock() until unlock() is called or if it was called before. The mValue is
+	 * used to pass information from the releasing to the blocking Thread.
+	 */
+	private static class BooleanWaitLock {
+		private boolean mValue = false;
+		private boolean mUnlocked = false;
+
+		public BooleanWaitLock(boolean value) {
+			mValue = value;
+		}
+
+		public synchronized void unlock(boolean value) {
+			mUnlocked = true;
+			mValue = value;
+			notify();
+		}
+
+		public synchronized boolean lock() throws InterruptedException {
+			while (!mUnlocked) {
+				wait();
+			}
+			return mValue;
+		}
+	}
+
+	/**
+	 * Helper method to force sequential execution of the asynchronous saving job in StorageHandler.
+	 * 
+	 * @param caller
+	 *            Testcase this method is called from. Needed to start StorageHandler's AsyncTask on the UI thread.
+	 * @param project
+	 *            Project which shall be saved by StorageHandler.
+	 * @return
+	 *         True if saving was succesful, false otherwise.
+	 * @throws InterruptedException
+	 */
+	public static boolean saveProjectAndWait(InstrumentationTestCase caller, final Project project)
+			throws InterruptedException {
+		final BooleanWaitLock lock = new BooleanWaitLock(false);
+
+		try {
+			// Necessary because otherwise onPostExecute won't be called in the AsyncTask.
+			caller.runTestOnUiThread(new Runnable() {
+				public void run() {
+					StorageHandler.getInstance().saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
+						public void onProjectSaved(boolean success) {
+							lock.unlock(success);
+						}
+					});
+				}
+			});
+		} catch (Throwable e) {
+			Log.e("CATROID", "Error while saving project.", e);
+		}
+
+		return lock.lock();
 	}
 }

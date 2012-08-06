@@ -22,24 +22,27 @@
  */
 package at.tugraz.ist.catroid.test;
 
-import android.test.AndroidTestCase;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectManagerTest extends AndroidTestCase {
-	private static final String OLD_PROJECT = "OLD_PROJECT";
-	private static final String NEW_PROJECT = "NEW_PROJECT";
-	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
+public class ProjectManagerTest extends InstrumentationTestCase {
+	private static final String OLD_PROJECT = TestUtils.TEST_PROJECT_NAME1;
+	private static final String NEW_PROJECT = TestUtils.TEST_PROJECT_NAME2;
 
+	private Context context;
 	private ProjectManager projectManager;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.updateScreenWidthAndHeight(getContext());
+		context = getInstrumentation().getTargetContext();
+
+		Utils.updateScreenWidthAndHeight(context);
 		projectManager = ProjectManager.getInstance();
 		// Prevent Utils from returning true in isApplicationDebuggable
 		TestUtils.setPrivateField(Utils.class, null, "isUnderTest", true);
@@ -47,53 +50,58 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		super.tearDown();
 		projectManager.setProject(null);
 		TestUtils.deleteTestProjects();
+		super.tearDown();
+	}
+
+	public void testZShouldFindNoTestProjects() {
+		assertFalse("Test project present.", TestUtils.TEST_PROJECT_DIR1.exists());
+		assertFalse("Test project present.", TestUtils.TEST_PROJECT_DIR2.exists());
+		assertNull("Current project not null.", projectManager.getCurrentProject());
 	}
 
 	public void testShouldReturnFalseIfVersionNumberTooHigh() throws InterruptedException {
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(this, Integer.MAX_VALUE);
 
-		boolean result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
+		boolean result = projectManager.loadProject(TestUtils.TEST_PROJECT_NAME1, context, false);
 		assertFalse("Load project didn't return false", result);
 
+		projectManager.setProject(null);
 		TestUtils.deleteTestProjects();
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(this, 0);
 
-		result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
+		result = projectManager.loadProject(TestUtils.TEST_PROJECT_NAME1, context, false);
 		assertTrue("Load project didn't return true", result);
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws InterruptedException {
-		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(0, OLD_PROJECT);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(this, 0, OLD_PROJECT);
 
-		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), false);
+		boolean result = projectManager.loadProject(OLD_PROJECT, context, false);
 		assertTrue("Could not load project.", result);
 
-		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(Integer.MAX_VALUE, NEW_PROJECT);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(this, Integer.MAX_VALUE, NEW_PROJECT);
 
-		result = projectManager.loadProject(NEW_PROJECT, getContext(), false);
+		result = projectManager.loadProject(NEW_PROJECT, context, false);
 		assertFalse("Load project didn't return false", result);
 
 		Project currentProject = projectManager.getCurrentProject();
 
 		assertNotNull("Didn't keep old project.", currentProject);
 		assertEquals("Didn't keep old project.", OLD_PROJECT, currentProject.getName());
-
-		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 
 	public void testShouldLoadDefaultProjectIfCannotLoadAnotherProject() throws Exception {
 		assertNull("Current project not null.", projectManager.getCurrentProject());
 
-		boolean result = projectManager.loadProject(DOES_NOT_EXIST, getContext(), false);
+		boolean result = projectManager.loadProject("DOES_NOT_EXIST", context, false);
 		assertFalse("Load project didn't return false", result);
 
 		Project currentProject = projectManager.getCurrentProject();
 
 		assertNotNull("Didn't create default project.", currentProject);
-		assertEquals("Didn't create default project.", getContext().getString(R.string.default_project_name),
+		assertEquals("Didn't create default project.", context.getString(R.string.default_project_name),
 				currentProject.getName());
 	}
 }

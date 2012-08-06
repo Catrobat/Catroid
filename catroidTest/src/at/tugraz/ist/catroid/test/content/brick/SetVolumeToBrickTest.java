@@ -23,31 +23,33 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
 	private static final int SOUND_FILE_ID = R.raw.testsound;
+	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
 	private File soundFile;
-	private String projectName = "projectiName";
 	private float volume = 50.6f;
 
 	@Override
 	protected void setUp() throws Exception {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-		UtilFile.deleteDirectory(directory);
-		this.createTestProject();
+		super.setUp();
+
+		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		ProjectManager.getInstance().setProject(project);
+
+		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 
 	@Override
@@ -55,8 +57,9 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		TestUtils.clearProject(projectName);
 		SoundManager.getInstance().clear();
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testVolume() {
@@ -65,19 +68,5 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 		setVolumeToBrick.execute();
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume, SoundManager
 				.getInstance().getVolume());
-	}
-
-	private void createTestProject() throws IOException, InterruptedException {
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(project));
-		ProjectManager.getInstance().setProject(project);
-
-		setUpSoundFile();
-	}
-
-	private void setUpSoundFile() throws IOException {
-
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 }

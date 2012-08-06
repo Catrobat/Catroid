@@ -113,7 +113,7 @@ public class StorageHandler {
 					return false;
 				}
 			} catch (IOException e) {
-				Log.e(TAG, "Could not save project.", e);
+				Log.e("CATROID", "Could not save project.", e);
 				return false;
 			}
 		}
@@ -126,6 +126,7 @@ public class StorageHandler {
 
 		@Override
 		protected void onPostExecute(Boolean result) {
+			Log.d("CATROID", "Save project task: " + result);
 			isCurrentlySavingProject = false;
 			if (mCallback != null) {
 				mCallback.onProjectSaved(result);
@@ -167,8 +168,7 @@ public class StorageHandler {
 			try {
 				instance = new StorageHandler();
 			} catch (IOException e) {
-				e.printStackTrace();
-				Log.e(TAG, "Exception in Storagehandler, please refer to the StackTrace");
+				Log.e(TAG, "Could not instantiate Storagehandler.", e);
 			}
 		}
 		return instance;
