@@ -225,6 +225,7 @@ public class PreStageActivity extends Activity {
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 					// success, create the TTS instance
 					textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
+						@Override
 						public void onInit(int status) {
 							resourceInitialized();
 							if (status == TextToSpeech.ERROR) {
@@ -247,6 +248,7 @@ public class PreStageActivity extends Activity {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.setMessage(getString(R.string.text_to_speech_engine_not_installed)).setCancelable(false)
 							.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									Intent installIntent = new Intent();
 									installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
@@ -254,6 +256,7 @@ public class PreStageActivity extends Activity {
 									resourceFailed();
 								}
 							}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									dialog.cancel();
 									resourceFailed();
@@ -268,10 +271,6 @@ public class PreStageActivity extends Activity {
 				resourceFailed();
 				break;
 		}
-	}
-
-	public void makeToast(String text) {
-		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 	}
 
 	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
