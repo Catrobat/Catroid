@@ -143,7 +143,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		solo.clickOnView(solo.getView(R.id.spritelist_footerview));
-		solo.waitForText(newSpriteDialogTitle);
+		solo.waitForText(newSpriteDialogTitle, 0, 1000);
 		assertTrue("New Sprite dialog did not appear", solo.searchText(newSpriteDialogTitle));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -166,7 +166,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		spriteName = "testSprite2";
 		solo.clickOnView(solo.getView(R.id.spritelist_footerview_add_image));
-		solo.waitForText(newSpriteDialogTitle);
+		solo.waitForText(newSpriteDialogTitle, 0, 1000);
 		assertTrue("New Sprite dialog did not appear", solo.searchText(newSpriteDialogTitle));
 		solo.clearEditText(0);
 		solo.enterText(0, spriteName);
@@ -177,7 +177,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		spriteName = "testSprite3";
 		solo.clickOnView(solo.getView(R.id.view_below_spritelist_non_scrollable));
-		solo.waitForText(newSpriteDialogTitle);
+		solo.waitForText(newSpriteDialogTitle, 0, 1000);
 		assertTrue("New Sprite dialog did not appear", solo.searchText(newSpriteDialogTitle));
 		solo.clearEditText(0);
 		solo.enterText(0, spriteName);
