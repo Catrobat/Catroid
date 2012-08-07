@@ -44,7 +44,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class SpeakBrick implements Brick {
 	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
 
 	private static HashMap<String, SpeakBrick> activeSpeakBricks = new HashMap<String, SpeakBrick>();
 	private Sprite sprite;
@@ -57,13 +56,16 @@ public class SpeakBrick implements Brick {
 		this.text = text;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return TEXT_TO_SPEECH;
 	}
 
+	@Override
 	public synchronized void execute() {
 
 		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
+			@Override
 			public void onUtteranceCompleted(String utteranceId) {
 				SpeakBrick speakBrick = activeSpeakBricks.get(utteranceId);
 				if (speakBrick == null) {
@@ -92,6 +94,7 @@ public class SpeakBrick implements Brick {
 		activeSpeakBricks.remove(utteranceId);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -100,6 +103,7 @@ public class SpeakBrick implements Brick {
 		return text;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_speak, null);
 
@@ -112,6 +116,7 @@ public class SpeakBrick implements Brick {
 
 		editText.setOnClickListener(new OnClickListener() {
 
+			@Override
 			public void onClick(View v) {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
@@ -120,6 +125,7 @@ public class SpeakBrick implements Brick {
 				dialog.setView(input);
 				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						text = (input.getText().toString()).trim();
 						dialog.cancel();
@@ -127,6 +133,7 @@ public class SpeakBrick implements Brick {
 				});
 				dialog.setNeutralButton(context.getString(R.string.cancel_button),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								dialog.cancel();
 							}
@@ -142,6 +149,7 @@ public class SpeakBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_speak, null);
 	}
