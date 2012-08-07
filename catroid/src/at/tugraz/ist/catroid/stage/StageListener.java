@@ -242,7 +242,6 @@ public class StageListener implements ApplicationListener {
 			for (Sprite sprite : sprites) {
 				sprite.pause();
 				sprite.finish();
-				sprite.costume.disposeTextures();
 			}
 			stage.clear();
 			SoundManager.getInstance().clear();
@@ -257,7 +256,6 @@ public class StageListener implements ApplicationListener {
 			paused = true;
 			firstStart = true;
 			reloadProject = false;
-			texturesRendered = false;
 			synchronized (stageDialog) {
 				stageDialog.notify();
 			}
@@ -380,9 +378,7 @@ public class StageListener implements ApplicationListener {
 		font.dispose();
 		background.dispose();
 		axes.dispose();
-		for (Sprite sprite : sprites) {
-			sprite.costume.disposeTextures();
-		}
+		disposeTextures();
 	}
 
 	private void makeThumbnail() {
@@ -452,6 +448,17 @@ public class StageListener implements ApplicationListener {
 			for (int j = 0; j < data.size(); j++) {
 				CostumeData costumeData = data.get(j);
 				costumeData.setTextureRegion();
+			}
+		}
+	}
+
+	private void disposeTextures() {
+		List<Sprite> sprites = project.getSpriteList();
+		for (int i = 0; i < sprites.size(); i++) {
+			List<CostumeData> data = sprites.get(i).getCostumeDataList();
+			for (int j = 0; j < data.size(); j++) {
+				CostumeData costumeData = data.get(j);
+				costumeData.getTextureRegion().getTexture().dispose();
 			}
 		}
 	}

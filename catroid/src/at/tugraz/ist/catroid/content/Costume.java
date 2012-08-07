@@ -37,11 +37,9 @@ public class Costume extends Image {
 	protected Semaphore scaleLock = new Semaphore(1);
 	protected Semaphore alphaValueLock = new Semaphore(1);
 	protected Semaphore brightnessLock = new Semaphore(1);
-	protected Semaphore disposeTexturesLock = new Semaphore(1);
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected CostumeData costumeData;
-	protected Pixmap currentAlphaPixmap;
 	protected Sprite sprite;
 	protected float alphaValue;
 	protected float brightnessValue;
@@ -65,7 +63,6 @@ public class Costume extends Image {
 		this.height = 0f;
 		this.touchable = true;
 		this.show = true;
-		this.currentAlphaPixmap = null;
 		this.zPosition = 0;
 		this.internalPath = false;
 	}
@@ -87,8 +84,7 @@ public class Costume extends Image {
 		y = height - y;
 
 		if (x >= 0 && x <= width && y >= 0 && y <= height) {
-			if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				//if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
+			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				sprite.startWhenScripts("Tapped");
 				return true;
 			}
@@ -117,8 +113,6 @@ public class Costume extends Image {
 	protected void checkImageChanged() {
 		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
-			this.disposeTextures();
-			currentAlphaPixmap = null;
 			if (costumeData == null) {
 				xYWidthHeightLock.acquireUninterruptibly();
 				this.x += this.width / 2f;
@@ -144,8 +138,6 @@ public class Costume extends Image {
 			this.originX = this.width / 2f;
 			this.originY = this.height / 2f;
 			xYWidthHeightLock.release();
-
-			currentAlphaPixmap = costumeData.getAlphaPixmap();
 
 			brightnessLock.acquireUninterruptibly();
 			if (brightnessChanged) {
@@ -194,19 +186,6 @@ public class Costume extends Image {
 			}
 		}
 		return newPixmap;
-	}
-
-	public void disposeTextures() {
-		disposeTexturesLock.acquireUninterruptibly();
-		if (this.getRegion() != null && this.getRegion().getTexture() != null) {
-			this.setRegion(new TextureRegion());
-		}
-
-		if (currentAlphaPixmap != null) {
-			//currentAlphaPixmap.dispose();
-		}
-
-		disposeTexturesLock.release();
 	}
 
 	public void refreshTextures() {
