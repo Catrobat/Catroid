@@ -120,7 +120,7 @@ public class Costume extends Image {
 				this.width = 0f;
 				this.height = 0f;
 				xYWidthHeightLock.release();
-				this.setRegion(new TextureRegion());
+				this.setRegion(null);
 				imageChanged = false;
 				imageLock.release();
 				return;

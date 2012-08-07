@@ -119,6 +119,7 @@ public class StageListener implements ApplicationListener {
 	public StageListener() {
 	}
 
+	@Override
 	public void create() {
 
 		font = new BitmapFont();
@@ -200,6 +201,7 @@ public class StageListener implements ApplicationListener {
 		reloadProject = true;
 	}
 
+	@Override
 	public void resume() {
 		if (!paused) {
 			SoundManager.getInstance().resume();
@@ -207,11 +209,15 @@ public class StageListener implements ApplicationListener {
 				sprite.resume();
 			}
 		}
+		renderTextures();
+
 		for (Sprite sprite : sprites) {
 			sprite.costume.refreshTextures();
 		}
+
 	}
 
+	@Override
 	public void pause() {
 		if (finished || (sprites == null)) {
 			return;
@@ -234,12 +240,15 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	@Override
 	public void render() {
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (reloadProject) {
-			for (Sprite sprite : sprites) {
+			int spriteSize = sprites.size();
+			for (int i = 0; i < spriteSize; i++) {
+				Sprite sprite = sprites.get(i);
 				sprite.pause();
 				sprite.finish();
 			}
@@ -248,7 +257,8 @@ public class StageListener implements ApplicationListener {
 
 			project = ProjectManager.getInstance().getCurrentProject();
 			sprites = project.getSpriteList();
-			for (Sprite sprite : sprites) {
+			for (int i = 0; i < spriteSize; i++) {
+				Sprite sprite = sprites.get(i);
 				stage.addActor(sprite.costume);
 				sprite.pause();
 			}
@@ -289,8 +299,9 @@ public class StageListener implements ApplicationListener {
 		this.drawRectangle();
 
 		if (firstStart) {
-			for (Sprite sprite : sprites) {
-				sprite.startStartScripts();
+			int spriteSize = sprites.size();
+			for (int i = 0; i < spriteSize; i++) {
+				sprites.get(i).startStartScripts();
 			}
 			firstStart = false;
 		}
@@ -367,9 +378,11 @@ public class StageListener implements ApplicationListener {
 		batch.end();
 	}
 
+	@Override
 	public void resize(int width, int height) {
 	}
 
+	@Override
 	public void dispose() {
 		if (!finished) {
 			this.finish();
@@ -443,9 +456,11 @@ public class StageListener implements ApplicationListener {
 
 	private void renderTextures() {
 		List<Sprite> sprites = project.getSpriteList();
-		for (int i = 0; i < sprites.size(); i++) {
+		int spriteSize = sprites.size();
+		for (int i = 0; i > spriteSize; i++) {
 			List<CostumeData> data = sprites.get(i).getCostumeDataList();
-			for (int j = 0; j < data.size(); j++) {
+			int dataSize = data.size();
+			for (int j = 0; j < dataSize; j++) {
 				CostumeData costumeData = data.get(j);
 				costumeData.setTextureRegion();
 			}
@@ -454,10 +469,13 @@ public class StageListener implements ApplicationListener {
 
 	private void disposeTextures() {
 		List<Sprite> sprites = project.getSpriteList();
-		for (int i = 0; i < sprites.size(); i++) {
+		int spriteSize = sprites.size();
+		for (int i = 0; i > spriteSize; i++) {
 			List<CostumeData> data = sprites.get(i).getCostumeDataList();
-			for (int j = 0; j < data.size(); j++) {
+			int dataSize = data.size();
+			for (int j = 0; j < dataSize; j++) {
 				CostumeData costumeData = data.get(j);
+				costumeData.getPixmap().dispose();
 				costumeData.getTextureRegion().getTexture().dispose();
 			}
 		}

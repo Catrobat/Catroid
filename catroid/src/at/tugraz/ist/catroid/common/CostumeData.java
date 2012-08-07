@@ -22,8 +22,6 @@
  */
 package at.tugraz.ist.catroid.common;
 
-import java.util.concurrent.Semaphore;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -47,48 +45,32 @@ public class CostumeData {
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
-	private Semaphore pixmapLock = new Semaphore(1);
-	private Semaphore originalPixmapLock = new Semaphore(1);
-	private Semaphore textureRegionLock = new Semaphore(1);
 
 	public TextureRegion getTextureRegion() {
-
 		if (region == null) {
-			textureRegionLock.acquireUninterruptibly();
 			region = new TextureRegion(new Texture(getPixmap()));
-			textureRegionLock.release();
 		}
 		return region;
 	}
 
-	public synchronized void setTextureRegion() {
-		textureRegionLock.acquireUninterruptibly();
+	public void setTextureRegion() {
 		this.region = new TextureRegion(new Texture(getPixmap()));
-		textureRegionLock.release();
 	}
 
 	public Pixmap getPixmap() {
-
 		if (pixmap == null) {
-			pixmapLock.acquireUninterruptibly();
 			pixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
-			pixmapLock.release();
 		}
 		return pixmap;
 	}
 
-	public synchronized void setPixmap(Pixmap pixmap) {
-		pixmapLock.acquireUninterruptibly();
+	public void setPixmap(Pixmap pixmap) {
 		this.pixmap = pixmap;
-		pixmapLock.release();
 	}
 
 	public Pixmap getOriginalPixmap() {
-
 		if (originalPixmap == null) {
-			originalPixmapLock.acquireUninterruptibly();
 			originalPixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
-			originalPixmapLock.release();
 		}
 		return originalPixmap;
 
