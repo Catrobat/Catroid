@@ -733,7 +733,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		costumeData.setCostumeFilename(imageFile.getName());
 		costumeData.setCostumeName("testname");
 		costumeDataList.add(costumeData);
-		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 
 		StorageHandler.getInstance().saveProject(project1);
 
@@ -758,7 +758,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			outputStreamWriter.flush();
 			outputStreamWriter.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("CATROID", e.toString());
 		}
 	}
 }
