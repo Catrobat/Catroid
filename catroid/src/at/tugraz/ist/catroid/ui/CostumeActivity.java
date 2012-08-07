@@ -187,9 +187,7 @@ public class CostumeActivity extends ListActivity {
 			try {
 				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
 			} catch (FileNotFoundException e) {
-				{
-					Log.e("CATROID", "Could not find file to save bitmap.", e);
-				}
+				Log.e("CATROID", "Could not find file to save bitmap.", e);
 			}
 		}
 	}
