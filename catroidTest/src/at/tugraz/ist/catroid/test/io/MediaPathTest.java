@@ -62,9 +62,9 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.test.R.raw.testsound;
 	private static final int BIGBLUE_ID = at.tugraz.ist.catroid.test.R.raw.bigblue;
 
+	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
 	private static final String imageName = "testImage.png";
 	private static final String soundName = "testSound.mp3";
-	private static final String projectName = "testProject7";
 	private static final String bigBlueName = "bigblue.png";
 
 	private Context context;
@@ -111,7 +111,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteCatroidRootDirectory();
+		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 

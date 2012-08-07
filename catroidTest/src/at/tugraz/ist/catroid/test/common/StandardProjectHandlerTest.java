@@ -34,11 +34,11 @@ import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StandardProjectHandlerTest extends AndroidTestCase {
-	private String testProjectName = "testStandardProjectBuilding";
+	private static final String testProjectName = TestUtils.TEST_PROJECT_NAME1;
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteCatroidRootDirectory();
+		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 
@@ -73,7 +73,5 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 					.get(cat_number);
 			assertEquals("wrong size of cat image", Values.SCREEN_WIDTH / 3, catCostumeData.getResolution()[0]);
 		}
-
 	}
-
 }

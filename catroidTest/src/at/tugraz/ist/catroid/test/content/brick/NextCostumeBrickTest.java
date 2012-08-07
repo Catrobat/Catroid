@@ -37,15 +37,14 @@ import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class NextCostumeBrickTest extends InstrumentationTestCase {
-
+	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+
 	private File testImage;
-	private String projectName;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		projectName = TestUtils.TEST_PROJECT_NAME1;
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 
 		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
@@ -61,7 +60,7 @@ public class NextCostumeBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteCatroidRootDirectory();
+		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 

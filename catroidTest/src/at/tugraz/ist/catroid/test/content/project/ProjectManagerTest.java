@@ -45,9 +45,9 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
-	private static final String projectNameOne = TestUtils.TEST_PROJECT_NAME1;
-	private static final String spriteNameOne = "Zuul";
-	private static final String spriteNameTwo = "Zuuul";
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+	private static final String SPRITE_NAME1 = "Zuul";
+	private static final String SPRITE_NAME2 = "Zuuul";
 
 	private Context context;
 	private Script testScript;
@@ -62,7 +62,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteCatroidRootDirectory();
+		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 
@@ -72,11 +72,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 
 		// initializeNewProject
-		projectManager.initializeNewProject(projectNameOne, context);
+		projectManager.initializeNewProject(TEST_PROJECT_NAME, context);
 		// Wait for asynchronous project saving to finish.
 		Thread.sleep(1000);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
-		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
+		assertEquals("The Projectname is not " + TEST_PROJECT_NAME, TEST_PROJECT_NAME, projectManager.getCurrentProject()
 				.getName());
 
 		// verify that new project is default project (see StorageHandler.createDefaultProject)
@@ -86,12 +86,12 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertEquals("Catroid sprite has wrong number of scripts", 2, catroid.getNumberOfScripts());
 
 		// add sprite
-		Sprite sprite = new Sprite(spriteNameOne);
+		Sprite sprite = new Sprite(SPRITE_NAME1);
 		projectManager.addSprite(sprite);
 		projectManager.setCurrentSprite(sprite);
 
 		assertNotNull("No current sprite set", projectManager.getCurrentSprite());
-		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, projectManager.getCurrentSprite()
+		assertEquals("The Spritename is not " + SPRITE_NAME1, SPRITE_NAME1, projectManager.getCurrentSprite()
 				.getName());
 
 		// add script
@@ -102,15 +102,15 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("no current script set", projectManager.getCurrentScript());
 
 		// loadProject
-		projectManager.loadProject(projectNameOne, context, false);
+		projectManager.loadProject(TEST_PROJECT_NAME, context, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
-		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
+		assertEquals("The Projectname is not " + TEST_PROJECT_NAME, TEST_PROJECT_NAME, projectManager.getCurrentProject()
 				.getName());
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 
 		// addSprite
-		Sprite sprite2 = new Sprite(spriteNameTwo);
+		Sprite sprite2 = new Sprite(SPRITE_NAME2);
 		projectManager.addSprite(sprite2);
 		assertTrue("Sprite not in current Project", projectManager.getCurrentProject().getSpriteList()
 				.contains(sprite2));

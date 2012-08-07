@@ -59,6 +59,8 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+
 	private Context context;
 	private StorageHandler storageHandler;
 
@@ -72,7 +74,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 
 	@Override
 	public void tearDown() throws Exception {
-		TestUtils.deleteCatroidRootDirectory();
+		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 
@@ -81,7 +83,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(context, "testProject");
+		Project project = new Project(context, TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
@@ -114,7 +116,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 
 		assertTrue("could not save project", TestUtils.saveProjectAndWait(this, project));
 
-		Project loadedProject = storageHandler.loadProject("testProject");
+		Project loadedProject = storageHandler.loadProject(TEST_PROJECT_NAME);
 
 		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getSpriteList();
 		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getSpriteList();

@@ -50,7 +50,6 @@ public class TestUtils {
 	public static final String TEST_PROJECT_NAME2 = "TestProject2";
 	public static final File TEST_PROJECT_DIR1 = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME1);
 	public static final File TEST_PROJECT_DIR2 = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME2);
-	private static final File CATROID_ROOT_DIR = new File(Constants.DEFAULT_ROOT);
 	private static final String TAG = TestUtils.class.getSimpleName();
 
 	private TestUtils() {
@@ -236,10 +235,6 @@ public class TestUtils {
 			}
 		}
 		return file.delete();
-	}
-
-	public static boolean deleteCatroidRootDirectory() {
-		return deleteRecursively(CATROID_ROOT_DIR);
 	}
 
 	/**
