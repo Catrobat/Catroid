@@ -34,6 +34,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -142,6 +143,83 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		File zipFile = new File(zipFileString);
 		UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
 		zipFile.delete();
+	}
+
+	public void testAddNewProjectUnderList() {
+		unzip = true;
+		saveProjectsToZip();
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
+
+		String myProjectsButton = solo.getString(R.string.my_projects);
+
+		solo.clickOnButton(myProjectsButton);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+
+		String projectName = UiTestUtils.PROJECTNAME1;
+		String newProjectDialogTitle = solo.getString(R.string.new_project_dialog_title);
+
+		solo.clickOnView(solo.getView(R.id.view_below_myprojectlist_non_scrollable));
+		solo.waitForText(newProjectDialogTitle, 0, 2000);
+		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
+
+		EditText addNewProjectEditText = solo.getEditText(0);
+		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
+				addNewProjectEditText.getHint());
+		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
+		solo.clearEditText(0);
+		solo.enterText(0, projectName);
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(100);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(projectName));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(myProjectsButton);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+
+		ListView projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		assertEquals("Project was not added", 3, projectList.getCount());
+
+		projectName = UiTestUtils.PROJECTNAME2;
+		solo.clickOnView(solo.getView(R.id.myprojectlist_footerview));
+		solo.waitForText(newProjectDialogTitle, 0, 2000);
+		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
+		solo.clearEditText(0);
+		solo.enterText(0, projectName);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(myProjectsButton);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		assertEquals("Project was not added", 4, projectList.getCount());
+
+		projectName = UiTestUtils.PROJECTNAME3;
+		solo.clickOnView(solo.getView(R.id.myprojectlist_footerview_add_image));
+		solo.waitForText(newProjectDialogTitle, 0, 2000);
+		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
+		solo.clearEditText(0);
+		solo.enterText(0, projectName);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(myProjectsButton);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		assertEquals("Project was not added", 5, projectList.getCount());
+
+		solo.sleep(5000);
 	}
 
 	public void testInvalidProject() {
