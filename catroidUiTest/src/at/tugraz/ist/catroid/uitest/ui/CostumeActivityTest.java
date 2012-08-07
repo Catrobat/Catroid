@@ -546,7 +546,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	}
 
-	public void testAddNewSoundDialog() {
+	public void testAddNewCostumeDialog() {
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.waitForActivity(CostumeActivity.class.getSimpleName());
 
