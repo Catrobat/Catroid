@@ -37,6 +37,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -46,12 +48,15 @@ import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class SoundActivity extends ListActivity {
+public class SoundActivity extends ListActivity implements OnClickListener {
 	private static final String TAG = SoundActivity.class.getSimpleName();
 
 	public MediaPlayer mediaPlayer;
 	private ArrayList<SoundInfo> soundInfoList;
+	private View viewBelowSoundlistNonScrollable;
+	private View soundlistFooterView;
 
+	private static final int FOOTER_ADD_SOUND_ALPHA_VALUE = 35;
 	private final int REQUEST_SELECT_MUSIC = 0;
 
 	@Override
@@ -59,6 +64,16 @@ public class SoundActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_sound);
+		viewBelowSoundlistNonScrollable = findViewById(R.id.view_below_soundlist_non_scrollable);
+		viewBelowSoundlistNonScrollable.setOnClickListener(this);
+
+		View footerView = getLayoutInflater().inflate(R.layout.activity_sound_soundlist_footer, getListView(), false);
+		soundlistFooterView = footerView.findViewById(R.id.soundlist_footerview);
+		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.soundlist_footerview_add_image);
+		footerAddImage.setAlpha(FOOTER_ADD_SOUND_ALPHA_VALUE);
+		soundlistFooterView.setOnClickListener(this);
+		getListView().addFooterView(footerView);
+
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
@@ -91,12 +106,16 @@ public class SoundActivity extends ListActivity {
 	private View.OnClickListener createAddSoundClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
-						REQUEST_SELECT_MUSIC);
+				startSelectSoundIntent();
 			}
 		};
+	}
+
+	private void startSelectSoundIntent() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("audio/*");
+		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+				REQUEST_SELECT_MUSIC);
 	}
 
 	@Override
@@ -256,4 +275,14 @@ public class SoundActivity extends ListActivity {
 
 	}
 
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.view_below_soundlist_non_scrollable:
+				startSelectSoundIntent();
+				break;
+			case R.id.soundlist_footerview:
+				startSelectSoundIntent();
+				break;
+		}
+	}
 }

@@ -30,9 +30,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -46,7 +48,7 @@ import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectActivity extends ListActivity {
+public class ProjectActivity extends ListActivity implements OnClickListener {
 
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
@@ -55,6 +57,9 @@ public class ProjectActivity extends ListActivity {
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
 	private NewSpriteDialog newSpriteDialog;
+	private View viewBelowSpritelistNonScrollable;
+	private View spritelistFooterView;
+	private static final int FOOTER_ADD_SPRITE_ALPHA_VALUE = 35;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
 	public static final int DIALOG_NEW_SPRITE = 0;
@@ -125,6 +130,18 @@ public class ProjectActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		activityHelper = new ActivityHelper(this);
 		setContentView(R.layout.activity_project);
+
+		viewBelowSpritelistNonScrollable = findViewById(R.id.view_below_spritelist_non_scrollable);
+		viewBelowSpritelistNonScrollable.setOnClickListener(this);
+
+		View footerView = getLayoutInflater()
+				.inflate(R.layout.activity_project_spritelist_footer, getListView(), false);
+		spritelistFooterView = footerView.findViewById(R.id.spritelist_footerview);
+		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.spritelist_footerview_add_image);
+		footerAddImage.setAlpha(FOOTER_ADD_SPRITE_ALPHA_VALUE);
+		spritelistFooterView.setOnClickListener(this);
+		getListView().addFooterView(footerView);
+
 		Utils.loadProjectIfNeeded(this);
 		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
 	}
@@ -247,5 +264,16 @@ public class ProjectActivity extends ListActivity {
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.view_below_spritelist_non_scrollable:
+				showDialog(DIALOG_NEW_SPRITE);
+				break;
+			case R.id.spritelist_footerview:
+				showDialog(DIALOG_NEW_SPRITE);
+				break;
+		}
 	}
 }

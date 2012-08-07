@@ -34,9 +34,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -53,14 +55,17 @@ import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class MyProjectsActivity extends ListActivity {
+public class MyProjectsActivity extends ListActivity implements OnClickListener {
 
 	private List<ProjectData> projectList;
 	public ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 	private CustomIconContextMenu iconContextMenu;
 	private ActivityHelper activityHelper;
+	private View viewBelowMyProjectlistNonScrollable;
+	private View myprojectlistFooterView;
 
+	private static final int FOOTER_ADD_PROJECT_ALPHA_VALUE = 35;
 	public static final int DIALOG_NEW_PROJECT = 0;
 	private static final int DIALOG_CONTEXT_MENU = 1;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 2;
@@ -74,6 +79,17 @@ public class MyProjectsActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_projects);
+
+		viewBelowMyProjectlistNonScrollable = findViewById(R.id.view_below_myprojectlist_non_scrollable);
+		viewBelowMyProjectlistNonScrollable.setOnClickListener(this);
+
+		View footerView = getLayoutInflater().inflate(R.layout.activity_my_projects_footer, getListView(), false);
+		myprojectlistFooterView = footerView.findViewById(R.id.myprojectlist_footerview);
+		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.myprojectlist_footerview_add_image);
+		footerAddImage.setAlpha(FOOTER_ADD_PROJECT_ALPHA_VALUE);
+		myprojectlistFooterView.setOnClickListener(this);
+		getListView().addFooterView(footerView);
+
 		projectToEdit = (ProjectData) getLastNonConfigurationInstance();
 	}
 
@@ -291,6 +307,18 @@ public class MyProjectsActivity extends ListActivity {
 		public ProjectData(String projectName, long lastUsed) {
 			this.projectName = projectName;
 			this.lastUsed = lastUsed;
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.view_below_myprojectlist_non_scrollable:
+				showDialog(DIALOG_NEW_PROJECT);
+				break;
+			case R.id.myprojectlist_footerview:
+				showDialog(DIALOG_NEW_PROJECT);
+				break;
 		}
 	}
 }

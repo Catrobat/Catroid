@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
@@ -210,6 +211,40 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		assertTrue("Sounds wasnt renamed", solo.searchText(newName));
 	}
 
+	public void testAddNewSoundDialog() {
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
+
+		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
+
+		solo.clickOnView(solo.getView(R.id.view_below_soundlist_non_scrollable));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		solo.goBack();
+
+		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		solo.goBack();
+
+		solo.clickOnView(solo.getView(R.id.soundlist_footerview_add_image));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		solo.goBack();
+
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		addNewSound();
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
+
+		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+	}
+
 	public void testSoundNames() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		renameSound(soundName, "sound");
@@ -225,5 +260,20 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.enterText(editTextSoundTitle, newSoundTitle);
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
+	}
+
+	private void addNewSound() {
+		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle("sound3");
+
+		soundInfoList.add(soundInfo);
+		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
+				soundInfo.getAbsolutePath());
+		ProjectManager.INSTANCE.saveProject();
 	}
 }
