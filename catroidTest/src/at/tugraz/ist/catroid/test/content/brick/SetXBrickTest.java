@@ -28,22 +28,22 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 
 public class SetXBrickTest extends AndroidTestCase {
 
-	private int xPosition = 100;
+	private static final int POSITION_X = 100;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.costume.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.costume.getYPosition());
 
-		SetXBrick setXBrick = new SetXBrick(sprite, xPosition);
+		SetXBrick setXBrick = new SetXBrick(sprite, POSITION_X);
 		setXBrick.execute();
 
-		assertEquals("Incorrect sprite x position after SetXBrick executed", (float) xPosition,
+		assertEquals("Incorrect sprite x position after SetXBrick executed", (float) POSITION_X,
 				sprite.costume.getXPosition());
 	}
 
 	public void testNullSprite() {
-		SetXBrick setXBrick = new SetXBrick(null, xPosition);
+		SetXBrick setXBrick = new SetXBrick(null, POSITION_X);
 
 		try {
 			setXBrick.execute();

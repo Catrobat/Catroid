@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -36,19 +35,21 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
-	private int BOUNCE_LEFT_POS;
-	private int BOUNCE_RIGHT_POS;
-	private int BOUNCE_DOWN_POS;
-	private int BOUNCE_UP_POS;
-	private int SCREEN_HALF_HEIGHT;
-	private int SCREEN_HALF_WIDTH;
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
 
-	private final String projectName = "testProject";
+	private static final int SCREEN_WIDTH = 480;
+	private static final int SCREEN_HEIGHT = 800;
+	private static final int BOUNCE_LEFT_POS = -(Values.SCREEN_WIDTH + 50);
+	private static final int BOUNCE_RIGHT_POS = Values.SCREEN_WIDTH + 50;
+	private static final int BOUNCE_DOWN_POS = -(Values.SCREEN_HEIGHT + 50);
+	private static final int BOUNCE_UP_POS = Values.SCREEN_HEIGHT + 50;
+	private static final int SCREEN_HALF_HEIGHT = Values.SCREEN_HEIGHT / 2;
+	private static final int SCREEN_HALF_WIDTH = Values.SCREEN_WIDTH / 2;
+
 	private File testImage;
 	private CostumeData costumeData;
 	private int width;
@@ -56,30 +57,18 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		Values.SCREEN_WIDTH = SCREEN_WIDTH;
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		Values.SCREEN_HEIGHT = 800;
-		Values.SCREEN_WIDTH = 480;
-		SCREEN_HALF_HEIGHT = Values.SCREEN_HEIGHT / 2;
-		SCREEN_HALF_WIDTH = Values.SCREEN_WIDTH / 2;
-
-		BOUNCE_LEFT_POS = -(Values.SCREEN_WIDTH + 50);
-		BOUNCE_RIGHT_POS = Values.SCREEN_WIDTH + 50;
-		BOUNCE_DOWN_POS = -(Values.SCREEN_HEIGHT + 50);
-		BOUNCE_UP_POS = Values.SCREEN_HEIGHT + 50;
-
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
 		project.virtualScreenHeight = Values.SCREEN_HEIGHT;
 		project.virtualScreenWidth = Values.SCREEN_WIDTH;
 		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+		testImage = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		costumeData = new CostumeData();
@@ -93,14 +82,11 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testNoBounce() {

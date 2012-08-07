@@ -28,22 +28,22 @@ import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 
 public class SetYBrickTest extends AndroidTestCase {
 
-	private int yPosition = 100;
+	private static final int POSITION_Y = 100;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.costume.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.costume.getYPosition());
 
-		SetYBrick setYBrick = new SetYBrick(sprite, yPosition);
+		SetYBrick setYBrick = new SetYBrick(sprite, POSITION_Y);
 		setYBrick.execute();
 
-		assertEquals("Incorrect sprite y position after SetYBrick executed", (float) yPosition,
+		assertEquals("Incorrect sprite y position after SetYBrick executed", (float) POSITION_Y,
 				sprite.costume.getYPosition());
 	}
 
 	public void testNullSprite() {
-		SetYBrick setYBrick = new SetYBrick(null, yPosition);
+		SetYBrick setYBrick = new SetYBrick(null, POSITION_Y);
 		try {
 			setYBrick.execute();
 			fail("Execution of SetYBrick with null Sprite did not cause a NullPointerException to be thrown");

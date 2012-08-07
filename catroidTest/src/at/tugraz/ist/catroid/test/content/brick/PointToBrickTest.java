@@ -31,13 +31,27 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class PointToBrickTest extends AndroidTestCase {
 
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+
+	Project project;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		project = new Project(null, TEST_PROJECT_NAME);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		TestUtils.deleteTestProjects();
+		super.tearDown();
+	}
+
 	public void testPointTo() {
-
-		Project project = new Project(null, "testProject");
-
 		Sprite sprite1 = new Sprite("cat1");
 		Script startScript1 = new StartScript(sprite1);
 		PlaceAtBrick placeAt1 = new PlaceAtBrick(sprite1, 300, 400);
@@ -73,5 +87,4 @@ public class PointToBrickTest extends AndroidTestCase {
 
 		assertEquals("Wrong direction", -135.0, sprite1.costume.rotation, 1e-3);
 	}
-
 }

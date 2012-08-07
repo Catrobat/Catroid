@@ -76,8 +76,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		// Wait for asynchronous project saving to finish.
 		Thread.sleep(1000);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
-		assertEquals("The Projectname is not " + TEST_PROJECT_NAME, TEST_PROJECT_NAME, projectManager.getCurrentProject()
-				.getName());
+		assertEquals("The Projectname is not " + TEST_PROJECT_NAME, TEST_PROJECT_NAME, projectManager
+				.getCurrentProject().getName());
 
 		// verify that new project is default project (see StorageHandler.createDefaultProject)
 		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
@@ -91,8 +91,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		projectManager.setCurrentSprite(sprite);
 
 		assertNotNull("No current sprite set", projectManager.getCurrentSprite());
-		assertEquals("The Spritename is not " + SPRITE_NAME1, SPRITE_NAME1, projectManager.getCurrentSprite()
-				.getName());
+		assertEquals("The Spritename is not " + SPRITE_NAME1, SPRITE_NAME1, projectManager.getCurrentSprite().getName());
 
 		// add script
 		Script startScript = new StartScript(sprite);
@@ -104,8 +103,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		// loadProject
 		projectManager.loadProject(TEST_PROJECT_NAME, context, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
-		assertEquals("The Projectname is not " + TEST_PROJECT_NAME, TEST_PROJECT_NAME, projectManager.getCurrentProject()
-				.getName());
+		assertEquals("The Projectname is not " + TEST_PROJECT_NAME, TEST_PROJECT_NAME, projectManager
+				.getCurrentProject().getName());
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 
@@ -130,8 +129,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testRenameProject() throws IOException, InterruptedException {
-		String oldProjectName = "oldProject";
-		String newProjectName = "newProject";
+		String oldProjectName = TestUtils.TEST_PROJECT_NAME1;
+		String newProjectName = TestUtils.TEST_PROJECT_NAME2;
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		createTestProject(oldProjectName);

@@ -34,14 +34,16 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class RepeatBrickTest extends AndroidTestCase {
 
+	private static final int REPEAT_TIMES = 10;
+
 	private Sprite testSprite;
 	private StartScript testScript;
-	private static final int REPEAT_TIMES = 10;
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick repeatBrick;
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		testSprite = new Sprite("testSprite");
 	}
 

@@ -36,12 +36,10 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
-	private Context context;
-	private float positiveSize = 20;
-	//	private float negativeSize = -30;
-
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private static final float POSITIVE_SIZE = 20;
 
+	private Context context;
 	private File testImage;
 
 	@Override
@@ -74,14 +72,14 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
 		float initialSize = sprite.costume.getSize();
 
-		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, positiveSize);
+		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, POSITIVE_SIZE);
 		brick.execute();
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize
-				+ (positiveSize / 100), sprite.costume.getSize());
+				+ (POSITIVE_SIZE / 100), sprite.costume.getSize());
 	}
 
 	public void testNullSprite() {
-		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(null, positiveSize);
+		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(null, POSITIVE_SIZE);
 
 		try {
 			brick.execute();

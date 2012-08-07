@@ -31,17 +31,23 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ProjectTest extends AndroidTestCase {
 
+	@Override
+	protected void tearDown() throws Exception {
+		TestUtils.deleteTestProjects();
+		super.tearDown();
+	}
+
 	public void testVersionNameAndNumber() throws NameNotFoundException {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), TestUtils.TEST_PROJECT_NAME1);
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
-		assertEquals("Incorrect version name", packageInfo.versionName, (String) TestUtils.getPrivateField(
-				"catroidVersionName", project, false));
-		assertEquals("Incorrect version code", packageInfo.versionCode, TestUtils.getPrivateField("catroidVersionCode",
-				project, false));
+		assertEquals("Incorrect version name", packageInfo.versionName,
+				(String) TestUtils.getPrivateField("catroidVersionName", project, false));
+		assertEquals("Incorrect version code", packageInfo.versionCode,
+				TestUtils.getPrivateField("catroidVersionCode", project, false));
 	}
 
 	public void testAddRemoveSprite() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), TestUtils.TEST_PROJECT_NAME1);
 		Sprite bottomSprite = new Sprite("bottom");
 		Sprite topSprite = new Sprite("top");
 

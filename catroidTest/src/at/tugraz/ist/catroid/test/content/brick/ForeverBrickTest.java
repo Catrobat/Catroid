@@ -43,19 +43,16 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		testSprite = new Sprite("testSprite");
+		testSprite.removeAllScripts();
+		testScript = new StartScript(testSprite);
+		foreverBrick = new ForeverBrick(testSprite);
+		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		foreverBrick.setLoopEndBrick(loopEndBrick);
 	}
 
 	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
 		final int twentyIsAlmostForever = 20;
-
-		testSprite.removeAllScripts();
-		testScript = new StartScript(testSprite);
-
-		foreverBrick = new ForeverBrick(testSprite);
-		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
-		foreverBrick.setLoopEndBrick(loopEndBrick);
-
 		final int deltaY = -10;
 		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
 
@@ -81,14 +78,6 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 		final int repeatTimes = 15;
-
-		testSprite.removeAllScripts();
-		testScript = new StartScript(testSprite);
-
-		foreverBrick = new ForeverBrick(testSprite);
-		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
-		foreverBrick.setLoopEndBrick(loopEndBrick);
-
 		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
 
 		testScript.addBrick(foreverBrick);

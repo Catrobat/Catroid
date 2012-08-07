@@ -38,7 +38,8 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilFileTest extends InstrumentationTestCase {
-	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
+
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
 
 	private File testDirectory;
 	private File subDirectory;
@@ -49,7 +50,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		testDirectory = new File(Constants.DEFAULT_ROOT + "/testDirectory");
+		testDirectory = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME);
 		testDirectory.mkdirs();
 		file1 = new File(testDirectory.getAbsolutePath() + "/file1");
 		file1.createNewFile();
@@ -85,7 +86,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	public void testFileSize() throws IOException {
 		for (int i = 0; i < 2; i++) {
-			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
+			UtilFile.saveFileToProject(TestUtils.TEST_PROJECT_NAME1, i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
@@ -94,7 +95,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
 
 		for (int i = 2; i < 48; i++) {
-			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
+			UtilFile.saveFileToProject(TestUtils.TEST_PROJECT_NAME1, i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
@@ -125,7 +126,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 	}
 
 	public void testGetProjectFiles() throws InterruptedException {
-		Project project = new Project(null, projectName);
+		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
@@ -134,7 +135,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 		String catroidDirectoryPath = Constants.DEFAULT_ROOT;
 		File catroidDirectory = new File(catroidDirectoryPath);
-		File project1Directory = new File(catroidDirectory + "/" + projectName);
+		File project1Directory = new File(catroidDirectory + "/" + TEST_PROJECT_NAME);
 
 		List<File> projectList = UtilFile.getProjectFiles(catroidDirectory);
 

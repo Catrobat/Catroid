@@ -40,8 +40,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.longtestsound;
-	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
-	private static final String soundFileName = "LongTestSound";
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+	private static final String SOUND_FILE_NAME = "LongTestSound";
 
 	private Context context;
 	private File soundFile;
@@ -53,11 +53,11 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 		Utils.updateScreenWidthAndHeight(context);
 
-		Project project = new Project(context, projectName);
+		Project project = new Project(context, TEST_PROJECT_NAME);
 		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		soundFile = TestUtils.saveFileToProject(projectName, soundFileName, SOUND_FILE_ID, getInstrumentation()
+		soundFile = TestUtils.saveFileToProject(TEST_PROJECT_NAME, SOUND_FILE_NAME, SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 		assertTrue("Cannot read sound file", soundFile.canRead());
 	}

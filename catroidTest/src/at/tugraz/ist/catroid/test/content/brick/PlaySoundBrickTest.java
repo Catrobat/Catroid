@@ -37,7 +37,8 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class PlaySoundBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
-	private final String projectName = TestUtils.TEST_PROJECT_NAME1;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+
 	private File soundFile;
 	private SoundInfo tempSoundInfo;
 
@@ -45,11 +46,11 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
 		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+		soundFile = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 

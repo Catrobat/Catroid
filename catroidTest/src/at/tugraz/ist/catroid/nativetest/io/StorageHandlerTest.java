@@ -35,9 +35,15 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+	private static final String SPRITE_NAME1 = "Stage";
+	private static final String SPRITE_NAME2 = "first";
+	private static final String SPRITE_NAME3 = "second";
+
 	@Override
 	protected void tearDown() throws Exception {
 		NativeAppActivity.setContext(null);
+		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
 
@@ -53,21 +59,16 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		int yDestination = 500;
 		int steps = 1;
 
-		String projectName = "testProject";
-		String firstSpriteName = "Stage";
-		String secondSpriteName = "first";
-		String thirdSpriteName = "second";
-
 		NativeAppActivity.setContext(getInstrumentation().getContext());
 		Project loadedProject = StorageHandler.getInstance().loadProject("test_project.xml");
 
-		assertEquals("Project title missmatch.", projectName, loadedProject.getName());
+		assertEquals("Project title missmatch.", TEST_PROJECT_NAME, loadedProject.getName());
 
-		assertEquals("Name of first sprite does not match.", firstSpriteName, loadedProject.getSpriteList().get(0)
+		assertEquals("Name of first sprite does not match.", SPRITE_NAME1, loadedProject.getSpriteList().get(0)
 				.getName());
-		assertEquals("Name of second sprite does not match.", secondSpriteName, loadedProject.getSpriteList().get(1)
+		assertEquals("Name of second sprite does not match.", SPRITE_NAME2, loadedProject.getSpriteList().get(1)
 				.getName());
-		assertEquals("Name of third sprite does not match.", thirdSpriteName, loadedProject.getSpriteList().get(2)
+		assertEquals("Name of third sprite does not match.", SPRITE_NAME3, loadedProject.getSpriteList().get(2)
 				.getName());
 
 		assertEquals("HideBrick was not loaded right", HideBrick.class,

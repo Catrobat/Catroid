@@ -31,11 +31,12 @@ import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SetCostumeBrickTest extends InstrumentationTestCase {
-	private String testName = "testName";
+	private static final String TEST_COSTUME_NAME = "testName";
 
 	@Override
 	protected void tearDown() throws Exception {
 		NativeAppActivity.setContext(null);
+		super.tearDown();
 	}
 
 	public void testSetCostume() throws Exception {
@@ -48,7 +49,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("new sprite");
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(testName);
+		costumeData.setCostumeFilename(TEST_COSTUME_NAME);
 		sprite.getCostumeDataList().add(costumeData);
 		setCostumeBrick.setCostume(costumeData);
 
@@ -56,6 +57,6 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 
 		setCostumeBrick.execute();
 
-		assertEquals("Image path not correct", "images/" + testName, sprite.costume.getImagePath());
+		assertEquals("Image path not correct", "images/" + TEST_COSTUME_NAME, sprite.costume.getImagePath());
 	}
 }

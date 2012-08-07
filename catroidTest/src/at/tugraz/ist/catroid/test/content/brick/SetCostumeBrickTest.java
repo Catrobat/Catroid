@@ -27,7 +27,6 @@ import java.io.File;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -35,31 +34,26 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SetCostumeBrickTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+
 	private File testImage;
 	int width;
 	int height;
-	private String projectName = "testProject";
 	private Project project;
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		project = new Project(getInstrumentation().getTargetContext(), projectName);
+		project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
 		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+		testImage = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -72,18 +66,14 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testSetCostume() {
-
 		Values.SCREEN_HEIGHT = 200;
 		Values.SCREEN_WIDTH = 200;
 

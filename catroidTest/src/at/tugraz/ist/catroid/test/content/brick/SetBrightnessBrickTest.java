@@ -28,20 +28,20 @@ import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 
 public class SetBrightnessBrickTest extends InstrumentationTestCase {
 
-	private double brightnessValue = 50.1;
+	private static final double BRIGHTNESS_VALUE = 50.1;
 
 	public void testBrightnessEffect() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial brightness value", 1f, sprite.costume.getBrightnessValue());
 
-		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, brightnessValue);
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, BRIGHTNESS_VALUE);
 		setBrightnessBrick.execute();
-		assertEquals("Incorrect brightness value after SetBrightnessBrick executed", (float) brightnessValue / 100f,
+		assertEquals("Incorrect brightness value after SetBrightnessBrick executed", (float) BRIGHTNESS_VALUE / 100f,
 				sprite.costume.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
-		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(null, brightnessValue);
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(null, BRIGHTNESS_VALUE);
 
 		try {
 			setBrightnessBrick.execute();
@@ -53,7 +53,7 @@ public class SetBrightnessBrickTest extends InstrumentationTestCase {
 
 	public void testNegativeBrightnessValue() {
 		Sprite sprite = new Sprite("testSprite");
-		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, -brightnessValue);
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, -BRIGHTNESS_VALUE);
 		setBrightnessBrick.execute();
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
 				sprite.costume.getBrightnessValue());

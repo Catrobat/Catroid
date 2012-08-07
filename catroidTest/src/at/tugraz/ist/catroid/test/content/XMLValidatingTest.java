@@ -44,7 +44,7 @@ import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class XMLValidatingTest extends InstrumentationTestCase {
-	private static final String testProjectName = TestUtils.TEST_PROJECT_NAME1;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
 
 	private Context context;
 
@@ -63,12 +63,12 @@ public class XMLValidatingTest extends InstrumentationTestCase {
 	@SuppressWarnings("unchecked")
 	public void testSerializeProjectWithAllBricks() throws Exception {
 
-		File projectDirectory = new File(Constants.DEFAULT_ROOT + "/" + testProjectName);
+		File projectDirectory = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME);
 		if (projectDirectory.exists()) {
 			UtilFile.deleteDirectory(projectDirectory);
 		}
 
-		Project project = new Project(context, testProjectName);
+		Project project = new Project(context, TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);

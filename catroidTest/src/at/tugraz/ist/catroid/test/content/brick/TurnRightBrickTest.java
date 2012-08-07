@@ -26,7 +26,6 @@ import java.io.File;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -36,30 +35,22 @@ import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TurnRightBrickTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
 
-	private final String projectName = "testProject";
 	private File testImage;
 	private CostumeData costumeData;
 
 	@Override
 	public void setUp() throws Exception {
-
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
 		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+		testImage = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
 		costumeData = new CostumeData();
@@ -68,19 +59,14 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
-
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
+		TestUtils.deleteTestProjects();
 	}
 
 	public void testTurnRightTwice() {

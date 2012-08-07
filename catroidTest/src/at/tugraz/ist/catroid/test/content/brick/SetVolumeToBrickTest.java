@@ -36,19 +36,20 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
 	private static final int SOUND_FILE_ID = R.raw.testsound;
-	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+	private static final float VOLUME = 50.6f;
+
 	private File soundFile;
-	private float volume = 50.6f;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
 		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+		soundFile = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 
@@ -64,9 +65,9 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
 	public void testVolume() {
 		Sprite sprite = new Sprite("testSprite");
-		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, volume);
+		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, VOLUME);
 		setVolumeToBrick.execute();
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume, SoundManager
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager
 				.getInstance().getVolume());
 	}
 }

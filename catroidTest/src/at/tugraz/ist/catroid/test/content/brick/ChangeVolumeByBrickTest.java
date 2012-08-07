@@ -34,23 +34,25 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
+
+	private static final float LOUDER = 10.6f;
+	private static final float SOFTER = -20.3f;
 	private static final int SOUND_FILE_ID = R.raw.testsound;
-	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
 
 	private Context context;
-	private float louder = 10.6f;
-	private float softer = -20.3f;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		context = getInstrumentation().getTargetContext();
 
-		Project project = new Project(context, projectName);
+		Project project = new Project(context, TEST_PROJECT_NAME);
 		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
 		ProjectManager.getInstance().setProject(project);
 
-		TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, context, TestUtils.TYPE_SOUND_FILE);
+		TestUtils.saveFileToProject(TEST_PROJECT_NAME, "soundTest.mp3", SOUND_FILE_ID, context,
+				TestUtils.TYPE_SOUND_FILE);
 
 		Utils.updateScreenWidthAndHeight(context);
 	}
@@ -67,15 +69,15 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial sprite size value", 70.0f, SoundManager.getInstance().getVolume());
 
 		float volume = SoundManager.getInstance().getVolume();
-		volume += louder;
-		ChangeVolumeByBrick changeVolumeByBrick1 = new ChangeVolumeByBrick(sprite, louder);
+		volume += LOUDER;
+		ChangeVolumeByBrick changeVolumeByBrick1 = new ChangeVolumeByBrick(sprite, LOUDER);
 		changeVolumeByBrick1.execute();
 		assertEquals("Incorrect sprite volume after ChangeVolumeByBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 
 		volume = SoundManager.getInstance().getVolume();
-		volume += softer;
-		ChangeVolumeByBrick changeVolumeByBrick2 = new ChangeVolumeByBrick(sprite, softer);
+		volume += SOFTER;
+		ChangeVolumeByBrick changeVolumeByBrick2 = new ChangeVolumeByBrick(sprite, SOFTER);
 		changeVolumeByBrick2.execute();
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", volume, SoundManager.getInstance()
 				.getVolume());

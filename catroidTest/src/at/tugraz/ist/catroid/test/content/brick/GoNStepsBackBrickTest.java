@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 
 public class GoNStepsBackBrickTest extends AndroidTestCase {
 
-	private final int steps = 17;
+	private static final int STEPS = 17;
 
 	public void testSteps() {
 		Sprite sprite = new Sprite("testSprite");
@@ -36,21 +36,21 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 
 		int oldPosition = sprite.costume.zPosition;
 
-		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, steps);
+		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, STEPS);
 		goNStepsBackBrick.execute();
-		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps),
+		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - STEPS),
 				sprite.costume.zPosition);
 
 		oldPosition = sprite.costume.zPosition;
 
-		goNStepsBackBrick = new GoNStepsBackBrick(sprite, -steps);
+		goNStepsBackBrick = new GoNStepsBackBrick(sprite, -STEPS);
 		goNStepsBackBrick.execute();
-		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition + steps),
+		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition + STEPS),
 				sprite.costume.zPosition);
 	}
 
 	public void testNullSprite() {
-		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(null, steps);
+		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(null, STEPS);
 
 		try {
 			goNStepsBackBrick.execute();
@@ -82,5 +82,4 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 		assertEquals("An unwanted Integer overflow occured during GoNStepsBackBrick execution.", Integer.MAX_VALUE,
 				sprite.costume.zPosition);
 	}
-
 }

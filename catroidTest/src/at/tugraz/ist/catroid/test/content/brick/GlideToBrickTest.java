@@ -33,28 +33,28 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 
 public class GlideToBrickTest extends AndroidTestCase {
 
-	int xPosition = 100;
-	int yPosition = 100;
-	int duration = 1000;
+	private static final int POSITION_X = 100;
+	private static final int POSITION_Y = 100;
+	private static final int DURATION = 1000;
 
 	public void testNormalBehavior() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.costume.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.costume.getYPosition());
 
-		GlideToBrick glideToBrick = new GlideToBrick(sprite, xPosition, yPosition, duration);
+		GlideToBrick glideToBrick = new GlideToBrick(sprite, POSITION_X, POSITION_Y, DURATION);
 		glideToBrick.execute();
 
 		Thread.sleep(1100);
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) xPosition, sprite.costume
-				.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) yPosition, sprite.costume
-				.getYPosition());
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) POSITION_X,
+				sprite.costume.getXPosition());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) POSITION_Y,
+				sprite.costume.getYPosition());
 	}
 
 	public void testNullSprite() {
-		GlideToBrick glideToBrick = new GlideToBrick(null, xPosition, yPosition, duration);
+		GlideToBrick glideToBrick = new GlideToBrick(null, POSITION_X, POSITION_Y, DURATION);
 		try {
 			glideToBrick.execute();
 			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");

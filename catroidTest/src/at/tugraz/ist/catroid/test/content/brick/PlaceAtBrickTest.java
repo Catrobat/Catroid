@@ -28,25 +28,25 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 
 public class PlaceAtBrickTest extends AndroidTestCase {
 
-	private int xPosition = 100;
-	private int yPosition = 200;
+	private static final int POSITION_X = 100;
+	private static final int POSITION_Y = 200;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.costume.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.costume.getYPosition());
 
-		PlaceAtBrick brick = new PlaceAtBrick(sprite, xPosition, yPosition);
+		PlaceAtBrick brick = new PlaceAtBrick(sprite, POSITION_X, POSITION_Y);
 		brick.execute();
 
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", xPosition,
+		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", POSITION_X,
 				(int) sprite.costume.getXPosition());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", yPosition,
+		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", POSITION_Y,
 				(int) sprite.costume.getYPosition());
 	}
 
 	public void testNullSprite() {
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(null, xPosition, yPosition);
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(null, POSITION_X, POSITION_Y);
 		try {
 			placeAtBrick.execute();
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");

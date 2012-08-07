@@ -28,20 +28,20 @@ import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
 
 public class SetGhostEffectBrickTest extends InstrumentationTestCase {
 
-	private double effectValue = 50.5;
+	private static final double EFFECT_VALUE = 50.5;
 
 	public void testGhostEffect() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite scale value", 1f, sprite.costume.getAlphaValue());
 
-		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(sprite, effectValue);
+		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(sprite, EFFECT_VALUE);
 		setGhostEffectBrick.execute();
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
-				(100 - (float) effectValue) / 100, sprite.costume.getAlphaValue());
+				(100 - (float) EFFECT_VALUE) / 100, sprite.costume.getAlphaValue());
 	}
 
 	public void testNullSprite() {
-		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(null, effectValue);
+		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(null, EFFECT_VALUE);
 
 		try {
 			setGhostEffectBrick.execute();
