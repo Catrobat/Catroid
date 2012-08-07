@@ -33,7 +33,6 @@ import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.LoadingDaemon;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -88,8 +87,6 @@ public class ProjectManager {
 			currentScript = null;
 
 			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
-
-			LoadingDaemon.getInstance().initAndStart();
 
 			return true;
 		} catch (Exception e) {

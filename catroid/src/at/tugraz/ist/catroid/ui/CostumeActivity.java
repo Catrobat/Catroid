@@ -47,7 +47,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.LoadingDaemon;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -112,7 +111,6 @@ public class CostumeActivity extends ListActivity {
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(fileName);
 		costumeData.setCostumeName(name);
-		LoadingDaemon.getInstance().addCostumeDataToList(costumeData);
 		costumeDataList.add(costumeData);
 		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
 
