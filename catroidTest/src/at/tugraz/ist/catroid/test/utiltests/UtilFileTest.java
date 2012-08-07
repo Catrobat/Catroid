@@ -50,7 +50,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		testDirectory = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME);
+		testDirectory = new File(Constants.DEFAULT_ROOT + "/" + TestUtils.TEST_PROJECT_NAME2);
 		testDirectory.mkdirs();
 		file1 = new File(testDirectory.getAbsolutePath() + "/file1");
 		file1.createNewFile();
@@ -86,7 +86,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	public void testFileSize() throws IOException {
 		for (int i = 0; i < 2; i++) {
-			UtilFile.saveFileToProject(TestUtils.TEST_PROJECT_NAME1, i + "testsound.mp3",
+			UtilFile.saveFileToProject(testDirectory.getName(), i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
@@ -95,7 +95,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
 
 		for (int i = 2; i < 48; i++) {
-			UtilFile.saveFileToProject(TestUtils.TEST_PROJECT_NAME1, i + "testsound.mp3",
+			UtilFile.saveFileToProject(testDirectory.getName(), i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}

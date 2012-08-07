@@ -43,12 +43,12 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
-	private static final int BOUNCE_LEFT_POS = -(Values.SCREEN_WIDTH + 50);
-	private static final int BOUNCE_RIGHT_POS = Values.SCREEN_WIDTH + 50;
-	private static final int BOUNCE_DOWN_POS = -(Values.SCREEN_HEIGHT + 50);
-	private static final int BOUNCE_UP_POS = Values.SCREEN_HEIGHT + 50;
-	private static final int SCREEN_HALF_HEIGHT = Values.SCREEN_HEIGHT / 2;
-	private static final int SCREEN_HALF_WIDTH = Values.SCREEN_WIDTH / 2;
+	private static final int BOUNCE_LEFT_POS = -(SCREEN_WIDTH + 50);
+	private static final int BOUNCE_RIGHT_POS = SCREEN_WIDTH + 50;
+	private static final int BOUNCE_DOWN_POS = -(SCREEN_HEIGHT + 50);
+	private static final int BOUNCE_UP_POS = SCREEN_HEIGHT + 50;
+	private static final int SCREEN_HALF_HEIGHT = SCREEN_HEIGHT / 2;
+	private static final int SCREEN_HALF_WIDTH = SCREEN_WIDTH / 2;
 
 	private File testImage;
 	private CostumeData costumeData;
