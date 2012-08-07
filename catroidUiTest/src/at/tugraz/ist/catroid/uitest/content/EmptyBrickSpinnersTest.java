@@ -133,14 +133,14 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	}
 
 	private void addBroadcastBrick(Sprite sprite, Script startScript) {
-		ProjectManager.getInstance().messageContainer.addMessage(testBroadcastMessage);
+		ProjectManager.getInstance().getMessageContainer().addMessage(testBroadcastMessage);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		broadcastBrick.setSelectedMessage(testBroadcastMessage);
 		startScript.addBrick(broadcastBrick);
 	}
 
 	private void addBroadcastWaitBrick(Sprite sprite, Script startScript) {
-		ProjectManager.getInstance().messageContainer.addMessage(testBroadcastWaitMessage);
+		ProjectManager.getInstance().getMessageContainer().addMessage(testBroadcastWaitMessage);
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		broadcastWaitBrick.setSelectedMessage(testBroadcastWaitMessage);
 		startScript.addBrick(broadcastWaitBrick);
