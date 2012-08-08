@@ -43,7 +43,7 @@ public class BroadcastReceiverBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private transient final ProjectManager projectManager;
-	protected BroadcastScript receiveScript;
+	private BroadcastScript receiveScript;
 	private Sprite sprite;
 
 	@XStreamOmitField
@@ -55,17 +55,21 @@ public class BroadcastReceiverBrick implements Brick {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
@@ -77,6 +81,7 @@ public class BroadcastReceiverBrick implements Brick {
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
 
+			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				if (start) {
 					start = false;
@@ -91,6 +96,7 @@ public class BroadcastReceiverBrick implements Brick {
 				}
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
@@ -106,6 +112,7 @@ public class BroadcastReceiverBrick implements Brick {
 		newBroadcastMessage.setFocusable(true);
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
+			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
 				
@@ -141,6 +148,7 @@ public class BroadcastReceiverBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_broadcast_receive, null);
 	}
@@ -149,5 +157,4 @@ public class BroadcastReceiverBrick implements Brick {
 	public Brick clone() {
 		return new BroadcastReceiverBrick(sprite, receiveScript);
 	}
-
 }

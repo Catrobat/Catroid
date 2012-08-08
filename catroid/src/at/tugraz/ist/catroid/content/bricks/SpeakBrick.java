@@ -42,7 +42,6 @@ import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 public class SpeakBrick implements Brick {
 	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
 
 	private static HashMap<String, SpeakBrick> activeSpeakBricks = new HashMap<String, SpeakBrick>();
 	private Sprite sprite;
@@ -55,13 +54,16 @@ public class SpeakBrick implements Brick {
 		this.text = text;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return TEXT_TO_SPEECH;
 	}
 
+	@Override
 	public synchronized void execute() {
 
 		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
+			@Override
 			public void onUtteranceCompleted(String utteranceId) {
 				SpeakBrick speakBrick = activeSpeakBricks.get(utteranceId);
 				if (speakBrick == null) {
@@ -90,6 +92,7 @@ public class SpeakBrick implements Brick {
 		activeSpeakBricks.remove(utteranceId);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -98,6 +101,7 @@ public class SpeakBrick implements Brick {
 		return text;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_speak, null);
 
@@ -110,6 +114,7 @@ public class SpeakBrick implements Brick {
 
 		editText.setOnClickListener(new OnClickListener() {
 
+			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) context;
 				
@@ -133,6 +138,7 @@ public class SpeakBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_speak, null);
 	}
@@ -141,5 +147,4 @@ public class SpeakBrick implements Brick {
 	public Brick clone() {
 		return new SpeakBrick(this.sprite, this.text);
 	}
-
 }
