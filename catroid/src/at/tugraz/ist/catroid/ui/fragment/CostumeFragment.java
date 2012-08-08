@@ -23,7 +23,6 @@
 package at.tugraz.ist.catroid.ui.fragment;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +39,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
-import android.graphics.Bitmap;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +53,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -66,6 +61,7 @@ import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter.OnCostumeEditListener;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.utils.UtilCamera;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -115,7 +111,8 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 			boolean uriIsSet = savedInstanceState.getBoolean(ARGS_URI_IS_SET);
 			if (uriIsSet) {
-				setCostumeFromCameraUri();
+				String defCostumeName = getString(R.string.default_costume_name);
+				costumeFromCameraUri = UtilCamera.getDefaultCostumeFromCameraUri(defCostumeName);
 			}
 		}
 
@@ -235,8 +232,9 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				loadPaintroidImageIntoCatroid(data);
 				break;
 			case REQUEST_TAKE_PICTURE:
-				rotatePictureIfNecessary();
-				loadPictureFromCameraIntoCatroid(costumeFromCameraUri);
+				String defCostumeName = getString(R.string.default_costume_name);
+				costumeFromCameraUri = UtilCamera.rotatePictureIfNecessary(costumeFromCameraUri, defCostumeName);
+				loadPictureFromCameraIntoCatroid();
 				break;
 		}
 	}
@@ -332,8 +330,8 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	}
 
 	private void selectImageFromCamera() {
+		costumeFromCameraUri = UtilCamera.getDefaultCostumeFromCameraUri(getString(R.string.default_costume_name));
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		setCostumeFromCameraUri();
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, costumeFromCameraUri);
 		startActivityForResult(intent, REQUEST_TAKE_PICTURE);
 	}
@@ -439,71 +437,19 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		}
 	}
 
-	private void rotatePictureIfNecessary() {
-		int rotate = getPhotoRotationDegree(costumeFromCameraUri, costumeFromCameraUri.getPath());
-
-		if (rotate != 0) {
-			Project project = ProjectManager.getInstance().getCurrentProject();
-			File fullSizeImage = new File(costumeFromCameraUri.getPath());
-
-			// Height and Width switched for proper scaling for portrait format photos from camera
-			Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
-					project.virtualScreenHeight, project.virtualScreenWidth, true);
-			Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
-			File downScaledCameraPicture = new File(Constants.TMP_PATH, getString(R.string.default_costume_name)
-					+ ".jpg");
-			costumeFromCameraUri = Uri.fromFile(downScaledCameraPicture);
-			try {
-				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
-			} catch (FileNotFoundException e) {
-				Log.e("CATROID", "Could not find file to save bitmap.", e);
-			}
-		}
-	}
-
-	private void loadPictureFromCameraIntoCatroid(Uri costumeUri) {
-		String originalImagePath = costumeUri.getPath();
-		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
-		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
-			return;
-		}
-		copyImageToCatroid(originalImagePath);
-
+	private void loadPictureFromCameraIntoCatroid() {
 		if (costumeFromCameraUri != null) {
+			String originalImagePath = costumeFromCameraUri.getPath();
+			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
+			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+				Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
+				return;
+			}
+			copyImageToCatroid(originalImagePath);
+
 			File pictureOnSdCard = new File(costumeFromCameraUri.getPath());
 			pictureOnSdCard.delete();
 		}
-	}
-
-	public static int getPhotoRotationDegree(Uri imageUri, String imagePath) {
-		int rotate = 0;
-		try {
-			File imageFile = new File(imagePath);
-			ExifInterface exifDataReader = new ExifInterface(imageFile.getAbsolutePath());
-			int orientation = exifDataReader.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-					ExifInterface.ORIENTATION_NORMAL);
-
-			switch (orientation) {
-				case ExifInterface.ORIENTATION_ROTATE_270:
-					rotate = 270;
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_180:
-					rotate = 180;
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_90:
-					rotate = 90;
-					break;
-			}
-		} catch (IOException e) {
-			Log.e("CATROID", "Could not find file to initialize ExifInterface.", e);
-		}
-		return rotate;
-	}
-
-	private void setCostumeFromCameraUri() {
-		File pictureFile = new File(Constants.TMP_PATH, getString(R.string.default_costume_name) + ".jpg");
-		costumeFromCameraUri = Uri.fromFile(pictureFile);
 	}
 
 	private void handleDeleteCostumeButton(View v) {
