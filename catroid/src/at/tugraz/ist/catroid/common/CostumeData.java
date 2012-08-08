@@ -22,7 +22,6 @@
  */
 package at.tugraz.ist.catroid.common;
 
-
 import java.io.Serializable;
 
 import android.graphics.Bitmap;
@@ -34,7 +33,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class CostumeData implements Serializable {
 
 	private static final long serialVersionUID = 6507693583034786374L;
-	
+
 	private String name;
 	private String fileName;
 	private transient Bitmap thumbnailBitmap;
@@ -45,7 +44,7 @@ public class CostumeData implements Serializable {
 
 	public CostumeData() {
 	}
-	
+
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToImageDirectory(), fileName);
@@ -119,31 +118,4 @@ public class CostumeData implements Serializable {
 	public String toString() {
 		return name;
 	}
-
-
-//	public static final Parcelable.Creator<CostumeData> CREATOR = new Parcelable.Creator<CostumeData>() {
-//		public CostumeData createFromParcel(Parcel in) {
-//			return new CostumeData(in);
-//		}
-//
-//		public CostumeData[] newArray(int size) {
-//			return new CostumeData[size];
-//		}
-//	};
-//
-//	private CostumeData(Parcel in) {
-//		name = in.readString();
-//		fileName = in.readString();
-//	}
-//	
-//	@Override
-//	public int describeContents() {
-//		return 0;
-//	}
-//
-//	@Override
-//	public void writeToParcel(Parcel dest, int flags) {
-//		dest.writeString(name);
-//		dest.writeString(fileName);
-//	}
 }
