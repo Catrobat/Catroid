@@ -40,7 +40,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 	private static LayoutInflater inflater = null;
-	boolean first = true;
 	private Context context;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
@@ -49,15 +48,15 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		this.context = context;
 	}
 
-	public static class ViewHolder {
-		public TextView text;
-		public ImageView image;
-		public View divider;
-		public TextView scripts;
-		public TextView bricks;
-		public TextView costumes;
-		public TextView sounds;
-		//public TextView detail;
+	private static class ViewHolder {
+		private TextView text;
+		private ImageView image;
+		private View divider;
+		private TextView scripts;
+		private TextView bricks;
+		private TextView costumes;
+		private TextView sounds;
+		//private TextView detail;
 	}
 
 	@Override

@@ -48,7 +48,6 @@ import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 public class NXTMotorTurnAngleBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
@@ -76,10 +75,12 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		this.degrees = degrees;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 
+	@Override
 	public void execute() {
 		int temp_angle = degrees;
 		int direction = 1;
@@ -105,10 +106,12 @@ public class NXTMotorTurnAngleBrick implements Brick {
 
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 	}
@@ -118,6 +121,7 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		return new NXTMotorTurnAngleBrick(getSprite(), motorEnum, degrees);
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
@@ -138,11 +142,13 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
+			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 
@@ -154,6 +160,7 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		directionsButton.setClickable(true);
 		directionsButton.setEnabled(true);
 		directionsButton.setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) context;
 				EditNxtMotorTurnAngleBrickDialog dialog = new EditNxtMotorTurnAngleBrickDialog();

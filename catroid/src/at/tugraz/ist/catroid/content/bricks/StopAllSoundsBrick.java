@@ -43,18 +43,22 @@ public class StopAllSoundsBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
-		SoundManager.getInstance().pause();
+		SoundManager.getInstance().stopAllSounds();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_stop_all_sounds, null);
@@ -67,6 +71,7 @@ public class StopAllSoundsBrick implements Brick {
 		return new StopAllSoundsBrick(getSprite());
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
 	}
