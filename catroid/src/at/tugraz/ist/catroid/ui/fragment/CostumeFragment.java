@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.ui.fragment;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +40,15 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +57,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -65,25 +70,29 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final String ARGS_SELECTED_COSTUME = "selected_costume";
 	private static final String ARGS_IMAGE_URI = "image_uri";
+	private static final String ARGS_URI_IS_SET = "uri_is_set";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
 	private CostumeData selectedCostumeData;
 
+	private Uri costumeFromCameraUri = null;
+
 	private CostumeDeletedReceiver costumeDeletedReceiver;
 	private CostumeRenamedReceiver costumeRenamedReceiver;
 
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
+	public static final int REQUEST_TAKE_PICTURE = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +112,11 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 		if (savedInstanceState != null) {
 			selectedCostumeData = (CostumeData) savedInstanceState.getSerializable(ARGS_SELECTED_COSTUME);
+
+			boolean uriIsSet = savedInstanceState.getBoolean(ARGS_URI_IS_SET);
+			if (uriIsSet) {
+				setCostumeFromCameraUri();
+			}
 		}
 
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
@@ -113,6 +127,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(ARGS_URI_IS_SET, (costumeFromCameraUri != null));
 		outState.putSerializable(ARGS_SELECTED_COSTUME, selectedCostumeData);
 		super.onSaveInstanceState(outState);
 	}
@@ -160,10 +175,15 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_scripttab_costumes, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
 
-		final MenuItem addItem = menu.findItem(R.id.menu_add);
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.clear();
+		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.menu_scripttab_costumes, menu);
 
 		int addButtonIcon;
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
@@ -172,59 +192,31 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		} else {
 			addButtonIcon = R.drawable.ic_actionbar_shirt;
 		}
-		addItem.setIcon(addButtonIcon);
+		menu.findItem(R.id.menu_add).setIcon(addButtonIcon);
 
-		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-
-				Bundle bundleForPaintroid = new Bundle();
-				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
-				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
-						getString(R.string.default_costume_name));
-
-				intent.setType("image/*");
-				intent.putExtras(bundleForPaintroid);
-				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
-				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
-
-				return true;
-			}
-		});
+		super.onPrepareOptionsMenu(menu);
 	}
 
-	public void updateCostumeAdapter(String name, String fileName) {
-		name = Utils.getUniqueCostumeName(name);
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(fileName);
-		costumeData.setCostumeName(name);
-		costumeDataList.add(costumeData);
-		reloadAdapter();
-
-		//scroll down the list to the new item:
-		final ListView listView = getListView();
-		listView.post(new Runnable() {
-			@Override
-			public void run() {
-				listView.setSelection(listView.getCount() - 1);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
+		switch (itemId) {
+			case R.id.menu_add_costume_from_camera: {
+				selectImageFromCamera();
+				return true;
 			}
-		});
+			case R.id.menu_add_costume_from_gallery: {
+				selectImageFromGallery();
+				return true;
+			}
+			default: {
+				return super.onOptionsItemSelected(item);
+			}
+		}
 	}
 
 	public void setSelectedCostumeData(CostumeData costumeData) {
 		selectedCostumeData = costumeData;
-	}
-
-	private void reloadAdapter() {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		if (currentSprite != null) {
-			costumeDataList = currentSprite.getCostumeDataList();
-			CostumeAdapter adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item,
-					costumeDataList);
-			adapter.setOnCostumeEditListener(this);
-			setListAdapter(adapter);
-		}
 	}
 
 	@Override
@@ -241,6 +233,10 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				break;
 			case REQUEST_PAINTROID_EDIT_IMAGE:
 				loadPaintroidImageIntoCatroid(data);
+				break;
+			case REQUEST_TAKE_PICTURE:
+				rotatePictureIfNecessary();
+				loadPictureFromCameraIntoCatroid(costumeFromCameraUri);
 				break;
 		}
 	}
@@ -304,6 +300,55 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
+	}
+
+	private void updateCostumeAdapter(String name, String fileName) {
+		name = Utils.getUniqueCostumeName(name);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(fileName);
+		costumeData.setCostumeName(name);
+		costumeDataList.add(costumeData);
+		reloadAdapter();
+
+		//scroll down the list to the new item:
+		final ListView listView = getListView();
+		listView.post(new Runnable() {
+			@Override
+			public void run() {
+				listView.setSelection(listView.getCount() - 1);
+			}
+		});
+	}
+
+	private void reloadAdapter() {
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		if (currentSprite != null) {
+			costumeDataList = currentSprite.getCostumeDataList();
+			CostumeAdapter adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item,
+					costumeDataList);
+			adapter.setOnCostumeEditListener(this);
+			setListAdapter(adapter);
+		}
+	}
+
+	private void selectImageFromCamera() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		setCostumeFromCameraUri();
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, costumeFromCameraUri);
+		startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+	}
+
+	private void selectImageFromGallery() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID, getString(R.string.default_costume_name));
+
+		intent.setType("image/*");
+		intent.putExtras(bundleForPaintroid);
+		Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
+		startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 	}
 
 	private void copyImageToCatroid(String originalImagePath) {
@@ -392,6 +437,73 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void rotatePictureIfNecessary() {
+		int rotate = getPhotoRotationDegree(costumeFromCameraUri, costumeFromCameraUri.getPath());
+
+		if (rotate != 0) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			File fullSizeImage = new File(costumeFromCameraUri.getPath());
+
+			// Height and Width switched for proper scaling for portrait format photos from camera
+			Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
+					project.virtualScreenHeight, project.virtualScreenWidth, true);
+			Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
+			File downScaledCameraPicture = new File(Constants.TMP_PATH, getString(R.string.default_costume_name)
+					+ ".jpg");
+			costumeFromCameraUri = Uri.fromFile(downScaledCameraPicture);
+			try {
+				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
+			} catch (FileNotFoundException e) {
+				Log.e("CATROID", "Could not find file to save bitmap.", e);
+			}
+		}
+	}
+
+	private void loadPictureFromCameraIntoCatroid(Uri costumeUri) {
+		String originalImagePath = costumeUri.getPath();
+		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
+		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
+			return;
+		}
+		copyImageToCatroid(originalImagePath);
+
+		if (costumeFromCameraUri != null) {
+			File pictureOnSdCard = new File(costumeFromCameraUri.getPath());
+			pictureOnSdCard.delete();
+		}
+	}
+
+	public static int getPhotoRotationDegree(Uri imageUri, String imagePath) {
+		int rotate = 0;
+		try {
+			File imageFile = new File(imagePath);
+			ExifInterface exifDataReader = new ExifInterface(imageFile.getAbsolutePath());
+			int orientation = exifDataReader.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+					ExifInterface.ORIENTATION_NORMAL);
+
+			switch (orientation) {
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					rotate = 270;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					rotate = 180;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					rotate = 90;
+					break;
+			}
+		} catch (IOException e) {
+			Log.e("CATROID", "Could not find file to initialize ExifInterface.", e);
+		}
+		return rotate;
+	}
+
+	private void setCostumeFromCameraUri() {
+		File pictureFile = new File(Constants.TMP_PATH, getString(R.string.default_costume_name) + ".jpg");
+		costumeFromCameraUri = Uri.fromFile(pictureFile);
 	}
 
 	private void handleDeleteCostumeButton(View v) {
