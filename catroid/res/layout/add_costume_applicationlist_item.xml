@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -18,37 +19,23 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package at.tugraz.ist.catroid.content.bricks;
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
 
-import java.io.Serializable;
+    <ImageView
+        android:id="@+id/addCostumeApplicationIcon"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:src="@null" />
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.content.Sprite;
+    <TextView
+        android:id="@+id/addCostumeApplicationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="91dp" />
 
-public interface Brick extends Serializable {
-
-	//use bitwise | for using multiple ressources in a brick
-	public static final int NO_RESOURCES = 0x0;
-	//	public static final int SOUND_MANAGER = 0x1;
-	public static final int TEXT_TO_SPEECH = 0x2;
-	public static final int BLUETOOTH_LEGO_NXT = 0x4;
-
-	//	public static final int BLUETOOTH_ARDUINO = 0x8;
-
-	public void execute();
-
-	public Sprite getSprite();
-
-	public View getView(Context context, int brickId, BaseAdapter adapter);
-
-	public View getPrototypeView(Context context);
-
-	public Brick clone();
-
-	public int getRequiredResources();
-
-}
+</LinearLayout>
