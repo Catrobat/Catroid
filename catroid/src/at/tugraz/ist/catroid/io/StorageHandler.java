@@ -153,7 +153,7 @@ public class StorageHandler {
 			serailizer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 			//			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
 			//					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
-			//
+
 			//			writer.write(XML_HEADER.concat(projectFile));
 			//			writer.flush();
 			//			writer.close();
