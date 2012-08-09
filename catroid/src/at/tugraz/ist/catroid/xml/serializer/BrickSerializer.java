@@ -75,8 +75,8 @@ public class BrickSerializer extends Serializer {
 			brickClassField.setAccessible(true);
 			if (!brickClassField.getType().isPrimitive()) {
 				if (fieldName.equals("sprite")) {
-					xmlElementString = brickTabs + tab + tab + spriteElementPrefix + "\"../../../../..\"/>" + "\n";
-					brickStringList.add(xmlElementString);
+					//					xmlElementString = brickTabs + tab + tab + spriteElementPrefix + "\"../../../../..\"/>" + "\n";
+					//					brickStringList.add(xmlElementString);
 				} else if (brickClassField.getType().equals(String.class)) {
 					xmlElementString = brickTabs + tab + tab
 							+ getElementString(fieldName, (String) brickClassField.get(object));
