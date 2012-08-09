@@ -117,13 +117,9 @@
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
     <!-- New project dialog -->
-    <string name="new_project_dialog_button">Create</string>
     <string name="new_project_dialog_title">Name of new project</string>
-    <string name="new_project_dialog_default_project_name">projectname</string>
     <string name="new_project_dialog_hint">My Project</string>
     <!-- Rename Dialog -->
-    <string name="rename_hint">Name</string>
-    <string name="rename_button">Rename</string>
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Sprite</string>
     <string name="new_sprite_dialog_title">Name of new Sprite</string>

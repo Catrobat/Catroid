@@ -63,7 +63,6 @@
     <string name="about_title">"キャットロイドについて"</string>
     <string name="about_text">"キャットロイドは、マサチューセッツ工科大学のメディアラボで生涯幼稚園グループによって開発されたパソコン用のスクラッチプログラミング言語に着想を得、Androidデバイスのためのオンデバイス ビジュアルプログラミング言語です。\n\nのキャットロイドは、主にGNU AGPL v3の下でライセンスされています。ライセンスの詳細については、下記リンクをご参照ください。\n"</string>
     <string name="about_catroid_license_link_text">"キャットロイドについて"</string>
-
     <!-- Project activity view -->
     <string name="project_name">"プロジェクト："</string>
     <string name="number_of_scripts">"スクリプト："</string>
@@ -111,13 +110,9 @@
     <!-- Script context menu -->
     <string name="script_context_menu_title">"スクリプト"</string>
     <!-- New project dialog -->
-    <string name="new_project_dialog_button">"作成"</string>
     <string name="new_project_dialog_title">"新規プロジェクトの名前"</string>
-    <string name="new_project_dialog_default_project_name">"プロジェクトの名前"</string>
     <string name="new_project_dialog_hint">"私のプロジェクト"</string>
     <!-- Rename Dialog -->
-    <string name="rename_hint">"名"</string>
-    <string name="rename_button">"名前の変更"</string>
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">"私のスプライト"</string>
     <string name="new_sprite_dialog_title">"新しいスプライトの名前"</string>

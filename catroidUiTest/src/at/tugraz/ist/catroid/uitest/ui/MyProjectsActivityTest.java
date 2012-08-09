@@ -401,6 +401,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//delete first project
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
 		solo.clickOnText(buttonDeleteText, 1);
+		solo.sleep(1000);
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1));
