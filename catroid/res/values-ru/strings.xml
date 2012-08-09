@@ -359,4 +359,6 @@
     <string name="just_a_v">v</string>
     <string name="number_to_small">Слишком маленькое значение!</string>
     <string name="number_to_big">Слишком большое значение!</string>
+    <string name="add_costume_from_gallery">Из галереи</string>
+    <string name="add_costume_from_camera">Камера</string>
 </resources>
