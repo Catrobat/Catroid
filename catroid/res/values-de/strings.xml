@@ -286,4 +286,6 @@
     <string name="number_to_small">Wert ist zu klein!</string>
     <string name="number_to_big">Wert ist zu groß!</string>
     <string name="select_image">Bild auswählen</string>
+    <string name="add_costume_from_gallery">von Galerie</string>
+    <string name="add_costume_from_camera">von Kamera</string>
 </resources>
