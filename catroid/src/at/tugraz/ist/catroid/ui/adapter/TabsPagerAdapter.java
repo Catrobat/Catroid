@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -32,6 +33,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TabHost;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 /**
  * This is a helper class that implements the management of tabs and all details of connecting a
@@ -110,6 +112,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 
 	@Override
 	public void onTabChanged(String tabId) {
+		mContext.sendBroadcast(new Intent(ScriptTabActivity.ACTION_TAB_CHANGED));
 		int position = mTabHost.getCurrentTab();
 		mViewPager.setCurrentItem(position);
 	}

@@ -25,6 +25,8 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -33,6 +35,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
@@ -40,10 +45,14 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> {
-	
+
 	protected ArrayList<SoundInfo> soundInfoItems;
 	protected Context context;
-	
+
+	private Set<Integer> checkedSounds = new HashSet<Integer>();
+
+	private OnSoundCheckedListener onSoundCheckedListener;
+	private OnSoundPlayPauseListener onSoundPlayPauseListener;
 	private OnSoundEditListener onSoundEditListener;
 
 	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
@@ -51,11 +60,40 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		this.context = context;
 		soundInfoItems = items;
 	}
-	
+
+	public void setOnSoundCheckedListener(OnSoundCheckedListener listener) {
+		onSoundCheckedListener = listener;
+	}
+
+	public void setOnSoundPlayPauseListener(OnSoundPlayPauseListener listener) {
+		onSoundPlayPauseListener = listener;
+	}
+
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
 		onSoundEditListener = listener;
 	}
-	
+
+	public Set<Integer> getCheckedSounds() {
+		return checkedSounds;
+	}
+
+	public int getSingleCheckedSound() {
+		if (checkedSounds.size() > 1) {
+			throw new IllegalArgumentException("There are more than one checked sounds");
+		}
+
+		return checkedSounds.iterator().next();
+	}
+
+	public int getCheckedSoundsCount() {
+		return checkedSounds.size();
+	}
+
+	public void uncheckAllSounds() {
+		checkedSounds.clear();
+		notifyDataSetChanged();
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -68,16 +106,15 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		convertView.findViewById(R.id.sound_name).setTag(position);
 		convertView.findViewById(R.id.btn_sound_play).setTag(position);
 		convertView.findViewById(R.id.btn_sound_pause).setTag(position);
-		convertView.findViewById(R.id.btn_sound_delete).setTag(position);
 
 		if (soundInfo != null) {
 			ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 			TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
 			Button pauseSoundButton = (Button) convertView.findViewById(R.id.btn_sound_pause);
 			Button playSoundButton = (Button) convertView.findViewById(R.id.btn_sound_play);
-			Button deleteSoundButton = (Button) convertView.findViewById(R.id.btn_sound_delete);
 			TextView soundFileSize = (TextView) convertView.findViewById(R.id.sound_size);
 			TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
+			CheckBox soundCheckBox = (CheckBox) convertView.findViewById(R.id.cb_sound_select);
 
 			if (soundInfo.isPlaying) {
 				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker_playing));
@@ -112,39 +149,45 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			}
 
 			soundNameTextView.setText(soundInfo.getTitle());
-			
 			soundNameTextView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundRename(v);
+						onSoundEditListener.onSoundRename(position);
 					}
 				}
 			});
-			
+
+			soundCheckBox.setChecked(checkedSounds.contains(position));
+			soundCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if (isChecked) {
+						checkedSounds.add(position);
+					} else {
+						checkedSounds.remove(position);
+					}
+
+					if (onSoundCheckedListener != null) {
+						onSoundCheckedListener.onSoundChecked(position, isChecked);
+					}
+				}
+			});
+
 			playSoundButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPlay(v);
+					if (onSoundPlayPauseListener != null) {
+						onSoundPlayPauseListener.onSoundPlay(v);
 					}
 				}
 			});
-			
+
 			pauseSoundButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPause(v);
-					}
-				}
-			});
-			
-			deleteSoundButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundDelete(v);
+					if (onSoundPlayPauseListener != null) {
+						onSoundPlayPauseListener.onSoundPause(v);
 					}
 				}
 			});
@@ -152,13 +195,24 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 		return convertView;
 	}
-	
-	public interface OnSoundEditListener {
-		
-		public void onSoundRename(View v);
+
+	public interface OnSoundPlayPauseListener {
+
 		public void onSoundPlay(View v);
+
 		public void onSoundPause(View v);
-		public void onSoundDelete(View v);
-		
+
+	}
+
+	public interface OnSoundEditListener {
+
+		public void onSoundRename(int position);
+
+	}
+
+	public interface OnSoundCheckedListener {
+
+		public void onSoundChecked(int position, boolean isChecked);
+
 	}
 }

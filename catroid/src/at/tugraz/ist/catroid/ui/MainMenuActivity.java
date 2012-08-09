@@ -148,6 +148,28 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				}
 				return true;
 			}
+			case R.id.menu_web_resources: {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website)
+						.toString()));
+				startActivity(browserIntent);
+				return true;
+			}
+			case R.id.menu_settings: {
+				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
+			}
+			case R.id.menu_forum: {
+				Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum)
+						.toString()));
+				startActivity(browerIntent);
+				return true;
+			}
+			case R.id.menu_about: {
+				AboutDialog aboutDialog = new AboutDialog(this);
+				aboutDialog.show();
+				return true;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -254,26 +276,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
 			checkTokenTask.execute();
 		}
-	}
-
-	public void handleWebResourcesButton(View v) {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
-		startActivity(browserIntent);
-	}
-
-	public void handleSettingsButton(View v) {
-		Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-		startActivity(intent);
-	}
-
-	public void handleForumButton(View v) {
-		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
-		startActivity(browerIntent);
-	}
-
-	public void handleAboutCatroidButton(View v) {
-		AboutDialog aboutDialog = new AboutDialog(this);
-		aboutDialog.show();
 	}
 
 	@Override

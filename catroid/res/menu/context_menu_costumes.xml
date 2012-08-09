@@ -24,25 +24,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_start"
-        android:icon="@drawable/ic_play_black"
+        android:id="@+id/menu_costume_paintroid"
+        android:icon="@drawable/ic_paintroid_logo"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/start"/>
+        android:title="@string/edit_costume_paintroid"/>
     <item
-        android:id="@+id/menu_web_resources"
-        android:showAsAction="withText"
-        android:title="@string/web_resources"/>
+        android:id="@+id/menu_costume_copy"
+        android:icon="@drawable/ic_copy"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/copy_costume"/>
     <item
-        android:id="@+id/menu_settings"
-        android:showAsAction="withText"
-        android:title="@string/settings"/>
+        android:id="@+id/menu_costume_delete"
+        android:icon="@drawable/ic_menu_delete"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/sound_delete"/>
     <item
-        android:id="@+id/menu_forum"
-        android:showAsAction="withText"
-        android:title="@string/forum"/>
-    <item
-        android:id="@+id/menu_about"
-        android:showAsAction="withText"
-        android:title="@string/about"/>
+        android:id="@+id/menu_costume_edit"
+        android:icon="@drawable/ic_menu_edit"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/edit_costume"/>
 
 </menu>

@@ -24,13 +24,17 @@ package at.tugraz.ist.catroid.ui.adapter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
@@ -38,20 +42,48 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class CostumeAdapter extends ArrayAdapter<CostumeData> {
-	
+
 	protected ArrayList<CostumeData> costumeDataItems;
 	protected Context context;
 
+	private Set<Integer> checkedCostumes = new HashSet<Integer>();
+
+	private OnCostumeCheckedListener onCostumeCheckedListener;
 	private OnCostumeEditListener onCostumeEditListener;
-	
+
 	public CostumeAdapter(final Context context, int textViewResourceId, ArrayList<CostumeData> items) {
 		super(context, textViewResourceId, items);
 		this.context = context;
 		costumeDataItems = items;
 	}
-	
+
+	public void setOnCostumeCheckedListener(OnCostumeCheckedListener listener) {
+		onCostumeCheckedListener = listener;
+	}
+
 	public void setOnCostumeEditListener(OnCostumeEditListener listener) {
 		onCostumeEditListener = listener;
+	}
+
+	public Set<Integer> getCheckedCostumes() {
+		return checkedCostumes;
+	}
+
+	public int getSingleCheckedCostume() {
+		if (checkedCostumes.size() > 1) {
+			throw new IllegalArgumentException("There are more than one checked costumes");
+		}
+
+		return checkedCostumes.iterator().next();
+	}
+
+	public int getCheckedCostumesCount() {
+		return checkedCostumes.size();
+	}
+
+	public void uncheckAllCostumes() {
+		checkedCostumes.clear();
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -61,9 +93,6 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 			convertView = View.inflate(context, R.layout.activity_costume_costumelist_item, null);
 		}
 
-		convertView.findViewById(R.id.btn_costume_copy).setTag(position);
-		convertView.findViewById(R.id.btn_costume_delete).setTag(position);
-		convertView.findViewById(R.id.btn_costume_edit).setTag(position);
 		convertView.findViewById(R.id.costume_name).setTag(position);
 		convertView.findViewById(R.id.costume_image).setTag(position);
 
@@ -74,9 +103,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 			TextView costumeNameTextField = (TextView) convertView.findViewById(R.id.costume_name);
 			TextView costumeResolution = (TextView) convertView.findViewById(R.id.costume_res);
 			TextView costumeSize = (TextView) convertView.findViewById(R.id.costume_size);
-			Button costumeEditButton = (Button) convertView.findViewById(R.id.btn_costume_edit);
-			Button costumeCopyButton = (Button) convertView.findViewById(R.id.btn_costume_copy);
-			Button costumeDeleteButton = (Button) convertView.findViewById(R.id.btn_costume_delete);
+			CheckBox costumeCheckBox = (CheckBox) convertView.findViewById(R.id.cb_costume_select);
 
 			costumeImage.setImageBitmap(costumeData.getThumbnailBitmap());
 			costumeNameTextField.setText(costumeData.getCostumeName());
@@ -91,61 +118,56 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					costumeSize.setText(UtilFile.getSizeAsString(new File(costumeData.getAbsolutePath())));
 				}
 			}
-			
-			costumeImage.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onCostumeEditListener != null) {
-						onCostumeEditListener.onCostumeEdit(v);
-					}
-				}
-			});
-			
+
 			costumeNameTextField.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onCostumeEditListener != null) {
-						onCostumeEditListener.onCostumeRename(v);
+						onCostumeEditListener.onCostumeRename(position);
 					}
 				}
 			});
-			
-			costumeEditButton.setOnClickListener(new OnClickListener() {
+
+			costumeImage.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onCostumeEditListener != null) {
-						onCostumeEditListener.onCostumeEdit(v);
+						onCostumeEditListener.onCostumeEditPaintroid(position);
 					}
 				}
 			});
-			
-			costumeCopyButton.setOnClickListener(new OnClickListener() {
+
+			costumeCheckBox.setChecked(checkedCostumes.contains(position));
+			costumeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
-				public void onClick(View v) {
-					if (onCostumeEditListener != null) {
-						onCostumeEditListener.onCostumeCopy(v);
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if (isChecked) {
+						checkedCostumes.add(position);
+					} else {
+						checkedCostumes.remove(position);
 					}
-				}
-			});
-			
-			costumeDeleteButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onCostumeEditListener != null) {
-						onCostumeEditListener.onCostumeDelete(v);
+
+					if (onCostumeCheckedListener != null) {
+						onCostumeCheckedListener.onCostumeChecked(position, isChecked);
 					}
 				}
 			});
 		}
-		
+
 		return convertView;
 	}
-	
+
+	public interface OnCostumeCheckedListener {
+
+		public void onCostumeChecked(int position, boolean isChecked);
+
+	}
+
 	public interface OnCostumeEditListener {
-		
-		public void onCostumeEdit(View v);
-		public void onCostumeRename(View v);
-		public void onCostumeDelete(View v);
-		public void onCostumeCopy(View v);
+
+		public void onCostumeRename(int position);
+
+		public void onCostumeEditPaintroid(int position);
+
 	}
 }

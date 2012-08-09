@@ -25,7 +25,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="6dip" >
+    android:paddingTop="6dip"
+    android:paddingBottom="6dip" >
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,11 +34,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="5dip" >
-
+		
+        <CheckBox 
+       		android:id="@+id/cb_costume_select"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_gravity="center"
+        	android:checked="false" />
+        
         <ImageView
             android:id="@+id/costume_image"
             android:layout_width="110dip"
             android:layout_height="110dip"
+            android:layout_marginLeft="5dip"
             android:clickable="true"
             android:scaleType="centerCrop" />
 
@@ -54,7 +63,7 @@
                 android:layout_marginLeft="8dip"
                 android:layout_marginRight="8dip"
                 android:background="@drawable/list_item_text_background"
-                android:clickable="true"
+                android:clickable="false"
                 android:ellipsize="end"
                 android:focusable="false"
                 android:gravity="center_vertical"
@@ -102,39 +111,4 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingRight="4dip"
-        android:weightSum="3" >
-
-        <Button
-            android:id="@+id/btn_costume_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_paintroid_logo"
-            android:text="@string/edit_costume_paintroid" />
-
-        <Button
-            android:id="@+id/btn_costume_copy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_copy"
-            android:text="@string/copy_costume" />
-
-        <Button
-            android:id="@+id/btn_costume_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_menu_delete"
-            android:text="@string/sound_delete" />
-    </LinearLayout>
-
 </LinearLayout>

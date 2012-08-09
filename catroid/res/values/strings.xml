@@ -97,7 +97,7 @@
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
-    <string name="sound_delete">delete</string>
+    <string name="sound_delete">Delete</string>
     <string name="sound_select_source">Select a sound</string>
     <string name="delete_sound_dialog">Delete sound?</string>
     <!-- My Projects activity -->

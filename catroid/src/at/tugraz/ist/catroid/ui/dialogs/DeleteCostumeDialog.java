@@ -38,48 +38,47 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 public class DeleteCostumeDialog extends DialogFragment {
-	
+
 	private static final String ARGS_SELECTED_POSITION = "selected_position";
-	
-	public static DeleteCostumeDialog newInstance(int selectedPosition) {
+
+	public static DeleteCostumeDialog newInstance(int[] selectedPositions) {
 		DeleteCostumeDialog dialog = new DeleteCostumeDialog();
-		
+
 		Bundle args = new Bundle();
-		args.putInt(ARGS_SELECTED_POSITION, selectedPosition);
+		args.putIntArray(ARGS_SELECTED_POSITION, selectedPositions);
 		dialog.setArguments(args);
-		
+
 		return dialog;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final int selectedPosition = getArguments().getInt(ARGS_SELECTED_POSITION);
-		
-		Dialog dialog = new AlertDialog.Builder(getActivity())
-			.setTitle(R.string.delete_costume_dialog)
-			.setNegativeButton(R.string.cancel_button, new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dismiss();
-				}
-			})
-			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					handleDeleteCostume(selectedPosition);
-				}
-			}).create();
-		
+		final int[] selectedPositions = getArguments().getIntArray(ARGS_SELECTED_POSITION);
+
+		Dialog dialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.delete_costume_dialog)
+				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dismiss();
+					}
+				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						for (int i = 0; i < selectedPositions.length; i++) {
+							handleDeleteCostume(selectedPositions[i] - i);
+						}
+						getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_COSTUME_DELETED));
+					}
+				}).create();
+
 		dialog.setCanceledOnTouchOutside(true);
-		
+
 		return dialog;
 	}
-	
+
 	private void handleDeleteCostume(int position) {
 		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		StorageHandler.getInstance().deleteFile(costumeDataList.get(position).getAbsolutePath());
 		costumeDataList.remove(position);
-		
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_COSTUME_DELETED));
 	}
 }
