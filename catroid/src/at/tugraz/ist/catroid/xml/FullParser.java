@@ -143,10 +143,30 @@ public class FullParser {
 
 	private Project getProjectObject(Document doc, List<Sprite> sprites2) throws IllegalArgumentException,
 			SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException,
-			NoSuchMethodException {
-		Project newProject = (Project) objectGetter.getobjectOfClass(Project.class, "0");
-		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(Project.class);
-		NodeList projectNodes = doc.getElementsByTagName("Project");
+			NoSuchMethodException, ParseException {
+		Node rootNode = doc.getDocumentElement();
+		String nameOfRoot = rootNode.getNodeName();
+		Object projectobj;
+		Class projectClass;
+		if (!nameOfRoot.equals("Project")) {
+			String classNameOriginal = nameOfRoot.replace("_-", "$");
+			try {
+				projectClass = Class.forName(classNameOriginal);
+				//projectobj = objectGetter.getobjectOfClass(projectClass, "0");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				throw new ParseException("project class not found");
+			}
+		} else {
+			//projectobj = objectGetter.getobjectOfClass(Project.class, "0");
+			projectClass = Project.class;
+		}
+
+		Project newProject = (Project) objectGetter.getobjectOfClass(projectClass, "0");
+
+		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(projectClass);
+
+		NodeList projectNodes = doc.getElementsByTagName(nameOfRoot);
 		NodeList projectNodeChildren = projectNodes.item(0).getChildNodes();
 		for (int i = 0; i < projectNodeChildren.getLength(); i++) {
 			if (projectNodeChildren.item(i).getNodeType() != Node.TEXT_NODE) {
