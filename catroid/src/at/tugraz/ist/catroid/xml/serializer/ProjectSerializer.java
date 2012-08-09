@@ -40,14 +40,25 @@ public class ProjectSerializer extends Serializer {
 		Project project = (Project) object;
 		List<String> projectStringList = new ArrayList<String>();
 		String xmlElementString = "";
-
-		xmlElementString = getStartTag(projectTag);
+		if (!(object.getClass().getSuperclass().equals(Object.class))) {
+			String className = object.getClass().getName();
+			className = className.replace("$", "_-");
+			xmlElementString = getStartTag(className);
+		} else {
+			xmlElementString = getStartTag(projectTag);
+		}
 		projectStringList.add(xmlElementString);
 		if (!(object.getClass().getSuperclass().equals(Object.class))) {
 			getProjectStringsofClass(object, project, projectStringList, object.getClass().getSuperclass());
 		}
 		getProjectStringsofClass(object, project, projectStringList, object.getClass());
-		xmlElementString = getEndTag(projectTag);
+		if (!(object.getClass().getSuperclass().equals(Object.class))) {
+			String className = object.getClass().getName();
+			className = className.replace("$", "_-");
+			xmlElementString = getEndTag(className);
+		} else {
+			xmlElementString = getEndTag(projectTag);
+		}
 		projectStringList.add(xmlElementString);
 		return projectStringList;
 	}
