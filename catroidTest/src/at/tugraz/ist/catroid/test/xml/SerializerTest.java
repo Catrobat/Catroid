@@ -351,4 +351,59 @@ public class SerializerTest extends InstrumentationTestCase {
 		assertNotNull("big project null", loadedBigProject);
 		assertEquals("number of sprites wrong", 11, loadedBigProject.getSpriteList().size());
 	}
+
+	private static class ProjectWithVersionCode extends Project {
+		static final long serialVersionUID = 1L;
+		private final int mCatroidVersionCode;
+
+		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+			super(null, name);
+			mCatroidVersionCode = catroidVersionCode;
+		}
+
+		@Override
+		public int getCatroidVersionCode() {
+			return mCatroidVersionCode;
+		}
+	}
+
+	public void testSerializingChildClassProject() {
+		Project project = new ProjectWithVersionCode("versionProject", 123);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript(firstSprite);
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		XmlSerializer serializer = new XmlSerializer();
+		String projectDirectoryName = Utils.buildProjectPath("test_" + project.getName());
+		File projectDirectory = new File(projectDirectoryName);
+
+		if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+			projectDirectory.mkdir();
+
+		}
+		try {
+			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+		} catch (SerializeException e) {
+			e.printStackTrace();
+		}
+		Project testProject = null;
+		try {
+			FullParser parser = new FullParser();
+			InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
+					Constants.PROJECTCODE_NAME));
+
+			testProject = parser.parseSpritesWithProject(projectFileStream);
+
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull("testproject is null", testProject);
+	}
 }
