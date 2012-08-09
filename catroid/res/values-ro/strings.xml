@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
@@ -22,7 +22,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-
     <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">proiect</string>
@@ -35,12 +34,9 @@
     <string name="delete">Ștergere</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
-
     <!-- User interface -->
     <!-- <string name="main_menu">Meniul principal</string> -->
     <!-- <string name="menu">Meniu</string> -->
-
-
     <!-- General -->
     <!-- <string name="save">Salvare</string> -->
     <string name="close">Închidere</string>
@@ -50,12 +46,9 @@
     <string name="background">Fundal</string>
     <string name="stage">Scena</string>
     <string name="ok">OK</string>
-
     <!-- Brick captions -->
     <!-- <string name="show">Arată</string> -->
     <!-- <string name="hide">Ascunde</string> -->
-
-
     <!-- Main menu activity -->
     <string name="resume">Reluare</string>
     <string name="current_project">Proiectul curent:</string>
@@ -72,44 +65,35 @@
     <!-- <string name="change_project_name_main">Schimbarea numelui proiectului</string> -->
     <string name="about">Despre Catroid</string>
     <string name="upload_project">Încărcarea proiectului</string>
-
     <!-- Settings activity -->
     <string name="pref_category_mindstorm">Setări Mindstorm</string>
     <string name="pref_enable_ms_bricks">Permiterea blocurilor Mindstorm</string>
     <string name="pref_descr_ms_bricks">Aceste blocuri sunt folosite pentru controlul roboților Mindstorm.</string>
-
     <!-- About Dialog -->
     <string name="about_title">Despre Catroid</string>
     <string name="about_text">        Catroid este un limbaj grafic de programare pentru Android,
         inspirat de proiectul Scratch al MIT.\n
         Catroid este dezvoltat în Instituția Tehnologiilor Software la
         Universitatea Tehnologică din Graz în Austria.\n\n
-        Această programă este licențiată sub licența GNU GPL v3.\n\n</string>
+        Această programă este licențiată sub licența GNU GPL v3.\n\n
+</string>
     <string name="about_catroid_license_link_text">Despre Catroid</string>
-
     <!-- Project activity view -->
     <string name="project_name">Proiect:</string>
     <!-- <string name="sprite_list">Obiecte</string> -->
     <!-- <string name="add_sprite">Adăugarea noului obiect</string> -->
-
-
     <!-- Script activity view -->
     <!-- <string name="script_name">Script:</string> -->
     <!-- <string name="brick_list">Blocuri:</string> -->
     <!-- <string name="add_new_brick">Adăugarea noului bloc</string> -->
-
-
     <!-- Sprite activity -->
     <string name="sprite_name">Obiecte:</string>
     <!-- <string name="script_list">Scripte:</string> -->
     <!-- <string name="add_new_script">Adăugarea noului Script</string> -->
-
-
     <!-- ScriptTab activity -->
     <string name="scripts">Scripte</string>
     <string name="costumes">Imaginele</string>
     <string name="sounds">Sunete</string>
-
     <!-- Costume activity -->
     <!-- <string name="costume_list">Imagine:</string> -->
     <string name="rename_costume_dialog">Redenumirea imaginii</string>
@@ -121,7 +105,6 @@
     <string name="copy_costume_addition">copiere</string>
     <string name="select_image">Selectați Imaginea</string>
     <string name="paintroid_not_installed">Paintroid nu este instalt!\nDoriți să îl instalați?</string>
-
     <!-- Sound activity -->
     <!-- <string name="sound_list">Sunet:</string> -->
     <string name="rename_sound_dialog">Redenumirea sunetului</string>
@@ -130,43 +113,27 @@
     <string name="sound_pause">pauză </string>
     <string name="sound_delete">ștergere</string>
     <string name="sound_rename">redenumire</string>
-
     <!-- Sprite dialog -->
     <!-- <string name="sprite_button_text">Creare</string> -->
     <!-- <string name="newsprite">Obiect nou</string> -->
-
-
     <!-- Script context menu -->
     <string name="script_context_menu_title">Meniul Scriptului</string>
-
     <!-- New project dialog -->
-    <string name="new_project_dialog_button">Creare</string>
     <string name="new_project_dialog_title">Denumirea proiectului nou</string>
-    <string name="new_project_dialog_default_project_name">denumireaProiectului</string>
-
     <!-- Edit Sprite Dialog -->
     <!-- <string name="delete_sprite_button">Ștergere</string> -->
     <!-- <string name="rename_sprite_button">Redenumire</string> -->
     <!-- <string name="edit_sprite_dialog_title">Modificarea obiectului</string> -->
-
-
     <!-- Edit Script Dialog -->
     <!-- <string name="delete_script_button">Ștergere</string> -->
     <!-- <string name="rename_script_button">Redenumire</string> -->
     <!-- <string name="edit_script_dialog_title">Modificarea scriptului</string> -->
-
-
     <!-- Rename Dialog -->
-    <string name="rename_hint">Denumirea</string>
-    <string name="rename_button">Redenumirea</string>
-
     <!-- New script dialog -->
     <!-- <string name="new_script_dialog_button">Creare</string> -->
     <!-- <string name="new_script_dialog_title">Numeele noului script</string> -->
     <!-- <string name="new_script_dialog_default_script_name">numeleScript</string> -->
     <!-- <string name="script_invalid">Acest nume de script este nevalabil</string> -->
-
-
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">denumireaObiectului</string>
     <!-- <string name="new_sprite_dialog_button">Creare</string> -->
@@ -175,11 +142,8 @@
     <string name="rename_sprite_dialog">Redenumirea obiectului</string>
     <string name="spritename_invalid">Această denumire de obiect este nevalabilă</string>
     <!-- <string name="rename_script_dialog">Redenumirea scriptului</string> -->
-
-
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Încarcă proiectul</string>
-
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">Intrare</string>
     <string name="username">Numele:</string>
@@ -189,25 +153,18 @@
     <string name="password_forgotten">Parola este uitată</string>
     <string name="new_user_registered">contul nou a fost creat</string>
     <string name="register_error">A avut loc o eroare</string>
-
     <!-- Stage menu dialog -->
     <string name="resume_current_project">Reluare</string>
     <string name="restart_current_project">Restartare</string>
     <!-- <string name="snapshot">Screenshot</string> -->
     <string name="stage_dialog_title">Setările scenei</string>
-
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">nou...</string>
     <string name="broadcast_nothing_selected">Nimic...</string>
-
     <!-- Point to spinner -->
     <!-- <string name="point_to_select_location">Selectați</string> -->
-
-
     <!-- Stage context menu -->
     <!-- <string name="stagemenu_start">Redare/Pauză</string> -->
-
-
     <!-- Brick categories -->
     <string name="category_motion">Mișcare</string>
     <string name="category_looks">Arată</string>
@@ -262,7 +219,6 @@
     <string name="brick_change_size_by">Schimbă mărimea cu</string>
     <string name="brick_say">Spune</string>
     <string name="brick_think">Gîndește</string>
-
     <!-- <string name="when_action">Selectați o acțiune</string> -->
     <string name="action_tapped">Apăsat</string>
     <string name="action_doubleTapped">Apăsat dublu</string>
@@ -272,7 +228,6 @@
     <string name="action_swipeUp">Swipe sus</string>
     <string name="action_swipeDown">Swipe jos</string>
     <!-- <string name="action_touchingStops">Oprirea apăsării</string> -->
-
     <string name="brick_note">Notă</string>
     <string name="brick_broadcast_receive">Cînd eu primesc</string>
     <string name="brick_broadcast">Difuzează</string>
@@ -280,48 +235,57 @@
     <string name="brick_stop_all_sounds">Oprește toate sunetele</string>
     <!-- defaulValues -->
     <string name="default_project_name">proiectulImplicit</string>
-
     <!-- Notifications -->
-    <string name="notification_invalid_text_entered">    	Introduceți o valoare, vă rog</string>
-    <string name="notification_screenshot_ok">        Imaginea a fost salvată</string>
+    <string name="notification_invalid_text_entered">    	Introduceți o valoare, vă rog
+</string>
+    <string name="notification_screenshot_ok">        Imaginea a fost salvată
+</string>
     <!-- <string name="notification_invalid_name_entered"> -->
     <!-- Vă rugăm să introduceți numele -->
     <!-- </string> -->
-
-
     <!-- Error messages -->
-    <string name="error_no_sd_card">        Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.</string>
-    <string name="error_no_name_entered">        Introduceți denumirea, vă rog</string>
-    <string name="error_project_exists">        Un proiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog</string>
+    <string name="error_no_sd_card">        Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.
+</string>
+    <string name="error_no_name_entered">        Introduceți denumirea, vă rog
+</string>
+    <string name="error_project_exists">        Un proiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog
+</string>
     <!-- <string name="error_create_project"> -->
     <!-- La crearea proiectului nou a avut loc o eroare. -->
     <!-- </string> -->
     <!-- <string name="error_sprite_exists"> -->
     <!-- Un obiect cu acest nume deja există.\nSelectați altă denumire. -->
     <!-- </string> -->
-    <string name="error_project_upload">    	O eroare a avut loc la încărcarea proiectului.</string>
-    <string name="error_project_download">        O eroare a avut loc la descărcarea proiectului.</string>
+    <string name="error_project_upload">    	O eroare a avut loc la încărcarea proiectului.
+</string>
+    <string name="error_project_download">        O eroare a avut loc la descărcarea proiectului.
+</string>
     <!-- <string name="error_project_rename"> -->
     <!-- A avut loc o eroare la redenumirea proiectului. -->
     <!-- </string> -->
-    <string name="error_new_project">    	A avut loc o eroare la crearea proiectului nou.</string>
+    <string name="error_new_project">    	A avut loc o eroare la crearea proiectului nou.
+</string>
     <!-- <string name="error_save_project"> -->
     <!-- A avut loc o eroare la salvarea proiectului. -->
     <!-- </string> -->
-    <string name="error_load_project">    	O eroare a avut loc la încărcarea proiectului.</string>
+    <string name="error_load_project">    	O eroare a avut loc la încărcarea proiectului.
+</string>
     <!-- <string name="error_delete_project"> -->
     <!-- A avut loc o eroare la ștergerea proiectului. -->
     <!-- </string> -->
-    <string name="error_no_number_entered">        Întroduceți un număr, vă rog.</string>
-    <string name="error_screenshot_failed">    	O eroare a avut loc la salvarea imaginii.</string>
-    <string name="error_load_image">    	O eroare a avut loc la încărcarea imaginii.</string>
-    <string name="error_load_sound">    	A avut loc o eroare la încărcarea sunetului.</string>
+    <string name="error_no_number_entered">        Întroduceți un număr, vă rog.
+</string>
+    <string name="error_screenshot_failed">    	O eroare a avut loc la salvarea imaginii.
+</string>
+    <string name="error_load_image">    	O eroare a avut loc la încărcarea imaginii.
+</string>
+    <string name="error_load_sound">    	A avut loc o eroare la încărcarea sunetului.
+</string>
     <!-- <string name="text_to_speech_error"> -->
     <!-- Eroare Text-spre-vorbire. Blocul Vorbire nu va lucra. -->
     <!-- </string> -->
-
-    <string name="error_internet_connection">    	A avut loc o eroare necunoscută. Verificați conexiunea internet.</string>
-
+    <string name="error_internet_connection">    	A avut loc o eroare necunoscută. Verificați conexiunea internet.
+</string>
     <!-- Notifications -->
     <string name="success_project_upload">Încărcarea a trecut cu succes.</string>
     <string name="success_project_download">Descărcarea a trecut cu succes.</string>
@@ -331,7 +295,6 @@
     <string name="upload_description">Descrierea:</string>
     <string name="project_rename">(proiectul Dumneavoastră va fi redenumit.)</string>
     <string name="size_of_project">Mărimea proiectului:</string>
-
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Sensor Dialog Errors -->
     <!-- <string name="error_sensor_enter_analog_pin">Aveți PIN-ii de la 0 la 5, selectați un număr din 0-5</string> -->
@@ -339,12 +302,8 @@
     <!-- <string name="error_sensor_enter_analog_value">Pentru acest PIN puteți introduce o valoare de la 0.0 la 5.0</string> -->
     <!-- <string name="error_sensor_enter_digital_value">Pentur acest PIN puteți introduce 1 pentru HIGH sau 0 pentru LOW</string> -->
     <!-- <string name="error_no_bluetooth_devices_available">Nu sunt dispozitive bluetooth disponibile</string> -->
-
-
     <!-- Sensor Dialog Pin -->
     <!-- <string name="dialog_pin_analog_text">Vă rugăm să introduceți un Pin de la 0 la 13.\n Țineți minte că acești pini sunt analogi.</string> -->
-
-
     <!-- Bluetooth Dialog -->
     <!-- <string name="dialog_bluetooth_available_devices">Dispozitivele disponibile</string> -->
     <!-- <string name="sensor_main_adapter">Senzor</string> -->
@@ -354,8 +313,8 @@
     <!-- <string name="brick_sensor_time">Timp</string> -->
     <!-- <string name="brick_sensor_time_seconds">sec</string> -->
     <!-- Bluetooth Connection Strings -->
-
-    <string name="notification_blueth_err">Bluetooth nu poate fi activat, închiderea scenei</string>
+    <string name="notification_blueth_err">Bluetooth nu poate fi activat, închiderea scenei
+</string>
     <string name="title_paired_devices">Dispozitive îmeprecheate</string>
     <string name="title_other_devices">Dispozitive noi</string>
     <string name="button_scan">Căutarea dispozitivelor bluetooth</string>
@@ -370,7 +329,6 @@
     <string name="no_paired_nxt">Nu au fost găsite dispozitive NXT împerecheate</string>
     <string name="none_found">Nu au fost găsite dispozitive neîmperecheate</string>
     <string name="none_paired">Nu au fost găsite dispozitive împerecheate</string>
-
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">Motorul de deplasare NXT</string>
     <string name="motor">motor</string>
@@ -390,5 +348,4 @@
     <string name="just_a_v">v</string>
     <string name="number_to_small">Valoarea este prea mică!</string>
     <string name="number_to_big">Valoarea este prea mare!</string>
-
 </resources>

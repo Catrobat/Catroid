@@ -69,6 +69,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		createTestProject(testProject);
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(1000);
 		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.clickLongOnText(cat);
 
