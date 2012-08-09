@@ -3,10 +3,22 @@ package at.tugraz.ist.catroid.test.xml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
+import org.xml.sax.SAXException;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
@@ -30,6 +42,7 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.ParseException;
@@ -38,6 +51,7 @@ import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 public class SerializerTest extends InstrumentationTestCase {
 	Context androidContext;
+	private static final String XMLSCHEMA_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/catrobatXmlSchemaNew.xsd";
 
 	//	@Override
 	//	public void tearDown() {
@@ -178,7 +192,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		//		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
 		//		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
 		//		assertEquals("Version names are not equal", preVersionName, postVersionName);
-
+		UtilFile.deleteDirectory(projectDirectory);
 	}
 
 	public void testReferenceSerializing() {
@@ -304,7 +318,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		PointToBrick loadedPointBrick = (PointToBrick) loadedFirstSprite.getScript(0).getBrick(4);
 		Sprite referencedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", loadedPointBrick, false);
 		assertEquals("SpriteReferencing wrong", loadedProject.getSpriteList().get(1), referencedSprite);
-
+		UtilFile.deleteDirectory(projectDirectory);
 	}
 
 	public void testSerializePerformanceTest() {
@@ -350,6 +364,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		}
 		assertNotNull("big project null", loadedBigProject);
 		assertEquals("number of sprites wrong", 11, loadedBigProject.getSpriteList().size());
+		UtilFile.deleteDirectory(bigProjectDirectory);
 	}
 
 	private static class ProjectWithVersionCode extends Project {
@@ -405,5 +420,61 @@ public class SerializerTest extends InstrumentationTestCase {
 		}
 
 		assertNotNull("testproject is null", testProject);
+		UtilFile.deleteDirectory(projectDirectory);
+	}
+
+	public void testvaliidateXML() {
+		FullParser parser = new FullParser();
+		Project project = null;
+		try {
+			project = parser.fullParser("test_standard_project_new_version.xml");
+		} catch (ParseException e) {
+			fail("Unexpected ParseException");
+			e.printStackTrace();
+		}
+		XmlSerializer serializer = new XmlSerializer();
+		String projectDirectoryName = Utils.buildProjectPath("test_" + project.getName());
+		File projectDirectory = new File(projectDirectoryName);
+
+		if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+			projectDirectory.mkdir();
+
+		}
+		try {
+			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+		} catch (SerializeException e) {
+			e.printStackTrace();
+		}
+		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+		URL schemaUrl;
+		Schema schema = null;
+		try {
+			schemaUrl = new URL(XMLSCHEMA_URL);
+			schema = factory.newSchema(schemaUrl);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
+
+		Validator schemaValidator = schema.newValidator();
+
+		File xmlDirectory = projectDirectory;
+		File[] xmlFilesToValidate = xmlDirectory.listFiles();
+
+		File currentXMLFile = null;
+		try {
+			for (File xmlFile : xmlFilesToValidate) {
+				currentXMLFile = xmlFile;
+				Source source = new StreamSource(currentXMLFile);
+				schemaValidator.validate(source);
+			}
+		} catch (SAXException ex) {
+			ex.printStackTrace();
+			assertFalse(currentXMLFile + " is not valid because: " + ex.getMessage(), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
