@@ -54,7 +54,7 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testAboutDialog() {
-		solo.clickOnButton(getActivity().getString(R.string.about));
+		solo.clickOnMenuItem(getActivity().getString(R.string.about));
 		assertTrue("AboutDialog title not found", solo.searchText(getActivity().getString(R.string.about_title)));
 		assertTrue("AboutDialog text not found", solo.searchText(getActivity().getString(R.string.about_text)));
 		assertTrue("AboutDialog linktext not found",

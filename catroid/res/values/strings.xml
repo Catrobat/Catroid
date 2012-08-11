@@ -82,9 +82,9 @@
     <string name="backgrounds">Backgrounds</string>
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Rename costume</string>
-    <string name="edit_costume">edit</string>
+    <string name="edit_costume">Edit</string>
     <string name="edit_costume_paintroid">Paintroid</string>
-    <string name="copy_costume">copy</string>
+    <string name="copy_costume">Copy</string>
     <string name="costumename_invalid">This costume\'s name is invalid</string>
     <string name="copy_costume_addition">copy</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>

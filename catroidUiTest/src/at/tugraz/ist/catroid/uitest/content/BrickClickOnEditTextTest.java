@@ -64,7 +64,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
 
 		UiTestUtils.goToHomeActivity(getActivity());
-		solo.clickOnText(settingsText);
+		solo.clickOnMenuItem(settingsText);
 		solo.clickOnText(prefMsBricks);
 
 		UiTestUtils.goBackToHome(getInstrumentation());
@@ -85,7 +85,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		//disable mindstorm bricks, if enabled at start
 		if (!prefs.getBoolean("setting_mindstorm_bricks", false)) {
 			UiTestUtils.goToHomeActivity(getActivity());
-			solo.clickOnText(settingsText);
+			solo.clickOnMenuItem(settingsText);
 			solo.clickOnText(prefMsBricks);
 			solo.goBack();
 			solo.waitForActivity(MainMenuActivity.class.getSimpleName());

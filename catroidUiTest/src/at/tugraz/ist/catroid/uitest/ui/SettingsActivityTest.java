@@ -65,7 +65,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		//disable mindstorm bricks, if enabled at start
 		if (preferances.getBoolean("setting_mindstorm_bricks", false)) {
-			solo.clickOnText(settings);
+			solo.clickOnMenuItem(settings);
 			solo.clickOnText(prefMsBricks);
 			solo.goBack();
 		}
@@ -79,7 +79,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		solo.clickOnText(settings);
+		solo.clickOnMenuItem(settings);
 		solo.waitForActivity(SettingsActivity.class.getSimpleName());
 		solo.clickOnText(prefMsBricks);
 		solo.goBack();

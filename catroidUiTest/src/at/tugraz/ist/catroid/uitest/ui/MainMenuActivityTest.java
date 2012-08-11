@@ -270,7 +270,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testAboutCatroid() {
-		solo.clickOnButton(getActivity().getString(R.string.about));
+		solo.clickOnMenuItem(getActivity().getString(R.string.about));
 		solo.sleep(200);
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
 
