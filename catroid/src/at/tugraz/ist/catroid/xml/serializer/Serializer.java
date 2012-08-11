@@ -48,7 +48,7 @@ public abstract class Serializer {
 	public final String tab = "\t";
 
 	public abstract List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
-			SecurityException, NoSuchFieldException;
+			SecurityException, NoSuchFieldException, SerializeException;
 
 	public String getReference(Field fieldNeedingReference, Object objectWIthField) throws IllegalArgumentException,
 			IllegalAccessException {
