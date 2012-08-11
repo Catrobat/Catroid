@@ -106,8 +106,8 @@ public class ObjectCreator {
 		Field[] classFields = cls.getDeclaredFields();
 		for (Field field : classFields) {
 			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
-			boolean isCurrentFieldFinal = Modifier.isFinal(field.getModifiers());
-			if (isCurrentFieldTransient || isCurrentFieldFinal) {
+			boolean isCurrentFieldStatic = Modifier.isStatic(field.getModifiers());
+			if (isCurrentFieldTransient || isCurrentFieldStatic) {
 				continue;
 			}
 
@@ -125,8 +125,8 @@ public class ObjectCreator {
 		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
 		for (Field field : superClassFields) {
 			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
-			boolean isCurrentFieldFinal = Modifier.isFinal(field.getModifiers());
-			if (isCurrentFieldTransient || isCurrentFieldFinal) {
+			boolean isCurrentFieldStatic = Modifier.isStatic(field.getModifiers());
+			if (isCurrentFieldTransient || isCurrentFieldStatic) {
 				continue;
 			}
 

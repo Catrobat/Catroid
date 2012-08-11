@@ -69,8 +69,8 @@ public class ScriptSerializer extends Serializer {
 			scriptClassField.setAccessible(true);
 			if (!scriptClassField.getType().isPrimitive()) {
 				if (fieldName.equals("sprite")) {
-					xmlElementString = scriptTabs + tab + spriteElementPrefix + "\"../../..\"/>" + "\n";
-					scriptStringList.add(xmlElementString);
+					//					xmlElementString = scriptTabs + tab + spriteElementPrefix + "\"../../..\"/>" + "\n";
+					//					scriptStringList.add(xmlElementString);
 				} else if (fieldName.equals("brickList")) {
 					if (serializedScript.getBrickList().size() > 0) {
 						BrickSerializer brickSerializer = new BrickSerializer(serializedSprite, (Script) object,

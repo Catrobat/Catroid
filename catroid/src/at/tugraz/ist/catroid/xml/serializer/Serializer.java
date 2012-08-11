@@ -84,6 +84,17 @@ public abstract class Serializer {
 				} else if (referencedObjectName.equals(CatroidXMLConstants.soundInfoElementName)) {
 					reference = CatroidXMLConstants.soundRefFromBrick;
 					reference = getReferenceIndexSuffix(reference, referencedObject, soundList);
+				} else if (referencedObjectName.endsWith("Script")) {
+					reference = "../../../../" + referencedObjectName;
+					List<Script> sameScripts = new ArrayList<Script>();
+					for (int i = 0; i < serializedSprite.getNumberOfScripts(); i++) {
+						if (serializedSprite.getScript(i).getClass().getSimpleName().equals(referencedObjectName)) {
+							sameScripts.add(serializedSprite.getScript(i));
+						}
+					}
+					if (sameScripts.size() > 1) {
+						reference = getReferenceIndexSuffix(reference, referencedObject, sameScripts);
+					}
 				}
 			} else if (objectWIthField.getClass().getSimpleName().endsWith(CatroidXMLConstants.scriptclassSuffix)) {
 				reference = "TODO for scripts";

@@ -77,6 +77,7 @@ public class BrickSerializer extends Serializer {
 				if (fieldName.equals(CatroidXMLConstants.sprite)) {
 					xmlElementString = brickTabs + tab + tab + spriteElementPrefix + "\"../../../../..\"/>" + "\n";
 					brickStringList.add(xmlElementString);
+
 				} else if (brickClassField.getType().equals(String.class)) {
 					xmlElementString = brickTabs + tab + tab
 							+ getElementString(fieldName, (String) brickClassField.get(object));

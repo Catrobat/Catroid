@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Project>
+	<androidVersion>10</androidVersion>
+	<catroidVersionCode>10</catroidVersionCode>
+	<catroidVersionName>0.5.6a</catroidVersionName>
+	<deviceName>GT-I9100</deviceName>
+	<projectName>standardProjekt</projectName>
+	<screenHeight>800</screenHeight>
+	<screenWidth>480</screenWidth>
+	<spriteList>
+		<Sprite>
+			<costumeDataList>
+				<CostumeData>
+					<fileName>B978398F6E8D16B857AA81618F3EF879_background</fileName>
+					<name>background</name>
+				</CostumeData>
+			</costumeDataList>
+			<name>Hintergrund</name>
+			<scriptList>
+				<StartScript>
+					<brickList>
+						<SetCostumeBrick>
+							<costumeData reference="../../../../../costumeDataList/CostumeData"/>
+						</SetCostumeBrick>
+					</brickList>
+				</StartScript>
+			</scriptList>
+		</Sprite>
+		<Sprite>
+			<costumeDataList>
+				<CostumeData>
+					<fileName>143780EBC24495149123CCAF3A1CDC35_normalCat</fileName>
+					<name>normalCat</name>
+				</CostumeData>
+				<CostumeData>
+					<fileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</fileName>
+					<name>banzaiCat</name>
+				</CostumeData>
+				<CostumeData>
+					<fileName>3673EC84679EE425A215B86B085EC292_cheshireCat</fileName>
+					<name>cheshireCat</name>
+				</CostumeData>
+			</costumeDataList>
+			<name>Catroid</name>
+			<scriptList>
+				<StartScript>
+					<brickList>
+						<SetCostumeBrick>
+							<costumeData reference="../../../../../costumeDataList/CostumeData"/>
+						</SetCostumeBrick>
+						<RepeatBrick>
+							<loopEndBrick reference="../../LoopEndBrick"/>
+							<timesToRepeat>3</timesToRepeat>
+						</RepeatBrick>
+						<ShowBrick>
+						</ShowBrick>
+						<LoopEndBrick>
+							<loopBeginBrick reference="../../RepeatBrick"/>
+						</LoopEndBrick>
+					</brickList>
+				</StartScript>
+				<WhenScript>
+					<brickList>
+						<SetCostumeBrick>
+							<costumeData reference="../../../../../costumeDataList/CostumeData[2]"/>
+						</SetCostumeBrick>
+						<WaitBrick>
+							<timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+						</WaitBrick>
+						<SetCostumeBrick>
+							<costumeData reference="../../../../../costumeDataList/CostumeData[3]"/>
+						</SetCostumeBrick>
+						<WaitBrick>
+							<timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+						</WaitBrick>
+						<SetCostumeBrick>
+							<costumeData reference="../../../../../costumeDataList/CostumeData"/>
+						</SetCostumeBrick>
+					</brickList>
+					<action>Tapped</action>
+				</WhenScript>
+			</scriptList>
+		</Sprite>
+	</spriteList>
+</Project>
