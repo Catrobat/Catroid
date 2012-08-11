@@ -46,12 +46,12 @@ public class CostumeParser {
 
 				Element costumeElement = (Element) costumeNodes.item(m);
 				String costumeFileName = null;
-				Node costumeFileNameNode = costumeElement.getElementsByTagName("fileName").item(0);
+				Node costumeFileNameNode = costumeElement.getElementsByTagName(CatroidXMLConstants.fileName).item(0);
 				if (costumeFileNameNode != null) {
 					costumeFileName = costumeFileNameNode.getChildNodes().item(0).getNodeValue();
 				}
-				String costumeName = costumeElement.getElementsByTagName("name").item(0).getChildNodes().item(0)
-						.getNodeValue();
+				String costumeName = costumeElement.getElementsByTagName(CatroidXMLConstants.name).item(0)
+						.getChildNodes().item(0).getNodeValue();
 				foundCostumeData = new CostumeData();
 				foundCostumeData.setCostumeFilename(costumeFileName);
 				foundCostumeData.setCostumeName(costumeName);
@@ -60,11 +60,12 @@ public class CostumeParser {
 				if (costumeIndex > 1) {
 					costumeindexString = "[" + costumeIndex + "]";
 				}
-				referencedObjects.put("CostumeData" + costumeindexString, foundCostumeData);
+				referencedObjects
+						.put(CatroidXMLConstants.costumeDataElementName + costumeindexString, foundCostumeData);
 				costumeIndex++;
 			}
 		}
-		Field costumeListField = sprite.getClass().getDeclaredField("costumeDataList");
+		Field costumeListField = sprite.getClass().getDeclaredField(CatroidXMLConstants.costumeListElementName);
 		objectGetter.setFieldOfObject(costumeListField, sprite, costumeList);
 
 	}
@@ -72,7 +73,7 @@ public class CostumeParser {
 	public Boolean setCostumedataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
 			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs) throws IllegalAccessException {
 		int lastIndex = referenceAttribute.lastIndexOf('[');
-		String query = "CostumeData";
+		String query = CatroidXMLConstants.costumeDataElementName;
 		String suffix = "";
 		if (lastIndex != -1) {
 			char referenceNo = referenceAttribute.charAt(referenceAttribute.lastIndexOf('[') + 1);

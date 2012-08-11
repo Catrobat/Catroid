@@ -44,13 +44,13 @@ public class References {
 	public static String getReferenceAttribute(Node brickValue) {
 		Element brickElement = (Element) brickValue;
 		String attributeString = null;
-		if (brickValue.getNodeName().equals("sprite")) {
+		if (brickValue.getNodeName().equals(CatroidXMLConstants.sprite)) {
 			return null;
 		}
 		if (brickElement != null) {
 			NamedNodeMap attributes = brickElement.getAttributes();
 			if (attributes != null) {
-				Node referenceNode = attributes.getNamedItem("reference");
+				Node referenceNode = attributes.getNamedItem(CatroidXMLConstants.referenceAttribute);
 				if (referenceNode != null) {
 					attributeString = referenceNode.getTextContent();
 

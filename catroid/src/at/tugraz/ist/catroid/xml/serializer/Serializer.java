@@ -29,6 +29,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public abstract class Serializer {
@@ -55,8 +56,8 @@ public abstract class Serializer {
 		Object referencedObject = fieldNeedingReference.get(objectWIthField);
 		if (referencedObject != null) {
 			String referencedObjectName = referencedObject.getClass().getSimpleName();
-			if (objectWIthField.getClass().getSimpleName().endsWith("Brick")) {
-				if (referencedObjectName.endsWith("Brick")) {
+			if (objectWIthField.getClass().getSimpleName().endsWith(CatroidXMLConstants.brickClassSuffix)) {
+				if (referencedObjectName.endsWith(CatroidXMLConstants.brickClassSuffix)) {
 					if (brickList.contains(referencedObject)) {
 						reference = "../../" + referencedObjectName;
 
@@ -74,17 +75,17 @@ public abstract class Serializer {
 					} else {
 						reference = "TODO for bricks of other scripts";
 					}
-				} else if (referencedObjectName.equals("CostumeData")) {
-					reference = "../../../../../costumeDataList/CostumeData";
+				} else if (referencedObjectName.equals(CatroidXMLConstants.costumeDataElementName)) {
+					reference = CatroidXMLConstants.costumeRefFromBrick;
 					reference = getReferenceIndexSuffix(reference, referencedObject, costumeList);
-				} else if (referencedObjectName.equals("Sprite")) {
-					reference = "../../../../../../Sprite";
+				} else if (referencedObjectName.equals(CatroidXMLConstants.spriteElementName)) {
+					reference = CatroidXMLConstants.spriteRefFromBrick;
 					reference = getReferenceIndexSuffix(reference, referencedObject, spriteList);
-				} else if (referencedObjectName.equals("SoundInfo")) {
-					reference = "../../../../../soundList/SoundInfo";
+				} else if (referencedObjectName.equals(CatroidXMLConstants.soundInfoElementName)) {
+					reference = CatroidXMLConstants.soundRefFromBrick;
 					reference = getReferenceIndexSuffix(reference, referencedObject, soundList);
 				}
-			} else if (objectWIthField.getClass().getSimpleName().endsWith("Script")) {
+			} else if (objectWIthField.getClass().getSimpleName().endsWith(CatroidXMLConstants.scriptclassSuffix)) {
 				reference = "TODO for scripts";
 			}
 		}

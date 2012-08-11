@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class ScriptSerializer extends Serializer {
 
-	private final String scriptTagPrefix = "";
+	//private final String scriptTagPrefix = "";
 	private final String scriptTabs = tab + tab + tab + tab;
 
 	public ScriptSerializer(Sprite serializedSprite, Project serializedProject) {
@@ -45,7 +45,7 @@ public class ScriptSerializer extends Serializer {
 		List<String> scriptStringList = new ArrayList<String>();
 		serializedScript = (Script) object;
 		String xmlElementString = "";
-		xmlElementString = scriptTabs + getStartTag(scriptTagPrefix + object.getClass().getSimpleName());
+		xmlElementString = scriptTabs + getStartTag(/* scriptTagPrefix + */object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 
 		if (!(object.getClass().getSuperclass().equals(Object.class))) {
@@ -53,7 +53,7 @@ public class ScriptSerializer extends Serializer {
 		}
 		getScriptFieldsAsElements(object, scriptStringList, object.getClass());
 
-		xmlElementString = scriptTabs + getEndTag(scriptTagPrefix + object.getClass().getSimpleName());
+		xmlElementString = scriptTabs + getEndTag(/* scriptTagPrefix + */object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 		return scriptStringList;
 	}

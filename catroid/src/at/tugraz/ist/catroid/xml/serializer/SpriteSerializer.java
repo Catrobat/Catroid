@@ -23,10 +23,9 @@ import java.util.List;
 
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
 
 public class SpriteSerializer extends Serializer {
-	private final String spriteTag = "Sprite";
-	private final String scriptListTag = "scriptList";
 
 	public SpriteSerializer(Project serializedProject) {
 		super.serializedProject = serializedProject;
@@ -38,7 +37,7 @@ public class SpriteSerializer extends Serializer {
 		Sprite sprite = (Sprite) object;
 		List<String> spriteStrings = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = tab + tab + getStartTag(spriteTag);
+		xmlElementString = tab + tab + getStartTag(CatroidXMLConstants.spriteElementName);
 		spriteStrings.add(xmlElementString);
 
 		if (sprite.getCostumeDataList().size() > 0) {
@@ -49,11 +48,11 @@ public class SpriteSerializer extends Serializer {
 
 		if (sprite.getNumberOfScripts() > 0) {
 			ScriptSerializer scriptSerializer = new ScriptSerializer(sprite, serializedProject);
-			spriteStrings.add(tab + tab + tab + getStartTag(scriptListTag));
+			spriteStrings.add(tab + tab + tab + getStartTag(CatroidXMLConstants.scriptListElementName));
 			for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
 				spriteStrings.addAll(scriptSerializer.serialize(sprite.getScript(i)));
 			}
-			spriteStrings.add(tab + tab + tab + getEndTag(scriptListTag));
+			spriteStrings.add(tab + tab + tab + getEndTag(CatroidXMLConstants.scriptListElementName));
 		}
 
 		if (sprite.getSoundList().size() > 0) {
@@ -61,23 +60,23 @@ public class SpriteSerializer extends Serializer {
 			spriteStrings.addAll(soundSerializer.serializeSoundList(sprite.getSoundList()));
 		}
 
-		spriteStrings.add(tab + tab + getEndTag(spriteTag));
+		spriteStrings.add(tab + tab + getEndTag(CatroidXMLConstants.spriteElementName));
 
 		return spriteStrings;
 	}
 
 	private String getSpriteNameElement(Sprite sprite) {
-		return getElementString("name", sprite.getName());
+		return getElementString(CatroidXMLConstants.spriteName, sprite.getName());
 	}
 
 	public List<String> serializeList() throws IllegalArgumentException, SecurityException, IllegalAccessException,
 			NoSuchFieldException {
 		List<String> spriteListStrings = new ArrayList<String>();
-		spriteListStrings.add(tab + getStartTag("spriteList"));
+		spriteListStrings.add(tab + getStartTag(CatroidXMLConstants.spriteListElementName));
 		for (Sprite projectSprite : serializedProject.getSpriteList()) {
 			spriteListStrings.addAll(serialize(projectSprite));
 		}
-		spriteListStrings.add(tab + getEndTag("spriteList"));
+		spriteListStrings.add(tab + getEndTag(CatroidXMLConstants.spriteListElementName));
 		return spriteListStrings;
 
 	}
