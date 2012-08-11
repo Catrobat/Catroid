@@ -35,6 +35,22 @@
         android:paddingRight="5dip"
         android:text="@string/brick_change_y_by" >
     </TextView>
+    
+    <TextView
+        android:id="@+id/brick_change_y_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dip"
+        android:layout_toRightOf="@id/ValueTextViewY"
+        android:background="@color/white"
+        android:gravity="right"
+        android:minHeight="30dip"
+        android:minWidth="50dip"
+        android:paddingRight="5dip"
+        android:text="0"
+        android:textSize="20dip" >
+    </TextView>
 
     <EditText
         android:id="@+id/brick_change_y_edit_text"
@@ -46,6 +62,7 @@
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:visibility="gone"
         android:gravity="right"
         android:inputType="number|numberDecimal|numberSigned"
         android:maxLength="6"

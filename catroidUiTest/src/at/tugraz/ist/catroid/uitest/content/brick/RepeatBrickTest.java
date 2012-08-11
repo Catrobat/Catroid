@@ -55,13 +55,8 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptActi
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -88,7 +83,7 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptActi
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		script.addBrick(new RepeatBrick(sprite, 3));

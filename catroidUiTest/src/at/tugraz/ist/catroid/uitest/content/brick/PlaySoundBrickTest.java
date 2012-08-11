@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.uitest.content.brick;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -34,20 +35,23 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
+	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
+
 	private Solo solo;
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
 	private File soundFile;
 	private File soundFile2;
 	private ArrayList<SoundInfo> soundInfoList;
-	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
-	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
 
 	public PlaySoundBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -88,22 +92,17 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(),
-				soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(),
-				soundInfo2.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		if (soundFile.exists()) {
 			soundFile.delete();
@@ -115,77 +114,70 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testSelectandPlaySoundFile() {
-		//		solo.sleep(100);
-		//		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		//		solo.sleep(100);
-		//		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
-		//		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
-		//		solo.clickOnText(soundName);
-		//		solo.sleep(100);
-		//		assertTrue(soundName + " is not selected in Spinner", solo.searchText(soundName));
-		//		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		//		solo.sleep(3000);
-		//		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
-		//		assertEquals("wrong file playing", 7592, mediaPlayer.getDuration());
-		//		solo.goBack();
-		//		solo.sleep(200);
-		//
-		//		//changing le sound
-		//		solo.clickOnText(soundName);
-		//		solo.sleep(100);
-		//		solo.clickOnText(soundName2);
-		//		solo.sleep(100);
-		//		assertTrue(soundName2 + " is not selected in Spinner", solo.searchText(soundName2));
-		//		mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		//		solo.sleep(3000);
-		//		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
-		//		assertEquals("wrong file playing", 4875, mediaPlayer.getDuration());
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
+		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
+		solo.clickOnText(soundName);
+		assertTrue(soundName + " is not selected in Spinner", solo.searchText(soundName));
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
+		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
+		assertEquals("wrong file playing", 7592, mediaPlayer.getDuration());
+		solo.goBack();
+		solo.goBack();
+
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.clickOnText(soundName);
+		solo.clickOnText(soundName2);
+		assertTrue(soundName2 + " is not selected in Spinner", solo.searchText(soundName2));
+		mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
+		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
+		assertEquals("wrong file playing", 4875, mediaPlayer.getDuration());
 	}
 
 	public void testSpinnerUpdatesDelete() {
-		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		solo.sleep(100);
+		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
+		String buttonDeleteText = solo.getString(R.string.sound_delete);
+		solo.clickOnText(spinnerNothingText);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(300);
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
-		solo.sleep(300);
+		solo.waitForText(buttonDeleteText);
+		solo.clickOnButton(buttonDeleteText);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.sleep(1000);
 		solo.clickOnText(getActivity().getString(R.string.scripts));
-		solo.sleep(300);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingText);
 		assertFalse(soundName + " is still in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
 
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
-		solo.sleep(100);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
-		solo.sleep(100);
+		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
+
+		solo.clickOnText(spinnerNothingText);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(300);
 		solo.clickOnView(solo.getView(R.id.sound_name));
-		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(600);
+		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnButton(0);
 		solo.sleep(300);
+		solo.goBack();
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
 		solo.clickOnText(getActivity().getString(R.string.scripts));
-		solo.sleep(300);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingText);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}

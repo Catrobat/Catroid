@@ -38,20 +38,28 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
+import at.tugraz.ist.catroid.ui.dialogs.AddCostumeDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.utils.InstalledApplicationInfo;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -63,6 +71,11 @@ public class CostumeActivity extends ListActivity {
 
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
+	public static final int REQUEST_TAKE_PICTURE = 2;
+	public static final int DIALOG_IMPORT_COSTUME_ID = 3;
+	private static final String savedInstanceStateUriIsSetKey = "UriIsSet";
+	private AddCostumeDialog installedAppDialog;
+	private Uri costumeFromCameraUri = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +113,11 @@ public class CostumeActivity extends ListActivity {
 			activityHelper.changeButtonIcon(R.id.btn_action_add_button, addButtonIcon);
 		}
 
+		installedAppDialog = scriptTabActivity.getAddCostumeDialog();
+		if (installedAppDialog != null) {
+			createClickListener((ListView) installedAppDialog.findViewById(R.id.listViewInstalledApps));
+		}
+
 	}
 
 	@Override
@@ -122,6 +140,7 @@ public class CostumeActivity extends ListActivity {
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
 		listView.post(new Runnable() {
+			@Override
 			public void run() {
 				listView.setSelection(listView.getCount() - 1);
 			}
@@ -141,7 +160,6 @@ public class CostumeActivity extends ListActivity {
 		if (resultCode != Activity.RESULT_OK) {
 			return;
 		}
-
 		switch (requestCode) {
 			case REQUEST_SELECT_IMAGE:
 				loadImageIntoCatroid(data);
@@ -149,6 +167,47 @@ public class CostumeActivity extends ListActivity {
 			case REQUEST_PAINTROID_EDIT_IMAGE:
 				loadPaintroidImageIntoCatroid(data);
 				break;
+			case REQUEST_TAKE_PICTURE:
+				rotatePictureIfNecessary();
+				loadPictureFromCameraIntoCatroid(costumeFromCameraUri);
+				break;
+		}
+	}
+
+	private void rotatePictureIfNecessary() {
+		int rotate = getPhotoRotationDegree(costumeFromCameraUri, costumeFromCameraUri.getPath());
+
+		if (rotate != 0) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			File fullSizeImage = new File(costumeFromCameraUri.getPath());
+
+			// Height and Width switched for proper scaling for portrait format photos from camera
+			Bitmap fullSizeBitmap = ImageEditing.getScaledBitmapFromPath(fullSizeImage.getAbsolutePath(),
+					project.virtualScreenHeight, project.virtualScreenWidth, true);
+			Bitmap rotatedBitmap = ImageEditing.rotateBitmap(fullSizeBitmap, rotate);
+			File downScaledCameraPicture = new File(Constants.TMP_PATH,
+					CostumeActivity.this.getString(R.string.default_costume_name) + ".jpg");
+			costumeFromCameraUri = Uri.fromFile(downScaledCameraPicture);
+			try {
+				StorageHandler.saveBitmapToImageFile(downScaledCameraPicture, rotatedBitmap);
+			} catch (FileNotFoundException e) {
+				Log.e("CATROID", "Could not find file to save bitmap.", e);
+			}
+		}
+	}
+
+	private void loadPictureFromCameraIntoCatroid(Uri costumeUri) {
+		String originalImagePath = costumeUri.getPath();
+		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
+		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+			Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+			return;
+		}
+		copyImageIntoCatroid(originalImagePath);
+
+		if (costumeFromCameraUri != null) {
+			File pictureOnSdCard = new File(costumeFromCameraUri.getPath());
+			pictureOnSdCard.delete();
 		}
 	}
 
@@ -181,57 +240,15 @@ public class CostumeActivity extends ListActivity {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 				return;
 			}
-
 		}
 		//-----------------------------------------------------
-
 		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
 			Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 			return;
 		}
 
-		File oldFile = new File(originalImagePath);
-
-		//copy image to catroid:
-		try {
-			if (originalImagePath.equals("")) {
-				throw new IOException();
-			}
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
-
-			String imageName;
-			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
-			if (extensionDotIndex > 0) {
-				imageName = oldFile.getName().substring(0, extensionDotIndex);
-			} else {
-				imageName = oldFile.getName();
-			}
-
-			String imageFileName = imageFile.getName();
-
-			// if exception occurrs, image would throw an Exception in stage
-			// so has to be loaded again with other Config
-			@SuppressWarnings("unused")
-			Pixmap pixmap = null;
-			try {
-				pixmap = new Pixmap(new FileHandle(imageFile));
-			} catch (GdxRuntimeException e) {
-				try {
-					ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
-				} catch (FileNotFoundException e1) {
-					Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
-					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath());
-					return;
-				}
-			} finally {
-				pixmap = null;
-			}
-			updateCostumeAdapter(imageName, imageFileName);
-		} catch (IOException e) {
-			Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
-		}
+		copyImageIntoCatroid(originalImagePath);
 	}
 
 	private void loadPaintroidImageIntoCatroid(Intent intent) {
@@ -262,27 +279,121 @@ public class CostumeActivity extends ListActivity {
 				selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
 				selectedCostumeData.resetThumbnailBitmap();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e("CATROID", "Could not copy image.", e);
 			}
+		}
+	}
+
+	private void copyImageIntoCatroid(String originalImagePath) {
+		File oldFile = new File(originalImagePath);
+
+		//copy image to catroid:
+		try {
+			if (originalImagePath.equals("")) {
+				throw new IOException();
+			}
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
+
+			String imageName;
+			int extensionDotIndex = oldFile.getName().lastIndexOf('.');
+			if (extensionDotIndex > 0) {
+				imageName = oldFile.getName().substring(0, extensionDotIndex);
+			} else {
+				imageName = oldFile.getName();
+			}
+
+			String imageFileName = imageFile.getName();
+			// if exception occurrs, image would throw an Exception in stage
+			// so has to be loaded again with other Config
+			@SuppressWarnings("unused")
+			Pixmap pixmap = null;
+			try {
+				pixmap = new Pixmap(new FileHandle(imageFile));
+			} catch (GdxRuntimeException e) {
+				try {
+					ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
+				} catch (FileNotFoundException e1) {
+					Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath());
+					return;
+				}
+			} finally {
+				pixmap = null;
+			}
+			updateCostumeAdapter(imageName, imageFileName);
+		} catch (IOException e) {
+			Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 		}
 	}
 
 	private View.OnClickListener createAddCostumeClickListener() {
 		return new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+				handleAddCostumeButton();
+				createClickListener((ListView) installedAppDialog.findViewById(R.id.listViewInstalledApps));
+			}
+		};
+	}
 
+	private void createClickListener(ListView installedAppsListView) {
+		installedAppsListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View clickedView, int clickedItemIndex, long rowId) {
+				itemClickedHandling((InstalledApplicationInfo) parent.getAdapter().getItem(clickedItemIndex));
+				installedAppDialog.dismiss();
+				removeDialog(ScriptTabActivity.DIALOG_ADD_COSTUME);
+			}
+		});
+	}
+
+	private void itemClickedHandling(InstalledApplicationInfo clickedApplicationInfo) {
+		Intent intent = null;
+		int requestCode = -1;
+
+		switch (clickedApplicationInfo.getIntentCode()) {
+			case Utils.FILE_INTENT:
+				intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setType("image/*");
+				requestCode = REQUEST_SELECT_IMAGE;
 				Bundle bundleForPaintroid = new Bundle();
 				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
 				bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID,
 						CostumeActivity.this.getString(R.string.default_costume_name));
-
-				intent.setType("image/*");
 				intent.putExtras(bundleForPaintroid);
-				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
-				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
-			}
-		};
+				break;
+			case Utils.PICTURE_INTENT:
+				intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				requestCode = REQUEST_TAKE_PICTURE;
+				setCostumeFromCameraUri();
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, costumeFromCameraUri);
+				break;
+		}
+
+		try {
+			prepareIntent(intent, clickedApplicationInfo.getPackageName(),
+					clickedApplicationInfo.getNameOfApplication());
+			startActivityWithIntent(intent, requestCode);
+		} catch (NullPointerException exception) {
+			exception.printStackTrace();
+		}
+
+	}
+
+	private void prepareIntent(Intent intent, String packageName, String applicationName) {
+		intent.setComponent(new ComponentName(packageName, applicationName));
+	}
+
+	private void startActivityWithIntent(Intent intent, int REQUEST_CODE) {
+		startActivityForResult(intent, REQUEST_CODE);
+	}
+
+	public void handleAddCostumeButton() {
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_ADD_COSTUME);
+		installedAppDialog = scriptTabActivity.getAddCostumeDialog();
 	}
 
 	public void handleDeleteCostumeButton(View v) {
@@ -311,7 +422,7 @@ public class CostumeActivity extends ListActivity {
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
 			Utils.displayErrorMessage(this, getString(R.string.error_load_image));
-			e.printStackTrace();
+			Log.e("CATROID", "Could not copy image.", e);
 		}
 	}
 
@@ -327,12 +438,14 @@ public class CostumeActivity extends ListActivity {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(getString(R.string.paintroid_not_installed)).setCancelable(false)
 					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
 									.parse(Constants.PAINTROID_DOWNLOAD_LINK));
 							startActivity(downloadPaintroidIntent);
 						}
 					}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
 						}
@@ -355,5 +468,50 @@ public class CostumeActivity extends ListActivity {
 		intent.putExtras(bundleForPaintroid);
 		intent.addCategory("android.intent.category.LAUNCHER");
 		startActivityForResult(intent, REQUEST_PAINTROID_EDIT_IMAGE);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putBoolean(savedInstanceStateUriIsSetKey, (costumeFromCameraUri != null));
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		boolean uriIsSet = savedInstanceState.getBoolean(savedInstanceStateUriIsSetKey);
+		if (uriIsSet) {
+			setCostumeFromCameraUri();
+		}
+	}
+
+	private void setCostumeFromCameraUri() {
+		File pictureFile = new File(Constants.TMP_PATH, CostumeActivity.this.getString(R.string.default_costume_name)
+				+ ".jpg");
+		costumeFromCameraUri = Uri.fromFile(pictureFile);
+	}
+
+	public static int getPhotoRotationDegree(Uri imageUri, String imagePath) {
+		int rotate = 0;
+		try {
+			File imageFile = new File(imagePath);
+			ExifInterface exifDataReader = new ExifInterface(imageFile.getAbsolutePath());
+			int orientation = exifDataReader.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+					ExifInterface.ORIENTATION_NORMAL);
+
+			switch (orientation) {
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					rotate = 270;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					rotate = 180;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					rotate = 90;
+					break;
+			}
+		} catch (IOException e) {
+			Log.e("CATROID", "Could not find file to initialize ExifInterface.", e);
+		}
+		return rotate;
 	}
 }

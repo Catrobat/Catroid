@@ -47,6 +47,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
+import at.tugraz.ist.catroid.ui.dialogs.AddCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.DeleteSoundDialog;
@@ -68,6 +69,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	private RenameCostumeDialog renameCostumeDialog;
 	private DeleteCostumeDialog deleteCostumeDialog;
 	private DeleteSoundDialog deleteSoundDialog;
+	private AddCostumeDialog addCostumeDialog;
 	public String selectedCategory;
 	public static final int DIALOG_RENAME_COSTUME = 0;
 	public static final int DIALOG_RENAME_SOUND = 1;
@@ -75,6 +77,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	public static final int DIALOG_ADD_BRICK = 3;
 	public static final int DIALOG_DELETE_COSTUME = 4;
 	public static final int DIALOG_DELETE_SOUND = 5;
+	public static final int DIALOG_ADD_COSTUME = 6;
 
 	private boolean dontcreateNewBrick;
 
@@ -218,6 +221,10 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 					dialog = deleteSoundDialog.createDialog();
 				}
 				break;
+			case DIALOG_ADD_COSTUME:
+				addCostumeDialog = new AddCostumeDialog(this);
+				dialog = addCostumeDialog;
+				break;
 			default:
 				dialog = null;
 				break;
@@ -299,5 +306,9 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 	public void setDontcreateNewBrick() {
 		dontcreateNewBrick = true;
+	}
+
+	public AddCostumeDialog getAddCostumeDialog() {
+		return addCostumeDialog;
 	}
 }

@@ -33,10 +33,11 @@ public interface Brick extends Serializable {
 
 	//use bitwise | for using multiple ressources in a brick
 	public static final int NO_RESOURCES = 0x0;
-	//public static final int SOUND_MANAGER = 0x1;
+	//	public static final int SOUND_MANAGER = 0x1;
 	public static final int TEXT_TO_SPEECH = 0x2;
 	public static final int BLUETOOTH_LEGO_NXT = 0x4;
-	public static final int BLUETOOTH_ARDUINO = 0x8;
+
+	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 
 	public void execute();
 

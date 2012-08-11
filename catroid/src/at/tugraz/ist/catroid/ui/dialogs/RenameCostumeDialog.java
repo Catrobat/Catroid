@@ -89,7 +89,7 @@ public class RenameCostumeDialog {
 		String newCostumeName = (input.getText().toString()).trim();
 		String oldCostumeName = scriptTabActivity.selectedCostumeData.getCostumeName();
 
-		if (newCostumeName.equalsIgnoreCase(oldCostumeName)) {
+		if (newCostumeName.equals(oldCostumeName)) {
 			scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
 			return;
 		}

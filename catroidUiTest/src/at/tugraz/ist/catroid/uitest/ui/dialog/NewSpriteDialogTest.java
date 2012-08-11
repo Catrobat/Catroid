@@ -26,11 +26,15 @@ import java.io.IOException;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -49,52 +53,41 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
-
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
-
 		createTestProject(testingproject);
+		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.clickOnText(testingproject);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.waitForView(EditText.class);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, spriteEditTextId, "testingsprite");
+		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(1000);
+		solo.sleep(300);
 		solo.clickOnText(testingsprite);
-		solo.sleep(1000);
-
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
-
 	}
 
 	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
-
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
-
 		project.addSprite(firstSprite);
-
 		storageHandler.saveProject(project);
 	}
-
 }

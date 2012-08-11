@@ -27,11 +27,14 @@ import java.io.IOException;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -46,26 +49,26 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testLoadProjectDialog() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -76,14 +79,6 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		assertEquals("Sprite at index 3 is not \"horse\"!", "horse", third.getName());
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
-
-		solo.goBack();
-
-		//TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
-
-		//assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
-		//+ testProject, currentProject.getText());
-
 	}
 
 	public void createTestProject(String projectName) {

@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.WhenScript;
 
 public class WhenBrick implements Brick {
-	protected WhenScript whenScript;
+	private WhenScript whenScript;
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
 
@@ -42,17 +42,21 @@ public class WhenBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_when, null);
 		TextView spinnerActionText = (TextView) view.findViewById(R.id.WhenBrickActionTapped);
@@ -100,6 +104,7 @@ public class WhenBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return getView(context, 0, null);
 	}

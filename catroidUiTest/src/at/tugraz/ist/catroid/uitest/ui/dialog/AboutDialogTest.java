@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -38,26 +39,23 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		super.tearDown();
 	}
 
 	public void testAboutDialog() {
 		solo.clickOnButton(getActivity().getString(R.string.about));
-
 		assertTrue("AboutDialog title not found", solo.searchText(getActivity().getString(R.string.about_title)));
 		assertTrue("AboutDialog text not found", solo.searchText(getActivity().getString(R.string.about_text)));
-		assertTrue("AboutDialog linktext not found", solo.searchText(getActivity().getString(R.string.about_link_text)));
+		assertTrue("AboutDialog linktext not found",
+				solo.searchText(getActivity().getString(R.string.about_catroid_license_link_text)));
 		assertTrue("AboutDialog version not found", solo.searchText(Utils.getVersionName(solo.getCurrentActivity())));
 	}
 }

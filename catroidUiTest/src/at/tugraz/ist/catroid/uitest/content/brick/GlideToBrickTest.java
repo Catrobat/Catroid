@@ -33,6 +33,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -53,24 +55,18 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testNumberInput() {
-		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
+		String whenStartedText = solo.getString(R.string.brick_when_started);
+		solo.clickLongOnText(whenStartedText);
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		solo.sleep(1000);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(whenStartedText);
 
 		double duration = 1.5;
 		int xPosition = 123;
@@ -80,7 +76,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
 		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
 
-		solo.sleep(1000);
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
@@ -95,16 +90,18 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	public void testResizeInputFields() {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		createProject();
 		solo.sleep(200);
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
-		createProject();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.sleep(100);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1234.567, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.67, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, -1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1234.5678, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 12345.678, 60, false);
 
 		for (int i = 1; i < 3; i++) {
 			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);

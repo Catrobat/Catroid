@@ -31,6 +31,8 @@ import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -38,14 +40,15 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
+	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
+
 	private Solo solo;
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
 	private File soundFile;
 	private File soundFile2;
 	private ArrayList<SoundInfo> soundInfoList;
-	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
-	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
 
 	public SoundActivityTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -72,37 +75,30 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo.getChecksum(),
-				soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(soundInfo2.getChecksum(),
-				soundInfo2.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.sleep(500);
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-
 	}
 
 	public void testDeleteSound() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(1000);
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		ListAdapter adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(500);
+		solo.sleep(200);
 		adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not rigth", 2, oldCount);
@@ -113,84 +109,101 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 	public void testRenameSound() {
 		String newName = "newSoundName";
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.sound_name));
 		assertTrue("wrong title of dialog", solo.searchText(soundName));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
-		solo.waitForText(buttonOKText);
-		solo.clickOnText(buttonOKText);
-		solo.sleep(100);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		solo.sleep(500);
 		assertEquals("sound is not renamed in SoundList", newName, soundInfoList.get(0).getTitle());
 		if (!solo.searchText(newName)) {
 			fail("sound not renamed in actual view");
 		}
 	}
 
-	public void testPlayAndStopStound() {
+	public void testRenameSoundMixedCase() {
+		String newNameMixedCase = "TeStSoUNd1";
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(500);
+		solo.clickOnView(solo.getView(R.id.sound_name));
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, newNameMixedCase);
+		solo.sleep(300);
+		solo.sendKey(Solo.ENTER);
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		solo.sleep(500);
+		assertEquals("sound is not renamed to mixed case", newNameMixedCase, soundInfoList.get(0).getTitle());
+	}
+
+	public void testPlayAndStopStound() {
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		SoundInfo soundInfo = soundInfoList.get(0);
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
 		solo.clickOnButton(getActivity().getString(R.string.sound_play));
-		solo.sleep(20);
+		solo.sleep(100);
 		assertTrue("Mediaplayer is not playing", soundInfo.isPlaying);
 		solo.clickOnButton(getActivity().getString(R.string.sound_pause));
-		solo.sleep(40);
+		solo.sleep(100);
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 	}
 
-	//	public void testToStageButton() {
-	//		solo.clickOnText(getActivity().getString(R.string.sounds));
-	//		solo.sleep(500);
-	//		//fu!?
-	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
-	//
-	//		solo.sleep(5000);
-	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
-	//		solo.goBack();
-	//		solo.sleep(3000);
-	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-	//		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-	//		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
-	//	}
+	public void testToStageButton() {
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.assertCurrentActivity("not in stage", StageActivity.class);
 
-	//	public void testMainMenuButton() {
-	//		solo.clickOnText(getActivity().getString(R.string.sounds));
-	//		solo.sleep(500);
-	//		solo.clickOnImageButton(0);
-	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-	//				MainMenuActivity.class);
-	//	}
+		solo.goBack();
+		solo.goBack();
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
+		// needed to fix NullPointerException in next Testcase
+		solo.finishInactiveActivities();
+	}
+
+	public void testMainMenuButton() {
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
+		// needed to fix NullPointerException in next Testcase
+		solo.finishInactiveActivities();
+	}
 
 	public void testDialogsOnChangeOrientation() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(1000);
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		String newName = "newTestName";
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnView(solo.getView(R.id.sound_name));
 		assertTrue("Dialog is not visible", solo.searchText(buttonOKText));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+		solo.sleep(200);
 		assertTrue("Dialog is not visible", solo.searchText(buttonOKText));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-
+		solo.sleep(200);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
 		solo.sleep(100);
@@ -210,9 +223,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		EditText editTextSoundTitle = (EditText) solo.getView(R.id.dialog_rename_sound_editText);
 		solo.clearEditText(editTextSoundTitle);
 		solo.enterText(editTextSoundTitle, newSoundTitle);
-		solo.goBack();
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnButton(buttonOKText);
-		solo.waitForDialogToClose(1000);
 	}
 }

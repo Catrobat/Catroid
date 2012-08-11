@@ -59,22 +59,18 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testSimple() {
-		solo.waitForActivity("PreStageActivity");
+		solo.waitForActivity(PreStageActivity.class.getSimpleName());
 
 		Intent intent = new Intent(getActivity(), StageActivity.class);
 		getActivity().startActivity(intent);
 
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
 		assertEquals("wrong execution index. ", 0, testScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
@@ -84,7 +80,6 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 		solo.sleep(2000);
 		assertEquals("wrong execution index. ", 1, testScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
-
 	}
 
 	private void createProject() {
@@ -108,7 +103,7 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -116,5 +111,4 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 		projectManager.setProject(project);
 		StorageHandler.getInstance().saveProject(project);
 	}
-
 }

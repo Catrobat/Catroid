@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.uitest.util.XMLValidationUtil;
@@ -50,7 +51,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-
 	private Solo solo;
 	private String testProjectName = UiTestUtils.PROJECTNAME1;
 	private String costumeDataName = "blubb";
@@ -73,42 +73,39 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
-
 		super.tearDown();
 	}
 
 	public void testBricksWithEmptySpinner() throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException, IOException, JSONException {
 
+		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
+
 		assertTrue("costume " + costumeDataName + " is not selected", solo.searchText(costumeDataName));
 		solo.clickOnText(costumeDataName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(pointToSpriteName + " Sprite is not selected", solo.searchText(pointToSpriteName));
 		solo.clickOnText(pointToSpriteName);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(testSoundTitle + " Sound is not selected", solo.searchText(testSoundTitle));
 		solo.clickOnText(testSoundTitle);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(testBroadcastWaitMessage + " Message is not selected", solo.searchText(testBroadcastWaitMessage));
 		solo.clickOnText(testBroadcastWaitMessage);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(testBroadcastMessage + " Mesage is not selected", solo.searchText(testBroadcastMessage));
 		solo.clickOnText(testBroadcastMessage);
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(spinnerNothingSelectedText);
 
 		// go back that the project xml is saved
 		solo.goBack();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		String projectXMLPath = Utils.buildPath(Utils.buildProjectPath(testProjectName), Constants.PROJECTCODE_NAME);
 		XMLValidationUtil.sendProjectXMLToServerForValidating(projectXMLPath);
@@ -136,14 +133,14 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	}
 
 	private void addBroadcastBrick(Sprite sprite, Script startScript) {
-		ProjectManager.getInstance().messageContainer.addMessage(testBroadcastMessage);
+		ProjectManager.getInstance().getMessageContainer().addMessage(testBroadcastMessage);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		broadcastBrick.setSelectedMessage(testBroadcastMessage);
 		startScript.addBrick(broadcastBrick);
 	}
 
 	private void addBroadcastWaitBrick(Sprite sprite, Script startScript) {
-		ProjectManager.getInstance().messageContainer.addMessage(testBroadcastWaitMessage);
+		ProjectManager.getInstance().getMessageContainer().addMessage(testBroadcastWaitMessage);
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		broadcastWaitBrick.setSelectedMessage(testBroadcastWaitMessage);
 		startScript.addBrick(broadcastWaitBrick);
