@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -70,15 +71,20 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
-
+		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_x_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_x_edit_text);
 		editX.setText(String.valueOf(xPosition));
 
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 
+		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_y_text_view);
 		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_y_edit_text);
 		editY.setText(String.valueOf(yPosition));
 
+		textY.setVisibility(View.GONE);
+		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
 
 		return view;

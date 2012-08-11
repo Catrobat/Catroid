@@ -46,7 +46,10 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -62,48 +65,45 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	@Override
 	public void setUp() throws Exception {
-		UiTestUtils.clearAllUtilTestProjects();
-
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
+		UiTestUtils.clearAllUtilTestProjects();
+		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testBackButtonPressedTwice() {
-
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
 		solo.goBack();
 
 		solo.goBack();
-
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Program is not in stage activity", MainMenuActivity.class);
 	}
 
 	public void testBackToPreviousActivity() throws NameNotFoundException, IOException {
-		createTestProject(testProject);
+		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.clickOnText(testProject);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		Activity previousActivity = getActivity();
-
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.back));
 
-		solo.sleep(1000);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("Not equal Activities", previousActivity, getActivity());
 	}
 
@@ -136,27 +136,27 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testRestartButtonActivityChain() throws NameNotFoundException, IOException {
-		createTestProject(testProject);
+		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.clickOnText(testProject);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		Activity currentActivity = solo.getCurrentActivity();
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
-
-		solo.sleep(1000);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
-		solo.sleep(1000);
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(1000);
-
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Program is not in stage activity", StageActivity.class);
 
 		solo.sleep(500);
 		solo.goBack();
-		solo.sleep(500);
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.back));
-		solo.sleep(500);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("Returned to wrong Activity", currentActivity, solo.getCurrentActivity());
 	}
 
@@ -167,8 +167,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		scriptPositionsRestart.clear();
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
-
-		solo.sleep(2000);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project projectStart = projectManager.getCurrentProject();
@@ -187,11 +187,11 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		spriteList.clear();
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		solo.sleep(500);
+		solo.sleep(200);
 		solo.goBack();
-		solo.sleep(500);
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(1000);
+		solo.sleep(300);
 
 		//scriptPositions in between
 		Project projectRestart = ProjectManager.getInstance().getCurrentProject();
@@ -215,7 +215,6 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testRestartProjectWithSound() {
-
 		String projectName = UiTestUtils.PROJECTNAME1;
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
@@ -246,14 +245,15 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
-		solo.sleep(3000);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
 		assertTrue("Sound not playing.", mediaPlayer.isPlaying());
 		int positionBeforeRestart = mediaPlayer.getCurrentPosition();
 		solo.goBack();
 		solo.sleep(500);
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(1000);
+		solo.sleep(500);
 		@SuppressWarnings("unchecked")
 		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) UiTestUtils.getPrivateField(
 				"mediaPlayers", SoundManager.getInstance());
@@ -263,11 +263,13 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testAxesOnOff() throws NameNotFoundException, IOException {
-		createTestProject(testProject);
+		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.clickOnText(testProject);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
-		solo.waitForActivity("StageActivity");
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.stagemenu_axes_on));
 		solo.clickOnButton(getActivity().getString(R.string.resume_current_project));
@@ -299,7 +301,6 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
-
 	}
 
 	public void testMaximizeStretch() throws NameNotFoundException, IOException {
@@ -309,9 +310,13 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		project.setDeviceData(getActivity());
 		storageHandler.saveProject(project);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.clickOnText(testProject);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		Utils.updateScreenWidthAndHeight(getActivity());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
-		solo.waitForActivity("StageActivity");
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 		byte[] screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
@@ -350,12 +355,9 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-
 	}
 
-	public Project createTestProject(String projectName) throws IOException, NameNotFoundException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
+	private Project createTestProject(String projectName) throws IOException, NameNotFoundException {
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -367,8 +369,12 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
 		return project;
 	}
 
+	private Project createAndSaveTestProject(String projectName) throws IOException, NameNotFoundException {
+		Project project = createTestProject(projectName);
+		StorageHandler.getInstance().saveProject(project);
+		return project;
+	}
 }

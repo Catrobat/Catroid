@@ -36,7 +36,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -46,9 +45,12 @@ import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -77,20 +79,29 @@ public class UiTestUtils {
 	private static final String TAG = UiTestUtils.class.getSimpleName();
 
 	private static ProjectManager projectManager = ProjectManager.getInstance();
-	private static HashMap<Integer, Integer> brickCategoryMap;
+	private static SparseIntArray brickCategoryMap;
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String PROJECTNAME1 = "testproject1";
 	public static final String PROJECTNAME2 = "testproject2";
 	public static final String PROJECTNAME3 = "testproject3";
+	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
 
+	private UiTestUtils() {
+	};
+
 	public static void enterText(Solo solo, int editTextIndex, String text) {
 		solo.sleep(50);
-		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
+		final EditText editText = solo.getEditText(editTextIndex);
+		solo.getCurrentActivity().runOnUiThread(new Runnable() {
+			public void run() {
+				editText.setInputType(InputType.TYPE_NULL);
+			}
+		});
 		solo.clearEditText(editTextIndex);
 		solo.enterText(editTextIndex, text);
 		solo.sleep(50);
@@ -125,19 +136,17 @@ public class UiTestUtils {
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
-		solo.goBack();
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
 		enterText(solo, 0, value);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(50);
 	}
 
 	private static void initBrickCategoryMap() {
-		brickCategoryMap = new HashMap<Integer, Integer>();
+		brickCategoryMap = new SparseIntArray();
 
 		brickCategoryMap.put(R.string.brick_place_at, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_x, R.string.category_motion);
@@ -181,6 +190,8 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_note, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_forever, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_repeat, R.string.category_control);
+
+		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -235,7 +246,7 @@ public class UiTestUtils {
 
 		project.addSprite(firstSprite);
 
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -251,7 +262,7 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -354,7 +365,7 @@ public class UiTestUtils {
 	}
 
 	public static void clearAllUtilTestProjects() {
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + PROJECTNAME1);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
@@ -431,6 +442,13 @@ public class UiTestUtils {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = classFromObject.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		field.set(object, value);
 	}
 
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
@@ -557,5 +575,47 @@ public class UiTestUtils {
 		}
 
 		return yPositionList;
+	}
+
+	private static class ProjectWithVersionCode extends Project {
+		static final long serialVersionUID = 1L;
+		private final int mCatroidVersionCode;
+
+		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+			super(null, name);
+			mCatroidVersionCode = catroidVersionCode;
+		}
+
+		@Override
+		public int getCatroidVersionCode() {
+			return mCatroidVersionCode;
+		}
+	}
+
+	public static boolean createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript(firstSprite);
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
+		ProjectManager.INSTANCE.setCurrentScript(testScript);
+		return ProjectManager.INSTANCE.saveProject();
+	}
+
+	public static boolean clickOnTextInList(Solo solo, String text) {
+		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+		for (int i = 0; i < textViews.size(); i++) {
+			TextView view = textViews.get(i);
+			if (view.getText().toString().equalsIgnoreCase(text)) {
+				solo.clickOnView(view);
+				return true;
+			}
+		}
+		return false;
 	}
 }

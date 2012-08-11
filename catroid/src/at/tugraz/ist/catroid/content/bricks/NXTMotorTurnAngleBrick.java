@@ -37,13 +37,13 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class NXTMotorTurnAngleBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
@@ -71,10 +71,12 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		this.degrees = degrees;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 
+	@Override
 	public void execute() {
 		int temp_angle = degrees;
 		int direction = 1;
@@ -100,10 +102,12 @@ public class NXTMotorTurnAngleBrick implements Brick {
 
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 	}
@@ -113,11 +117,16 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		return new NXTMotorTurnAngleBrick(getSprite(), motorEnum, degrees);
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
+		TextView textX = (TextView) brickView.findViewById(R.id.motor_turn_angle_text_view);
 		editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(degrees));
+
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
@@ -129,11 +138,13 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
+			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
 
@@ -147,6 +158,7 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		directionsButton.setClickable(true);
 		directionsButton.setEnabled(true);
 		directionsButton.setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
@@ -157,6 +169,7 @@ public class NXTMotorTurnAngleBrick implements Brick {
 				builder.setTitle("Choose and edit direction");
 				builder.setSingleChoiceItems(R.array.fancy_directions_chooser, -1,
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog, int item) {
 
 								switch (item) {
@@ -184,6 +197,7 @@ public class NXTMotorTurnAngleBrick implements Brick {
 							}
 						});
 				builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (input.getText().toString().equals("")) {
 							input.setText("0");
@@ -194,6 +208,7 @@ public class NXTMotorTurnAngleBrick implements Brick {
 				});
 				builder.setNegativeButton(context.getString(R.string.cancel_button),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								dialog.cancel();
 							}
@@ -201,6 +216,7 @@ public class NXTMotorTurnAngleBrick implements Brick {
 
 				AlertDialog alertDialog = builder.create();
 				alertDialog.setOnShowListener(new OnShowListener() {
+					@Override
 					public void onShow(DialogInterface dialog) {
 						InputMethodManager inputManager = (InputMethodManager) context
 								.getSystemService(Context.INPUT_METHOD_SERVICE);

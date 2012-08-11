@@ -54,9 +54,9 @@ public class Sprite implements Serializable {
 	private Object readResolve() {
 		//filling FileChecksumContainer:
 		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
-			FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 			if (container == null) {
-				ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+				ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 			}
 			for (SoundInfo soundInfo : soundList) {
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());

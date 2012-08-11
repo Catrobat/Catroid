@@ -19,11 +19,10 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources> 
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.-->
+<resources>
 
-    <!-- General terms -->    
+    <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">Projekt</string>
     <string name="sprite">Objekt</string>
@@ -39,7 +38,7 @@
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
-    <string name="loading">Laden...</string>
+    <string name="loading">Laden…</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">Ok</string>
@@ -67,12 +66,11 @@
 
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>
-    <string name="about_text">Catroid ist eine grafische Programmiersprache für Android, inspiriert vom
-        Scratch Projekt des MIT.\n
-        Es wird am Institut für Software Technologie an der
-        Technischen Universität Graz in Österreich entwickelt.\n\n
-        Dieses Programm steht unter der GNU GPL v3 Lizenz.\n\n    </string>
-    <string name="about_link_text">Über Catroid</string>
+    <string name="about_text">Catroid ist eine Programmierumgebung für Androidgeräte für die grafische
+        Programmiersprache Catrobat.\n\n
+        Der Großteil von Catroid steht unter der GNU AGPL v3 Lizenz.
+        Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n    </string>
+    <string name="about_catroid_license_link_text">Catroid Lizenz</string>
 
     <!-- Project activity view -->
     <string name="project_name">Projekt:</string>
@@ -97,10 +95,10 @@
     <string name="copy_costume">kopieren</string>
     <string name="costumename_invalid">Dieser Name ist nicht zulässig</string>
     <string name="copy_costume_addition">Kopie</string>
-    <string name="select_image">Bild auswählen</string>
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
     <string name="default_costume_name">Kostüm</string>
     <string name="delete_costume_dialog">Kostüm löschen?</string>
+    <string name="add_costume_dialog_title">Kostüm hinzufügen</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
@@ -115,7 +113,7 @@
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Aufnehmen</string>
     <string name="soundrecorder_record_stop">Beenden</string>
-    <string name="soundrecorder_recording">Aufnahme gestartet...</string>
+    <string name="soundrecorder_recording">Aufnahme gestartet…</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
 
@@ -170,15 +168,15 @@
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
-    
-    <!--  OverwriteRenameDialog Strings -->
+
+    <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
     <string name="overwrite_replace">ersetze bestehendes Projekt</string>
     <string name="overwrite_rename">benenne heruntergeladenes Projekt um</string>
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">Neu...</string>
-    <string name="broadcast_nothing_selected">Nichts...</string>
+    <string name="new_broadcast_message">Neu…</string>
+    <string name="broadcast_nothing_selected">Nichts…</string>
 
     <!-- Brick categories -->
     <string name="categories">Kategorien</string>
@@ -270,6 +268,7 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
+    <string name="notification_load_project_cancel">Projekt laden abgebrochen</string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
@@ -284,6 +283,7 @@
     <string name="error_load_image">Beim Laden des Bildes ist ein Fehler aufgetreten.</string>
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
+    <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
@@ -303,7 +303,7 @@
     <string name="button_scan">Suche Bluetooth Geräte</string>
     <string name="scanning">Suche</string>
     <string name="select_device">Wähle dein Mindstorms NXT</string>
-    <string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
+    <string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten…</string>
     <string name="pairing_message">Nach dem Pairing, verbinde.</string>
     <string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
     <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>

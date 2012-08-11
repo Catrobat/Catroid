@@ -64,23 +64,17 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testComplex() {
-		solo.waitForActivity("PreStageActivity");
+		solo.waitForActivity(PreStageActivity.class.getSimpleName());
 
 		Intent intent = new Intent(getActivity(), StageActivity.class);
 		getActivity().startActivity(intent);
-		solo.waitForActivity("StageActivity");
-
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
 		assertEquals("wrong execution index. ", 0, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 0, receiveScript.getExecutingBrickIndex());
@@ -147,7 +141,7 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);

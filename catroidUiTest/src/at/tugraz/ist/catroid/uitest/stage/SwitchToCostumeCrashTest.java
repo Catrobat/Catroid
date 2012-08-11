@@ -108,7 +108,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.fileChecksumContainer.containsChecksum(checksumNyanCatImageFile));
+				projectManager.getFileChecksumContainer().containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInCostumeDataList = false;
 		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
@@ -158,7 +158,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.fileChecksumContainer.containsChecksum(checksumNyanCatImageFile));
+				projectManager.getFileChecksumContainer().containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInCostumeDataList = false;
 		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
@@ -212,7 +212,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		backgroundSprite.addScript(startScript);
 		project.addSprite(backgroundSprite);
 
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(backgroundSprite);
 		projectManager.setCurrentScript(startScript);

@@ -79,7 +79,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString);
 
-			if (StorageHandler.getInstance().projectExists(projectName)) {
+			if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
 				showOverwriteDialog = true;
 				result = true;
 			}
@@ -105,14 +105,12 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		}
 
 		if (result && showOverwriteDialog) {
-			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, activity, projectName,
-					zipFileString);
+			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
 			renameDialog.show();
 			return;
 		}
 
 		if (!result) {
-			//Toast.makeText(mActivity, R.string.error_project_download, Toast.LENGTH_SHORT).show();
 			showDialog(R.string.error_project_download);
 			return;
 		}
@@ -121,9 +119,9 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 			return;
 		}
 		Toast.makeText(activity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
-		projectManager.loadProject(projectName, activity, true);
-		activity.writeProjectTitleInTextfield();
-
+		if (projectManager.loadProject(projectName, activity, true)) {
+			activity.writeProjectTitleInTextfield();
+		}
 	}
 
 	private void showDialog(int messageId) {

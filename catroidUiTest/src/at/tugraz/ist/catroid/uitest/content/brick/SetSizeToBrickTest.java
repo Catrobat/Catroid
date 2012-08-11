@@ -46,6 +46,8 @@ import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.stage.StageListener;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -54,6 +56,9 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final int SCREEN_WIDTH = 480;
+	private static final int SCREEN_HEIGHT = 800;
+
 	private static final String TAG = SetSizeToBrickTest.class.getSimpleName();
 	private String projectName = "SetSizeToBrickTestProject";
 	private Solo solo;
@@ -61,8 +66,6 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	private SetSizeToBrick setSizeToBrick;
 	private SetCostumeBrick setCostumeBrick;
 	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.red_quad;
-	private final int screenWidth = 480;
-	private final int screenHeight = 800;
 
 	public SetSizeToBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -76,14 +79,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
-
+		solo.finishOpenedActivities();
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
@@ -111,8 +107,6 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		UiTestUtils.clickEnterClose(solo, 0, newSize + "");
 
-		solo.sleep(500);
-
 		double size = (Double) UiTestUtils.getPrivateField("size", setSizeToBrick);
 		assertEquals("Wrong text in field", newSize, size);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
@@ -128,11 +122,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 
-		solo.sleep(1500);
-
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.stagemenu_screenshot));
-		solo.sleep(50);
 
 		assertTrue("Successful screenshot Toast not found!",
 				solo.searchText(getActivity().getString(R.string.notification_screenshot_ok)));
@@ -166,11 +157,13 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	public void testResizeInputField() {
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
-		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		createTestProject();
+		solo.sleep(500);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.sleep(100);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
 		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
@@ -179,9 +172,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	private void createProject() {
-
-		Values.SCREEN_HEIGHT = screenHeight;
-		Values.SCREEN_WIDTH = screenWidth;
+		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		Values.SCREEN_WIDTH = SCREEN_WIDTH;
 
 		project = new Project(null, projectName);
 		Sprite sprite = new Sprite("cat");
@@ -208,8 +200,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		costumeData.setCostumeName("image");
 		setCostumeBrick.setCostume(costumeData);
 		sprite.getCostumeDataList().add(costumeData);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
-				image.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(costumeData.getChecksum(), image.getAbsolutePath());
 		ProjectManager.getInstance().saveProject();
 	}
 

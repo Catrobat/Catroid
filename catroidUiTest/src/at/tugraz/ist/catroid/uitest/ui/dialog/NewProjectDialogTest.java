@@ -49,39 +49,27 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	protected void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testNewProjectDialog() {
-
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
+		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
-
 		UiTestUtils.enterText(solo, nameEditTextId, testingproject);
-
 		solo.sendKey(Solo.ENTER);
-
-		solo.sleep(1000);
-
+		solo.sleep(300);
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
 				.equals(UiTestUtils.PROJECTNAME1));
-
 	}
 
 	public void testPositiveButtonDisabledOnCreate() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
 		Button okButton = (Button) solo.getView(R.id.dialog_text_ok);
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
-
 	}
 
 	public void testPositiveButtonChangesState() {
@@ -103,5 +91,4 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("EditText was not empty", "", editText.getText().toString());
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
-
 }

@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -40,6 +41,7 @@ import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -108,7 +110,7 @@ public class StorageHandler {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Cannot load project.", e);
 			return null;
 		}
 	}
@@ -164,7 +166,24 @@ public class StorageHandler {
 		return false;
 	}
 
-	public boolean projectExists(String projectName) {
+	public boolean deleteProject(ProjectData projectData) {
+		if (projectData != null) {
+			return UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectData.projectName)));
+		}
+		return false;
+	}
+
+	public boolean projectExistsCheckCase(String projectName) {
+		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+		for (String projectNameIterator : projectNameList) {
+			if ((projectNameIterator.equals(projectName))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean projectExistsIgnoreCase(String projectName) {
 		File projectDirectory = new File(Utils.buildProjectPath(projectName));
 		if (!projectDirectory.exists()) {
 			return false;
@@ -183,7 +202,7 @@ public class StorageHandler {
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
 			fileChecksumContainer.addChecksum(inputFileChecksum, null);
 			return new File(fileChecksumContainer.getPath(inputFileChecksum));
@@ -206,7 +225,7 @@ public class StorageHandler {
 
 		int[] imageDimensions = new int[2];
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
-		FileChecksumContainer checksumCont = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if ((imageDimensions[0] <= project.virtualScreenWidth) && (imageDimensions[1] <= project.virtualScreenHeight)) {
@@ -239,7 +258,7 @@ public class StorageHandler {
 
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
 				checksumCompressedFile + "_" + inputFile.getName());
 
@@ -277,7 +296,7 @@ public class StorageHandler {
 		FileChannel outputChannel = outputStream.getChannel();
 
 		String checksumSource = Utils.md5Checksum(sourceFile);
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 
 		try {
 			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
@@ -303,7 +322,7 @@ public class StorageHandler {
 	}
 
 	public void deleteFile(String filepath) {
-		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		try {
 			if (container.decrementUsage(filepath)) {
 				File toDelete = new File(filepath);
@@ -313,5 +332,4 @@ public class StorageHandler {
 			e.printStackTrace();
 		}
 	}
-
 }

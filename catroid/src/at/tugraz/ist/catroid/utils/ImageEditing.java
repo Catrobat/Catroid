@@ -128,4 +128,12 @@ public class ImageEditing {
 
 		StorageHandler.saveBitmapToImageFile(imageFile, mutableBitmap);
 	}
+
+	public static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegree) {
+		Matrix rotateMatrix = new Matrix();
+		rotateMatrix.postRotate(rotationDegree);
+		Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), rotateMatrix,
+				true);
+		return rotatedBitmap;
+	}
 }

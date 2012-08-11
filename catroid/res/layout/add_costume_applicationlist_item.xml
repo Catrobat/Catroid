@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -18,23 +19,23 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package at.tugraz.ist.catroid.web;
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
 
-// this class is a dummy class just to initialize ACRA (our bug reporting tool)
+    <ImageView
+        android:id="@+id/addCostumeApplicationIcon"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:src="@null" />
 
-import org.acra.ACRA;
-import org.acra.annotation.ReportsCrashes;
+    <TextView
+        android:id="@+id/addCostumeApplicationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="91dp" />
 
-import android.app.Application;
-
-// the formKey represents the GoogleDoc-file
-@ReportsCrashes(formKey = "dGh5c0k2anJOalVvdThxUzFEUk9tcUE6MQ")
-public class CatroidApplication extends Application {
-	@Override
-	public void onCreate() {
-		ACRA.init(this);
-		super.onCreate();
-	}
-}
+</LinearLayout>

@@ -35,7 +35,14 @@ import java.lang.reflect.Method;
 
 import android.content.Context;
 import android.util.Log;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
@@ -43,6 +50,10 @@ public class TestUtils {
 	private static final String TAG = TestUtils.class.getSimpleName();
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
+	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+
+	private TestUtils() {
+	};
 
 	/**
 	 * saves a file into the project folder
@@ -168,6 +179,13 @@ public class TestUtils {
 		return field;
 	}
 
+	public static void setPrivateField(Class<?> classFromObject, Object object, String fieldName, Object value)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = classFromObject.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		field.set(object, value);
+	}
+
 	public static Object invokeMethod(Object classObject, String methodName, Class<?>[] methodParams,
 			Object[] methodArgs) {
 		try {
@@ -180,5 +198,51 @@ public class TestUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static class ProjectWithVersionCode extends Project {
+		static final long serialVersionUID = 1L;
+		private final int mCatroidVersionCode;
+
+		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+			super(null, name);
+			mCatroidVersionCode = catroidVersionCode;
+		}
+
+		@Override
+		public int getCatroidVersionCode() {
+			return mCatroidVersionCode;
+		}
+	}
+
+	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name) {
+		Project project = new ProjectWithVersionCode(name, versionCode);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new StartScript(firstSprite);
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		StorageHandler.getInstance().saveProject(project);
+	}
+
+	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, DEFAULT_TEST_PROJECT_NAME);
+	}
+
+	public static void deleteTestProjects(String... additionalProjectNames) {
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		for (String name : additionalProjectNames) {
+			directory = new File(Constants.DEFAULT_ROOT + "/" + name);
+			if (directory.exists()) {
+				UtilFile.deleteDirectory(directory);
+			}
+		}
 	}
 }

@@ -200,8 +200,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image),
-				image.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(Utils.md5Checksum(image), image.getAbsolutePath());
 
 		storageHandler.saveProject(project);
 		return project;

@@ -58,7 +58,7 @@ public class PreStageActivity extends Activity {
 	public static StageListener stageListener;
 	private static LegoNXT legoNXT;
 	private ProgressDialog connectingProgressDialog;
-	public static TextToSpeech textToSpeech;
+	private static TextToSpeech textToSpeech;
 	private int requiredResourceCounter;
 
 	private boolean autoConnect = false;
@@ -102,11 +102,9 @@ public class PreStageActivity extends Activity {
 
 			}
 		}
-
 		if (noResources == true) {
 			startStage();
 		}
-
 	}
 
 	@Override
@@ -226,7 +224,8 @@ public class PreStageActivity extends Activity {
 			case MY_DATA_CHECK_CODE:
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 					// success, create the TTS instance
-					textToSpeech = new TextToSpeech(this.getApplicationContext(), new OnInitListener() {
+					textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
+						@Override
 						public void onInit(int status) {
 							resourceInitialized();
 							if (status == TextToSpeech.ERROR) {
@@ -237,7 +236,6 @@ public class PreStageActivity extends Activity {
 							}
 						}
 					});
-
 					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
 						Intent installIntent = new Intent();
 						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
@@ -250,6 +248,7 @@ public class PreStageActivity extends Activity {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.setMessage(getString(R.string.text_to_speech_engine_not_installed)).setCancelable(false)
 							.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									Intent installIntent = new Intent();
 									installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
@@ -257,6 +256,7 @@ public class PreStageActivity extends Activity {
 									resourceFailed();
 								}
 							}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									dialog.cancel();
 									resourceFailed();
@@ -267,20 +267,14 @@ public class PreStageActivity extends Activity {
 
 				}
 				break;
-
 			default:
 				resourceFailed();
 				break;
 		}
 	}
 
-	public void makeToast(String text) {
-		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-	}
-
 	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
-
 		textToSpeech.setOnUtteranceCompletedListener(listener);
 		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
 	}
@@ -298,7 +292,7 @@ public class PreStageActivity extends Activity {
 					resourceInitialized();
 					break;
 				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
-					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT);
+					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
 					connectingProgressDialog.dismiss();
 					legoNXT.destroyCommunicator();
 					legoNXT = null;
@@ -308,13 +302,7 @@ public class PreStageActivity extends Activity {
 						resourceFailed();
 					}
 					break;
-				default:
-
-					//Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
-					break;
-
 			}
 		}
 	};
-
 }
