@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,10 @@ import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
+
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class CostumeActivity extends ListActivity {
 	private ArrayList<CostumeData> costumeDataList;
@@ -205,6 +210,24 @@ public class CostumeActivity extends ListActivity {
 			}
 
 			String imageFileName = imageFile.getName();
+
+			// if exception occurrs, image would throw an Exception in stage
+			// so has to be loaded again with other Config
+			@SuppressWarnings("unused")
+			Pixmap pixmap = null;
+			try {
+				pixmap = new Pixmap(new FileHandle(imageFile));
+			} catch (GdxRuntimeException e) {
+				try {
+					ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
+				} catch (FileNotFoundException e1) {
+					Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath());
+					return;
+				}
+			} finally {
+				pixmap = null;
+			}
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
 			Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
