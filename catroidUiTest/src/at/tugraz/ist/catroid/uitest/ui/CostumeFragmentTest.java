@@ -51,6 +51,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	private ProjectManager projectManager = ProjectManager.getInstance();
 	private Solo solo;
 	private String costumeName = "costumeNametest";
+	private String costumeName2 = "costumeNameTest2";
 	private File imageFile;
 	private File imageFile2;
 	private File paintroidImageFile;
@@ -116,9 +117,31 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.copy_costume), 1);
+		solo.clickOnCheckBox(0);
+		solo.sleep(500);
+		solo.clickOnMenuItem(getActivity().getString(R.string.copy_costume));
+		solo.sleep(500);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition), 1, true)) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
+					costumeDataList.size());
+		} else {
+			fail("copy costume didn't work");
+		}
+	}
+
+	public void testCopyMultipleCostumes() {
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.sleep(500);
+		solo.clickOnCheckBox(0);
+		solo.sleep(500);
+		solo.clickOnCheckBox(1);
+		solo.sleep(500);
+		solo.clickOnMenuItem(getActivity().getString(R.string.copy_costume));
+		solo.sleep(500);
+		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition), 1, true)
+				&& solo.searchText(costumeName2 + "_" + getActivity().getString(R.string.copy_costume_addition), 1,
+						true)) {
+			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 4,
 					costumeDataList.size());
 		} else {
 			fail("copy costume didn't work");
@@ -132,7 +155,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		ListAdapter adapter = getCostumeFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.clickOnCheckBox(0);
+		solo.sleep(500);
+		solo.clickOnMenuItem(getActivity().getString(R.string.sound_delete));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(300);
@@ -140,6 +165,27 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("the old count was not right", 2, oldCount);
 		assertEquals("the new count is not right - all costumes should be deleted", 1, newCount);
 		assertEquals("the count of the costumeDataList is not right", 1, costumeDataList.size());
+	}
+
+	public void testDeleteMultipleCostumes() {
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.sleep(700);
+
+		ListAdapter adapter = getCostumeFragment().getListAdapter();
+
+		int oldCount = adapter.getCount();
+		solo.clickOnCheckBox(0);
+		solo.sleep(500);
+		solo.clickOnCheckBox(1);
+		solo.sleep(500);
+		solo.clickOnMenuItem(getActivity().getString(R.string.sound_delete));
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(300);
+		int newCount = adapter.getCount();
+		assertEquals("the old count was not right", 2, oldCount);
+		assertEquals("the new count is not right - all costumes should be deleted", 0, newCount);
+		assertEquals("the count of the costumeDataList is not right", 0, costumeDataList.size());
 	}
 
 	public void testRenameCostume() {
@@ -466,7 +512,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(500);
 
 		String buttonCopyCostumeText = solo.getString(R.string.copy_costume);
-		solo.clickOnText(buttonCopyCostumeText);
+		solo.clickOnCheckBox(0);
+		solo.sleep(500);
+		solo.clickOnMenuItem(buttonCopyCostumeText);
+		solo.sleep(500);
 		while (solo.scrollUp()) {
 			;
 		}
@@ -486,7 +535,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		while (solo.scrollUp()) {
 			;
 		}
-		solo.clickOnText(solo.getString(R.string.copy_costume));
+		solo.clickOnCheckBox(0);
+		solo.sleep(500);
+		solo.clickOnMenuItem(buttonCopyCostumeText);
+		solo.sleep(500);
 		renameCostume(defaultCostumeName + "_", defaultCostumeName);
 		expectedCostumeName = defaultCostumeName + "1";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(3).getCostumeName());
