@@ -191,6 +191,8 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 		if (tabChangedReceiver != null) {
 			getActivity().unregisterReceiver(tabChangedReceiver);
 		}
+
+		destroyActionMode();
 	}
 
 	@Override
@@ -241,16 +243,19 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 
 	@Override
 	public void onSoundPlay(View v) {
+		destroyActionMode();
 		handlePlaySoundButton(v);
 	}
 
 	@Override
 	public void onSoundPause(View v) {
+		destroyActionMode();
 		handlePauseSoundButton(v);
 	}
 
 	@Override
 	public void onSoundRename(int position) {
+		destroyActionMode();
 		handleSoundRename(position);
 	}
 
@@ -261,7 +266,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 			if (actionMode == null) {
 				actionMode = getSherlockActivity().startActionMode(new SoundEditCallback());
 			}
-		} else if (actionMode != null) {
+		} else {
 			destroyActionMode();
 		}
 
@@ -398,17 +403,17 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 	}
 
 	private void destroyActionMode() {
-		actionMode.finish();
-		actionMode = null;
+		if (actionMode != null) {
+			actionMode.finish();
+			actionMode = null;
+		}
 	}
 
 	private class TabChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_TAB_CHANGED)) {
-				if (actionMode != null) {
-					destroyActionMode();
-				}
+				destroyActionMode();
 			}
 		}
 	}

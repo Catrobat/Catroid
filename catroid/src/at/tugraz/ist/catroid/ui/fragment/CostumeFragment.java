@@ -185,6 +185,8 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		if (tabChangedReceiver != null) {
 			getActivity().unregisterReceiver(tabChangedReceiver);
 		}
+
+		destroyActionMode();
 	}
 
 	@Override
@@ -257,6 +259,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 
 	@Override
 	public void onCostumeRename(int position) {
+		destroyActionMode();
 		handleRenameCostumeButton(position);
 	}
 
@@ -272,7 +275,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 			if (actionMode == null) {
 				actionMode = getSherlockActivity().startActionMode(new CostumeEditCallback());
 			}
-		} else if (actionMode != null) {
+		} else {
 			destroyActionMode();
 		}
 
@@ -550,8 +553,10 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	}
 
 	private void destroyActionMode() {
-		actionMode.finish();
-		actionMode = null;
+		if (actionMode != null) {
+			actionMode.finish();
+			actionMode = null;
+		}
 	}
 
 	private class CostumeDeletedReceiver extends BroadcastReceiver {
@@ -583,9 +588,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_TAB_CHANGED)) {
-				if (actionMode != null) {
-					destroyActionMode();
-				}
+				destroyActionMode();
 			}
 		}
 	}
