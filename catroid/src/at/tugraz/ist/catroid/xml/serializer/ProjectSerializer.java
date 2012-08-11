@@ -35,15 +35,38 @@ public class ProjectSerializer extends Serializer {
 
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
-			SecurityException, NoSuchFieldException {
+			SecurityException, NoSuchFieldException, SerializeException {
 		Project project = (Project) object;
-		fieldMap = objectCreator.getFieldMap(project.getClass());
 		List<String> projectStringList = new ArrayList<String>();
 		String xmlElementString = "";
-
-		xmlElementString = getStartTag(CatroidXMLConstants.projectElementName);
+		if (!(object.getClass().getSuperclass().equals(Object.class))) {
+			String className = object.getClass().getName();
+			className = className.replace("$", "_-");
+			xmlElementString = getStartTag(className);
+		} else {
+			xmlElementString = getStartTag(CatroidXMLConstants.projectElementName);
+		}
 		projectStringList.add(xmlElementString);
+		if (!(object.getClass().getSuperclass().equals(Object.class))) {
+			getProjectStringsofClass(object, project, projectStringList, object.getClass().getSuperclass());
+		}
+		getProjectStringsofClass(object, project, projectStringList, object.getClass());
+		if (!(object.getClass().getSuperclass().equals(Object.class))) {
+			String className = object.getClass().getName();
+			className = className.replace("$", "_-");
+			xmlElementString = getEndTag(className);
+		} else {
+			xmlElementString = getEndTag(CatroidXMLConstants.projectElementName);
+		}
+		projectStringList.add(xmlElementString);
+		return projectStringList;
+	}
 
+	@SuppressWarnings("rawtypes")
+	private void getProjectStringsofClass(Object object, Project project, List<String> projectStringList,
+			Class classOfObject) throws IllegalAccessException, NoSuchFieldException, SerializeException {
+		String xmlElementString;
+		fieldMap = objectCreator.getFieldMapOfThisClass(classOfObject);
 		Collection<Field> fields = fieldMap.values();
 		for (Field projectField : fields) {
 			String fieldName = objectCreator.extractTagName(projectField);
@@ -54,6 +77,11 @@ public class ProjectSerializer extends Serializer {
 					if (projectField.getType().equals(String.class)) {
 						xmlElementString = tab + getElementString(fieldName, (String) fieldValue);
 						projectStringList.add(xmlElementString);
+					} else if (projectField.getName().equals("spriteList")) {
+						SpriteSerializer spriteSerializer = new SpriteSerializer(project);
+						projectStringList.addAll(spriteSerializer.serializeList());
+					} else {
+						throw new SerializeException("unknown field found in Project class");
 					}
 				} else {
 					xmlElementString = tab + getElementString(fieldName, fieldValue.toString());
@@ -61,13 +89,6 @@ public class ProjectSerializer extends Serializer {
 				}
 			}
 		}
-
-		SpriteSerializer spriteSerializer = new SpriteSerializer(project);
-		projectStringList.addAll(spriteSerializer.serializeList());
-
-		xmlElementString = getEndTag(CatroidXMLConstants.projectElementName);
-		projectStringList.add(xmlElementString);
-		return projectStringList;
 	}
 
 }
