@@ -84,25 +84,28 @@ public class FullParser {
 			Document doc = docBuilder.parse(xmlInputStream);
 			doc.getDocumentElement().normalize();
 
-			NodeList spriteNodes = doc.getElementsByTagName("Sprite");
+			NodeList spriteNodes = doc.getElementsByTagName(CatroidXMLConstants.spriteElementName);
 			for (int i = 0; i < spriteNodes.getLength(); i++) {
 				Element spriteElement = (Element) spriteNodes.item(i);
 				String spriteName = getSpriteName(spriteElement);
 				Sprite foundSprite = new Sprite(spriteName);
 
-				Node costumeListItem = spriteElement.getElementsByTagName("costumeDataList").item(0);
+				Node costumeListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.costumeListElementName)
+						.item(0);
 				if (costumeListItem != null) {
 					NodeList costumeNodes = costumeListItem.getChildNodes();
 					costumeParser.parseCostumeList(costumeNodes, foundSprite, referencedObjects);
 				}
 
-				Node scriptListItem = spriteElement.getElementsByTagName("scriptList").item(0);
+				Node scriptListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.scriptListElementName)
+						.item(0);
 				if (scriptListItem != null) {
 					NodeList scriptNodes = scriptListItem.getChildNodes();
 					scriptParser.parseScripts(scriptNodes, foundSprite, referencedObjects, forwardRefs);
 				}
 
-				Node soundListItem = spriteElement.getElementsByTagName("soundList").item(0);
+				Node soundListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.soundListElementName).item(
+						0);
 				if (soundListItem != null) {
 					NodeList soundNodes = soundListItem.getChildNodes();
 					soundParser.parseSoundInfo(soundNodes, foundSprite, referencedObjects, forwardRefs);
@@ -132,7 +135,7 @@ public class FullParser {
 		for (int i = 0; i < spriteChildren.getLength(); i++) {
 			if (spriteChildren.item(i).getNodeType() != Node.TEXT_NODE) {
 				Element childElement = (Element) spriteChildren.item(i);
-				if (childElement.getNodeName().equals("name")) {
+				if (childElement.getNodeName().equals(CatroidXMLConstants.spriteName)) {
 					spriteName = childElement.getChildNodes().item(0).getNodeValue();
 					break;
 				}
@@ -146,13 +149,13 @@ public class FullParser {
 			NoSuchMethodException {
 		Project newProject = (Project) objectGetter.getobjectOfClass(Project.class, "0");
 		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(Project.class);
-		NodeList projectNodes = doc.getElementsByTagName("Project");
+		NodeList projectNodes = doc.getElementsByTagName(CatroidXMLConstants.projectElementName);
 		NodeList projectNodeChildren = projectNodes.item(0).getChildNodes();
 		for (int i = 0; i < projectNodeChildren.getLength(); i++) {
 			if (projectNodeChildren.item(i).getNodeType() != Node.TEXT_NODE) {
 				Element projectChildElement = (Element) projectNodeChildren.item(i);
 				Field projectField = projectFieldsToSet.get(projectChildElement.getNodeName());
-				if (projectChildElement.getNodeName().equals("spriteList")) {
+				if (projectChildElement.getNodeName().equals(CatroidXMLConstants.spriteListElementName)) {
 					objectGetter.setFieldOfObject(projectField, newProject, sprites2);
 					continue;
 				}

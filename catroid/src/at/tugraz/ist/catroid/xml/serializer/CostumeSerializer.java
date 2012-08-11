@@ -22,13 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
 
 public class CostumeSerializer extends Serializer {
 
-	private final String costumeDataTag = "CostumeData";
-	private final String costumeFileNameTag = "fileName";
-	private final String costumeNameTag = "name";
-	private final String costumeListTag = "costumeDataList";
 	private final String costumeTabs = tab + tab + tab;
 
 	@Override
@@ -39,13 +36,13 @@ public class CostumeSerializer extends Serializer {
 		String costumeName = costumedata.getCostumeName();
 		List<String> costumeStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = costumeTabs + tab + getStartTag(costumeDataTag);
+		xmlElementString = costumeTabs + tab + getStartTag(CatroidXMLConstants.costumeDataElementName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + tab + getElementString(costumeFileNameTag, costumeFileName);
+		xmlElementString = costumeTabs + tab + tab + getElementString(CatroidXMLConstants.fileName, costumeFileName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + tab + getElementString(costumeNameTag, costumeName);
+		xmlElementString = costumeTabs + tab + tab + getElementString(CatroidXMLConstants.name, costumeName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + getEndTag(costumeDataTag);
+		xmlElementString = costumeTabs + tab + getEndTag(CatroidXMLConstants.costumeDataElementName);
 		costumeStringList.add(xmlElementString);
 
 		return costumeStringList;
@@ -54,11 +51,11 @@ public class CostumeSerializer extends Serializer {
 	public List<String> serializeCostumeList(List<CostumeData> costumeList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
 		List<String> costumeStrings = new ArrayList<String>();
-		costumeStrings.add(costumeTabs + getStartTag(costumeListTag));
+		costumeStrings.add(costumeTabs + getStartTag(CatroidXMLConstants.costumeListElementName));
 		for (CostumeData costumeData : costumeList) {
 			costumeStrings.addAll(this.serialize(costumeData));
 		}
-		costumeStrings.add(costumeTabs + getEndTag(costumeListTag));
+		costumeStrings.add(costumeTabs + getEndTag(CatroidXMLConstants.costumeListElementName));
 		return costumeStrings;
 	}
 

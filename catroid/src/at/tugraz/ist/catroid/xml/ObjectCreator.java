@@ -60,7 +60,8 @@ public class ObjectCreator {
 				String valueInString = headerValues.get(tagName);
 
 				if (valueInString != null) {
-					Object finalObject = getObjectWithValue(fieldinProject, valueInString);
+					//Object finalObject = getObjectWithValue(fieldinProject, valueInString);
+					Object finalObject = getobjectOfClass(fieldinProject.getType(), valueInString);
 					fieldinProject.setAccessible(true);
 					fieldinProject.set(project, finalObject);
 				}
@@ -74,19 +75,19 @@ public class ObjectCreator {
 		return project;
 	}
 
-	public Object getObjectWithValue(Field field, String valueInString) {
-		String fieldClassCannonicalName = field.getType().getCanonicalName();
-		if (fieldClassCannonicalName.equals("int") || fieldClassCannonicalName.equals("java.lang.Integer")) {
-			return new Integer(valueInString);
-		} else if (fieldClassCannonicalName.equals("java.lang.String")) {
-			return valueInString;
-		} else if (fieldClassCannonicalName.equals("java.lang.Double") || fieldClassCannonicalName.equals("double")) {
-			return new Double(valueInString);
-		} else if (fieldClassCannonicalName.equals("java.lang.Float") || fieldClassCannonicalName.equals("float")) {
-			return new Float(valueInString);
-		}
-		return null;
-	}
+	//	public Object getObjectWithValue(Field field, String valueInString) {
+	//		String fieldClassCannonicalName = field.getType().getCanonicalName();
+	//		if (fieldClassCannonicalName.equals("int") || fieldClassCannonicalName.equals("java.lang.Integer")) {
+	//			return new Integer(valueInString);
+	//		} else if (fieldClassCannonicalName.equals("java.lang.String")) {
+	//			return valueInString;
+	//		} else if (fieldClassCannonicalName.equals("java.lang.Double") || fieldClassCannonicalName.equals("double")) {
+	//			return new Double(valueInString);
+	//		} else if (fieldClassCannonicalName.equals("java.lang.Float") || fieldClassCannonicalName.equals("float")) {
+	//			return new Float(valueInString);
+	//		}
+	//		return null;
+	//	}
 
 	@SuppressWarnings("rawtypes")
 	public Map<String, Field> getFieldMap(Class cls) {

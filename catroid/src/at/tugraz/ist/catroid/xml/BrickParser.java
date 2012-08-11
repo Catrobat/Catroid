@@ -64,10 +64,12 @@ public class BrickParser {
 				String brickReferenceAttr = References.getReferenceAttribute(brickElement);
 				if (brickReferenceAttr != null) {
 					//String referenceQuery = brickReferenceAttr.substring(brickReferenceAttr.lastIndexOf("brickList"));
-					String referenceQuery = brickReferenceAttr.replace("..", "brickList");
-					if (brickName.equals("LoopEndBrick") && (referencedObjects.containsKey(referenceQuery))) {
-						foundBrickObj = (Brick) referencedObjects.get(referenceQuery);
-						referencedObjects.remove(referenceQuery);
+					String loopEndReferenceQuery = brickReferenceAttr.replace(CatroidXMLConstants.parentElement,
+							CatroidXMLConstants.brickListElementName);
+					if (brickName.equals(LoopEndBrick.class.getSimpleName())
+							&& (referencedObjects.containsKey(loopEndReferenceQuery))) {
+						foundBrickObj = (Brick) referencedObjects.get(loopEndReferenceQuery);
+						referencedObjects.remove(loopEndReferenceQuery);
 
 					} else {
 						references = new References();
@@ -101,7 +103,7 @@ public class BrickParser {
 
 		String brickClassName = brickName;
 		Brick brickObject = null;
-		Class brickClass = Class.forName("at.tugraz.ist.catroid.content.bricks." + brickClassName);
+		Class brickClass = Class.forName(CatroidXMLConstants.brickPackage + brickClassName);
 		Map<String, Field> brickFieldsToSet = objectGetter.getFieldMap(brickClass);
 		brickObject = (Brick) objectGetter.getobjectOfClass(brickClass, "0");
 		if (valueNodes != null) {
@@ -149,18 +151,21 @@ public class BrickParser {
 						continue;
 
 					}
-					if (brickvalueName.equals("loopEndBrick")) {
+					if (brickvalueName.equals(CatroidXMLConstants.loopEndBrick)) {
 						LoopEndBrick parsedLoopEndBrick = new LoopEndBrick(foundSprite, (LoopBeginBrick) brickObject);
 						String brickValueXpath = ParserUtil.getElementXpath((Element) brickValue);
-						String referenceString = brickValueXpath.substring(brickValueXpath.lastIndexOf("brickList"));
-						referencedObjects.put("loopEndBrickRef" + referenceString, parsedLoopEndBrick);
+						String referenceString = brickValueXpath.substring(brickValueXpath
+								.lastIndexOf(CatroidXMLConstants.brickListElementName));
+						referencedObjects.put(CatroidXMLConstants.loopEndBrickreference + referenceString,
+								parsedLoopEndBrick);
 						valueField.set(brickObject, parsedLoopEndBrick);
 						continue;
 					}
-					if (brickvalueName.equals("loopBeginBrick")) {
+					if (brickvalueName.equals(CatroidXMLConstants.loopBeginBrick)) {
 
 						String loopEndref = referenceAttribute.replace("../..", "brickList");
-						brickObject = (Brick) referencedObjects.get("loopEndBrickRef" + loopEndref + "/loopEndBrick");
+						brickObject = (Brick) referencedObjects.get(CatroidXMLConstants.loopEndBrickreference
+								+ loopEndref + "/loopEndBrick");
 						if (brickObject != null) {
 							return brickObject;
 						}
@@ -185,19 +190,20 @@ public class BrickParser {
 				}
 
 				if (brickValue.getChildNodes().getLength() > 1) {
-					if (brickvalueName.endsWith("Brick")) {
+					if (brickvalueName.endsWith(CatroidXMLConstants.brickClassSuffix)) {
 
-						if (brickvalueName.equals("loopEndBrick")) {
+						if (brickvalueName.equals(CatroidXMLConstants.loopEndBrick)) {
 							Element brickValueElement = (Element) brickValue;
 							Element brickLoopBeginElement = (Element) brickValueElement.getElementsByTagName(
-									"loopBeginBrick").item(0);
+									CatroidXMLConstants.loopBeginBrick).item(0);
 							String loopBeginRef = References.getReferenceAttribute(brickLoopBeginElement);
 							if (loopBeginRef.equals("../..")) {
 								LoopEndBrick foundLoopEndBrick = new LoopEndBrick(foundSprite,
 										(LoopBeginBrick) brickObject);
 								valueField.set(brickObject, foundLoopEndBrick);
 								String childBrickXPath = ParserUtil.getElementXpath((Element) brickValue);
-								String key = childBrickXPath.substring(childBrickXPath.lastIndexOf("brickList"));
+								String key = childBrickXPath.substring(childBrickXPath
+										.lastIndexOf(CatroidXMLConstants.brickListElementName));
 								referencedObjects.put(key, foundLoopEndBrick);
 								continue;
 							}
@@ -205,8 +211,6 @@ public class BrickParser {
 
 						Character bickvalueStartCharacter = (brickvalueName.toUpperCase().charAt(0));
 						brickvalueName = bickvalueStartCharacter.toString().concat(brickvalueName.substring(1));
-						String prefix = "";
-						brickvalueName = prefix.concat(brickvalueName);
 						Brick valueBrick = getBrickObject(brickvalueName, foundSprite, brickValue.getChildNodes(),
 								(Element) brickValue, referencedObjects, forwardRefs);
 						valueField.set(brickObject, valueBrick);
@@ -221,8 +225,9 @@ public class BrickParser {
 						valueField.set(brickObject, valueObj);
 
 						String valueObjXPath = ParserUtil.getElementXpath((Element) brickValue);
-						if (brickvalueName.equals("soundInfo")) {
-							String suffix = valueObjXPath.substring(valueObjXPath.lastIndexOf("scriptList"));
+						if (brickvalueName.equals(CatroidXMLConstants.soundInfo)) {
+							String suffix = valueObjXPath.substring(valueObjXPath
+									.lastIndexOf(CatroidXMLConstants.scriptListElementName));
 							referencedObjects.put(suffix, valueObj);
 						} else {
 							referencedObjects.put(valueObjXPath, valueObj);
@@ -278,18 +283,19 @@ public class BrickParser {
 							}
 							continue;
 						}
+						Object valueObject;
 						if (child.getChildNodes().getLength() > 1) {
 							Map<String, Field> fieldMap = objectGetter.getFieldMap(fieldWithNodeName.getType());
-							Object valueObj = objectGetter.getobjectOfClass(fieldWithNodeName.getType(), "0");
-							getValueObject(valueObj, child, fieldMap, referencedObjects, forwardRefs);
+							valueObject = objectGetter.getobjectOfClass(fieldWithNodeName.getType(), "0");
+							getValueObject(valueObject, child, fieldMap, referencedObjects, forwardRefs);
 							String childXPath = ParserUtil.getElementXpath((Element) node);
-							referencedObjects.put(childXPath, valueObj);
+							referencedObjects.put(childXPath, valueObject);
 						} else {
 							Node valueChildValue = child.getChildNodes().item(0);
 							if (valueChildValue != null) {
-								String valStr = valueChildValue.getNodeValue();
-								Object valobj = objectGetter.getobjectOfClass(fieldWithNodeName.getType(), valStr);
-								fieldWithNodeName.set(nodeObj, valobj);
+								String valueString = valueChildValue.getNodeValue();
+								valueObject = objectGetter.getobjectOfClass(fieldWithNodeName.getType(), valueString);
+								fieldWithNodeName.set(nodeObj, valueObject);
 							}
 						}
 

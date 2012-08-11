@@ -22,13 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
 
 public class SoundSerializer extends Serializer {
 
-	private final String soundInfoTag = "SoundInfo";
-	private final String soundFileNameTag = "fileName";
-	private final String soundNameTag = "name";
-	private final String soundListTag = "soundList";
 	private final String soundTabs = tab + tab + tab;
 
 	@Override
@@ -39,13 +36,13 @@ public class SoundSerializer extends Serializer {
 		String costumeName = soundInfo.getTitle();
 		List<String> soundStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = soundTabs + tab + getStartTag(soundInfoTag);
+		xmlElementString = soundTabs + tab + getStartTag(CatroidXMLConstants.soundInfoElementName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = soundTabs + tab + tab + getElementString(soundFileNameTag, costumeFileName);
+		xmlElementString = soundTabs + tab + tab + getElementString(CatroidXMLConstants.fileName, costumeFileName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = soundTabs + tab + tab + getElementString(soundNameTag, costumeName);
+		xmlElementString = soundTabs + tab + tab + getElementString(CatroidXMLConstants.name, costumeName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = soundTabs + tab + getEndTag(soundInfoTag);
+		xmlElementString = soundTabs + tab + getEndTag(CatroidXMLConstants.soundInfoElementName);
 		soundStringList.add(xmlElementString);
 
 		return soundStringList;
@@ -54,11 +51,11 @@ public class SoundSerializer extends Serializer {
 	public List<String> serializeSoundList(List<SoundInfo> soundList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
 		List<String> soundStrings = new ArrayList<String>();
-		soundStrings.add(soundTabs + getStartTag(soundListTag));
+		soundStrings.add(soundTabs + getStartTag(CatroidXMLConstants.soundListElementName));
 		for (SoundInfo soundInfo : soundList) {
 			soundStrings.addAll(this.serialize(soundInfo));
 		}
-		soundStrings.add(soundTabs + getEndTag(soundListTag));
+		soundStrings.add(soundTabs + getEndTag(CatroidXMLConstants.soundListElementName));
 		return soundStrings;
 	}
 

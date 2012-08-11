@@ -28,11 +28,11 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class BrickSerializer extends Serializer {
-	private final String brickTagPrefix = "";
-	private final String brickListTag = "brickList";
+	//private final String brickTagPrefix = "";
 	private final String brickTabs = tab + tab + tab + tab + tab;
 
 	public BrickSerializer(Sprite serializedSprite, Script serializedScript, Project serializedProject) {
@@ -53,13 +53,13 @@ public class BrickSerializer extends Serializer {
 		List<String> brickStringList = new ArrayList<String>();
 		String xmlElementString = "";
 
-		xmlElementString = brickTabs + tab + getStartTag(brickTagPrefix + object.getClass().getSimpleName());
+		xmlElementString = brickTabs + tab + getStartTag(/* brickTagPrefix + */object.getClass().getSimpleName());
 		brickStringList.add(xmlElementString);
 
 		setBrickfieldsAsElements(object, brickStringList, object.getClass().getSuperclass());
 		setBrickfieldsAsElements(object, brickStringList, object.getClass());
 
-		xmlElementString = brickTabs + tab + getEndTag(brickTagPrefix + object.getClass().getSimpleName());
+		xmlElementString = brickTabs + tab + getEndTag(/* brickTagPrefix + */object.getClass().getSimpleName());
 		brickStringList.add(xmlElementString);
 		return brickStringList;
 	}
@@ -74,7 +74,7 @@ public class BrickSerializer extends Serializer {
 			String fieldName = objectCreator.extractTagName(brickClassField);
 			brickClassField.setAccessible(true);
 			if (!brickClassField.getType().isPrimitive()) {
-				if (fieldName.equals("sprite")) {
+				if (fieldName.equals(CatroidXMLConstants.sprite)) {
 					xmlElementString = brickTabs + tab + tab + spriteElementPrefix + "\"../../../../..\"/>" + "\n";
 					brickStringList.add(xmlElementString);
 				} else if (brickClassField.getType().equals(String.class)) {
@@ -98,11 +98,11 @@ public class BrickSerializer extends Serializer {
 	public List<String> serializeBrickList(List<Brick> brickList) throws IllegalArgumentException,
 			IllegalAccessException {
 		List<String> brickStrings = new ArrayList<String>();
-		brickStrings.add(brickTabs + getStartTag(brickListTag));
+		brickStrings.add(brickTabs + getStartTag(CatroidXMLConstants.brickListElementName));
 		for (Object brickObject : brickList) {
 			brickStrings.addAll(serialize(brickObject));
 		}
-		brickStrings.add(brickTabs + getEndTag(brickListTag));
+		brickStrings.add(brickTabs + getEndTag(CatroidXMLConstants.brickListElementName));
 		return brickStrings;
 
 	}

@@ -24,11 +24,10 @@ import java.util.Collection;
 import java.util.List;
 
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
 import at.tugraz.ist.catroid.xml.ObjectCreator;
 
 public class ProjectSerializer extends Serializer {
-
-	private final String projectTag = "Project";
 
 	public ProjectSerializer() {
 		objectCreator = new ObjectCreator();
@@ -42,7 +41,7 @@ public class ProjectSerializer extends Serializer {
 		List<String> projectStringList = new ArrayList<String>();
 		String xmlElementString = "";
 
-		xmlElementString = getStartTag(projectTag);
+		xmlElementString = getStartTag(CatroidXMLConstants.projectElementName);
 		projectStringList.add(xmlElementString);
 
 		Collection<Field> fields = fieldMap.values();
@@ -66,7 +65,7 @@ public class ProjectSerializer extends Serializer {
 		SpriteSerializer spriteSerializer = new SpriteSerializer(project);
 		projectStringList.addAll(spriteSerializer.serializeList());
 
-		xmlElementString = getEndTag(projectTag);
+		xmlElementString = getEndTag(CatroidXMLConstants.projectElementName);
 		projectStringList.add(xmlElementString);
 		return projectStringList;
 	}
