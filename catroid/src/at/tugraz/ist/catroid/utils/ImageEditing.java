@@ -22,9 +22,13 @@
  */
 package at.tugraz.ist.catroid.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class ImageEditing {
 
@@ -99,5 +103,29 @@ public class ImageEditing {
 		Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		newBitmap.eraseColor(color);
 		return newBitmap;
+	}
+
+	public static void overwriteImageFileWithNewBitmap(File imageFile) throws FileNotFoundException {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+
+		int tmpWidth = options.outWidth;
+		int tmpHeight = options.outHeight;
+		int sampleSize = 1;
+
+		options.inJustDecodeBounds = false;
+		options.inSampleSize = sampleSize;
+
+		Bitmap unmutableBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+		tmpWidth = unmutableBitmap.getWidth();
+		tmpHeight = unmutableBitmap.getHeight();
+		int[] tmpPixels = new int[tmpWidth * tmpHeight];
+		unmutableBitmap.getPixels(tmpPixels, 0, tmpWidth, 0, 0, tmpWidth, tmpHeight);
+
+		Bitmap mutableBitmap = Bitmap.createBitmap(tmpWidth, tmpHeight, Bitmap.Config.ARGB_8888);
+		mutableBitmap.setPixels(tmpPixels, 0, tmpWidth, 0, 0, tmpWidth, tmpHeight);
+
+		StorageHandler.saveBitmapToImageFile(imageFile, mutableBitmap);
 	}
 }
