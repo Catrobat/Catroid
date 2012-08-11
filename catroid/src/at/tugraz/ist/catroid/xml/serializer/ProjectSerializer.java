@@ -44,6 +44,7 @@ public class ProjectSerializer extends Serializer {
 			className = className.replace("$", "_-");
 			xmlElementString = getStartTag(className);
 		} else {
+
 			xmlElementString = getStartTag(CatroidXMLConstants.projectElementName);
 		}
 		projectStringList.add(xmlElementString);
@@ -56,7 +57,9 @@ public class ProjectSerializer extends Serializer {
 			className = className.replace("$", "_-");
 			xmlElementString = getEndTag(className);
 		} else {
+
 			xmlElementString = getEndTag(CatroidXMLConstants.projectElementName);
+
 		}
 		projectStringList.add(xmlElementString);
 		return projectStringList;
