@@ -53,7 +53,6 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private ProjectManager projectManager = ProjectManager.getInstance();
 
 	public SwitchToCostumeCrashTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -69,12 +68,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 	@Override
 	protected void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		getActivity().finish();
+		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -107,11 +101,11 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Testfile not added from mockActivity", solo.searchText(nyanCat));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
-		assertTrue("Checksum not in checksumcontainer",
-				projectManager.getFileChecksumContainer().containsChecksum(checksumNyanCatImageFile));
+		assertTrue("Checksum not in checksumcontainer", ProjectManager.INSTANCE.getFileChecksumContainer()
+				.containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInCostumeDataList = false;
-		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
+		for (CostumeData costumeData : ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList()) {
 			if (costumeData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
 				isInCostumeDataList = true;
 			}
@@ -157,11 +151,11 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Testfile not added from mockActivity", solo.searchText(manImage));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
-		assertTrue("Checksum not in checksumcontainer",
-				projectManager.getFileChecksumContainer().containsChecksum(checksumNyanCatImageFile));
+		assertTrue("Checksum not in checksumcontainer", ProjectManager.INSTANCE.getFileChecksumContainer()
+				.containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInCostumeDataList = false;
-		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
+		for (CostumeData costumeData : ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList()) {
 			if (costumeData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
 				isInCostumeDataList = true;
 			}
@@ -212,10 +206,10 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		backgroundSprite.addScript(startScript);
 		project.addSprite(backgroundSprite);
 
-		projectManager.setFileChecksumContainer(new FileChecksumContainer());
-		projectManager.setProject(project);
-		projectManager.setCurrentSprite(backgroundSprite);
-		projectManager.setCurrentScript(startScript);
+		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.INSTANCE.setProject(project);
+		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
+		ProjectManager.INSTANCE.setCurrentScript(startScript);
 		storageHandler.saveProject(project);
 	}
 }
