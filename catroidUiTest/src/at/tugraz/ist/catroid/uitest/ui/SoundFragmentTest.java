@@ -97,7 +97,10 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 		ListAdapter adapter = getSoundFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.clickOnCheckBox(0);
+		solo.sleep(500);
+		solo.clickOnMenuItem(getActivity().getString(R.string.sound_delete));
+		solo.sleep(200);
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);
@@ -106,6 +109,28 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 		assertEquals("the old count was not rigth", 2, oldCount);
 		assertEquals("the new count is not rigth - one costume should be deleted", 1, newCount);
 		assertEquals("the count of the costumeDataList is not right", 1, soundInfoList.size());
+	}
+
+	public void testDeleteMultipleSounds() {
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(1000);
+		ListAdapter adapter = getSoundFragment().getListAdapter();
+
+		int oldCount = adapter.getCount();
+		solo.clickOnCheckBox(0);
+		solo.sleep(500);
+		solo.clickOnCheckBox(1);
+		solo.sleep(500);
+		solo.clickOnMenuItem(getActivity().getString(R.string.sound_delete));
+		solo.sleep(200);
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(500);
+		adapter = getSoundFragment().getListAdapter();
+		int newCount = adapter.getCount();
+		assertEquals("the old count was not rigth", 2, oldCount);
+		assertEquals("the new count is not rigth - one costume should be deleted", 0, newCount);
+		assertEquals("the count of the costumeDataList is not right", 0, soundInfoList.size());
 	}
 
 	public void testRenameSound() {
