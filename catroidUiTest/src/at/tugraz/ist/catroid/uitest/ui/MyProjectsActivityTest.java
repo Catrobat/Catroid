@@ -198,6 +198,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		solo.sleep(1000);
 
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
