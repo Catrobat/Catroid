@@ -239,8 +239,8 @@ public class FullParserTest extends InstrumentationTestCase {
 		PointToBrick pointtoBrick = (PointToBrick) testScript.getBrick(6);
 		assertNotNull("Point to brick is null", pointtoBrick);
 		Sprite pointedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", pointtoBrick, false);
-		assertNotNull(pointedSprite);
-		assertEquals(pointedSprite.getName(), sprites.get(1).getName());
+		assertNotNull("Pointed Sprite is null", pointedSprite);
+		assertEquals("Poined sprite wrong", pointedSprite.getName(), sprites.get(1).getName());
 	}
 
 	public void testParseMalformedProject() {
