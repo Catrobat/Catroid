@@ -86,9 +86,19 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 				solo.getText(getActivity().getString(R.string.brick_change_brightness)));
 
 		solo.clickOnEditText(0);
+		solo.sleep(500);
+		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.clearEditText(0);
 		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
+		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(1000);
 
 		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
 		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
