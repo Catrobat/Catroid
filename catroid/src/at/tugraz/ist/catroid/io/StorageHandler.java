@@ -209,7 +209,7 @@ public class StorageHandler {
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
 			fileChecksumContainer.addChecksum(inputFileChecksum, null);
 			return new File(fileChecksumContainer.getPath(inputFileChecksum));
@@ -232,7 +232,7 @@ public class StorageHandler {
 
 		int[] imageDimensions = new int[2];
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
-		FileChecksumContainer checksumCont = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if ((imageDimensions[0] <= project.virtualScreenWidth) && (imageDimensions[1] <= project.virtualScreenHeight)) {
@@ -265,7 +265,7 @@ public class StorageHandler {
 
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
 				checksumCompressedFile + "_" + inputFile.getName());
 
@@ -303,7 +303,7 @@ public class StorageHandler {
 		FileChannel outputChannel = outputStream.getChannel();
 
 		String checksumSource = Utils.md5Checksum(sourceFile);
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 
 		try {
 			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
@@ -329,7 +329,7 @@ public class StorageHandler {
 	}
 
 	public void deleteFile(String filepath) {
-		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		try {
 			if (container.decrementUsage(filepath)) {
 				File toDelete = new File(filepath);
@@ -339,5 +339,4 @@ public class StorageHandler {
 			e.printStackTrace();
 		}
 	}
-
 }

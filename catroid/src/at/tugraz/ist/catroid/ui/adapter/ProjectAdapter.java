@@ -42,11 +42,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
-	public static class ViewHolder {
-		public TextView projectName;
-		public ImageView image;
-		public TextView size;
-		public TextView dateChanged;
+	private static class ViewHolder {
+		private TextView projectName;
+		private ImageView image;
+		private TextView size;
+		private TextView dateChanged;
 		// temporarily removed - because of upcoming release, and bad performance of projectdescription
 		//		public TextView description;
 	}

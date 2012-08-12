@@ -44,16 +44,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -79,6 +82,8 @@ public class Utils {
 	private static final String TAG = Utils.class.getSimpleName();
 	private static long uniqueLong = 0;
 	private static Semaphore uniqueNameLock = new Semaphore(1);
+	public static final int PICTURE_INTENT = 1;
+	public static final int FILE_INTENT = 2;
 	private static boolean isUnderTest;
 
 	public static boolean hasSdCard() {
@@ -100,6 +105,7 @@ public class Utils {
 			builder.setTitle(context.getString(R.string.error));
 			builder.setMessage(context.getString(R.string.error_no_sd_card));
 			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// finish parent activity
 					// parentActivity.finish();
@@ -178,6 +184,7 @@ public class Utils {
 		builder.setTitle(context.getString(R.string.error));
 		builder.setMessage(errorMessage);
 		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
@@ -295,6 +302,7 @@ public class Utils {
 
 	public static OnShowListener getBrickDialogOnClickListener(final Context context, final EditText input) {
 		return new OnShowListener() {
+			@Override
 			public void onShow(DialogInterface dialog) {
 				InputMethodManager inputManager = (InputMethodManager) context
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -385,6 +393,38 @@ public class Utils {
 			}
 		}
 		return newTitle;
+	}
+
+	public static ArrayList<InstalledApplicationInfo> createApplicationsInfoList(PackageManager packageManager) {
+		ArrayList<InstalledApplicationInfo> applicationsInfoList = new ArrayList<InstalledApplicationInfo>();
+		Intent pictureFileManagerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+		pictureFileManagerIntent.setType("image/*");
+
+		Intent cameraAppIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+		final List<ResolveInfo> cameraApplicationsList = packageManager.queryIntentActivities(cameraAppIntent, 0);
+		final List<ResolveInfo> pictureFileManagerApplicationList = packageManager.queryIntentActivities(
+				pictureFileManagerIntent, 0);
+
+		addApplicationInfoToList(applicationsInfoList, cameraApplicationsList, PICTURE_INTENT, packageManager);
+		addApplicationInfoToList(applicationsInfoList, pictureFileManagerApplicationList, FILE_INTENT, packageManager);
+
+		return applicationsInfoList;
+
+	}
+
+	private static void addApplicationInfoToList(ArrayList<InstalledApplicationInfo> applicationInfoList,
+			List<ResolveInfo> installedApplicationsList, int INTENT_CODE, PackageManager packageManager) {
+
+		InstalledApplicationInfo currentAppInfo;
+		if (installedApplicationsList != null) {
+			for (ResolveInfo currentInfo : installedApplicationsList) {
+				currentAppInfo = new InstalledApplicationInfo(INTENT_CODE, currentInfo.activityInfo.packageName,
+						currentInfo.activityInfo.name, currentInfo.loadLabel(packageManager).toString(),
+						currentInfo.loadIcon(packageManager));
+				applicationInfoList.add(currentAppInfo);
+			}
+		}
 	}
 
 	public static boolean isApplicationDebuggable(Context context) {

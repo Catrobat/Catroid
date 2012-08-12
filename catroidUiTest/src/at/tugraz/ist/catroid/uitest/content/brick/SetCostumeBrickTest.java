@@ -92,10 +92,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		costumeDataList.add(costumeData);
 		costumeDataList.add(costumeData2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
-				costumeData.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData2.getChecksum(),
-				costumeData2.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		ProjectManager.getInstance().getFileChecksumContainer()
+				.addChecksum(costumeData2.getChecksum(), costumeData2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}

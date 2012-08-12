@@ -96,10 +96,10 @@
     <string name="copy_costume">copy</string>
     <string name="costumename_invalid">This costume\'s name is invalid</string>
     <string name="copy_costume_addition">copy</string>
-    <string name="select_image">Select Image</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
     <string name="default_costume_name">costume</string>
     <string name="delete_costume_dialog">Delete costume?</string>
+    <string name="add_costume_dialog_title">Add costume</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
