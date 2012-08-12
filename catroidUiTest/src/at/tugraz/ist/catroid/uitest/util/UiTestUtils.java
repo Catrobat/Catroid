@@ -487,6 +487,9 @@ public class UiTestUtils {
 		field.set(object, value);
 	}
 
+	/**
+	 * This method should be also called to click on visible ActionBar items when testing on pre-Honeycomb devices.
+	 */
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
