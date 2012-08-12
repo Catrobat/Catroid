@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -89,7 +90,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.clickOnText("Script");
 		solo.sleep(100);
 
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		BaseScriptTabActivity activity = (BaseScriptTabActivity) solo.getCurrentActivity();
 		assertTrue("Clicking on Script Tab did not cause ScriptFragment to be displayed",
 				activity.getCurrentTabFragment() instanceof ScriptFragment);
 	}
@@ -98,7 +99,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
 		solo.sleep(100);
 
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		BaseScriptTabActivity activity = (BaseScriptTabActivity) solo.getCurrentActivity();
 		assertTrue("Clicking on Costumes Tab did not cause CostumeFragment to be displayed",
 				activity.getCurrentTabFragment() instanceof CostumeFragment);
 	}
@@ -107,7 +108,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.clickOnText("Sounds");
 		solo.sleep(100);
 
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		BaseScriptTabActivity activity = (BaseScriptTabActivity) solo.getCurrentActivity();
 		assertTrue("Clicking on Sounds Tab did not cause SoundFragment to be displayed",
 				activity.getCurrentTabFragment() instanceof SoundFragment);
 	}

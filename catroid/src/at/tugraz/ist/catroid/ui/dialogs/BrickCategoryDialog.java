@@ -43,6 +43,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickCategoryAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -155,7 +156,7 @@ public class BrickCategoryDialog extends DialogFragment {
 	}
 
 	private void abort() {
-		ScriptTabActivity activity = ((ScriptTabActivity) getActivity());
+		BaseScriptTabActivity activity = ((BaseScriptTabActivity) getActivity());
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		fragment.setDontCreateNewBrick(true);
 	}

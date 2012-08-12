@@ -25,21 +25,25 @@
 
     <item
         android:id="@+id/menu_add"
+        android:icon="@drawable/ic_plus_black"
         android:showAsAction="ifRoom|withText"
         android:title="@string/add">
         <menu>
             <item
-                android:id="@+id/menu_add_costume_from_camera"
-                android:title="@string/add_costume_from_camera"/>
-            <item
-                android:id="@+id/menu_add_costume_from_gallery"
-                android:title="@string/add_costume_from_gallery"/>
+                android:id="@+id/menu_placeholder"
+                android:title="Placeholder">
+            </item>
         </menu>
     </item>
     <item
+        android:id="@+id/menu_add_sprite"
+        android:icon="@drawable/ic_plus_black"
+        android:showAsAction="withText"
+        android:title="@string/add_sprite"/>
+    <item
         android:id="@+id/menu_start"
         android:icon="@drawable/ic_play_black"
-        android:showAsAction="ifRoom"
+        android:showAsAction="withText"
         android:title="@string/start"/>
 
 </menu>

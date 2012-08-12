@@ -70,6 +70,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 
 public class CostumeFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor>,
 		OnCostumeCheckedListener, OnCostumeEditListener {
@@ -190,16 +191,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_scripttab_costumes, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.menu_scripttab_costumes, menu);
-
 		int addButtonIcon;
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
@@ -209,6 +201,11 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		}
 		menu.findItem(R.id.menu_add).setIcon(addButtonIcon);
 
+		SubMenu subMenu = menu.findItem(R.id.menu_add).getSubMenu();
+		subMenu.clear();
+		subMenu.add(Menu.NONE, R.integer.menu_add_costume_from_camera, 0, getString(R.string.add_costume_from_camera));
+		subMenu.add(Menu.NONE, R.integer.menu_add_costume_from_gallery, 1, getString(R.string.add_costume_from_gallery));
+
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -216,11 +213,11 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
 		switch (itemId) {
-			case R.id.menu_add_costume_from_camera: {
+			case R.integer.menu_add_costume_from_camera: {
 				selectImageFromCamera();
 				return true;
 			}
-			case R.id.menu_add_costume_from_gallery: {
+			case R.integer.menu_add_costume_from_gallery: {
 				selectImageFromGallery();
 				return true;
 			}

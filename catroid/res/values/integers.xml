@@ -21,24 +21,10 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<resources>
 
-    <item
-        android:id="@+id/menu_add"
-        android:icon="@drawable/ic_plus_black"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/add">
-        <menu>
-            <item
-                android:id="@+id/menu_placeholder"
-                android:title="Placeholder">
-            </item>
-        </menu>
-    </item>
-    <item
-        android:id="@+id/menu_start"
-        android:icon="@drawable/ic_play_black"
-        android:showAsAction="ifRoom"
-        android:title="@string/start"/>
+    <integer name="script_tab_weight">3</integer>
+    <integer name="menu_add_costume_from_camera">1001</integer>
+    <integer name="menu_add_costume_from_gallery">1002</integer>
 
-</menu>
+</resources>

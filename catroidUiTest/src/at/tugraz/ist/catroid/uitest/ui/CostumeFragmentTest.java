@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
@@ -605,7 +606,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	private CostumeFragment getCostumeFragment() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		BaseScriptTabActivity activity = (BaseScriptTabActivity) solo.getCurrentActivity();
+		return (CostumeFragment) activity.getTabFragment(BaseScriptTabActivity.INDEX_TAB_COSTUMES);
 	}
 }

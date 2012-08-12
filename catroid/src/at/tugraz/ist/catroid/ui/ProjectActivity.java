@@ -27,23 +27,32 @@ import android.os.Bundle;
 import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
+import at.tugraz.ist.catroid.ui.fragment.SpritesListFragment;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ProjectActivity extends SherlockFragmentActivity {
+public class ProjectActivity extends BaseScriptTabActivity implements SpritesListFragment.Callbacks {
 
 	private ActionBar actionBar;
+	private boolean twoPane = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
+
+		if (findViewById(R.id.script_tabs_container) != null) {
+			twoPane = true;
+			((SpritesListFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sprites_list))
+					.setActivateOnItemClick(true);
+		}
 	}
 
 	@Override
@@ -59,7 +68,11 @@ public class ProjectActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+		if (twoPane) {
+			getSupportMenuInflater().inflate(R.menu.menu_current_project_twopane, menu);
+		} else {
+			getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -72,7 +85,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 				startActivity(intent);
 				return true;
 			}
-			case R.id.menu_add: {
+			case R.id.menu_add_sprite: {
 				NewSpriteDialog dialog = new NewSpriteDialog();
 				dialog.show(getSupportFragmentManager(), "dialog_new_sprite");
 				return true;
@@ -103,5 +116,23 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	@Override
+	public void onSpriteSelected(Sprite selectedSprite) {
+		if (twoPane) {
+			Utils.loadProjectIfNeeded(this);
+			updateActionBarTitle();
+			setUpSpriteTabs();
+		} else {
+			Intent intent = new Intent(this, ScriptTabActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	private void updateActionBarTitle() {
+		String title = getResources().getString(R.string.sprite_name) + " "
+				+ ProjectManager.getInstance().getCurrentSprite().getName();
+		actionBar.setTitle(title);
 	}
 }

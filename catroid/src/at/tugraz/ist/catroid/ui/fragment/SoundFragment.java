@@ -63,6 +63,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.actionbarsherlock.view.SubMenu;
 
 public class SoundFragment extends SherlockListFragment implements OnSoundCheckedListener, OnSoundPlayPauseListener,
 		OnSoundEditListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -135,6 +136,9 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 				return true;
 			}
 		});
+
+		SubMenu subMenu = addItem.getSubMenu();
+		subMenu.clear();
 	}
 
 	@Override

@@ -22,33 +22,19 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.adapter.TabsPagerAdapter;
-import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
-import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
-import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ScriptTabActivity extends SherlockFragmentActivity {
+public class ScriptTabActivity extends BaseScriptTabActivity {
 
 	public static final String ACTION_TAB_CHANGED = "at.tugraz.ist.catroid.TAB_CHANGED";
 	public static final String ACTION_SPRITE_RENAMED = "at.tugraz.ist.catroid.SPRITE_RENAMED";
@@ -60,15 +46,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
 	public static final String ACTION_SOUND_RENAMED = "at.tugraz.ist.catroid.SOUND_RENAMED";
 
-	public static final int INDEX_TAB_SCRIPTS = 0;
-	public static final int INDEX_TAB_COSTUMES = 1;
-	public static final int INDEX_TAB_SOUNDS = 2;
-
 	private ActionBar actionBar;
-	private ViewPager viewPager;
-	private TabsPagerAdapter tabsAdapter;
-
-	private TabHost tabHost;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,30 +54,13 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 
 		setContentView(R.layout.activity_scripttab);
 		Utils.loadProjectIfNeeded(this);
+	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
 		setUpActionBar();
-
-		setupTabHost();
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
-
-		tabsAdapter = new TabsPagerAdapter(this, tabHost, viewPager);
-		setupTab(R.drawable.ic_tab_scripts_selector, getString(R.string.scripts), ScriptFragment.class, null);
-
-		int costumeIcon;
-		String costumeLabel;
-
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
-			costumeIcon = R.drawable.ic_tab_background_selector;
-			costumeLabel = this.getString(R.string.backgrounds);
-		} else {
-			costumeIcon = R.drawable.ic_tab_costumes_selector;
-			costumeLabel = this.getString(R.string.costumes);
-		}
-
-		setupTab(costumeIcon, costumeLabel, CostumeFragment.class, null);
-		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundFragment.class, null);
+		setUpSpriteTabs();
 	}
 
 	@Override
@@ -137,46 +98,12 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	private void setupTabHost() {
-		tabHost = (TabHost) findViewById(android.R.id.tabhost);
-		tabHost.setup();
-	}
-
 	private void setUpActionBar() {
 		actionBar = getSupportActionBar();
 
-		String title = this.getResources().getString(R.string.sprite_name) + " "
+		String title = getResources().getString(R.string.sprite_name) + " "
 				+ ProjectManager.getInstance().getCurrentSprite().getName();
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-	}
-
-	private void setupTab(Integer drawableId, final String tag, Class<?> clss, Bundle args) {
-		tabsAdapter.addTab(tabHost.newTabSpec(tag).setIndicator(createTabView(drawableId, this, tag)), clss, args);
-	}
-
-	private static View createTabView(Integer id, final Context context, final String text) {
-		View view = LayoutInflater.from(context).inflate(R.layout.activity_tabscriptactivity_tabs, null);
-		TextView tabTextView = (TextView) view.findViewById(R.id.tabsText);
-		ImageView tabImageView = (ImageView) view.findViewById(R.id.tabsIcon);
-		tabTextView.setText(text);
-		if (id != null) {
-			tabImageView.setImageResource(id);
-			tabImageView.setVisibility(ImageView.VISIBLE);
-			tabImageView.setTag(id);
-		}
-		return view;
-	}
-
-	public Fragment getTabFragment(int position) {
-		if (position < 0 || position > 2) {
-			throw new IllegalArgumentException("There is no tab Fragment with index: " + position);
-		}
-
-		return getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + position);
-	}
-
-	public Fragment getCurrentTabFragment() {
-		return getTabFragment(tabHost.getCurrentTab());
 	}
 }

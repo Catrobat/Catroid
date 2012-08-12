@@ -54,6 +54,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.actionbarsherlock.view.SubMenu;
 
 public class ScriptFragment extends SherlockFragment implements BrickInteractionListener, OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
@@ -185,6 +186,9 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 				return true;
 			}
 		});
+
+		SubMenu subMenu = addItem.getSubMenu();
+		subMenu.clear();
 	}
 
 	@Override

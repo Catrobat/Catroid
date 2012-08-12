@@ -99,6 +99,12 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 		notifyDataSetChanged();
 	}
 
+	public void clearTabs() {
+		mTabs.clear();
+		notifyDataSetChanged();
+		mTabHost.clearAllTabs();
+	}
+
 	@Override
 	public int getCount() {
 		return mTabs.size();

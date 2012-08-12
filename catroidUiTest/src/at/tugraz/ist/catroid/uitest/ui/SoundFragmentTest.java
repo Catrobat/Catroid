@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
@@ -255,7 +256,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	}
 
 	private SoundFragment getSoundFragment() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		return (SoundFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SOUNDS);
+		BaseScriptTabActivity activity = (BaseScriptTabActivity) solo.getCurrentActivity();
+		return (SoundFragment) activity.getTabFragment(BaseScriptTabActivity.INDEX_TAB_SOUNDS);
 	}
 }

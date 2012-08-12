@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.ui.fragment;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +54,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class SpritesListFragment extends SherlockListFragment {
 
 	private static final String ARGS_SPRITE_TO_EDIT = "sprite_to_edit";
+	private static final String ARGS_ACTIVATED_SPRITE_POSITION = "activated_sprite_position";
 
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
@@ -60,6 +62,9 @@ public class SpritesListFragment extends SherlockListFragment {
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
+	private int activatedSpritePosition = ListView.INVALID_POSITION;
+
+	private Callbacks callbacks;
 
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
@@ -82,6 +87,10 @@ public class SpritesListFragment extends SherlockListFragment {
 
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(ARGS_SPRITE_TO_EDIT);
+
+			if (savedInstanceState.containsKey(ARGS_ACTIVATED_SPRITE_POSITION)) {
+				setActivatedPosition(savedInstanceState.getInt(ARGS_ACTIVATED_SPRITE_POSITION));
+			}
 		}
 
 		Utils.loadProjectIfNeeded(getActivity());
@@ -90,7 +99,20 @@ public class SpritesListFragment extends SherlockListFragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putSerializable(ARGS_SPRITE_TO_EDIT, spriteToEdit);
+		if (activatedSpritePosition != ListView.INVALID_POSITION) {
+			outState.putInt(ARGS_ACTIVATED_SPRITE_POSITION, activatedSpritePosition);
+		}
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (!(activity instanceof Callbacks)) {
+			throw new IllegalStateException("Activity must implement fragment's callbacks");
+		}
+
+		callbacks = (Callbacks) activity;
 	}
 
 	@Override
@@ -140,11 +162,31 @@ public class SpritesListFragment extends SherlockListFragment {
 		}
 	}
 
+	public void setActivateOnItemClick(boolean activateOnItemClick) {
+		getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
+	}
+
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	public interface Callbacks {
+
+		public void onSpriteSelected(Sprite selectedSprite);
+
+	}
+
+	private void setActivatedPosition(int position) {
+		if (position == ListView.INVALID_POSITION) {
+			getListView().setItemChecked(activatedSpritePosition, false);
+		} else {
+			getListView().setItemChecked(position, true);
+		}
+
+		activatedSpritePosition = position;
 	}
 
 	private void initListeners() {
@@ -161,8 +203,7 @@ public class SpritesListFragment extends SherlockListFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
-				startActivity(intent);
+				callbacks.onSpriteSelected(spriteAdapter.getItem(position));
 			}
 		});
 

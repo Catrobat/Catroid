@@ -92,6 +92,7 @@ import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -266,7 +267,7 @@ public class AddBrickDialog extends DialogFragment {
 	}
 
 	private ScriptFragment getScriptFragment() {
-		ScriptTabActivity activity = ((ScriptTabActivity) getActivity());
+		BaseScriptTabActivity activity = ((BaseScriptTabActivity) getActivity());
 		return (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 	}
 
