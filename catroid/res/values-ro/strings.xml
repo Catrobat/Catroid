@@ -22,6 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+
     <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">proiect</string>
@@ -42,7 +43,7 @@
     <string name="close">Închidere</string>
     <string name="error">Eroare</string>
     <string name="please_wait">Așteptați</string>
-    <string name="loading">Încărcare...</string>
+    <string name="loading">Încărcare…</string>
     <string name="background">Fundal</string>
     <string name="stage">Scena</string>
     <string name="ok">OK</string>
@@ -71,12 +72,11 @@
     <string name="pref_descr_ms_bricks">Aceste blocuri sunt folosite pentru controlul roboților Mindstorm.</string>
     <!-- About Dialog -->
     <string name="about_title">Despre Catroid</string>
-    <string name="about_text">        Catroid este un limbaj grafic de programare pentru Android,
+    <string name="about_text">Catroid este un limbaj grafic de programare pentru Android,
         inspirat de proiectul Scratch al MIT.\n
         Catroid este dezvoltat în Instituția Tehnologiilor Software la
         Universitatea Tehnologică din Graz în Austria.\n\n
-        Această programă este licențiată sub licența GNU GPL v3.\n\n
-</string>
+        Această programă este licențiată sub licența GNU GPL v3.\n\n</string>
     <string name="about_catroid_license_link_text">Despre Catroid</string>
     <!-- Project activity view -->
     <string name="project_name">Proiect:</string>
@@ -142,8 +142,6 @@
     <string name="rename_sprite_dialog">Redenumirea obiectului</string>
     <string name="spritename_invalid">Această denumire de obiect este nevalabilă</string>
     <!-- <string name="rename_script_dialog">Redenumirea scriptului</string> -->
-    <!-- Load project dialog -->
-    <string name="load_project_dialog_title">Încarcă proiectul</string>
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">Intrare</string>
     <string name="username">Numele:</string>
@@ -159,8 +157,8 @@
     <!-- <string name="snapshot">Screenshot</string> -->
     <string name="stage_dialog_title">Setările scenei</string>
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">nou...</string>
-    <string name="broadcast_nothing_selected">Nimic...</string>
+    <string name="new_broadcast_message">nou…</string>
+    <string name="broadcast_nothing_selected">Nimic…</string>
     <!-- Point to spinner -->
     <!-- <string name="point_to_select_location">Selectați</string> -->
     <!-- Stage context menu -->
@@ -236,60 +234,45 @@
     <!-- defaulValues -->
     <string name="default_project_name">proiectulImplicit</string>
     <!-- Notifications -->
-    <string name="notification_invalid_text_entered">    	Introduceți o valoare, vă rog
-</string>
-    <string name="notification_screenshot_ok">        Imaginea a fost salvată
-</string>
+    <string name="notification_invalid_text_entered">Introduceți o valoare, vă rog</string>
+    <string name="notification_screenshot_ok">Imaginea a fost salvată</string>
     <!-- <string name="notification_invalid_name_entered"> -->
     <!-- Vă rugăm să introduceți numele -->
     <!-- </string> -->
     <!-- Error messages -->
-    <string name="error_no_sd_card">        Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.
-</string>
-    <string name="error_no_name_entered">        Introduceți denumirea, vă rog
-</string>
-    <string name="error_project_exists">        Un proiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog
-</string>
+    <string name="error_no_sd_card">Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.</string>
+    <string name="error_no_name_entered">Introduceți denumirea, vă rog</string>
+    <string name="error_project_exists">Un proiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog</string>
     <!-- <string name="error_create_project"> -->
     <!-- La crearea proiectului nou a avut loc o eroare. -->
     <!-- </string> -->
     <!-- <string name="error_sprite_exists"> -->
     <!-- Un obiect cu acest nume deja există.\nSelectați altă denumire. -->
     <!-- </string> -->
-    <string name="error_project_upload">    	O eroare a avut loc la încărcarea proiectului.
-</string>
-    <string name="error_project_download">        O eroare a avut loc la descărcarea proiectului.
-</string>
+    <string name="error_project_upload">O eroare a avut loc la încărcarea proiectului.</string>
+    <string name="error_project_download">O eroare a avut loc la descărcarea proiectului.</string>
     <!-- <string name="error_project_rename"> -->
     <!-- A avut loc o eroare la redenumirea proiectului. -->
     <!-- </string> -->
-    <string name="error_new_project">    	A avut loc o eroare la crearea proiectului nou.
-</string>
+    <string name="error_new_project">A avut loc o eroare la crearea proiectului nou.</string>
     <!-- <string name="error_save_project"> -->
     <!-- A avut loc o eroare la salvarea proiectului. -->
     <!-- </string> -->
-    <string name="error_load_project">    	O eroare a avut loc la încărcarea proiectului.
-</string>
+    <string name="error_load_project">O eroare a avut loc la încărcarea proiectului.</string>
     <!-- <string name="error_delete_project"> -->
     <!-- A avut loc o eroare la ștergerea proiectului. -->
     <!-- </string> -->
-    <string name="error_no_number_entered">        Întroduceți un număr, vă rog.
-</string>
-    <string name="error_screenshot_failed">    	O eroare a avut loc la salvarea imaginii.
-</string>
-    <string name="error_load_image">    	O eroare a avut loc la încărcarea imaginii.
-</string>
-    <string name="error_load_sound">    	A avut loc o eroare la încărcarea sunetului.
-</string>
+    <string name="error_no_number_entered">Întroduceți un număr, vă rog.</string>
+    <string name="error_screenshot_failed">O eroare a avut loc la salvarea imaginii.</string>
+    <string name="error_load_image">O eroare a avut loc la încărcarea imaginii.</string>
+    <string name="error_load_sound">A avut loc o eroare la încărcarea sunetului.</string>
     <!-- <string name="text_to_speech_error"> -->
     <!-- Eroare Text-spre-vorbire. Blocul Vorbire nu va lucra. -->
     <!-- </string> -->
-    <string name="error_internet_connection">    	A avut loc o eroare necunoscută. Verificați conexiunea internet.
-</string>
+    <string name="error_internet_connection">A avut loc o eroare necunoscută. Verificați conexiunea internet.</string>
     <!-- Notifications -->
     <string name="success_project_upload">Încărcarea a trecut cu succes.</string>
     <string name="success_project_download">Descărcarea a trecut cu succes.</string>
-    <string name="load_project">Încprcarea proiectului</string>
     <string name="upload_button">Încărcare</string>
     <string name="upload_project_dialog_title">Încărcarea proiectului</string>
     <string name="upload_description">Descrierea:</string>
@@ -313,14 +296,13 @@
     <!-- <string name="brick_sensor_time">Timp</string> -->
     <!-- <string name="brick_sensor_time_seconds">sec</string> -->
     <!-- Bluetooth Connection Strings -->
-    <string name="notification_blueth_err">Bluetooth nu poate fi activat, închiderea scenei
-</string>
+    <string name="notification_blueth_err">Bluetooth nu poate fi activat, închiderea scenei</string>
     <string name="title_paired_devices">Dispozitive îmeprecheate</string>
     <string name="title_other_devices">Dispozitive noi</string>
     <string name="button_scan">Căutarea dispozitivelor bluetooth</string>
     <string name="select_device">Selectați Mindstorms NXT vostru</string>
     <string name="scanning">Scanare</string>
-    <string name="connecting_please_wait">Conecare la dispozitivul vostru.\nVă rugăm să așteptați...</string>
+    <string name="connecting_please_wait">Conecare la dispozitivul vostru.\nVă rugăm să așteptați…</string>
     <string name="pairing_message">Conectare după împerechere.</string>
     <string name="problem_at_closing">Problemă la închiderea conexiunii!</string>
     <!-- <string name="connect_device">Conectarea dispozitivului</string> -->
@@ -348,4 +330,5 @@
     <string name="just_a_v">v</string>
     <string name="number_to_small">Valoarea este prea mică!</string>
     <string name="number_to_big">Valoarea este prea mare!</string>
+
 </resources>
