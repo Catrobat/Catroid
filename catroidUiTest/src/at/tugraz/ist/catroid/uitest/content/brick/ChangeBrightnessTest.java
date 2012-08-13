@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.view.KeyEvent;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -97,7 +98,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.clearEditText(0);
 		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
 		solo.sleep(500);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sendKey(KeyEvent.KEYCODE_ENTER);
 		solo.sleep(1000);
 
 		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());

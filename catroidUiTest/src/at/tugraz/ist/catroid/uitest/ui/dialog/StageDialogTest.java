@@ -261,6 +261,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 				"mediaPlayers", SoundManager.getInstance());
 		int positionAfterRestart = mediaPlayerArrayList.get(0).getCurrentPosition();
 		assertTrue("Sound not playing after stage restart.", mediaPlayerArrayList.get(0).isPlaying());
+		solo.sleep(1000);
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
 	}
 
