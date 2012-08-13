@@ -85,19 +85,14 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 		tabsAdapter = new TabsPagerAdapter(this, tabHost, viewPager);
 		setupTab(R.drawable.ic_tab_scripts_selector, getString(R.string.scripts), ScriptFragment.class, null);
 
-		int costumeIcon;
-		String costumeLabel;
-
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
-			costumeIcon = R.drawable.ic_tab_background_selector;
-			costumeLabel = this.getString(R.string.backgrounds);
+			setupTab(R.drawable.ic_tab_background_selector, getString(R.string.backgrounds), CostumeFragment.class,
+					null);
 		} else {
-			costumeIcon = R.drawable.ic_tab_costumes_selector;
-			costumeLabel = this.getString(R.string.costumes);
+			setupTab(R.drawable.ic_tab_costumes_selector, getString(R.string.costumes), CostumeFragment.class, null);
 		}
 
-		setupTab(costumeIcon, costumeLabel, CostumeFragment.class, null);
 		setupTab(R.drawable.ic_tab_sounds_selector, getString(R.string.sounds), SoundFragment.class, null);
 	}
 
