@@ -37,7 +37,7 @@
     <string name="close">"閉じる"</string>
     <string name="error">"エラー"</string>
     <string name="please_wait">"お待ちください"</string>
-    <string name="loading">"読み込み中..."</string>
+    <string name="loading">"読み込み中…"</string>
     <string name="background">"背景"</string>
     <string name="stage">"ステージ"</string>
     <string name="ok">"OK"</string>
@@ -102,7 +102,7 @@
     <string name="soundrecorder_name">"キャットロイドのサウンドレコーダー"</string>
     <string name="soundrecorder_record_start">"録音を開始"</string>
     <string name="soundrecorder_record_stop">"録音を終了"</string>
-    <string name="soundrecorder_recording">"録音は進行中..."</string>
+    <string name="soundrecorder_recording">"録音は進行中…"</string>
     <string name="soundrecorder_error">"録音に失敗しました"</string>
     <string name="soundrecorder_recorded_filename">"録音"</string>
     <!-- PreStage activity -->
@@ -119,8 +119,6 @@
     <string name="spritename_already_exists">"このスプライトの名前はすでに存在しています"</string>
     <string name="rename_sprite_dialog">"スプライトの名前を変更"</string>
     <string name="spritename_invalid">"このスプライトの名前は無効です"</string>
-    <!-- Load project dialog -->
-    <string name="load_project_dialog_title">"プロジェクト読み込み中…"</string>
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">"ログイン"</string>
     <string name="username">"ユーザー名:"</string>
@@ -140,8 +138,8 @@
     <string name="stagemenu_axes_off">"軸 オフ"</string>
     <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">"新しい..."</string>
-    <string name="broadcast_nothing_selected">"何もない..."</string>
+    <string name="new_broadcast_message">"新しい…"</string>
+    <string name="broadcast_nothing_selected">"何もない…"</string>
     <!-- Brick categories -->
     <string name="categories">"範囲"</string>
     <string name="category_motion">"動き"</string>
@@ -241,7 +239,6 @@
     <!-- Notifications -->
     <string name="success_project_upload">"アップロード成功"</string>
     <string name="success_project_download">"ダウンロードが成功した"</string>
-    <string name="load_project">"プロジェクト読み込み中…"</string>
     <string name="upload_button">"アップロード"</string>
     <string name="upload_project_dialog_title">"プロジェクトをアップロード"</string>
     <string name="upload_description">"デスクリプション："</string>
@@ -255,7 +252,7 @@
     <string name="button_scan">"Bluetoothデバイスを検索"</string>
     <string name="select_device">"あなたのレゴマインドストームNXTを選択してください"</string>
     <string name="scanning">"スキャン中"</string>
-    <string name="connecting_please_wait">"お使いのデバイスに接続しています\nしばらく待つ..."</string>
+    <string name="connecting_please_wait">"お使いのデバイスに接続しています\nしばらく待つ…"</string>
     <string name="pairing_message">"ペアリングした後、接続してください"</string>
     <string name="problem_at_closing">"接続を閉じるの問題！"</string>
     <string name="bt_connection_failed">"デバイスへの接続に失敗しました！"</string>
