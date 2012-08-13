@@ -46,7 +46,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
-	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
+	public GlideToBrick(Sprite sprite, int xDestination, int yDestination,
+			int durationInMilliSeconds) {
 		this.sprite = sprite;
 		this.xDestination = xDestination;
 		this.yDestination = yDestination;
@@ -61,7 +62,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	@Override
 	public void execute() {
 
-		sprite.costume.addGlideToAction(xDestination, yDestination, durationInMilliSeconds / 1000.0f);
+		//sprite.costume.addGlideToAction(xDestination, yDestination, durationInMilliSeconds / 1000.0f);
 
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
@@ -77,46 +78,46 @@ public class GlideToBrick implements Brick, OnClickListener {
 		//		} catch (InterruptedException e) {
 		//		}
 
-		/*
-		 * long startTime = System.currentTimeMillis();
-		 * int duration = durationInMilliSeconds;
-		 * while (duration > 0) {
-		 * if (!sprite.isAlive(Thread.currentThread())) {
-		 * break;
-		 * }
-		 * long timeBeforeSleep = System.currentTimeMillis();
-		 * int sleep = 33;
-		 * while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
-		 * 
-		 * if (sprite.isPaused) {
-		 * sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
-		 * long milliSecondsBeforePause = System.currentTimeMillis();
-		 * while (sprite.isPaused) {
-		 * if (sprite.isFinished) {
-		 * return;
-		 * }
-		 * Thread.yield();
-		 * }
-		 * timeBeforeSleep = System.currentTimeMillis();
-		 * startTime += System.currentTimeMillis() - milliSecondsBeforePause;
-		 * }
-		 * 
-		 * Thread.yield();
-		 * }
-		 * long currentTime = System.currentTimeMillis();
-		 * duration -= (int) (currentTime - startTime);
-		 * updatePositions((int) (currentTime - startTime), duration);
-		 * startTime = currentTime;
-		 * }
-		 * 
-		 * if (!sprite.isAlive(Thread.currentThread())) {
-		 * // -stay at last position
-		 * } else {
-		 * sprite.costume.aquireXYWidthHeightLock();
-		 * sprite.costume.setXYPosition(xDestination, yDestination);
-		 * sprite.costume.releaseXYWidthHeightLock();
-		 * }
-		 */
+		long startTime = System.currentTimeMillis();
+		int duration = durationInMilliSeconds;
+		while (duration > 0) {
+			if (!sprite.isAlive(Thread.currentThread())) {
+				break;
+			}
+			long timeBeforeSleep = System.currentTimeMillis();
+			int sleep = 33;
+			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
+
+				if (sprite.isPaused) {
+					sleep = (int) ((timeBeforeSleep + sleep) - System
+							.currentTimeMillis());
+					long milliSecondsBeforePause = System.currentTimeMillis();
+					while (sprite.isPaused) {
+						if (sprite.isFinished) {
+							return;
+						}
+						Thread.yield();
+					}
+					timeBeforeSleep = System.currentTimeMillis();
+					startTime += System.currentTimeMillis()
+							- milliSecondsBeforePause;
+				}
+
+				Thread.yield();
+			}
+			long currentTime = System.currentTimeMillis();
+			duration -= (int) (currentTime - startTime);
+			updatePositions((int) (currentTime - startTime), duration);
+			startTime = currentTime;
+		}
+
+		if (!sprite.isAlive(Thread.currentThread())) {
+			// -stay at last position
+		} else {
+			sprite.costume.aquireXYWidthHeightLock();
+			sprite.costume.setXYPosition(xDestination, yDestination);
+			sprite.costume.releaseXYWidthHeightLock();
+		}
 
 	}
 
@@ -125,8 +126,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 		float xPosition = sprite.costume.getXPosition();
 		float yPosition = sprite.costume.getYPosition();
 
-		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
-		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
+		xPosition += ((float) timePassed / duration)
+				* (xDestination - xPosition);
+		yPosition += ((float) timePassed / duration)
+				* (yDestination - yPosition);
 
 		sprite.costume.setXYPosition(xPosition, yPosition);
 		sprite.costume.releaseXYWidthHeightLock();
@@ -146,18 +149,24 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_x_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_x_edit_text);
+		TextView textX = (TextView) view
+				.findViewById(R.id.brick_glide_to_x_text_view);
+		EditText editX = (EditText) view
+				.findViewById(R.id.brick_glide_to_x_edit_text);
 		editX.setText(String.valueOf(xDestination));
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_y_text_view);
-		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_y_edit_text);
+		TextView textY = (TextView) view
+				.findViewById(R.id.brick_glide_to_y_text_view);
+		EditText editY = (EditText) view
+				.findViewById(R.id.brick_glide_to_y_edit_text);
 		editY.setText(String.valueOf(yDestination));
 		editY.setOnClickListener(this);
 
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_duration_text_view);
-		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_duration_edit_text);
+		TextView textDuration = (TextView) view
+				.findViewById(R.id.brick_glide_to_duration_text_view);
+		EditText editDuration = (EditText) view
+				.findViewById(R.id.brick_glide_to_duration_edit_text);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 
 		textX.setVisibility(View.GONE);
@@ -179,7 +188,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
+		return new GlideToBrick(getSprite(), xDestination, yDestination,
+				getDurationInMilliSeconds());
 	}
 
 	@Override
@@ -190,45 +200,57 @@ public class GlideToBrick implements Brick, OnClickListener {
 		final EditText input = new EditText(context);
 		if (view.getId() == R.id.brick_glide_to_x_edit_text) {
 			input.setText(String.valueOf(xDestination));
-			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			input.setInputType(InputType.TYPE_CLASS_NUMBER
+					| InputType.TYPE_NUMBER_FLAG_SIGNED);
 		} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
 			input.setText(String.valueOf(yDestination));
-			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			input.setInputType(InputType.TYPE_CLASS_NUMBER
+					| InputType.TYPE_NUMBER_FLAG_SIGNED);
 		} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
 			input.setText(String.valueOf(durationInMilliSeconds / 1000.0));
-			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+			input.setInputType(InputType.TYPE_CLASS_NUMBER
+					| InputType.TYPE_NUMBER_FLAG_DECIMAL
 					| InputType.TYPE_NUMBER_FLAG_SIGNED);
 		}
 		input.setSelectAllOnFocus(true);
 		dialog.setView(input);
 		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
+		dialog.setPositiveButton(context.getString(R.string.ok),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
 
-				try {
-					if (view.getId() == R.id.brick_glide_to_x_edit_text) {
-						xDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
-						yDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
-						durationInMilliSeconds = (int) Math.round(Double.parseDouble(input.getText().toString()) * 1000);
+						try {
+							if (view.getId() == R.id.brick_glide_to_x_edit_text) {
+								xDestination = Integer.parseInt(input.getText()
+										.toString());
+							} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
+								yDestination = Integer.parseInt(input.getText()
+										.toString());
+							} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
+								durationInMilliSeconds = (int) Math
+										.round(Double.parseDouble(input
+												.getText().toString()) * 1000);
+							}
+						} catch (NumberFormatException exception) {
+							Toast.makeText(context,
+									R.string.error_no_number_entered,
+									Toast.LENGTH_SHORT).show();
+						}
+						dialog.cancel();
 					}
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
-				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+				});
+		dialog.setNeutralButton(context.getString(R.string.cancel_button),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
 
 		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(
+				context, input));
 
 		finishedDialog.show();
 	}
