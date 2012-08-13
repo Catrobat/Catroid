@@ -59,6 +59,7 @@ public class BrickCategoryDialog extends Dialog {
 
 		ImageButton closeButton = (ImageButton) findViewById(R.id.btn_close_dialog);
 		closeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				abort();
 				dismiss();
@@ -70,7 +71,7 @@ public class BrickCategoryDialog extends Dialog {
 	}
 
 	private void abort() {
-		activity.setDontCreateNewBrick();
+		activity.setDontCreateNewBrick(true);
 	}
 
 	private void setupBrickCategories(ListView listView) {
@@ -98,6 +99,7 @@ public class BrickCategoryDialog extends Dialog {
 
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
+			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				activity.selectedCategory = adapter.getItem(position);
 				activity.removeDialog(ScriptTabActivity.DIALOG_ADD_BRICK);

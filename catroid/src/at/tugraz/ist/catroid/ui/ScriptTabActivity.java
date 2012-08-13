@@ -144,6 +144,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
 				new View.OnClickListener() {
+					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(ScriptTabActivity.this, PreStageActivity.class);
 						startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
@@ -271,6 +272,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		dismissDialog(DIALOG_DELETE_SOUND);
 	}
 
+	@Override
 	public void onDismiss(DialogInterface dialogInterface) {
 		if (!dontCreateNewBrick && !isCanceled) {
 			((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(brickToBeAdded);
@@ -279,12 +281,13 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		dontCreateNewBrick = false;
 	}
 
+	@Override
 	public void onCancel(DialogInterface dialog) {
 		isCanceled = true;
 	}
 
-	public void setDontCreateNewBrick() {
-		dontCreateNewBrick = true;
+	public void setDontCreateNewBrick(boolean value) {
+		dontCreateNewBrick = value;
 	}
 
 	public void addThisBrick(Brick brick) {
