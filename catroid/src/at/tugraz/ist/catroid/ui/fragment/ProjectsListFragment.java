@@ -65,9 +65,9 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 
-	private static final int CONTEXT_MENU_ITEM_RENAME = 2;
-	private static final int CONTEXT_MENU_ITEM_DELETE = 3;
-	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
+	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
+	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
+	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
