@@ -99,4 +99,20 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 		ImageView trash = (ImageView) solo.getView(R.id.trash);
 		assertEquals("Trash should be GONE", View.GONE, trash.getVisibility());
 	}
+
+	public void testAddNewBrickFromAnotherCategory() {
+		int categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
+
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
+		solo.clickOnImageButton(0);
+		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);
+		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_stop_all_sounds));
+		solo.clickOnScreen(200, 200);
+		solo.sleep(200);
+
+		BrickAdapter adapter = (BrickAdapter) solo.getCurrentListViews().get(0).getAdapter();
+		assertEquals("Brick was not added.", 2, adapter.getCount());
+	}
 }

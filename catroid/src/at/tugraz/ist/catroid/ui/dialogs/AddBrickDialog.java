@@ -184,6 +184,7 @@ public class AddBrickDialog extends Dialog {
 
 		ImageButton closeButton = (ImageButton) findViewById(R.id.btn_close_dialog);
 		closeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				abort();
 				dismiss();
@@ -195,7 +196,7 @@ public class AddBrickDialog extends Dialog {
 	}
 
 	private void abort() {
-		scriptTabActivity.setDontCreateNewBrick();
+		scriptTabActivity.setDontCreateNewBrick(true);
 	}
 
 	public ScriptTabActivity getScriptTabActivity() {
@@ -213,7 +214,9 @@ public class AddBrickDialog extends Dialog {
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
+			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				scriptTabActivity.setDontCreateNewBrick(false);
 				Brick brickToBeAdded = getBrickClone(adapter.getItem(position));
 				scriptTabActivity.addThisBrick(brickToBeAdded);
 
