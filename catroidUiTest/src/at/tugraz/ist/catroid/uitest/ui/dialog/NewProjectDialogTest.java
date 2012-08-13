@@ -76,8 +76,8 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.sleep(1000);
 
-		FragmentManager fm = getActivity().getSupportFragmentManager();
-		NewProjectDialog dialogFragment = (NewProjectDialog) fm.findFragmentByTag("dialog_new_project");
+		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		NewProjectDialog dialogFragment = (NewProjectDialog) fragmentManager.findFragmentByTag("dialog_new_project");
 		AlertDialog dialog = (AlertDialog) dialogFragment.getDialog();
 
 		Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -88,8 +88,8 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.sleep(1000);
 
-		FragmentManager fm = getActivity().getSupportFragmentManager();
-		NewProjectDialog dialogFragment = (NewProjectDialog) fm.findFragmentByTag("dialog_new_project");
+		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		NewProjectDialog dialogFragment = (NewProjectDialog) fragmentManager.findFragmentByTag("dialog_new_project");
 		AlertDialog dialog = (AlertDialog) dialogFragment.getDialog();
 
 		Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
