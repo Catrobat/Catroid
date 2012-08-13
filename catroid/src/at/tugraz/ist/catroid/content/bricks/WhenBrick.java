@@ -43,17 +43,21 @@ public class WhenBrick implements ScriptBrick {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_when, null);
 		TextView spinnerActionText = (TextView) view.findViewById(R.id.WhenBrickActionTapped);
@@ -101,6 +105,7 @@ public class WhenBrick implements ScriptBrick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return getView(context, 0, null);
 	}
@@ -110,6 +115,7 @@ public class WhenBrick implements ScriptBrick {
 		return new WhenBrick(getSprite(), null);
 	}
 
+	@Override
 	public Script initScript(Sprite sprite) {
 		if (whenScript == null) {
 			whenScript = new WhenScript(sprite);

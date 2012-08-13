@@ -35,7 +35,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
@@ -60,10 +59,12 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 		this.motor = motorEnum.name();
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 
+	@Override
 	public void execute() {
 		if (motorEnum.equals(Motor.ALL_MOTORS)) {
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), 0, 0);
@@ -78,10 +79,12 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 	}
@@ -91,6 +94,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 		return new NXTMotorStopBrick(getSprite(), motorEnum);
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 
@@ -108,11 +112,13 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 		return brickView;
 	}
 
+	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		motorEnum = Motor.values()[position];
 		motor = motorEnum.name();
 	}
 
+	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
 
 	}

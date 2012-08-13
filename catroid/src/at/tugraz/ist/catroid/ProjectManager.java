@@ -44,8 +44,8 @@ public class ProjectManager {
 	private Sprite currentSprite;
 	public static final ProjectManager INSTANCE = new ProjectManager();
 
-	public FileChecksumContainer fileChecksumContainer;
-	public MessageContainer messageContainer;
+	private FileChecksumContainer fileChecksumContainer;
+	private MessageContainer messageContainer;
 
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
@@ -279,5 +279,17 @@ public class ProjectManager {
 			suffixCounter++;
 		}
 		return temporaryDirectoryName;
+	}
+
+	public FileChecksumContainer getFileChecksumContainer() {
+		return this.fileChecksumContainer;
+	}
+
+	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
+		this.fileChecksumContainer = fileChecksumContainer;
+	}
+
+	public MessageContainer getMessageContainer() {
+		return this.messageContainer;
 	}
 }

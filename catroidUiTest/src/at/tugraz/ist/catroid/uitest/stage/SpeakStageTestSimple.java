@@ -103,7 +103,7 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
