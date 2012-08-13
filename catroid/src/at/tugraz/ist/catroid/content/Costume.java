@@ -29,6 +29,8 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
+import com.badlogic.gdx.scenes.scene2d.interpolators.AccelerateDecelerateInterpolator;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Costume extends Image {
@@ -345,6 +347,12 @@ public class Costume extends Image {
 
 	public CostumeData getCostumeData() {
 		return costumeData;
+	}
+
+	public void addGlideToAction(float x, float y, float duration) {
+		MoveTo action = MoveTo.$(x, y, duration);
+		action.setInterpolator(AccelerateDecelerateInterpolator.$());
+		this.action(action);
 	}
 
 }
