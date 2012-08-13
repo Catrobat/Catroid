@@ -27,9 +27,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import junit.framework.TestCase;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Environment;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -182,11 +184,30 @@ public class ImageEditingTest extends TestCase {
 		assertEquals("The Bitmap has the wrong height", expectedHeight, testBitmap.getHeight());
 
 		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(0, 0));
-		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(expectedWidth - 1,
-				expectedHeight - 1));
-		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(expectedWidth / 2,
-				expectedHeight / 2));
+		assertEquals("The color of the Pixel is wrong", expectedColor,
+				testBitmap.getPixel(expectedWidth - 1, expectedHeight - 1));
+		assertEquals("The color of the Pixel is wrong", expectedColor,
+				testBitmap.getPixel(expectedWidth / 2, expectedHeight / 2));
 
+	}
+
+	public void testRotatePicture() {
+		Bitmap testBitmap = BitmapFactory.decodeResource(Resources.getSystem(), android.R.drawable.bottom_bar);
+
+		int widthBeforeRotation = testBitmap.getWidth();
+		int[] testBitmapPixels = new int[testBitmap.getHeight() * testBitmap.getWidth()];
+
+		testBitmap.getPixels(testBitmapPixels, 0, testBitmap.getWidth(), 0, 0, testBitmap.getWidth(),
+				testBitmap.getHeight());
+
+		Bitmap rotatedBitmap = ImageEditing.rotateBitmap(testBitmap, 180);
+		int[] roatatedBitmapPixels = new int[rotatedBitmap.getHeight() * rotatedBitmap.getWidth()];
+		rotatedBitmap.getPixels(roatatedBitmapPixels, 0, rotatedBitmap.getWidth(), 0, 0, rotatedBitmap.getWidth(),
+				rotatedBitmap.getHeight());
+
+		for (int i = 0; i < widthBeforeRotation; i++) {
+			assertFalse("Pixelvalues should be different", (testBitmapPixels[i] == roatatedBitmapPixels[i]));
+		}
 	}
 
 }

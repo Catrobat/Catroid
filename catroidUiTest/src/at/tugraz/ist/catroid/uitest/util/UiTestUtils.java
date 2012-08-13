@@ -251,7 +251,7 @@ public class UiTestUtils {
 
 		project.addSprite(firstSprite);
 
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -267,7 +267,7 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -370,7 +370,7 @@ public class UiTestUtils {
 	}
 
 	public static void clearAllUtilTestProjects() {
-		projectManager.fileChecksumContainer = new FileChecksumContainer();
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + PROJECTNAME1);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
@@ -660,7 +660,7 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		ProjectManager.INSTANCE.fileChecksumContainer = new FileChecksumContainer();
+		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
 		ProjectManager.INSTANCE.setProject(project);
 		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
 		ProjectManager.INSTANCE.setCurrentScript(testScript);

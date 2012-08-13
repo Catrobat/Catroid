@@ -95,10 +95,10 @@
     <string name="copy_costume">kopieren</string>
     <string name="costumename_invalid">Dieser Name ist nicht zulässig</string>
     <string name="copy_costume_addition">Kopie</string>
-    <string name="select_image">Bild auswählen</string>
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
     <string name="default_costume_name">Kostüm</string>
     <string name="delete_costume_dialog">Kostüm löschen?</string>
+    <string name="add_costume_dialog_title">Kostüm hinzufügen</string>
 
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
