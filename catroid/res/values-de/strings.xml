@@ -128,6 +128,14 @@
 
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
+    
+    <!-- Brick context dialog -->
+    <string name="brick_context_dialog_title">Baustein Menü</string>
+    <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
+    <string name="brick_context_dialog_move_attached_bricks">Verschiebe angehängte Bausteine</string>
+    <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
+    <string name="brick_context_dialog_delete_attached_bricks">Lösche angehängte Bausteine</string>
+    <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
 
     <!-- New project dialog -->
     <string name="new_project_dialog_button">Erstellen</string>

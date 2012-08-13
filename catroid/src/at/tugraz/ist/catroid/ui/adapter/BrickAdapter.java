@@ -25,7 +25,9 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -97,6 +99,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
+	@Override
 	public void drag(int from, int to) {
 		if (to < 0) {
 			to = brickList.size() - 1;
@@ -233,6 +236,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return false;
 	}
 
+	@Override
 	public void drop(int to) {
 		if (retryScriptDragging || to != getNewPositionForScriptBrick(to, draggedBrick)) {
 			scrollToPosition(dragTargetPosition);
@@ -506,6 +510,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
+	@Override
 	public void remove(int index) {
 		if (insertedBrick) {
 			brickList.remove(draggedBrick);
@@ -534,10 +539,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return longClickListener;
 	}
 
+	@Override
 	public int getCount() {
 		return brickList.size();
 	}
 
+	@Override
 	public Object getItem(int element) {
 		if (element < 0 || element >= brickList.size()) {
 			return null;
@@ -554,10 +561,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return script.getBrickList().size();
 	}
 
+	@Override
 	public long getItemId(int index) {
 		return index;
 	}
 
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (draggedBrick != null && dragTargetPosition == position) {
 			return insertionView;
@@ -629,6 +638,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return scriptIndex;
 	}
 
+	@Override
 	public void setTouchedScript(int index) {
 		if (index >= 0 && brickList.get(index) instanceof ScriptBrick && draggedBrick == null) {
 			int scriptIndex = getScriptIndexFromProject(index);
@@ -654,17 +664,48 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return insertionView;
 	}
 
-	public void onClick(View view) {
+	@Override
+	public void onClick(final View view) {
 		animatedBricks.clear();
-		int itemPosition = calculateItemPositionAndTouchPointY(view);
-		Brick brick = brickList.get(itemPosition);
-		if (brick instanceof NestingBrick) {
-			List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts();
-			for (Brick tempBrick : list) {
-				animatedBricks.add(tempBrick);
-			}
+		final int itemPosition = calculateItemPositionAndTouchPointY(view);
+
+		final List<CharSequence> items = new ArrayList<CharSequence>();
+		if (!(brickList.get(itemPosition) instanceof DeadEndBrick)) {
+			items.add(context.getText(R.string.brick_context_dialog_move_brick));
 		}
-		notifyDataSetChanged();
+		if (brickList.get(itemPosition) instanceof NestingBrick) {
+			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
+		}
+		items.add(context.getText(R.string.brick_context_dialog_delete_brick));
+
+		// TODO not implemented yet
+		//		items.add(context.getText(R.string.brick_context_dialog_move_attached_bricks));
+		//		items.add(context.getText(R.string.brick_context_dialog_delete_attached_bricks));
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(context.getText(R.string.brick_context_dialog_title));
+		builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int item) {
+				if (items.get(item).equals(context.getText(R.string.brick_context_dialog_move_brick))) {
+					view.performLongClick();
+				} else if (items.get(item).equals(context.getText(R.string.brick_context_dialog_delete_brick))) {
+					remove(itemPosition);
+				} else if (items.get(item).equals(context.getText(R.string.brick_context_dialog_animate_bricks))) {
+					int itemPosition = calculateItemPositionAndTouchPointY(view);
+					Brick brick = brickList.get(itemPosition);
+					if (brick instanceof NestingBrick) {
+						List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts();
+						for (Brick tempBrick : list) {
+							animatedBricks.add(tempBrick);
+						}
+					}
+					notifyDataSetChanged();
+				}
+			}
+		});
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
