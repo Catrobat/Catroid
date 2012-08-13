@@ -117,7 +117,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		}
 
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
+		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList);
 		adapter.setOnCostumeEditListener(this);
 		setListAdapter(adapter);
 	}
@@ -322,7 +322,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (currentSprite != null) {
 			costumeDataList = currentSprite.getCostumeDataList();
-			CostumeAdapter adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item,
+			CostumeAdapter adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item,
 					costumeDataList);
 			adapter.setOnCostumeEditListener(this);
 			setListAdapter(adapter);

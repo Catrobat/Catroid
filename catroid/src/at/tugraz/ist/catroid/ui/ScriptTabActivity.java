@@ -155,7 +155,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 	}
 
 	private static View createTabView(Integer id, final Context context, final String text) {
-		View view = LayoutInflater.from(context).inflate(R.layout.activity_tabscriptactivity_tabs, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.activity_scripttab_tabs, null);
 		TextView tabTextView = (TextView) view.findViewById(R.id.tabsText);
 		ImageView tabImageView = (ImageView) view.findViewById(R.id.tabsIcon);
 		tabTextView.setText(text);

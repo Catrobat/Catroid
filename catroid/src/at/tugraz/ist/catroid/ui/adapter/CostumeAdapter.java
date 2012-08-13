@@ -38,18 +38,18 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class CostumeAdapter extends ArrayAdapter<CostumeData> {
-	
+
 	protected ArrayList<CostumeData> costumeDataItems;
 	protected Context context;
 
 	private OnCostumeEditListener onCostumeEditListener;
-	
+
 	public CostumeAdapter(final Context context, int textViewResourceId, ArrayList<CostumeData> items) {
 		super(context, textViewResourceId, items);
 		this.context = context;
 		costumeDataItems = items;
 	}
-	
+
 	public void setOnCostumeEditListener(OnCostumeEditListener listener) {
 		onCostumeEditListener = listener;
 	}
@@ -58,7 +58,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = View.inflate(context, R.layout.activity_costume_costumelist_item, null);
+			convertView = View.inflate(context, R.layout.fragment_costume_costumelist_item, null);
 		}
 
 		convertView.findViewById(R.id.btn_costume_copy).setTag(position);
@@ -91,7 +91,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					costumeSize.setText(UtilFile.getSizeAsString(new File(costumeData.getAbsolutePath())));
 				}
 			}
-			
+
 			costumeImage.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -100,7 +100,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					}
 				}
 			});
-			
+
 			costumeNameTextField.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -109,7 +109,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					}
 				}
 			});
-			
+
 			costumeEditButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -118,7 +118,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					}
 				}
 			});
-			
+
 			costumeCopyButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -127,7 +127,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					}
 				}
 			});
-			
+
 			costumeDeleteButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -137,15 +137,18 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 				}
 			});
 		}
-		
+
 		return convertView;
 	}
-	
+
 	public interface OnCostumeEditListener {
-		
+
 		public void onCostumeEdit(View v);
+
 		public void onCostumeRename(View v);
+
 		public void onCostumeDelete(View v);
+
 		public void onCostumeCopy(View v);
 	}
 }

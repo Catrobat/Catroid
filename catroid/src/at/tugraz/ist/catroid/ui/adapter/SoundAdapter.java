@@ -40,10 +40,10 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> {
-	
+
 	protected ArrayList<SoundInfo> soundInfoItems;
 	protected Context context;
-	
+
 	private OnSoundEditListener onSoundEditListener;
 
 	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
@@ -51,16 +51,16 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		this.context = context;
 		soundInfoItems = items;
 	}
-	
+
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
 		onSoundEditListener = listener;
 	}
-	
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = View.inflate(context, R.layout.activity_sound_soundlist_item, null);
+			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
 		}
 
 		final SoundInfo soundInfo = soundInfoItems.get(position);
@@ -112,7 +112,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			}
 
 			soundNameTextView.setText(soundInfo.getTitle());
-			
+
 			soundNameTextView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -121,7 +121,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 					}
 				}
 			});
-			
+
 			playSoundButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -130,7 +130,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 					}
 				}
 			});
-			
+
 			pauseSoundButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -139,7 +139,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 					}
 				}
 			});
-			
+
 			deleteSoundButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -152,13 +152,16 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 		return convertView;
 	}
-	
+
 	public interface OnSoundEditListener {
-		
+
 		public void onSoundRename(View v);
+
 		public void onSoundPlay(View v);
+
 		public void onSoundPause(View v);
+
 		public void onSoundDelete(View v);
-		
+
 	}
 }
