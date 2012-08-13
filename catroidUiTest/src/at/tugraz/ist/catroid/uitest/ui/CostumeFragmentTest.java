@@ -539,7 +539,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		}
 		solo.clickOnCheckBox(0);
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_costume_copy);
+		UiTestUtils.clickOnActionModeOverflowMenuItem(solo, solo.getString(R.string.copy_costume));
 		solo.sleep(500);
 		renameCostume(defaultCostumeName + "_", defaultCostumeName);
 		expectedCostumeName = defaultCostumeName + "1";

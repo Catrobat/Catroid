@@ -150,7 +150,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.clickOnCheckBox(0);
 		solo.sleep(500);
-		UiTestUtils.clickOnActionModeOverflowMenuItem(solo, solo.getString(R.string.sound_delete));
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_sound_delete);
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.clickOnText(getActivity().getString(R.string.scripts));
