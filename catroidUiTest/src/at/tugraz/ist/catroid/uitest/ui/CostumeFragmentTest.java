@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -119,7 +120,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(500);
 		solo.clickOnCheckBox(0);
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_costume_copy);
+		solo.sendKey(KeyEvent.KEYCODE_MENU);
+		solo.sleep(1000);
+		UiTestUtils.clickOnActionModeOverflowMenuItem(solo, solo.getString(R.string.copy_costume));
 		solo.sleep(500);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition), 1, true)) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
@@ -157,7 +160,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		int oldCount = adapter.getCount();
 		solo.clickOnCheckBox(0);
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_costume_delete);
+		UiTestUtils.clickOnActionModeOverflowMenuItem(solo, solo.getString(R.string.sound_delete));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(300);
@@ -513,7 +516,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		solo.clickOnCheckBox(0);
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_costume_copy);
+		UiTestUtils.clickOnActionModeOverflowMenuItem(solo, solo.getString(R.string.copy_costume));
 		solo.sleep(500);
 		while (solo.scrollUp()) {
 			;

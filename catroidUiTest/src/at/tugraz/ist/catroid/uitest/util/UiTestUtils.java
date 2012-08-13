@@ -81,9 +81,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
+import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
+import com.actionbarsherlock.internal.widget.ActionBarContextView;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
@@ -661,6 +663,27 @@ public class UiTestUtils {
 		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
 				SherlockFragmentActivity.class, "getSherlock", activity);
 		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+	}
+
+	/**
+	 * Clicks on ActionMode (contextual actionbar) menu item which is hidden in overflow.
+	 * For non hidden items use {@link UiTestUtils.clickOnLinearLayout()}.
+	 */
+	public static void clickOnActionModeOverflowMenuItem(Solo solo, String text) {
+		if (!(solo.getCurrentActivity() instanceof SherlockFragmentActivity)) {
+			throw new IllegalStateException("Overflow menu item can be clicked only in SherlockFragmentActivity.");
+		}
+
+		ActionBarSherlock abs = (ActionBarSherlock) UiTestUtils.invokePrivateMethodWithoutParameters(
+				SherlockFragmentActivity.class, "getSherlock", solo.getCurrentActivity());
+		ActionBarContextView abcv = (ActionBarContextView) getPrivateField("mActionModeView", abs);
+		if (abcv == null) {
+			fail("Contextual actionbar is not shown.");
+		}
+
+		abcv.showOverflowMenu();
+		solo.sleep(500);
+		solo.clickOnText(text);
 	}
 
 	/**
