@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class CostumeData implements Serializable {
 
-	private static final long serialVersionUID = 6507693583034786374L;
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String fileName;

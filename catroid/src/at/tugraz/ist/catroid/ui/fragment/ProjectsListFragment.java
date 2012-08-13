@@ -228,7 +228,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	public static class ProjectData implements Serializable {
 
-		private static final long serialVersionUID = -1086067470908722316L;
+		private static final long serialVersionUID = 1L;
 
 		public String projectName;
 		public long lastUsed;
