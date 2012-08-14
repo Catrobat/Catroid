@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.xml;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -87,6 +88,14 @@ public class BrickParser {
 							referencedObjects, forwardRefs);
 				}
 				if (foundBrickObj != null) {
+					Method[] brickClassMethods = foundBrickObj.getClass().getDeclaredMethods();
+					for (Method method : brickClassMethods) {
+						if (method.getName().equals("readResolve")) {
+							method.setAccessible(true);
+							method.invoke(foundBrickObj);
+						}
+					}
+
 					String brickXPath = ParserUtil.getElementXpath(brickElement);
 					referencedObjects.put(brickXPath, foundBrickObj);
 					foundScript.addBrick(foundBrickObj);

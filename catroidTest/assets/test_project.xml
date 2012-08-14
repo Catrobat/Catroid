@@ -52,6 +52,10 @@
             <SetCostumeBrick>
               <sprite reference="../../../../.."/>
             </SetCostumeBrick>
+            <PointInDirectionBrick>
+              <sprite reference="../../../../.."/>
+			  <degrees>-90.0</degrees>
+			</PointInDirectionBrick>
           </brickList>
           <sprite reference="../../.."/>
         </StartScript>
