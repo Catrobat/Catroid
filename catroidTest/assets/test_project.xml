@@ -21,9 +21,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Project>
-  <androidVersion>10</androidVersion>
-  <catroidVersionCode>8</catroidVersionCode>
-  <catroidVersionName>0.5.6a</catroidVersionName>
+  <platformVersion>10</platformVersion>
+  <applicationVersionCode>8</applicationVersionCode>
+  <applicationVersionName>0.5.6a</applicationVersionName>
   <deviceName>HTC Desire</deviceName>
   <projectName>testProject</projectName>
   <screenHeight>800</screenHeight>
@@ -53,8 +53,7 @@
               <sprite reference="../../../../.."/>
             </SetCostumeBrick>
             <PointInDirectionBrick>
-              <sprite reference="../../../../.."/>
-			  <degrees>-90.0</degrees>
+			<degrees>-90.0</degrees>
 			</PointInDirectionBrick>
           </brickList>
           <sprite reference="../../.."/>

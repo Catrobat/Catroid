@@ -43,11 +43,9 @@
           <brickList>
             <SetCostumeBrick>
               <costumeData reference="../../../../../costumeDataList/.CostumeData"/>
-              <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+                 </SetCostumeBrick>
           </brickList>
-          <sprite reference="../../.."/>
-        </StartScript>
+         </StartScript>
       </scriptList>
       <soundList/>
     </Sprite>
@@ -72,48 +70,36 @@
           <brickList>
             <SetCostumeBrick>
               <costumeData reference="../../../../../costumeDataList/.CostumeData"/>
-              <sprite reference="../../../../.."/>
             </SetCostumeBrick>
             <RepeatBrick>
               <loopEndBrick reference="../../LoopEndBrick"/>
-              <sprite reference="../../../../.."/>
               <timesToRepeat>3</timesToRepeat>
             </RepeatBrick>
-            <ShowBrick>
-              <sprite reference="../../../../.."/>
-            </ShowBrick>
-            <LoopEndBrick>
+            <ShowBrick/>
+              <LoopEndBrick>
              <loopBeginBrick class="RepeatBrick" reference="../../RepeatBrick"/>
-             <sprite reference="../../../../.."/>
-            </LoopEndBrick>
+             </LoopEndBrick>
           </brickList>
-          <sprite reference="../../.."/>
-        </StartScript>
+          </StartScript>
         <WhenScript>
           <brickList>
             <SetCostumeBrick>
               <costumeData reference="../../../../../costumeDataList/.CostumeData[2]"/>
-              <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+               </SetCostumeBrick>
             <WaitBrick>
-              <sprite reference="../../../../.."/>
-              <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+                   <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
             </WaitBrick>
             <SetCostumeBrick>
               <costumeData reference="../../../../../costumeDataList/.CostumeData[3]"/>
-              <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+                </SetCostumeBrick>
             <WaitBrick>
-              <sprite reference="../../../../.."/>
-              <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+                   <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
             </WaitBrick>
             <SetCostumeBrick>
               <costumeData reference="../../../../../costumeDataList/.CostumeData"/>
-              <sprite reference="../../../../.."/>
-            </SetCostumeBrick>
+              </SetCostumeBrick>
           </brickList>
-          <sprite reference="../../.."/>
-          <action>Tapped</action>
+             <action>Tapped</action>
         </WhenScript>
       </scriptList>
       <soundList/>
