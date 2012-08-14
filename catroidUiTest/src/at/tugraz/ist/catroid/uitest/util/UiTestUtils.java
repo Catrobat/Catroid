@@ -650,8 +650,9 @@ public class UiTestUtils {
 	}
 
 	/**
-	 * This method invokes Up button press. You should pass {@link Solo.getCurrentActivity} to it.
-	 * Works only on pre 4.0 Android. Should be modified to work on all versions.
+	 * This method invokes Up button press. You should pass {@link solo.getCurrentActivity} to it.
+	 * Works only with ActionBarSherlock on pre 4.0 Android. Tests which run on 4.0 and higher should use
+	 * solo.clickOnHomeActionBarButton().
 	 */
 	public static void clickOnUpActionBarButton(Activity activity) {
 		ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
