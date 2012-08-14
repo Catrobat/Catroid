@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.R;
 
 public class SetDescriptionDialog extends TextDialog {
 
-	private static final String ARGS_OLD_PROJECT_DESCRIPTION = "old_project_description";
+	private static final String BUNDLE_ARGS_OLD_PROJECT_DESCRIPTION = "old_project_description";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_set_description";
 
 	private OnUpdateProjectDescriptionListener onUpdateProjectDescriptionListener;
@@ -40,7 +40,7 @@ public class SetDescriptionDialog extends TextDialog {
 		SetDescriptionDialog dialog = new SetDescriptionDialog();
 
 		Bundle args = new Bundle();
-		args.putString(ARGS_OLD_PROJECT_DESCRIPTION, projectToChangeName);
+		args.putString(BUNDLE_ARGS_OLD_PROJECT_DESCRIPTION, projectToChangeName);
 		dialog.setArguments(args);
 
 		return dialog;
@@ -53,7 +53,7 @@ public class SetDescriptionDialog extends TextDialog {
 	@Override
 	protected void initialize() {
 		projectManager = ProjectManager.getInstance();
-		projectToChangeName = getArguments().getString(ARGS_OLD_PROJECT_DESCRIPTION);
+		projectToChangeName = getArguments().getString(BUNDLE_ARGS_OLD_PROJECT_DESCRIPTION);
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
