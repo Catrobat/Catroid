@@ -127,21 +127,20 @@ public class StorageHandler {
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			Log.d("CATROID", "Save project task: " + result);
 			isCurrentlySavingProject = false;
 			if (mCallback != null) {
 				mCallback.onProjectSaved(result);
 			}
-			Log.d("CATROID", "Saved project succesfully: " + result);
 		}
 	}
 
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
-	private static final boolean FORCE_SYNCHRONOUS_SAVE = false;
 
+	private static boolean FORCE_SYNCHRONOUS_SAVE = false;
 	private static StorageHandler instance;
+
 	private XStream xstream;
 	private SaveProjectTask currentSaveProjectTask;
 
@@ -209,25 +208,34 @@ public class StorageHandler {
 			currentSaveProjectTask = new SaveProjectTask(callback);
 			currentSaveProjectTask.execute(project);
 		} else {
-			callback.onProjectSaved(saveProjectSynchronously(project));
+			boolean success = saveProjectSynchronously(project);
+			if (callback != null) {
+				callback.onProjectSaved(success);
+			}
 		}
 	}
 
 	public boolean saveProjectSynchronously(Project project) {
 		final BooleanWaitLock lock = new BooleanWaitLock(false);
 
-		saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
+		if (currentSaveProjectTask != null && currentSaveProjectTask.isCurrentlySavingProject) {
+			currentSaveProjectTask.cancel(false);
+		}
+		currentSaveProjectTask = new SaveProjectTask(new StorageHandler.SaveProjectTaskCallback() {
 			@Override
 			public void onProjectSaved(boolean success) {
 				lock.unlock(success);
 			}
 		});
+		currentSaveProjectTask.execute(project);
+
+		boolean result = false;
 		try {
-			return lock.lock();
+			result = lock.lock();
 		} catch (InterruptedException e) {
 			Log.e("CATROID", "Cannot save project.", e);
-			return false;
 		}
+		return result;
 	}
 
 	public boolean deleteProject(Project project) {
