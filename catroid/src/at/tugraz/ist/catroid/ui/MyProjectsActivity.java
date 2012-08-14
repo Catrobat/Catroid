@@ -62,7 +62,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 			}
 			case R.id.menu_add: {
 				NewProjectDialog dialog = new NewProjectDialog();
-				dialog.show(getSupportFragmentManager(), "dialog_new_project");
+				dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 				return true;
 			}
 		}

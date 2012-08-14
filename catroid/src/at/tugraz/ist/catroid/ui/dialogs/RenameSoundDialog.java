@@ -36,6 +36,7 @@ public class RenameSoundDialog extends TextDialog {
 
 	private static final String ARGS_OLD_SOUND_NAME = "old_sound_name";
 	public static final String EXTRA_NEW_SOUND_TITLE = "new_sound_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_sound";
 
 	private String oldSoundTitle;
 

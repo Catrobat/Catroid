@@ -457,7 +457,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		selectedCostumeData = costumeDataList.get(position);
 
 		DeleteCostumeDialog deleteCostumeDialog = DeleteCostumeDialog.newInstance(position);
-		deleteCostumeDialog.show(getFragmentManager(), "dialog_delete_costume");
+		deleteCostumeDialog.show(getFragmentManager(), DeleteCostumeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void handleRenameCostumeButton(View v) {
@@ -465,7 +465,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		selectedCostumeData = costumeDataList.get(position);
 
 		RenameCostumeDialog renameCostumeDialog = RenameCostumeDialog.newInstance(selectedCostumeData.getCostumeName());
-		renameCostumeDialog.show(getFragmentManager(), "dialog_rename_costume");
+		renameCostumeDialog.show(getFragmentManager(), RenameCostumeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void handleCopyCostumeButton(View v) {

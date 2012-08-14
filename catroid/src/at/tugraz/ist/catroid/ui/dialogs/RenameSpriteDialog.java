@@ -33,6 +33,7 @@ public class RenameSpriteDialog extends TextDialog {
 
 	private static final String ARGS_OLD_SPRITE_NAME = "old_sprite_name";
 	public static final String EXTRA_NEW_SPRITE_NAME = "new_sprite_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_sprite";
 
 	private String oldSpriteName;
 

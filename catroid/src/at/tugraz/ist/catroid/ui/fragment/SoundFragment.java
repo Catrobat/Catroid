@@ -292,7 +292,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		selectedSoundInfo = soundInfoList.get(position);
 
 		RenameSoundDialog renameSoundDialog = RenameSoundDialog.newInstance(selectedSoundInfo.getTitle());
-		renameSoundDialog.show(getFragmentManager(), "dialog_rename_sound");
+		renameSoundDialog.show(getFragmentManager(), RenameSoundDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void handlePlaySoundButton(View v) {
@@ -326,7 +326,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		selectedSoundInfo = soundInfoList.get(position);
 
 		DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(position);
-		deleteSoundDialog.show(getFragmentManager(), "dialog_delete_sound");
+		deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void pauseSound(SoundInfo soundInfo) {
