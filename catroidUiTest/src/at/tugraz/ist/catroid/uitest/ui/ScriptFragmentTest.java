@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.uitest.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -37,7 +36,6 @@ import android.view.ViewConfiguration;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -89,7 +87,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
-			goToHomeActivity();
+			UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
 			solo.clickOnText(getActivity().getString(R.string.settings));
 			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
 			solo.goBack();
@@ -178,7 +176,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		String comeToFront = getActivity().getString(R.string.brick_come_to_front);
 		String goNStepsBack = getActivity().getString(R.string.brick_go_back_layers);
 
-		goToHomeActivity();
+		UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
 
 		solo.clickOnText(currentProject);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -311,10 +309,5 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		});
 
 		solo.sleep(1000);
-	}
-
-	private void goToHomeActivity() {
-		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-		getActivity().startActivity(intent);
 	}
 }
