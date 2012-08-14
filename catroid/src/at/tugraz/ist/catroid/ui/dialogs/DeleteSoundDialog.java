@@ -39,13 +39,14 @@ import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 public class DeleteSoundDialog extends DialogFragment {
 
-	private static final String ARGS_SELECTED_POSITION = "selected_position";
+	private static final String BUNDLE_ARGS_SELECTED_POSITIONS = "selected_position";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_delete_sound";
 
 	public static DeleteSoundDialog newInstance(int[] selectedPositions) {
 		DeleteSoundDialog dialog = new DeleteSoundDialog();
 
 		Bundle args = new Bundle();
-		args.putIntArray(ARGS_SELECTED_POSITION, selectedPositions);
+		args.putIntArray(BUNDLE_ARGS_SELECTED_POSITIONS, selectedPositions);
 		dialog.setArguments(args);
 
 		return dialog;
@@ -53,7 +54,7 @@ public class DeleteSoundDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final int[] selectedPositions = getArguments().getIntArray(ARGS_SELECTED_POSITION);
+		final int[] selectedPositions = getArguments().getIntArray(BUNDLE_ARGS_SELECTED_POSITIONS);
 
 		Dialog dialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.delete_sound_dialog)
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {

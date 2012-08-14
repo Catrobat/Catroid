@@ -43,8 +43,9 @@ import at.tugraz.ist.catroid.transfers.RegistrationTask.OnRegistrationCompleteLi
 import at.tugraz.ist.catroid.web.ServerCalls;
 
 public class LoginRegisterDialog extends DialogFragment implements OnRegistrationCompleteListener {
-	
+
 	private static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_login_register";
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
@@ -54,15 +55,15 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.dialog_login_register, container);
-		
+
 		usernameEditText = (EditText) rootView.findViewById(R.id.username);
 		passwordEditText = (EditText) rootView.findViewById(R.id.password);
 		loginOrRegister = (Button) rootView.findViewById(R.id.login_register_button);
 		passwordForgotten = (Button) rootView.findViewById(R.id.password_forgotten_button);
-		
+
 		usernameEditText.setText("");
 		passwordEditText.setText("");
-		
+
 		loginOrRegister.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -75,30 +76,31 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 				handlePasswordForgottenButtonClick();
 			}
 		});
-		
+
 		getDialog().setTitle(R.string.login_register_dialog_title);
 		getDialog().setCanceledOnTouchOutside(true);
 		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		
+
 		getDialog().setOnShowListener(new OnShowListener() {
+			@Override
 			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) getActivity()
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(usernameEditText, InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
-		
+
 		return rootView;
 	}
-	
+
 	@Override
 	public void onRegistrationComplete() {
 		dismiss();
-		
+
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getFragmentManager(), "dialog_upload_project");
+		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
-	
+
 	private void handleLoginRegisterButtonClick() {
 		String username = usernameEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
@@ -107,13 +109,12 @@ public class LoginRegisterDialog extends DialogFragment implements OnRegistratio
 		registrationTask.setOnRegistrationCompleteListener(this);
 		registrationTask.execute();
 	}
-	
+
 	private void handlePasswordForgottenButtonClick() {
 		String username = usernameEditText.getText().toString();
 		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST : ServerCalls.BASE_URL;
-		
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH
-				+ username));
+
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH + username));
 		getActivity().startActivity(browserIntent);
 	}
 }

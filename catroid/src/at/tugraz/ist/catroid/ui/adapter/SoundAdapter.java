@@ -98,7 +98,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = View.inflate(context, R.layout.activity_sound_soundlist_item, null);
+			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
 		}
 
 		final SoundInfo soundInfo = soundInfoItems.get(position);

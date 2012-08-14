@@ -34,8 +34,9 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameCostumeDialog extends TextDialog {
 
-	private static final String ARGS_OLD_COSTUME_NAME = "old_costume_name";
+	private static final String BUNDLE_ARGS_OLD_COSTUME_NAME = "old_costume_name";
 	public static final String EXTRA_NEW_COSTUME_NAME = "new_costume_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_costume";
 
 	private String oldCostumeName;
 
@@ -43,7 +44,7 @@ public class RenameCostumeDialog extends TextDialog {
 		RenameCostumeDialog dialog = new RenameCostumeDialog();
 
 		Bundle args = new Bundle();
-		args.putString(ARGS_OLD_COSTUME_NAME, oldCostumeName);
+		args.putString(BUNDLE_ARGS_OLD_COSTUME_NAME, oldCostumeName);
 		dialog.setArguments(args);
 
 		return dialog;
@@ -51,7 +52,7 @@ public class RenameCostumeDialog extends TextDialog {
 
 	@Override
 	protected void initialize() {
-		oldCostumeName = getArguments().getString(ARGS_OLD_COSTUME_NAME);
+		oldCostumeName = getArguments().getString(BUNDLE_ARGS_OLD_COSTUME_NAME);
 		input.setText(oldCostumeName);
 	}
 

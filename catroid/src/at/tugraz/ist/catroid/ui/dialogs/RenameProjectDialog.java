@@ -31,7 +31,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameProjectDialog extends TextDialog {
 
-	private static final String ARGS_OLD_PROJECT_NAME = "old_project_name";
+	private static final String BUNDLE_ARGS_OLD_PROJECT_NAME = "old_project_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_project";
 
 	private OnProjectRenameListener onProjectRenameListener;
 
@@ -41,7 +42,7 @@ public class RenameProjectDialog extends TextDialog {
 		RenameProjectDialog dialog = new RenameProjectDialog();
 
 		Bundle args = new Bundle();
-		args.putString(ARGS_OLD_PROJECT_NAME, oldProjectName);
+		args.putString(BUNDLE_ARGS_OLD_PROJECT_NAME, oldProjectName);
 		dialog.setArguments(args);
 
 		return dialog;
@@ -53,7 +54,7 @@ public class RenameProjectDialog extends TextDialog {
 
 	@Override
 	protected void initialize() {
-		oldProjectName = getArguments().getString(ARGS_OLD_PROJECT_NAME);
+		oldProjectName = getArguments().getString(BUNDLE_ARGS_OLD_PROJECT_NAME);
 		input.setText(oldProjectName);
 	}
 

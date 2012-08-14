@@ -90,7 +90,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = View.inflate(context, R.layout.activity_costume_costumelist_item, null);
+			convertView = View.inflate(context, R.layout.fragment_costume_costumelist_item, null);
 		}
 
 		convertView.findViewById(R.id.costume_name).setTag(position);

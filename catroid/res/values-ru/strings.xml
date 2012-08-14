@@ -22,6 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+
     <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">проект</string>
@@ -42,7 +43,7 @@
     <string name="close">Закрыть</string>
     <string name="error">Ошибка</string>
     <string name="please_wait">Подождите, пожалуйста</string>
-    <string name="loading">Загрузка...</string>
+    <string name="loading">Загрузка…</string>
     <string name="background">Фон</string>
     <string name="stage">Сцена</string>
     <string name="ok">OK</string>
@@ -71,12 +72,11 @@
     <string name="pref_descr_ms_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
     <!-- About Dialog -->
     <string name="about_title">О Catroid</string>
-    <string name="about_text">        Catroid это графический язык программирования для Android,
+    <string name="about_text">Catroid это графический язык программирования для Android,
         вдохновленный проектом Scratch из MIT.\n
         Catroid разрабатывается в Институте Технологий Программного Обеспечения в 
         Техническом Университете Граца в Австрии.\n\n
-        Эта программа лицензированна под лицензией GNU GPL v3.\n\n
-</string>
+        Эта программа лицензированна под лицензией GNU GPL v3.\n\n</string>
     <string name="about_catroid_license_link_text">О Catroid</string>
     <!-- Project activity view -->
     <string name="project_name">Проект:</string>
@@ -152,8 +152,6 @@
     <string name="rename_sprite_dialog">Переименовать объект</string>
     <string name="spritename_invalid">Это название объекта недопустимо</string>
     <!-- <string name="rename_script_dialog">Переименовать скрипт</string> -->
-    <!-- Load project dialog -->
-    <string name="load_project_dialog_title">Загрузить проект</string>
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">Вход</string>
     <string name="username">Имя:</string>
@@ -169,8 +167,8 @@
     <!-- <string name="snapshot">Скриншот</string> -->
     <string name="stage_dialog_title">Настройки сцены</string>
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">новое...</string>
-    <string name="broadcast_nothing_selected">Ничего...</string>
+    <string name="new_broadcast_message">новое…</string>
+    <string name="broadcast_nothing_selected">Ничего…</string>
     <!-- Point to spinner -->
     <!-- <string name="point_to_select_location">Выбрать</string> -->
     <!-- Stage context menu -->
@@ -246,61 +244,46 @@
     <!-- defaulValues -->
     <string name="default_project_name">проектПоУмолчанию</string>
     <!-- Notifications -->
-    <string name="notification_invalid_text_entered">    	Пожалуйста, введите значение
-</string>
-    <string name="notification_screenshot_ok">        Снимок сохранен
-</string>
+    <string name="notification_invalid_text_entered">Пожалуйста, введите значение</string>
+    <string name="notification_screenshot_ok">Снимок сохранен</string>
     <!-- <string name="notification_invalid_name_entered"> -->
     <!-- Пожалуйста, введите имя -->
     <!-- </string> -->
     <!-- Error messages -->
-    <string name="error_no_sd_card">        Catroid требует наличие SD карты.
-        \nПожалуйста введите SD карту и попробуйте еще раз.
-</string>
-    <string name="error_no_name_entered">        Пожалуйста, введите название.
-</string>
-    <string name="error_project_exists">        Проект с таким названием уже существуетю\nПожалуйста, выберите другое название.
-</string>
+    <string name="error_no_sd_card">Catroid требует наличие SD карты.
+        \nПожалуйста введите SD карту и попробуйте еще раз.</string>
+    <string name="error_no_name_entered">Пожалуйста, введите название.</string>
+    <string name="error_project_exists">Проект с таким названием уже существуетю\nПожалуйста, выберите другое название.</string>
     <!-- <string name="error_create_project"> -->
     <!-- Произошла ошибка при создании нового проекта. -->
     <!-- </string> -->
     <!-- <string name="error_sprite_exists"> -->
     <!-- Объект с таким именем уже существует.\nПожалуйста,выберите другое имя. -->
     <!-- </string> -->
-    <string name="error_project_upload">        Произошла ошибка во время закачивания проекта.
-</string>
-    <string name="error_project_download">        Произошла ошибка во время скачивания проекта.
-</string>
+    <string name="error_project_upload">Произошла ошибка во время закачивания проекта.</string>
+    <string name="error_project_download">Произошла ошибка во время скачивания проекта.</string>
     <!-- <string name="error_project_rename"> -->
     <!-- Произошла ошибка при переименовании проекта. -->
     <!-- </string> -->
-    <string name="error_new_project">    	Произошла ошибка при создании нового проекта.
-</string>
+    <string name="error_new_project">Произошла ошибка при создании нового проекта.</string>
     <!-- <string name="error_save_project"> -->
     <!-- Произошла ошибка при сохранении проекта. -->
     <!-- </string> -->
-    <string name="error_load_project">        Произошла ошибка во время загрузки проекта.
-</string>
+    <string name="error_load_project">Произошла ошибка во время загрузки проекта.</string>
     <!-- <string name="error_delete_project"> -->
     <!-- Произошла ошибка при удалении проекта. -->
     <!-- </string> -->
-    <string name="error_no_number_entered">        Пожалуйста, введите номер.
-</string>
-    <string name="error_screenshot_failed">        Произошла ошибка во время сохранения снимка.
-</string>
-    <string name="error_load_image">    	Произошла ошибка во время загрузки иображения.
-</string>
-    <string name="error_load_sound">    	Произошла ошибка при загрузке звука.
-</string>
+    <string name="error_no_number_entered">Пожалуйста, введите номер.</string>
+    <string name="error_screenshot_failed">Произошла ошибка во время сохранения снимка.</string>
+    <string name="error_load_image">Произошла ошибка во время загрузки иображения.</string>
+    <string name="error_load_sound">Произошла ошибка при загрузке звука.</string>
     <!-- <string name="text_to_speech_error"> -->
     <!-- Ошибка Текст-к-голосу. Блок Сказать не будет работать. -->
     <!-- </string> -->
-    <string name="error_internet_connection">    	Произошла неизвестная ошибка. Проверьте подключение к интернету.
-</string>
+    <string name="error_internet_connection">Произошла неизвестная ошибка. Проверьте подключение к интернету.</string>
     <!-- Notifications -->
     <string name="success_project_upload">Проект успешно закачан.</string>
     <string name="success_project_download">Проект успешно скачан.</string>
-    <string name="load_project">Загрузить проект</string>
     <string name="upload_button">Загрузить</string>
     <string name="upload_project_dialog_title">Загрузить проект</string>
     <string name="upload_description">Описание:</string>
@@ -324,14 +307,13 @@
     <!-- <string name="brick_sensor_time">Время</string> -->
     <!-- <string name="brick_sensor_time_seconds">сек</string> -->
     <!-- Bluetooth Connection Strings -->
-    <string name="notification_blueth_err">Bluetooth не мог быть подключен, закрывание сцены
-</string>
+    <string name="notification_blueth_err">Bluetooth не мог быть подключен, закрывание сцены</string>
     <string name="title_paired_devices">Парные устройства</string>
     <string name="title_other_devices">Новые устройства</string>
     <string name="button_scan">Поиск bluetooth устрйств</string>
     <string name="select_device">Выберите ваш Mindstorms NXT</string>
     <string name="scanning">Сканнирование</string>
-    <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста...</string>
+    <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста…</string>
     <string name="pairing_message">Подключится после спаривания.</string>
     <string name="problem_at_closing">Ошибка при закрытии подключения!</string>
     <!-- <string name="connect_device">Подключить устройство</string> -->
@@ -361,4 +343,5 @@
     <string name="number_to_big">Слишком большое значение!</string>
     <string name="add_costume_from_gallery">Из галереи</string>
     <string name="add_costume_from_camera">Камера</string>
+
 </resources>

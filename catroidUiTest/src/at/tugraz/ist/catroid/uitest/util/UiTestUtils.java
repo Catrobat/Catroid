@@ -650,7 +650,7 @@ public class UiTestUtils {
 
 	public static void goToHomeActivity(Activity activity) {
 		Intent intent = new Intent(activity, MainMenuActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		activity.startActivity(intent);
 	}
 

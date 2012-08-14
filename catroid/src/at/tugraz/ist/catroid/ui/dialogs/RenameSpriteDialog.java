@@ -31,8 +31,9 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSpriteDialog extends TextDialog {
 
-	private static final String ARGS_OLD_SPRITE_NAME = "old_sprite_name";
+	private static final String BUNDLE_ARGS_OLD_SPRITE_NAME = "old_sprite_name";
 	public static final String EXTRA_NEW_SPRITE_NAME = "new_sprite_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_sprite";
 
 	private String oldSpriteName;
 
@@ -40,7 +41,7 @@ public class RenameSpriteDialog extends TextDialog {
 		RenameSpriteDialog dialog = new RenameSpriteDialog();
 
 		Bundle args = new Bundle();
-		args.putString(ARGS_OLD_SPRITE_NAME, oldSpriteName);
+		args.putString(BUNDLE_ARGS_OLD_SPRITE_NAME, oldSpriteName);
 		dialog.setArguments(args);
 
 		return dialog;
@@ -48,7 +49,7 @@ public class RenameSpriteDialog extends TextDialog {
 
 	@Override
 	protected void initialize() {
-		oldSpriteName = getArguments().getString(ARGS_OLD_SPRITE_NAME);
+		oldSpriteName = getArguments().getString(BUNDLE_ARGS_OLD_SPRITE_NAME);
 		input.setText(oldSpriteName);
 	}
 
