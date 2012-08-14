@@ -65,6 +65,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void manageLoadAndFinish() {
+		finish();
 		stageListener.pause();
 		stageListener.finish();
 
@@ -73,12 +74,12 @@ public class StageActivity extends AndroidApplication {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		projectManager.loadProject(
+				projectManager.getCurrentProject().getName(), this, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		stagePlaying = false;
 
-		finish();
 	}
 
 	public void toggleAxes() {
@@ -101,9 +102,12 @@ public class StageActivity extends AndroidApplication {
 
 	private void calculateScreenSizes() {
 		ifLandscapeSwitchWidthAndHeight();
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight;
-		if (virtualScreenWidth == Values.SCREEN_WIDTH && virtualScreenHeight == Values.SCREEN_HEIGHT) {
+		int virtualScreenWidth = ProjectManager.getInstance()
+				.getCurrentProject().virtualScreenWidth;
+		int virtualScreenHeight = ProjectManager.getInstance()
+				.getCurrentProject().virtualScreenHeight;
+		if (virtualScreenWidth == Values.SCREEN_WIDTH
+				&& virtualScreenHeight == Values.SCREEN_HEIGHT) {
 			resizePossible = false;
 			return;
 		}
