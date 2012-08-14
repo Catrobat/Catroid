@@ -38,6 +38,8 @@ import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -136,6 +138,13 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Script number of 3rd sprite wrong", 1, testProject.getSpriteList().get(2).getNumberOfScripts());
 		assertEquals("Number of bricks for the script of 3rd sprite is wrong", 7, testProject.getSpriteList().get(2)
 				.getNumberOfBricks());
+		PointInDirectionBrick pointBrick = (PointInDirectionBrick) testProject.getSpriteList().get(1).getScript(0)
+				.getBrick(5);
+		assertNotNull("pointTowards null", pointBrick);
+		double directionDegrees = (Double) TestUtils.getPrivateField("degrees", pointBrick, false);
+		assertEquals("direction wrong", -90.0, directionDegrees);
+		Direction dir = (Direction) TestUtils.getPrivateField("direction", pointBrick, false);
+		assertNotNull("direction is null, read resolve not run", dir);
 	}
 
 	public void testCostumeListParsing() {

@@ -45,6 +45,8 @@ import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -239,6 +241,8 @@ public class SerializerTest extends InstrumentationTestCase {
 
 		WhenStartedBrick whenStartedBrick = new WhenStartedBrick(testSprite, testScript);
 
+		PointInDirectionBrick pointIndirection = new PointInDirectionBrick(testSprite, Direction.DIRECTION_LEFT);
+
 		HideBrick hideBrick = new HideBrick(pointedSprite);
 		ShowBrick showBrick = new ShowBrick(pointedSprite);
 		testScript.addBrick(repeatBrick);
@@ -246,6 +250,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		testScript.addBrick(soundBrick);
 		testScript.addBrick(loopEndBrick);
 		testScript.addBrick(pointBrick);
+		testScript.addBrick(pointIndirection);
 		testScriptReferenced.addBrick(whenStartedBrick);
 		testSprite.addScript(testScript);
 		testSprite.addScript(testScriptReferenced);
@@ -342,7 +347,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		WhenStartedBrick loadedScriptBrick = (WhenStartedBrick) loadedFirstSprite.getScript(1).getBrick(0);
 		StartScript referencedScript = (StartScript) TestUtils.getPrivateField("script", loadedScriptBrick, false);
 		assertEquals("Script referencing of bricks wrong", loadedFirstSprite.getScript(0), referencedScript);
-		UtilFile.deleteDirectory(projectDirectory);
+		//UtilFile.deleteDirectory(projectDirectory);
 	}
 
 	public void testSerializePerformanceTest() {
