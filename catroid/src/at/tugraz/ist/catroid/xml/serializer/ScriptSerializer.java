@@ -59,6 +59,10 @@ public class ScriptSerializer extends Serializer {
 
 		xmlElementString = scriptTabs + getEndTag(/* scriptTagPrefix + */object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
+		if (scriptStringList.size() <= 2) {
+			scriptStringList.clear();
+			scriptStringList.add(scriptTabs + getEmptyTag(object.getClass().getSimpleName()));
+		}
 		return scriptStringList;
 	}
 

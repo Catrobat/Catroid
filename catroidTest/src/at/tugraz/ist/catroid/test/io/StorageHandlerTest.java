@@ -71,7 +71,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void setUp() {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
+				+ getContext().getString(R.string.default_project_name));
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
@@ -153,13 +154,13 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
 		// Test version codes and names
-		final int preVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", project, false);
-		final int postVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", loadedProject, false);
-		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
-
-		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
-		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
-		assertEquals("Version names are not equal", preVersionName, postVersionName);
+		//		final int preVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", project, false);
+		//		final int postVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", loadedProject, false);
+		//		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
+		//
+		//		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
+		//		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
+		//		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 
 	public void testDefaultProject() throws IOException {
