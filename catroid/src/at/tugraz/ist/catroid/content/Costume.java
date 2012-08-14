@@ -29,8 +29,6 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
-import com.badlogic.gdx.scenes.scene2d.interpolators.AccelerateDecelerateInterpolator;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Costume extends Image {
@@ -86,7 +84,8 @@ public class Costume extends Image {
 		y = height - y;
 
 		if (x >= 0 && x <= width && y >= 0 && y <= height) {
-			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
+			if (pixmap != null
+					&& ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				sprite.startWhenScripts("Tapped");
 				return true;
 			}
@@ -143,7 +142,8 @@ public class Costume extends Image {
 
 			brightnessLock.acquireUninterruptibly();
 			if (brightnessChanged) {
-				costumeData.setPixmap(adjustBrightness(costumeData.getOriginalPixmap()));
+				costumeData.setPixmap(adjustBrightness(costumeData
+						.getOriginalPixmap()));
 				costumeData.setTextureRegion();
 				brightnessChanged = false;
 			}
@@ -158,7 +158,8 @@ public class Costume extends Image {
 	}
 
 	public Pixmap adjustBrightness(Pixmap currentPixmap) {
-		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(), currentPixmap.getHeight(), currentPixmap.getFormat());
+		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(),
+				currentPixmap.getHeight(), currentPixmap.getFormat());
 		for (int y = 0; y < currentPixmap.getHeight(); y++) {
 			for (int x = 0; x < currentPixmap.getWidth(); x++) {
 				int pixel = currentPixmap.getPixel(x, y);
@@ -347,12 +348,6 @@ public class Costume extends Image {
 
 	public CostumeData getCostumeData() {
 		return costumeData;
-	}
-
-	public void addGlideToAction(float x, float y, float duration) {
-		MoveTo action = MoveTo.$(x, y, duration);
-		action.setInterpolator(AccelerateDecelerateInterpolator.$());
-		this.action(action);
 	}
 
 }

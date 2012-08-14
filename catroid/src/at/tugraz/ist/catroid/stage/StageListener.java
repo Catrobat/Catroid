@@ -102,7 +102,6 @@ public class StageListener implements ApplicationListener {
 
 	public boolean axesOn = false;
 
-	private Texture background;
 	private Texture axes;
 
 	private boolean makeTestPixels = false;
@@ -126,7 +125,9 @@ public class StageListener implements ApplicationListener {
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
 
-		pathForScreenshot = Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()) + "/";
+		pathForScreenshot = Utils.buildProjectPath(ProjectManager.getInstance()
+				.getCurrentProject().getName())
+				+ "/";
 
 		costumeComparator = new CostumeComparator();
 
@@ -161,7 +162,6 @@ public class StageListener implements ApplicationListener {
 			Gdx.input.setInputProcessor(stage);
 		}
 
-		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 	}
 
@@ -195,7 +195,8 @@ public class StageListener implements ApplicationListener {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), context, false);
+		projectManager.loadProject(
+				projectManager.getCurrentProject().getName(), context, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		reloadProject = true;
@@ -279,24 +280,25 @@ public class StageListener implements ApplicationListener {
 		stage.getRoot().sortChildren(costumeComparator);
 
 		switch (screenMode) {
-			case MAXIMIZE:
-				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
-				screenshotWidth = maximizeViewPortWidth;
-				screenshotHeight = maximizeViewPortHeight;
-				screenshotX = maximizeViewPortX;
-				screenshotY = maximizeViewPortY;
-				break;
-			case STRETCH:
-			default:
-				Gdx.gl.glViewport(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
-				screenshotWidth = Values.SCREEN_WIDTH;
-				screenshotHeight = Values.SCREEN_HEIGHT;
-				screenshotX = 0;
-				screenshotY = 0;
-				break;
+		case MAXIMIZE:
+			Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY,
+					maximizeViewPortWidth, maximizeViewPortHeight);
+			screenshotWidth = maximizeViewPortWidth;
+			screenshotHeight = maximizeViewPortHeight;
+			screenshotX = maximizeViewPortX;
+			screenshotY = maximizeViewPortY;
+			break;
+		case STRETCH:
+		default:
+			Gdx.gl.glViewport(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+			screenshotWidth = Values.SCREEN_WIDTH;
+			screenshotHeight = Values.SCREEN_HEIGHT;
+			screenshotX = 0;
+			screenshotY = 0;
+			break;
 		}
 
-		this.drawRectangle();
+		batch.setProjectionMatrix(camera.combined);
 
 		if (firstStart) {
 			int spriteSize = sprites.size();
@@ -329,8 +331,8 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
-			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
-					true);
+			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX,
+					screenshotY, screenshotWidth, screenshotHeight, true);
 			makeScreenshot = false;
 		}
 
@@ -350,16 +352,10 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeTestPixels) {
-			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
+			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY,
+					testWidth, testHeight, false);
 			makeTestPixels = false;
 		}
-	}
-
-	private void drawRectangle() {
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		batch.draw(background, -virtualWidthHalf, -virtualHeightHalf, virtualWidth, virtualHeight);
-		batch.end();
 	}
 
 	private void drawAxes() {
@@ -369,11 +365,15 @@ public class StageListener implements ApplicationListener {
 		batch.draw(axes, 0, -virtualHeightHalf, 1, virtualHeight);
 
 		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf, 0);
-		TextBounds bounds = font.getBounds(String.valueOf((int) virtualWidthHalf));
-		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - bounds.width, 0);
+		TextBounds bounds = font.getBounds(String
+				.valueOf((int) virtualWidthHalf));
+		font.draw(batch, String.valueOf((int) virtualWidthHalf),
+				virtualWidthHalf - bounds.width, 0);
 
-		font.draw(batch, "-" + (int) virtualHeightHalf, 0, -virtualHeightHalf + bounds.height);
-		font.draw(batch, String.valueOf((int) virtualHeightHalf), 0, virtualHeightHalf);
+		font.draw(batch, "-" + (int) virtualHeightHalf, 0, -virtualHeightHalf
+				+ bounds.height);
+		font.draw(batch, String.valueOf((int) virtualHeightHalf), 0,
+				virtualHeightHalf);
 		font.draw(batch, "0", 0, 0);
 		batch.end();
 	}
@@ -389,14 +389,13 @@ public class StageListener implements ApplicationListener {
 		}
 		stage.dispose();
 		font.dispose();
-		background.dispose();
 		axes.dispose();
 		disposeTextures();
 	}
 
 	private void makeThumbnail() {
-		byte[] screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
-				screenshotHeight, true);
+		byte[] screenshot = ScreenUtils.getFrameBufferPixels(screenshotX,
+				screenshotY, screenshotWidth, screenshotHeight, true);
 		this.saveScreenshot(screenshot);
 	}
 
@@ -413,14 +412,15 @@ public class StageListener implements ApplicationListener {
 		int[] colors = new int[length / 4];
 
 		for (int i = 0; i < length; i += 4) {
-			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
-					screenshot[i + 2] & 0xFF);
+			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF,
+					screenshot[i + 1] & 0xFF, screenshot[i + 2] & 0xFF);
 		}
 
-		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
-				Config.ARGB_8888);
+		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth,
+				screenshotWidth, screenshotHeight, Config.ARGB_8888);
 
-		FileHandle image = Gdx.files.absolute(pathForScreenshot + SCREENSHOT_FILE_NAME);
+		FileHandle image = Gdx.files.absolute(pathForScreenshot
+				+ SCREENSHOT_FILE_NAME);
 		OutputStream stream = image.write(false);
 		try {
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -445,12 +445,12 @@ public class StageListener implements ApplicationListener {
 
 	public void changeScreenSize() {
 		switch (screenMode) {
-			case MAXIMIZE:
-				screenMode = ScreenModes.STRETCH;
-				break;
-			case STRETCH:
-				screenMode = ScreenModes.MAXIMIZE;
-				break;
+		case MAXIMIZE:
+			screenMode = ScreenModes.STRETCH;
+			break;
+		case STRETCH:
+			screenMode = ScreenModes.MAXIMIZE;
+			break;
 		}
 	}
 
