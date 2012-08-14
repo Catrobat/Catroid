@@ -190,7 +190,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.sleep(200);
 		solo.clickOnCheckBox(0);
 		solo.sleep(500);
-		UiTestUtils.clickOnActionModeOverflowMenuItem(solo, solo.getString(R.string.sound_delete));
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_sound_delete);
 		solo.sleep(200);
 		solo.clickOnButton(buttonOkText);
 

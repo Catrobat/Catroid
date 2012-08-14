@@ -88,7 +88,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
 			UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
-			solo.clickOnText(getActivity().getString(R.string.settings));
+			solo.clickOnMenuItem(getActivity().getString(R.string.settings));
 			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
 			solo.goBack();
 			solo.clickOnText(getActivity().getString(R.string.current_project_button));
