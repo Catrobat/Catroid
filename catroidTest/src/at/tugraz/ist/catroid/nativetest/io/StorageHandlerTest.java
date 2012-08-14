@@ -35,19 +35,12 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
-	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+	private static final String TEST_PROJECT_NAME = "TestProject1";
 	private static final String SPRITE_NAME1 = "Stage";
 	private static final String SPRITE_NAME2 = "first";
 	private static final String SPRITE_NAME3 = "second";
 
-	@Override
-	protected void tearDown() throws Exception {
-		NativeAppActivity.setContext(null);
-		TestUtils.deleteTestProjects();
-		super.tearDown();
-	}
-
-	public void testLoadProject() throws Exception {
+	public void testLoadProject() {
 		double scaleValue = 0.8;
 		int timeToWaitInMilliSeconds = 1000;
 		int xPosition = 100;
@@ -62,6 +55,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		NativeAppActivity.setContext(getInstrumentation().getContext());
 		Project loadedProject = StorageHandler.getInstance().loadProject("test_project.xml");
 
+		assertNotNull("Cannot load project.", loadedProject);
 		assertEquals("Project title missmatch.", TEST_PROJECT_NAME, loadedProject.getName());
 
 		assertEquals("Name of first sprite does not match.", SPRITE_NAME1, loadedProject.getSpriteList().get(0)
