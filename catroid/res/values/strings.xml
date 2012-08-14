@@ -133,9 +133,7 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_title">Brick Menu</string>
     <string name="brick_context_dialog_move_brick">Move Brick</string>
-    <string name="brick_context_dialog_move_attached_bricks">Move attached Bricks</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
-    <string name="brick_context_dialog_delete_attached_bricks">Delete attached Bricks</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
 
     <!-- New project dialog -->
