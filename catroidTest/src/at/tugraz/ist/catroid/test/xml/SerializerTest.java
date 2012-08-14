@@ -25,10 +25,22 @@ package at.tugraz.ist.catroid.test.xml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
+import org.xml.sax.SAXException;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
@@ -468,36 +480,36 @@ public class SerializerTest extends InstrumentationTestCase {
 			e.printStackTrace();
 		}
 		UtilFile.deleteDirectory(projectDirectory);
-		//SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-		//		URL schemaUrl;
-		//		Schema schema = null;
-		//		try {
-		//			schemaUrl = new URL(XMLSCHEMA_URL);
-		//		//	schema = factory.newSchema(schemaUrl);
-		//		} catch (MalformedURLException e) {
-		//			e.printStackTrace();
-		//		} catch (SAXException e) {
-		//			e.printStackTrace();
-		//		}
-		//
-		//		Validator schemaValidator = schema.newValidator();
-		//
-		//		File xmlDirectory = projectDirectory;
-		//		File[] xmlFilesToValidate = xmlDirectory.listFiles();
-		//
-		//		File currentXMLFile = null;
-		//		try {
-		//			for (File xmlFile : xmlFilesToValidate) {
-		//				currentXMLFile = xmlFile;
-		//				Source source = new StreamSource(currentXMLFile);
-		//				schemaValidator.validate(source);
-		//			}
-		//		} catch (SAXException ex) {
-		//			ex.printStackTrace();
-		//			assertFalse(currentXMLFile + " is not valid because: " + ex.getMessage(), true);
-		//		} catch (IOException e) {
-		//			e.printStackTrace();
-		//		}
+		URL schemaUrl;
+		Schema schema = null;
+		try {
+			schemaUrl = new URL(XMLSCHEMA_URL);
+			schema = factory.newSchema(schemaUrl);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
+
+		Validator schemaValidator = schema.newValidator();
+
+		File xmlDirectory = projectDirectory;
+		File[] xmlFilesToValidate = xmlDirectory.listFiles();
+
+		File currentXMLFile = null;
+		try {
+			for (File xmlFile : xmlFilesToValidate) {
+				currentXMLFile = xmlFile;
+				Source source = new StreamSource(currentXMLFile);
+				schemaValidator.validate(source);
+			}
+		} catch (SAXException ex) {
+			ex.printStackTrace();
+			assertFalse(currentXMLFile + " is not valid because: " + ex.getMessage(), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
