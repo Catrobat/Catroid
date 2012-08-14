@@ -62,8 +62,6 @@ public class GlideToBrick implements Brick, OnClickListener {
 	@Override
 	public void execute() {
 
-		//sprite.costume.addGlideToAction(xDestination, yDestination, durationInMilliSeconds / 1000.0f);
-
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
 		//		final CountDownLatch latch = new CountDownLatch(1);
