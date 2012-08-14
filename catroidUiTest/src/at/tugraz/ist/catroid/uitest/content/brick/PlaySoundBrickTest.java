@@ -116,6 +116,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	public void testSelectandPlaySoundFile() {
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(1000);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.clickOnText(soundName);
