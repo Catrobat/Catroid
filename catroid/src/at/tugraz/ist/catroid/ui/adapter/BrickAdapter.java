@@ -122,7 +122,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		footerHeight = Values.SCREEN_HEIGHT - height
 				- (int) context.getResources().getDimension(R.dimen.actionbar_height);
 		if (footerHeight < Utils.getPhysicalPixels(70, context)) {
-			footerHeight = Utils.getPhysicalPixels(20, context);
+			footerHeight = Utils.getPhysicalPixels(70, context);
 		}
 	}
 
