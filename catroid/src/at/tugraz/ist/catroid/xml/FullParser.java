@@ -45,7 +45,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class FullParser {
 
-	List<Sprite> sprites = new ArrayList<Sprite>();
+	//List<Sprite> sprites = new ArrayList<Sprite>();
 	Map<String, Object> referencedObjects = new HashMap<String, Object>();
 	List<ForwardReferences> forwardRefs = new ArrayList<ForwardReferences>();
 	ObjectCreator objectGetter = new ObjectCreator();
@@ -79,6 +79,7 @@ public class FullParser {
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder;
 		Project parsedProject = null;
+		List<Sprite> sprites = new ArrayList<Sprite>();
 		try {
 			docBuilder = docBuilderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(xmlInputStream);
@@ -120,6 +121,7 @@ public class FullParser {
 			references.resolveForwardReferences(referencedObjects, forwardRefs);
 			parsedProject = getProjectObject(doc, sprites);
 			doc = null;
+			xmlInputStream.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new ParseException(e);

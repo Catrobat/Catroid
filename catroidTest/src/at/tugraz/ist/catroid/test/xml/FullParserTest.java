@@ -254,4 +254,27 @@ public class FullParserTest extends InstrumentationTestCase {
 		}
 	}
 
+	public void testLoadProjectTwoTimes() {
+		FullParser parser = new FullParser();
+		Project loadedProject = null;
+		Project loadedProject2 = null;
+		try {
+			InputStream firstFileStream = androidContext.getAssets().open("test_standard_project_new_version.xml");
+			loadedProject = parser.parseSpritesWithProject(firstFileStream);
+			assertNotNull("loadedProject null", loadedProject);
+			assertEquals("sprites not right", 2, loadedProject.getSpriteList().size());
+
+			InputStream secondFileStream = androidContext.getAssets().open("test_standard_project_new_version.xml");
+			//assertEquals(firstFileStream, secondFileStream);
+			loadedProject2 = parser.parseSpritesWithProject(secondFileStream);
+			assertNotNull("loadedProject null", loadedProject2);
+			assertEquals("sprites not right", 2, loadedProject2.getSpriteList().size());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
