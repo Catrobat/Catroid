@@ -47,7 +47,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
-	private static final int DIALOG_ADD_BRICK = 2;
+	public static final int DIALOG_ADD_BRICK = 2;
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -115,6 +115,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 	private View.OnClickListener createAddBrickClickListener() {
 		return new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				if (listView.setHoveringBrick()) {
 					return;
@@ -134,6 +135,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		adapter.addNewBrick(position, brickToBeAdded);
 	}
 
+	@Override
 	public void onCancel(DialogInterface arg0) {
 		adapter.notifyDataSetChanged();
 	}

@@ -33,17 +33,20 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
@@ -55,6 +58,7 @@ import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener {
 
@@ -76,6 +80,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private List<Brick> brickList;
 	private List<Brick> animatedBricks;
+
+	private int footerHeight;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -103,6 +109,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				brickList.add(brick);
 			}
 		}
+
+		int height = 0;
+		for (int i = 0; i < brickList.size(); i++) {
+			View tempView = getView(i, null, null);
+			tempView.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
+					MeasureSpec.makeMeasureSpec(Values.SCREEN_HEIGHT, MeasureSpec.AT_MOST));
+
+			height += tempView.getMeasuredHeight();
+		}
+
+		footerHeight = Values.SCREEN_HEIGHT - height
+				- (int) context.getResources().getDimension(R.dimen.actionbar_height);
 	}
 
 	@Override
@@ -150,6 +168,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				dragTargetPosition = 1;
 				to = 1;
 			}
+		}
+
+		if (dragTargetPosition >= brickList.size()) {
+			dragTargetPosition = brickList.size() - 1;
 		}
 
 		brickList.remove(draggedBrick);
@@ -310,6 +332,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void dragBrickInProject(int from, int to) {
+		if (to >= brickList.size()) {
+			to = brickList.size() - 1;
+		}
+
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		int[] tempFrom = getScriptAndBrickIndexFromProject(from);
@@ -559,7 +585,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public int getCount() {
-		return brickList.size();
+		return brickList.size() + 1;
 	}
 
 	@Override
@@ -586,6 +612,31 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		if (position >= brickList.size()) {
+			FrameLayout frameLayout = new FrameLayout(context);
+
+			ImageView imageView = new ImageView(context);
+			imageView.setImageResource(android.R.drawable.ic_menu_add);
+
+			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT);
+
+			params.topMargin = Utils.getPhysicalPixels(20, context);
+			params.gravity = Gravity.CENTER_HORIZONTAL;
+			frameLayout.addView(imageView, params);
+
+			if (dragAndDropListView.getFirstVisiblePosition() == 0) {
+				dragAndDropListView.setFocusable(false);
+				frameLayout.setMinimumHeight(footerHeight);
+			} else {
+				frameLayout.setMinimumHeight(Utils.getPhysicalPixels(70, context));
+			}
+
+			frameLayout.setOnClickListener(this);
+
+			return frameLayout;
+		}
+
 		if (draggedBrick != null && dragTargetPosition == position) {
 			return insertionView;
 		}
@@ -643,26 +694,28 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		notifyDataSetChanged();
 	}
 
-	private int getScriptIndexFromProject(int index) {
-		int scriptIndex = 0;
-		for (int i = 0; i < index;) {
-
-			i += sprite.getScript(scriptIndex).getBrickList().size() + 1;
-			if (i <= index) {
-				scriptIndex++;
-			}
-		}
-
-		return scriptIndex;
-	}
-
 	@Override
 	public void setTouchedScript(int index) {
-		if (index >= 0 && brickList.get(index) instanceof ScriptBrick && draggedBrick == null) {
-			int scriptIndex = getScriptIndexFromProject(index);
-			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
-		}
+		// TODO find out who needs this
+		//		if (index >= 0 && brickList.get(index) instanceof ScriptBrick && draggedBrick == null) {
+		//			int scriptIndex = getScriptIndexFromProject(index);
+		//			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
+		//		}
 	}
+
+	// TODO check if needed
+	//	private int getScriptIndexFromProject(int index) {
+	//		int scriptIndex = 0;
+	//		for (int i = 0; i < index;) {
+	//
+	//			i += sprite.getScript(scriptIndex).getBrickList().size() + 1;
+	//			if (i <= index) {
+	//				scriptIndex++;
+	//			}
+	//		}
+	//
+	//		return scriptIndex;
+	//	}
 
 	public int getChildCountFromLastGroup() {
 		return ProjectManager.getInstance().getCurrentSprite().getScript(getScriptCount() - 1).getBrickList().size();
@@ -684,6 +737,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void onClick(final View view) {
+		if (view instanceof FrameLayout) {
+			((ScriptActivity) context).getParent().showDialog(ScriptActivity.DIALOG_ADD_BRICK);
+			return;
+		}
+
 		animatedBricks.clear();
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
 
