@@ -93,6 +93,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		assertEquals("Wrong text in field.", TEST_STRING, note);
 
 		solo.clickOnEditText(0);
+		solo.sleep(500);
 		solo.enterText(0, "");
 		solo.clickOnButton(buttonPositiveText);
 
