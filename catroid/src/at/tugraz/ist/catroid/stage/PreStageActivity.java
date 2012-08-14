@@ -22,8 +22,8 @@
  */
 package at.tugraz.ist.catroid.stage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -173,8 +173,7 @@ public class PreStageActivity extends Activity {
 
 	private int getRequiredRessources() {
 
-		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-				.getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		int ressources = Brick.NO_RESOURCES;
 
 		for (Sprite sprite : spriteList) {

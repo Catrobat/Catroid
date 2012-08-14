@@ -22,7 +22,7 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -47,17 +47,19 @@ public class PointToBrick implements Brick {
 		this.pointedSprite = pointedSprite;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public void execute() {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-				.getSpriteList();
+		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		if (!spriteList.contains(pointedSprite)) {
 			pointedSprite = null;
 		}
@@ -119,6 +121,7 @@ public class PointToBrick implements Brick {
 		sprite.costume.rotation = (-(float) rotationDegrees) + 90f;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -134,8 +137,7 @@ public class PointToBrick implements Brick {
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerAdapter.add(context.getString(R.string.broadcast_nothing_selected));
 
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-				.getSpriteList();
+		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		for (Sprite sprite : spriteList) {
 			String spriteName = sprite.getName();
 			String temp = this.sprite.getName();
@@ -147,11 +149,11 @@ public class PointToBrick implements Brick {
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
+			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String itemSelected = parent.getSelectedItem().toString();
 				String nothingSelected = context.getString(R.string.broadcast_nothing_selected);
-				final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
-						.getCurrentProject().getSpriteList();
+				final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 
 				if (itemSelected.equals(nothingSelected)) {
 					pointedSprite = null;
@@ -164,6 +166,7 @@ public class PointToBrick implements Brick {
 				}
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
@@ -178,6 +181,7 @@ public class PointToBrick implements Brick {
 		return brickView;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_point_to, null);
