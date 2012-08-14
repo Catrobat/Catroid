@@ -122,7 +122,6 @@ public class StageDialog extends Dialog {
 	private void exitStage() {
 		this.dismiss();
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
-		//stageActivity.manageLoadAndFinish();
 	}
 
 	@Override
