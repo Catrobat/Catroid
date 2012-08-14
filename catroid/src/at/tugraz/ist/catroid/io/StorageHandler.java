@@ -139,6 +139,8 @@ public class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private static final boolean FORCE_SYNCHRONOUS_SAVE = false;
+
 	private static StorageHandler instance;
 	private XStream xstream;
 	private SaveProjectTask currentSaveProjectTask;
@@ -200,14 +202,18 @@ public class StorageHandler {
 	}
 
 	public void saveProject(Project project, SaveProjectTaskCallback callback) {
-		if (currentSaveProjectTask != null && currentSaveProjectTask.isCurrentlySavingProject) {
-			currentSaveProjectTask.cancel(false);
+		if (!FORCE_SYNCHRONOUS_SAVE) {
+			if (currentSaveProjectTask != null && currentSaveProjectTask.isCurrentlySavingProject) {
+				currentSaveProjectTask.cancel(false);
+			}
+			currentSaveProjectTask = new SaveProjectTask(callback);
+			currentSaveProjectTask.execute(project);
+		} else {
+			callback.onProjectSaved(saveProjectSynchronously(project));
 		}
-		currentSaveProjectTask = new SaveProjectTask(callback);
-		currentSaveProjectTask.execute(project);
 	}
 
-	public boolean saveProjectSynchronously(Project project) throws InterruptedException {
+	public boolean saveProjectSynchronously(Project project) {
 		final BooleanWaitLock lock = new BooleanWaitLock(false);
 
 		saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
@@ -216,8 +222,12 @@ public class StorageHandler {
 				lock.unlock(success);
 			}
 		});
-
-		return lock.lock();
+		try {
+			return lock.lock();
+		} catch (InterruptedException e) {
+			Log.e("CATROID", "Cannot save project.", e);
+			return false;
+		}
 	}
 
 	public boolean deleteProject(Project project) {

@@ -119,12 +119,7 @@ public class ProjectManager {
 			saveProject(null);
 			return true;
 		} else {
-			try {
-				return StorageHandler.getInstance().saveProjectSynchronously(project);
-			} catch (InterruptedException e) {
-				Log.e("CATROID", "Cannot save project.", e);
-				return false;
-			}
+			return StorageHandler.getInstance().saveProjectSynchronously(project);
 		}
 	}
 
