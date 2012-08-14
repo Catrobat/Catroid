@@ -170,6 +170,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.clickOnView(solo.getView(R.id.sound_name));
+		solo.sleep(500);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);

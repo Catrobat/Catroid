@@ -106,6 +106,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundCheckedListener(this);
 		adapter.setOnSoundPlayPauseListener(this);
+		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 
 		mediaPlayer = new MediaPlayer();
@@ -298,6 +299,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundCheckedListener(this);
 		adapter.setOnSoundPlayPauseListener(this);
+		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 	}
 
