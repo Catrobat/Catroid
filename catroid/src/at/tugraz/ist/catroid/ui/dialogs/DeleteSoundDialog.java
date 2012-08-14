@@ -40,46 +40,45 @@ import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 public class DeleteSoundDialog extends DialogFragment {
 
 	private static final String ARGS_SELECTED_POSITION = "selected_position";
-	
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_delete_sound";
+
 	public static DeleteSoundDialog newInstance(int selectedPosition) {
 		DeleteSoundDialog dialog = new DeleteSoundDialog();
-		
+
 		Bundle args = new Bundle();
 		args.putInt(ARGS_SELECTED_POSITION, selectedPosition);
 		dialog.setArguments(args);
-		
+
 		return dialog;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final int selectedPosition = getArguments().getInt(ARGS_SELECTED_POSITION);
-		
-		Dialog dialog = new AlertDialog.Builder(getActivity())
-			.setTitle(R.string.delete_sound_dialog)
-			.setNegativeButton(R.string.cancel_button, new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dismiss();
-				}
-			})
-			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					handleDeleteSound(selectedPosition);
-				}
-			}).create();
-		
+
+		Dialog dialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.delete_sound_dialog)
+				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dismiss();
+					}
+				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						handleDeleteSound(selectedPosition);
+					}
+				}).create();
+
 		dialog.setCanceledOnTouchOutside(true);
-		
+
 		return dialog;
 	}
-	
+
 	private void handleDeleteSound(int position) {
 		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 		soundInfoList.remove(position);
-		
+
 		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_SOUND_DELETED));
 	}
 }

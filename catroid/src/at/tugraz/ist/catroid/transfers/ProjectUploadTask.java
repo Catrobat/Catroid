@@ -134,8 +134,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		if (context == null) {
 			return;
 		}
-		//TODO: Refactor to use stings.xml
-		new Builder(context).setMessage(message).setPositiveButton("OK", null).show();
+		new Builder(context).setMessage(message).setPositiveButton(context.getString(R.string.ok), null).show();
 	}
 
 }

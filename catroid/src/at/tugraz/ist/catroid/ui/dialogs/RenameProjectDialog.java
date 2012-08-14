@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class RenameProjectDialog extends TextDialog {
 
 	private static final String ARGS_OLD_PROJECT_NAME = "old_project_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_project";
 
 	private OnProjectRenameListener onProjectRenameListener;
 

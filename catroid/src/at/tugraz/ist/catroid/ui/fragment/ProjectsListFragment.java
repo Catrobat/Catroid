@@ -32,6 +32,8 @@ import java.util.List;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,12 +156,24 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 					return true;
 				}
 
-				CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
-				initCustomContextMenu(dialog);
-				dialog.show(getFragmentManager(), "dialog_custom_icon_context_menu");
+				showEditProjectContextDialog();
+
 				return true;
 			}
 		});
+	}
+
+	private void showEditProjectContextDialog() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
+		initCustomContextMenu(dialog);
+		dialog.show(getFragmentManager(), CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
@@ -182,13 +196,13 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 						RenameProjectDialog dialogRenameProject = RenameProjectDialog
 								.newInstance(projectToEdit.projectName);
 						dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
-						dialogRenameProject.show(getFragmentManager(), "dialog_rename_project");
+						dialogRenameProject.show(getFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
 						break;
 					case CONTEXT_MENU_ITEM_DESCRIPTION:
 						SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
 								.newInstance(projectToEdit.projectName);
 						dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-						dialogSetDescription.show(getFragmentManager(), "dialog_set_description");
+						dialogSetDescription.show(getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						deleteProject();

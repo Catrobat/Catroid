@@ -36,6 +36,7 @@ public class RenameCostumeDialog extends TextDialog {
 
 	private static final String ARGS_OLD_COSTUME_NAME = "old_costume_name";
 	public static final String EXTRA_NEW_COSTUME_NAME = "new_costume_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_costume";
 
 	private String oldCostumeName;
 

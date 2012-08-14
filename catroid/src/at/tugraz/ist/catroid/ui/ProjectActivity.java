@@ -74,7 +74,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 			}
 			case R.id.menu_add: {
 				NewSpriteDialog dialog = new NewSpriteDialog();
-				dialog.show(getSupportFragmentManager(), "dialog_new_sprite");
+				dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 				return true;
 			}
 			case R.id.menu_start: {

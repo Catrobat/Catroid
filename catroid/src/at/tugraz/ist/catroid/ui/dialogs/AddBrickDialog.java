@@ -99,6 +99,7 @@ import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 public class AddBrickDialog extends DialogFragment {
 
 	private static final String ARGS_SELECTED_CATEGORY = "selected_category";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_add_brick";
 
 	private HashMap<String, List<Brick>> brickMap;
 

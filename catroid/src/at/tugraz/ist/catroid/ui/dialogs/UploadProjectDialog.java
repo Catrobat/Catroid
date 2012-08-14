@@ -53,56 +53,58 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class UploadProjectDialog extends DialogFragment {
 
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_upload_project";
+
 	private EditText projectUploadName;
 	private EditText projectDescriptionField;
 	private TextView projectRename;
 	private TextView sizeOfProject;
 	private Button uploadButton;
 	private Button cancelButton;
-	
+
 	private String currentProjectName;
 	private String newProjectName;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.dialog_upload_project, container);
-		
+
 		projectRename = (TextView) rootView.findViewById(R.id.tv_project_rename);
 		projectDescriptionField = (EditText) rootView.findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) rootView.findViewById(R.id.project_upload_name);
 		cancelButton = (Button) rootView.findViewById(R.id.cancel_button);
 		uploadButton = (Button) rootView.findViewById(R.id.upload_button);
 		sizeOfProject = (TextView) rootView.findViewById(R.id.dialog_upload_size_of_project);
-		
+
 		initControls();
-		
+
 		getDialog().setTitle(R.string.upload_project_dialog_title);
 		getDialog().setCanceledOnTouchOutside(true);
 		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		
+
 		getDialog().setOnShowListener(new OnShowListener() {
+			@Override
 			public void onShow(DialogInterface dialog) {
 				initListeners();
-				
-				InputMethodManager inputManager = (InputMethodManager) getActivity()
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
-		
+
 		return rootView;
 	}
-	
+
 	private void initControls() {
 		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
-		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
-				+ currentProjectName)));
+		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/" + currentProjectName)));
 		projectRename.setVisibility(View.GONE);
 		projectUploadName.setText(currentProjectName);
 		projectDescriptionField.setText("");
 		projectUploadName.requestFocus();
 		projectUploadName.selectAll();
-		
+
 		uploadButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -116,30 +118,33 @@ public class UploadProjectDialog extends DialogFragment {
 			}
 		});
 	}
-	
+
 	private void initListeners() {
 		projectUploadName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					getDialog().getWindow().setSoftInputMode(
-							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+					getDialog().getWindow()
+							.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 				}
 			}
 		});
-		
+
 		projectDescriptionField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					getDialog().getWindow().setSoftInputMode(
-							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+					getDialog().getWindow()
+							.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 				}
 			}
 		});
-		
+
 		projectUploadName.addTextChangedListener(new TextWatcher() {
+			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
-				
+
 				if (!projectUploadName.getText().toString().equals(currentProjectName)) {
 					projectRename.setVisibility(View.VISIBLE);
 					newProjectName = projectUploadName.getText().toString();
@@ -147,25 +152,27 @@ public class UploadProjectDialog extends DialogFragment {
 					projectRename.setVisibility(View.GONE);
 				}
 				if (s.length() == 0) {
-					Toast.makeText(getActivity(), 
-							R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
+							.show();
 					uploadButton.setEnabled(false);
 				} else {
 					uploadButton.setEnabled(true);
 				}
 			}
 
+			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 
+			@Override
 			public void afterTextChanged(Editable s) {
 			}
 		});
 	}
-	
+
 	private void handleUploadButtonClick() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		
+
 		String uploadName = projectUploadName.getText().toString();
 		if (uploadName.length() == 0) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_no_name_entered));
@@ -195,7 +202,7 @@ public class UploadProjectDialog extends DialogFragment {
 		String token = prefs.getString(Constants.TOKEN, "0");
 		new ProjectUploadTask(getActivity(), uploadName, projectDescription, projectPath, token).execute();
 	}
-	
+
 	private void handleCancelButtonClick() {
 		dismiss();
 	}

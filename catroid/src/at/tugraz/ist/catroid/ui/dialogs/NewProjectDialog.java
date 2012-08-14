@@ -34,6 +34,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewProjectDialog extends TextDialog {
 
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
+
 	@Override
 	protected void initialize() {
 	}
