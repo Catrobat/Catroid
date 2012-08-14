@@ -76,11 +76,19 @@ public class SpriteSerializer extends Serializer {
 	public List<String> serializeList() throws IllegalArgumentException, SecurityException, IllegalAccessException,
 			NoSuchFieldException {
 		List<String> spriteListStrings = new ArrayList<String>();
-		spriteListStrings.add(tab + getStartTag(CatroidXMLConstants.spriteListElementName));
+		List<String> spriteElements = new ArrayList<String>();
+
 		for (Sprite projectSprite : serializedProject.getSpriteList()) {
-			spriteListStrings.addAll(serialize(projectSprite));
+			spriteElements.addAll(serialize(projectSprite));
 		}
-		spriteListStrings.add(tab + getEndTag(CatroidXMLConstants.spriteListElementName));
+		if (spriteElements.isEmpty()) {
+			spriteListStrings.add(getEmptyTag(CatroidXMLConstants.spriteListElementName));
+		} else {
+			spriteListStrings.add(tab + getStartTag(CatroidXMLConstants.spriteListElementName));
+			spriteListStrings.addAll(spriteElements);
+			spriteListStrings.add(tab + getEndTag(CatroidXMLConstants.spriteListElementName));
+
+		}
 		return spriteListStrings;
 
 	}
