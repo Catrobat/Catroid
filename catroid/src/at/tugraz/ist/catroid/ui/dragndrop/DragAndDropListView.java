@@ -211,6 +211,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		maximumDragViewHeight = height / 3;
 	}
 
+	@Override
 	public boolean onLongClick(View view) {
 		int itemPosition = calculateItemPositionAndTouchPointY(view);
 
@@ -255,6 +256,26 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), maximumDragViewHeight);
 		}
 
+		ImageView imageView = getGlowingBorder(bitmap);
+
+		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
+		if (isScrolling) {
+			isScrolling = false;
+
+			dragViewParameters.y = getHeight() / 2 - bitmap.getHeight() / 2;
+		} else {
+			dragViewParameters.y = y - bitmap.getHeight() / 2;
+		}
+		dragViewParameters.windowAnimations = R.style.brick_new;
+
+		WindowManager windowManager = getWindowManager();
+
+		windowManager.addView(imageView, dragViewParameters);
+
+		dragView = imageView;
+	}
+
+	public ImageView getGlowingBorder(Bitmap bitmap) {
 		ImageView imageView = new ImageView(getContext());
 		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
 
@@ -273,21 +294,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		imageView.setImageBitmap(glowingBitmap);
 
-		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
-		if (isScrolling) {
-			isScrolling = false;
-
-			dragViewParameters.y = getHeight() / 2 - bitmap.getHeight() / 2;
-		} else {
-			dragViewParameters.y = y - bitmap.getHeight() / 2;
-		}
-		dragViewParameters.windowAnimations = R.style.brick_new;
-
-		WindowManager windowManager = getWindowManager();
-
-		windowManager.addView(imageView, dragViewParameters);
-
-		dragView = imageView;
+		return imageView;
 	}
 
 	private void dragTouchedListItem(int x, int y) {
