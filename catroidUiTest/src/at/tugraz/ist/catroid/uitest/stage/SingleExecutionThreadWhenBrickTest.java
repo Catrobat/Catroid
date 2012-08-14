@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -196,7 +197,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 
 		projectWhenBrick.addSprite(greenSprite);
 
-		UiTestUtils.saveProjectAndWait(projectWhenBrick);
+		StorageHandler.getInstance().saveProjectSynchronously(projectWhenBrick);
 
 		File yellowImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), yellowImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
@@ -215,7 +216,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		blueCostumeData.setCostumeFilename(blueImageFile.getName());
 
 		greenCostumeData.setCostumeFilename(greenImageFile.getName());
-		UiTestUtils.saveProjectAndWait(projectWhenBrick);
+		StorageHandler.getInstance().saveProjectSynchronously(projectWhenBrick);
 		ProjectManager.getInstance().setProject(projectWhenBrick);
 	}
 }

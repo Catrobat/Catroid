@@ -26,6 +26,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -73,6 +74,6 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		ProjectManager.getInstance().setProject(project);
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

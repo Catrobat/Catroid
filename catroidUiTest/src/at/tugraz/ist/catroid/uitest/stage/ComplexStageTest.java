@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -279,7 +280,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		project.addSprite(greenSprite);
 		project.addSprite(blueSprite);
 
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 
 		File yellowImageFile = UiTestUtils.saveFileToProject(project.getName(), yellowImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
@@ -302,7 +303,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		redCostumeData.setCostumeFilename(redImageFile.getName());
 		blackCostumeData.setCostumeFilename(blackImageFile.getName());
 
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 	}
 }

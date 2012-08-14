@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -371,6 +372,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

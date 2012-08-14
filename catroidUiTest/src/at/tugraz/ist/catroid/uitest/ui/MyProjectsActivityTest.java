@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
@@ -273,13 +274,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		//create first cache test project and set it as current project 
 		Project firstCacheTestProject = new Project(getActivity(), "cachetestProject" + 0);
-		UiTestUtils.saveProjectAndWait(firstCacheTestProject);
+		StorageHandler.getInstance().saveProjectSynchronously(firstCacheTestProject);
 		UiTestUtils.saveFileToProject(cacheProjectName + 0, "screenshot.png", IMAGE_RESOURCE_2, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.ROOT);
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
 		for (int i = 1; i < numberOfCacheProjects; i++) {
-			UiTestUtils.saveProjectAndWait(new Project(getActivity(), "cachetestProject" + i));
+			StorageHandler.getInstance().saveProjectSynchronously(new Project(getActivity(), "cachetestProject" + i));
 			UiTestUtils.saveFileToProject(cacheProjectName + i, "screenshot.png", IMAGE_RESOURCE_2,
 					getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		}
@@ -716,7 +717,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void createProjects() throws InterruptedException {
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		UiTestUtils.saveProjectAndWait(project1);
+		StorageHandler.getInstance().saveProjectSynchronously(project1);
 		ProjectManager.getInstance().setProject(project1);
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -734,12 +735,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		costumeDataList.add(costumeData);
 		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 
-		UiTestUtils.saveProjectAndWait(project1);
+		StorageHandler.getInstance().saveProjectSynchronously(project1);
 
 		//-------------------------------------------------
 
 		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
-		UiTestUtils.saveProjectAndWait(project2);
+		StorageHandler.getInstance().saveProjectSynchronously(project2);
 
 		UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png", IMAGE_RESOURCE_2,
 				getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);

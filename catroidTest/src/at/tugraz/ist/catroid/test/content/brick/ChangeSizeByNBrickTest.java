@@ -30,6 +30,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -50,7 +51,7 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 		Utils.updateScreenWidthAndHeight(context);
 
 		Project project = new Project(context, TestUtils.TEST_PROJECT_NAME1);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 
 		testImage = TestUtils.saveFileToProject(TestUtils.TEST_PROJECT_NAME1, "testImage.png", IMAGE_FILE_ID, context,

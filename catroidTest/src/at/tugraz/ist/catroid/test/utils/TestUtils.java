@@ -34,7 +34,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import android.content.Context;
-import android.test.InstrumentationTestCase;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
@@ -205,8 +204,8 @@ public class TestUtils {
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(
-			InstrumentationTestCase instrumentationTestCase, int versionCode, String name) throws InterruptedException {
+	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name)
+			throws InterruptedException {
 
 		Project project = new ProjectWithVersionCode(name, versionCode);
 		Sprite firstSprite = new Sprite("cat");
@@ -215,12 +214,11 @@ public class TestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		saveProjectAndWait(instrumentationTestCase, project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(InstrumentationTestCase instrumentationTestCase,
-			int versionCode) throws InterruptedException {
-		createTestProjectOnLocalStorageWithVersionCodeAndName(instrumentationTestCase, versionCode, TEST_PROJECT_NAME1);
+	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) throws InterruptedException {
+		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, TEST_PROJECT_NAME1);
 	}
 
 	public static void deleteTestProjects() {
@@ -235,64 +233,5 @@ public class TestUtils {
 			}
 		}
 		return file.delete();
-	}
-
-	/**
-	 * This lock blocks the Thread calling lock() until unlock() is called or if it was called before. The mValue is
-	 * used to pass information from the releasing to the blocking Thread.
-	 */
-	private static class BooleanWaitLock {
-		private boolean mValue = false;
-		private boolean mUnlocked = false;
-
-		public BooleanWaitLock(boolean value) {
-			mValue = value;
-		}
-
-		public synchronized void unlock(boolean value) {
-			mUnlocked = true;
-			mValue = value;
-			notify();
-		}
-
-		public synchronized boolean lock() throws InterruptedException {
-			while (!mUnlocked) {
-				wait();
-			}
-			return mValue;
-		}
-	}
-
-	/**
-	 * Helper method to force sequential execution of the asynchronous saving job in StorageHandler.
-	 * 
-	 * @param caller
-	 *            Testcase this method is called from. Needed to start StorageHandler's AsyncTask on the UI thread.
-	 * @param project
-	 *            Project which shall be saved by StorageHandler.
-	 * @return
-	 *         True if saving was succesful, false otherwise.
-	 * @throws InterruptedException
-	 */
-	public static boolean saveProjectAndWait(InstrumentationTestCase caller, final Project project)
-			throws InterruptedException {
-		final BooleanWaitLock lock = new BooleanWaitLock(false);
-
-		try {
-			// Necessary because otherwise onPostExecute won't be called in the AsyncTask.
-			caller.runTestOnUiThread(new Runnable() {
-				public void run() {
-					StorageHandler.getInstance().saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
-						public void onProjectSaved(boolean success) {
-							lock.unlock(success);
-						}
-					});
-				}
-			});
-		} catch (Throwable e) {
-			Log.e("CATROID", "Error while saving project.", e);
-		}
-
-		return lock.lock();
 	}
 }

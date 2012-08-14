@@ -33,6 +33,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -131,7 +132,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
 		assertTrue("could not save project",
-				TestUtils.saveProjectAndWait(this, ProjectManager.getInstance().getCurrentProject()));
+				StorageHandler.getInstance().saveProjectSynchronously(ProjectManager.getInstance().getCurrentProject()));
 
 		String catroidDirectoryPath = Constants.DEFAULT_ROOT;
 		File catroidDirectory = new File(catroidDirectoryPath);

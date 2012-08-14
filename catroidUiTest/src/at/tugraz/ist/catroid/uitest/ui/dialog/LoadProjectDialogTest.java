@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -92,6 +93,6 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

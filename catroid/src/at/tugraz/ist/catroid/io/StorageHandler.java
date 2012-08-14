@@ -47,6 +47,7 @@ import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.utils.Utils.BooleanWaitLock;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
@@ -204,6 +205,19 @@ public class StorageHandler {
 		}
 		currentSaveProjectTask = new SaveProjectTask(callback);
 		currentSaveProjectTask.execute(project);
+	}
+
+	public boolean saveProjectSynchronously(Project project) throws InterruptedException {
+		final BooleanWaitLock lock = new BooleanWaitLock(false);
+
+		saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
+			@Override
+			public void onProjectSaved(boolean success) {
+				lock.unlock(success);
+			}
+		});
+
+		return lock.lock();
 	}
 
 	public boolean deleteProject(Project project) {

@@ -34,6 +34,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -54,7 +55,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		Utils.updateScreenWidthAndHeight(context);
 
 		Project project = new Project(context, TEST_PROJECT_NAME);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 
 		soundFile = TestUtils.saveFileToProject(TEST_PROJECT_NAME, SOUND_FILE_NAME, SOUND_FILE_ID, getInstrumentation()

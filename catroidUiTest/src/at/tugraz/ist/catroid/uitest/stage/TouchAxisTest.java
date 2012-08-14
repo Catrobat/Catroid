@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -103,14 +104,14 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 
 		testProject.addSprite(touchSprite);
 
-		UiTestUtils.saveProjectAndWait(testProject);
+		StorageHandler.getInstance().saveProjectSynchronously(testProject);
 
 		File alphaTestImage = UiTestUtils.saveFileToProject(testProject.getName(), alphaTestImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.alpha_test_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 		touchCostumeData.setCostumeFilename(alphaTestImage.getName());
 
-		UiTestUtils.saveProjectAndWait(testProject);
+		StorageHandler.getInstance().saveProjectSynchronously(testProject);
 		ProjectManager.getInstance().setProject(testProject);
 	}
 }

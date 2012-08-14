@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.test.io;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
@@ -114,12 +115,12 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		assertTrue("could not save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("could not save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 
 		Project loadedProject = storageHandler.loadProject(TEST_PROJECT_NAME);
 
-		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getSpriteList();
-		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getSpriteList();
+		List<Sprite> preSpriteList = project.getSpriteList();
+		List<Sprite> postSpriteList = loadedProject.getSpriteList();
 
 		// Test sprite names:
 		assertEquals("First sprite does not match after deserialization", preSpriteList.get(0).getName(),
@@ -241,7 +242,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 			whenScript.addBrick(b);
 		}
 
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 

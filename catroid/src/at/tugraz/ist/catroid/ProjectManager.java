@@ -114,8 +114,18 @@ public class ProjectManager {
 		}
 	}
 
-	public void saveProject() {
-		saveProject(null);
+	public boolean saveProject(boolean asynchronous) {
+		if (asynchronous) {
+			saveProject(null);
+			return true;
+		} else {
+			try {
+				return StorageHandler.getInstance().saveProjectSynchronously(project);
+			} catch (InterruptedException e) {
+				Log.e("CATROID", "Cannot save project.", e);
+				return false;
+			}
+		}
 	}
 
 	public void saveProject(StorageHandler.SaveProjectTaskCallback callback) {
@@ -192,7 +202,7 @@ public class ProjectManager {
 
 		if (directoryRenamed) {
 			project.setName(newProjectName);
-			saveProject();
+			saveProject(true);
 		}
 
 		return (directoryRenamed);

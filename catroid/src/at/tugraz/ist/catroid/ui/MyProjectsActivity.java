@@ -100,7 +100,7 @@ public class MyProjectsActivity extends ListActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		ProjectManager.getInstance().saveProject();
+		ProjectManager.getInstance().saveProject(true);
 	}
 
 	private void setUpActionBar() {

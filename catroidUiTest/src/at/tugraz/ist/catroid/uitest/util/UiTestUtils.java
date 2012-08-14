@@ -354,14 +354,14 @@ public class UiTestUtils {
 	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context)
 			throws InterruptedException {
 		Project project = new Project(context, projectName);
-		saveProjectAndWait(project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 		ProjectManager.getInstance().setProject(project);
 
 		for (Sprite sprite : spriteList) {
 			ProjectManager.getInstance().addSprite(sprite);
 		}
 
-		saveProjectAndWait(project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 		return project;
 	}
 
@@ -593,7 +593,7 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
+	public static boolean createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
 		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
@@ -605,7 +605,7 @@ public class UiTestUtils {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-		ProjectManager.getInstance().saveProject();
+		return ProjectManager.getInstance().saveProject(false);
 	}
 
 	public static boolean clickOnTextInList(Solo solo, String text) {
@@ -618,44 +618,6 @@ public class UiTestUtils {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * This lock blocks the Thread calling lock() until unlock() is called or if it was called before. The mValue is
-	 * used to pass information from the releasing to the blocking Thread.
-	 */
-	private static class BooleanWaitLock {
-		private boolean mValue = false;
-		private boolean mUnlocked = false;
-
-		public BooleanWaitLock(boolean value) {
-			mValue = value;
-		}
-
-		public synchronized void unlock(boolean value) {
-			mUnlocked = true;
-			mValue = value;
-			notify();
-		}
-
-		public synchronized boolean lock() throws InterruptedException {
-			while (!mUnlocked) {
-				wait();
-			}
-			return mValue;
-		}
-	}
-
-	public static boolean saveProjectAndWait(Project project) throws InterruptedException {
-		final BooleanWaitLock lock = new BooleanWaitLock(false);
-
-		StorageHandler.getInstance().saveProject(project, new StorageHandler.SaveProjectTaskCallback() {
-			public void onProjectSaved(boolean success) {
-				lock.unlock(success);
-			}
-		});
-
-		return lock.lock();
 	}
 
 	public static boolean deleteRecursively(File file) {

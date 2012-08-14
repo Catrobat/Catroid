@@ -47,6 +47,7 @@ import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -314,6 +315,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		setCostumeBrick.setCostume(costumeData);
 		firstSprite.getCostumeDataList().add(costumeData);
 
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

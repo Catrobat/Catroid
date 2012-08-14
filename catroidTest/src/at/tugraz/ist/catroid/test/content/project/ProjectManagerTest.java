@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -137,7 +138,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		if (!projectManager.renameProject(newProjectName, context)) {
 			fail("could not rename Project");
 		}
-		assertTrue("could not save project", TestUtils.saveProjectAndWait(this, projectManager.getCurrentProject()));
+		assertTrue("could not save project",
+				StorageHandler.getInstance().saveProjectSynchronously(projectManager.getCurrentProject()));
 
 		File oldProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName + "/" + Constants.PROJECTCODE_NAME);
@@ -163,7 +165,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		double size = 0.8;
 
 		Project project = new Project(context, projectName);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -205,7 +207,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(Utils.md5Checksum(image), image.getAbsolutePath());
 
-		TestUtils.saveProjectAndWait(this, project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 		return project;
 	}
 }

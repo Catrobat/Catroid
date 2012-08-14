@@ -43,6 +43,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
@@ -118,7 +119,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		sprite.addScript(script);
 		project.addSprite(sprite);
 
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
@@ -238,7 +239,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		firstSprite.getSoundList().add(soundInfo);
 
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
@@ -305,7 +306,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		project.virtualScreenWidth = 480;
 		project.virtualScreenHeight = 700;
 		project.setDeviceData(getActivity());
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
@@ -372,7 +373,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	private Project createAndSaveTestProject(String projectName) throws IOException, NameNotFoundException,
 			InterruptedException {
 		Project project = createTestProject(projectName);
-		UiTestUtils.saveProjectAndWait(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 		return project;
 	}
 }

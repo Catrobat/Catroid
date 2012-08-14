@@ -230,7 +230,7 @@ public class UtilsTest extends InstrumentationTestCase {
 
 	public void testDeleteRecursively() throws InterruptedException {
 		assertFalse("test directory already exists", TestUtils.TEST_PROJECT_DIR1.exists());
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(this, 0);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
 		assertTrue("test directory doesn't exist", TestUtils.TEST_PROJECT_DIR1.exists());
 		assertTrue("deleteRecursively failed", TestUtils.deleteRecursively(TestUtils.TEST_PROJECT_DIR1));
 		assertFalse("test directory wasn't deleted", TestUtils.TEST_PROJECT_DIR1.exists());

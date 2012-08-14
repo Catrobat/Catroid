@@ -62,26 +62,26 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testShouldReturnFalseIfVersionNumberTooHigh() throws InterruptedException {
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(this, Integer.MAX_VALUE);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
 
 		boolean result = projectManager.loadProject(TestUtils.TEST_PROJECT_NAME1, context, false);
 		assertFalse("Load project didn't return false", result);
 
 		projectManager.setProject(null);
 		TestUtils.deleteTestProjects();
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(this, 0);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
 
 		result = projectManager.loadProject(TestUtils.TEST_PROJECT_NAME1, context, false);
 		assertTrue("Load project didn't return true", result);
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws InterruptedException {
-		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(this, 0, OLD_PROJECT);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(0, OLD_PROJECT);
 
 		boolean result = projectManager.loadProject(OLD_PROJECT, context, false);
 		assertTrue("Could not load project.", result);
 
-		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(this, Integer.MAX_VALUE, NEW_PROJECT);
+		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(Integer.MAX_VALUE, NEW_PROJECT);
 
 		result = projectManager.loadProject(NEW_PROJECT, context, false);
 		assertFalse("Load project didn't return false", result);

@@ -86,6 +86,9 @@ public class Utils {
 	public static final int FILE_INTENT = 2;
 	private static boolean isUnderTest;
 
+	private Utils() {
+	};
+
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
@@ -432,6 +435,32 @@ public class Utils {
 			return false;
 		} else {
 			return (context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+		}
+	}
+
+	/**
+	 * This lock blocks the Thread calling lock() until unlock() is called or if it was called before. The mValue is
+	 * used to pass information from the releasing to the blocking Thread.
+	 */
+	public static class BooleanWaitLock {
+		private boolean mValue = false;
+		private boolean mUnlocked = false;
+
+		public BooleanWaitLock(boolean value) {
+			mValue = value;
+		}
+
+		public synchronized void unlock(boolean value) {
+			mUnlocked = true;
+			mValue = value;
+			notify();
+		}
+
+		public synchronized boolean lock() throws InterruptedException {
+			while (!mUnlocked) {
+				wait();
+			}
+			return mValue;
 		}
 	}
 }

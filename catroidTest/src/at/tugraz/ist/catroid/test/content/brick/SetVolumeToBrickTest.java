@@ -30,6 +30,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
@@ -46,7 +47,7 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 		super.setUp();
 
 		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 
 		soundFile = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()

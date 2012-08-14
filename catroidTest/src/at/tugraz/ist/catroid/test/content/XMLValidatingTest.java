@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.test.utils.XMLValidationUtil;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
@@ -99,7 +100,7 @@ public class XMLValidatingTest extends InstrumentationTestCase {
 		}
 
 		assertTrue("no bricks added to the start script", startScript.getBrickList().size() > 0);
-		assertTrue("could not save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("could not save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 
 		XMLValidationUtil.sendProjectXMLToServerForValidating(project);
 	}

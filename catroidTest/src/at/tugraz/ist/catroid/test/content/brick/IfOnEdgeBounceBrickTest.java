@@ -33,6 +33,7 @@ import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
@@ -65,7 +66,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
 		project.virtualScreenHeight = Values.SCREEN_HEIGHT;
 		project.virtualScreenWidth = Values.SCREEN_WIDTH;
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 
 		testImage = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "testImage.png", IMAGE_FILE_ID, getInstrumentation()

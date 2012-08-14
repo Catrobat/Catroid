@@ -130,7 +130,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 	@Override
 	protected void onPause() {
 		super.onPause();
-		ProjectManager.getInstance().saveProject();
+		ProjectManager.getInstance().saveProject(true);
 	}
 
 	@Override
@@ -153,6 +153,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
 				new View.OnClickListener() {
+					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(ScriptTabActivity.this, PreStageActivity.class);
 						startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
@@ -284,6 +285,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		dismissDialog(DIALOG_DELETE_SOUND);
 	}
 
+	@Override
 	public void onDismiss(DialogInterface dialogInterface) {
 
 		if (!dontcreateNewBrick) {
@@ -302,6 +304,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener,
 		dontcreateNewBrick = false;
 	}
 
+	@Override
 	public void onCancel(DialogInterface dialog) {
 		isCanceled = true;
 	}

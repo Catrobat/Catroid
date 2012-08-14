@@ -87,12 +87,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 		Utils.updateScreenWidthAndHeight(context);
 
 		project = new Project(context, projectName);
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, project));
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 
 		Project mockProject = new Project(context, TestUtils.TEST_PROJECT_NAME2);
-		TestUtils.saveProjectAndWait(this, mockProject);
+		StorageHandler.getInstance().saveProjectSynchronously(mockProject);
 
 		testImage = TestUtils.saveFileToProject(mockProject.getName(), imageName, IMAGE_FILE_ID, context,
 				TestUtils.TYPE_IMAGE_FILE);
@@ -294,6 +294,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 			whenScript.addBrick(brick);
 		}
 
-		TestUtils.saveProjectAndWait(this, project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 	}
 }

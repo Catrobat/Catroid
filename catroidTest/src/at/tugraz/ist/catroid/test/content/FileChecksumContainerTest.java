@@ -61,7 +61,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 		storageHandler = StorageHandler.getInstance();
 		projectManager = ProjectManager.getInstance();
-		assertTrue("cannot save project", TestUtils.saveProjectAndWait(this, testCopyFile));
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(testCopyFile));
 		projectManager.setProject(testCopyFile);
 
 		testImage = new File(Constants.DEFAULT_ROOT + "/testImage.png");
