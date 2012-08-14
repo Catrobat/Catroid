@@ -366,7 +366,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private int getPositionForDeadEndBrick(int position) {
 		for (int i = position + 1; i < brickList.size(); i++) {
-			if (brickList.get(i) instanceof DeadEndBrick) {
+			if (brickList.get(i) instanceof AllowedAfterDeadEndBrick || brickList.get(i) instanceof DeadEndBrick) {
 				return i;
 			}
 
@@ -706,7 +706,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		textView.setGravity(Gravity.LEFT);
 		textView.setPadding(10, 15, 0, 0);
 		textView.setText(context.getText(R.string.brick_context_dialog_title));
-		linearLayout.addView(textView);
+		//linearLayout.addView(textView);
 
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 		view.setDrawingCacheEnabled(true);
