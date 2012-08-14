@@ -282,8 +282,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		if (actionMode != null) {
 			actionMode.getMenu().findItem(R.id.menu_costume_edit).setVisible(checkedCostumesCount < 2);
 			actionMode.getMenu().findItem(R.id.menu_costume_paintroid).setVisible(checkedCostumesCount < 2);
-			//TODO move to strings.xml
-			actionMode.setTitle(checkedCostumesCount + " selected");
+			actionMode.setTitle(checkedCostumesCount + " " + getString(R.string.action_mode_selected));
 		}
 	}
 

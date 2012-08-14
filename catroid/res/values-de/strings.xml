@@ -22,7 +22,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-
     <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">Projekt</string>
@@ -285,5 +284,5 @@
     <string name="select_image">Bild auswählen</string>
     <string name="add_costume_from_gallery">von Galerie</string>
     <string name="add_costume_from_camera">von Kamera</string>
-
+    <string name="action_mode_selected">Ausgewählten</string>
 </resources>

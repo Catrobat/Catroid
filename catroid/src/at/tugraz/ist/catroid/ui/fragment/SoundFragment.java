@@ -271,8 +271,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 
 		if (actionMode != null) {
 			actionMode.getMenu().findItem(R.id.menu_sound_edit).setVisible(checkedSoundsCount < 2);
-			//TODO move to strings.xml
-			actionMode.setTitle(checkedSoundsCount + " selected");
+			actionMode.setTitle(checkedSoundsCount + " " + getString(R.string.action_mode_selected));
 		}
 	}
 
