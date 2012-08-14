@@ -203,7 +203,10 @@ public class SerializerTest extends InstrumentationTestCase {
 		//		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
 		//		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
 		//		assertEquals("Version names are not equal", preVersionName, postVersionName);
-		//UtilFile.deleteDirectory(projectDirectory);
+		UtilFile.deleteDirectory(projectDirectory);
+		//		projectDirectoryName = Utils.buildProjectPath("testProject7");
+		//		projectDirectory = new File(projectDirectoryName);
+		//		UtilFile.deleteDirectory(projectDirectory);
 	}
 
 	public void testReferenceSerializing() {
