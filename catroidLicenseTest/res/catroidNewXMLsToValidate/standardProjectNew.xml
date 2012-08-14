@@ -22,13 +22,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Project>
-	<androidVersion>10</androidVersion>
-	<catroidVersionCode>10</catroidVersionCode>
-	<catroidVersionName>0.5.6a</catroidVersionName>
+    <applicationVersionCode>10</applicationVersionCode>
+	<applicationVersionName>0.5.6a</applicationVersionName>
+	<applicationXmlVersion>10</applicationXmlVersion>
 	<deviceName>GT-I9100</deviceName>
+	<platform>android</platform>
+	<platformVersion>10</platformVersion>	
 	<projectName>standardProjekt</projectName>
 	<screenHeight>800</screenHeight>
-	<screenWidth>480</screenWidth>
+	<screenWidth>480</screenWidth>	
 	<spriteList>
 		<Sprite>
 			<costumeDataList>
@@ -74,8 +76,7 @@
 							<loopEndBrick reference="../../LoopEndBrick"/>
 							<timesToRepeat>3</timesToRepeat>
 						</RepeatBrick>
-						<ShowBrick>
-						</ShowBrick>
+						<ShowBrick/>
 						<LoopEndBrick>
 							<loopBeginBrick reference="../../RepeatBrick"/>
 						</LoopEndBrick>

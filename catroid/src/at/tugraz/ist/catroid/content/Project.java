@@ -39,16 +39,17 @@ public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String projectName;
-
+	private double applicationXmlVersion = 0.10;
+	private String platform = "Android";
 	// Only used for Catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
-	private int androidVersion;
+	private int platformVersion;
 	@SuppressWarnings("unused")
-	private String catroidVersionName;
+	private String applicationVersionName;
 	@SuppressWarnings("unused")
-	private int catroidVersionCode;
+	private int applicationVersionCode;
 
 	@XStreamAlias("screenWidth")
 	@XMLAlias("screenWidth")
@@ -115,19 +116,19 @@ public class Project implements Serializable {
 	}
 
 	public int getCatroidVersionCode() {
-		return catroidVersionCode;
+		return applicationVersionCode;
 	}
 
 	public void setDeviceData(Context context) {
 		deviceName = Build.MODEL;
-		androidVersion = Build.VERSION.SDK_INT;
+		platformVersion = Build.VERSION.SDK_INT;
 
 		if (context == null) {
-			catroidVersionName = "unknown";
-			catroidVersionCode = 0;
+			applicationVersionName = "unknown";
+			applicationVersionCode = 0;
 		} else {
-			catroidVersionName = Utils.getVersionName(context);
-			catroidVersionCode = Utils.getVersionCode(context);
+			applicationVersionName = Utils.getVersionName(context);
+			applicationVersionCode = Utils.getVersionCode(context);
 		}
 	}
 

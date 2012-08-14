@@ -134,4 +134,8 @@ public abstract class Serializer {
 	public String getEndTag(String tagName) {
 		return "</" + tagName + ">\n";
 	}
+
+	public String getEmptyTag(String tagName) {
+		return "<" + tagName + "/>\n";
+	}
 }

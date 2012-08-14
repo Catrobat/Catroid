@@ -22,13 +22,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Project>
-  <androidVersion>10</androidVersion>
-  <catroidVersionCode>405</catroidVersionCode>
-  <catroidVersionName>0.5a-405-debug</catroidVersionName>
-  <deviceName>HTC Sensation Z710e</deviceName>
-  <projectName>Aquarium v2</projectName>
-  <screenHeight>960</screenHeight>
-  <screenWidth>540</screenWidth>
+  <applicationVersionCode>10</applicationVersionCode>
+   <applicationVersionName>0.5.5.ba</applicationVersionName>
+	<applicationXmlVersion>0.5</applicationXmlVersion>
+	<deviceName>HTC Sensation Z710e</deviceName>
+	<platform>Android</platform>
+	<platformVersion>0</platformVersion>
+	<projectName>Aquarium v2</projectName>
+	<screenHeight>960</screenHeight>
+	<screenWidth>540</screenWidth>
   <spriteList>
     <Sprite>
       <costumeDataList>
