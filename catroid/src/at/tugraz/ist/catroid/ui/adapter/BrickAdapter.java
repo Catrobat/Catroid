@@ -416,6 +416,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private int[] getScriptAndBrickIndexFromProject(int position) {
+		if (position >= brickList.size()) {
+			position = brickList.size() - 1;
+		}
+
 		int[] returnValue = new int[2];
 		int scriptPosition = 0;
 		int scriptOffset;
