@@ -27,7 +27,7 @@
 	<applicationXmlVersion>0.5</applicationXmlVersion>
 	<deviceName>HTC Sensation Z710e</deviceName>
 	<platform>Android</platform>
-	<platformVersion>0</platformVersion>
+	<platformVersion>10</platformVersion>
 	<projectName>Aquarium v2</projectName>
 	<screenHeight>960</screenHeight>
 	<screenWidth>540</screenWidth>

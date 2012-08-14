@@ -112,7 +112,7 @@ public class BrickParser {
 			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs)
 			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException, ClassNotFoundException, XPathExpressionException,
-			ParseException {
+			ParseException, NoSuchFieldException {
 
 		String brickClassName = brickName;
 		Brick brickObject = null;
@@ -132,7 +132,16 @@ public class BrickParser {
 			Map<String, Field> brickFieldsToSet, Map<String, Object> referencedObjects,
 			List<ForwardReferences> forwardRefs) throws IllegalAccessException, XPathExpressionException,
 			InstantiationException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException,
-			ParseException {
+			ParseException, SecurityException, NoSuchFieldException {
+		Field spriteField = null;
+		if (brickObject.getClass().getSuperclass().equals(Object.class)) {
+			spriteField = brickObject.getClass().getDeclaredField("sprite");
+
+		} else {
+			spriteField = brickObject.getClass().getSuperclass().getDeclaredField("sprite");
+		}
+		spriteField.setAccessible(true);
+		spriteField.set(brickObject, foundSprite);
 		for (int l = 0; l < valueNodes.getLength(); l++) {
 			Node brickValue = valueNodes.item(l);
 

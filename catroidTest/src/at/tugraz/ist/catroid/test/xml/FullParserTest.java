@@ -93,7 +93,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Scripts not parsed", 1, values.get(2).getNumberOfScripts());
 		StartScript testScript = (StartScript) values.get(1).getScript(0);
 		assertNotNull("Script is null", testScript);
-		assertEquals("Script number of brick incorrect", 5, testScript.getBrickList().size());
+		assertEquals("Script number of brick incorrect", 6, testScript.getBrickList().size());
 		SetSizeToBrick testBrick = (SetSizeToBrick) testScript.getBrick(2);
 		double sizeFormBrick = (Double) TestUtils.getPrivateField("size", testBrick, false);
 		assertEquals("SETSizetoBrick size incorrect", 0.8, sizeFormBrick);
@@ -171,6 +171,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 		WhenScript script = (WhenScript) testSprite.getScript(1);
 		SetCostumeBrick costumeBrick = (SetCostumeBrick) script.getBrick(0);
+		assertNotNull("brick sprite is null", costumeBrick.getSprite());
 		testData = (CostumeData) TestUtils.getPrivateField("costumeData", costumeBrick, false);
 		testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("costume data wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);

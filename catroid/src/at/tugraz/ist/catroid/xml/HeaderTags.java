@@ -24,8 +24,9 @@ package at.tugraz.ist.catroid.xml;
 
 public enum HeaderTags {
 
-	ANDROIDVERSION("androidVersion"), CATROIDVERSIONCODE("catroidVersionCode"), CATROIDVERSIONNAME("catroidVersionName"), DEVICENAME(
-			"deviceName"), PROJECTNAME("projectName"), SCREENHEIGHT("screenHeight"), SCREENWIDTH("screenWidth");
+	ANDROIDVERSION("platformVersion"), CATROIDVERSIONCODE("applicationVersionCode"), CATROIDVERSIONNAME(
+			"applicationVersionName"), DEVICENAME("deviceName"), PROJECTNAME("projectName"), SCREENHEIGHT(
+			"screenHeight"), SCREENWIDTH("screenWidth");
 
 	private String xmlTagString;
 
