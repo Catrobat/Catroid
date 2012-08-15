@@ -82,7 +82,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		String brickWhenStartedText = solo.getString(R.string.brick_when_started);
 		String buttonDeleteText = solo.getString(R.string.delete);
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		solo.clickOnText(brickWhenStartedText);
+		solo.clickInList(2);
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 2, numberOfScripts);
 

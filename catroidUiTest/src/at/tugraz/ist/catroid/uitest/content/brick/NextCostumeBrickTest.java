@@ -71,7 +71,7 @@ public class NextCostumeBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
-		int groupCount = adapter.getGroupCount();
+		int groupCount = adapter.getScriptCount();
 
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);

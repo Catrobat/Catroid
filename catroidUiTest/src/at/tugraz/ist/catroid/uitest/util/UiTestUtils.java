@@ -47,12 +47,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -611,6 +615,61 @@ public class UiTestUtils {
 		}
 
 		return yPositionList;
+	}
+
+	public static int getAddedListItemYPosition(Solo solo) {
+		ArrayList<Integer> yPositionList = getListItemYPositions(solo);
+		int pos = (yPositionList.size() - 1) / 2;
+
+		return yPositionList.get(pos);
+	}
+
+	public static void longClickAndDrag(final Solo solo, final Activity activity, final float xFrom, final float yFrom,
+			final float xTo, final float yTo, final int steps) {
+		Handler handler = new Handler(activity.getMainLooper());
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
+				activity.dispatchTouchEvent(downEvent);
+			}
+		});
+
+		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
+
+		handler.post(new Runnable() {
+			public void run() {
+				double offsetX = xTo - xFrom;
+				offsetX /= steps;
+				double offsetY = yTo - yFrom;
+				offsetY /= steps;
+				for (int i = 0; i <= steps; i++) {
+					float x = xFrom + (float) (offsetX * i);
+					float y = yFrom + (float) (offsetY * i);
+					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+							MotionEvent.ACTION_MOVE, x, y, 0);
+					activity.dispatchTouchEvent(moveEvent);
+
+					solo.sleep(20);
+				}
+			}
+		});
+
+		solo.sleep(steps * 20 + 200);
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_UP, xTo, yTo, 0);
+				activity.dispatchTouchEvent(upEvent);
+			}
+		});
+
+		solo.clickInList(0); // needed because of bug(?) in Nexus S 2.3.6
+		solo.sleep(1000);
 	}
 
 	private static class ProjectWithVersionCode extends Project {

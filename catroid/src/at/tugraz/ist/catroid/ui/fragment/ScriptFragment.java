@@ -40,6 +40,8 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter.BrickInteractionListener;
@@ -213,7 +215,8 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
 				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
-				adapter.setCurrentScriptPosition(lastScriptIndex);
+				// FIXME check if needed
+				//				adapter.setCurrentScriptPosition(lastScriptIndex);
 				adapter.notifyDataSetChanged();
 			}
 		}
@@ -258,7 +261,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		}
 		ft.addToBackStack(null);
 
-		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory);
+		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory, this);
 		addBrickDialog.show(ft, AddBrickDialog.DIALOG_FRAGMENT_TAG);
 	}
 
@@ -271,7 +274,8 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 					addScript = false;
 				}
 
-				updateAdapterAfterAddNewBrick();
+				// FIXME needed here?
+				//				updateAdapterAfterAddNewBrick();
 			}
 			isCanceled = false;
 		}
@@ -281,20 +285,19 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	@Override
 	public void onBrickCategoryDialogCancel() {
 		isCanceled = true;
-		updateAdapterAfterAddNewBrick();
+		// FIXME check if needed
+		// updateAdapterAfterAddNewBrick();
 	}
 
-	private void updateAdapterAfterAddNewBrick() {
+	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
 		if (addNewScript) {
 			addNewScript = false;
 		} else {
-			int visibleF = listView.getFirstVisiblePosition();
-			int visibleL = listView.getLastVisiblePosition();
-			int pos = ((visibleL - visibleF) / 2);
-			pos += visibleF;
-			pos = adapter.rearangeBricks(pos);
-			adapter.setInsertedBrickpos(pos);
-			listView.setInsertedBrick(pos);
+			int firstVisibleBrick = listView.getFirstVisiblePosition();
+			int lastVisibleBrick = listView.getLastVisiblePosition();
+			int position = ((lastVisibleBrick - firstVisibleBrick) / 2);
+			position += firstVisibleBrick;
+			adapter.addNewBrick(position, brickToBeAdded);
 		}
 
 		adapter.notifyDataSetChanged();
@@ -309,8 +312,9 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
 		adapter.setBrickInteractionListener(this);
 		if (adapter.getScriptCount() > 0) {
-			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
-			adapter.setCurrentScriptPosition(0);
+			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
+			// FIXME check if needed
+			//			adapter.setCurrentScriptPosition(0);
 		}
 
 		listView.setOnCreateContextMenuListener(this);
@@ -324,9 +328,10 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	private class NewBrickAddedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
-				updateAdapterAfterAddNewBrick();
-			}
+			// FIXME should this really be possible?
+			//			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
+			//				updateAdapterAfterAddNewBrick();
+			//			}
 		}
 	}
 

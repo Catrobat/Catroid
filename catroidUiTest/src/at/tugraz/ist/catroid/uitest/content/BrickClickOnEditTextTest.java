@@ -20,6 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.content;
 
 import java.util.ArrayList;
@@ -75,7 +76,6 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
-		String spriteName = solo.getString(R.string.sprite_name);
 
 		String settingsText = solo.getString(R.string.settings);
 		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
@@ -111,7 +111,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 
 		getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
 		solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(1));
-		solo.clickOnText(spriteName);
+		solo.clickOnScreen(200, 200);
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
@@ -126,7 +126,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
 
 		solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(2));
-		solo.clickOnText(spriteName);
+		solo.clickOnScreen(200, 200);
 
 		brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist", 2, brickListToCheck.size());
