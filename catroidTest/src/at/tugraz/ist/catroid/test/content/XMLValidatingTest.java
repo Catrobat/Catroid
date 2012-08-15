@@ -31,7 +31,6 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import android.content.BroadcastReceiver;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -43,6 +42,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -101,8 +102,8 @@ public class XMLValidatingTest extends AndroidTestCase {
 
 		for (List<Brick> brickList : brickMap.values()) {
 			for (Brick brick : brickList) {
-				if (brick.getClass().equals(WhenScript.class) || brick.getClass().equals(WhenStartedBrick.class)
-						|| brick.getClass().equals(BroadcastReceiver.class)) {
+				if (brick.getClass().equals(WhenBrick.class) || brick.getClass().equals(WhenStartedBrick.class)
+						|| brick.getClass().equals(BroadcastReceiverBrick.class)) {
 					Log.i("XMLValidationtest", "These bricks are not in the new schema");
 				} else {
 					startScript.addBrick(brick);
