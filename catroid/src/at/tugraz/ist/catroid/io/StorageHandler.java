@@ -96,6 +96,7 @@ public class StorageHandler {
 
 	public Project loadProject(String projectName) {
 		createCatroidRoot();
+
 		try {
 			if (NativeAppActivity.isRunning()) {
 				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
@@ -127,7 +128,7 @@ public class StorageHandler {
 		}
 
 		try {
-			String projectFile = xstream.toXML(project);
+			//String projectFile = xstream.toXML(project);
 
 			String projectDirectoryName = Utils.buildProjectPath(project.getName());
 			File projectDirectory = new File(projectDirectoryName);
