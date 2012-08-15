@@ -41,8 +41,7 @@ public class StageDialog extends Dialog {
 	private StageActivity stageActivity;
 	private StageListener stageListener;
 
-	public StageDialog(StageActivity stageActivity,
-			StageListener stageListener, int theme) {
+	public StageDialog(StageActivity stageActivity, StageListener stageListener, int theme) {
 		super(stageActivity, theme);
 		this.stageActivity = stageActivity;
 		this.stageListener = stageListener;
@@ -66,23 +65,21 @@ public class StageDialog extends Dialog {
 		});
 
 		Button resumeCurrentProjectButton = (Button) findViewById(R.id.resume_current_project_button);
-		resumeCurrentProjectButton
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						dismiss();
-						stageActivity.pauseOrContinue();
-					}
-				});
+		resumeCurrentProjectButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dismiss();
+				stageActivity.pauseOrContinue();
+			}
+		});
 
 		Button restartCurrentProjectButton = (Button) findViewById(R.id.restart_current_project_button);
-		restartCurrentProjectButton
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						restartProject();
-					}
-				});
+		restartCurrentProjectButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				restartProject();
+			}
+		});
 
 		Button axesToggleButton = (Button) findViewById(R.id.axes_toggle_button);
 		axesToggleButton.setOnClickListener(new View.OnClickListener() {
@@ -109,11 +106,9 @@ public class StageDialog extends Dialog {
 			@Override
 			public void onClick(View v) {
 				if (stageListener.makeScreenshot()) {
-					Utils.displayToast(stageActivity, stageActivity
-							.getString(R.string.notification_screenshot_ok));
+					Utils.displayToast(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok));
 				} else {
-					Utils.displayToast(stageActivity, stageActivity
-							.getString(R.string.error_screenshot_failed));
+					Utils.displayToast(stageActivity, stageActivity.getString(R.string.error_screenshot_failed));
 				}
 			}
 		});
@@ -153,8 +148,7 @@ public class StageDialog extends Dialog {
 		}
 	}
 
-	private class FinishThreadAndDisposeTexturesTask extends
-			AsyncTask<Void, Void, Void> {
+	private class FinishThreadAndDisposeTexturesTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
