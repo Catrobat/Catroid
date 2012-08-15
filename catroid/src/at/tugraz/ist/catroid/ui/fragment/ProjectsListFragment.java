@@ -61,7 +61,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
 		OnUpdateProjectDescriptionListener {
 
-	private static final String BUNDLE_ARGS_PROJECT_DATA = "project_data";
+	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
@@ -88,7 +88,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			projectToEdit = (ProjectData) savedInstanceState.getSerializable(BUNDLE_ARGS_PROJECT_DATA);
+			projectToEdit = (ProjectData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA);
 		}
 
 		initAdapter();
@@ -97,7 +97,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(BUNDLE_ARGS_PROJECT_DATA, projectToEdit);
+		outState.putSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA, projectToEdit);
 		super.onSaveInstanceState(outState);
 	}
 

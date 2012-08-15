@@ -146,8 +146,8 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
-	private void setupTab(Integer drawableId, final String tag, Class<?> clss, Bundle args) {
-		tabsAdapter.addTab(tabHost.newTabSpec(tag).setIndicator(createTabView(drawableId, this, tag)), clss, args);
+	private void setupTab(Integer drawableId, final String tag, Class<?> clss, Bundle arguments) {
+		tabsAdapter.addTab(tabHost.newTabSpec(tag).setIndicator(createTabView(drawableId, this, tag)), clss, arguments);
 	}
 
 	private static View createTabView(Integer id, final Context context, final String text) {

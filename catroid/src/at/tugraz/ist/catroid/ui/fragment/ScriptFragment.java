@@ -58,7 +58,7 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 public class ScriptFragment extends SherlockFragment implements BrickInteractionListener, OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
 
-	private static final String ARGS_SELECTED_CATEGORY = "selected_category";
+	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
@@ -101,13 +101,13 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		isCanceled = false;
 
 		if (savedInstanceState != null) {
-			selectedCategory = savedInstanceState.getString(ARGS_SELECTED_CATEGORY);
+			selectedCategory = savedInstanceState.getString(ARGUMENTS_SELECTED_CATEGORY);
 		}
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(ARGS_SELECTED_CATEGORY, selectedCategory);
+		outState.putString(ARGUMENTS_SELECTED_CATEGORY, selectedCategory);
 		super.onSaveInstanceState(outState);
 	}
 
