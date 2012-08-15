@@ -19,7 +19,8 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.-->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
 
     <!-- General terms -->
@@ -69,7 +70,8 @@
     <string name="about_text">Catroid ist eine Programmierumgebung für Androidgeräte für die grafische
         Programmiersprache Catrobat.\n\n
         Der Großteil von Catroid steht unter der GNU AGPL v3 Lizenz.
-        Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n    </string>
+        Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n
+    </string>
     <string name="about_catroid_license_link_text">Catroid Lizenz</string>
 
     <!-- Project activity view -->
@@ -168,7 +170,15 @@
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
-
+    
+    <!-- Upload project dialog -->
+    <string name="upload_button">Hochladen</string>
+    <string name="upload_project_dialog_title">Projekt hochladen</string>
+    <string name="upload_description">Beschreibung:</string>
+    <string name="project_rename">(Das Projekt wird umbenannt.)</string>
+    <string name="size_of_project">Größe des Projekts:</string>
+    <string name="upload_project_description_hint">Description of your project</string>
+    
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
     <string name="overwrite_replace">ersetze bestehendes Projekt</string>
@@ -265,11 +275,6 @@
     <string name="default_project_backgroundname">Hintergrund</string>
     <string name="default_project_backgroundcolor">#604fff</string>
 
-    <!-- Notifications -->
-    <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
-    <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
-    <string name="notification_load_project_cancel">Projekt laden abgebrochen</string>
-
     <!-- Error messages -->
     <string name="error_no_sd_card">Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
     <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
@@ -289,11 +294,9 @@
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>
     <string name="load_project">Projekt laden</string>
-    <string name="upload_button">Hochladen</string>
-    <string name="upload_project_dialog_title">Projekt hochladen</string>
-    <string name="upload_description">Beschreibung:</string>
-    <string name="project_rename">(Das Projekt wird umbenannt.)</string>
-    <string name="size_of_project">Größe des Projekts:</string>
+    <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
+    <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
+    <string name="notification_load_project_cancel">Projekt laden abgebrochen</string>
 
     <!-- Bluetooth Connection Strings -->
 

@@ -24,7 +24,6 @@ package at.tugraz.ist.catroid.test.web;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
-import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
@@ -49,7 +48,6 @@ public class ServerCallsTest extends AndroidTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.clearProject("uploadtestProject");
 		ServerCalls.useTestUrl = false;
 		super.tearDown();
 	}

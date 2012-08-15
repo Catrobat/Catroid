@@ -62,7 +62,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		super.tearDown();
 	}
 
-	public void testLoadProjectDialog() throws NameNotFoundException, IOException {
+	public void testLoadProjectDialog() throws NameNotFoundException, IOException, InterruptedException {
 		createTestProject(testProject);
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -81,9 +81,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 	}
 
-	public void createTestProject(String projectName) {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
+	public void createTestProject(String projectName) throws InterruptedException {
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -95,6 +93,6 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

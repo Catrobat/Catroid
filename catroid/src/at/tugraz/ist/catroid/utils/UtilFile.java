@@ -38,6 +38,9 @@ public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
+	private UtilFile() {
+	}
+
 	static private long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
 		if (!fileOrDirectory.exists()) {
 			return 0;
@@ -143,6 +146,7 @@ public class UtilFile {
 		File[] sdFileList = directory.listFiles();
 		for (File file : sdFileList) {
 			FilenameFilter filenameFilter = new FilenameFilter() {
+				@Override
 				public boolean accept(File dir, String filename) {
 					return filename.contentEquals(Constants.PROJECTCODE_NAME);
 				}
@@ -158,6 +162,7 @@ public class UtilFile {
 		List<File> projectList = new ArrayList<File>();
 		File[] sdFileList = directory.listFiles();
 		FilenameFilter filenameFilter = new FilenameFilter() {
+			@Override
 			public boolean accept(File dir, String filename) {
 				return filename.contentEquals(Constants.PROJECTCODE_NAME);
 			}
@@ -169,5 +174,4 @@ public class UtilFile {
 		}
 		return projectList;
 	}
-
 }

@@ -110,7 +110,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		assertEquals("Wrong executionBrickIndex.", 1, greenBroadcastScript.getExecutingBrickIndex());
 	}
 
-	private void createProjectWhenBrick() {
+	private void createProjectWhenBrick() throws InterruptedException {
 		Values.SCREEN_HEIGHT = SCREEN_HEIGHT;
 		Values.SCREEN_WIDTH = SCREEN_WIDTH;
 
@@ -197,7 +197,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 
 		projectWhenBrick.addSprite(greenSprite);
 
-		StorageHandler.getInstance().saveProject(projectWhenBrick);
+		StorageHandler.getInstance().saveProjectSynchronously(projectWhenBrick);
 
 		File yellowImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), yellowImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
@@ -216,7 +216,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		blueCostumeData.setCostumeFilename(blueImageFile.getName());
 
 		greenCostumeData.setCostumeFilename(greenImageFile.getName());
-		StorageHandler.getInstance().saveProject(projectWhenBrick);
+		StorageHandler.getInstance().saveProjectSynchronously(projectWhenBrick);
 		ProjectManager.getInstance().setProject(projectWhenBrick);
 	}
 }

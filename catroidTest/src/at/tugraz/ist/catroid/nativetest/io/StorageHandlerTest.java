@@ -22,9 +22,8 @@
  */
 package at.tugraz.ist.catroid.nativetest.io;
 
-import java.io.IOException;
-
 import android.test.InstrumentationTestCase;
+import android.test.UiThreadTest;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
@@ -37,18 +36,13 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
-	private StorageHandler storageHandler;
+	private static final String TEST_PROJECT_NAME = "TestProject1";
+	private static final String SPRITE_NAME1 = "Stage";
+	private static final String SPRITE_NAME2 = "first";
+	private static final String SPRITE_NAME3 = "second";
 
-	public StorageHandlerTest() throws IOException {
-		storageHandler = StorageHandler.getInstance();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		NativeAppActivity.setContext(null);
-	}
-
-	public void testLoadProject() throws Exception {
+	@UiThreadTest
+	public void testLoadProject() {
 		double scaleValue = 0.8;
 		int timeToWaitInMilliSeconds = 1000;
 		int xPosition = 100;
@@ -60,21 +54,17 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		int yDestination = 500;
 		int steps = 1;
 
-		String projectName = "testProject";
-		String firstSpriteName = "Stage";
-		String secondSpriteName = "first";
-		String thirdSpriteName = "second";
-
 		NativeAppActivity.setContext(getInstrumentation().getContext());
-		Project loadedProject = storageHandler.loadProject("test_project.xml");
+		Project loadedProject = StorageHandler.getInstance().loadProject("test_project.xml");
 
-		assertEquals("Project title missmatch.", projectName, loadedProject.getName());
+		assertNotNull("Cannot load project.", loadedProject);
+		assertEquals("Project title missmatch.", TEST_PROJECT_NAME, loadedProject.getName());
 
-		assertEquals("Name of first sprite does not match.", firstSpriteName, loadedProject.getSpriteList().get(0)
+		assertEquals("Name of first sprite does not match.", SPRITE_NAME1, loadedProject.getSpriteList().get(0)
 				.getName());
-		assertEquals("Name of second sprite does not match.", secondSpriteName, loadedProject.getSpriteList().get(1)
+		assertEquals("Name of second sprite does not match.", SPRITE_NAME2, loadedProject.getSpriteList().get(1)
 				.getName());
-		assertEquals("Name of third sprite does not match.", thirdSpriteName, loadedProject.getSpriteList().get(2)
+		assertEquals("Name of third sprite does not match.", SPRITE_NAME3, loadedProject.getSpriteList().get(2)
 				.getName());
 
 		assertEquals("HideBrick was not loaded right", HideBrick.class,
@@ -147,7 +137,5 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				steps,
 				TestUtils.getPrivateField("steps", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
 						.get(6), false));
-
 	}
-
 }

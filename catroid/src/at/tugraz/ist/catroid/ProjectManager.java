@@ -114,11 +114,19 @@ public class ProjectManager {
 		}
 	}
 
-	public boolean saveProject() {
-		if (project == null) {
-			return false;
+	public boolean saveProject(boolean asynchronous) {
+		if (asynchronous) {
+			saveProject(null);
+			return true;
+		} else {
+			return StorageHandler.getInstance().saveProjectSynchronously(project);
 		}
-		return StorageHandler.getInstance().saveProject(project);
+	}
+
+	public void saveProject(StorageHandler.SaveProjectTaskCallback callback) {
+		if (project != null) {
+			StorageHandler.getInstance().saveProject(project, callback);
+		}
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -143,7 +151,6 @@ public class ProjectManager {
 
 		currentSprite = null;
 		currentScript = null;
-		saveProject();
 	}
 
 	public Project getCurrentProject() {
@@ -190,7 +197,7 @@ public class ProjectManager {
 
 		if (directoryRenamed) {
 			project.setName(newProjectName);
-			this.saveProject();
+			saveProject(true);
 		}
 
 		return (directoryRenamed);

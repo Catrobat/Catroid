@@ -82,7 +82,7 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
 	}
 
-	private void createProject() {
+	private void createProject() throws InterruptedException {
 		Values.SCREEN_HEIGHT = 20;
 		Values.SCREEN_WIDTH = 20;
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -109,6 +109,6 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 		projectManager.setCurrentScript(testScript);
 
 		projectManager.setProject(project);
-		StorageHandler.getInstance().saveProject(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

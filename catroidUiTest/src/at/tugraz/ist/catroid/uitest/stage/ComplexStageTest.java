@@ -147,7 +147,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		assertTrue("Just for FileTest", true);
 	}
 
-	private void createProject() {
+	private void createProject() throws InterruptedException {
 		Values.SCREEN_HEIGHT = screenHeight;
 		Values.SCREEN_WIDTH = screenWidth;
 
@@ -280,7 +280,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		project.addSprite(greenSprite);
 		project.addSprite(blueSprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 
 		File yellowImageFile = UiTestUtils.saveFileToProject(project.getName(), yellowImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
@@ -303,7 +303,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		redCostumeData.setCostumeFilename(redImageFile.getName());
 		blackCostumeData.setCostumeFilename(blackImageFile.getName());
 
-		StorageHandler.getInstance().saveProject(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 	}
 }

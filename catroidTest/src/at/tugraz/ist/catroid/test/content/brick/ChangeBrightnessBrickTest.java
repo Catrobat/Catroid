@@ -29,32 +29,32 @@ import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
 
 public class ChangeBrightnessBrickTest extends AndroidTestCase {
 
-	private final float brighter = 50.5f;
-	private final float dimmer = -20.8f;
+	private static final float BRIGHTER = 50.5f;
+	private static final float DIMMER = -20.8f;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite brightness value", 1f, sprite.costume.getBrightnessValue());
 
 		float brightness = sprite.costume.getBrightnessValue();
-		brightness += brighter / 100f;
+		brightness += BRIGHTER / 100f;
 
-		ChangeBrightnessBrick brick1 = new ChangeBrightnessBrick(sprite, brighter);
+		ChangeBrightnessBrick brick1 = new ChangeBrightnessBrick(sprite, BRIGHTER);
 		brick1.execute();
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessBrick executed", brightness,
 				sprite.costume.getBrightnessValue());
 
 		brightness = sprite.costume.getBrightnessValue();
-		brightness += dimmer / 100f;
+		brightness += DIMMER / 100f;
 
-		ChangeBrightnessBrick brick2 = new ChangeBrightnessBrick(sprite, dimmer);
+		ChangeBrightnessBrick brick2 = new ChangeBrightnessBrick(sprite, DIMMER);
 		brick2.execute();
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessBrick executed", brightness,
 				sprite.costume.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
-		ChangeGhostEffectBrick brick = new ChangeGhostEffectBrick(null, brighter);
+		ChangeGhostEffectBrick brick = new ChangeGhostEffectBrick(null, BRIGHTER);
 		try {
 			brick.execute();
 			fail("Execution of ChangeBrightnessBrick with null Sprite did not cause a NullPointerException to be thrown");

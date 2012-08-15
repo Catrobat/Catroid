@@ -46,33 +46,39 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+	private static final String SPRITE_NAME1 = "Zuul";
+	private static final String SPRITE_NAME2 = "Zuuul";
 
-	private String projectNameOne = "Ulumulu";
-	private String spriteNameOne = "Zuul";
-	private String spriteNameTwo = "Zuuul";
-
+	private Context context;
 	private Script testScript;
 	private Script otherScript;
 
 	@Override
-	public void tearDown() {
-		TestUtils.clearProject(projectNameOne);
-		TestUtils.clearProject("oldProject");
-		TestUtils.clearProject("newProject");
+	protected void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
+		Utils.updateScreenWidthAndHeight(context);
 	}
 
-	public void testBasicFunctions() throws NameNotFoundException, IOException {
+	@Override
+	protected void tearDown() throws Exception {
+		TestUtils.deleteTestProjects();
+		super.tearDown();
+	}
+
+	public void testBasicFunctions() throws NameNotFoundException, IOException, InterruptedException {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
-		Context context = getInstrumentation().getContext().createPackageContext("at.tugraz.ist.catroid",
-				Context.CONTEXT_IGNORE_SECURITY);
 
 		// initializeNewProject
-		projectManager.initializeNewProject(projectNameOne, context);
+		projectManager.initializeNewProject(TEST_PROJECT_NAME, context);
+		// Wait for asynchronous project saving to finish.
+		Thread.sleep(1000);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
-		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
-				.getName());
+		assertEquals("The Projectname is not " + TEST_PROJECT_NAME, TEST_PROJECT_NAME, projectManager
+				.getCurrentProject().getName());
 
 		// verify that new project is default project (see StorageHandler.createDefaultProject)
 		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
@@ -81,13 +87,12 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertEquals("Catroid sprite has wrong number of scripts", 2, catroid.getNumberOfScripts());
 
 		// add sprite
-		Sprite sprite = new Sprite(spriteNameOne);
+		Sprite sprite = new Sprite(SPRITE_NAME1);
 		projectManager.addSprite(sprite);
 		projectManager.setCurrentSprite(sprite);
 
 		assertNotNull("No current sprite set", projectManager.getCurrentSprite());
-		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, projectManager.getCurrentSprite()
-				.getName());
+		assertEquals("The Spritename is not " + SPRITE_NAME1, SPRITE_NAME1, projectManager.getCurrentSprite().getName());
 
 		// add script
 		Script startScript = new StartScript(sprite);
@@ -97,15 +102,15 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("no current script set", projectManager.getCurrentScript());
 
 		// loadProject
-		projectManager.loadProject(projectNameOne, context, false);
+		projectManager.loadProject(TEST_PROJECT_NAME, context, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
-		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
-				.getName());
+		assertEquals("The Projectname is not " + TEST_PROJECT_NAME, TEST_PROJECT_NAME, projectManager
+				.getCurrentProject().getName());
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 
 		// addSprite
-		Sprite sprite2 = new Sprite(spriteNameTwo);
+		Sprite sprite2 = new Sprite(SPRITE_NAME2);
 		projectManager.addSprite(sprite2);
 		assertTrue("Sprite not in current Project", projectManager.getCurrentProject().getSpriteList()
 				.contains(sprite2));
@@ -124,16 +129,17 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				projectManager.getCurrentScript().getBrickList().contains(setCostumeBrick));
 	}
 
-	public void testRenameProject() throws IOException {
-		String oldProjectName = "oldProject";
-		String newProjectName = "newProject";
+	public void testRenameProject() throws IOException, InterruptedException {
+		String oldProjectName = TestUtils.TEST_PROJECT_NAME1;
+		String newProjectName = TestUtils.TEST_PROJECT_NAME2;
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		createTestProject(oldProjectName);
-		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
+		if (!projectManager.renameProject(newProjectName, context)) {
 			fail("could not rename Project");
 		}
-		projectManager.saveProject();
+		assertTrue("could not save project",
+				StorageHandler.getInstance().saveProjectSynchronously(projectManager.getCurrentProject()));
 
 		File oldProjectFolder = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Constants.DEFAULT_ROOT + "/" + oldProjectName + "/" + Constants.PROJECTCODE_NAME);
@@ -153,15 +159,13 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
 	}
 
-	public Project createTestProject(String projectName) throws IOException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
+	public Project createTestProject(String projectName) throws IOException, InterruptedException {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		storageHandler.saveProject(project);
+		Project project = new Project(context, projectName);
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -173,7 +177,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
 		File image = TestUtils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
-				getInstrumentation().getContext(), 0);
+				context, 0);
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image.getName());
 		costumeData.setCostumeName("name");
@@ -203,7 +207,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(Utils.md5Checksum(image), image.getAbsolutePath());
 
-		storageHandler.saveProject(project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 		return project;
 	}
 }

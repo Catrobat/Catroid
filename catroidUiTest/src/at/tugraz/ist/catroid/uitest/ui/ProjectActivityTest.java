@@ -61,6 +61,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.globalTestSetup();
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.createEmptyProject();
 	}

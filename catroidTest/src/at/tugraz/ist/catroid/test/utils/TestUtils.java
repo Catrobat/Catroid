@@ -35,22 +35,21 @@ import java.lang.reflect.Method;
 
 import android.content.Context;
 import android.util.Log;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
-
-	private static final String TAG = TestUtils.class.getSimpleName();
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
-	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	public static final String TEST_PROJECT_NAME1 = "TestProject1";
+	public static final String TEST_PROJECT_NAME2 = "TestProject2";
+	public static final File TEST_PROJECT_DIR1 = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME1);
+	public static final File TEST_PROJECT_DIR2 = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME2);
+	private static final String TAG = TestUtils.class.getSimpleName();
 
 	private TestUtils() {
 	};
@@ -94,16 +93,7 @@ public class TestUtils {
 		return createTestMediaFile(filePath, fileID, context);
 	}
 
-	public static boolean clearProject(String projectname) {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectname);
-		if (directory.exists()) {
-			return UtilFile.deleteDirectory(directory);
-		}
-		return false;
-	}
-
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
-
 		File testImage = new File(filePath);
 
 		if (!testImage.exists()) {
@@ -152,7 +142,6 @@ public class TestUtils {
 	}
 
 	public static Object getPrivateField(String fieldName, Object object, boolean ofSuperclass) {
-
 		Field field = null;
 
 		try {
@@ -179,11 +168,18 @@ public class TestUtils {
 		return field;
 	}
 
-	public static void setPrivateField(Class<?> classFromObject, Object object, String fieldName, Object value)
+	public static void setPrivateField(Class<?> objectClass, Object object, String fieldName, Object value)
 			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = classFromObject.getDeclaredField(fieldName);
+		Field field = objectClass.getDeclaredField(fieldName);
 		field.setAccessible(true);
 		field.set(object, value);
+	}
+
+	public static boolean getPrivateBooleanField(Class<?> objectClass, Object object, String fieldName)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = objectClass.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		return field.getBoolean(object);
 	}
 
 	public static Object invokeMethod(Object classObject, String methodName, Class<?>[] methodParams,
@@ -215,7 +211,9 @@ public class TestUtils {
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name) {
+	public static boolean createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name)
+			throws InterruptedException {
+
 		Project project = new ProjectWithVersionCode(name, versionCode);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
@@ -223,26 +221,24 @@ public class TestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		return StorageHandler.getInstance().saveProjectSynchronously(project);
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
-		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, DEFAULT_TEST_PROJECT_NAME);
+	public static boolean createTestProjectOnLocalStorageWithVersionCode(int versionCode) throws InterruptedException {
+		return createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, TEST_PROJECT_NAME1);
 	}
 
-	public static void deleteTestProjects(String... additionalProjectNames) {
-		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+	public static void deleteTestProjects() {
+		deleteRecursively(TEST_PROJECT_DIR1);
+		deleteRecursively(TEST_PROJECT_DIR2);
+	}
 
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
-
-		for (String name : additionalProjectNames) {
-			directory = new File(Constants.DEFAULT_ROOT + "/" + name);
-			if (directory.exists()) {
-				UtilFile.deleteDirectory(directory);
+	public static boolean deleteRecursively(File file) {
+		if (file.isDirectory()) {
+			for (File f : file.listFiles()) {
+				deleteRecursively(f);
 			}
 		}
+		return file.delete();
 	}
 }

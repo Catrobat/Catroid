@@ -190,7 +190,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-		ProjectManager.getInstance().saveProject();
+		assertTrue("Cannot save project.", ProjectManager.getInstance().saveProject(false));
 
 		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
@@ -202,7 +202,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		sprite.getCostumeDataList().add(costumeData);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(costumeData.getChecksum(), image.getAbsolutePath());
-		ProjectManager.getInstance().saveProject();
+		assertTrue("Cannot save project.", ProjectManager.getInstance().saveProject(false));
 	}
 
 	private void createTestProject() {

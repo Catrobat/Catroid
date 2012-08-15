@@ -160,5 +160,4 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 		assertEquals("Wrong y-position", 10f, sprite.costume.getYPosition());
 
 	}
-
 }

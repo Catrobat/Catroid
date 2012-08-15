@@ -32,13 +32,16 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ComeToFrontBrickTest extends AndroidTestCase {
 
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+
 	@Override
-	public void tearDown() {
-		TestUtils.clearProject("testProject");
+	public void tearDown() throws Exception {
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testComeToFront() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), TEST_PROJECT_NAME);
 
 		Sprite bottomSprite = new Sprite("catroid");
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.costume.zPosition);
@@ -69,7 +72,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 
 	public void testBoundaries() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), TEST_PROJECT_NAME);
 
 		Sprite sprite = new Sprite("testSprite");
 		sprite.costume.zPosition = Integer.MAX_VALUE;
@@ -85,7 +88,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 
 	public void testGetView() {
-		ProjectManager.getInstance().setProject(new Project(getContext(), "testProject"));
+		ProjectManager.getInstance().setProject(new Project(getContext(), TEST_PROJECT_NAME));
 		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"));
 		View view = brick.getView(getContext(), 1, null);
 		assertNotNull("getView returned null", view);

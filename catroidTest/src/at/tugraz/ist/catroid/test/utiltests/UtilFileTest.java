@@ -30,32 +30,33 @@ import java.util.List;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilFileTest extends InstrumentationTestCase {
+
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+
 	private File testDirectory;
 	private File subDirectory;
 	private File file1;
 	private File file2;
 
-	private String projectName = "project1";
-
 	@Override
 	protected void setUp() throws Exception {
-		final String catroidDirectory = "/sdcard/catroid";
-		UtilFile.deleteDirectory(new File(catroidDirectory + "/testDirectory"));
-		TestUtils.clearProject(projectName);
+		super.setUp();
 
-		testDirectory = new File(catroidDirectory + "/testDirectory");
-		testDirectory.mkdir();
+		testDirectory = new File(Constants.DEFAULT_ROOT + "/" + TestUtils.TEST_PROJECT_NAME2);
+		testDirectory.mkdirs();
 		file1 = new File(testDirectory.getAbsolutePath() + "/file1");
 		file1.createNewFile();
 		subDirectory = new File(testDirectory.getAbsolutePath() + "/subDirectory");
-		subDirectory.mkdir();
+		subDirectory.mkdirs();
 		file2 = new File(subDirectory.getAbsolutePath() + "/file2");
 		file2.createNewFile();
 
@@ -64,8 +65,8 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		UtilFile.deleteDirectory(testDirectory);
-		TestUtils.clearProject(projectName);
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testClearDirectory() {
@@ -86,19 +87,21 @@ public class UtilFileTest extends InstrumentationTestCase {
 
 	public void testFileSize() throws IOException {
 		for (int i = 0; i < 2; i++) {
-			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
+			UtilFile.saveFileToProject(testDirectory.getName(), i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		assertEquals("not the expected string", "84.2 KB", UtilFile.getSizeAsString(testDirectory));
+		DecimalFormat decimalFormat = new DecimalFormat("#.#");
+		String expected = decimalFormat.format(84.2) + " KB";
+		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
 
 		for (int i = 2; i < 48; i++) {
-			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
+			UtilFile.saveFileToProject(testDirectory.getName(), i + "testsound.mp3",
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		DecimalFormat decimalFormat = new DecimalFormat("#.0");
-		String expected = decimalFormat.format(2.0) + " MB";
+		decimalFormat = new DecimalFormat("#.0");
+		expected = decimalFormat.format(2.0) + " MB";
 		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
 
 		PrintWriter printWriter = null;
@@ -123,16 +126,17 @@ public class UtilFileTest extends InstrumentationTestCase {
 		UtilFile.deleteDirectory(testDirectory);
 	}
 
-	public void testGetProjectFiles() {
-		Project project = new Project(null, projectName);
+	public void testGetProjectFiles() throws InterruptedException {
+		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
-		ProjectManager.getInstance().saveProject();
+		assertTrue("could not save project",
+				StorageHandler.getInstance().saveProjectSynchronously(ProjectManager.getInstance().getCurrentProject()));
 
-		String catroidDirectoryPath = "/sdcard/catroid";
+		String catroidDirectoryPath = Constants.DEFAULT_ROOT;
 		File catroidDirectory = new File(catroidDirectoryPath);
-		File project1Directory = new File(catroidDirectory + "/" + projectName);
+		File project1Directory = new File(catroidDirectory + "/" + TEST_PROJECT_NAME);
 
 		List<File> projectList = UtilFile.getProjectFiles(catroidDirectory);
 

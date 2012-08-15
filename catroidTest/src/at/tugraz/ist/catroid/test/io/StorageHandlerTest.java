@@ -25,10 +25,11 @@ package at.tugraz.ist.catroid.test.io;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-import android.test.AndroidTestCase;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
@@ -53,38 +54,37 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.io.StorageHandler.SaveProjectTaskCallback;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
-public class StorageHandlerTest extends AndroidTestCase {
+public class StorageHandlerTest extends InstrumentationTestCase {
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+
+	private Context context;
 	private StorageHandler storageHandler;
 
-	public StorageHandlerTest() throws IOException {
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
 		storageHandler = StorageHandler.getInstance();
+		Utils.updateScreenWidthAndHeight(context);
 	}
 
 	@Override
-	public void tearDown() {
-		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
-		TestUtils.clearProject("testProject");
+	public void tearDown() throws Exception {
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
-	@Override
-	public void setUp() {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-	}
-
-	public void testSerializeProject() {
-
+	public void testSerializeProject() throws InterruptedException {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(context, TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
@@ -115,12 +115,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
+		assertTrue("could not save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 
-		Project loadedProject = storageHandler.loadProject("testProject");
+		Project loadedProject = storageHandler.loadProject(TEST_PROJECT_NAME);
 
-		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getSpriteList();
-		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getSpriteList();
+		List<Sprite> preSpriteList = project.getSpriteList();
+		List<Sprite> postSpriteList = loadedProject.getSpriteList();
 
 		// Test sprite names:
 		assertEquals("First sprite does not match after deserialization", preSpriteList.get(0).getName(),
@@ -162,9 +162,11 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 
-	public void testDefaultProject() throws IOException {
+	public void testDefaultProject() throws IOException, InterruptedException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(getContext()));
+		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(context));
+		// Wait for asynchronous project saving to finish.
+		Thread.sleep(742);
 		assertEquals("not the right number of sprites in the default project", 2, projectManager.getCurrentProject()
 				.getSpriteList().size());
 		assertEquals("not the right number of scripts in the second sprite of default project", 2, projectManager
@@ -200,8 +202,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertTrue("Image " + catroidCostumeList.get(2).getCostumeFileName() + " does not exist", testFile.exists());
 	}
 
-	public void testAliasesAndXmlHeader() {
-
+	public void testAliasesAndXmlHeader() throws InterruptedException {
 		String projectName = "myProject";
 
 		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
@@ -209,7 +210,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 
-		Project project = new Project(getContext(), projectName);
+		Project project = new Project(context, projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);
@@ -241,7 +242,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 			whenScript.addBrick(b);
 		}
 
-		storageHandler.saveProject(project);
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 
@@ -254,4 +255,28 @@ public class StorageHandlerTest extends AndroidTestCase {
 		}
 	}
 
+	public void testAsyncSaveTaskCallbackShouldBeCalled() throws InterruptedException {
+		Project project = new Project(context, TestUtils.TEST_PROJECT_NAME1);
+		Sprite sprite = new Sprite("testSprite");
+		Script startScript = new StartScript(sprite);
+		Script whenScript = new WhenScript(sprite);
+		sprite.addScript(startScript);
+		sprite.addScript(whenScript);
+		project.addSprite(sprite);
+
+		final boolean[] lock = { false };
+
+		storageHandler.saveProject(project, new SaveProjectTaskCallback() {
+			public void onProjectSaved(boolean success) {
+				synchronized (lock) {
+					lock[0] = success;
+					lock.notify();
+				}
+			}
+		});
+		synchronized (lock) {
+			lock.wait();
+		}
+		assertTrue("Callback was not called or project couldn't be saved.", lock[0]);
+	}
 }

@@ -90,6 +90,7 @@ public class SoundActivity extends ListActivity {
 
 	private View.OnClickListener createAddSoundClickListener() {
 		return new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("audio/*");
@@ -102,11 +103,8 @@ public class SoundActivity extends ListActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-		}
 		stopSound(null);
+		ProjectManager.getInstance().saveProject(true);
 	}
 
 	private void updateSoundAdapter(String title, String fileName) {
@@ -123,6 +121,7 @@ public class SoundActivity extends ListActivity {
 		{
 			final ListView listView = getListView();
 			listView.post(new Runnable() {
+				@Override
 				public void run() {
 					listView.setSelection(listView.getCount() - 1);
 				}
@@ -230,6 +229,7 @@ public class SoundActivity extends ListActivity {
 		startSound(soundInfo);
 
 		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+			@Override
 			public void onCompletion(MediaPlayer mp) {
 				soundInfo.isPlaying = false;
 				soundInfo.isPaused = false;

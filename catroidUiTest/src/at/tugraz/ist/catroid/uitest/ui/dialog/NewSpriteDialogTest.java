@@ -64,7 +64,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		super.tearDown();
 	}
 
-	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
+	public void testNewSpriteDialog() throws NameNotFoundException, IOException, InterruptedException {
 		createTestProject(testingproject);
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -83,11 +83,10 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
 	}
 
-	public void createTestProject(String projectName) {
-		StorageHandler storageHandler = StorageHandler.getInstance();
+	public void createTestProject(String projectName) throws InterruptedException {
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 		project.addSprite(firstSprite);
-		storageHandler.saveProject(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

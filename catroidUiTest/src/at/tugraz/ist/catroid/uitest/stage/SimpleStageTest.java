@@ -68,12 +68,12 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		assertTrue("Just for FileTest", true);
 	}
 
-	private void createProject() {
+	private void createProject() throws InterruptedException {
 		Values.SCREEN_HEIGHT = 20;
 		Values.SCREEN_WIDTH = 20;
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		ProjectManager.getInstance().setProject(project);
-		StorageHandler.getInstance().saveProject(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

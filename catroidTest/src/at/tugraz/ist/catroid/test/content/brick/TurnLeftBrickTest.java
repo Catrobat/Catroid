@@ -24,9 +24,9 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -37,31 +37,26 @@ import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TurnLeftBrickTest extends InstrumentationTestCase {
-
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
 
-	private final String projectName = "testProject";
+	private Context context;
 	private File testImage;
 	private CostumeData costumeData;
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
 
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		Project project = new Project(context, TEST_PROJECT_NAME);
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "testImage.png", IMAGE_FILE_ID, context,
+				TestUtils.TYPE_IMAGE_FILE);
 
 		costumeData = new CostumeData();
 		costumeData.setCostumeFilename(testImage.getName());
@@ -73,14 +68,11 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testTurnLeftTwice() {

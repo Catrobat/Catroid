@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 
 public class ChangeXByBrickTest extends AndroidTestCase {
 
-	private int xMovement = 100;
+	private static final int MOVEMENT_X = 100;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -37,16 +37,16 @@ public class ChangeXByBrickTest extends AndroidTestCase {
 
 		int xPosition = (int) sprite.costume.getXPosition();
 
-		ChangeXByBrick changeXByBrick = new ChangeXByBrick(sprite, xMovement);
+		ChangeXByBrick changeXByBrick = new ChangeXByBrick(sprite, MOVEMENT_X);
 		changeXByBrick.execute();
 
-		xPosition += xMovement;
+		xPosition += MOVEMENT_X;
 		assertEquals("Incorrect sprite x position after ChangeXByBrick executed", (float) xPosition,
 				sprite.costume.getXPosition());
 	}
 
 	public void testNullSprite() {
-		ChangeXByBrick changeXByBrick = new ChangeXByBrick(null, xMovement);
+		ChangeXByBrick changeXByBrick = new ChangeXByBrick(null, MOVEMENT_X);
 		try {
 			changeXByBrick.execute();
 			fail("Execution of ChangeXByBrick with null Sprite did not cause a " + "NullPointerException to be thrown");

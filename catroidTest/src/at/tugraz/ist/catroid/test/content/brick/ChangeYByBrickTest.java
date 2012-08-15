@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 
 public class ChangeYByBrickTest extends AndroidTestCase {
 
-	private int yMovement = 100;
+	private static final int MOVEMENT_Y = 100;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -37,16 +37,16 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 
 		int yPosition = (int) sprite.costume.getYPosition();
 
-		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, yMovement);
+		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, MOVEMENT_Y);
 		changeYByBrick.execute();
 
-		yPosition += yMovement;
+		yPosition += MOVEMENT_Y;
 		assertEquals("Incorrect sprite y position after ChangeYByBrick executed", (float) yPosition,
 				sprite.costume.getYPosition());
 	}
 
 	public void testNullSprite() {
-		ChangeYByBrick brick = new ChangeYByBrick(null, yMovement);
+		ChangeYByBrick brick = new ChangeYByBrick(null, MOVEMENT_Y);
 
 		try {
 			brick.execute();

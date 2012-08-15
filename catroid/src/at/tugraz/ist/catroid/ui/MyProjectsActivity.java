@@ -97,6 +97,12 @@ public class MyProjectsActivity extends ListActivity {
 		initCustomContextMenu();
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		ProjectManager.getInstance().saveProject(true);
+	}
+
 	private void setUpActionBar() {
 		String title;
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -143,13 +149,11 @@ public class MyProjectsActivity extends ListActivity {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
+				if (ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName,
 						MyProjectsActivity.this, true)) {
-					return; // error message already in ProjectManager
-							// loadProject
+					Intent intent = new Intent(MyProjectsActivity.this, ProjectActivity.class);
+					MyProjectsActivity.this.startActivity(intent);
 				}
-				Intent intent = new Intent(MyProjectsActivity.this, ProjectActivity.class);
-				MyProjectsActivity.this.startActivity(intent);
 			}
 		});
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -208,7 +212,6 @@ public class MyProjectsActivity extends ListActivity {
 			projectManager.initializeDefaultProject(MyProjectsActivity.this);
 		} else {
 			projectManager.loadProject((projectList.get(0)).projectName, this, false);
-			projectManager.saveProject();
 		}
 
 		updateProjectTitle();
@@ -279,7 +282,7 @@ public class MyProjectsActivity extends ListActivity {
 	}
 
 	public void updateProjectTitle() {
-		TextView titleTextView = (TextView) MyProjectsActivity.this.findViewById(R.id.tv_title);
+		TextView titleTextView = (TextView) MyProjectsActivity.this.findViewById(R.id.textview_actionbar_project_title);
 		titleTextView.setText(MyProjectsActivity.this.getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName());
 	}

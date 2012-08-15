@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
@@ -57,10 +58,16 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MediaPathTest extends InstrumentationTestCase {
-
 	private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.test.R.raw.icon;
 	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.test.R.raw.testsound;
 	private static final int BIGBLUE_ID = at.tugraz.ist.catroid.test.R.raw.bigblue;
+
+	private static final String projectName = TestUtils.TEST_PROJECT_NAME1;
+	private static final String imageName = "testImage.png";
+	private static final String soundName = "testSound.mp3";
+	private static final String bigBlueName = "bigblue.png";
+
+	private Context context;
 	private Project project;
 	private File testImage;
 	private File bigBlue;
@@ -72,48 +79,43 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private File bigBlue2;
 	private File bigBlue3;
 
-	private String imageName = "testImage.png";
-	private String soundName = "testSound.mp3";
-	private String projectName = "testProject7";
-	private String bigBlueName = "bigblue.png";
-
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
 
-		TestUtils.clearProject(projectName);
-		TestUtils.clearProject("mockProject");
+		Utils.updateScreenWidthAndHeight(context);
 
-		project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		project = new Project(context, projectName);
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 
-		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
-		StorageHandler.getInstance().saveProject(mockProject);
+		Project mockProject = new Project(context, TestUtils.TEST_PROJECT_NAME2);
+		StorageHandler.getInstance().saveProjectSynchronously(mockProject);
 
-		testImage = TestUtils.saveFileToProject(mockProject.getName(), imageName, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = TestUtils.saveFileToProject(mockProject.getName(), imageName, IMAGE_FILE_ID, context,
+				TestUtils.TYPE_IMAGE_FILE);
 
-		bigBlue = TestUtils.saveFileToProject(mockProject.getName(), bigBlueName, BIGBLUE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		bigBlue = TestUtils.saveFileToProject(mockProject.getName(), bigBlueName, BIGBLUE_ID, context,
+				TestUtils.TYPE_IMAGE_FILE);
 
-		testSound = TestUtils.saveFileToProject(mockProject.getName(), soundName, SOUND_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_SOUND_FILE);
+		testSound = TestUtils.saveFileToProject(mockProject.getName(), soundName, SOUND_FILE_ID, context,
+				TestUtils.TYPE_SOUND_FILE);
 
 		//copy files with the Storagehandler copy function
 		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
-
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.clearProject(projectName);
-		TestUtils.clearProject("mockProject");
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
-	public void testPathsInProjectFile() throws IOException {
+	public void testPathsInProjectFile() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String project = TestUtils.getProjectfileAsString(projectName);
 
@@ -123,7 +125,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("project contains sdcard/", project.contains("sdcard/"));
 	}
 
-	public void testFilenameChecksum() throws IOException {
+	public void testFilenameChecksum() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 
 		String project = TestUtils.getProjectfileAsString(projectName);
@@ -189,22 +191,21 @@ public class MediaPathTest extends InstrumentationTestCase {
 				container.containsChecksum(Utils.md5Checksum(testImageCopy2)));
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY);
-		File[] filesImage = directory.listFiles();
 
-		//nomedia file is also in images folder
-		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, filesImage.length);
+		// .nomedia file is also in images folder
+		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, directory.listFiles().length);
 
 		storageHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caught (this is expected behavior)
 	}
 
-	public void testContainerOnLoadProject() throws IOException {
+	public void testContainerOnLoadProject() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 		ProjectManager projectManager = ProjectManager.getInstance();
 		String checksumImage = Utils.md5Checksum(testImage);
 		String checksumSound = Utils.md5Checksum(testSound);
 
-		projectManager.setFileChecksumContainer(null); //hack to delete the filechecksumcontainer and see if a new one is created on load
-		projectManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		projectManager.setFileChecksumContainer(null); // hack to delete the filechecksumcontainer and see if a new one is created on load
+		projectManager.loadProject(projectName, context, false);
 
 		assertTrue("does not contain checksum",
 				projectManager.getFileChecksumContainer().containsChecksum(checksumImage));
@@ -212,35 +213,33 @@ public class MediaPathTest extends InstrumentationTestCase {
 				projectManager.getFileChecksumContainer().containsChecksum(checksumSound));
 		assertFalse("returns true even when the checksum is for sure not added", projectManager
 				.getFileChecksumContainer().containsChecksum(checksumImage + "5"));
-
 		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(), projectManager
 				.getFileChecksumContainer().getPath(checksumImage));
-
 		assertEquals("The path to the file is not found or wrong", testSoundCopy.getAbsolutePath(), projectManager
 				.getFileChecksumContainer().getPath(checksumSound));
 	}
 
-	public void testFileChecksumContainerNotInProjectFile() throws IOException {
+	public void testFileChecksumContainerNotInProjectFile() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		ProjectManager.getInstance().loadProject(projectName, context, false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 	}
 
-	public void testCostumeDataListAndSoundInfoListInProjectFile() throws IOException {
+	public void testCostumeDataListAndSoundInfoListInProjectFile() throws IOException, InterruptedException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
 		assertTrue("soundList not in project", projectString.contains("soundList"));
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		ProjectManager.getInstance().loadProject(projectName, context, false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
 		assertTrue("soundList not in project", projectString.contains("soundList"));
 	}
 
-	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
+	private void fillProjectWithAllBricksAndMediaFiles() throws IOException, InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);
@@ -295,6 +294,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 			whenScript.addBrick(brick);
 		}
 
-		StorageHandler.getInstance().saveProject(project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 	}
 }

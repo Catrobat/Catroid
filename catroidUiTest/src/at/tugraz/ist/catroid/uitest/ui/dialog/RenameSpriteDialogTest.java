@@ -63,7 +63,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		super.tearDown();
 	}
 
-	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {
+	public void testRenameSpriteDialog() throws NameNotFoundException, IOException, InterruptedException {
 		createTestProject(testProject);
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
@@ -83,7 +83,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals("The first sprite is NOT rename!", first, kat);
 	}
 
-	public void testRenameSpriteDialogMixedCase() throws NameNotFoundException, IOException {
+	public void testRenameSpriteDialogMixedCase() throws NameNotFoundException, IOException, InterruptedException {
 		createTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testProject));
@@ -100,8 +100,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals("The first sprite name was not renamed to Mixed Case", first, catMixedCase);
 	}
 
-	public void createTestProject(String projectName) {
-		StorageHandler storageHandler = StorageHandler.getInstance();
+	public void createTestProject(String projectName) throws InterruptedException {
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -113,6 +112,6 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
+		assertTrue("Cannot save project.", StorageHandler.getInstance().saveProjectSynchronously(project));
 	}
 }

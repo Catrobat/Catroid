@@ -34,29 +34,23 @@ import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StandardProjectHandlerTest extends AndroidTestCase {
-
-	private String testProjectName = "testStandardProjectBuilding";
-
-	public StandardProjectHandlerTest() throws IOException {
-	}
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
 
 	@Override
-	public void tearDown() {
-		TestUtils.clearProject(testProjectName);
+	protected void tearDown() throws Exception {
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
-	@Override
-	public void setUp() {
-		TestUtils.clearProject(testProjectName);
-	}
-
-	public void testCreateStandardProject() throws IOException {
+	public void testCreateStandardProject() throws IOException, InterruptedException {
 		Values.SCREEN_WIDTH = 500;
 		Values.SCREEN_HEIGHT = 1000;
 
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+		// Wait for asynchronous project saving to finish.
+		Thread.sleep(842);
 
-		assertEquals("The Project has the wrong name.", testProjectName, testProject.getName());
+		assertEquals("The Project has the wrong name.", TEST_PROJECT_NAME, testProject.getName());
 		assertEquals("wrong number of sprites.", 2, testProject.getSpriteList().size());
 
 		int backgroundSpriteIndex = 0;
@@ -79,7 +73,5 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 					.get(cat_number);
 			assertEquals("wrong size of cat image", Values.SCREEN_WIDTH / 3, catCostumeData.getResolution()[0]);
 		}
-
 	}
-
 }

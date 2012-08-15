@@ -22,8 +22,8 @@
  */
 package at.tugraz.ist.catroid.test.content.brick;
 
+import android.test.AndroidTestCase;
 import android.test.FlakyTest;
-import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
@@ -32,16 +32,18 @@ import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
-public class RepeatBrickTest extends InstrumentationTestCase {
+public class RepeatBrickTest extends AndroidTestCase {
+
+	private static final int REPEAT_TIMES = 10;
 
 	private Sprite testSprite;
 	private StartScript testScript;
-	private static final int REPEAT_TIMES = 10;
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick repeatBrick;
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		testSprite = new Sprite("testSprite");
 	}
 
@@ -104,7 +106,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		 */
 		final long delayByContract = 20;
 		final long endTime = System.currentTimeMillis();
-		assertEquals("Loop delay did was not 20ms!", delayByContract * REPEAT_TIMES, endTime - startTime, 15);
+		assertEquals("Loop delay was not 20ms!", delayByContract * REPEAT_TIMES, endTime - startTime, 15);
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {

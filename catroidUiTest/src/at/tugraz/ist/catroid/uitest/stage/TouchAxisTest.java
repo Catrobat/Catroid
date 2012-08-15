@@ -76,7 +76,7 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 		assertTrue("Pixels didn't match! Touch area is off!", Arrays.equals(blackPixel, screenPixel));
 	}
 
-	private void createProject() {
+	private void createProject() throws InterruptedException {
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
 
@@ -104,14 +104,14 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 
 		testProject.addSprite(touchSprite);
 
-		StorageHandler.getInstance().saveProject(testProject);
+		StorageHandler.getInstance().saveProjectSynchronously(testProject);
 
 		File alphaTestImage = UiTestUtils.saveFileToProject(testProject.getName(), alphaTestImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.alpha_test_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 		touchCostumeData.setCostumeFilename(alphaTestImage.getName());
 
-		StorageHandler.getInstance().saveProject(testProject);
+		StorageHandler.getInstance().saveProjectSynchronously(testProject);
 		ProjectManager.getInstance().setProject(testProject);
 	}
 }

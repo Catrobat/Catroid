@@ -36,7 +36,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List<Sprite> spriteList = new ArrayList<Sprite>();
+	private final List<Sprite> spriteList;
 	private String projectName;
 
 	// Only used for Catroid website
@@ -56,7 +56,8 @@ public class Project implements Serializable {
 	public String description;
 
 	public Project(Context context, String name) {
-		this.projectName = name;
+		projectName = name;
+		spriteList = new ArrayList<Sprite>();
 
 		ifLandscapeSwitchWidthAndHeight();
 		virtualScreenWidth = Values.SCREEN_WIDTH;
@@ -96,7 +97,7 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.projectName = name;
+		projectName = name;
 	}
 
 	public String getName() {

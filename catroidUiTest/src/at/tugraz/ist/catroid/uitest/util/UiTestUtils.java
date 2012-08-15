@@ -351,16 +351,17 @@ public class UiTestUtils {
 		return false;
 	}
 
-	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context) {
+	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context)
+			throws InterruptedException {
 		Project project = new Project(context, projectName);
-		StorageHandler.getInstance().saveProject(project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 		ProjectManager.getInstance().setProject(project);
 
 		for (Sprite sprite : spriteList) {
 			ProjectManager.getInstance().addSprite(sprite);
 		}
 
-		StorageHandler.getInstance().saveProject(project);
+		StorageHandler.getInstance().saveProjectSynchronously(project);
 		return project;
 	}
 
@@ -444,9 +445,9 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
-			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = classFromObject.getDeclaredField(fieldName);
+	public static void setPrivateField2(Class<?> objectClass, Object object, String fieldName, Object value)
+			throws Exception {
+		Field field = objectClass.getDeclaredField(fieldName);
 		field.setAccessible(true);
 		field.set(object, value);
 	}
@@ -600,11 +601,11 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(firstSprite);
-		ProjectManager.INSTANCE.setCurrentScript(testScript);
-		return ProjectManager.INSTANCE.saveProject();
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+		return ProjectManager.getInstance().saveProject(false);
 	}
 
 	public static boolean clickOnTextInList(Solo solo, String text) {
@@ -617,5 +618,18 @@ public class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	public static boolean deleteRecursively(File file) {
+		if (file.isDirectory()) {
+			for (File f : file.listFiles()) {
+				deleteRecursively(f);
+			}
+		}
+		return file.delete();
+	}
+
+	public static void globalTestSetup() throws Exception {
+		setPrivateField2(StorageHandler.class, StorageHandler.getInstance(), "FORCE_SYNCHRONOUS_SAVE", true);
 	}
 }

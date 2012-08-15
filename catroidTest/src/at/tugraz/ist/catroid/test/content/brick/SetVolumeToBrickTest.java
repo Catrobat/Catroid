@@ -23,11 +23,9 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
@@ -35,20 +33,25 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
 	private static final int SOUND_FILE_ID = R.raw.testsound;
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
+	private static final float VOLUME = 50.6f;
+
 	private File soundFile;
-	private String projectName = "projectiName";
-	private float volume = 50.6f;
 
 	@Override
 	protected void setUp() throws Exception {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-		UtilFile.deleteDirectory(directory);
-		this.createTestProject();
+		super.setUp();
+
+		Project project = new Project(getInstrumentation().getTargetContext(), TEST_PROJECT_NAME);
+		assertTrue("cannot save project", StorageHandler.getInstance().saveProjectSynchronously(project));
+		ProjectManager.getInstance().setProject(project);
+
+		soundFile = TestUtils.saveFileToProject(TEST_PROJECT_NAME, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 
 	@Override
@@ -56,29 +59,16 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		TestUtils.clearProject(projectName);
 		SoundManager.getInstance().clear();
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	public void testVolume() {
 		Sprite sprite = new Sprite("testSprite");
-		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, volume);
+		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, VOLUME);
 		setVolumeToBrick.execute();
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume, SoundManager
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager
 				.getInstance().getVolume());
-	}
-
-	private void createTestProject() throws IOException {
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-
-		setUpSoundFile();
-	}
-
-	private void setUpSoundFile() throws IOException {
-
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 }

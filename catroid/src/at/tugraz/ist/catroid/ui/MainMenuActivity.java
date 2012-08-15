@@ -39,7 +39,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
@@ -139,7 +138,7 @@ public class MainMenuActivity extends Activity {
 							}
 						}
 					}, false);
-			this.titleText = (TextView) findViewById(R.id.tv_title);
+			this.titleText = (TextView) findViewById(R.id.textview_actionbar_project_title);
 		}
 	}
 
@@ -154,12 +153,6 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		if (ProjectManager.INSTANCE.getCurrentProject() != null
-				&& StorageHandler.getInstance().projectExistsCheckCase(
-						ProjectManager.INSTANCE.getCurrentProject().getName())) {
-			ProjectManager.INSTANCE.saveProject();
-		}
-
 		switch (id) {
 			case DIALOG_NEW_PROJECT:
 				dialog = new NewProjectDialog(this).dialog;
@@ -190,18 +183,22 @@ public class MainMenuActivity extends Activity {
 			case DIALOG_UPLOAD_PROJECT:
 				Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 				String currentProjectName = currentProject.getName();
-				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
-				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
-				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
-				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
+
+				TextView projectRenameHint = (TextView) dialog
+						.findViewById(R.id.textview_dialog_upload_project_rename_hint);
+				EditText editTextProjectDescription = (EditText) dialog
+						.findViewById(R.id.edittext_dialog_upload_project_description);
+				EditText editTextProjectUploadName = (EditText) dialog
+						.findViewById(R.id.edittext_dialog_upload_project_name);
+				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.textview_dialog_upload_project_file_size);
 				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
 						+ currentProjectName)));
 
-				projectRename.setVisibility(View.GONE);
-				projectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
-				projectDescriptionField.setText("");
-				projectUploadName.requestFocus();
-				projectUploadName.selectAll();
+				projectRenameHint.setVisibility(View.GONE);
+				editTextProjectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
+				editTextProjectDescription.setText(currentProject.description);
+				editTextProjectUploadName.requestFocus();
+				editTextProjectUploadName.selectAll();
 				break;
 			case DIALOG_LOGIN_REGISTER:
 				EditText usernameEditText = (EditText) dialog.findViewById(R.id.username);
@@ -226,9 +223,7 @@ public class MainMenuActivity extends Activity {
 		}
 		ignoreResume = false;
 
-		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
 		writeProjectTitleInTextfield();
-
 	}
 
 	public void writeProjectTitleInTextfield() {
@@ -249,11 +244,7 @@ public class MainMenuActivity extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		// onPause is sufficient --> gets called before "process_killed",
-		// onStop(), onDestroy(), onRestart()
-		// also when you switch activities
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
-			ProjectManager.INSTANCE.saveProject();
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
 					.getName());
 		}

@@ -28,22 +28,36 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SoundManagerTest extends InstrumentationTestCase {
+	private SoundManager soundManager;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		soundManager = SoundManager.getInstance();
+	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		NativeAppActivity.setContext(null);
+		super.tearDown();
 	}
 
 	public void testPlaySoundfile() throws InterruptedException {
 		String soundfileName = "test_sound.mp3";
+		MediaPlayer mediaPlayer = soundManager.getMediaPlayer();
 		NativeAppActivity.setContext(getInstrumentation().getContext());
-		MediaPlayer mediaPlayer = SoundManager.getInstance().playSoundFile(soundfileName);
+
+		assertTrue("Error playing file", soundManager.playSoundFile(soundfileName));
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
-		SoundManager.getInstance().pause();
+		soundManager.pause();
 		assertFalse("MediaPlayer is still playing after SoundManager was paused", mediaPlayer.isPlaying());
 
-		SoundManager.getInstance().resume();
+		soundManager.resume();
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
+	}
+
+	public void testShouldReturnFalseIfBadSoundFile() {
+		assertFalse("Did not return false.", soundManager.playSoundFile("illegalFileName"));
 	}
 }

@@ -30,11 +30,13 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.os.AsyncTask;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
@@ -45,6 +47,7 @@ import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.utils.Utils.BooleanWaitLock;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
@@ -52,11 +55,94 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 
 public class StorageHandler {
 
+	public interface SaveProjectTaskCallback {
+		public void onProjectSaved(boolean success);
+	}
+
+	private class SaveProjectTask extends AsyncTask<Project, Void, Boolean> {
+		private final SaveProjectTaskCallback mCallback;
+		private boolean isCurrentlySavingProject;
+
+		protected SaveProjectTask(SaveProjectTaskCallback callback) {
+			mCallback = callback;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			isCurrentlySavingProject = true;
+		}
+
+		@Override
+		protected Boolean doInBackground(Project... array) {
+			createCatroidRoot();
+			final Project project = array[0];
+
+			if (project == null || isCancelled()) {
+				return false;
+			}
+			try {
+				String projectFile = xstream.toXML(project);
+				String projectDirectoryName = Utils.buildProjectPath(project.getName());
+				File projectDirectory = new File(projectDirectoryName);
+
+				if (!isCancelled()
+						&& !(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+					projectDirectory.mkdir();
+
+					File imageDirectory = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY));
+					imageDirectory.mkdir();
+
+					File noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY,
+							Constants.NO_MEDIA_FILE));
+					noMediaFile.createNewFile();
+
+					File soundDirectory = new File(projectDirectoryName + "/" + Constants.SOUND_DIRECTORY);
+					soundDirectory.mkdir();
+
+					noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.SOUND_DIRECTORY,
+							Constants.NO_MEDIA_FILE));
+					noMediaFile.createNewFile();
+				}
+				if (!isCancelled()) {
+					Writer writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
+							Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
+					writer.write(XML_HEADER.concat(projectFile));
+					writer.flush();
+					writer.close();
+					return true;
+				} else {
+					return false;
+				}
+			} catch (IOException e) {
+				Log.e("CATROID", "Could not save project.", e);
+				return false;
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			isCurrentlySavingProject = false;
+			Log.w("CATROID", "Cancelled save project task.");
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			isCurrentlySavingProject = false;
+			if (mCallback != null) {
+				mCallback.onProjectSaved(result);
+			}
+		}
+	}
+
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+
+	private static boolean FORCE_SYNCHRONOUS_SAVE = false;
 	private static StorageHandler instance;
+
 	private XStream xstream;
+	private SaveProjectTask currentSaveProjectTask;
 
 	private StorageHandler() throws IOException {
 
@@ -84,8 +170,7 @@ public class StorageHandler {
 			try {
 				instance = new StorageHandler();
 			} catch (IOException e) {
-				e.printStackTrace();
-				Log.e(TAG, "Exception in Storagehandler, please refer to the StackTrace");
+				Log.e(TAG, "Could not instantiate Storagehandler.", e);
 			}
 		}
 		return instance;
@@ -115,48 +200,42 @@ public class StorageHandler {
 		}
 	}
 
-	public boolean saveProject(Project project) {
-		createCatroidRoot();
-		if (project == null) {
-			return false;
-		}
-		try {
-			String projectFile = xstream.toXML(project);
-
-			String projectDirectoryName = Utils.buildProjectPath(project.getName());
-			File projectDirectory = new File(projectDirectoryName);
-
-			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
-				projectDirectory.mkdir();
-
-				File imageDirectory = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY));
-				imageDirectory.mkdir();
-
-				File noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY,
-						Constants.NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				File soundDirectory = new File(projectDirectoryName + "/" + Constants.SOUND_DIRECTORY);
-				soundDirectory.mkdir();
-
-				noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.SOUND_DIRECTORY,
-						Constants.NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
+	public void saveProject(Project project, SaveProjectTaskCallback callback) {
+		if (!FORCE_SYNCHRONOUS_SAVE) {
+			if (currentSaveProjectTask != null && currentSaveProjectTask.isCurrentlySavingProject) {
+				currentSaveProjectTask.cancel(false);
 			}
-
-			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
-
-			writer.write(XML_HEADER.concat(projectFile));
-			writer.flush();
-			writer.close();
-
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.e(TAG, "saveProject threw an exception and failed.");
-			return false;
+			currentSaveProjectTask = new SaveProjectTask(callback);
+			currentSaveProjectTask.execute(project);
+		} else {
+			boolean success = saveProjectSynchronously(project);
+			if (callback != null) {
+				callback.onProjectSaved(success);
+			}
 		}
+	}
+
+	public boolean saveProjectSynchronously(Project project) {
+		final BooleanWaitLock lock = new BooleanWaitLock(false);
+
+		if (currentSaveProjectTask != null && currentSaveProjectTask.isCurrentlySavingProject) {
+			currentSaveProjectTask.cancel(false);
+		}
+		currentSaveProjectTask = new SaveProjectTask(new StorageHandler.SaveProjectTaskCallback() {
+			@Override
+			public void onProjectSaved(boolean success) {
+				lock.unlock(success);
+			}
+		});
+		currentSaveProjectTask.execute(project);
+
+		boolean result = false;
+		try {
+			result = lock.lock();
+		} catch (InterruptedException e) {
+			Log.e("CATROID", "Cannot save project.", e);
+		}
+		return result;
 	}
 
 	public boolean deleteProject(Project project) {

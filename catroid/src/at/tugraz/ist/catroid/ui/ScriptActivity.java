@@ -76,15 +76,6 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
-		}
-	}
-
-	@Override
 	protected void onStart() {
 		super.onStart();
 		sprite = ProjectManager.getInstance().getCurrentSprite();

@@ -23,15 +23,12 @@
 package at.tugraz.ist.catroid.test.content;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONException;
-
-import android.test.AndroidTestCase;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.BroadcastScript;
@@ -47,32 +44,32 @@ import at.tugraz.ist.catroid.test.utils.XMLValidationUtil;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
-public class XMLValidatingTest extends AndroidTestCase {
-	private String testProjectName = "xmlTestProjectName";
+public class XMLValidatingTest extends InstrumentationTestCase {
+	private static final String TEST_PROJECT_NAME = TestUtils.TEST_PROJECT_NAME1;
 
-	public XMLValidatingTest() throws IOException {
+	private Context context;
+
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getTargetContext();
 	}
 
 	@Override
-	public void tearDown() {
-		TestUtils.clearProject(testProjectName);
-	}
-
-	@Override
-	public void setUp() {
-		TestUtils.clearProject(testProjectName);
+	public void tearDown() throws Exception {
+		TestUtils.deleteTestProjects();
+		super.tearDown();
 	}
 
 	@SuppressWarnings("unchecked")
-	public void testSerializeProjectWithAllBricks() throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException, IOException, JSONException {
+	public void testSerializeProjectWithAllBricks() throws Exception {
 
-		File projectDirectory = new File(Constants.DEFAULT_ROOT + "/" + testProjectName);
+		File projectDirectory = new File(Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME);
 		if (projectDirectory.exists()) {
 			UtilFile.deleteDirectory(projectDirectory);
 		}
 
-		Project project = new Project(getContext(), testProjectName);
+		Project project = new Project(context, TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript(sprite);
 		Script whenScript = new WhenScript(sprite);
@@ -91,7 +88,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		for (Method method : methods) {
 			if (method.getName().equalsIgnoreCase("setupBrickMap")) {
 				method.setAccessible(true);
-				brickMap = (HashMap<String, List<Brick>>) method.invoke(null, sprite, getContext());
+				brickMap = (HashMap<String, List<Brick>>) method.invoke(null, sprite, context);
 				break;
 			}
 		}
@@ -103,9 +100,8 @@ public class XMLValidatingTest extends AndroidTestCase {
 		}
 
 		assertTrue("no bricks added to the start script", startScript.getBrickList().size() > 0);
-		StorageHandler.getInstance().saveProject(project);
+		assertTrue("could not save project", StorageHandler.getInstance().saveProjectSynchronously(project));
 
 		XMLValidationUtil.sendProjectXMLToServerForValidating(project);
 	}
-
 }
