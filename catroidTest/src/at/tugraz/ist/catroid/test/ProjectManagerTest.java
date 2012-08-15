@@ -61,26 +61,30 @@ public class ProjectManagerTest extends AndroidTestCase {
 	}
 
 	public void testShouldReturnFalseIfVersionNumberTooHigh() throws InterruptedException {
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
+		boolean result = TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
+		assertTrue("Could not create project.", result);
 
-		boolean result = projectManager.loadProject(TestUtils.TEST_PROJECT_NAME1, getContext(), false);
+		result = projectManager.loadProject(TestUtils.TEST_PROJECT_NAME1, getContext(), false);
 		assertFalse("Load project didn't return false", result);
 
 		projectManager.setProject(null);
 		TestUtils.deleteTestProjects();
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
+		result = TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
+		assertTrue("Could not create project.", result);
 
 		result = projectManager.loadProject(TestUtils.TEST_PROJECT_NAME1, getContext(), false);
 		assertTrue("Load project didn't return true", result);
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws InterruptedException {
-		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(0, OLD_PROJECT);
+		boolean result = TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(0, OLD_PROJECT);
+		assertTrue("Could not create project.", result);
 
-		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), false);
+		result = projectManager.loadProject(OLD_PROJECT, getContext(), false);
 		assertTrue("Could not load project.", result);
 
-		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(Integer.MAX_VALUE, NEW_PROJECT);
+		result = TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(Integer.MAX_VALUE, NEW_PROJECT);
+		assertTrue("Could not create project.", result);
 
 		result = projectManager.loadProject(NEW_PROJECT, getContext(), false);
 		assertFalse("Load project didn't return false", result);

@@ -211,7 +211,7 @@ public class TestUtils {
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name)
+	public static boolean createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name)
 			throws InterruptedException {
 
 		Project project = new ProjectWithVersionCode(name, versionCode);
@@ -221,11 +221,11 @@ public class TestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		StorageHandler.getInstance().saveProjectSynchronously(project);
+		return StorageHandler.getInstance().saveProjectSynchronously(project);
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) throws InterruptedException {
-		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, TEST_PROJECT_NAME1);
+	public static boolean createTestProjectOnLocalStorageWithVersionCode(int versionCode) throws InterruptedException {
+		return createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, TEST_PROJECT_NAME1);
 	}
 
 	public static void deleteTestProjects() {
