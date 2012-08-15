@@ -3,6 +3,7 @@
 	<name>catroid</name>
 	<comment></comment>
 	<projects>
+		<project>com_actionbarsherlock</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

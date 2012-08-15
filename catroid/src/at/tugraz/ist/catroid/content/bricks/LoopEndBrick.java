@@ -22,7 +22,11 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -30,7 +34,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class LoopEndBrick implements Brick {
+public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
 	private static final int LOOP_DELAY = 20;
 	private static final int MILLION = 1000 * 1000;
@@ -42,6 +46,7 @@ public class LoopEndBrick implements Brick {
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
 		this.loopBeginBrick = loopStartingBrick;
+		loopStartingBrick.setLoopEndBrick(this);
 	}
 
 	public int getRequiredResources() {
@@ -106,4 +111,38 @@ public class LoopEndBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		return null;
 	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		if (brick == loopBeginBrick) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean isInitialized() {
+		if (loopBeginBrick == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public void initialize() {
+		loopBeginBrick = new ForeverBrick(sprite);
+		Log.w("LoopEndBrick", "Not supposed to create the LoopBeginBrick!");
+	}
+
+	@Override
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		nestingBrickList.add(loopBeginBrick);
+		nestingBrickList.add(this);
+
+		return nestingBrickList;
+	}
+
 }
