@@ -72,9 +72,9 @@ import com.actionbarsherlock.view.MenuItem;
 public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private static final String BUNDLE_ARGS_SELECTED_COSTUME = "selected_costume";
-	private static final String BUNDLE_ARGS_URI_IS_SET = "uri_is_set";
-	private static final String LOADER_ARGS_IMAGE_URI = "image_uri";
+	private static final String BUNDLE_ARGUMENTS_SELECTED_COSTUME = "selected_costume";
+	private static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
+	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private CostumeAdapter adapter;
@@ -107,9 +107,9 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			selectedCostumeData = (CostumeData) savedInstanceState.getSerializable(BUNDLE_ARGS_SELECTED_COSTUME);
+			selectedCostumeData = (CostumeData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_COSTUME);
 
-			boolean uriIsSet = savedInstanceState.getBoolean(BUNDLE_ARGS_URI_IS_SET);
+			boolean uriIsSet = savedInstanceState.getBoolean(BUNDLE_ARGUMENTS_URI_IS_SET);
 			if (uriIsSet) {
 				String defCostumeName = getString(R.string.default_costume_name);
 				costumeFromCameraUri = UtilCamera.getDefaultCostumeFromCameraUri(defCostumeName);
@@ -124,8 +124,8 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean(BUNDLE_ARGS_URI_IS_SET, (costumeFromCameraUri != null));
-		outState.putSerializable(BUNDLE_ARGS_SELECTED_COSTUME, selectedCostumeData);
+		outState.putBoolean(BUNDLE_ARGUMENTS_URI_IS_SET, (costumeFromCameraUri != null));
+		outState.putSerializable(BUNDLE_ARGUMENTS_SELECTED_COSTUME, selectedCostumeData);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -260,10 +260,10 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	}
 
 	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+	public Loader<Cursor> onCreateLoader(int id, Bundle arguments) {
 		Uri imageUri = null;
-		if (args != null) {
-			imageUri = (Uri) args.get(LOADER_ARGS_IMAGE_URI);
+		if (arguments != null) {
+			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
 
 		String[] projection = { MediaStore.MediaColumns.DATA };
@@ -394,12 +394,12 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			originalImagePath = bundle.getString(Constants.EXTRA_PICTURE_PATH_PAINTROID);
 		}
 		if (originalImagePath == null || originalImagePath.equals("")) {
-			Bundle args = new Bundle();
-			args.putParcelable(LOADER_ARGS_IMAGE_URI, intent.getData());
+			Bundle arguments = new Bundle();
+			arguments.putParcelable(LOADER_ARGUMENTS_IMAGE_URI, intent.getData());
 			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
-				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			} else {
-				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			}
 		} else {
 			copyImageToCatroid(originalImagePath);

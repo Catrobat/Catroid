@@ -54,7 +54,7 @@ import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter.CustomContextMenuItem;
 public class CustomIconContextMenu extends DialogFragment implements DialogInterface.OnCancelListener,
 		DialogInterface.OnDismissListener {
 
-	private static final String BUNDLE_ARGS_MENU_TITLE = "menu_title";
+	private static final String BUNDLE_ARGUMENTS_MENU_TITLE = "menu_title";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_custom_icon_context_menu";
 
 	private IconMenuAdapter menuAdapter;
@@ -63,9 +63,9 @@ public class CustomIconContextMenu extends DialogFragment implements DialogInter
 	public static CustomIconContextMenu newInstance(String menuTitle) {
 		CustomIconContextMenu dialog = new CustomIconContextMenu();
 
-		Bundle args = new Bundle();
-		args.putString(BUNDLE_ARGS_MENU_TITLE, menuTitle);
-		dialog.setArguments(args);
+		Bundle arguments = new Bundle();
+		arguments.putString(BUNDLE_ARGUMENTS_MENU_TITLE, menuTitle);
+		dialog.setArguments(arguments);
 
 		return dialog;
 	}
@@ -94,7 +94,7 @@ public class CustomIconContextMenu extends DialogFragment implements DialogInter
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final String menuTitle = getArguments().getString(BUNDLE_ARGS_MENU_TITLE);
+		final String menuTitle = getArguments().getString(BUNDLE_ARGUMENTS_MENU_TITLE);
 
 		Dialog dialog = new AlertDialog.Builder(getActivity()).setTitle(menuTitle)
 				.setIcon(R.drawable.ic_dialog_menu_generic)

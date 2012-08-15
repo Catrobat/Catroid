@@ -63,7 +63,7 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 public class SoundFragment extends SherlockListFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private static final String BUNDLE_ARGS_SELECTED_SOUND = "selected_sound";
+	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 	private final int REQUEST_SELECT_MUSIC = 0;
 
@@ -92,7 +92,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGS_SELECTED_SOUND);
+			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
@@ -105,7 +105,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(BUNDLE_ARGS_SELECTED_SOUND, selectedSoundInfo);
+		outState.putSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND, selectedSoundInfo);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -178,12 +178,12 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		super.onActivityResult(requestCode, resultCode, data);
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC) {
-			Bundle args = new Bundle();
-			args.putParcelable(BUNDLE_ARGS_SELECTED_SOUND, data.getData());
+			Bundle arguments = new Bundle();
+			arguments.putParcelable(BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
 			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
-				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			} else {
-				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			}
 		}
 	}
@@ -209,10 +209,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	}
 
 	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+	public Loader<Cursor> onCreateLoader(int id, Bundle arguments) {
 		Uri audioUri = null;
-		if (args != null) {
-			audioUri = (Uri) args.get(BUNDLE_ARGS_SELECTED_SOUND);
+		if (arguments != null) {
+			audioUri = (Uri) arguments.get(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
 
 		String[] projection = { MediaStore.Audio.Media.DATA };

@@ -52,7 +52,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class SpritesListFragment extends SherlockListFragment {
 
-	private static final String BUNDLE_ARGS_SPRITE_TO_EDIT = "sprite_to_edit";
+	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
@@ -81,7 +81,7 @@ public class SpritesListFragment extends SherlockListFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGS_SPRITE_TO_EDIT);
+			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
 		}
 
 		Utils.loadProjectIfNeeded(getActivity());
@@ -89,7 +89,7 @@ public class SpritesListFragment extends SherlockListFragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(BUNDLE_ARGS_SPRITE_TO_EDIT, spriteToEdit);
+		outState.putSerializable(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT, spriteToEdit);
 		super.onSaveInstanceState(outState);
 	}
 
