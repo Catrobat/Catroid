@@ -22,6 +22,7 @@
  */
 package at.tugraz.ist.catroid.xml;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -39,9 +40,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class FullParser {
 
@@ -76,6 +80,7 @@ public class FullParser {
 	}
 
 	public Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException {
+
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder;
 		Project parsedProject = null;
@@ -127,8 +132,35 @@ public class FullParser {
 			throw new ParseException(e);
 		}
 
+		setCheckSumsOnProjectManager(parsedProject);
 		return parsedProject;
 
+	}
+
+	private void setCheckSumsOnProjectManager(Project project) {
+		FileChecksumContainer checkSumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName()) + "/images");
+		File projectSoundDirectory = new File(Utils.buildProjectPath(project.getName()) + "/sounds");
+		File[] imageFiles = projectImageDirectory.listFiles();
+		File[] soundFiles = projectSoundDirectory.listFiles();
+
+		if (imageFiles != null) {
+			for (File projectFile : imageFiles) {
+				String checksums = Utils.md5Checksum(projectFile);
+				//checksumList.add(checksums);
+				if (!(projectFile.getName().equals(".nomedia"))) {
+					checkSumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
+				}
+			}
+		}
+		if (soundFiles != null) {
+			for (File projectFile : soundFiles) {
+				String checksums = Utils.md5Checksum(projectFile);
+				if (!(projectFile.getName().equals(".nomedia"))) {
+					checkSumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
+				}
+			}
+		}
 	}
 
 	private String getSpriteName(Element spriteElement) {
