@@ -31,7 +31,9 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import android.content.BroadcastReceiver;
 import android.test.AndroidTestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.BroadcastScript;
@@ -41,6 +43,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.test.utils.XMLValidationUtil;
@@ -98,12 +101,16 @@ public class XMLValidatingTest extends AndroidTestCase {
 
 		for (List<Brick> brickList : brickMap.values()) {
 			for (Brick brick : brickList) {
-				startScript.addBrick(brick);
+				if (brick.getClass().equals(WhenScript.class) || brick.getClass().equals(WhenStartedBrick.class)
+						|| brick.getClass().equals(BroadcastReceiver.class)) {
+					Log.i("XMLValidationtest", "These bricks are not in the new schema");
+				} else {
+					startScript.addBrick(brick);
+				}
 			}
 		}
 
 		assertTrue("no bricks added to the start script", startScript.getBrickList().size() > 0);
-		assertNotNull(StorageHandler.getInstance());
 		StorageHandler.getInstance().saveProject(project);
 
 		XMLValidationUtil.sendProjectXMLToServerForValidating(project);
