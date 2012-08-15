@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.nativetest.io;
 
 import android.test.InstrumentationTestCase;
+import android.test.UiThreadTest;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
@@ -40,6 +41,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 	private static final String SPRITE_NAME2 = "first";
 	private static final String SPRITE_NAME3 = "second";
 
+	@UiThreadTest
 	public void testLoadProject() {
 		double scaleValue = 0.8;
 		int timeToWaitInMilliSeconds = 1000;
