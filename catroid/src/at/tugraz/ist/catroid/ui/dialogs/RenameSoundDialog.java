@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSoundDialog extends TextDialog {
 
-	private static final String BUNDLE_ARGS_OLD_SOUND_NAME = "old_sound_name";
+	private static final String BUNDLE_ARGUMENTS_OLD_SOUND_NAME = "old_sound_name";
 	public static final String EXTRA_NEW_SOUND_TITLE = "new_sound_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_sound";
 
@@ -43,16 +43,16 @@ public class RenameSoundDialog extends TextDialog {
 	public static RenameSoundDialog newInstance(String oldSoundName) {
 		RenameSoundDialog dialog = new RenameSoundDialog();
 
-		Bundle args = new Bundle();
-		args.putString(BUNDLE_ARGS_OLD_SOUND_NAME, oldSoundName);
-		dialog.setArguments(args);
+		Bundle arguments = new Bundle();
+		arguments.putString(BUNDLE_ARGUMENTS_OLD_SOUND_NAME, oldSoundName);
+		dialog.setArguments(arguments);
 
 		return dialog;
 	}
 
 	@Override
 	protected void initialize() {
-		oldSoundTitle = getArguments().getString(BUNDLE_ARGS_OLD_SOUND_NAME);
+		oldSoundTitle = getArguments().getString(BUNDLE_ARGUMENTS_OLD_SOUND_NAME);
 		input.setText(oldSoundTitle);
 	}
 

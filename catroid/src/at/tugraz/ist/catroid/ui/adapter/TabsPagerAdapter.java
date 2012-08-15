@@ -54,11 +54,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 
 	static final class TabInfo {
 		private final Class<?> clss;
-		private final Bundle args;
+		private final Bundle arguments;
 
-		TabInfo(Class<?> _class, Bundle _args) {
+		TabInfo(Class<?> _class, Bundle _arguments) {
 			clss = _class;
-			args = _args;
+			arguments = _arguments;
 		}
 	}
 
@@ -71,10 +71,10 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 
 		@Override
 		public View createTabContent(String tag) {
-			View v = new View(mContext);
-			v.setMinimumWidth(0);
-			v.setMinimumHeight(0);
-			return v;
+			View view = new View(mContext);
+			view.setMinimumWidth(0);
+			view.setMinimumHeight(0);
+			return view;
 		}
 	}
 
@@ -88,11 +88,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 		mViewPager.setOnPageChangeListener(this);
 	}
 
-	public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
+	public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle arguments) {
 		tabSpec.setContent(new DummyTabFactory(mContext));
 
-		TabInfo info = new TabInfo(clss, args);
-		mTabs.add(info);
+		TabInfo tabInfo = new TabInfo(clss, arguments);
+		mTabs.add(tabInfo);
 		mTabHost.addTab(tabSpec);
 		notifyDataSetChanged();
 	}
@@ -104,8 +104,8 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 
 	@Override
 	public Fragment getItem(int position) {
-		TabInfo info = mTabs.get(position);
-		return Fragment.instantiate(mContext, info.clss.getName(), info.args);
+		TabInfo tabInfo = mTabs.get(position);
+		return Fragment.instantiate(mContext, tabInfo.clss.getName(), tabInfo.arguments);
 	}
 
 	@Override

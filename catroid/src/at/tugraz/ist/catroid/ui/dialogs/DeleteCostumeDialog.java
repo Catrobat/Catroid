@@ -39,22 +39,22 @@ import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 public class DeleteCostumeDialog extends DialogFragment {
 
-	private static final String BUNDLE_ARGS_SELECTED_POSITION = "selected_position";
+	private static final String BUNDLE_ARGUMENTS_SELECTED_POSITION = "selected_position";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_delete_costume";
 
 	public static DeleteCostumeDialog newInstance(int selectedPosition) {
 		DeleteCostumeDialog dialog = new DeleteCostumeDialog();
 
-		Bundle args = new Bundle();
-		args.putInt(BUNDLE_ARGS_SELECTED_POSITION, selectedPosition);
-		dialog.setArguments(args);
+		Bundle arguments = new Bundle();
+		arguments.putInt(BUNDLE_ARGUMENTS_SELECTED_POSITION, selectedPosition);
+		dialog.setArguments(arguments);
 
 		return dialog;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final int selectedPosition = getArguments().getInt(BUNDLE_ARGS_SELECTED_POSITION);
+		final int selectedPosition = getArguments().getInt(BUNDLE_ARGUMENTS_SELECTED_POSITION);
 
 		Dialog dialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.delete_costume_dialog)
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
