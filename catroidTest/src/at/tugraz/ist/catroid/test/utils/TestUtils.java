@@ -168,11 +168,18 @@ public class TestUtils {
 		return field;
 	}
 
-	public static void setPrivateField(Class<?> classFromObject, Object object, String fieldName, Object value)
+	public static void setPrivateField(Class<?> objectClass, Object object, String fieldName, Object value)
 			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = classFromObject.getDeclaredField(fieldName);
+		Field field = objectClass.getDeclaredField(fieldName);
 		field.setAccessible(true);
 		field.set(object, value);
+	}
+
+	public static boolean getPrivateBooleanField(Class<?> objectClass, Object object, String fieldName)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = objectClass.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		return field.getBoolean(object);
 	}
 
 	public static Object invokeMethod(Object classObject, String methodName, Class<?>[] methodParams,
