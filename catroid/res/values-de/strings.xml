@@ -64,8 +64,7 @@
     <string name="about_text">Catroid ist eine Programmierumgebung für Androidgeräte für die grafische
         Programmiersprache Catrobat.\n\n
         Der Großteil von Catroid steht unter der GNU AGPL v3 Lizenz.
-        Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n
-    </string>
+        Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
     <string name="about_catroid_license_link_text">Catroid Lizenz</string>
     <!-- Project activity view -->
     <string name="project_name">Projekt:</string>
@@ -124,8 +123,6 @@
     <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
     <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
     <string name="rename_sprite_dialog">Objekt umbenennen</string>
-    <!-- Load project dialog -->
-    <string name="load_project_dialog_title">Projekt laden</string>
     <!-- Stage menu dialog -->
     <string name="back">Zurück</string>
     <string name="resume_current_project">Fortsetzen</string>
@@ -252,7 +249,6 @@
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>
-    <string name="load_project">Projekt laden</string>
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="upload_description">Beschreibung:</string>
@@ -289,4 +285,5 @@
     <string name="add_costume_from_gallery">von Galerie</string>
     <string name="add_costume_from_camera">von Kamera</string>
     <string name="add_sprite">Neu Objekt</string>
+    <string name="action_mode_selected">Ausgewählten</string>
 </resources>

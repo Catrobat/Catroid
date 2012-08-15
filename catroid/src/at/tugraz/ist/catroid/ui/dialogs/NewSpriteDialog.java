@@ -31,6 +31,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewSpriteDialog extends TextDialog {
 
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_sprite";
+
 	@Override
 	protected void initialize() {
 	}

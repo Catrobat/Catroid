@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.ui;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -36,14 +35,12 @@ import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
-import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
@@ -64,7 +61,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	private ActionBar actionBar;
 
-	private static final int DIALOG_LOAD_PROJECT = 1;
 	private boolean ignoreResume = false;
 
 	@Override
@@ -183,26 +179,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-		if (ProjectManager.INSTANCE.getCurrentProject() != null
-				&& StorageHandler.getInstance().projectExistsCheckCase(
-						ProjectManager.INSTANCE.getCurrentProject().getName())) {
-			ProjectManager.INSTANCE.saveProject();
-		}
-
-		switch (id) {
-			case DIALOG_LOAD_PROJECT:
-				dialog = new LoadProjectDialog(this);
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-		return dialog;
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 		if (!Utils.checkForSdCard(this)) {
@@ -257,7 +233,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	public void handleNewProjectButton(View v) {
 		NewProjectDialog dialog = new NewProjectDialog();
-		dialog.show(getSupportFragmentManager(), "dialog_new_project");
+		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handleLoadProjectButton(View v) {
@@ -286,11 +262,11 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public void onCheckTokenSuccess() {
 		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getSupportFragmentManager(), "dialog_upload_project");
+		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(getSupportFragmentManager(), "dialog_login_register");
+		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
 	}
 }

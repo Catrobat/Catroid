@@ -27,8 +27,6 @@
     android:background="@color/website_blue"
     android:orientation="vertical" >
 
-    <!-- Sprite list -->
-
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"

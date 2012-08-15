@@ -100,8 +100,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 		int oldCount = adapter.getCount();
 		solo.clickOnCheckBox(0);
 		solo.sleep(500);
-		solo.clickOnMenuItem(getActivity().getString(R.string.sound_delete));
-		solo.sleep(200);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_sound_delete);
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);
@@ -122,7 +121,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.sleep(500);
 		solo.clickOnCheckBox(1);
 		solo.sleep(500);
-		solo.clickOnMenuItem(getActivity().getString(R.string.sound_delete));
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_sound_delete);
 		solo.sleep(200);
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));

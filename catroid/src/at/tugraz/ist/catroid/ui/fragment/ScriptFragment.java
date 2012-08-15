@@ -59,7 +59,7 @@ import com.actionbarsherlock.view.SubMenu;
 public class ScriptFragment extends SherlockFragment implements BrickInteractionListener, OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
 
-	private static final String ARGS_SELECTED_CATEGORY = "selected_category";
+	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
@@ -102,13 +102,13 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		isCanceled = false;
 
 		if (savedInstanceState != null) {
-			selectedCategory = savedInstanceState.getString(ARGS_SELECTED_CATEGORY);
+			selectedCategory = savedInstanceState.getString(ARGUMENTS_SELECTED_CATEGORY);
 		}
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(ARGS_SELECTED_CATEGORY, selectedCategory);
+		outState.putString(ARGUMENTS_SELECTED_CATEGORY, selectedCategory);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -182,7 +182,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 				BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
 				brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
 				brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
-				brickCategoryDialog.show(getFragmentManager(), "dialog_brick_category");
+				brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
 				return true;
 			}
 		});
@@ -263,7 +263,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		ft.addToBackStack(null);
 
 		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory);
-		addBrickDialog.show(ft, "dialog_add_brick");
+		addBrickDialog.show(ft, AddBrickDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

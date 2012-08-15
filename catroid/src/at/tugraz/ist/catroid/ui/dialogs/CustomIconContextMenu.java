@@ -51,23 +51,25 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter.CustomContextMenuItem;
 
-public class CustomIconContextMenu extends DialogFragment implements DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
+public class CustomIconContextMenu extends DialogFragment implements DialogInterface.OnCancelListener,
+		DialogInterface.OnDismissListener {
 
-	private static final String ARGS_MENU_TITLE = "menu_title";
-	
+	private static final String BUNDLE_ARGUMENTS_MENU_TITLE = "menu_title";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_custom_icon_context_menu";
+
 	private IconMenuAdapter menuAdapter;
 	private IconContextMenuOnClickListener clickListener;
-	
+
 	public static CustomIconContextMenu newInstance(String menuTitle) {
 		CustomIconContextMenu dialog = new CustomIconContextMenu();
-		
-		Bundle args = new Bundle();
-		args.putString(ARGS_MENU_TITLE, menuTitle);
-		dialog.setArguments(args);
-		
+
+		Bundle arguments = new Bundle();
+		arguments.putString(BUNDLE_ARGUMENTS_MENU_TITLE, menuTitle);
+		dialog.setArguments(arguments);
+
 		return dialog;
 	}
-	
+
 	public void setAdapter(IconMenuAdapter adapter) {
 		menuAdapter = adapter;
 	}
@@ -75,39 +77,38 @@ public class CustomIconContextMenu extends DialogFragment implements DialogInter
 	public void setOnClickListener(IconContextMenuOnClickListener listener) {
 		clickListener = listener;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 	}
-	
+
 	@Override
 	public void onDestroyView() {
-		if (getDialog() != null && getRetainInstance())
+		if (getDialog() != null && getRetainInstance()) {
 			getDialog().setOnDismissListener(null);
+		}
 		super.onDestroyView();
 	}
-	
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final String menuTitle = getArguments().getString(ARGS_MENU_TITLE);
-		
-		Dialog dialog = new AlertDialog.Builder(getActivity())
-			.setTitle(menuTitle)
-			.setIcon(R.drawable.ic_dialog_menu_generic)
-			.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialoginterface, int position) {
-					CustomContextMenuItem item = (CustomContextMenuItem) menuAdapter.getItem(position);
-	
-					if (clickListener != null) {
-						clickListener.onClick(item.contextMenuItemId);
+		final String menuTitle = getArguments().getString(BUNDLE_ARGUMENTS_MENU_TITLE);
+
+		Dialog dialog = new AlertDialog.Builder(getActivity()).setTitle(menuTitle)
+				.setIcon(R.drawable.ic_dialog_menu_generic)
+				.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialoginterface, int position) {
+						CustomContextMenuItem item = (CustomContextMenuItem) menuAdapter.getItem(position);
+
+						if (clickListener != null) {
+							clickListener.onClick(item.contextMenuItemId);
+						}
 					}
-				}
-			})
-			.setInverseBackgroundForced(true)
-			.create();
-		
+				}).setInverseBackgroundForced(true).create();
+
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.setOnCancelListener(new OnCancelListener() {
 			@Override
@@ -115,10 +116,10 @@ public class CustomIconContextMenu extends DialogFragment implements DialogInter
 				dismiss();
 			}
 		});
-		
+
 		return dialog;
 	}
-	
+
 	public interface IconContextMenuOnClickListener {
 		public abstract void onClick(int menuId);
 	}

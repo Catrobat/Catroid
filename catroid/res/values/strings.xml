@@ -127,8 +127,6 @@
     <string name="spritename_already_exists">This spritename already exists</string>
     <string name="rename_sprite_dialog">Rename Sprite</string>
     <string name="spritename_invalid">This spritename is invalid</string>
-    <!-- Load project dialog -->
-    <string name="load_project_dialog_title">Load Project</string>
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">Login</string>
     <string name="username">Username:</string>
@@ -255,7 +253,6 @@
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
-    <string name="load_project">Load project</string>
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
@@ -290,4 +287,5 @@
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
     <string name="select_image">Select image</string>
+    <string name="action_mode_selected">Selected</string>
 </resources>

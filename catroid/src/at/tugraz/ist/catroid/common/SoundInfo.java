@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundInfo implements Serializable, Comparable<SoundInfo> {
 
-	private static final long serialVersionUID = -8840200676103991622L;
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String fileName;

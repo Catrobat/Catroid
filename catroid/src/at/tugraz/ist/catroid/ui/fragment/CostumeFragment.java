@@ -75,9 +75,9 @@ import com.actionbarsherlock.view.SubMenu;
 public class CostumeFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor>,
 		OnCostumeCheckedListener, OnCostumeEditListener {
 
-	private static final String ARGS_SELECTED_COSTUME = "selected_costume";
-	private static final String ARGS_IMAGE_URI = "image_uri";
-	private static final String ARGS_URI_IS_SET = "uri_is_set";
+	private static final String BUNDLE_ARGUMENTS_SELECTED_COSTUME = "selected_costume";
+	private static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
+	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private CostumeAdapter adapter;
@@ -112,9 +112,9 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			selectedCostumeData = (CostumeData) savedInstanceState.getSerializable(ARGS_SELECTED_COSTUME);
+			selectedCostumeData = (CostumeData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_COSTUME);
 
-			boolean uriIsSet = savedInstanceState.getBoolean(ARGS_URI_IS_SET);
+			boolean uriIsSet = savedInstanceState.getBoolean(BUNDLE_ARGUMENTS_URI_IS_SET);
 			if (uriIsSet) {
 				String defCostumeName = getString(R.string.default_costume_name);
 				costumeFromCameraUri = UtilCamera.getDefaultCostumeFromCameraUri(defCostumeName);
@@ -122,7 +122,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		}
 
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
+		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList);
 		adapter.setOnCostumeEditListener(this);
 		adapter.setOnCostumeCheckedListener(this);
 		setListAdapter(adapter);
@@ -130,8 +130,8 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean(ARGS_URI_IS_SET, (costumeFromCameraUri != null));
-		outState.putSerializable(ARGS_SELECTED_COSTUME, selectedCostumeData);
+		outState.putBoolean(BUNDLE_ARGUMENTS_URI_IS_SET, (costumeFromCameraUri != null));
+		outState.putSerializable(BUNDLE_ARGUMENTS_SELECTED_COSTUME, selectedCostumeData);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -279,16 +279,15 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		if (actionMode != null) {
 			actionMode.getMenu().findItem(R.id.menu_costume_edit).setVisible(checkedCostumesCount < 2);
 			actionMode.getMenu().findItem(R.id.menu_costume_paintroid).setVisible(checkedCostumesCount < 2);
-			//TODO move to strings.xml
-			actionMode.setTitle(checkedCostumesCount + " selected");
+			actionMode.setTitle(checkedCostumesCount + " " + getString(R.string.action_mode_selected));
 		}
 	}
 
 	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+	public Loader<Cursor> onCreateLoader(int id, Bundle arguments) {
 		Uri imageUri = null;
-		if (args != null) {
-			imageUri = (Uri) args.get(ARGS_IMAGE_URI);
+		if (arguments != null) {
+			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
 
 		String[] projection = { MediaStore.MediaColumns.DATA };
@@ -347,7 +346,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (currentSprite != null) {
 			costumeDataList = currentSprite.getCostumeDataList();
-			adapter = new CostumeAdapter(getActivity(), R.layout.activity_costume_costumelist_item, costumeDataList);
+			adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList);
 			adapter.setOnCostumeEditListener(this);
 			adapter.setOnCostumeCheckedListener(this);
 			setListAdapter(adapter);
@@ -419,12 +418,12 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 			originalImagePath = bundle.getString(Constants.EXTRA_PICTURE_PATH_PAINTROID);
 		}
 		if (originalImagePath == null || originalImagePath.equals("")) {
-			Bundle args = new Bundle();
-			args.putParcelable(ARGS_IMAGE_URI, intent.getData());
+			Bundle arguments = new Bundle();
+			arguments.putParcelable(LOADER_ARGUMENTS_IMAGE_URI, intent.getData());
 			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
-				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			} else {
-				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, args, this);
+				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			}
 		} else {
 			copyImageToCatroid(originalImagePath);
@@ -481,14 +480,14 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		selectedCostumeData = costumeDataList.get(positions[positions.length - 1]);
 
 		DeleteCostumeDialog deleteCostumeDialog = DeleteCostumeDialog.newInstance(positions);
-		deleteCostumeDialog.show(getFragmentManager(), "dialog_delete_costume");
+		deleteCostumeDialog.show(getFragmentManager(), DeleteCostumeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void handleRenameCostumeButton(int position) {
 		selectedCostumeData = costumeDataList.get(position);
 
 		RenameCostumeDialog renameCostumeDialog = RenameCostumeDialog.newInstance(selectedCostumeData.getCostumeName());
-		renameCostumeDialog.show(getFragmentManager(), "dialog_rename_costume");
+		renameCostumeDialog.show(getFragmentManager(), RenameCostumeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void handleCopyCostumeButton(int position) {

@@ -32,6 +32,8 @@ import java.util.List;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,15 +61,15 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
 		OnUpdateProjectDescriptionListener {
 
-	private static final String ARGS_PROJECT_DATA = "project_data";
+	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 
-	private static final int CONTEXT_MENU_ITEM_RENAME = 2;
-	private static final int CONTEXT_MENU_ITEM_DELETE = 3;
-	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 4;
+	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
+	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
+	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			projectToEdit = (ProjectData) savedInstanceState.getSerializable(ARGS_PROJECT_DATA);
+			projectToEdit = (ProjectData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA);
 		}
 
 		initAdapter();
@@ -95,7 +97,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(ARGS_PROJECT_DATA, projectToEdit);
+		outState.putSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA, projectToEdit);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -154,12 +156,24 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 					return true;
 				}
 
-				CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
-				initCustomContextMenu(dialog);
-				dialog.show(getFragmentManager(), "dialog_custom_icon_context_menu");
+				showEditProjectContextDialog();
+
 				return true;
 			}
 		});
+	}
+
+	private void showEditProjectContextDialog() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(projectToEdit.projectName);
+		initCustomContextMenu(dialog);
+		dialog.show(getFragmentManager(), CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
@@ -182,13 +196,13 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 						RenameProjectDialog dialogRenameProject = RenameProjectDialog
 								.newInstance(projectToEdit.projectName);
 						dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
-						dialogRenameProject.show(getFragmentManager(), "dialog_rename_project");
+						dialogRenameProject.show(getFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
 						break;
 					case CONTEXT_MENU_ITEM_DESCRIPTION:
 						SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
 								.newInstance(projectToEdit.projectName);
 						dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-						dialogSetDescription.show(getFragmentManager(), "dialog_set_description");
+						dialogSetDescription.show(getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						deleteProject();
@@ -228,7 +242,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	public static class ProjectData implements Serializable {
 
-		private static final long serialVersionUID = -1086067470908722316L;
+		private static final long serialVersionUID = 1L;
 
 		public String projectName;
 		public long lastUsed;

@@ -81,9 +81,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
+import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
+import com.actionbarsherlock.internal.widget.ActionBarContextView;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
@@ -487,6 +489,9 @@ public class UiTestUtils {
 		field.set(object, value);
 	}
 
+	/**
+	 * This method should be also called to click on visible ActionBar items when testing on pre-Honeycomb devices.
+	 */
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
@@ -645,19 +650,41 @@ public class UiTestUtils {
 
 	public static void goToHomeActivity(Activity activity) {
 		Intent intent = new Intent(activity, MainMenuActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		activity.startActivity(intent);
 	}
 
 	/**
-	 * This method invokes Up button press. You should pass {@link Solo.getCurrentActivity} to it.
-	 * Works only on with ActionBarSherlock.
+	 * This method invokes Up button press. You should pass {@link solo.getCurrentActivity} to it.
+	 * Works only with ActionBarSherlock on pre 4.0 Android. Tests which run on 4.0 and higher should use
+	 * solo.clickOnHomeActionBarButton().
 	 */
 	public static void clickOnUpActionBarButton(Activity activity) {
 		ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
 		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
 				SherlockFragmentActivity.class, "getSherlock", activity);
 		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+	}
+
+	/**
+	 * Clicks on ActionMode (contextual actionbar) menu item which is hidden in overflow.
+	 * For non hidden items use {@link UiTestUtils.clickOnLinearLayout()}.
+	 */
+	public static void clickOnActionModeOverflowMenuItem(Solo solo, String text) {
+		if (!(solo.getCurrentActivity() instanceof SherlockFragmentActivity)) {
+			throw new IllegalStateException("Overflow menu item can be clicked only in SherlockFragmentActivity.");
+		}
+
+		ActionBarSherlock abs = (ActionBarSherlock) UiTestUtils.invokePrivateMethodWithoutParameters(
+				SherlockFragmentActivity.class, "getSherlock", solo.getCurrentActivity());
+		ActionBarContextView abcv = (ActionBarContextView) getPrivateField("mActionModeView", abs);
+		if (abcv == null) {
+			fail("Contextual actionbar is not shown.");
+		}
+
+		abcv.showOverflowMenu();
+		solo.sleep(500);
+		solo.clickOnText(text);
 	}
 
 	/**

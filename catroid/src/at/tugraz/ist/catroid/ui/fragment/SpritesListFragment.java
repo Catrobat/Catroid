@@ -53,7 +53,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class SpritesListFragment extends SherlockListFragment {
 
-	private static final String ARGS_SPRITE_TO_EDIT = "sprite_to_edit";
+	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String ARGS_ACTIVATED_SPRITE_POSITION = "activated_sprite_position";
 
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
@@ -86,8 +86,7 @@ public class SpritesListFragment extends SherlockListFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			spriteToEdit = (Sprite) savedInstanceState.get(ARGS_SPRITE_TO_EDIT);
-
+			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
 			if (savedInstanceState.containsKey(ARGS_ACTIVATED_SPRITE_POSITION)) {
 				setActivatedPosition(savedInstanceState.getInt(ARGS_ACTIVATED_SPRITE_POSITION));
 			}
@@ -98,7 +97,7 @@ public class SpritesListFragment extends SherlockListFragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(ARGS_SPRITE_TO_EDIT, spriteToEdit);
+		outState.putSerializable(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT, spriteToEdit);
 		if (activatedSpritePosition != ListView.INVALID_POSITION) {
 			outState.putInt(ARGS_ACTIVATED_SPRITE_POSITION, activatedSpritePosition);
 		}
@@ -225,7 +224,7 @@ public class SpritesListFragment extends SherlockListFragment {
 
 	private void showEditSpriteContextDialog() {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment prev = getFragmentManager().findFragmentByTag("dialog_custom_icon_context_menu");
+		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
 		if (prev != null) {
 			ft.remove(prev);
 		}
@@ -233,7 +232,7 @@ public class SpritesListFragment extends SherlockListFragment {
 
 		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(spriteToEdit.getName());
 		initCustomContextMenu(dialog);
-		dialog.show(ft, "dialog_custom_icon_context_menu");
+		dialog.show(ft, CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
@@ -250,7 +249,7 @@ public class SpritesListFragment extends SherlockListFragment {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
 						RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
-						dialog.show(getFragmentManager(), "dialog_rename_sprite");
+						dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						ProjectManager projectManager = ProjectManager.getInstance();

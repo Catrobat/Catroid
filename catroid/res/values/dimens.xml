@@ -22,11 +22,11 @@
 -->
 <resources>
 
-    <dimen name="actionbar_height">45dp</dimen>
-    <dimen name="actionbar_catroid_logo">110dp</dimen>
+    <dimen name="actionbar_height">45dip</dimen>
+    <dimen name="actionbar_catroid_logo">110dip</dimen>
     
-    <dimen name="project_thumbnail_height">133dp</dimen>
-    <dimen name="project_thumbnail_width">80dp</dimen>
+    <dimen name="project_thumbnail_height">133dip</dimen>
+    <dimen name="project_thumbnail_width">80dip</dimen>
     
     <dimen name="tab_widget_height">40dip</dimen>
     

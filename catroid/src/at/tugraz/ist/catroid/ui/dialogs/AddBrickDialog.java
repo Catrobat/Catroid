@@ -99,7 +99,8 @@ import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 public class AddBrickDialog extends DialogFragment {
 
-	private static final String ARGS_SELECTED_CATEGORY = "selected_category";
+	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_add_brick";
 
 	private HashMap<String, List<Brick>> brickMap;
 
@@ -110,9 +111,9 @@ public class AddBrickDialog extends DialogFragment {
 	public static AddBrickDialog newInstance(String selectedCategory) {
 		AddBrickDialog dialog = new AddBrickDialog();
 
-		Bundle args = new Bundle();
-		args.putString(ARGS_SELECTED_CATEGORY, selectedCategory);
-		dialog.setArguments(args);
+		Bundle arguments = new Bundle();
+		arguments.putString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY, selectedCategory);
+		dialog.setArguments(arguments);
 
 		return dialog;
 	}
@@ -122,7 +123,7 @@ public class AddBrickDialog extends DialogFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 
-		selectedCategory = getArguments().getString(ARGS_SELECTED_CATEGORY);
+		selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
 		getScriptFragment().setDontCreateNewBrick(false);
 	}
 

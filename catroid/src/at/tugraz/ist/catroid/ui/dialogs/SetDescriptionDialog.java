@@ -27,32 +27,33 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 
 public class SetDescriptionDialog extends TextDialog {
-	
-	private static final String ARGS_OLD_PROJECT_DESCRIPTION = "old_project_description";
-	
+
+	private static final String BUNDLE_ARGUMENTS_OLD_PROJECT_DESCRIPTION = "old_project_description";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_set_description";
+
 	private OnUpdateProjectDescriptionListener onUpdateProjectDescriptionListener;
-	
+
 	private ProjectManager projectManager;
 	private String projectToChangeName;
-	
+
 	public static SetDescriptionDialog newInstance(String projectToChangeName) {
 		SetDescriptionDialog dialog = new SetDescriptionDialog();
-		
-		Bundle args = new Bundle();
-		args.putString(ARGS_OLD_PROJECT_DESCRIPTION, projectToChangeName);
-		dialog.setArguments(args);
-		
+
+		Bundle arguments = new Bundle();
+		arguments.putString(BUNDLE_ARGUMENTS_OLD_PROJECT_DESCRIPTION, projectToChangeName);
+		dialog.setArguments(arguments);
+
 		return dialog;
 	}
-	
+
 	public void setOnUpdateProjectDescriptionListener(OnUpdateProjectDescriptionListener listener) {
 		onUpdateProjectDescriptionListener = listener;
 	}
-	
+
 	@Override
 	protected void initialize() {
 		projectManager = ProjectManager.getInstance();
-		projectToChangeName = getArguments().getString(ARGS_OLD_PROJECT_DESCRIPTION);
+		projectToChangeName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_DESCRIPTION);
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
@@ -73,10 +74,10 @@ public class SetDescriptionDialog extends TextDialog {
 			setDescription(description);
 			updateProjectDescriptionListener();
 			dismiss();
-			
+
 			return false;
-		} 
-		
+		}
+
 		projectManager.loadProject(projectToChangeName, getActivity(), false);
 		setDescription(description);
 		projectManager.loadProject(currentProjectName, getActivity(), false);
@@ -94,7 +95,7 @@ public class SetDescriptionDialog extends TextDialog {
 	protected String getHint() {
 		return null;
 	}
-	
+
 	private void setDescription(String description) {
 		projectManager.getCurrentProject().description = description;
 		projectManager.saveProject();
@@ -105,10 +106,10 @@ public class SetDescriptionDialog extends TextDialog {
 			onUpdateProjectDescriptionListener.onUpdateProjectDescription();
 		}
 	}
-	
+
 	public interface OnUpdateProjectDescriptionListener {
-		
+
 		public void onUpdateProjectDescription();
-		
+
 	}
 }

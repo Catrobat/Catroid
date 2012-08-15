@@ -50,6 +50,8 @@ import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 public class BrickCategoryDialog extends DialogFragment {
 
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_brick_category";
+
 	private ListView listView;
 	private BrickCategoryAdapter adapter;
 
