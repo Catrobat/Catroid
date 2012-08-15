@@ -39,7 +39,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 
 public class XMLValidationUtil {
-	private static final String XML_VALIDATING_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/validateXml.php";
+	private static final String XML_VALIDATING_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/validateXmlNew.php";
 	private static final String LOG_TAG = XMLValidationUtil.class.getSimpleName();
 
 	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException, JSONException {
