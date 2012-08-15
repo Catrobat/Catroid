@@ -362,6 +362,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		dimBackground = false;
 		dragNewBrick = false;
+
+		invalidate();
 	}
 
 	private WindowManager.LayoutParams createLayoutParameters() {

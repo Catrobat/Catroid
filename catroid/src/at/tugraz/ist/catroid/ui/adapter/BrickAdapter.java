@@ -25,11 +25,12 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -37,13 +38,12 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
@@ -55,8 +55,10 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.DeadEndBrick;
 import at.tugraz.ist.catroid.content.bricks.NestingBrick;
 import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener {
@@ -79,8 +81,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private List<Brick> brickList;
 	private List<Brick> animatedBricks;
-
-	private int footerHeight;
 
 	private BrickInteractionListener brickInteractionListener;
 
@@ -109,21 +109,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			for (Brick brick : script.getBrickList()) {
 				brickList.add(brick);
 			}
-		}
-
-		int height = 0;
-		for (int i = 0; i < brickList.size(); i++) {
-			View tempView = getView(i, null, null);
-			tempView.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
-					MeasureSpec.makeMeasureSpec(Values.SCREEN_HEIGHT, MeasureSpec.AT_MOST));
-
-			height += tempView.getMeasuredHeight();
-		}
-
-		footerHeight = Values.SCREEN_HEIGHT - height
-				- (int) context.getResources().getDimension(R.dimen.actionbar_height);
-		if (footerHeight < Utils.getPhysicalPixels(70, context)) {
-			footerHeight = Utils.getPhysicalPixels(70, context);
 		}
 	}
 
@@ -591,6 +576,21 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		notifyDataSetChanged();
 	}
 
+	public void removeDraggedBrick() {
+		if (!insertedBrick) {
+			return;
+		}
+
+		brickList.remove(draggedBrick);
+
+		firstDrag = true;
+		draggedBrick = null;
+		insertedBrick = false;
+
+		initBrickList();
+		notifyDataSetChanged();
+	}
+
 	public OnLongClickListener getOnLongClickListener() {
 		return dragAndDropListView;
 	}
@@ -622,6 +622,36 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return index;
 	}
 
+	private int getMeasuredFooterHeight() {
+		int footerHeight;
+		int height = 0;
+		for (int i = 0; i < brickList.size(); i++) {
+			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
+			View tempView = brickList.get(i).getPrototypeView(context);
+			wrapper.addView(tempView);
+			if (wrapper != null) {
+				wrapper.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
+						MeasureSpec.makeMeasureSpec(Values.SCREEN_HEIGHT, MeasureSpec.AT_MOST));
+
+				height += wrapper.getMeasuredHeight();
+			}
+		}
+
+		Rect rectgle = new Rect();
+		Window window = ((Activity) context).getWindow();
+		window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
+		int statusBarHeight = rectgle.top;
+
+		footerHeight = Values.SCREEN_HEIGHT - height - statusBarHeight
+				- (int) context.getResources().getDimension(R.dimen.actionbar_height)
+				- (int) context.getResources().getDimension(R.dimen.tab_widget_height);
+		if (footerHeight < Utils.getPhysicalPixels(70, context)) {
+			footerHeight = Utils.getPhysicalPixels(70, context);
+		}
+
+		return footerHeight;
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (position >= brickList.size()) {
@@ -630,16 +660,15 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			ImageView imageView = new ImageView(context);
 			imageView.setImageResource(android.R.drawable.ic_menu_add);
 
-			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-					FrameLayout.LayoutParams.WRAP_CONTENT);
+			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+					FrameLayout.LayoutParams.MATCH_PARENT);
 
 			params.topMargin = Utils.getPhysicalPixels(20, context);
 			params.gravity = Gravity.CENTER_HORIZONTAL;
 			frameLayout.addView(imageView, params);
 
 			if (dragAndDropListView.getFirstVisiblePosition() == 0) {
-				dragAndDropListView.setFocusable(false);
-				frameLayout.setMinimumHeight(footerHeight);
+				frameLayout.setMinimumHeight(getMeasuredFooterHeight());
 			} else {
 				frameLayout.setMinimumHeight(Utils.getPhysicalPixels(70, context));
 			}
@@ -682,13 +711,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (position == positionOfInsertedBrick && initInsertedBrick) {
 			initInsertedBrick = false;
 			insertedBrick = true;
-			((DragAndDropListView) parent).setInsertedBrick(position);
-			// FIXME
-			//			DragAndDropListView listView = (DragAndDropListView) ((ScriptActivity) context)
-			//					.findViewById(R.id.brick_list_view);
-			//
-			//			listView.setDraggingNewBrick();
-			//			listView.onLongClick(currentBrickView);
+			dragAndDropListView.setInsertedBrick(position);
+
+			dragAndDropListView.setDraggingNewBrick();
+			dragAndDropListView.onLongClick(currentBrickView);
 
 			return insertionView;
 		}
@@ -751,8 +777,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	@Override
 	public void onClick(final View view) {
 		if (view instanceof FrameLayout) {
-			// FIXME
-			//			((ScriptActivity) context).getParent().showDialog(ScriptActivity.DIALOG_ADD_BRICK);
+			ScriptTabActivity activity = (ScriptTabActivity) context;
+			ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+			if (fragment != null) {
+				fragment.showCategoryDialog();
+			}
+
 			return;
 		}
 
@@ -770,31 +800,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-		LinearLayout linearLayout = new LinearLayout(context);
-		linearLayout.setOrientation(LinearLayout.VERTICAL);
-		TextView textView = new TextView(context);
-		textView.setTextColor(Color.WHITE);
-		textView.setTextSize(23);
-		textView.setGravity(Gravity.LEFT);
-		textView.setPadding(10, 15, 0, 0);
-		textView.setText(context.getText(R.string.brick_context_dialog_title));
-		//linearLayout.addView(textView);
-
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 		view.setDrawingCacheEnabled(true);
 		view.buildDrawingCache(true);
 
-		if (view.getDrawingCache() == null) {
-			linearLayout.addView(view);
-		} else {
+		if (view.getDrawingCache() != null) {
 			Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 			view.setDrawingCacheEnabled(drawingCacheEnabled);
 
 			ImageView imageView = dragAndDropListView.getGlowingBorder(bitmap);
-			linearLayout.addView(imageView);
+			builder.setCustomTitle(imageView);
 		}
-
-		builder.setCustomTitle(linearLayout);
 
 		builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
 			@Override
@@ -834,4 +850,5 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		public void onBrickLongClick(View brickView);
 
 	}
+
 }
