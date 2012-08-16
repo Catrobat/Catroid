@@ -43,6 +43,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
 	private Script testScript;
@@ -50,8 +51,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private Script testScript3;
 
 	public ScriptChangeTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
-
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -63,6 +63,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

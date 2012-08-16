@@ -22,72 +22,71 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.content.Intent;
+import android.os.Bundle;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSpriteDialog extends TextDialog {
 
-	public RenameSpriteDialog(ProjectActivity projectActivity) {
-		super(projectActivity, projectActivity.getString(R.string.rename_sprite_dialog), projectActivity
-				.getString(R.string.new_sprite_dialog_default_sprite_name));
-		initKeyListener();
+	private static final String BUNDLE_ARGUMENTS_OLD_SPRITE_NAME = "old_sprite_name";
+	public static final String EXTRA_NEW_SPRITE_NAME = "new_sprite_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_sprite";
+
+	private String oldSpriteName;
+
+	public static RenameSpriteDialog newInstance(String oldSpriteName) {
+		RenameSpriteDialog dialog = new RenameSpriteDialog();
+
+		Bundle arguments = new Bundle();
+		arguments.putString(BUNDLE_ARGUMENTS_OLD_SPRITE_NAME, oldSpriteName);
+		dialog.setArguments(arguments);
+
+		return dialog;
 	}
 
-	public void handleOkButton() {
+	@Override
+	protected void initialize() {
+		oldSpriteName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_SPRITE_NAME);
+		input.setText(oldSpriteName);
+	}
+
+	@Override
+	protected boolean handleOkButton() {
 		String newSpriteName = (input.getText().toString()).trim();
-		String oldSpriteName = ((ProjectActivity) activity).getSpriteToEdit().getName();
+		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_already_exists));
-			return;
+			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
+			return false;
 		}
 
-		if (newSpriteName.equals(((ProjectActivity) activity).getSpriteToEdit().getName())) {
-			dialog.cancel();
-			return;
+		if (newSpriteName.equals(oldSpriteName)) {
+			dismiss();
+			return false;
 		}
+
 		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
-			((ProjectActivity) activity).getSpriteToEdit().setName(newSpriteName);
+			Intent intent = new Intent(ScriptTabActivity.ACTION_SPRITE_RENAMED);
+			intent.putExtra(EXTRA_NEW_SPRITE_NAME, newSpriteName);
+			getActivity().sendBroadcast(intent);
 		} else {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_invalid));
-			return;
+			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_invalid));
+			return false;
 		}
-		dialog.cancel();
+
+		return true;
 	}
 
-	private void initKeyListener() {
-		dialog.setOnKeyListener(new OnKeyListener() {
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					String newSpriteName = (input.getText().toString()).trim();
-					String oldSpriteName = ((ProjectActivity) activity).getSpriteToEdit().getName();
-					if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
-						Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_already_exists));
-					} else {
-						handleOkButton();
-						return true;
-					}
-				}
-				return false;
-			}
-		});
+	@Override
+	protected String getTitle() {
+		return getString(R.string.rename_sprite_dialog);
+	}
 
-		buttonPositive.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				handleOkButton();
-			}
-		});
-
-		buttonNegative.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				activity.dismissDialog(ProjectActivity.DIALOG_RENAME_SPRITE);
-			}
-		});
+	@Override
+	protected String getHint() {
+		return getString(R.string.new_sprite_dialog_default_sprite_name);
 	}
 }

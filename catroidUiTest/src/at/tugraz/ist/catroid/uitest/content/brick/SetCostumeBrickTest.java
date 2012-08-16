@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.uitest.content.brick;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -36,7 +37,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -54,7 +54,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	private ArrayList<CostumeData> costumeDataList;
 
 	public SetCostumeBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -98,10 +98,15 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 				.addChecksum(costumeData2.getChecksum(), costumeData2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
+
+		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		getActivity().startActivity(intent);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		if (costumeFile.exists()) {
@@ -117,7 +122,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(costumeName);
 		assertTrue(costumeName + " is not selected in Spinner", solo.searchText(costumeName));
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
+		solo.sleep(7000);
+
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
@@ -129,7 +137,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(costumeName);
 		solo.clickOnText(costumeName2);
 		assertTrue(costumeName2 + " is not selected in Spinner", solo.searchText(costumeName2));
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).costume;
@@ -164,7 +172,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.sleep(500);
 		solo.clickOnText(getActivity().getString(R.string.scripts));
 		solo.clickOnText(spinnerNothingText);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
@@ -176,25 +184,27 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		String costume2ImagePath = costumeDataList.get(1).getAbsolutePath();
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(costumeName);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList().get(0)
 				.getAbsolutePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costume1ImagePath,
 				costumePath);
 		solo.goBack();
+		solo.sleep(500);
 		solo.goBack();
 		for (int i = 0; i < 5; i++) {
 			selectCostume(costumeName2, costumeName, costume2ImagePath);
 			selectCostume(costumeName, costumeName2, costume1ImagePath);
 		}
-
 	}
 
 	public void selectCostume(String newCostume, String oldName, String costumeImagePath) {
 		solo.clickOnText(oldName);
 		solo.clickOnText(newCostume);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
+		solo.sleep(5000);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().costume.getImagePath();
