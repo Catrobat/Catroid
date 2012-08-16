@@ -43,27 +43,31 @@ import at.tugraz.ist.catroid.content.bricks.LoopEndlessBrick;
 import at.tugraz.ist.catroid.content.bricks.NestingBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private Project project;
 
 	public LoopBrickTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		getIntoActivity();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		solo.finishOpenedActivities();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -73,6 +77,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		getActivity().finish();
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
+
 		super.tearDown();
 	}
 
@@ -81,72 +86,65 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(1), 10, yPos.get(4) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPos.get(1), 10, yPos.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof LoopBeginBrick));
 
-		solo.sleep(200);
-
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(3), 10, yPos.get(0), 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPos.get(3), 10, yPos.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
-		solo.sleep(200);
-
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		solo.sleep(200);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(2), 10, 0, 20);
-		solo.sleep(200);
+		UiTestUtils.longClickAndDrag(solo, 10, yPos.get(2), 10, 0, 20);
 
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected LoopBeginBrick but was "
 				+ projectBrickList.get(0).getClass().getSimpleName(),
 				(projectBrickList.get(0) instanceof LoopBeginBrick));
 
-		solo.sleep(200);
-
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(3), 10, yPos.get(4) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPos.get(3), 10, yPos.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
-		solo.sleep(200);
-
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		solo.clickOnText(solo.getString(R.string.brick_change_y_by));
+		yPos = UiTestUtils.getListItemYPositions(solo);
+		int addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
+
+		solo.drag(20, 20, addedYPos, yPos.get(2), 20);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
 
-		solo.clickOnScreen(getActivity().getWindowManager().getDefaultDisplay().getWidth() - 10, 200);
+		solo.goBack();
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(3), getActivity().getWindowManager()
-				.getDefaultDisplay().getWidth() - 10, yPos.get(3), 100);
-
-		solo.sleep(500);
+		solo.clickOnScreen(20, yPos.get(3));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof ChangeYByBrick));
 
-		solo.sleep(200);
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(1), 10, yPos.get(2) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPos.get(1), 10, yPos.get(2) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof ChangeYByBrick));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_repeat);
-		solo.clickOnText(solo.getString(R.string.brick_change_y_by));
-		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
-		solo.clickOnText(solo.getString(R.string.brick_loop_end));
-		solo.clickInList(0); // needed because of bug(?) in Nexus S 2.3.6
-
-		solo.sleep(200);
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 10, yPos.get(4), 10, yPos.get(5) + 20, 20);
+		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
+		solo.drag(20, 20, addedYPos, yPos.get(3) + 20, 20);
+
+		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
+		yPos = UiTestUtils.getListItemYPositions(solo);
+		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
+		solo.drag(20, 20, addedYPos, yPos.get(5) + 20, 20);
+
+		yPos = UiTestUtils.getListItemYPositions(solo);
+		UiTestUtils.longClickAndDrag(solo, 10, yPos.get(4), 10, yPos.get(5) + 20, 20);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof SetCostumeBrick));
@@ -160,7 +158,6 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		int addedYPos;
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		solo.sleep(500);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
@@ -218,52 +215,43 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		int addedYPos;
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 20, yPos.get(1), getActivity().getWindowManager()
-				.getDefaultDisplay().getWidth() - 10, 20, 20);
-
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 20, yPos.get(1), getActivity().getWindowManager()
-				.getDefaultDisplay().getWidth() - 10, 20, 20);
-		solo.sleep(200);
+		solo.clickOnScreen(20, yPos.get(1));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		solo.waitForDialogToClose(1000);
+		yPos = UiTestUtils.getListItemYPositions(solo);
+		solo.clickOnScreen(20, yPos.get(1));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_clear_graphic_effect);
-		solo.sleep(500);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPos, 0, 20);
-		solo.sleep(200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		solo.sleep(500);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPos, yPos.get(0), 20);
-		solo.sleep(200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		solo.sleep(500);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPos, yPos.get(2), 20);
-		solo.sleep(200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		solo.sleep(500);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPos, yPos.get(2), 20);
-		solo.sleep(200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		solo.sleep(500);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPos, yPos.get(1), 20);
-		solo.sleep(200);
+		solo.sleep(1000);
 
 		checkIfForeverLoopsAreCorrectlyPlaced(0);
 		checkIfForeverLoopsAreCorrectlyPlaced(1);
@@ -271,16 +259,15 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		checkIfForeverLoopsAreCorrectlyPlaced(3);
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 20, yPos.get(1), getActivity().getWindowManager()
-				.getDefaultDisplay().getWidth() - 10, 20, 20);
-		solo.sleep(200);
+		solo.clickOnScreen(20, yPos.get(1));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 20, yPos.get(4), 20, yPos.get(yPos.size() - 2), 20);
+		UiTestUtils.longClickAndDrag(solo, 20, yPos.get(4), 20, yPos.get(yPos.size() - 3), 20);
 
 		assertTrue("Wrong brick instance.", projectBrickList.get(3) instanceof ClearGraphicEffectBrick);
 
-		UiTestUtils.longClickAndDrag(solo, getActivity(), 20, yPos.get(4), 20, yPos.get(yPos.size() - 1) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 20, yPos.get(4), 20, yPos.get(yPos.size() - 2) + 20, 20);
 		assertEquals("Wrong number of bricks", 6, projectBrickList.size());
 
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
@@ -289,6 +276,15 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		checkIfForeverLoopsAreCorrectlyPlaced(0);
 		checkIfForeverLoopsAreCorrectlyPlaced(1);
 		checkIfForeverLoopsAreCorrectlyPlaced(2);
+	}
+
+	private void getIntoActivity() {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickInList(0);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 	}
 
 	private void createProject() {

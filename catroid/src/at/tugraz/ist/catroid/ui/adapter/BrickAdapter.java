@@ -260,7 +260,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	@Override
-	public void drop(int to) {
+	public void drop() {
+		int to = toEndDrag;
+
 		if (to < 0 || to >= brickList.size()) {
 			to = brickList.size() - 1;
 		}

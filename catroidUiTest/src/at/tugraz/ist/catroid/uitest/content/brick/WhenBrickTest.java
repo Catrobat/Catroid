@@ -34,37 +34,53 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
 	private Project project;
 
 	public WhenBrickTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		getIntoActivity();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
+
 		super.tearDown();
 	}
 
 	public void testWhenBrick() {
+		if (!solo.waitForView(DragAndDropListView.class, 0, 5000, false)) {
+			fail("DragAndDropListView not shown in 5 secs!");
+		}
+
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
@@ -73,12 +89,12 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		ArrayList<Integer> yPos;
 		int addedYPos;
 
-		assertEquals("Incorrect number of bricks.", 4, solo.getCurrentListViews().get(0).getCount());
+		assertEquals("Incorrect number of bricks.", 4 + 1, solo.getCurrentListViews().get(0).getCount()); // don't forget the footer
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when)));
+
 		// Inactive until spinner is used again
 		//		solo.pressSpinnerItem(0, 0);
 		//		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItemPosition() + "");
@@ -88,37 +104,27 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 		solo.sleep(100);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-		solo.sleep(100);
-		solo.clickInList(4);
-		solo.sleep(100);
-		solo.clickInList(2);
+		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
 
-		solo.sleep(1000);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPos, yPos.get(yPos.size() - 1) + 20, 100);
-		solo.sleep(1000);
+		solo.sleep(200);
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
 				(ProjectManager.getInstance().getCurrentSprite().getScript(1) instanceof WhenScript));
 
-		solo.sleep(1000);
+		solo.sleep(200);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-		solo.sleep(100);
-		solo.clickInList(4);
-		solo.sleep(100);
-		solo.clickInList(2);
+		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
 
-		solo.sleep(1000);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPos, yPos.get(3) + 20, 100);
-		solo.sleep(1000);
+		solo.sleep(200);
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
@@ -134,21 +140,16 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		assertTrue("Wrong Script instance.",
 				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof WhenScript));
 
-		solo.sleep(1000);
+		solo.sleep(200);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-		solo.sleep(100);
-		solo.clickInList(4);
-		solo.sleep(100);
-		solo.clickInList(2);
+		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
 
-		solo.sleep(1000);
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.drag(20, getActivity().getWindowManager().getDefaultDisplay().getWidth() - 20, addedYPos,
-				yPos.get(3) + 20, 100);
-		solo.sleep(1000);
+		solo.goBack();
+
+		solo.sleep(200);
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
@@ -163,6 +164,15 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
 				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof WhenScript));
+	}
+
+	private void getIntoActivity() {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickInList(0);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 	}
 
 	private void createProject() {

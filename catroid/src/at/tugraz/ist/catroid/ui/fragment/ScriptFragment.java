@@ -43,7 +43,6 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
-import at.tugraz.ist.catroid.ui.adapter.BrickAdapter.BrickInteractionListener;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog.OnBrickCategoryDialogDismissCancelListener;
@@ -56,7 +55,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class ScriptFragment extends SherlockFragment implements BrickInteractionListener, OnCategorySelectedListener,
+public class ScriptFragment extends SherlockFragment implements OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
@@ -255,16 +254,6 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	}
 
 	@Override
-	public void onInsertedBrickChanged(int position) {
-		listView.setInsertedBrick(position);
-	}
-
-	@Override
-	public void onBrickLongClick(View brickView) {
-		listView.onLongClick(brickView);
-	}
-
-	@Override
 	public void onCategorySelected(String category) {
 		selectedCategory = category;
 
@@ -320,7 +309,6 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		}
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
-		adapter.setBrickInteractionListener(this);
 		if (adapter.getScriptCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
 		}

@@ -68,11 +68,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private ImageView dragView;
 	private int position;
 	private boolean newView;
-
-	// BLAH FIXME blah
-	//	private ImageView trashView;
-	//	private int originalTrashWidth;
-	//	private int originalTrashHeight;
 	private int touchedListPosition;
 
 	private boolean dimBackground;
@@ -160,13 +155,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			switch (action) {
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
-					if (x > getWidth() * 3 / 4) {
-						setDragViewAnimation(R.style.brick_delete);
-						dragAndDropListener.remove(itemPosition);
-					} else {
-						setDragViewAnimation(0);
-						dragAndDropListener.drop(itemPosition);
-					}
+					setDragViewAnimation(0);
+					dragAndDropListener.drop();
 
 					stopDragging();
 
