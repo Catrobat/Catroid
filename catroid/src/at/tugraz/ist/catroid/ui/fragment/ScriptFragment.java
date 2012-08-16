@@ -35,7 +35,6 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
@@ -89,7 +88,6 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		View rootView = inflater.inflate(R.layout.fragment_script, null);
 
 		listView = (DragAndDropListView) rootView.findViewById(R.id.brick_list_view);
-		listView.setTrashView((ImageView) rootView.findViewById(R.id.trash));
 
 		return rootView;
 	}

@@ -48,7 +48,7 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	//private static final String TAG = WhenBrickTest.class.getSimpleName();
 
 	public WhenStartedBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
