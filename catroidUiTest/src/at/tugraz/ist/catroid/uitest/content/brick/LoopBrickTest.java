@@ -53,7 +53,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 	private Project project;
 
 	public LoopBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
