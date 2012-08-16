@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.WhenScript;
 
-public class WhenBrick implements ScriptBrick {
+public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;

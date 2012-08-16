@@ -47,4 +47,10 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	public Brick clone() {
 		return new LoopEndlessBrick(getSprite(), getLoopBeginBrick());
 	}
+
+	@Override
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
+	}
 }

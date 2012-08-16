@@ -473,6 +473,14 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		return true;
 	}
 
+	public boolean isCurrentlyDragging() {
+		if (dragView == null) {
+			return false;
+		}
+
+		return true;
+	}
+
 	private void setDragViewAnimation(int style) {
 		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
 		dragViewParameters.windowAnimations = style;

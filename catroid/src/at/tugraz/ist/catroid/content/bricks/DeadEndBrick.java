@@ -22,6 +22,7 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+
 public interface DeadEndBrick extends Brick {
 
 }

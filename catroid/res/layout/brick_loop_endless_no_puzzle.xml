@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -19,17 +20,15 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package at.tugraz.ist.catroid.content.bricks;
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_yellow_no_puzzle"
+    android:orientation="horizontal" >
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
+    <TextView
+        style="@style/brick_text_style"
+        android:text="@string/brick_loop_end" />
 
-/**
- * There are just certain Bricks, which may be applicable behind/after a DeadEndBrick.<br />
- * Examples are: Scripts, Condition-Ends (e.g. Else-Brick or End-If-Else-Brick)
- */
-public interface AllowedAfterDeadEndBrick extends Brick {
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter);
-}
+</LinearLayout>

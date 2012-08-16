@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class BroadcastReceiverBrick implements ScriptBrick {
+public class BroadcastReceiverBrick extends ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
 	private transient final ProjectManager projectManager;
@@ -119,12 +119,12 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-				
+
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override
 					protected void initialize() {
 					}
-					
+
 					@Override
 					protected boolean handleOkButton() {
 						String newMessage = (input.getText().toString()).trim();
@@ -133,16 +133,16 @@ public class BroadcastReceiverBrick implements ScriptBrick {
 							dismiss();
 							return false;
 						}
-						
+
 						receiveScript.setBroadcastMessage(newMessage);
 						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(newMessage);
 
 						broadcastSpinner.setSelection(position);
-						
+
 						return true;
 					}
 				};
-				
+
 				editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_receiver_brick");
 			}
 		});
