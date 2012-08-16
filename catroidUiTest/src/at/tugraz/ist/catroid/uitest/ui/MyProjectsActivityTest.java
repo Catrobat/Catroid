@@ -44,8 +44,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
-import at.tugraz.ist.catroid.ui.MyProjectsActivity.ProjectData;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.UtilZip;
@@ -73,7 +73,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	private final String lorem = "Lorem ipsum dolor sit amet";
 
 	public MyProjectsActivityTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -84,6 +84,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
@@ -159,7 +160,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
@@ -196,7 +197,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		solo.sleep(1000);
 
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
@@ -400,6 +402,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		//delete first project
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
 		solo.clickOnText(buttonDeleteText, 1);
+		solo.sleep(1000);
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertFalse("project " + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " is still visible",
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1));
@@ -488,8 +491,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
-		assertEquals("rename to Mixed Case was not successfull", ProjectManager.getInstance().getCurrentProject()
-				.getName(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.waitForDialogToClose(500);
+		assertTrue("rename to Mixed Case was not successfull",
+				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, 1, true));
 		solo.sleep(200);
 		solo.goBack();
 		assertEquals("current project not updated", UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE, ProjectManager
@@ -528,6 +532,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		String errorMessageInvalidInput = solo.getString(R.string.notification_invalid_text_entered);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testRenameProjectWithWhitelistedCharacters() {
@@ -586,7 +591,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String buttonMyProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(buttonMyProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
 		EditText addNewProjectEditText = solo.getEditText(0);
 		String buttonOkText = solo.getString(R.string.ok);
@@ -619,7 +624,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME1);
 		solo.sleep(100);
@@ -632,6 +637,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testAddNewProjectMixedCase() {
@@ -639,7 +645,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
@@ -653,6 +659,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No or wrong error message shown",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testSetDescriptionCurrentProject() {

@@ -24,7 +24,6 @@ package at.tugraz.ist.catroid.stage;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
@@ -48,7 +47,6 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		this.calculateScreenSizes();
 		initialize(stageListener, true);
-
 	}
 
 	@Override
@@ -125,10 +123,6 @@ public class StageActivity extends AndroidApplication {
 			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
 			Values.SCREEN_WIDTH = tmp;
 		}
-	}
-
-	public void makeToast(String text) {
-		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 	}
 
 	public boolean getResizePossible() {

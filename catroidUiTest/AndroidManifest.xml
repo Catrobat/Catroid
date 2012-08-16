@@ -49,7 +49,7 @@
 
 	<uses-sdk
 		android:minSdkVersion="8"
-		android:targetSdkVersion="10" />
+		android:targetSdkVersion="15" />
 	<instrumentation
 		android:targetPackage="at.tugraz.ist.catroid"
 		android:name="android.test.InstrumentationTestRunner" />

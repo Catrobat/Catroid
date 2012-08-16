@@ -21,7 +21,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:theme="@android:style/Theme.Light"
@@ -29,6 +29,7 @@
 	android:layout_height="wrap_content">
 	
 	<TextView 
+	    android:id="@+id/username_text"
 		android:text="@string/username" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
@@ -39,19 +40,25 @@
 		android:id="@+id/username"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/username_text"
 		android:maxLines="1"
 		android:inputType="text"
 		android:selectAllOnFocus="true" />
+	
 	<TextView 
+	    android:id="@+id/password_text"
 		android:text="@string/password" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
+		android:layout_below="@+id/username"
 		android:layout_marginLeft="10dp">
 	</TextView>
+	
 	<EditText
 		android:id="@+id/password"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/password_text"
 		android:maxLines="1"
 		android:inputType="textPassword"
 		android:gravity="top">
@@ -59,7 +66,8 @@
 	<LinearLayout
 		android:orientation="horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/password">
 		<Button
 			android:id="@+id/login_register_button"
 			android:text="@string/login_or_register"
@@ -73,4 +81,4 @@
 			android:layout_height="wrap_content"
 			android:layout_weight=".5" />
 	</LinearLayout>
-</LinearLayout>
+</RelativeLayout>

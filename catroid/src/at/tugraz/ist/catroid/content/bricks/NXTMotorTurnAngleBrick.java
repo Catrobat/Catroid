@@ -23,9 +23,12 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,10 +44,10 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 public class NXTMotorTurnAngleBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
@@ -72,10 +75,12 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		this.degrees = degrees;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 
+	@Override
 	public void execute() {
 		int temp_angle = degrees;
 		int direction = 1;
@@ -101,10 +106,12 @@ public class NXTMotorTurnAngleBrick implements Brick {
 
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 	}
@@ -114,6 +121,7 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		return new NXTMotorTurnAngleBrick(getSprite(), motorEnum, degrees);
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 		View brickView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
@@ -134,14 +142,14 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
+			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 		});
@@ -152,43 +160,69 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		directionsButton.setClickable(true);
 		directionsButton.setEnabled(true);
 		directionsButton.setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				final EditText input = new EditText(context);
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				//final EditIntegerDialog test = new EditIntegerDialog(context, input, angle, false);
-				input.setText(degrees + "");
-				builder.setView(input);
-				builder.setTitle("Choose and edit direction");
-				builder.setSingleChoiceItems(R.array.fancy_directions_chooser, -1,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int item) {
+				ScriptTabActivity activity = (ScriptTabActivity) context;
+				EditNxtMotorTurnAngleBrickDialog dialog = new EditNxtMotorTurnAngleBrickDialog();
+				dialog.show(activity.getSupportFragmentManager(), "dialog_nxt_motor_turn_angle_brick");
+			}
+		});
 
-								switch (item) {
-									case 0:
-										input.setText("45");
-										break;
-									case 1:
-										input.setText("90");
-										break;
-									case 2:
-										input.setText("-45");
-										break;
-									case 3:
-										input.setText("-90");
-										break;
-									case 4:
-										input.setText("180");
-										break;
-									case 5:
-										input.setText("360");
-										break;
-								}
+		return brickView;
+	}
+	
+	private class EditNxtMotorTurnAngleBrickDialog extends DialogFragment {
+		
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setRetainInstance(true);
+		}
+		
+		@Override
+		public void onDestroyView() {
+			if (getDialog() != null && getRetainInstance())
+				getDialog().setOnDismissListener(null);
+			super.onDestroyView();
+		}
+		
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			final EditText input = new EditText(getActivity());
+			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			//final EditIntegerDialog test = new EditIntegerDialog(context, input, angle, false);
+			input.setText(degrees + "");
+			
+			Dialog dialog = new AlertDialog.Builder(getActivity())
+				.setView(input)
+				.setTitle("Choose and edit direction")
+				.setSingleChoiceItems(R.array.fancy_directions_chooser, -1, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
 
-								//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-							}
-						});
-				builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+						switch (item) {
+							case 0:
+								input.setText("45");
+								break;
+							case 1:
+								input.setText("90");
+								break;
+							case 2:
+								input.setText("-45");
+								break;
+							case 3:
+								input.setText("-90");
+								break;
+							case 4:
+								input.setText("180");
+								break;
+							case 5:
+								input.setText("360");
+								break;
+						}
+
+						//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+					}
+				}).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						if (input.getText().toString().equals("")) {
 							input.setText("0");
@@ -196,27 +230,21 @@ public class NXTMotorTurnAngleBrick implements Brick {
 						editX.setText(input.getText().toString());
 						degrees = Integer.parseInt(input.getText().toString());
 					}
-				});
-				builder.setNegativeButton(context.getString(R.string.cancel_button),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-							}
-						});
-
-				AlertDialog alertDialog = builder.create();
-				alertDialog.setOnShowListener(new OnShowListener() {
-					public void onShow(DialogInterface dialog) {
-						InputMethodManager inputManager = (InputMethodManager) context
-								.getSystemService(Context.INPUT_METHOD_SERVICE);
-						inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+				}).setNegativeButton(getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
 					}
-				});
-				alertDialog.show();
-
-			}
-		});
-
-		return brickView;
+				}).create();
+			
+			dialog.setOnShowListener(new OnShowListener() {
+				public void onShow(DialogInterface dialog) {
+					InputMethodManager inputManager = (InputMethodManager) getActivity()
+							.getSystemService(Context.INPUT_METHOD_SERVICE);
+					inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+				}
+			});
+			
+			return dialog;
+		}
 	}
 }

@@ -53,7 +53,7 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
 	public static final String BASE_URL = "http://www.catroid.org/";
-	//public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
+//	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
 	private static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
 	private static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
 	public static final String REGISTRATION_URL = BASE_URL + "api/checkTokenOrRegister/check.json";

@@ -22,108 +22,78 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class RenameCostumeDialog {
-	private ScriptTabActivity scriptTabActivity;
-	private EditText input;
-	private Button buttonPositive;
+public class RenameCostumeDialog extends TextDialog {
 
-	public RenameCostumeDialog(ScriptTabActivity scriptTabActivity) {
-		this.scriptTabActivity = scriptTabActivity;
+	private static final String BUNDLE_ARGUMENTS_OLD_COSTUME_NAME = "old_costume_name";
+	public static final String EXTRA_NEW_COSTUME_NAME = "new_costume_name";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_costume";
+
+	private String oldCostumeName;
+
+	public static RenameCostumeDialog newInstance(String oldCostumeName) {
+		RenameCostumeDialog dialog = new RenameCostumeDialog();
+
+		Bundle arguments = new Bundle();
+		arguments.putString(BUNDLE_ARGUMENTS_OLD_COSTUME_NAME, oldCostumeName);
+		dialog.setArguments(arguments);
+
+		return dialog;
 	}
 
-	public Dialog createDialog(CostumeData selectedCostumeInfo) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(scriptTabActivity);
-		builder.setTitle(R.string.rename_costume_dialog);
-
-		LayoutInflater inflater = (LayoutInflater) scriptTabActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.dialog_rename_costume, null);
-
-		input = (EditText) view.findViewById(R.id.dialog_rename_costume_editText);
-		input.setText(selectedCostumeInfo.getCostumeName());
-
-		buttonPositive = (Button) view.findViewById(R.id.btn_rename_costume);
-
-		builder.setView(view);
-
-		initKeyListener(builder);
-
-		final Dialog renameDialog = builder.create();
-		renameDialog.setCanceledOnTouchOutside(true);
-
-		initAlertDialogListener(renameDialog);
-
-		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					renameDialog.getWindow().setSoftInputMode(
-							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-				}
-			}
-		});
-
-		return renameDialog;
+	@Override
+	protected void initialize() {
+		oldCostumeName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_COSTUME_NAME);
+		input.setText(oldCostumeName);
 	}
 
-	public void handleOkButton() {
+	@Override
+	protected boolean handleOkButton() {
 		String newCostumeName = (input.getText().toString()).trim();
-		String oldCostumeName = scriptTabActivity.selectedCostumeData.getCostumeName();
 
 		if (newCostumeName.equals(oldCostumeName)) {
-			scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
-			return;
+			dismiss();
 		}
+
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 			newCostumeName = Utils.getUniqueCostumeName(newCostumeName);
-			scriptTabActivity.selectedCostumeData.setCostumeName(newCostumeName);
-			((CostumeAdapter) ((CostumeActivity) scriptTabActivity.getCurrentActivity()).getListAdapter())
-					.notifyDataSetChanged(); //TODO: this is madness!
 		} else {
-			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.costumename_invalid));
-			return;
+			Utils.displayErrorMessage(getActivity(), getString(R.string.costumename_invalid));
+			dismiss();
 		}
 
-		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
+		Intent intent = new Intent(ScriptTabActivity.ACTION_COSTUME_RENAMED);
+		intent.putExtra(EXTRA_NEW_COSTUME_NAME, newCostumeName);
+		getActivity().sendBroadcast(intent);
+		return true;
 	}
 
-	private void initKeyListener(AlertDialog.Builder builder) {
-		builder.setOnKeyListener(new OnKeyListener() {
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					handleOkButton();
-					return true;
-				}
-				return false;
-			}
-		});
+	@Override
+	protected String getTitle() {
+		return getString(R.string.rename_costume_dialog);
 	}
 
-	private void initAlertDialogListener(Dialog dialog) {
+	@Override
+	protected String getHint() {
+		return null;
+	}
 
-		input.addTextChangedListener(new TextWatcher() {
+	@Override
+	protected TextWatcher getInputTextChangedListener(final Button buttonPositive) {
+		return new TextWatcher() {
+			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					Toast.makeText(scriptTabActivity, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
+					Toast.makeText(getActivity(), R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
 							.show();
 					buttonPositive.setEnabled(false);
 				} else {
@@ -131,11 +101,13 @@ public class RenameCostumeDialog {
 				}
 			}
 
+			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 
+			@Override
 			public void afterTextChanged(Editable s) {
 			}
-		});
+		};
 	}
 }

@@ -21,26 +21,29 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@drawable/bg_dialog"
 	android:orientation="vertical"
-	android:scrollbarDefaultDelayBeforeFade="2000"
->	
+	android:scrollbarDefaultDelayBeforeFade="2000">	
+	
 	<!-- Top bar -->
-	<include layout="@layout/brick_dialog_top"/>
+	<include
+	    android:id="@+id/layout_brick_dialog_top"
+	    layout="@layout/brick_dialog_top"/>
 		
 	<ListView
 		android:id="@+id/addBrickDialogListView"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/layout_brick_dialog_top"
 		android:fadingEdge="vertical"
 		android:fadingEdgeLength="50.0dp"
 		android:scrollbarFadeDuration="2000"
 		android:clickable="true"
 		android:dividerHeight="10dip"
-		android:divider="#00000000"
-	></ListView>
-</LinearLayout>
+		android:divider="#00000000" />
+	
+</RelativeLayout>

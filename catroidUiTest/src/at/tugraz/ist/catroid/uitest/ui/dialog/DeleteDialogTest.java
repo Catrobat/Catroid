@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
@@ -32,9 +33,9 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.SoundActivity;
+import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
+import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -59,7 +60,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private ArrayList<SoundInfo> soundInfoList;
 
 	public DeleteDialogTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -71,15 +72,18 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	protected void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void createTestProject() throws Exception {
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
+
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
@@ -97,8 +101,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		costumeDataList.add(costumeData);
 		projectManager.getFileChecksumContainer().addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
+		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
@@ -123,6 +127,10 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 	}
 
 	public void testDeleteCostumes() {
+		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		getActivity().startActivity(intent);
+
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
 		String deleteCostumeText = solo.getString(R.string.sound_delete);
@@ -134,7 +142,10 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
-		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		CostumeFragment fragment = (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		ListAdapter adapter = fragment.getListAdapter();
+
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(buttonCancelText);
 		int newCount = adapter.getCount();
@@ -161,7 +172,9 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
-		ListAdapter adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		SoundFragment fragment = (SoundFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SOUNDS);
+		ListAdapter adapter = fragment.getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(buttonCancelText);
 		int newCount = adapter.getCount();

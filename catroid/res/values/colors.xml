@@ -22,6 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    
     <color name="solid_red">#f00</color>
     <color name="solid_blue">#0000ff</color>
     <color name="solid_green">#f0f0</color>
@@ -36,4 +37,8 @@
     <color name="dark_gray">#5a5858</color>
     <color name="gray">#808080</color>
     <color name="website_blue">#d8e0f5</color>
+    
+   	<color name="tab_backgound_gray">#3a3a3a</color>
+   	<color name="tab_text_unselected_light_gray">#999999</color>
+    
 </resources>

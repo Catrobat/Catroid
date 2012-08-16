@@ -22,23 +22,20 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -46,7 +43,7 @@ public class BroadcastReceiverBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private transient final ProjectManager projectManager;
-	protected BroadcastScript receiveScript;
+	private BroadcastScript receiveScript;
 	private Sprite sprite;
 
 	@XStreamOmitField
@@ -58,17 +55,21 @@ public class BroadcastReceiverBrick implements Brick {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
@@ -80,6 +81,7 @@ public class BroadcastReceiverBrick implements Brick {
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
 
+			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				if (start) {
 					start = false;
@@ -94,6 +96,7 @@ public class BroadcastReceiverBrick implements Brick {
 				}
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
@@ -109,42 +112,34 @@ public class BroadcastReceiverBrick implements Brick {
 		newBroadcastMessage.setFocusable(true);
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
+			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				final EditText input = new EditText(context);
-
-				builder.setView(input);
-				builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
+				ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
+				
+				BrickTextDialog editDialog = new BrickTextDialog() {
+					@Override
+					protected void initialize() {
+					}
+					
+					@Override
+					protected boolean handleOkButton() {
 						String newMessage = (input.getText().toString()).trim();
 						if (newMessage.length() == 0
 								|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
-							dialog.cancel();
-							return;
+							dismiss();
+							return false;
 						}
+						
 						receiveScript.setBroadcastMessage(newMessage);
-
 						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(newMessage);
 
 						broadcastSpinner.setSelection(position);
+						
+						return true;
 					}
-				});
-				builder.setNegativeButton(context.getString(R.string.cancel_button),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-							}
-						});
-
-				AlertDialog alertDialog = builder.create();
-				alertDialog.setOnShowListener(new OnShowListener() {
-					public void onShow(DialogInterface dialog) {
-						InputMethodManager inputManager = (InputMethodManager) context
-								.getSystemService(Context.INPUT_METHOD_SERVICE);
-						inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-					}
-				});
-				alertDialog.show();
+				};
+				
+				editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_receiver_brick");
 			}
 		});
 
@@ -153,6 +148,7 @@ public class BroadcastReceiverBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_broadcast_receive, null);
 	}
@@ -161,5 +157,4 @@ public class BroadcastReceiverBrick implements Brick {
 	public Brick clone() {
 		return new BroadcastReceiverBrick(sprite, receiveScript);
 	}
-
 }

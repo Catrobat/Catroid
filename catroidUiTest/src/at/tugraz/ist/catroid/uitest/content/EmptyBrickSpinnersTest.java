@@ -60,7 +60,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	private String testBroadcastWaitMessage = "broadcastWaitMessage";
 
 	public EmptyBrickSpinnersTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -73,6 +73,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
