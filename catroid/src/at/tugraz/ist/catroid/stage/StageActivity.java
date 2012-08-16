@@ -70,13 +70,6 @@ public class StageActivity extends AndroidApplication {
 		stageListener.finish();
 
 		PreStageActivity.shutdownResources();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		stagePlaying = false;
 
 	}
