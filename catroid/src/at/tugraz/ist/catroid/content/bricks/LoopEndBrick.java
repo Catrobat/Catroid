@@ -49,10 +49,12 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		loopStartingBrick.setLoopEndBrick(this);
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		loopBeginBrick.setBeginLoopTime(System.nanoTime());
 
@@ -86,6 +88,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		return null;
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -98,6 +101,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		return loopBeginBrick;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_loop_end, null);
@@ -108,8 +112,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
-		return null;
+		return View.inflate(context, R.layout.brick_loop_end, null);
 	}
 
 	@Override
@@ -143,6 +148,12 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		nestingBrickList.add(this);
 
 		return nestingBrickList;
+	}
+
+	@Override
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
 	}
 
 }

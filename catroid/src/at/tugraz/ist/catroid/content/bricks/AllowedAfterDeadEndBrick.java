@@ -22,10 +22,14 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.BaseAdapter;
+
 /**
  * There are just certain Bricks, which may be applicable behind/after a DeadEndBrick.<br />
  * Examples are: Scripts, Condition-Ends (e.g. Else-Brick or End-If-Else-Brick)
  */
 public interface AllowedAfterDeadEndBrick extends Brick {
-
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter);
 }

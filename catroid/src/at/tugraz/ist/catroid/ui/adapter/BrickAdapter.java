@@ -30,7 +30,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -118,10 +120,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void drag(int from, int to) {
-		if (to < 0) {
+		if (to < 0 || to >= brickList.size()) {
 			to = brickList.size() - 1;
 		}
-		if (from < 0) {
+		if (from < 0 || from >= brickList.size()) {
 			from = brickList.size() - 1;
 		}
 		if (draggedBrick == null) {
@@ -259,6 +261,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void drop(int to) {
+		if (to < 0 || to >= brickList.size()) {
+			to = brickList.size() - 1;
+		}
+
 		if (retryScriptDragging || to != getNewPositionForScriptBrick(to, draggedBrick)) {
 			scrollToPosition(dragTargetPosition);
 			draggedBrick = null;
@@ -409,11 +415,25 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private int[] getScriptAndBrickIndexFromProject(int position) {
+		int[] returnValue = new int[2];
+
 		if (position >= brickList.size()) {
-			position = brickList.size() - 1;
+			returnValue[0] = sprite.getNumberOfScripts() - 1;
+			if (returnValue[0] < 0) {
+				returnValue[0] = 0;
+				returnValue[1] = 0;
+			} else {
+				Script script = sprite.getScript(returnValue[0]);
+				if (script != null) {
+					returnValue[1] = script.getBrickList().size();
+				} else {
+					returnValue[1] = 0;
+				}
+			}
+
+			return returnValue;
 		}
 
-		int[] returnValue = new int[2];
 		int scriptPosition = 0;
 		int scriptOffset;
 		for (scriptOffset = 0; scriptOffset < position;) {
@@ -628,8 +648,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		for (int i = 0; i < brickList.size(); i++) {
 			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
 			View tempView = brickList.get(i).getPrototypeView(context);
-			wrapper.addView(tempView);
+
 			if (wrapper != null) {
+				wrapper.addView(tempView);
 				wrapper.measure(MeasureSpec.makeMeasureSpec(Values.SCREEN_WIDTH, MeasureSpec.EXACTLY),
 						MeasureSpec.makeMeasureSpec(Values.SCREEN_HEIGHT, MeasureSpec.AT_MOST));
 
@@ -652,20 +673,33 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return footerHeight;
 	}
 
+	private FrameLayout getFooterView() {
+		FrameLayout frameLayout = new FrameLayout(context);
+
+		ImageView imageView = new ImageView(context);
+		imageView.setImageResource(android.R.drawable.ic_menu_add);
+
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+				FrameLayout.LayoutParams.MATCH_PARENT);
+
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inTargetDensity = DisplayMetrics.DENSITY_DEFAULT;
+		Bitmap bmp = BitmapFactory.decodeResource(((Activity) context).getResources(), android.R.drawable.ic_menu_add,
+				o);
+
+		int topMargin = Utils.getPhysicalPixels(70, context) / 2 - bmp.getHeight() / 2;
+
+		params.topMargin = topMargin;
+		params.gravity = Gravity.CENTER_HORIZONTAL;
+		frameLayout.addView(imageView, params);
+
+		return frameLayout;
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (position >= brickList.size()) {
-			FrameLayout frameLayout = new FrameLayout(context);
-
-			ImageView imageView = new ImageView(context);
-			imageView.setImageResource(android.R.drawable.ic_menu_add);
-
-			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-					FrameLayout.LayoutParams.MATCH_PARENT);
-
-			params.topMargin = Utils.getPhysicalPixels(20, context);
-			params.gravity = Gravity.CENTER_HORIZONTAL;
-			frameLayout.addView(imageView, params);
+			FrameLayout frameLayout = getFooterView();
 
 			if (dragAndDropListView.getFirstVisiblePosition() == 0) {
 				frameLayout.setMinimumHeight(getMeasuredFooterHeight());
@@ -673,7 +707,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				frameLayout.setMinimumHeight(Utils.getPhysicalPixels(70, context));
 			}
 
-			frameLayout.setOnClickListener(this);
+			if (draggedBrick == null) {
+				frameLayout.setOnClickListener(this);
+			}
 
 			return frameLayout;
 		}
@@ -688,7 +724,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			return ((ScriptBrick) item).getView(context, position, this);
 		}
 
-		View currentBrickView = ((Brick) item).getView(context, position, this);
+		View currentBrickView;
+		if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position - 1) instanceof DeadEndBrick) {
+			currentBrickView = ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
+		} else {
+			currentBrickView = ((Brick) item).getView(context, position, this);
+		}
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
 		//		currentBrickView.setOnLongClickListener(longClickListener);
