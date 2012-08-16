@@ -22,10 +22,12 @@
  */
 package at.tugraz.ist.catroid.io;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
@@ -100,8 +102,8 @@ public class StorageHandler {
 		try {
 			if (NativeAppActivity.isRunning()) {
 				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
-				//return (Project) xstream.fromXML(spfFileStream);
-				return fullParser.parseSpritesWithProject(spfFileStream);
+				return (Project) xstream.fromXML(spfFileStream);
+				//return fullParser.parseSpritesWithProject(spfFileStream);
 			}
 
 			File projectDirectory = new File(Utils.buildProjectPath(projectName));
@@ -109,8 +111,8 @@ public class StorageHandler {
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
-				//return (Project) xstream.fromXML(projectFileStream);
-				return fullParser.parseSpritesWithProject(projectFileStream);
+				return (Project) xstream.fromXML(projectFileStream);
+				//return fullParser.parseSpritesWithProject(projectFileStream);
 			} else {
 				return null;
 			}
@@ -128,7 +130,7 @@ public class StorageHandler {
 		}
 
 		try {
-			//String projectFile = xstream.toXML(project);
+			String projectFile = xstream.toXML(project);
 
 			String projectDirectoryName = Utils.buildProjectPath(project.getName());
 			File projectDirectory = new File(projectDirectoryName);
@@ -151,13 +153,13 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			serailizer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
-			//			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-			//					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
-			//
-			//			writer.write(XML_HEADER.concat(projectFile));
-			//			writer.flush();
-			//			writer.close();
+			//serailizer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
+					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
+
+			writer.write(XML_HEADER.concat(projectFile));
+			writer.flush();
+			writer.close();
 
 			return true;
 		} catch (Exception e) {
