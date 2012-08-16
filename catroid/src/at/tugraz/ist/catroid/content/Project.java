@@ -103,6 +103,14 @@ public class Project implements Serializable {
 		return projectName;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
 	public int getCatroidVersionCode() {
 		return catroidVersionCode;
 	}
