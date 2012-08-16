@@ -28,10 +28,6 @@
     android:background="@color/website_blue"
     android:orientation="vertical" >
 
-    <!-- Action bar -->
-
-    <include layout="@layout/actionbar" />
-
     <at.tugraz.ist.catroid.ui.widget.DashboardLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >

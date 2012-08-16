@@ -22,10 +22,7 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +33,8 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
 public class ChangeVolumeByBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -51,10 +49,12 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		this.volume = changeVolume;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		float currentVolume = SoundManager.getInstance().getVolume();
 		currentVolume += volume;
@@ -66,6 +66,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		SoundManager.getInstance().setVolume(currentVolume);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -74,8 +75,8 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		return volume;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_text_view);
@@ -90,6 +91,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.brick_change_volume_by, null);
 		return view;
@@ -100,36 +102,31 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 		return new ChangeVolumeByBrick(getSprite(), getVolume());
 	}
 
+	@Override
 	public void onClick(View view) {
-		final Context context = view.getContext();
+		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(volume));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-				| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
+		BrickTextDialog editDialog = new BrickTextDialog() {
+			@Override
+			protected void initialize() {
+				input.setText(String.valueOf(volume));
+				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+						| InputType.TYPE_NUMBER_FLAG_SIGNED);
+				input.setSelectAllOnFocus(true);
+			}
+
+			@Override
+			protected boolean handleOkButton() {
 				try {
 					volume = Float.parseFloat(input.getText().toString());
 				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
 
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+				return true;
+			}
+		};
 
-		finishedDialog.show();
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
 	}
 }

@@ -38,10 +38,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 
 	public SoundRecorderTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -55,6 +56,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -68,7 +70,6 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		prepareRecording();
 		recordSoundGoBackWhileRecording();
 		assertSoundRecording(2);
-
 	}
 
 	public void recordSoundWithChangingOrientation() throws InterruptedException {
@@ -92,7 +93,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 
-		solo.clickOnText(getActivity().getString(R.string.add));
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		String soundRecorderText = getActivity().getString(R.string.soundrecorder_name);
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
@@ -120,6 +121,5 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 		File lastAddedSoundFile = new File(lastAddedSoundInfo.getAbsolutePath());
 		assertTrue("recorded sound file not found in project", lastAddedSoundFile.exists());
-
 	}
 }

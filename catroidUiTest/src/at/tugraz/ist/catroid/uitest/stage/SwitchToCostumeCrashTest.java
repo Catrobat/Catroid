@@ -42,10 +42,10 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -55,7 +55,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 	private Solo solo;
 
 	public SwitchToCostumeCrashTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		solo.getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(nyanCat));
 
@@ -118,7 +118,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(nyanCat);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 	}
@@ -146,7 +146,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		solo.getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(manImage));
 
@@ -168,7 +168,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(manImage);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 	}
@@ -211,5 +211,10 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
 		ProjectManager.INSTANCE.setCurrentScript(startScript);
 		storageHandler.saveProject(project);
+	}
+
+	private CostumeFragment getCostumeFragment() {
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
 	}
 }
