@@ -47,6 +47,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -79,6 +80,7 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -230,9 +232,19 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId) {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		addNewBrick(solo, categoryStringId, brickStringId, 0);
+	}
+
+	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId, int nThElement) {
+		if (Build.VERSION.SDK_INT < 15) {
+			UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		} else {
+			solo.clickOnActionBarItem(R.id.menu_add);
+		}
+
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
+		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId), nThElement, true);
+		solo.sleep(500);
 	}
 
 	public static List<Brick> createTestProject() {
@@ -603,6 +615,9 @@ public class UiTestUtils {
 	 */
 	public static ArrayList<Integer> getListItemYPositions(final Solo solo) {
 		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
+		if (!solo.waitForView(DragAndDropListView.class, 0, 5000, false)) {
+			fail("DragAndDropListView not shown in 5 secs!");
+		}
 		ListView listView = solo.getCurrentListViews().get(0);
 
 		for (int i = 0; i < listView.getChildCount(); ++i) {
@@ -624,8 +639,9 @@ public class UiTestUtils {
 		return yPositionList.get(pos);
 	}
 
-	public static void longClickAndDrag(final Solo solo, final Activity activity, final float xFrom, final float yFrom,
-			final float xTo, final float yTo, final int steps) {
+	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,
+			final float yTo, final int steps) {
+		final Activity activity = solo.getCurrentActivity();
 		Handler handler = new Handler(activity.getMainLooper());
 
 		handler.post(new Runnable() {
