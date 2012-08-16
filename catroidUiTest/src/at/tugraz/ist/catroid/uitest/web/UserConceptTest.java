@@ -37,11 +37,12 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 	private String saveToken;
 
 	public UserConceptTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
@@ -58,6 +59,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), null, false);
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

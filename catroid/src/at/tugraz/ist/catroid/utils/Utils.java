@@ -43,7 +43,6 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface.OnShowListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
@@ -61,8 +60,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -79,6 +76,8 @@ public class Utils {
 	private static final String TAG = Utils.class.getSimpleName();
 	private static long uniqueLong = 0;
 	private static Semaphore uniqueNameLock = new Semaphore(1);
+	public static final int PICTURE_INTENT = 1;
+	public static final int FILE_INTENT = 2;
 	private static boolean isUnderTest;
 
 	public static boolean hasSdCard() {
@@ -100,6 +99,7 @@ public class Utils {
 			builder.setTitle(context.getString(R.string.error));
 			builder.setMessage(context.getString(R.string.error_no_sd_card));
 			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// finish parent activity
 					// parentActivity.finish();
@@ -112,6 +112,7 @@ public class Utils {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void updateScreenWidthAndHeight(Context context) {
 		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = windowManager.getDefaultDisplay();
@@ -178,6 +179,7 @@ public class Utils {
 		builder.setTitle(context.getString(R.string.error));
 		builder.setMessage(errorMessage);
 		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
@@ -291,16 +293,6 @@ public class Utils {
 			Log.e(TAG, "Name not found", nameNotFoundException);
 		}
 		return versionName;
-	}
-
-	public static OnShowListener getBrickDialogOnClickListener(final Context context, final EditText input) {
-		return new OnShowListener() {
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) context
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-			}
-		};
 	}
 
 	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {

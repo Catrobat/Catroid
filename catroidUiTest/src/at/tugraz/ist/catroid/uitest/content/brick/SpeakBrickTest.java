@@ -23,12 +23,13 @@
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
 
 	//	private Project project;
@@ -38,7 +39,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	//	private String testString2 = "";
 
 	public SpeakBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -49,6 +50,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

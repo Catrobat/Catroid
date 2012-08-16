@@ -47,7 +47,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private String saveToken;
 
 	public UploadDialogTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -64,6 +64,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
@@ -143,6 +144,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.goToHomeActivity(getActivity());
 	}
 }

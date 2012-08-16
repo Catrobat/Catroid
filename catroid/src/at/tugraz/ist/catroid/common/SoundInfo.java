@@ -22,10 +22,14 @@
  */
 package at.tugraz.ist.catroid.common;
 
+import java.io.Serializable;
+
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class SoundInfo implements Comparable<SoundInfo> {
+public class SoundInfo implements Serializable, Comparable<SoundInfo> {
+
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String fileName;
@@ -73,6 +77,7 @@ public class SoundInfo implements Comparable<SoundInfo> {
 				Constants.SOUND_DIRECTORY);
 	}
 
+	@Override
 	public int compareTo(SoundInfo soundInfo) {
 		return name.compareTo(soundInfo.name);
 	}

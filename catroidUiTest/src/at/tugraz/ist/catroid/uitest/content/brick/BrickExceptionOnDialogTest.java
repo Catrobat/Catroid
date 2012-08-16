@@ -65,6 +65,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 	private Project project;
 	private Sprite sprite;
@@ -72,7 +73,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	private final String spriteName = "cat";
 
 	public BrickExceptionOnDialogTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -83,6 +84,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

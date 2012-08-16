@@ -20,23 +20,25 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:background="@drawable/bg_dialog"
->
-	
-	<!-- Top bar -->
-	<include layout="@layout/brick_dialog_top"/>
-	
-	<ListView
-		android:id="@+id/categoriesListView"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:clickable="true"
-		android:dividerHeight="-5dip"
-	/>
-</LinearLayout>
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical" >
+
+    <!-- Top bar -->
+
+    <include
+        android:id="@+id/layout_brick_dialog_top"
+        layout="@layout/brick_dialog_top" />
+
+    <ListView
+        android:id="@+id/categoriesListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_brick_dialog_top"
+        android:clickable="true"
+        android:dividerHeight="-5dip" />
+
+</RelativeLayout>

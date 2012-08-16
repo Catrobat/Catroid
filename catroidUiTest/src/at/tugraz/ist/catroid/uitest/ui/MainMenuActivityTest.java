@@ -60,6 +60,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
@@ -68,7 +69,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String projectNameWithWhitelistedCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 
 	public MainMenuActivityTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -79,6 +80,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
@@ -174,6 +176,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 
 		UtilFile.deleteDirectory(directory);
 	}
@@ -285,6 +288,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				.getText().toString());
 		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_catroid_license_link_text),
 				textViewList.get(2).getText().toString());
+		solo.goBack();
 	}
 
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
