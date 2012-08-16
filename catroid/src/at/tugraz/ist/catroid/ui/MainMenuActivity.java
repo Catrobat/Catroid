@@ -131,6 +131,7 @@ public class MainMenuActivity extends Activity {
 
 			activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
 					new View.OnClickListener() {
+						@Override
 						public void onClick(View v) {
 							if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 								Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
@@ -199,7 +200,7 @@ public class MainMenuActivity extends Activity {
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
-				projectDescriptionField.setText("");
+				projectDescriptionField.setText(ProjectManager.INSTANCE.getCurrentProject().getDescription());
 				projectUploadName.requestFocus();
 				projectUploadName.selectAll();
 				break;

@@ -28,8 +28,10 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -389,8 +391,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Project standardProject = null;
 
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName, getInstrumentation()
-					.getTargetContext());
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
+					getInstrumentation().getTargetContext());
 		} catch (IOException e) {
 			fail("Could not create standard project");
 			e.printStackTrace();
@@ -409,11 +411,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
-		assertEquals("Number of Bricks in Background Sprite was wrong", 1, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong", 1, backgroundSprite.getNumberOfBricks());
 		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
 		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
 		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
-		assertEquals("Number of Bricks in Background Sprite was wrong", 4, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong", 4, backgroundSprite.getNumberOfBricks());
 		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
 		ProjectManager.INSTANCE.setCurrentScript(startingScript);
 		ProjectManager.INSTANCE.saveProject();
@@ -421,8 +423,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
-		SharedPreferences defaultSharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
+		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation()
+				.getTargetContext());
 		assertEquals("Standard project was not set in shared preferences", standardProjectName,
 				defaultSharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null));
 
@@ -435,7 +437,59 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.getCurrentActivity().startActivity(intent);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.sleep(500);
-		assertEquals("Number of Bricks in Background Sprite was wrong - standard project was overwritten", 4,
+		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 4,
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
+	}
+
+	public void testUploadingProjectDescriptionDefaultValue() {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+		String testDescription = "Test decription";
+		Project uploadProject = new Project(getActivity(), testProject);
+		storageHandler.saveProject(uploadProject);
+
+		solo.sleep(300);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickLongOnText(testProject);
+		solo.clickInList(2);
+		solo.enterText(0, testDescription);
+		solo.clickOnButton(0); //button ok
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+
+		ProjectManager.INSTANCE.setProject(uploadProject);
+		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(6000);
+
+		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
+		String uploadDescription = uploadDescriptionView.getText().toString();
+		solo.sleep(500);
+		assertEquals("Project description was not set or is wrong", testDescription, uploadDescription);
+	}
+
+	public void testLoginWhenUploading() {
+		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation()
+				.getTargetContext());
+		Editor edit = defaultSharedPreferences.edit();
+		edit.clear();
+		edit.commit();
+
+		solo.sleep(500);
+		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(5000);
+
+		String username = "Maxmustermann"; //real username is maxmustermann (first letter lower case)
+		String password = "password";
+		EditText usernameEditText = (EditText) solo.getView(R.id.username);
+		EditText passwordEditText = (EditText) solo.getView(R.id.password);
+		solo.enterText(usernameEditText, username);
+		solo.enterText(passwordEditText, password);
+		solo.clickOnButton(getActivity().getString(R.string.login_or_register));
+		solo.sleep(5000);
+
+		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
+		ArrayList<View> currentViews = solo.getCurrentViews();
+		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
 	}
 }
