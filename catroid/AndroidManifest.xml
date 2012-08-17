@@ -29,7 +29,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="10" />
+        android:targetSdkVersion="15" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -47,7 +47,8 @@
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name=".ui.MainMenuActivity"
-            android:configChanges="keyboardHidden|orientation" >
+            android:configChanges="keyboardHidden|orientation" 
+            android:theme="@style/Theme.Catroid" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,14 +82,16 @@
         <activity
             android:name=".stage.PreStageActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.ProjectActivity" />
-        <activity android:name=".ui.ScriptActivity" />
-        <activity android:name=".ui.SpriteActivity" />
-        <activity android:name=".ui.ScriptTabActivity" />
-        <activity android:name=".ui.CostumeActivity" />
-        <activity android:name=".ui.SoundActivity" />
-        <activity android:name=".ui.MyProjectsActivity"
-         android:noHistory="true"/>
+        <activity 
+            android:name=".ui.ProjectActivity"
+            android:theme="@style/Theme.Catroid" />
+        <activity
+            android:name=".ui.ScriptTabActivity"
+            android:theme="@style/Theme.Catroid" />
+        <activity 
+            android:name=".ui.MyProjectsActivity" 
+        	android:noHistory="true"
+        	android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".ui.SettingsActivity"
             android:theme="@style/settings_activity" />
@@ -97,7 +100,9 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
-            android:label="@string/soundrecorder_name" >
+            android:theme="@style/Theme.Catroid" 
+            android:label="@string/soundrecorder_name"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
 

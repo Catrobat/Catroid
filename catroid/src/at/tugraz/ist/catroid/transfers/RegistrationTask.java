@@ -22,17 +22,15 @@
  */
 package at.tugraz.ist.catroid.transfers;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -40,49 +38,54 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
-	private Activity activity;
+	
+	private Context context;
 	private ProgressDialog progressDialog;
 	private String username;
 	private String password;
-	private Dialog dialogToRemoveOnSuccess;
 
 	private String message;
 	private boolean userRegistered;
 
-	public RegistrationTask(Activity activity, String username, String password, Dialog dialogToRemoveOnSuccess) {
-		this.activity = activity;
+	private OnRegistrationCompleteListener onRegistrationCompleteListener;
+	
+	public RegistrationTask(Context activity, String username, String password) {
+		this.context = activity;
 		this.username = username;
 		this.password = password;
-		this.dialogToRemoveOnSuccess = dialogToRemoveOnSuccess;
 	}
 
+	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
+		onRegistrationCompleteListener = listener;
+	}
+	
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (activity == null) {
+		if (context == null) {
 			return;
 		}
-		String title = activity.getString(R.string.please_wait);
-		String message = activity.getString(R.string.loading);
-		progressDialog = ProgressDialog.show(activity, title, message);
+		String title = context.getString(R.string.please_wait);
+		String message = context.getString(R.string.loading);
+		progressDialog = ProgressDialog.show(context, title, message);
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			if (!Utils.isNetworkAvailable(activity)) {
+			if (!Utils.isNetworkAvailable(context)) {
 				return false;
 			}
 
-			String email = UtilDeviceInfo.getUserEmail(activity);
-			String language = UtilDeviceInfo.getUserLanguageCode(activity);
-			String country = UtilDeviceInfo.getUserCountryCode(activity);
+			String email = UtilDeviceInfo.getUserEmail(context);
+			String language = UtilDeviceInfo.getUserLanguageCode(context);
+			String country = UtilDeviceInfo.getUserCountryCode(context);
 			String token = UtilToken.calculateToken(username, password);
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
 					country, token);
 
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 			prefs.edit().putString(Constants.TOKEN, token).commit();
 
 			return true;
@@ -108,29 +111,35 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
-		if (activity == null) {
+		if (context == null) {
 			return;
 		}
 
 		if (userRegistered) {
-			Toast.makeText(activity, R.string.new_user_registered, Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, R.string.new_user_registered, Toast.LENGTH_SHORT).show();
 		}
-
-		activity.showDialog(MainMenuActivity.DIALOG_UPLOAD_PROJECT);
-		dialogToRemoveOnSuccess.dismiss();
+		
+		if (onRegistrationCompleteListener != null) {
+			onRegistrationCompleteListener.onRegistrationComplete();
+		}
 	}
 
 	private void showDialog(int messageId) {
-		if (activity == null) {
+		if (context == null) {
 			return;
 		}
 		if (message == null) {
-			new Builder(activity).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton("OK", null)
+			new Builder(context).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton("OK", null)
 					.show();
 		} else {
-			new Builder(activity).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
+			new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
 					.show();
 		}
 	}
 
+	public interface OnRegistrationCompleteListener {
+		
+		public void onRegistrationComplete();
+		
+	}
 }

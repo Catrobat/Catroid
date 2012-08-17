@@ -39,7 +39,9 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class SoundRecorderActivity extends Activity implements OnClickListener {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+public class SoundRecorderActivity extends SherlockFragmentActivity implements OnClickListener {
 	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
 
 	private SoundRecorder soundRecorder;
@@ -62,7 +64,7 @@ public class SoundRecorderActivity extends Activity implements OnClickListener {
 
 		recordLayout.setOnClickListener(this);
 
-		soundRecorder = (SoundRecorder) getLastNonConfigurationInstance();
+		soundRecorder = (SoundRecorder) getLastCustomNonConfigurationInstance();
 		if (soundRecorder != null && soundRecorder.isRecording()) {
 			setViewsToRecordingState();
 		}
@@ -88,7 +90,7 @@ public class SoundRecorderActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public Object onRetainNonConfigurationInstance() {
+	public Object onRetainCustomNonConfigurationInstance() {
 		return soundRecorder;
 	}
 

@@ -47,12 +47,13 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreStageActivity> {
+
 	private Solo solo;
 	private Script testScript;
 	BroadcastScript receiveScript;
 
 	public SpeakStageTestComplex() {
-		super("at.tugraz.ist.catroid", PreStageActivity.class);
+		super(PreStageActivity.class);
 	}
 
 	@Override
@@ -64,6 +65,7 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

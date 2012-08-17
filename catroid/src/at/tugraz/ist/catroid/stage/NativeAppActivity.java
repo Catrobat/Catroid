@@ -22,7 +22,6 @@
  */
 package at.tugraz.ist.catroid.stage;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -35,7 +34,6 @@ import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 
 public class NativeAppActivity extends StageActivity {
 	private static Context context = null;
-	private static final int DIALOG_ABOUT = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,18 +76,10 @@ public class NativeAppActivity extends StageActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.nativeappMenuAbout) {
-			showDialog(DIALOG_ABOUT);
+			AboutDialog aboutDialog = new AboutDialog(this);
+			aboutDialog.show();
 		}
 		return true;
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog = null;
-		if (id == DIALOG_ABOUT) {
-			dialog = new AboutDialog(this);
-		}
-		return dialog;
 	}
 
 	@Override

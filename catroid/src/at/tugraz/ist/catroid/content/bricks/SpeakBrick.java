@@ -24,10 +24,7 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import java.util.HashMap;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
@@ -39,7 +36,8 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
 public class SpeakBrick implements Brick {
 	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
@@ -118,32 +116,23 @@ public class SpeakBrick implements Brick {
 
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-				final EditText input = new EditText(context);
-				input.setText(text);
-				input.setSelectAllOnFocus(true);
-				dialog.setView(input);
-				dialog.setOnCancelListener((OnCancelListener) context);
-				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+				ScriptTabActivity activity = (ScriptTabActivity) context;
+				
+				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						text = (input.getText().toString()).trim();
-						dialog.cancel();
+					protected void initialize() {
+						input.setText(text);
+						input.setSelectAllOnFocus(true);
 					}
-				});
-				dialog.setNeutralButton(context.getString(R.string.cancel_button),
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-							}
-						});
-
-				AlertDialog finishedDialog = dialog.create();
-				finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-
-				finishedDialog.show();
-
+					
+					@Override
+					protected boolean handleOkButton() {
+						text = (input.getText().toString()).trim();
+						return true;
+					}
+				};
+				
+				editDialog.show(activity.getSupportFragmentManager(), "dialog_speak_brick");
 			}
 		});
 		return view;
@@ -158,5 +147,4 @@ public class SpeakBrick implements Brick {
 	public Brick clone() {
 		return new SpeakBrick(this.sprite, this.text);
 	}
-
 }

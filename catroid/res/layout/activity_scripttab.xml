@@ -20,35 +20,45 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/website_blue">
-	
-	<!-- Action bar -->
-	<include layout="@layout/actionbar"/>
-		
-	<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@android:id/tabhost" 
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-		<LinearLayout android:orientation="vertical"
-			android:layout_width="fill_parent" 
-			android:layout_height="fill_parent">
-			<View android:layout_width="fill_parent" 
-				android:layout_height="0.5dip"
-				android:background="#000" />
-			<TabWidget android:id="@android:id/tabs"
-				android:layout_width="fill_parent" 
-				android:layout_height="30dp"
-				android:layout_marginLeft="0dip" 
-				android:layout_marginRight="0dip" />
-			<FrameLayout android:id="@android:id/tabcontent"
-				android:layout_width="fill_parent" 
-				android:layout_height="fill_parent" />
-		</LinearLayout>
-	</TabHost>
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/website_blue"
+    android:orientation="vertical" >
+
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tab_widget_height"
+                android:layout_marginLeft="0dip"
+                android:layout_marginRight="0dip"
+                android:layout_weight="0"
+                android:background="@color/tab_backgound_gray" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/white" />
+        </LinearLayout>
+    </TabHost>
+
 </LinearLayout>

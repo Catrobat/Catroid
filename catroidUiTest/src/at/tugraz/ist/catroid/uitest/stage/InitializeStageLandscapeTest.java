@@ -32,10 +32,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 
 	public InitializeStageLandscapeTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -46,6 +47,7 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -57,7 +59,7 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
 

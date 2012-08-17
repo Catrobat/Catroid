@@ -24,78 +24,57 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.io.IOException;
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewProjectDialog extends TextDialog {
 
-	public NewProjectDialog(Activity activity) {
-		super(activity, activity.getString(R.string.new_project_dialog_title), activity
-				.getString(R.string.new_project_dialog_hint));
-		initKeyAndClickListener();
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
+
+	@Override
+	protected void initialize() {
 	}
 
-	public void handleOkButton() {
+	@Override
+	protected boolean handleOkButton() {
 		String projectName = (input.getText().toString().trim());
 
 		if (projectName.length() == 0) {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.error_no_name_entered));
-			return;
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_no_name_entered));
+			return false;
 		}
 
 		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.error_project_exists));
-			return;
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_project_exists));
+			return false;
 		}
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, activity);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity());
 		} catch (IOException e) {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.error_new_project));
-			activity.dismissDialog(MainMenuActivity.DIALOG_NEW_PROJECT);
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_new_project));
+			dismiss();
 		}
 
-		Utils.saveToPreferences(activity, Constants.PREF_PROJECTNAME_KEY, projectName);
-		Intent intent = new Intent(activity, ProjectActivity.class);
-		activity.startActivity(intent);
-		input.setText(null);
-		activity.dismissDialog(MainMenuActivity.DIALOG_NEW_PROJECT);
+		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
+		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+		getActivity().startActivity(intent);
+
+		return true;
 	}
 
-	private void initKeyAndClickListener() {
-		dialog.setOnKeyListener(new OnKeyListener() {
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					handleOkButton();
-					return true;
-				}
-				return false;
-			}
-		});
+	@Override
+	protected String getTitle() {
+		return getString(R.string.new_project_dialog_title);
+	}
 
-		buttonPositive.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				handleOkButton();
-			}
-		});
-
-		buttonNegative.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				input.setText(null);
-				activity.dismissDialog(MainMenuActivity.DIALOG_NEW_PROJECT);
-			}
-		});
+	@Override
+	protected String getHint() {
+		return getString(R.string.new_project_dialog_hint);
 	}
 }
