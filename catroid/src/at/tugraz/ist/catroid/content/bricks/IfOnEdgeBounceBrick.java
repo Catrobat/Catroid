@@ -43,10 +43,16 @@ public class IfOnEdgeBounceBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public IfOnEdgeBounceBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		float size = sprite.costume.getSize();
 
@@ -105,10 +111,12 @@ public class IfOnEdgeBounceBrick implements Brick {
 		sprite.costume.releaseXYWidthHeightLock();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
@@ -117,6 +125,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 	}

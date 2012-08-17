@@ -69,7 +69,7 @@ public class ScriptParser {
 	@SuppressWarnings("rawtypes")
 	private Script getpopulatedScript(Element element, Sprite sprite) throws IllegalArgumentException,
 			IllegalAccessException, SecurityException, InstantiationException, InvocationTargetException,
-			NoSuchMethodException, ClassNotFoundException {
+			NoSuchMethodException, ClassNotFoundException, ParseException {
 		String scriptClassName = element.getNodeName();
 
 		Class scriptClass = Class.forName(CatroidXMLConstants.contentPackage + scriptClassName);

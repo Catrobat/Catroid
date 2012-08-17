@@ -44,6 +44,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
+	public GlideToBrick() {
+
+	}
+
 	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
 		this.sprite = sprite;
 		this.xDestination = xDestination;
@@ -51,10 +55,12 @@ public class GlideToBrick implements Brick, OnClickListener {
 		this.durationInMilliSeconds = durationInMilliSeconds;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
@@ -121,6 +127,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		sprite.costume.releaseXYWidthHeightLock();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -129,6 +136,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		return durationInMilliSeconds;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
@@ -159,6 +167,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_glide_to, null);
 	}
@@ -168,9 +177,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
 	}
 
+	@Override
 	public void onClick(final View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -185,10 +195,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
 							| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				}
-				
+
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -197,16 +207,17 @@ public class GlideToBrick implements Brick, OnClickListener {
 					} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
 						yDestination = Integer.parseInt(input.getText().toString());
 					} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
-						durationInMilliSeconds = (int) Math.round(Double.parseDouble(input.getText().toString()) * 1000);
+						durationInMilliSeconds = (int) Math
+								.round(Double.parseDouble(input.getText().toString()) * 1000);
 					}
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_glide_to_brick");
 	}
 }

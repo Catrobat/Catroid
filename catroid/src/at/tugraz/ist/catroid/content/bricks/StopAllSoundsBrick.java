@@ -43,6 +43,10 @@ public class StopAllSoundsBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public StopAllSoundsBrick() {
+
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

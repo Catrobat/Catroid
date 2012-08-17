@@ -401,6 +401,11 @@ public class SerializerTest extends InstrumentationTestCase {
 		static final long serialVersionUID = 1L;
 		private final int mCatroidVersionCode;
 
+		@SuppressWarnings("unused")
+		public ProjectWithVersionCode() {
+			mCatroidVersionCode = Integer.MAX_VALUE;
+		}
+
 		public ProjectWithVersionCode(String name, int catroidVersionCode) {
 			super(null, name);
 			mCatroidVersionCode = catroidVersionCode;

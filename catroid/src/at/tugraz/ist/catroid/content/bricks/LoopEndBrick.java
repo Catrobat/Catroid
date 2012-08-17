@@ -44,10 +44,16 @@ public class LoopEndBrick implements Brick {
 		this.loopBeginBrick = loopStartingBrick;
 	}
 
+	public LoopEndBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		loopBeginBrick.setBeginLoopTime(System.nanoTime());
 
@@ -81,6 +87,7 @@ public class LoopEndBrick implements Brick {
 		return null;
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -93,6 +100,7 @@ public class LoopEndBrick implements Brick {
 		return loopBeginBrick;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_loop_end, null);
@@ -103,6 +111,7 @@ public class LoopEndBrick implements Brick {
 		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return null;
 	}

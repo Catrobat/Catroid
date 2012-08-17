@@ -204,6 +204,11 @@ public class TestUtils {
 		static final long serialVersionUID = 1L;
 		private final int mCatroidVersionCode;
 
+		@SuppressWarnings("unused")
+		public ProjectWithVersionCode() {
+			mCatroidVersionCode = 123;
+		}
+
 		public ProjectWithVersionCode(String name, int catroidVersionCode) {
 			super(null, name);
 			mCatroidVersionCode = catroidVersionCode;

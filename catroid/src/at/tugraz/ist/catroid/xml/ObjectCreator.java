@@ -32,6 +32,7 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.TreeMap;
 
+import android.util.Log;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -161,7 +162,7 @@ public class ObjectCreator {
 	@SuppressWarnings("rawtypes")
 	public Script getScriptObject(String scriptImplName, Sprite foundSprite) throws ClassNotFoundException,
 			SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
-			IllegalAccessException, InvocationTargetException {
+			IllegalAccessException, InvocationTargetException, ParseException {
 		Script scriptObject = null;
 		Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptImplName);
 		Constructor scriptConstructor = scriptClass.getConstructor(Sprite.class);
@@ -175,36 +176,49 @@ public class ObjectCreator {
 
 	@SuppressWarnings("rawtypes")
 	public Object getobjectOfClass(Class cls, String val) throws IllegalArgumentException, SecurityException,
-			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+			InstantiationException, IllegalAccessException, InvocationTargetException, ParseException {
 		Constructor clsConstructor = null;
 		Object obj = null;
-		if (cls == int.class) {
-			cls = Integer.class;
-		} else if (cls == float.class) {
-			cls = Float.class;
-		} else if (cls == double.class) {
-			cls = Double.class;
-		} else if (cls == boolean.class) {
-			cls = Boolean.class;
-		} else if (cls == byte.class) {
-			cls = Byte.class;
-		} else if (cls == short.class) {
-			cls = Short.class;
-		} else if (cls == long.class) {
-			cls = Long.class;
-		} else if (cls == char.class) {
-			cls = Character.class;
-			obj = cls.getConstructor(char.class).newInstance(val.charAt(0));
-			return obj;
-		} else if (cls == String.class) {
-			return new String(val);
-		} else {
-			Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
-			newInstance.setAccessible(true);
-			return newInstance.invoke(null, cls, Object.class);
+		try {
+			if (cls == int.class) {
+				cls = Integer.class;
+			} else if (cls == float.class) {
+				cls = Float.class;
+			} else if (cls == double.class) {
+				cls = Double.class;
+			} else if (cls == boolean.class) {
+				cls = Boolean.class;
+			} else if (cls == byte.class) {
+				cls = Byte.class;
+			} else if (cls == short.class) {
+				cls = Short.class;
+			} else if (cls == long.class) {
+				cls = Long.class;
+			} else if (cls == char.class) {
+				cls = Character.class;
+				obj = cls.getConstructor(char.class).newInstance(val.charAt(0));
+				return obj;
+			} else if (cls == String.class) {
+				return new String(val);
+			} else {
+
+				//Method newInstance = ObjectStreamClass.class.getDeclaredMethod("newInstance", Class.class, int.class);
+				Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
+				newInstance.setAccessible(true);
+				return newInstance.invoke(null, cls, Object.class);
+			}
+			clsConstructor = cls.getConstructor(String.class);
+		} catch (NoSuchMethodException ex) {
+			Log.i("ObjectCreator", "No method to create object, calling default constructor");
+			try {
+				Constructor defaultConstructor = cls.getDeclaredConstructor();
+				defaultConstructor.setAccessible(true);
+				return defaultConstructor.newInstance();
+			} catch (NoSuchMethodException e) {
+				throw new ParseException("Cant create object, not default constructor at class " + cls.getName());
+			}
 		}
 
-		clsConstructor = cls.getConstructor(String.class);
 		obj = clsConstructor.newInstance(val);
 		return obj;
 

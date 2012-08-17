@@ -36,6 +36,10 @@ public class BroadcastScript extends Script {
 		super.isFinished = true;
 	}
 
+	public BroadcastScript() {
+
+	}
+
 	@Override
 	protected Object readResolve() {
 		isFinished = true;

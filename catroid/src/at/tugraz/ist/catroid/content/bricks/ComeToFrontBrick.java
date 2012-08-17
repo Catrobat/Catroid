@@ -44,10 +44,16 @@ public class ComeToFrontBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public ComeToFrontBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		int highestPosition = 0;
@@ -66,10 +72,12 @@ public class ComeToFrontBrick implements Brick {
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		if (view == null) {
@@ -84,6 +92,7 @@ public class ComeToFrontBrick implements Brick {
 		return new ComeToFrontBrick(getSprite());
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_come_to_front, null);
 	}

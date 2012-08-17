@@ -42,19 +42,26 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
+	public ChangeGhostEffectBrick() {
+
+	}
+
 	public ChangeGhostEffectBrick(Sprite sprite, double changeGhostEffect) {
 		this.sprite = sprite;
 		this.changeGhostEffect = changeGhostEffect;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / -100);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -63,6 +70,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		return changeGhostEffect;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
@@ -78,6 +86,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_change_ghost_effect, null);
 	}
@@ -87,9 +96,10 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		return new ChangeGhostEffectBrick(getSprite(), getChangeGhostEffect());
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -98,7 +108,7 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -106,11 +116,11 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_ghost_effect_brick");
 	}
 }

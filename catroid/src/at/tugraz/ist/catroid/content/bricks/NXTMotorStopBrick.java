@@ -40,6 +40,10 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
 	}
 
+	public NXTMotorStopBrick() {
+
+	}
+
 	private Sprite sprite;
 	private transient Motor motorEnum;
 	private String motor;
