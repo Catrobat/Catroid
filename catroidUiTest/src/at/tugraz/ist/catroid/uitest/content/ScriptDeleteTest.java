@@ -94,7 +94,8 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
-		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of elements in listView", 3 + 1, solo.getCurrentListViews().get(0)
+				.getChildCount()); // don't forget the footer
 
 		solo.clickLongOnText(getActivity().getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(buttonDeleteText);
