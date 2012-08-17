@@ -59,7 +59,7 @@
 	<EditText
 	    android:id="@+id/project_description_edittext"
 	    android:layout_width="match_parent"
-	    android:layout_height="130dp"
+	    android:layout_height="100dp"
 	    android:layout_below="@+id/project_description"
 	    android:gravity="top"
 	    android:inputType="textMultiLine"
