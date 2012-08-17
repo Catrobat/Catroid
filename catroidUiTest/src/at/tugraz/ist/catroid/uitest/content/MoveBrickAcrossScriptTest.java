@@ -43,25 +43,26 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
 	private ArrayList<Brick> secondBrickListForMoving;
 	private Sprite firstSprite;
 
 	public MoveBrickAcrossScriptTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -182,4 +183,5 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
+
 }

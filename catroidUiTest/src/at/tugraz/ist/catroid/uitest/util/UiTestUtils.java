@@ -80,7 +80,8 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -509,6 +510,14 @@ public class UiTestUtils {
 		solo.clickOnView(linearLayout);
 	}
 
+	public static void clickOnActionBar(Solo solo, int imageButtonId) {
+		if (Build.VERSION.SDK_INT < 15) {
+			UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		} else {
+			solo.clickOnActionBarItem(R.id.menu_add);
+		}
+	}
+
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
 
 		File testImage = new File(filePath);
@@ -615,9 +624,10 @@ public class UiTestUtils {
 	 */
 	public static ArrayList<Integer> getListItemYPositions(final Solo solo) {
 		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
-		if (!solo.waitForView(DragAndDropListView.class, 0, 5000, false)) {
-			fail("DragAndDropListView not shown in 5 secs!");
+		if (!solo.waitForView(ListView.class, 0, 10000, false)) {
+			fail("ListView not shown in 10 secs!");
 		}
+
 		ListView listView = solo.getCurrentListViews().get(0);
 
 		for (int i = 0; i < listView.getChildCount(); ++i) {
@@ -736,14 +746,13 @@ public class UiTestUtils {
 		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 	}
 
-	/**
-	 * This method is needed because sometimes bricks are staying in hovering state.
-	 */
-	public static void clickOnAddBrickAndGoBack(Solo solo) {
-		solo.sleep(300);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
-		solo.goBack();
-		solo.sleep(300);
+	public static void getIntoScriptTabActivityFromMainMenu(Solo solo) {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickInList(0);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 	}
 
 	public static boolean clickOnTextInList(Solo solo, String text) {
