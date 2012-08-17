@@ -53,7 +53,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 	private Project project;
 
 	public ComplexStageTest() {
-		super("at.tugraz.ist.catroid", StageActivity.class);
+		super(StageActivity.class);
 	}
 
 	@Override
@@ -65,6 +65,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

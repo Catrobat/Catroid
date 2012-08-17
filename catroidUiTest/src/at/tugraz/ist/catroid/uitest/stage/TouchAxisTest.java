@@ -46,7 +46,7 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 	private Solo solo;
 
 	public TouchAxisTest() {
-		super("at.tugraz.ist.catroid", StageActivity.class);
+		super(StageActivity.class);
 	}
 
 	@Override
@@ -58,6 +58,7 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 
 	@Override
 	protected void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

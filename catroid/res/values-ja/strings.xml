@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
@@ -22,7 +22,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-
     <!-- General terms -->
     <string name="app_name">キャット\nロイド</string>
     <string name="project">"プロジェクト"</string>
@@ -34,19 +33,16 @@
     <string name="delete">"削除"</string>
     <string name="yes">"はい"</string>
     <string name="no">"いいえ"</string>
-
     <!-- General -->
     <string name="close">"閉じる"</string>
     <string name="error">"エラー"</string>
     <string name="please_wait">"お待ちください"</string>
-    <string name="loading">"読み込み中..."</string>
+    <string name="loading">"読み込み中…"</string>
     <string name="background">"背景"</string>
     <string name="stage">"ステージ"</string>
     <string name="ok">"OK"</string>
     <string name="add">"加える"</string>
-    <string name="home">"ホーム"</string>
     <string name="start">"起動"</string>
-
     <!-- Main menu activity -->
     <string name="resume">"再開"</string>
     <string name="current_project">"現在のプロジェクト："</string>
@@ -59,33 +55,27 @@
     <string name="load">"読み込む"</string>
     <string name="about">"キャットロイドについて"</string>
     <string name="upload_project">"アップロード"</string>
-
     <!-- Settings activity -->
     <string name="pref_category_mindstorm">"レゴマインドストームの設定"</string>
     <string name="pref_enable_ms_bricks">"レゴ ブロックを有効にする"</string>
     <string name="pref_descr_ms_bricks">"これらのブロックは、レゴマインドストームロボットを制御するために使用されています。"</string>
-
     <!-- About Dialog -->
     <string name="about_title">"キャットロイドについて"</string>
     <string name="about_text">"キャットロイドは、マサチューセッツ工科大学のメディアラボで生涯幼稚園グループによって開発されたパソコン用のスクラッチプログラミング言語に着想を得、Androidデバイスのためのオンデバイス ビジュアルプログラミング言語です。\n\nのキャットロイドは、主にGNU AGPL v3の下でライセンスされています。ライセンスの詳細については、下記リンクをご参照ください。\n"</string>
     <string name="about_catroid_license_link_text">"キャットロイドについて"</string>
-
     <!-- Project activity view -->
     <string name="project_name">"プロジェクト："</string>
     <string name="number_of_scripts">"スクリプト："</string>
     <string name="number_of_bricks">"ブロック："</string>
     <string name="number_of_costumes">"コスチューム："</string>
     <string name="number_of_sounds">"サウンド："</string>
-
     <!-- Sprite activity -->
     <string name="sprite_name">"スプライト："</string>
-
     <!-- ScriptTab activity -->
     <string name="scripts">"スクリプト"</string>
     <string name="costumes">"コスチューム"</string>
     <string name="sounds">"サウンド"</string>
     <string name="backgrounds">"背景"</string>
-
     <!-- Costume activity -->
     <string name="rename_costume_dialog">"コスチュームの名前を変更します"</string>
     <string name="edit_costume">"編集"</string>
@@ -96,7 +86,6 @@
     <string name="select_image">"画像を選択"</string>
     <string name="paintroid_not_installed">"ペイントロイドがインストールされていません！\n今、ペイントロイドをインストールしたいですか？"</string>
     <string name="default_costume_name">"コスチューム"</string>
-
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"音の名前を変更します"</string>
     <string name="soundname_invalid">"この音の名前は無効です"</string>
@@ -104,47 +93,32 @@
     <string name="sound_pause">"休止"</string>
     <string name="sound_delete">"消す"</string>
     <string name="sound_select_source">"音を選択してください"</string>
-
     <!-- My Projects activity -->
     <string name="last_used">"最新の使用："</string>
     <string name="description">"このプロジェクトについて："</string>
     <string name="set_description">"説明を設定する"</string>
     <string name="rename_project">"プロジェクト名を変更"</string>
-
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">"キャットロイドのサウンドレコーダー"</string>
     <string name="soundrecorder_record_start">"録音を開始"</string>
     <string name="soundrecorder_record_stop">"録音を終了"</string>
-    <string name="soundrecorder_recording">"録音は進行中..."</string>
+    <string name="soundrecorder_recording">"録音は進行中…"</string>
     <string name="soundrecorder_error">"録音に失敗しました"</string>
     <string name="soundrecorder_recorded_filename">"録音"</string>
-
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">"テキストツースピーチエンジンがインストールされていません。\nテキストツースピーチを今すぐインストールしますか？"</string>
-
     <!-- Script context menu -->
     <string name="script_context_menu_title">"スクリプト"</string>
-
     <!-- New project dialog -->
-    <string name="new_project_dialog_button">"作成"</string>
     <string name="new_project_dialog_title">"新規プロジェクトの名前"</string>
-    <string name="new_project_dialog_default_project_name">"プロジェクトの名前"</string>
     <string name="new_project_dialog_hint">"私のプロジェクト"</string>
-
     <!-- Rename Dialog -->
-    <string name="rename_hint">"名"</string>
-    <string name="rename_button">"名前の変更"</string>
-
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">"私のスプライト"</string>
     <string name="new_sprite_dialog_title">"新しいスプライトの名前"</string>
     <string name="spritename_already_exists">"このスプライトの名前はすでに存在しています"</string>
     <string name="rename_sprite_dialog">"スプライトの名前を変更"</string>
     <string name="spritename_invalid">"このスプライトの名前は無効です"</string>
-
-    <!-- Load project dialog -->
-    <string name="load_project_dialog_title">"プロジェクト読み込み中…"</string>
-
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">"ログイン"</string>
     <string name="username">"ユーザー名:"</string>
@@ -154,7 +128,6 @@
     <string name="password_forgotten">"パスワードを忘れました"</string>
     <string name="new_user_registered">"新しいアカウントを作成"</string>
     <string name="register_error">"エラーが生じた場合"</string>
-
     <!-- Stage menu dialog -->
     <string name="back">"戻る"</string>
     <string name="resume_current_project">"再開"</string>
@@ -164,11 +137,9 @@
     <string name="stagemenu_axes_on">"軸 オン"</string>
     <string name="stagemenu_axes_off">"軸 オフ"</string>
     <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
-
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">"新しい..."</string>
-    <string name="broadcast_nothing_selected">"何もない..."</string>
-
+    <string name="new_broadcast_message">"新しい…"</string>
+    <string name="broadcast_nothing_selected">"何もない…"</string>
     <!-- Brick categories -->
     <string name="categories">"範囲"</string>
     <string name="category_motion">"動き"</string>
@@ -176,7 +147,6 @@
     <string name="category_sound">"音"</string>
     <string name="category_control">"制御"</string>
     <string name="category_lego_nxt">レゴマインドストームNXT</string>
-
     <!-- Motion bricks -->
     <string name="brick_place_at">"場所を設定"</string>
     <string name="x_label">"X:"</string>
@@ -199,7 +169,6 @@
     <string name="brick_point_to">"方向（スプライト）："</string>
     <string name="brick_glide">"滑る："</string>
     <string name="brick_glide_to">"方向："</string>
-
     <!-- Looks bricks -->
     <string name="brick_set_costume">"コスチュームに切り替える："</string>
     <string name="brick_set_background">"背景を設定する"</string>
@@ -216,14 +185,12 @@
     <string name="brick_clear_graphic_effect">"画像効果をなくす"</string>
     <string name="brick_next_costume">"次のコスチューム"</string>
     <string name="brick_next_background">"次の背景"</string>
-
     <!-- Sound bricks -->
     <string name="brick_play_sound">"サウンドの再生"</string>
     <string name="brick_stop_all_sounds">"すべてのサウンドを停止"</string>
     <string name="brick_set_volume_to">"音量："</string>
     <string name="brick_change_volume_by">"音量を変更して："</string>
     <string name="brick_speak">"話す："</string>
-
     <!-- Control bricks -->
     <string name="brick_when_started">"プロジェクトがはじまると"</string>
     <string name="brick_when">"スプライトがタップされている"</string>
@@ -237,7 +204,6 @@
     <string name="brick_repeat">""</string>
     <string name="times_label">"回繰り返す"</string>
     <string name="brick_loop_end">"ループの終わり"</string>
-
     <!-- Actions -->
     <string name="action_tapped">""</string>
     <string name="action_doubleTapped">"ダブルタップ"</string>
@@ -246,7 +212,6 @@
     <string name="action_swipeRight">"右へスワイプ"</string>
     <string name="action_swipeUp">"スワイプアップ"</string>
     <string name="action_swipeDown">"スワイプダウン"</string>
-
     <!-- defaultValues -->
     <string name="default_project_name">"私の最初のプロジェクト"</string>
     <string name="default_project_sprites_catroid_name">"キャットロイド"</string>
@@ -255,11 +220,9 @@
     <string name="default_project_sprites_catroid_cheshirecat">"チェシャーネコ"</string>
     <string name="default_project_backgroundname">"背景"</string>
     <string name="default_project_backgroundcolor">"#604fff"</string>
-
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"値を入力してください"</string>
     <string name="notification_screenshot_ok">"スクリーン ショットが保存した"</string>
-
     <!-- Error messages -->
     <string name="error_no_sd_card">"キャットロイドを実行するためにSDカードが必要ですが、どれも見つかりませんでした\nSDカードを挿入して再試行してください"</string>
     <string name="error_no_name_entered">"名前を入力してください"</string>
@@ -273,34 +236,29 @@
     <string name="error_load_image">"画像の読み込み中にエラーが発生しました"</string>
     <string name="error_load_sound">"サウンドをロード中にエラーが発生しました"</string>
     <string name="error_internet_connection">"不明なエラーが発生しました。インターネット接続を確認してください"</string>
-
     <!-- Notifications -->
     <string name="success_project_upload">"アップロード成功"</string>
     <string name="success_project_download">"ダウンロードが成功した"</string>
-    <string name="load_project">"プロジェクト読み込み中…"</string>
     <string name="upload_button">"アップロード"</string>
     <string name="upload_project_dialog_title">"プロジェクトをアップロード"</string>
     <string name="upload_description">"デスクリプション："</string>
     <string name="project_rename">"（あなたのプロジェクトの名前が変更されます）"</string>
     <string name="size_of_project">"プロジェクトのサイズ："</string>
-
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
-
     <string name="notification_blueth_err">"Bluetoothが有効にできませんでした、ステージをクロースします"</string>
     <string name="title_paired_devices">"デバイスの組み合わせ"</string>
     <string name="title_other_devices">"新しいデバイス"</string>
     <string name="button_scan">"Bluetoothデバイスを検索"</string>
     <string name="select_device">"あなたのレゴマインドストームNXTを選択してください"</string>
     <string name="scanning">"スキャン中"</string>
-    <string name="connecting_please_wait">"お使いのデバイスに接続しています\nしばらく待つ..."</string>
+    <string name="connecting_please_wait">"お使いのデバイスに接続しています\nしばらく待つ…"</string>
     <string name="pairing_message">"ペアリングした後、接続してください"</string>
     <string name="problem_at_closing">"接続を閉じるの問題！"</string>
     <string name="bt_connection_failed">"デバイスへの接続に失敗しました！"</string>
     <string name="no_paired_nxt">"ペアのNXTが見つかりませんでした"</string>
     <string name="none_found">"見つかりませんでした。ペアになっていないデバイスがありません"</string>
     <string name="none_paired">"見つかったペアのデバイスがありません"</string>
-
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">"NXTモーターの動き"</string>
     <string name="motor">"モーター"</string>
@@ -314,5 +272,4 @@
     <string name="nxt_tone_hundred_hz">"x100Hz"</string>
     <string name="number_to_small">"値が小さすぎる！"</string>
     <string name="number_to_big">"値が大きすぎる！"</string>
-
 </resources>

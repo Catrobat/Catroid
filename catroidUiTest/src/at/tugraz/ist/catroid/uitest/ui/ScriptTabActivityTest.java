@@ -30,27 +30,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
-import at.tugraz.ist.catroid.ui.SoundActivity;
+import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
+import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+
 	private Solo solo;
-	private final String[] scriptsTabHexValues = { "ff1a1a1a", "ff090909", "ff2f2f2f", "ffe5e5e5", "fff6f6f6",
-			"ffd0d0d0" };
-	private final String[] backgroundsTabHexValues = { "ff101010", "ff222222", "ef101010", "ffefefef", "ffdddddd",
-			"efefefef" };
-	private final String[] soundsTabHexValues = { "ff141414", "ff2a2a2a", "bf282828", "ffebebeb", "ffd5d5d5",
-			"bfd7d7d7" };
-	private final String[] costumesTabHexValues = { "ff000000", "ff505050", "ff5d5d5d", "ffffffff", "ffafafaf",
-			"ffa2a2a2" };
+	private final String[] scriptsTabHexValues = { "fee0e0e0", "0", "ffcecece", "fe989898", "0", "ff9f9f9f" };
+	private final String[] backgroundsTabHexValues = { "7ee9e9e9", "5bdbdbdb", "0", "7e1e1e1e", "5b2a2a2a", "0" };
+	private final String[] soundsTabHexValues = { "ffe4e4e4", "ffd2d2d2", "ffd4d4d4", "ff9b9b9b", "ff999999",
+			"ff9a9a9a" };
+	private final String[] costumesTabHexValues = { "ffffffff", "0", "ffffffff", "ff797979", "0", "ff797979" };
 	private final int[] scriptsXCoords = { 12, 6, 9 };
 	private final int[] scriptsYCoords = { 12, 19, 3 };
 	private final int[] backgroundsXCoords = { 15, 5, 5 };
@@ -61,7 +59,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	private final int[] costumesYCoords = { 21, 5, 8 };
 
 	public ScriptTabActivityTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -73,13 +71,14 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testMainMenuButton() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
 				solo.getCurrentActivity() instanceof MainMenuActivity);
@@ -87,24 +86,30 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	public void testScriptTab() {
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
-		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertTrue("Clicking on Script Tab did not cause ScriptActivity to be displayed",
-				solo.getCurrentActivity() instanceof ScriptActivity);
+		solo.clickOnText("Script");
+		solo.sleep(100);
+
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		assertTrue("Clicking on Script Tab did not cause ScriptFragment to be displayed",
+				activity.getCurrentTabFragment() instanceof ScriptFragment);
 	}
 
 	public void testCostumesTab() {
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.backgrounds));
-		solo.waitForActivity(CostumeActivity.class.getSimpleName());
-		assertTrue("Clicking on Costumes Tab did not cause CostumeActivity to be displayed",
-				solo.getCurrentActivity() instanceof CostumeActivity);
+		solo.sleep(100);
+
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		assertTrue("Clicking on Costumes Tab did not cause CostumeFragment to be displayed",
+				activity.getCurrentTabFragment() instanceof CostumeFragment);
 	}
 
 	public void testSoundsTab() {
-		solo.clickOnText(solo.getString(R.string.sounds));
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
-		assertTrue("Clicking on Sounds Tab did not cause SoundActivity to be displayed",
-				solo.getCurrentActivity() instanceof SoundActivity);
+		solo.clickOnText("Sounds");
+		solo.sleep(100);
+
+		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
+		assertTrue("Clicking on Sounds Tab did not cause SoundFragment to be displayed",
+				activity.getCurrentTabFragment() instanceof SoundFragment);
 	}
 
 	public void testTabCostumeOrBackgroundLabel() {
@@ -114,7 +119,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String spriteToTest = "";
 		String backgroundTabLabel = solo.getString(R.string.backgrounds);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -129,7 +134,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"", solo.searchText(backgroundTabLabel));
 		solo.clickOnText(backgroundTabLabel);
-		solo.waitForActivity(CostumeActivity.class.getSimpleName());
+		solo.sleep(500);
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"", solo.searchText(backgroundTabLabel));
 
 		for (int i = 1; i < 3; i++) {
@@ -144,7 +149,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	public void testTabImagesAndLabelColor() {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -189,7 +194,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(300);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
 		solo.enterText(0, spriteName);
 		solo.clickOnButton(solo.getString(R.string.ok));
@@ -201,8 +206,8 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		String tabSelectedLabel;
 		String textViewLabel;
 		int textViewColor;
-		int tabSelectedColor = getActivity().getResources().getColor(android.R.color.black);
-		int colorNotSelected = getActivity().getResources().getColor(android.R.color.white);
+		int tabSelectedColor = getActivity().getResources().getColor(android.R.color.white);
+		int colorNotSelected = getActivity().getResources().getColor(R.color.tab_text_unselected_light_gray);
 
 		tabSelectedLabel = solo.getText(tabLabels[0]).getText().toString();
 
@@ -211,10 +216,10 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 			textViewColor = textViewToTest.getCurrentTextColor();
 			textViewLabel = textViewToTest.getText().toString();
 			if (tabSelectedLabel.equals(textViewLabel)) {
-				assertTrue(tabSelectedLabel + " Tab Active - " + textViewLabel + " Text should be black",
+				assertTrue(tabSelectedLabel + " Tab Active - " + textViewLabel + " Text should be white",
 						textViewColor == tabSelectedColor);
 			} else {
-				assertTrue(tabSelectedLabel + " Tab Active - " + textViewLabel + " Text should be white",
+				assertTrue(tabSelectedLabel + " Tab Active - " + textViewLabel + " Text should be light gray",
 						textViewColor == colorNotSelected);
 			}
 		}

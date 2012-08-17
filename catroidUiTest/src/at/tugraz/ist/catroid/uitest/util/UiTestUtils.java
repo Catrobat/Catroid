@@ -35,18 +35,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -67,12 +74,16 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.internal.ActionBarSherlockCompat;
+import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
@@ -215,7 +226,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId) {
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 	}
@@ -444,6 +455,31 @@ public class UiTestUtils {
 		}
 	}
 
+	public static Object invokePrivateMethodWithoutParameters(Class<?> clazz, String methodName, Object receiver) {
+		Method method = null;
+		try {
+			method = clazz.getDeclaredMethod(methodName, (Class<?>[]) null);
+		} catch (NoSuchMethodException e) {
+			Log.e(TAG, e.getClass().getName() + ": " + methodName);
+		}
+
+		if (method != null) {
+			method.setAccessible(true);
+
+			try {
+				return method.invoke(receiver, (Object[]) null);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+
 	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
 			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		Field field = classFromObject.getDeclaredField(fieldName);
@@ -607,6 +643,34 @@ public class UiTestUtils {
 		return ProjectManager.INSTANCE.saveProject();
 	}
 
+	public static void goToHomeActivity(Activity activity) {
+		Intent intent = new Intent(activity, MainMenuActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		activity.startActivity(intent);
+	}
+
+	/**
+	 * This method invokes Up button press. You should pass {@link solo.getCurrentActivity} to it.
+	 * Works only with ActionBarSherlock on pre 4.0 Android. Tests which run on 4.0 and higher should use
+	 * solo.clickOnHomeActionBarButton().
+	 */
+	public static void clickOnUpActionBarButton(Activity activity) {
+		ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
+		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
+				SherlockFragmentActivity.class, "getSherlock", activity);
+		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+	}
+
+	/**
+	 * This method is needed because sometimes bricks are staying in hovering state.
+	 */
+	public static void clickOnAddBrickAndGoBack(Solo solo) {
+		solo.sleep(300);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		solo.goBack();
+		solo.sleep(300);
+	}
+
 	public static boolean clickOnTextInList(Solo solo, String text) {
 		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
 		for (int i = 0; i < textViews.size(); i++) {
@@ -617,5 +681,23 @@ public class UiTestUtils {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns to the main screen.
+	 * This method should be called in tearDown() in tests which use Robotium.
+	 * See explanation here:
+	 * http://stackoverflow.com/questions/7851351/robotium-in-the-suite-of-tests-each-next-test-is-
+	 * affected-by-the-previous-test
+	 */
+	public static void goBackToHome(Instrumentation instrumentation) {
+		boolean more = true;
+		while (more) {
+			try {
+				instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+			} catch (SecurityException e) { // Done, at Home.
+				more = false;
+			}
+		}
 	}
 }
