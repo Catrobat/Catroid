@@ -26,7 +26,7 @@ import android.os.Bundle;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 
-public class SetDescriptionDialog extends TextDialog {
+public class SetDescriptionDialog extends MultiLineTextDialog {
 
 	private static final String BUNDLE_ARGUMENTS_OLD_PROJECT_DESCRIPTION = "old_project_description";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_set_description";
@@ -97,7 +97,7 @@ public class SetDescriptionDialog extends TextDialog {
 	}
 
 	private void setDescription(String description) {
-		projectManager.getCurrentProject().description = description;
+		projectManager.getCurrentProject().setDescription(description);
 		projectManager.saveProject();
 	}
 
