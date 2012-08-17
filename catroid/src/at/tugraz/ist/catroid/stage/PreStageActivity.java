@@ -273,6 +273,7 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
 		textToSpeech.setOnUtteranceCompletedListener(listener);

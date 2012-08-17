@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -52,10 +53,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+
 	private Solo solo;
 
 	public ProjectActivityTest() {
-		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -68,14 +70,15 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	public void tearDown() throws Exception {
 		ProjectManager.getInstance().deleteCurrentProject();
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	private void addNewSprite(String spriteName) {
-		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.sleep(500);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -163,6 +166,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
+		Log.v("ProjectActivityTest", sprite.getName());
 		assertEquals("Sprite on position wasn't renamed correctly", newSpriteName, sprite.getName());
 
 		// Delete sprite
@@ -184,11 +188,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		boolean buttonFound = solo.getView(R.id.btn_home) != null ? true : false;
-		assertTrue("Main menu is not visible", buttonFound);
+		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
+				solo.getCurrentActivity() instanceof MainMenuActivity);
 	}
 
 	public void testChangeOrientation() {
@@ -238,7 +242,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		TextView textView = solo.getText(9);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
 		solo.clickLongOnText(spriteName);
-		expectedLineCount = 3;
+		expectedLineCount = 2;
 		TextView textView2 = solo.getText(0);
 		assertEquals("linecount is wrong", expectedLineCount, textView2.getLineCount());
 	}
@@ -453,7 +457,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(50);
 	}
 

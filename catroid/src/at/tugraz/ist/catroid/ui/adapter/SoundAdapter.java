@@ -26,8 +26,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,24 +37,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> {
-	protected ArrayList<SoundInfo> soundInfoItems;
-	protected SoundActivity activity;
 
-	public SoundAdapter(final SoundActivity activity, int textViewResourceId, ArrayList<SoundInfo> items) {
-		super(activity, textViewResourceId, items);
-		this.activity = activity;
+	protected ArrayList<SoundInfo> soundInfoItems;
+	protected Context context;
+
+	private OnSoundEditListener onSoundEditListener;
+
+	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
+		super(context, textViewResourceId, items);
+		this.context = context;
 		soundInfoItems = items;
+	}
+
+	public void setOnSoundEditListener(OnSoundEditListener listener) {
+		onSoundEditListener = listener;
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = View.inflate(activity, R.layout.activity_sound_soundlist_item, null);
+			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
 		}
 
 		final SoundInfo soundInfo = soundInfoItems.get(position);
@@ -67,19 +75,20 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
 			Button pauseSoundButton = (Button) convertView.findViewById(R.id.btn_sound_pause);
 			Button playSoundButton = (Button) convertView.findViewById(R.id.btn_sound_play);
+			Button deleteSoundButton = (Button) convertView.findViewById(R.id.btn_sound_delete);
 			TextView soundFileSize = (TextView) convertView.findViewById(R.id.sound_size);
 			TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
 
 			if (soundInfo.isPlaying) {
-				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker_playing));
+				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker_playing));
 				playSoundButton.setVisibility(Button.GONE);
 				pauseSoundButton.setVisibility(Button.VISIBLE);
 			} else if (soundInfo.isPaused) {
-				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker));
 				playSoundButton.setVisibility(Button.VISIBLE);
 				pauseSoundButton.setVisibility(Button.GONE);
 			} else {
-				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker));
 				playSoundButton.setVisibility(Button.VISIBLE);
 				pauseSoundButton.setVisibility(Button.GONE);
 			}
@@ -103,8 +112,56 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			}
 
 			soundNameTextView.setText(soundInfo.getTitle());
+
+			soundNameTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onSoundEditListener != null) {
+						onSoundEditListener.onSoundRename(v);
+					}
+				}
+			});
+
+			playSoundButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onSoundEditListener != null) {
+						onSoundEditListener.onSoundPlay(v);
+					}
+				}
+			});
+
+			pauseSoundButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onSoundEditListener != null) {
+						onSoundEditListener.onSoundPause(v);
+					}
+				}
+			});
+
+			deleteSoundButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onSoundEditListener != null) {
+						onSoundEditListener.onSoundDelete(v);
+					}
+				}
+			});
 		}
 
 		return convertView;
+	}
+
+	public interface OnSoundEditListener {
+
+		public void onSoundRename(View v);
+
+		public void onSoundPlay(View v);
+
+		public void onSoundPause(View v);
+
+		public void onSoundDelete(View v);
+
 	}
 }

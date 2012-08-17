@@ -29,12 +29,12 @@
  -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true" 
-    	android:color="@android:color/black" />
-    <item android:state_selected="false" 
     	android:color="@android:color/white" />
+    <item android:state_selected="false" 
+    	android:color="@color/tab_text_unselected_light_gray" />
     <item android:state_focused="true" 
-    	android:color="@android:color/black" />
+    	android:color="@android:color/white" />
     <item android:state_pressed="true" 
-    	android:color="@android:color/black" />
+    	android:color="@android:color/white" />
     <item android:color="#f8f8f8" />
 </selector>

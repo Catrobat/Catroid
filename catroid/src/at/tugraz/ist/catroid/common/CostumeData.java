@@ -22,13 +22,17 @@
  */
 package at.tugraz.ist.catroid.common;
 
+import java.io.Serializable;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class CostumeData {
+public class CostumeData implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String fileName;
@@ -37,6 +41,9 @@ public class CostumeData {
 	private transient Integer height;
 	private transient static final int THUMBNAIL_WIDTH = 150;
 	private transient static final int THUMBNAIL_HEIGHT = 150;
+
+	public CostumeData() {
+	}
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
