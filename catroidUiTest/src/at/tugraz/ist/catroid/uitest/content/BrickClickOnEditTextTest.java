@@ -43,11 +43,11 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 
 	public BrickClickOnEditTextTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -55,6 +55,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		super.setUp();
 		UiTestUtils.createEmptyProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		getIntoActivity();
 	}
 
 	@Override
@@ -75,34 +76,13 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 	}
 
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
-		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
-
-		String settingsText = solo.getString(R.string.settings);
-		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
 		String categoryMotionText = solo.getString(R.string.category_motion);
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-		//disable mindstorm bricks, if enabled at start
-		if (!prefs.getBoolean("setting_mindstorm_bricks", false)) {
-			UiTestUtils.goToHomeActivity(getActivity());
-			solo.clickOnText(settingsText);
-			solo.clickOnText(prefMsBricks);
-			solo.goBack();
-			solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-			UiTestUtils.clearAllUtilTestProjects();
-			UiTestUtils.createEmptyProject();
-			solo.sleep(200);
-			solo.clickOnText(solo.getString(R.string.current_project_button));
-			solo.sleep(100);
-			solo.waitForActivity(ProjectActivity.class.getSimpleName());
-			solo.clickInList(1);
-		}
 
 		int categoryStringId = 0;
 		float screenWidth = 0;
 		float getTextViewXPosition = 0;
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -117,7 +97,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_y);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -133,7 +113,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -242,5 +222,30 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<S
 
 		solo.scrollUp();
 		solo.goBack();
+	}
+
+	private void getIntoActivity() {
+		String settingsText = solo.getString(R.string.settings);
+		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		// enable mindstorm bricks, if disabled at start
+		if (!prefs.getBoolean("setting_mindstorm_bricks", false)) {
+			solo.clickOnText(settingsText);
+			solo.clickOnText(prefMsBricks);
+			solo.goBack();
+			solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		}
+
+		UiTestUtils.clearAllUtilTestProjects();
+		UiTestUtils.createEmptyProject();
+
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickInList(0);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 	}
 }

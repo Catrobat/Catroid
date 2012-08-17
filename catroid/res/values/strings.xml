@@ -129,7 +129,6 @@
     <string name="script_context_menu_title">Script Menu</string>
     
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_title">Brick Menu</string>
     <string name="brick_context_dialog_move_brick">Move Brick</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>

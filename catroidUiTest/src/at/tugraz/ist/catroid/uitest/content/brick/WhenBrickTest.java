@@ -35,7 +35,6 @@ import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
@@ -57,7 +56,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		getIntoActivity();
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -164,15 +163,6 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		assertTrue("Wrong Script instance.",
 				(ProjectManager.getInstance().getCurrentSprite().getScript(2) instanceof WhenScript));
-	}
-
-	private void getIntoActivity() {
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickInList(0);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 	}
 
 	private void createProject() {

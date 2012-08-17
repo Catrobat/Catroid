@@ -44,8 +44,6 @@ import at.tugraz.ist.catroid.content.bricks.NestingBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -62,7 +60,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		getIntoActivity();
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -276,15 +274,6 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		checkIfForeverLoopsAreCorrectlyPlaced(0);
 		checkIfForeverLoopsAreCorrectlyPlaced(1);
 		checkIfForeverLoopsAreCorrectlyPlaced(2);
-	}
-
-	private void getIntoActivity() {
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickInList(0);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 	}
 
 	private void createProject() {
