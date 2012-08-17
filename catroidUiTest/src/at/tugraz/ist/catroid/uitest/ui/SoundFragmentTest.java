@@ -86,7 +86,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void tearDown() throws Exception {
-		//UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -168,8 +167,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
-		// needed to fix NullPointerException in next Testcase
-		//solo.finishInactiveActivities();
 	}
 
 	public void testMainMenuButton() {
@@ -178,8 +175,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
-		// needed to fix NullPointerException in next Testcase
-		//solo.finishInactiveActivities();
 	}
 
 	public void testDialogsOnChangeOrientation() {

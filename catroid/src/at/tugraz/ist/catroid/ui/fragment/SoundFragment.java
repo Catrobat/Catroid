@@ -259,6 +259,18 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.view_below_soundlist_non_scrollable:
+				startSelectSoundIntent();
+				break;
+			case R.id.soundlist_footerview:
+				startSelectSoundIntent();
+				break;
+		}
+	}
+
 	private void copySoundToCatroid(String audioPath) {
 		try {
 			if (audioPath.equalsIgnoreCase("")) {
@@ -405,18 +417,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 					adapter.notifyDataSetChanged();
 				}
 			}
-		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.view_below_soundlist_non_scrollable:
-				startSelectSoundIntent();
-				break;
-			case R.id.soundlist_footerview:
-				startSelectSoundIntent();
-				break;
 		}
 	}
 }
