@@ -25,14 +25,18 @@ package at.tugraz.ist.catroid.utils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
@@ -143,6 +147,7 @@ public class UtilFile {
 		File[] sdFileList = directory.listFiles();
 		for (File file : sdFileList) {
 			FilenameFilter filenameFilter = new FilenameFilter() {
+				@Override
 				public boolean accept(File dir, String filename) {
 					return filename.contentEquals(Constants.PROJECTCODE_NAME);
 				}
@@ -158,6 +163,7 @@ public class UtilFile {
 		List<File> projectList = new ArrayList<File>();
 		File[] sdFileList = directory.listFiles();
 		FilenameFilter filenameFilter = new FilenameFilter() {
+			@Override
 			public boolean accept(File dir, String filename) {
 				return filename.contentEquals(Constants.PROJECTCODE_NAME);
 			}
@@ -168,6 +174,62 @@ public class UtilFile {
 			}
 		}
 		return projectList;
+	}
+
+	public static void copyProject(String newProjectName, String oldProjectName) throws IOException {
+		if (Utils.deleteSpecialCharactersInString(newProjectName) == "") {
+			return;
+		}
+		File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
+		File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
+
+		copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
+		Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);
+		copiedProject.setName(newProjectName);
+		StorageHandler.getInstance().saveProject(copiedProject);
+	}
+
+	private static void copyDirectory(File destinationFile, File sourceFile) throws IOException {
+		if (sourceFile.isDirectory()) {
+
+			destinationFile.mkdirs();
+			for (String subDirectoryName : sourceFile.list()) {
+				copyDirectory(new File(destinationFile, subDirectoryName), new File(sourceFile, subDirectoryName));
+			}
+		} else {
+			copyFile(destinationFile, sourceFile, null);
+		}
+	}
+
+	public static File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
+		FileInputStream inputStream = null;
+		FileChannel inputChannel = null;
+		FileOutputStream outputStream = null;
+		FileChannel outputChannel = null;
+		try {
+			inputStream = new FileInputStream(sourceFile);
+			inputChannel = inputStream.getChannel();
+			outputStream = new FileOutputStream(destinationFile);
+			outputChannel = outputStream.getChannel();
+			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
+			return destinationFile;
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (inputChannel != null) {
+				inputChannel.close();
+			}
+			if (inputStream != null) {
+				inputStream.close();
+			}
+			if (outputChannel != null) {
+				outputChannel.close();
+			}
+			if (outputStream != null) {
+				outputStream.close();
+			}
+		}
 	}
 
 }

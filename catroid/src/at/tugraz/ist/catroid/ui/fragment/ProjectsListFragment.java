@@ -186,6 +186,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				CONTEXT_MENU_ITEM_DESCRIPTION);
 		adapter.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
 				CONTEXT_MENU_ITEM_DELETE);
+		adapter.addItem(resources, "Copy", R.drawable.ic_context_copy, CONTEXT_MENU_ITEM_DELETE);
 		iconContextMenu.setAdapter(adapter);
 
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
@@ -204,6 +205,14 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 						dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
 						dialogSetDescription.show(getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
 						break;
+					/*
+					 * case CONTEXT_MENU_ITEM_COPY:
+					 * CopyProjectDialog dialogCopyProject = CopyProjectDialog
+					 * .newInstance(projectToEdit.projectName);
+					 * dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
+					 * dialogSetDescription.show(getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+					 * break;
+					 */
 					case CONTEXT_MENU_ITEM_DELETE:
 						deleteProject();
 						break;
