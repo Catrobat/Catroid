@@ -44,6 +44,7 @@ public class XmlSerializer {
 				xmlWriter.print(xmlLine);
 			}
 			xmlWriter.flush();
+			xmlWriter.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new SerializeException("Exception when Serializing to xml", e);

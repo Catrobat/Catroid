@@ -348,7 +348,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		StartScript referencedScript = (StartScript) TestUtils.getPrivateField("script", loadedScriptBrick, false);
 		assertEquals("Script referencing of bricks wrong", loadedFirstSprite.getScript(0), referencedScript);
 		UtilFile.deleteDirectory(projectDirectory);
-		//TestUtils.deleteTestProjects("test__referenceProject");
+		//TestUtils.deleteTestProjects("xml test");
 	}
 
 	public void testSerializePerformanceTest() {
