@@ -112,6 +112,7 @@
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
+    <string name="myprojectlist_footer_image_description">Hier drücken, um neues Projekt hinzuzufügen</string>
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
     <!-- New project dialog -->
