@@ -167,6 +167,21 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		}
 	}
 
+	@Override
+	public void onClick(View v) {
+		NewSpriteDialog dialog = null;
+		switch (v.getId()) {
+			case R.id.view_below_spritelist_non_scrollable:
+				dialog = new NewSpriteDialog();
+				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				break;
+			case R.id.spritelist_footerview:
+				dialog = new NewSpriteDialog();
+				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				break;
+		}
+	}
+
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
@@ -283,21 +298,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED)) {
 				spriteAdapter.notifyDataSetChanged();
 			}
-		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		NewSpriteDialog dialog = null;
-		switch (v.getId()) {
-			case R.id.view_below_spritelist_non_scrollable:
-				dialog = new NewSpriteDialog();
-				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-				break;
-			case R.id.spritelist_footerview:
-				dialog = new NewSpriteDialog();
-				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-				break;
 		}
 	}
 }

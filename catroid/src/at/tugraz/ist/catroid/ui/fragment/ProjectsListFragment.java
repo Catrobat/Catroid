@@ -135,6 +135,21 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		initAdapter();
 	}
 
+	@Override
+	public void onClick(View v) {
+		NewProjectDialog dialog = null;
+		switch (v.getId()) {
+			case R.id.view_below_myprojectlist_non_scrollable:
+				dialog = new NewProjectDialog();
+				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+				break;
+			case R.id.myprojectlist_footerview:
+				dialog = new NewProjectDialog();
+				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+				break;
+		}
+	}
+
 	private void initAdapter() {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
@@ -270,21 +285,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		public ProjectData(String projectName, long lastUsed) {
 			this.projectName = projectName;
 			this.lastUsed = lastUsed;
-		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		NewProjectDialog dialog = null;
-		switch (v.getId()) {
-			case R.id.view_below_myprojectlist_non_scrollable:
-				dialog = new NewProjectDialog();
-				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
-				break;
-			case R.id.myprojectlist_footerview:
-				dialog = new NewProjectDialog();
-				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
-				break;
 		}
 	}
 }
