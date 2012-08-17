@@ -84,7 +84,6 @@ public class ProjectManager {
 				Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 			}
 			return false;
-
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
 			project = oldProject;
@@ -93,7 +92,6 @@ public class ProjectManager {
 				// TODO show dialog to download latest catroid version instead
 			}
 			return false;
-
 		} else {
 			// Set generic localized name on background sprite and move it to the back.
 			if (project.getSpriteList().size() > 0) {
