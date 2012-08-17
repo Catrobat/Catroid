@@ -62,7 +62,6 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
-		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -184,12 +183,13 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	private void prepareTest() {
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
 		createProject();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.sleep(200);
 
-		solo.clickOnText(solo.getString(R.string.background));
+		solo.clickInList(0);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 	}
