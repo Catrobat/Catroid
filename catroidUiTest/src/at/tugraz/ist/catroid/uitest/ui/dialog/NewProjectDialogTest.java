@@ -109,4 +109,23 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("EditText was not empty", "", editText.getText().toString());
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
 	}
+
+	public void testProjectDescriptionNewProject() {
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.sleep(2000);
+
+		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
+		EditText newProjectDescription = (EditText) solo.getView(R.id.project_description_edittext);
+		int newProjectInputType = newProject.getInputType();
+		int newProjectDescriptionInputType = newProjectDescription.getInputType();
+		int newProjectInputTypeToCheck = android.text.InputType.TYPE_CLASS_TEXT
+				+ android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		int newProjectDescriptionInputTypeToCheck = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+				+ android.text.InputType.TYPE_CLASS_TEXT + android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		solo.sleep(2000);
+
+		assertEquals("New project name field is not a text field!", newProjectInputType, newProjectInputTypeToCheck);
+		assertEquals("Project description field is not a text area!", newProjectDescriptionInputType,
+				newProjectDescriptionInputTypeToCheck);
+	}
 }
