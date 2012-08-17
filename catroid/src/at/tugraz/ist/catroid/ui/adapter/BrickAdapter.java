@@ -778,7 +778,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	@Override
 	public void setTouchedScript(int index) {
-		if (index >= 0 && brickList.get(index) instanceof ScriptBrick && draggedBrick == null) {
+		if (index >= 0 && index < brickList.size() && brickList.get(index) instanceof ScriptBrick
+				&& draggedBrick == null) {
 			int scriptIndex = getScriptIndexFromProject(index);
 			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
 		}
