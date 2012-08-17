@@ -45,15 +45,21 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 	@XStreamOmitField
 	private transient View view;
 
+	public ChangeXByBrick() {
+
+	}
+
 	public ChangeXByBrick(Sprite sprite, int xMovement) {
 		this.sprite = sprite;
 		this.xMovement = xMovement;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		sprite.costume.aquireXYWidthHeightLock();
 		int xPosition = (int) sprite.costume.getXPosition();
@@ -70,10 +76,12 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		sprite.costume.releaseXYWidthHeightLock();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_change_x, null);
@@ -89,6 +97,7 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_change_x, null);
 	}
@@ -98,9 +107,10 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		return new ChangeXByBrick(getSprite(), xMovement);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -108,7 +118,7 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -116,11 +126,11 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_x_by_brick");
 	}
 }

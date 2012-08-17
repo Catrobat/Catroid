@@ -53,6 +53,10 @@ public class NXTMotorTurnAngleBrick implements Brick {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
 	}
 
+	public NXTMotorTurnAngleBrick() {
+
+	}
+
 	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
@@ -170,80 +174,83 @@ public class NXTMotorTurnAngleBrick implements Brick {
 
 		return brickView;
 	}
-	
+
 	private class EditNxtMotorTurnAngleBrickDialog extends DialogFragment {
-		
+
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
 		}
-		
+
 		@Override
 		public void onDestroyView() {
-			if (getDialog() != null && getRetainInstance())
+			if (getDialog() != null && getRetainInstance()) {
 				getDialog().setOnDismissListener(null);
+			}
 			super.onDestroyView();
 		}
-		
+
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			final EditText input = new EditText(getActivity());
 			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 			//final EditIntegerDialog test = new EditIntegerDialog(context, input, angle, false);
 			input.setText(degrees + "");
-			
-			Dialog dialog = new AlertDialog.Builder(getActivity())
-				.setView(input)
-				.setTitle("Choose and edit direction")
-				.setSingleChoiceItems(R.array.fancy_directions_chooser, -1, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
 
-						switch (item) {
-							case 0:
-								input.setText("45");
-								break;
-							case 1:
-								input.setText("90");
-								break;
-							case 2:
-								input.setText("-45");
-								break;
-							case 3:
-								input.setText("-90");
-								break;
-							case 4:
-								input.setText("180");
-								break;
-							case 5:
-								input.setText("360");
-								break;
-						}
+			Dialog dialog = new AlertDialog.Builder(getActivity()).setView(input).setTitle("Choose and edit direction")
+					.setSingleChoiceItems(R.array.fancy_directions_chooser, -1, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int item) {
 
-						//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-					}
-				}).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						if (input.getText().toString().equals("")) {
-							input.setText("0");
+							switch (item) {
+								case 0:
+									input.setText("45");
+									break;
+								case 1:
+									input.setText("90");
+									break;
+								case 2:
+									input.setText("-45");
+									break;
+								case 3:
+									input.setText("-90");
+									break;
+								case 4:
+									input.setText("180");
+									break;
+								case 5:
+									input.setText("360");
+									break;
+							}
+
+							//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
 						}
-						editX.setText(input.getText().toString());
-						degrees = Integer.parseInt(input.getText().toString());
-					}
-				}).setNegativeButton(getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-					}
-				}).create();
-			
+					}).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (input.getText().toString().equals("")) {
+								input.setText("0");
+							}
+							editX.setText(input.getText().toString());
+							degrees = Integer.parseInt(input.getText().toString());
+						}
+					}).setNegativeButton(getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					}).create();
+
 			dialog.setOnShowListener(new OnShowListener() {
+				@Override
 				public void onShow(DialogInterface dialog) {
-					InputMethodManager inputManager = (InputMethodManager) getActivity()
-							.getSystemService(Context.INPUT_METHOD_SERVICE);
+					InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
 					inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
 				}
 			});
-			
+
 			return dialog;
 		}
 	}

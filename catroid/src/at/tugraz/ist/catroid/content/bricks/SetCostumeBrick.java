@@ -45,6 +45,11 @@ public class SetCostumeBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public SetCostumeBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
@@ -53,6 +58,7 @@ public class SetCostumeBrick implements Brick {
 		this.costumeData = costumeData;
 	}
 
+	@Override
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			if (!NativeAppActivity.isRunning()) {
@@ -63,6 +69,7 @@ public class SetCostumeBrick implements Brick {
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -71,6 +78,7 @@ public class SetCostumeBrick implements Brick {
 		return costumeData.getAbsolutePath();
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_set_costume, null);
@@ -81,6 +89,7 @@ public class SetCostumeBrick implements Brick {
 		costumebrickSpinner.setFocusable(true);
 
 		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0) {
 					costumeData = null;
@@ -89,6 +98,7 @@ public class SetCostumeBrick implements Brick {
 				}
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
@@ -120,6 +130,7 @@ public class SetCostumeBrick implements Brick {
 		return arrayAdapter;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_set_costume, null);
 		if (sprite.getName().equals(context.getString(R.string.background))) {

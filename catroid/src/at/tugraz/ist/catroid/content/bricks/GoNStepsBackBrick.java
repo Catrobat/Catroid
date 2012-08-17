@@ -45,10 +45,16 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		this.steps = steps;
 	}
 
+	public GoNStepsBackBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		int zPosition = sprite.costume.zPosition;
 		if (steps > 0 && (zPosition - steps) > zPosition) {
@@ -60,10 +66,12 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		View view = View.inflate(context, R.layout.brick_go_back, null);
 
@@ -78,6 +86,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_go_back, null);
 	}
@@ -87,9 +96,10 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		return new GoNStepsBackBrick(getSprite(), steps);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -97,7 +107,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -105,11 +115,11 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_go_n_steps_brick");
 	}
 }

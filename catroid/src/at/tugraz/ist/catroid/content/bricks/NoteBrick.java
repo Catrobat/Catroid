@@ -50,6 +50,10 @@ public class NoteBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public NoteBrick() {
+
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

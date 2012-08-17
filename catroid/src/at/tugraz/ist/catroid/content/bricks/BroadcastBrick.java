@@ -57,10 +57,12 @@ public class BroadcastBrick implements Brick {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		final Vector<BroadcastScript> receiver = projectManager.getMessageContainer().getReceiverOfMessage(
 				broadcastMessage);
@@ -71,6 +73,7 @@ public class BroadcastBrick implements Brick {
 			return;
 		}
 		Thread startThread = new Thread(new Runnable() {
+			@Override
 			public void run() {
 				CountDownLatch simultaneousStart = new CountDownLatch(1);
 				for (BroadcastScript receiverScript : receiver) {
@@ -82,6 +85,7 @@ public class BroadcastBrick implements Brick {
 		startThread.start();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -99,6 +103,7 @@ public class BroadcastBrick implements Brick {
 		return this;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_broadcast, null);
@@ -111,6 +116,7 @@ public class BroadcastBrick implements Brick {
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
 
+			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (start) {
 					start = false;
@@ -122,6 +128,7 @@ public class BroadcastBrick implements Brick {
 				}
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
@@ -137,14 +144,15 @@ public class BroadcastBrick implements Brick {
 
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
+			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) context;
-				
+
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override
 					protected void initialize() {
 					}
-					
+
 					@Override
 					protected boolean handleOkButton() {
 						String newMessage = (input.getText().toString()).trim();
@@ -153,24 +161,25 @@ public class BroadcastBrick implements Brick {
 							dismiss();
 							return false;
 						}
-						
+
 						broadcastMessage = newMessage;
 						projectManager.getMessageContainer().addMessage(broadcastMessage);
 						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(
 								broadcastMessage);
 
 						broadcastSpinner.setSelection(position);
-						
+
 						return true;
 					}
 				};
-				
+
 				editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_brick");
 			}
 		});
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_broadcast, null);
 	}
@@ -178,5 +187,9 @@ public class BroadcastBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new BroadcastBrick(sprite);
+	}
+
+	public BroadcastBrick() {
+
 	}
 }

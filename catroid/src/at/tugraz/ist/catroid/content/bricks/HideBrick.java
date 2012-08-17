@@ -41,18 +41,26 @@ public class HideBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public HideBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		sprite.costume.show = false;
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_hide, null);
@@ -66,6 +74,7 @@ public class HideBrick implements Brick {
 		return new HideBrick(getSprite());
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_hide, null);
 	}

@@ -50,6 +50,10 @@ public class NXTMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
 	}
 
+	public NXTMotorActionBrick() {
+
+	}
+
 	private Sprite sprite;
 	private String motor;
 	private transient Motor motorEnum;
