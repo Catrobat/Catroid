@@ -22,18 +22,21 @@
  */
 package at.tugraz.ist.catroid.common;
 
+import java.io.Serializable;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class CostumeData {
+public class CostumeData implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String fileName;
@@ -74,6 +77,9 @@ public class CostumeData {
 		}
 		return originalPixmap;
 
+	}
+
+	public CostumeData() {
 	}
 
 	public String getAbsolutePath() {

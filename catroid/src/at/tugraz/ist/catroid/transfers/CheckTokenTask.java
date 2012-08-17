@@ -23,12 +23,10 @@
 package at.tugraz.ist.catroid.transfers;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
@@ -40,11 +38,17 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 
 	private WebconnectionException exception;
 
+	private OnCheckTokenCompleteListener onCheckTokenCompleteListener;
+	
 	public CheckTokenTask(Activity activity, String token) {
 		this.activity = activity;
 		this.token = token;
 	}
 
+	public void setOnCheckTokenCompleteListener(OnCheckTokenCompleteListener listener) {
+		onCheckTokenCompleteListener = listener;
+	}
+	
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
@@ -88,11 +92,16 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 		}
 		if (!success) {
 			// token is not valid -> maybe password has changed
-			new LoginRegisterDialog(activity).show();
+			if (onCheckTokenCompleteListener != null) {
+				onCheckTokenCompleteListener.onTokenNotValid();
+			}
+			
 			return;
 		}
-
-		activity.showDialog(MainMenuActivity.DIALOG_UPLOAD_PROJECT);
+		
+		if (onCheckTokenCompleteListener != null) {
+			onCheckTokenCompleteListener.onCheckTokenSuccess();
+		}
 	}
 
 	private void showDialog(int messageId) {
@@ -106,4 +115,10 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 		}
 	}
 
+	public interface OnCheckTokenCompleteListener {
+		
+		public void onTokenNotValid();
+		public void onCheckTokenSuccess();
+		
+	}
 }

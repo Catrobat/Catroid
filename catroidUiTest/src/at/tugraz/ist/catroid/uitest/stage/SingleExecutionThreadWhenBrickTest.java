@@ -58,7 +58,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 	String broadcastMessage = "broadcastMessage";
 
 	public SingleExecutionThreadWhenBrickTest() {
-		super("at.tugraz.ist.catroid", StageActivity.class);
+		super(StageActivity.class);
 	}
 
 	@Override
@@ -70,6 +70,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 
 	@Override
 	public void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

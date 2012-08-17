@@ -42,7 +42,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 	private Solo solo;
 
 	public BrickDragAndDropTest() {
-		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
+		super(ScriptTabActivity.class);
 	}
 
 	@Override
@@ -54,6 +54,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	protected void tearDown() throws Exception {
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -84,8 +85,8 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<Scrip
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
 		solo.clickOnText(spriteName);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
-		solo.goBack();
+		yPositionList = UiTestUtils.getListItemYPositions(solo);
+		solo.clickOnScreen(10, yPositionList.get(3));
 
 		solo.clickOnText(spriteName);
 		ImageView trash = (ImageView) solo.getView(R.id.trash);

@@ -22,65 +22,61 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
+import at.tugraz.ist.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
-import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
-import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class MainMenuActivity extends Activity {
-	private static final String PROJECTNAME_TAG = "fname=";
-	private ActivityHelper activityHelper;
-	private TextView titleText;
-	public static final int DIALOG_NEW_PROJECT = 0;
-	private static final int DIALOG_LOAD_PROJECT = 1;
-	public static final int DIALOG_UPLOAD_PROJECT = 2;
-	private static final int DIALOG_ABOUT = 3;
-	private static final int DIALOG_LOGIN_REGISTER = 4;
-	private boolean ignoreResume = false;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
-	public void updateProjectName() {
-		onPause();
-		onResume();
-	}
+public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
+
+	private static final String TAG = "MainMenuActivity";
+	private static final String PROJECTNAME_TAG = "fname=";
+
+	private ProjectManager projectManager;
+
+	private ActionBar actionBar;
+
+	private boolean ignoreResume = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		activityHelper = new ActivityHelper(this);
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
 
+		actionBar = getSupportActionBar();
+		actionBar.setDisplayUseLogoEnabled(true);
+
+		projectManager = ProjectManager.getInstance();
 		Utils.loadProjectIfNeeded(this);
 
-		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
+		if (projectManager.getCurrentProject() == null) {
 			findViewById(R.id.current_project_button).setEnabled(false);
 		}
 
@@ -92,13 +88,16 @@ public class MainMenuActivity extends Activity {
 			return;
 		}
 		if (loadExternalProjectUri.getScheme().equals("http")) {
-
 			String url = loadExternalProjectUri.toString();
 			int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
 			String projectName = url.substring(projectNameIndex);
-			projectName = URLDecoder.decode(projectName);
-			new ProjectDownloadTask(this, url, projectName).execute();
+			try {
+				projectName = URLDecoder.decode(projectName, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				Log.e(TAG, "Could not decode project name: " + projectName, e);
+			}
 
+			new ProjectDownloadTask(this, url, projectName).execute();
 		} else if (loadExternalProjectUri.getScheme().equals("file")) {
 
 			String path = loadExternalProjectUri.getPath();
@@ -108,7 +107,7 @@ public class MainMenuActivity extends Activity {
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
 				Utils.displayErrorMessage(this, getResources().getString(R.string.error_load_project));
 			} else {
-				if (ProjectManager.INSTANCE.loadProject(projectName, this, true)) {
+				if (projectManager.loadProject(projectName, this, true)) {
 					writeProjectTitleInTextfield();
 				}
 			}
@@ -122,25 +121,31 @@ public class MainMenuActivity extends Activity {
 		ignoreResume = false;
 		PreStageActivity.shutdownPersistentResources();
 
-		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
-
-		if (currentProject != null) {
-
-			activityHelper.setupActionBar(true,
-					getResources().getString(R.string.project_name) + " " + currentProject.getName());
-
-			activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
-					new View.OnClickListener() {
-						public void onClick(View v) {
-							if (ProjectManager.INSTANCE.getCurrentProject() != null) {
-								Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-								ignoreResume = true;
-								startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-							}
-						}
-					}, false);
-			this.titleText = (TextView) findViewById(R.id.tv_title);
+		if (projectManager.getCurrentProject() != null) {
+			String title = getString(R.string.project_name) + " " + projectManager.getCurrentProject().getName();
+			actionBar.setTitle(title);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_start: {
+				if (projectManager.getCurrentProject() != null) {
+					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+					ignoreResume = true;
+					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+				}
+				return true;
+			}
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -148,67 +153,6 @@ public class MainMenuActivity extends Activity {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
 			startActivity(intent);
-		}
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-		if (ProjectManager.INSTANCE.getCurrentProject() != null
-				&& StorageHandler.getInstance().projectExistsCheckCase(
-						ProjectManager.INSTANCE.getCurrentProject().getName())) {
-			ProjectManager.INSTANCE.saveProject();
-		}
-
-		switch (id) {
-			case DIALOG_NEW_PROJECT:
-				dialog = new NewProjectDialog(this).dialog;
-				break;
-			case DIALOG_LOAD_PROJECT:
-				dialog = new LoadProjectDialog(this);
-				break;
-			case DIALOG_ABOUT:
-				dialog = new AboutDialog(this);
-				break;
-			case DIALOG_UPLOAD_PROJECT:
-				dialog = new UploadProjectDialog(this);
-				break;
-			case DIALOG_LOGIN_REGISTER:
-				dialog = new LoginRegisterDialog(this);
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-		return dialog;
-	}
-
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		super.onPrepareDialog(id, dialog);
-		switch (id) {
-			case DIALOG_UPLOAD_PROJECT:
-				Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
-				String currentProjectName = currentProject.getName();
-				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
-				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
-				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
-				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/"
-						+ currentProjectName)));
-
-				projectRename.setVisibility(View.GONE);
-				projectUploadName.setText(ProjectManager.INSTANCE.getCurrentProject().getName());
-				projectDescriptionField.setText("");
-				projectUploadName.requestFocus();
-				projectUploadName.selectAll();
-				break;
-			case DIALOG_LOGIN_REGISTER:
-				EditText usernameEditText = (EditText) dialog.findViewById(R.id.username);
-				EditText passwordEditText = (EditText) dialog.findViewById(R.id.password);
-				usernameEditText.setText("");
-				passwordEditText.setText("");
-				break;
 		}
 	}
 
@@ -228,22 +172,21 @@ public class MainMenuActivity extends Activity {
 
 		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
 		writeProjectTitleInTextfield();
-
 	}
 
 	public void writeProjectTitleInTextfield() {
 		String title = this.getResources().getString(R.string.project_name) + " "
-				+ ProjectManager.INSTANCE.getCurrentProject().getName();
-		titleText.setText(title);
+				+ projectManager.getCurrentProject().getName();
+		actionBar.setTitle(title);
 	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
+
+		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-
 	}
 
 	@Override
@@ -267,7 +210,8 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleNewProjectButton(View v) {
-		showDialog(DIALOG_NEW_PROJECT);
+		NewProjectDialog dialog = new NewProjectDialog();
+		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handleLoadProjectButton(View v) {
@@ -280,9 +224,11 @@ public class MainMenuActivity extends Activity {
 		String token = preferences.getString(Constants.TOKEN, null);
 
 		if (token == null || token.length() == 0 || token.equals("0")) {
-			showDialog(DIALOG_LOGIN_REGISTER);
+			showLoginRegisterDialog();
 		} else {
-			new CheckTokenTask(this, token).execute();
+			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token);
+			checkTokenTask.setOnCheckTokenCompleteListener(this);
+			checkTokenTask.execute();
 		}
 	}
 
@@ -302,6 +248,23 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleAboutCatroidButton(View v) {
-		showDialog(DIALOG_ABOUT);
+		AboutDialog aboutDialog = new AboutDialog(this);
+		aboutDialog.show();
+	}
+
+	@Override
+	public void onTokenNotValid() {
+		showLoginRegisterDialog();
+	}
+
+	@Override
+	public void onCheckTokenSuccess() {
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showLoginRegisterDialog() {
+		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
+		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
 	}
 }

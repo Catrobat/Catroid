@@ -22,74 +22,58 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
+import android.content.Intent;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewSpriteDialog extends TextDialog {
 
-	public NewSpriteDialog(ProjectActivity projectActivity) {
-		super(projectActivity, projectActivity.getString(R.string.new_sprite_dialog_title), projectActivity
-				.getString(R.string.new_sprite_dialog_default_sprite_name));
-		initKeyAndClickListener();
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_sprite";
+
+	@Override
+	protected void initialize() {
 	}
 
-	public void handleOkButton() {
+	@Override
+	protected boolean handleOkButton() {
+		String newSpriteName = (input.getText().toString()).trim();
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		if (projectManager.spriteExists(newSpriteName)) {
+			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
+			return false;
+		}
 
 		String spriteName = input.getText().toString();
 
 		if (spriteName == null || spriteName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_invalid));
-			return;
+			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_invalid));
+			return false;
 		}
 
 		if (projectManager.spriteExists(spriteName)) {
-			Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_already_exists));
-			return;
+			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
+			return false;
 		}
+
 		Sprite sprite = new Sprite(spriteName);
 		projectManager.addSprite(sprite);
-		((ArrayAdapter<?>) ((ProjectActivity) activity).getListAdapter()).notifyDataSetChanged();
 
-		input.setText(null);
-		activity.dismissDialog(ProjectActivity.DIALOG_NEW_SPRITE);
+		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
+
+		return true;
 	}
 
-	private void initKeyAndClickListener() {
-		dialog.setOnKeyListener(new OnKeyListener() {
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					String newSpriteName = (input.getText().toString()).trim();
-					if (projectManager.spriteExists(newSpriteName)) {
-						Utils.displayErrorMessage(activity, activity.getString(R.string.spritename_already_exists));
-					} else {
-						handleOkButton();
-						return true;
-					}
-				}
-				return false;
-			}
-		});
-
-		buttonPositive.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				handleOkButton();
-			}
-		});
-
-		buttonNegative.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				input.setText(null);
-				activity.dismissDialog(ProjectActivity.DIALOG_NEW_SPRITE);
-			}
-		});
+	@Override
+	protected String getTitle() {
+		return getString(R.string.new_sprite_dialog_title);
 	}
 
+	@Override
+	protected String getHint() {
+		return getString(R.string.new_sprite_dialog_default_sprite_name);
+	}
 }
