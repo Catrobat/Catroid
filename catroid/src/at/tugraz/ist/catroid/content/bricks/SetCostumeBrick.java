@@ -54,13 +54,6 @@ public class SetCostumeBrick implements Brick {
 		this.costumeData = costumeData;
 	}
 
-	public CostumeData getCostumeData() {
-		if (costumeData != null) {
-			return costumeData;
-		}
-		return null;
-	}
-
 	@Override
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
