@@ -34,6 +34,7 @@
     <string name="delete">Löschen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="copy">Kopieren</string>
     <!-- General -->
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
@@ -112,6 +113,7 @@
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
+    <string name="copy_project">Projekt kopieren</string>
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
     <!-- New project dialog -->
@@ -247,6 +249,7 @@
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
+    <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>

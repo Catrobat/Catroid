@@ -567,6 +567,22 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
 
+	public void testRenameProjectWithOnlyBlacklistedCharacters() {
+		createProjects();
+		solo.sleep(200);
+		final String renameString = "<>?*|";
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, renameString);
+		solo.clickOnText(getActivity().getString(R.string.ok));
+		solo.waitForDialogToClose(500);
+		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+	}
+
 	public void testRenameToExistingProjectMixedCase() {
 		createProjects();
 		solo.sleep(200);
@@ -720,6 +736,119 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		projectManager.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
 		assertTrue("description is not set in project",
 				projectManager.getCurrentProject().description.equalsIgnoreCase(lorem));
+	}
+
+	public void testCopyCurrentProject() {
+		createProjects();
+
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+
+		solo.enterText(0, "testSprite");
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(200);
+
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
+		solo.clickOnText(getActivity().getString(R.string.copy));
+
+		solo.enterText(0, UiTestUtils.COPIED_PROJECT_NAME);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+
+		Project oldProject = ProjectManager.getInstance().getCurrentProject();
+		ArrayList<CostumeData> costumeDataListOldProject = oldProject.getSpriteList().get(1).getCostumeDataList();
+		CostumeData costumeDataOldProject = costumeDataListOldProject.get(0);
+		String oldChecksum = costumeDataOldProject.getChecksum();
+
+		solo.sleep(200);
+		solo.clickOnText(UiTestUtils.COPIED_PROJECT_NAME);
+		solo.sleep(300);
+
+		assertTrue("project " + UiTestUtils.COPIED_PROJECT_NAME + " was not added",
+				solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, 1, true));
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		assertTrue("The copied project should have all sprites from the source", spriteList.size() == 3);
+		assertTrue("The sprite name should be: 'testSprite'", solo.searchText("testSprite", 1, false));
+
+		Project copiedProject = ProjectManager.getInstance().getCurrentProject();
+		ArrayList<CostumeData> costumeDataListCopiedProject = copiedProject.getSpriteList().get(1).getCostumeDataList();
+		CostumeData costumeDataCopiedProject = costumeDataListCopiedProject.get(0);
+		String copiedCostumeChecksum = costumeDataCopiedProject.getChecksum();
+
+		assertTrue("Checksum should be the same", oldChecksum.equals(copiedCostumeChecksum));
+	}
+
+	public void testCopyProject() {
+		createProjects();
+
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.COPIED_PROJECT_NAME);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertTrue("Did not copy the selected project", solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, true));
+	}
+
+	public void testCopyProjectMixedCase() {
+		createProjects();
+
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+	}
+
+	public void testCopyProjectNoName() {
+		createProjects();
+
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.sleep(300);
+		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.sleep(200);
+		solo.clearEditText(0);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		String notificationEmptyString = solo.getString(R.string.notification_invalid_text_entered);
+		assertTrue("No or wrong error message shown", solo.searchText(notificationEmptyString));
+	}
+
+	public void testCopyProjectWithOnlyBlacklistedCharacters() {
+		createProjects();
+		solo.sleep(200);
+		final String renameString = "<>?*|";
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.clickOnText(getActivity().getString(R.string.copy));
+		solo.sleep(200);
+		UiTestUtils.enterText(solo, 0, renameString);
+		solo.clickOnText(getActivity().getString(R.string.ok));
+		solo.waitForDialogToClose(500);
+		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 	}
 
 	public void createProjects() {

@@ -22,24 +22,27 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.os.Bundle;
-import at.tugraz.ist.catroid.ProjectManager;
+import android.util.Log;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class RenameProjectDialog extends TextDialog {
+public class CopyProjectDialog extends TextDialog {
 
 	private static final String BUNDLE_ARGUMENTS_OLD_PROJECT_NAME = "old_project_name";
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_project";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_copy_project";
 
-	private OnProjectRenameListener onProjectRenameListener;
+	private OnCopyProjectListener onCopyProjectListener;
 
 	private String oldProjectName;
 
-	public static RenameProjectDialog newInstance(String oldProjectName) {
-		RenameProjectDialog dialog = new RenameProjectDialog();
+	public static CopyProjectDialog newInstance(String oldProjectName) {
+		CopyProjectDialog dialog = new CopyProjectDialog();
 
 		Bundle arguments = new Bundle();
 		arguments.putString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME, oldProjectName);
@@ -48,8 +51,8 @@ public class RenameProjectDialog extends TextDialog {
 		return dialog;
 	}
 
-	public void setOnProjectRenameListener(OnProjectRenameListener listener) {
-		onProjectRenameListener = listener;
+	public void setOnCopyProjectListener(OnCopyProjectListener listener) {
+		onCopyProjectListener = listener;
 	}
 
 	@Override
@@ -71,31 +74,19 @@ public class RenameProjectDialog extends TextDialog {
 			return false;
 		}
 
-		if (newProjectName.equals(oldProjectName)) {
-			dismiss();
-			return false;
-		}
-
 		if (newProjectName != null && !newProjectName.equalsIgnoreCase("")) {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			String currentProjectName = projectManager.getCurrentProject().getName();
-
-			// check if is current project
-			boolean isCurrentProject = false;
-			if (oldProjectName.equalsIgnoreCase(currentProjectName)) {
-				projectManager.renameProject(newProjectName, getActivity());
-
-				isCurrentProject = true;
-				Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, newProjectName);
-			} else {
-				projectManager.loadProject(oldProjectName, getActivity(), false);
-				projectManager.renameProject(newProjectName, getActivity());
-				projectManager.loadProject(currentProjectName, getActivity(), false);
+			try {
+				UtilFile.copyProject(newProjectName, oldProjectName);
+			} catch (IOException exception) {
+				Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
+				UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
+				Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
 			}
 
-			if (onProjectRenameListener != null) {
-				onProjectRenameListener.onProjectRename(isCurrentProject);
+			if (onCopyProjectListener != null) {
+				onCopyProjectListener.onCopyProject();
 			}
+
 		} else {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
 			return false;
@@ -106,7 +97,7 @@ public class RenameProjectDialog extends TextDialog {
 
 	@Override
 	protected String getTitle() {
-		return getString(R.string.rename_project);
+		return getString(R.string.copy_project);
 	}
 
 	@Override
@@ -114,9 +105,9 @@ public class RenameProjectDialog extends TextDialog {
 		return null;
 	}
 
-	public interface OnProjectRenameListener {
+	public interface OnCopyProjectListener {
 
-		public void onProjectRename(boolean isCurrentProject);
+		public void onCopyProject();
 
 	}
 }
