@@ -60,7 +60,6 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
 		//		final CountDownLatch latch = new CountDownLatch(1);
@@ -74,7 +73,6 @@ public class GlideToBrick implements Brick, OnClickListener {
 		//			latch.await();
 		//		} catch (InterruptedException e) {
 		//		}
-
 		long startTime = System.currentTimeMillis();
 		int duration = durationInMilliSeconds;
 		while (duration > 0) {
@@ -113,7 +111,6 @@ public class GlideToBrick implements Brick, OnClickListener {
 			sprite.costume.setXYPosition(xDestination, yDestination);
 			sprite.costume.releaseXYWidthHeightLock();
 		}
-
 	}
 
 	private void updatePositions(int timePassed, int duration) {
