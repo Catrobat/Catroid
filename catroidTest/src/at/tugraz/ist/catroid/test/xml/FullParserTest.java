@@ -269,7 +269,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		try {
 			Project testProject = parser.fullParser("test_malformed_project.xml");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			fail("Unexpected parse exception");
 			e.printStackTrace();
 		}
 	}
@@ -290,8 +290,10 @@ public class FullParserTest extends InstrumentationTestCase {
 			assertNotNull("loadedProject null", loadedProject2);
 			assertEquals("sprites not right", 2, loadedProject2.getSpriteList().size());
 		} catch (IOException e) {
+			fail("Unexpected parse exception");
 			e.printStackTrace();
 		} catch (ParseException e) {
+			fail("Unexpected parse exception");
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
