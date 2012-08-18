@@ -65,11 +65,7 @@ public class CopyProjectDialog extends TextDialog {
 	protected boolean handleOkButton() {
 		String newProjectName = (input.getText().toString()).trim();
 
-		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
-			return false;
-		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)
-				&& !newProjectName.equalsIgnoreCase(oldProjectName)) {
+		if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_project_exists));
 			return false;
 		}
