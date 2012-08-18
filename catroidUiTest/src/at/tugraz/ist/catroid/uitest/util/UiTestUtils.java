@@ -242,8 +242,13 @@ public class UiTestUtils {
 		} else {
 			solo.clickOnActionBarItem(R.id.menu_add);
 		}
-
+		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), 0, 5000)) {
+			fail("Text not shown in 5 secs!");
+		}
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
+		if (!solo.waitForText(solo.getCurrentActivity().getString(brickStringId), nThElement, 5000)) {
+			fail("Text not shown in 5 secs!");
+		}
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId), nThElement, true);
 		solo.sleep(500);
 	}
@@ -504,6 +509,10 @@ public class UiTestUtils {
 		field.set(object, value);
 	}
 
+	/**
+	 * @deprecated Will fail on devices with API > 14, replaced by {@link #clickOnActionBar(Solo, int)}
+	 */
+	@Deprecated
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
@@ -512,7 +521,9 @@ public class UiTestUtils {
 
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
 		if (Build.VERSION.SDK_INT < 15) {
-			UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+			solo.waitForView(LinearLayout.class);
+			LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
+			solo.clickOnView(linearLayout);
 		} else {
 			solo.clickOnActionBarItem(R.id.menu_add);
 		}
