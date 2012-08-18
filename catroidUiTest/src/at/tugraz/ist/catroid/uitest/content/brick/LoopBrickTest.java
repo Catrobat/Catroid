@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -119,7 +120,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		solo.clickOnScreen(20, yPos.get(3));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		clickOnDeleteInDialog();
 
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof ChangeYByBrick));
@@ -214,11 +215,10 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		solo.clickOnScreen(20, yPos.get(1));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.waitForDialogToClose(1000);
+		clickOnDeleteInDialog();
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		solo.clickOnScreen(20, yPos.get(1));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		clickOnDeleteInDialog();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_clear_graphic_effect);
 		yPos = UiTestUtils.getListItemYPositions(solo);
@@ -258,7 +258,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		solo.clickOnScreen(20, yPos.get(1));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		clickOnDeleteInDialog();
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
 		UiTestUtils.longClickAndDrag(solo, 20, yPos.get(4), 20, yPos.get(yPos.size() - 3), 20);
@@ -298,6 +298,16 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
+	}
+
+	private void clickOnDeleteInDialog() {
+		if (!solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick), 0, 5000)) {
+			fail("Text not shown in 5 secs!");
+		}
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		if (!solo.waitForView(ListView.class, 0, 5000)) {
+			fail("Dialog does not close in 5 sec!");
+		}
 	}
 
 	private void checkIfForeverLoopsAreCorrectlyPlaced(int position) {
