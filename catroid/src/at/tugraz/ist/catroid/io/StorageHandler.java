@@ -47,8 +47,6 @@ import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 public class StorageHandler {
 
@@ -62,11 +60,11 @@ public class StorageHandler {
 
 	private StorageHandler() throws IOException {
 
-		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
-		xstream.processAnnotations(Project.class);
-		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
-		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
-		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
+		//		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		//		xstream.processAnnotations(Project.class);
+		//		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
+		//		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
+		//		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 		fullParser = new FullParser();
 		serailizer = new XmlSerializer();
 		if (!Utils.hasSdCard()) {
@@ -96,12 +94,12 @@ public class StorageHandler {
 
 	public Project loadProject(String projectName) {
 		createCatroidRoot();
-
 		try {
 			if (NativeAppActivity.isRunning()) {
 				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
 				//return (Project) xstream.fromXML(spfFileStream);
-				return fullParser.parseSpritesWithProject(spfFileStream);
+				Project returned = fullParser.parseSpritesWithProject(spfFileStream);
+				return returned;
 			}
 
 			File projectDirectory = new File(Utils.buildProjectPath(projectName));
@@ -110,7 +108,8 @@ public class StorageHandler {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
 				//return (Project) xstream.fromXML(projectFileStream);
-				return fullParser.parseSpritesWithProject(projectFileStream);
+				Project returned = fullParser.parseSpritesWithProject(projectFileStream);
+				return returned;
 			} else {
 				return null;
 			}

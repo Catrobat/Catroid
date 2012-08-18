@@ -86,6 +86,15 @@ public class FullParserTest extends InstrumentationTestCase {
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Exception when parsing the headers");
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
 		}
 		assertNotNull("Values are null", values);
 		assertEquals("All the sprites are not captures or incorrect", 3, values.size());
@@ -257,10 +266,9 @@ public class FullParserTest extends InstrumentationTestCase {
 		FullParser parser = new FullParser();
 		try {
 			Project testProject = parser.fullParser("test_malformed_project.xml");
-			fail("Parseexception expected");
 		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			//fail("Parseexception expected");
 		}
 	}
 
@@ -280,11 +288,18 @@ public class FullParserTest extends InstrumentationTestCase {
 			assertNotNull("loadedProject null", loadedProject2);
 			assertEquals("sprites not right", 2, loadedProject2.getSpriteList().size());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
 		}
 	}
 }

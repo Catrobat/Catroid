@@ -40,10 +40,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import android.media.MediaPlayer;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -74,12 +77,21 @@ public class FullParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new ParseException("IO exception in full parser", e);
+		} catch (NoSuchFieldException e) {
+			throw new ParseException("Field exception, Sound handling", e);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			throw new ParseException("Field exception, Sound handling", e);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			throw new ParseException("Field exception, Sound handling", e);
 		}
 		return parsedProject;
 
 	}
 
-	public Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException {
+	public Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException, NoSuchFieldException,
+			IllegalArgumentException, IllegalAccessException {
 
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder;
@@ -133,7 +145,27 @@ public class FullParser {
 		}
 
 		setCheckSumsOnProjectManager(parsedProject);
+		initiateMediaPlayers(parsedProject);
 		return parsedProject;
+
+	}
+
+	private void initiateMediaPlayers(Project parsedProject) throws NoSuchFieldException, IllegalArgumentException,
+			IllegalAccessException {
+		List<Sprite> sprites = parsedProject.getSpriteList();
+		for (Sprite sprite : sprites) {
+			if (!(sprite.getSoundList().isEmpty())) {
+				Field mediaPlayers = SoundManager.class.getDeclaredField("mediaPlayers");
+				mediaPlayers.setAccessible(true);
+				ArrayList<MediaPlayer> mediaPlayerList = (ArrayList<MediaPlayer>) mediaPlayers.get(SoundManager
+						.getInstance());
+				if (mediaPlayerList.isEmpty()) {
+					SoundManager.getInstance().getMediaPlayer();
+					Log.i("Full Parser", "Media players added by parser");
+					break;
+				}
+			}
+		}
 
 	}
 

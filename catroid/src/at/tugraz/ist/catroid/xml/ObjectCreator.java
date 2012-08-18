@@ -32,7 +32,6 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.TreeMap;
 
-import android.util.Log;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -209,7 +208,7 @@ public class ObjectCreator {
 			}
 			clsConstructor = cls.getConstructor(String.class);
 		} catch (NoSuchMethodException ex) {
-			Log.i("ObjectCreator", "No method to create object, calling default constructor");
+			//Log.i("ObjectCreator", "No method to create object, calling default constructor");
 			try {
 				Constructor defaultConstructor = cls.getDeclaredConstructor();
 				defaultConstructor.setAccessible(true);
