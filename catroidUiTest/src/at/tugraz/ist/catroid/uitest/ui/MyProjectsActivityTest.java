@@ -832,7 +832,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnText(getActivity().getString(R.string.copy));
 		solo.sleep(200);
-		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, " ");
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		String notificationEmptyString = solo.getString(R.string.notification_invalid_text_entered);
