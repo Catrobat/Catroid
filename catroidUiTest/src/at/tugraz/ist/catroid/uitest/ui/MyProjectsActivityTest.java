@@ -744,7 +744,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_button);
+		solo.sleep(500);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
