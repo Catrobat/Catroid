@@ -160,6 +160,15 @@ public class SerializerTest extends InstrumentationTestCase {
 			} catch (FileNotFoundException e) {
 
 				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
 		}
@@ -317,6 +326,15 @@ public class SerializerTest extends InstrumentationTestCase {
 			} catch (FileNotFoundException e) {
 
 				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				fail("Exception when parsing the headers");
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+				fail("Exception when parsing the headers");
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				fail("Exception when parsing the headers");
 			}
 
 		}
@@ -348,7 +366,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		StartScript referencedScript = (StartScript) TestUtils.getPrivateField("script", loadedScriptBrick, false);
 		assertEquals("Script referencing of bricks wrong", loadedFirstSprite.getScript(0), referencedScript);
 		UtilFile.deleteDirectory(projectDirectory);
-		//TestUtils.deleteTestProjects("xml test");
+		//TestUtils.deleteTestProjects("My First Project");
 	}
 
 	public void testSerializePerformanceTest() {
@@ -391,6 +409,15 @@ public class SerializerTest extends InstrumentationTestCase {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
 		}
 		assertNotNull("big project null", loadedBigProject);
 		assertEquals("number of sprites wrong", 11, loadedBigProject.getSpriteList().size());
@@ -452,6 +479,15 @@ public class SerializerTest extends InstrumentationTestCase {
 		} catch (ParseException e) {
 
 			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail("Exception when parsing the headers");
 		}
 
 		assertNotNull("testproject is null", testProject);
@@ -459,4 +495,116 @@ public class SerializerTest extends InstrumentationTestCase {
 
 	}
 
+	public void testSavingWithNothingSelected() {
+		Sprite testSprite = new Sprite("test");
+
+		CostumeData referenceCostume = new CostumeData();
+		referenceCostume.setCostumeFilename("testfileName");
+		referenceCostume.setCostumeName("testName");
+
+		SoundInfo referencedSound = new SoundInfo();
+		referencedSound.setSoundFileName("soundFile");
+		referencedSound.setTitle("SongTitle");
+
+		SetCostumeBrick costumeBrick = new SetCostumeBrick(testSprite);
+		costumeBrick.setCostume(null);
+
+		PlaySoundBrick soundBrick = new PlaySoundBrick(testSprite);
+		soundBrick.setSoundInfo(null);
+
+		Script testScript = new StartScript(testSprite);
+
+		testScript.addBrick(costumeBrick);
+		testScript.addBrick(soundBrick);
+		testSprite.addScript(testScript);
+
+		try {
+			Field costumeField = Sprite.class.getDeclaredField("costumeDataList");
+			Field soundField = Sprite.class.getDeclaredField("soundList");
+			List<CostumeData> costumeList = new ArrayList<CostumeData>();
+			List<SoundInfo> soundList = new ArrayList<SoundInfo>();
+			costumeList.add(referenceCostume);
+			costumeField.setAccessible(true);
+			costumeField.set(testSprite, costumeList);
+			soundList.add(referencedSound);
+			soundField.setAccessible(true);
+			soundField.set(testSprite, soundList);
+		} catch (SecurityException e1) {
+
+			e1.printStackTrace();
+		} catch (NoSuchFieldException e1) {
+
+			e1.printStackTrace();
+		} catch (IllegalArgumentException e) {
+
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+
+			e.printStackTrace();
+		}
+
+		Project testProject = new Project();
+		testProject.setName("testReferenceSerializerProject");
+		testProject.addSprite(testSprite);
+
+		XmlSerializer serializer = new XmlSerializer();
+
+		String projectDirectoryName = Utils.buildProjectPath("test__" + testProject.getName());
+		File projectDirectory = new File(projectDirectoryName);
+
+		if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+			projectDirectory.mkdir();
+
+		}
+		try {
+			serializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+		} catch (SerializeException e) {
+			fail("unexpected SerilizeException");
+			e.printStackTrace();
+		}
+
+		Project loadedProject = null;
+		if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
+
+			try {
+				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
+						Constants.PROJECTCODE_NAME));
+				FullParser parser = new FullParser();
+				loadedProject = parser.parseSpritesWithProject(projectFileStream);
+			} catch (ParseException e) {
+
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				fail("Exception when parsing the headers");
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+				fail("Exception when parsing the headers");
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				fail("Exception when parsing the headers");
+			}
+
+		}
+		assertNotNull("loaded project is null", loadedProject);
+		Sprite loadedFirstSprite = loadedProject.getSpriteList().get(0);
+
+		CostumeData loadedCostume = loadedFirstSprite.getCostumeDataList().get(0);
+		assertNotNull("Costume not in sprite costumeList", loadedCostume);
+		SetCostumeBrick loadedCostumeBrick = (SetCostumeBrick) loadedFirstSprite.getScript(0).getBrick(0);
+		CostumeData brickReferencedCostumeData = (CostumeData) TestUtils.getPrivateField("costumeData",
+				loadedCostumeBrick, false);
+		assertNull("Costume data referencing wrong", brickReferencedCostumeData);
+
+		PlaySoundBrick loadedPlaySoundBrick = (PlaySoundBrick) loadedFirstSprite.getScript(0).getBrick(1);
+		SoundInfo brickReferenceSoundInfo = (SoundInfo) TestUtils.getPrivateField("soundInfo", loadedPlaySoundBrick,
+				false);
+		assertNull("Sound Info referencing wrong", brickReferenceSoundInfo);
+
+		UtilFile.deleteDirectory(projectDirectory);
+
+	}
 }
