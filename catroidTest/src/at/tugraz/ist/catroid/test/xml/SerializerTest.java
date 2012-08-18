@@ -139,10 +139,13 @@ public class SerializerTest extends InstrumentationTestCase {
 			}
 			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (IllegalArgumentException e) {
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (SecurityException e) {
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (SerializeException e) {
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		}
 
@@ -155,19 +158,19 @@ public class SerializerTest extends InstrumentationTestCase {
 				FullParser parser = new FullParser();
 				loadedProject = parser.parseSpritesWithProject(projectFileStream);
 			} catch (ParseException e) {
-
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			} catch (FileNotFoundException e) {
-
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			} catch (NoSuchFieldException e) {
-				// TODO Auto-generated catch block
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			}
 
@@ -275,16 +278,16 @@ public class SerializerTest extends InstrumentationTestCase {
 			soundField.setAccessible(true);
 			soundField.set(testSprite, soundList);
 		} catch (SecurityException e1) {
-
+			fail("unexpected SerilizeException");
 			e1.printStackTrace();
 		} catch (NoSuchFieldException e1) {
-
+			fail("unexpected SerilizeException");
 			e1.printStackTrace();
 		} catch (IllegalArgumentException e) {
-
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		}
 		otherScript.addBrick(hideBrick);
@@ -321,10 +324,10 @@ public class SerializerTest extends InstrumentationTestCase {
 				FullParser parser = new FullParser();
 				loadedProject = parser.parseSpritesWithProject(projectFileStream);
 			} catch (ParseException e) {
-
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			} catch (FileNotFoundException e) {
-
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
@@ -359,7 +362,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		assertEquals("Sound Info referencing wrong", loadedSound, brickReferenceSoundInfo);
 		assertTrue("PlaySoundBrick sprite soundInfo doesnt have referenced SoundInfo", loadedPlaySoundBrick.getSprite()
 				.getSoundList().contains(brickReferenceSoundInfo));
-		assertEquals(loadedPlaySoundBrick.getSprite(), loadedFirstSprite);
+		assertEquals("Sprites are different", loadedPlaySoundBrick.getSprite(), loadedFirstSprite);
 		PointToBrick loadedPointBrick = (PointToBrick) loadedFirstSprite.getScript(0).getBrick(4);
 		Sprite referencedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", loadedPointBrick, false);
 		assertEquals("SpriteReferencing wrong", loadedProject.getSpriteList().get(1), referencedSprite);
@@ -408,8 +411,10 @@ public class SerializerTest extends InstrumentationTestCase {
 					bigProjectDirectory.getAbsolutePath(), Constants.PROJECTCODE_NAME));
 			loadedBigProject = parser.parseSpritesWithProject(bigProjectFileStream);
 		} catch (ParseException e) {
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -465,6 +470,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		try {
 			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (SerializeException e) {
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		}
 		Project testProject = null;
@@ -476,10 +482,10 @@ public class SerializerTest extends InstrumentationTestCase {
 			testProject = parser.parseSpritesWithProject(projectFileStream);
 
 		} catch (FileNotFoundException e) {
-
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (ParseException e) {
-
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -532,16 +538,16 @@ public class SerializerTest extends InstrumentationTestCase {
 			soundField.setAccessible(true);
 			soundField.set(testSprite, soundList);
 		} catch (SecurityException e1) {
-
+			fail("unexpected SerilizeException");
 			e1.printStackTrace();
 		} catch (NoSuchFieldException e1) {
-
+			fail("unexpected SerilizeException");
 			e1.printStackTrace();
 		} catch (IllegalArgumentException e) {
-
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-
+			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		}
 
@@ -574,10 +580,10 @@ public class SerializerTest extends InstrumentationTestCase {
 				FullParser parser = new FullParser();
 				loadedProject = parser.parseSpritesWithProject(projectFileStream);
 			} catch (ParseException e) {
-
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			} catch (FileNotFoundException e) {
-
+				fail("unexpected SerilizeException");
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
