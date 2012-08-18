@@ -173,6 +173,9 @@ public class BrickParser {
 							continue;
 
 						}
+						if (brickvalueName.equals("soundInfo")) {
+							referencedObjects.put("PlaySounfRef" + referenceAttribute, brickObject);
+						}
 						if (brickvalueName.equals(CatroidXMLConstants.loopEndBrick)) {
 							LoopEndBrick parsedLoopEndBrick = new LoopEndBrick(foundSprite,
 									(LoopBeginBrick) brickObject);

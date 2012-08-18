@@ -222,16 +222,18 @@ public class FullParserTest extends InstrumentationTestCase {
 		List<SoundInfo> soundList = (List<SoundInfo>) TestUtils.getPrivateField("soundList", testSprite, false);
 		assertNotNull("Sound List is null", soundList);
 		assertEquals("All soundInfo items not created", 2, soundList.size());
-		SoundInfo si = soundList.get(0);
+		SoundInfo soundListSoundinfo = soundList.get(0);
 		assertEquals("SoundInfo file name not correct",
-				"B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3", si.getSoundFileName());
+				"B318332ADA3D79C0012978166F38E9F9_Geige_Super Mario on violin.mp3",
+				soundListSoundinfo.getSoundFileName());
 		WhenScript testScript = (WhenScript) testSprite.getScript(1);
 
 		PlaySoundBrick playSoundBrick = (PlaySoundBrick) testScript.getBrick(4);
 
 		assertNotNull("The PlaySoundBrick is null", playSoundBrick);
-		SoundInfo si2 = (SoundInfo) TestUtils.getPrivateField("soundInfo", playSoundBrick, false);
-		assertEquals("SoundInfo name is not correct", "Geige", si2.getTitle());
+		SoundInfo brickSoundInfo = (SoundInfo) TestUtils.getPrivateField("soundInfo", playSoundBrick, false);
+		assertEquals("SoundInfo name is not correct", "Geige", brickSoundInfo.getTitle());
+		assertEquals("Sound infos don't match", soundListSoundinfo, brickSoundInfo);
 	}
 
 	public void testPerformanceTest() {

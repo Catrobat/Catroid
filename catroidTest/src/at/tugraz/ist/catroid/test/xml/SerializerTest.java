@@ -357,7 +357,9 @@ public class SerializerTest extends InstrumentationTestCase {
 		SoundInfo brickReferenceSoundInfo = (SoundInfo) TestUtils.getPrivateField("soundInfo", loadedPlaySoundBrick,
 				false);
 		assertEquals("Sound Info referencing wrong", loadedSound, brickReferenceSoundInfo);
-
+		assertTrue("PlaySoundBrick sprite soundInfo doesnt have referenced SoundInfo", loadedPlaySoundBrick.getSprite()
+				.getSoundList().contains(brickReferenceSoundInfo));
+		assertEquals(loadedPlaySoundBrick.getSprite(), loadedFirstSprite);
 		PointToBrick loadedPointBrick = (PointToBrick) loadedFirstSprite.getScript(0).getBrick(4);
 		Sprite referencedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", loadedPointBrick, false);
 		assertEquals("SpriteReferencing wrong", loadedProject.getSpriteList().get(1), referencedSprite);
