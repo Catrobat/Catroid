@@ -578,9 +578,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, renameString);
 		solo.clickOnText(getActivity().getString(R.string.ok));
-		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testRenameToExistingProjectMixedCase() {
@@ -817,10 +817,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.close));
-		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testCopyProjectNoName() {
@@ -837,6 +836,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		String notificationEmptyString = solo.getString(R.string.notification_invalid_text_entered);
 		assertTrue("No or wrong error message shown", solo.searchText(notificationEmptyString));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void testCopyProjectWithOnlyBlacklistedCharacters() {
@@ -853,6 +853,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
+		solo.clickOnButton(getActivity().getString(R.string.close));
 	}
 
 	public void createProjects() {
