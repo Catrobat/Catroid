@@ -33,6 +33,7 @@ import org.w3c.dom.NodeList;
 
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 
 public class SoundInfoParser {
 	References references = new References();
@@ -79,6 +80,13 @@ public class SoundInfoParser {
 				soundList.add(foundSoundInfo);
 				String soundInfoXPath = ParserUtil.getElementXpath(soundElement);
 				referencedObjects.put(soundInfoXPath, foundSoundInfo);
+				String playSoundQeuery = soundInfoXPath.substring(soundInfoXPath
+						.lastIndexOf(CatroidXMLConstants.soundListElementName));
+				PlaySoundBrick playSoundBrickWithRef = (PlaySoundBrick) referencedObjects
+						.get("PlaySounfRef../../../../../" + playSoundQeuery);
+				if (playSoundBrickWithRef != null) {
+					playSoundBrickWithRef.setSoundInfo(foundSoundInfo);
+				}
 			}
 		}
 		Field soundListField = sprite.getClass().getDeclaredField(CatroidXMLConstants.soundListElementName);

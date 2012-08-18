@@ -103,7 +103,9 @@ public class References {
 			} else {
 				Object parentObj = reference.getObjectWithReferencedField();
 				Object valueObj = referencedObjects.get(reference.getReferenceString());
-				refField.set(parentObj, valueObj);
+				if (!(valueObj.equals(refField.get(parentObj)))) {
+					refField.set(parentObj, valueObj);
+				}
 			}
 		}
 
