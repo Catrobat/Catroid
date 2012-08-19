@@ -33,8 +33,8 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
-import at.tugraz.ist.catroid.xml.ObjectCreator;
+import at.tugraz.ist.catroid.xml.parser.CatroidXMLConstants;
+import at.tugraz.ist.catroid.xml.parser.ObjectCreator;
 
 public abstract class Serializer {
 	ObjectCreator objectCreator;

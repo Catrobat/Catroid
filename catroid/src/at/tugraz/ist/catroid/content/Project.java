@@ -31,7 +31,7 @@ import android.os.Build;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.Utils;
-import at.tugraz.ist.catroid.xml.XMLAlias;
+import at.tugraz.ist.catroid.xml.parser.XMLAlias;
 
 //import com.thoughtworks.xstream.annotations.XStreamAlias;
 

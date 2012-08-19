@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
+import at.tugraz.ist.catroid.xml.parser.CatroidXMLConstants;
 
 public class CostumeSerializer extends Serializer {
 

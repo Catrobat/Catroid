@@ -20,23 +20,15 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-public enum HeaderStarterAndEndTags {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-	CONTENTPROJECT("<Content.Project>"), SPRITELIST("<spriteList>");
-
-	private String XMLTagString;
-
-	HeaderStarterAndEndTags(String xmlTag) {
-		setOtherXMLTag(xmlTag);
-	}
-
-	public void setOtherXMLTag(String otherXMLTag) {
-		this.XMLTagString = otherXMLTag;
-	}
-
-	public String getOtherXMLTagString() {
-		return XMLTagString;
-	}
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE, ElementType.FIELD })
+public @interface XMLAlias {
+	public String value();
 }

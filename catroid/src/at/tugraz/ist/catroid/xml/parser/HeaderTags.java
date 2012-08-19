@@ -20,43 +20,26 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+public enum HeaderTags {
 
-public class ParserUtil {
-	public static String getElementXpath(Element elt) {
-		String path = "";
+	ANDROIDVERSION("platformVersion"), CATROIDVERSIONCODE("applicationVersionCode"), CATROIDVERSIONNAME(
+			"applicationVersionName"), DEVICENAME("deviceName"), PROJECTNAME("projectName"), SCREENHEIGHT(
+			"screenHeight"), SCREENWIDTH("screenWidth");
 
-		try {
-			for (; elt != null; elt = (Element) elt.getParentNode()) {
-				int idx = getElementIdx(elt);
-				String xname = elt.getTagName().toString();
+	private String xmlTagString;
 
-				if (idx > 1) {
-					xname += "[" + idx + "]";
-				}
-				path = "/" + xname + path;
-			}
-		} catch (Exception ee) {
-		}
-		return path;
+	HeaderTags(String xmlTag) {
+		setXmlTagString(xmlTag);
 	}
 
-	public static int getElementIdx(Element original) {
-		int count = 1;
+	public void setXmlTagString(String xmlTagString) {
+		this.xmlTagString = xmlTagString;
+	}
 
-		for (Node node = original.getPreviousSibling(); node != null; node = node.getPreviousSibling()) {
-			if (node instanceof Element) {
-				Element element = (Element) node;
-				if (element.getTagName().equals(original.getTagName())) {
-					count++;
-				}
-			}
-		}
-
-		return count;
+	public String getXmlTagString() {
+		return xmlTagString;
 	}
 
 }

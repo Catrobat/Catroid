@@ -20,15 +20,43 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.FIELD })
-public @interface XMLAlias {
-	public String value();
+public class ParserUtil {
+	public static String getElementXpath(Element elt) {
+		String path = "";
+
+		try {
+			for (; elt != null; elt = (Element) elt.getParentNode()) {
+				int idx = getElementIdx(elt);
+				String xname = elt.getTagName().toString();
+
+				if (idx > 1) {
+					xname += "[" + idx + "]";
+				}
+				path = "/" + xname + path;
+			}
+		} catch (Exception ee) {
+		}
+		return path;
+	}
+
+	public static int getElementIdx(Element original) {
+		int count = 1;
+
+		for (Node node = original.getPreviousSibling(); node != null; node = node.getPreviousSibling()) {
+			if (node instanceof Element) {
+				Element element = (Element) node;
+				if (element.getTagName().equals(original.getTagName())) {
+					count++;
+				}
+			}
+		}
+
+		return count;
+	}
+
 }

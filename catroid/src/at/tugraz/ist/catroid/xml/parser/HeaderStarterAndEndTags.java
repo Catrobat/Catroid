@@ -20,26 +20,23 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-public enum HeaderTags {
+public enum HeaderStarterAndEndTags {
 
-	ANDROIDVERSION("platformVersion"), CATROIDVERSIONCODE("applicationVersionCode"), CATROIDVERSIONNAME(
-			"applicationVersionName"), DEVICENAME("deviceName"), PROJECTNAME("projectName"), SCREENHEIGHT(
-			"screenHeight"), SCREENWIDTH("screenWidth");
+	CONTENTPROJECT("<Content.Project>"), SPRITELIST("<spriteList>");
 
-	private String xmlTagString;
+	private String XMLTagString;
 
-	HeaderTags(String xmlTag) {
-		setXmlTagString(xmlTag);
+	HeaderStarterAndEndTags(String xmlTag) {
+		setOtherXMLTag(xmlTag);
 	}
 
-	public void setXmlTagString(String xmlTagString) {
-		this.xmlTagString = xmlTagString;
+	public void setOtherXMLTag(String otherXMLTag) {
+		this.XMLTagString = otherXMLTag;
 	}
 
-	public String getXmlTagString() {
-		return xmlTagString;
+	public String getOtherXMLTagString() {
+		return XMLTagString;
 	}
-
 }

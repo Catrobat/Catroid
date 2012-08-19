@@ -20,44 +20,43 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-public class ParseException extends Exception {
+import java.lang.reflect.Field;
 
-	private static final long serialVersionUID = -4915709459129895393L;
-	private Exception declaredException;
-	private Throwable thrown;
+public class ForwardReferences {
 
-	public Throwable getThrown() {
-		return thrown;
+	private Object objectWithReferencedField;
+	private String referenceString;
+	private Field fieldWithReference;
+
+	public ForwardReferences(Object obj, String ref, Field valField) {
+		objectWithReferencedField = obj;
+		referenceString = ref;
+		fieldWithReference = valField;
 	}
 
-	public ParseException() {
-
+	public Object getObjectWithReferencedField() {
+		return objectWithReferencedField;
 	}
 
-	public ParseException(Throwable e) {
-		super(e);
-		thrown = e;
-
+	public void setObjectWithReferencedField(Object objectWithReferencedField) {
+		this.objectWithReferencedField = objectWithReferencedField;
 	}
 
-	public ParseException(String message) {
-		super(message);
+	public String getReferenceString() {
+		return referenceString;
 	}
 
-	public ParseException(String message, Throwable e) {
-
-		super(message);
-		thrown = e;
+	public void setReferenceString(String referenceString) {
+		this.referenceString = referenceString;
 	}
 
-	public ParseException(Exception caughtException) {
-		this.declaredException = caughtException;
+	public Field getFieldWithReference() {
+		return fieldWithReference;
 	}
 
-	public Exception getDeclaredException() {
-		return declaredException;
+	public void setFieldWithReference(Field fieldWithReference) {
+		this.fieldWithReference = fieldWithReference;
 	}
-
 }
