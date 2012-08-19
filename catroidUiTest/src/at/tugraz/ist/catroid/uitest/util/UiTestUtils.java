@@ -694,6 +694,18 @@ public class UiTestUtils {
 		return false;
 	}
 
+	public static boolean longClickOnTextInList(Solo solo, String text) {
+		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+		for (int i = 0; i < textViews.size(); i++) {
+			TextView view = textViews.get(i);
+			if (view.getText().toString().equalsIgnoreCase(text)) {
+				solo.clickLongOnView(view);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Returns to the main screen.
 	 * This method should be called in tearDown() in tests which use Robotium.
