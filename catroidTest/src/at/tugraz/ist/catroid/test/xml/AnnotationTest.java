@@ -29,7 +29,7 @@ import java.util.Map;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.xml.XMLAlias;
+import at.tugraz.ist.catroid.xml.parser.XMLAlias;
 
 public class AnnotationTest extends InstrumentationTestCase {
 

@@ -20,21 +20,43 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-public final class EmptyArray {
-	private EmptyArray() {
+import java.lang.reflect.Field;
+
+public class ForwardReferences {
+
+	private Object objectWithReferencedField;
+	private String referenceString;
+	private Field fieldWithReference;
+
+	public ForwardReferences(Object obj, String ref, Field valField) {
+		objectWithReferencedField = obj;
+		referenceString = ref;
+		fieldWithReference = valField;
 	}
 
-	public static final boolean[] BOOLEAN = new boolean[0];
-	public static final byte[] BYTE = new byte[0];
-	public static final char[] CHAR = new char[0];
-	public static final double[] DOUBLE = new double[0];
-	public static final int[] INT = new int[0];
+	public Object getObjectWithReferencedField() {
+		return objectWithReferencedField;
+	}
 
-	public static final Class<?>[] CLASS = new Class[0];
-	public static final Object[] OBJECT = new Object[0];
-	public static final String[] STRING = new String[0];
-	public static final Throwable[] THROWABLE = new Throwable[0];
-	public static final StackTraceElement[] STACK_TRACE_ELEMENT = new StackTraceElement[0];
+	public void setObjectWithReferencedField(Object objectWithReferencedField) {
+		this.objectWithReferencedField = objectWithReferencedField;
+	}
+
+	public String getReferenceString() {
+		return referenceString;
+	}
+
+	public void setReferenceString(String referenceString) {
+		this.referenceString = referenceString;
+	}
+
+	public Field getFieldWithReference() {
+		return fieldWithReference;
+	}
+
+	public void setFieldWithReference(Field fieldWithReference) {
+		this.fieldWithReference = fieldWithReference;
+	}
 }

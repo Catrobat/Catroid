@@ -20,26 +20,15 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-public enum HeaderTags {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-	ANDROIDVERSION("platformVersion"), CATROIDVERSIONCODE("applicationVersionCode"), CATROIDVERSIONNAME(
-			"applicationVersionName"), DEVICENAME("deviceName"), PROJECTNAME("projectName"), SCREENHEIGHT(
-			"screenHeight"), SCREENWIDTH("screenWidth");
-
-	private String xmlTagString;
-
-	HeaderTags(String xmlTag) {
-		setXmlTagString(xmlTag);
-	}
-
-	public void setXmlTagString(String xmlTagString) {
-		this.xmlTagString = xmlTagString;
-	}
-
-	public String getXmlTagString() {
-		return xmlTagString;
-	}
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE, ElementType.FIELD })
+public @interface XMLAlias {
+	public String value();
 }

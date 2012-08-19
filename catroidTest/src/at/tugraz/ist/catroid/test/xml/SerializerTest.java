@@ -57,8 +57,8 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
-import at.tugraz.ist.catroid.xml.FullParser;
-import at.tugraz.ist.catroid.xml.ParseException;
+import at.tugraz.ist.catroid.xml.parser.FullParser;
+import at.tugraz.ist.catroid.xml.parser.ParseException;
 import at.tugraz.ist.catroid.xml.serializer.SerializeException;
 import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 

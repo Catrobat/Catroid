@@ -29,9 +29,9 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.xml.HeaderTags;
-import at.tugraz.ist.catroid.xml.ObjectCreator;
-import at.tugraz.ist.catroid.xml.ParseException;
+import at.tugraz.ist.catroid.xml.parser.HeaderTags;
+import at.tugraz.ist.catroid.xml.parser.ObjectCreator;
+import at.tugraz.ist.catroid.xml.parser.ParseException;
 
 public class ReflectionTest extends InstrumentationTestCase {
 

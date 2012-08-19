@@ -28,8 +28,8 @@ import java.util.Collection;
 import java.util.List;
 
 import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
-import at.tugraz.ist.catroid.xml.ObjectCreator;
+import at.tugraz.ist.catroid.xml.parser.CatroidXMLConstants;
+import at.tugraz.ist.catroid.xml.parser.ObjectCreator;
 
 public class ProjectSerializer extends Serializer {
 

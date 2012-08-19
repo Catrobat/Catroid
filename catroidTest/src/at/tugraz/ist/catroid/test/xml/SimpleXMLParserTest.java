@@ -28,9 +28,9 @@ import java.util.Map;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.xml.HeaderTags;
-import at.tugraz.ist.catroid.xml.HeaderTagsParser;
-import at.tugraz.ist.catroid.xml.ParseException;
+import at.tugraz.ist.catroid.xml.parser.HeaderTags;
+import at.tugraz.ist.catroid.xml.parser.HeaderTagsParser;
+import at.tugraz.ist.catroid.xml.parser.ParseException;
 
 public class SimpleXMLParserTest extends InstrumentationTestCase {
 

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
+import at.tugraz.ist.catroid.xml.parser.CatroidXMLConstants;
 
 public class SoundSerializer extends Serializer {
 

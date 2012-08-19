@@ -30,7 +30,7 @@ import java.util.List;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.xml.ObjectCreator;
+import at.tugraz.ist.catroid.xml.parser.ObjectCreator;
 
 public class ScriptSerializer extends Serializer {
 

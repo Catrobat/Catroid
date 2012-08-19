@@ -20,15 +20,44 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public class ParseException extends Exception {
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.FIELD })
-public @interface XMLAlias {
-	public String value();
+	private static final long serialVersionUID = -4915709459129895393L;
+	private Exception declaredException;
+	private Throwable thrown;
+
+	public Throwable getThrown() {
+		return thrown;
+	}
+
+	public ParseException() {
+
+	}
+
+	public ParseException(Throwable e) {
+		super(e);
+		thrown = e;
+
+	}
+
+	public ParseException(String message) {
+		super(message);
+	}
+
+	public ParseException(String message, Throwable e) {
+
+		super(message);
+		thrown = e;
+	}
+
+	public ParseException(Exception caughtException) {
+		this.declaredException = caughtException;
+	}
+
+	public Exception getDeclaredException() {
+		return declaredException;
+	}
+
 }

@@ -20,43 +20,23 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.xml;
+package at.tugraz.ist.catroid.xml.parser;
 
-import java.lang.reflect.Field;
+public enum HeaderStarterAndEndTags {
 
-public class ForwardReferences {
+	CONTENTPROJECT("<Content.Project>"), SPRITELIST("<spriteList>");
 
-	private Object objectWithReferencedField;
-	private String referenceString;
-	private Field fieldWithReference;
+	private String XMLTagString;
 
-	public ForwardReferences(Object obj, String ref, Field valField) {
-		objectWithReferencedField = obj;
-		referenceString = ref;
-		fieldWithReference = valField;
+	HeaderStarterAndEndTags(String xmlTag) {
+		setOtherXMLTag(xmlTag);
 	}
 
-	public Object getObjectWithReferencedField() {
-		return objectWithReferencedField;
+	public void setOtherXMLTag(String otherXMLTag) {
+		this.XMLTagString = otherXMLTag;
 	}
 
-	public void setObjectWithReferencedField(Object objectWithReferencedField) {
-		this.objectWithReferencedField = objectWithReferencedField;
-	}
-
-	public String getReferenceString() {
-		return referenceString;
-	}
-
-	public void setReferenceString(String referenceString) {
-		this.referenceString = referenceString;
-	}
-
-	public Field getFieldWithReference() {
-		return fieldWithReference;
-	}
-
-	public void setFieldWithReference(Field fieldWithReference) {
-		this.fieldWithReference = fieldWithReference;
+	public String getOtherXMLTagString() {
+		return XMLTagString;
 	}
 }

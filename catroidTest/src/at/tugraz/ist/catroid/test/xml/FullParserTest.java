@@ -47,8 +47,8 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.xml.FullParser;
-import at.tugraz.ist.catroid.xml.ParseException;
+import at.tugraz.ist.catroid.xml.parser.FullParser;
+import at.tugraz.ist.catroid.xml.parser.ParseException;
 
 public class FullParserTest extends InstrumentationTestCase {
 

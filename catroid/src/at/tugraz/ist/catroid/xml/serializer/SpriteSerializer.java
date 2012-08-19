@@ -27,7 +27,7 @@ import java.util.List;
 
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.xml.CatroidXMLConstants;
+import at.tugraz.ist.catroid.xml.parser.CatroidXMLConstants;
 
 public class SpriteSerializer extends Serializer {
 
