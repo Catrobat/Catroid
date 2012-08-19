@@ -268,8 +268,8 @@ public class FullParserTest extends InstrumentationTestCase {
 		FullParser parser = new FullParser();
 		try {
 			Project testProject = parser.fullParser("test_malformed_project.xml");
+			fail("parse exception expected");
 		} catch (ParseException e) {
-			fail("Unexpected parse exception");
 			e.printStackTrace();
 		}
 	}
