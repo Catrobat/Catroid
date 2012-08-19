@@ -182,6 +182,7 @@ public class UtilFile {
 		}
 		File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
 		File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
+		//oldProjectRootDirectory = new File("Test");
 
 		copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
 		Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);

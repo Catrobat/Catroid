@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,32 +37,25 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class CopyProjectDialog extends TextDialog {
 
 	private class CopyProjectAsyncTask extends AsyncTask<String, Void, Boolean> {
-		ProgressDialog progressDialog;
-
-		//boolean asyncTaskSuccessfull;
+		//ProgressDialog progressDialog;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			if (activity == null) {
-				return;
-			}
-			String title = activity.getString(R.string.please_wait);
-			String message = activity.getString(R.string.loading);
-			progressDialog = ProgressDialog.show(activity, title, message);
 		}
 
 		@Override
 		protected Boolean doInBackground(String... array) {
 			String newProjectName = array[0];
 
-			boolean copyProjectSuccess = copyProcess(newProjectName);
-			asyncTaskSuccessfull = copyProjectSuccess;
-			if (!copyProjectSuccess) {
+			try {
+				UtilFile.copyProject(newProjectName, oldProjectName);
+			} catch (IOException exception) {
 				UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
+				Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
+				return false;
 			}
-
-			return copyProjectSuccess;
+			return true;
 		}
 
 		@Override
@@ -81,9 +73,7 @@ public class CopyProjectDialog extends TextDialog {
 			}
 
 			if (!result) {
-				Utils.displayErrorMessage(activity, activity.getString(R.string.error_copy_project));
-				asyncTaskSuccessfull = result;
-				//UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
+				Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
 			}
 
 		}
@@ -95,21 +85,16 @@ public class CopyProjectDialog extends TextDialog {
 	private OnCopyProjectListener onCopyProjectListener;
 
 	private String oldProjectName;
-	private Activity activity;
 	private CopyProjectAsyncTask currentCopyProjectAsyncTask;
-	boolean asyncTaskSuccessfull;
+	ProgressDialog progressDialog;
 
-	public static CopyProjectDialog newInstance(String oldProjectName, Activity activity) {
-		CopyProjectDialog dialog = new CopyProjectDialog(activity);
+	public static CopyProjectDialog newInstance(String oldProjectName) {
+		CopyProjectDialog dialog = new CopyProjectDialog();
 
 		Bundle arguments = new Bundle();
 		arguments.putString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME, oldProjectName);
 		dialog.setArguments(arguments);
 		return dialog;
-	}
-
-	private CopyProjectDialog(Activity activity) {
-		this.activity = activity;
 	}
 
 	public void setOnCopyProjectListener(OnCopyProjectListener listener) {
@@ -136,31 +121,14 @@ public class CopyProjectDialog extends TextDialog {
 
 		if (newProjectName != null && !newProjectName.equalsIgnoreCase("")) {
 
+			String title = getString(R.string.please_wait);
+			String message = getString(R.string.copying);
+			progressDialog = ProgressDialog.show(getActivity(), title, message);
+
 			currentCopyProjectAsyncTask = new CopyProjectAsyncTask();
-
 			currentCopyProjectAsyncTask.execute(newProjectName);
-			/*
-			 * if (!asyncTaskSuccessfull) {
-			 * Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
-			 * //UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
-			 * return false;
-			 * }
-			 */
-
 		} else {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
-			return false;
-		}
-		return true;
-	}
-
-	private boolean copyProcess(String newProjectName) {
-		try {
-			UtilFile.copyProject(newProjectName, oldProjectName);
-		} catch (IOException exception) {
-			//Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
-			//UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
-			Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
 			return false;
 		}
 		return true;
