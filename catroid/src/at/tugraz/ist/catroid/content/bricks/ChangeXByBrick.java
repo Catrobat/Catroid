@@ -35,14 +35,14 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+//import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class ChangeXByBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int xMovement;
 	private Sprite sprite;
 
-	@XStreamOmitField
+	//@XStreamOmitField
 	private transient View view;
 
 	public ChangeXByBrick() {

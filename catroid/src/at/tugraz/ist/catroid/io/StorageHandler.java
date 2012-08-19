@@ -46,7 +46,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.FullParser;
 import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
-import com.thoughtworks.xstream.XStream;
+//import com.thoughtworks.xstream.XStream;
 
 public class StorageHandler {
 
@@ -54,7 +54,7 @@ public class StorageHandler {
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static StorageHandler instance;
-	private XStream xstream;
+	//private XStream xstream;
 	private FullParser fullParser;
 	private XmlSerializer serailizer;
 
