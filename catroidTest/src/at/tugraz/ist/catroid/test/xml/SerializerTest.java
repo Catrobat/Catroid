@@ -613,6 +613,6 @@ public class SerializerTest extends InstrumentationTestCase {
 		assertNull("Sound Info referencing wrong", brickReferenceSoundInfo);
 
 		UtilFile.deleteDirectory(projectDirectory);
-
+		TestUtils.deleteTestProjects("test__testReferenceSerializerProject", "test__testSerializeProject");
 	}
 }
