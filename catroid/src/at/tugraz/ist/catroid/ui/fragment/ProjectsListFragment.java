@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -217,7 +218,9 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 						deleteProject();
 						break;
 					case CONTEXT_MENU_ITEM_COPY:
-						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
+						Activity test = getActivity();//.getParent();
+						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName,
+								test);
 						dialogCopyProject.setOnCopyProjectListener(ProjectsListFragment.this);
 						dialogCopyProject.show(getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
 						break;

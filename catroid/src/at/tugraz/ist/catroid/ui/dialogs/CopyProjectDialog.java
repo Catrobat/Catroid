@@ -25,6 +25,9 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
@@ -34,21 +37,74 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class CopyProjectDialog extends TextDialog {
 
+	private class CopyProjectAsyncTask extends AsyncTask<String, Void, Boolean> {
+		ProgressDialog progressDialog;
+		boolean asyncTaskSuccessfull;
+		String newProjectName;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if (activity == null) {
+				return;
+			}
+			String title = activity.getString(R.string.please_wait);
+			String message = activity.getString(R.string.loading);
+			progressDialog = ProgressDialog.show(activity, title, message);
+		}
+
+		@Override
+		protected Boolean doInBackground(String... array) {
+			newProjectName = array[0];
+			asyncTaskSuccessfull = copyProcess(newProjectName);
+			return asyncTaskSuccessfull;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+
+			if (progressDialog != null && progressDialog.isShowing()) {
+				progressDialog.dismiss();
+			}
+
+			if (!currentCopyProjectAsyncTask.asyncTaskSuccessfull) {
+				Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
+				UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
+			}
+
+			if (result) {
+				if (onCopyProjectListener != null) {
+					onCopyProjectListener.onCopyProject();
+				}
+			}
+
+			if (activity == null) {
+				return;
+			}
+		}
+	}
+
 	private static final String BUNDLE_ARGUMENTS_OLD_PROJECT_NAME = "old_project_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_copy_project";
 
 	private OnCopyProjectListener onCopyProjectListener;
 
 	private String oldProjectName;
+	private Activity activity;
+	private CopyProjectAsyncTask currentCopyProjectAsyncTask;
 
-	public static CopyProjectDialog newInstance(String oldProjectName) {
-		CopyProjectDialog dialog = new CopyProjectDialog();
+	public static CopyProjectDialog newInstance(String oldProjectName, Activity activity) {
+		CopyProjectDialog dialog = new CopyProjectDialog(activity);
 
 		Bundle arguments = new Bundle();
 		arguments.putString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME, oldProjectName);
 		dialog.setArguments(arguments);
-
 		return dialog;
+	}
+
+	private CopyProjectDialog(Activity activity) {
+		this.activity = activity;
 	}
 
 	public void setOnCopyProjectListener(OnCopyProjectListener listener) {
@@ -74,23 +130,27 @@ public class CopyProjectDialog extends TextDialog {
 		}
 
 		if (newProjectName != null && !newProjectName.equalsIgnoreCase("")) {
-			try {
-				UtilFile.copyProject(newProjectName, oldProjectName);
-			} catch (IOException exception) {
-				Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
-				UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
-				Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
-			}
 
-			if (onCopyProjectListener != null) {
-				onCopyProjectListener.onCopyProject();
-			}
+			currentCopyProjectAsyncTask = new CopyProjectAsyncTask();
+
+			currentCopyProjectAsyncTask.execute(newProjectName);
 
 		} else {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
 			return false;
 		}
+		return true;
+	}
 
+	private boolean copyProcess(String newProjectName) {
+		try {
+			UtilFile.copyProject(newProjectName, oldProjectName);
+		} catch (IOException exception) {
+			Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
+			UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
+			Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
+			return false;
+		}
 		return true;
 	}
 
