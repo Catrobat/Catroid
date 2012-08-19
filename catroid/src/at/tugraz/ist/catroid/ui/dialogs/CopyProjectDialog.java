@@ -39,8 +39,8 @@ public class CopyProjectDialog extends TextDialog {
 
 	private class CopyProjectAsyncTask extends AsyncTask<String, Void, Boolean> {
 		ProgressDialog progressDialog;
-		boolean asyncTaskSuccessfull;
-		String newProjectName;
+
+		//boolean asyncTaskSuccessfull;
 
 		@Override
 		protected void onPreExecute() {
@@ -55,9 +55,15 @@ public class CopyProjectDialog extends TextDialog {
 
 		@Override
 		protected Boolean doInBackground(String... array) {
-			newProjectName = array[0];
-			asyncTaskSuccessfull = copyProcess(newProjectName);
-			return asyncTaskSuccessfull;
+			String newProjectName = array[0];
+
+			boolean copyProjectSuccess = copyProcess(newProjectName);
+			asyncTaskSuccessfull = copyProjectSuccess;
+			if (!copyProjectSuccess) {
+				UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
+			}
+
+			return copyProjectSuccess;
 		}
 
 		@Override
@@ -68,20 +74,18 @@ public class CopyProjectDialog extends TextDialog {
 				progressDialog.dismiss();
 			}
 
-			if (!currentCopyProjectAsyncTask.asyncTaskSuccessfull) {
-				Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
-				UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
-			}
-
 			if (result) {
 				if (onCopyProjectListener != null) {
 					onCopyProjectListener.onCopyProject();
 				}
 			}
 
-			if (activity == null) {
-				return;
+			if (!result) {
+				Utils.displayErrorMessage(activity, activity.getString(R.string.error_copy_project));
+				asyncTaskSuccessfull = result;
+				//UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
 			}
+
 		}
 	}
 
@@ -93,6 +97,7 @@ public class CopyProjectDialog extends TextDialog {
 	private String oldProjectName;
 	private Activity activity;
 	private CopyProjectAsyncTask currentCopyProjectAsyncTask;
+	boolean asyncTaskSuccessfull;
 
 	public static CopyProjectDialog newInstance(String oldProjectName, Activity activity) {
 		CopyProjectDialog dialog = new CopyProjectDialog(activity);
@@ -134,6 +139,13 @@ public class CopyProjectDialog extends TextDialog {
 			currentCopyProjectAsyncTask = new CopyProjectAsyncTask();
 
 			currentCopyProjectAsyncTask.execute(newProjectName);
+			/*
+			 * if (!asyncTaskSuccessfull) {
+			 * Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
+			 * //UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
+			 * return false;
+			 * }
+			 */
 
 		} else {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
@@ -146,8 +158,8 @@ public class CopyProjectDialog extends TextDialog {
 		try {
 			UtilFile.copyProject(newProjectName, oldProjectName);
 		} catch (IOException exception) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
-			UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
+			//Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
+			//UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
 			Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
 			return false;
 		}
