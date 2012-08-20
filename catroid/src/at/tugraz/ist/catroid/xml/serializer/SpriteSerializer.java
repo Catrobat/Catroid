@@ -41,7 +41,7 @@ public class SpriteSerializer extends Serializer {
 		Sprite sprite = (Sprite) object;
 		List<String> spriteStrings = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = tab + tab + getStartTag(CatroidXMLConstants.spriteElementName);
+		xmlElementString = tab + tab + getStartTag(CatroidXMLConstants.SPRITE_ELEMENT_NAME);
 		spriteStrings.add(xmlElementString);
 
 		if (sprite.getCostumeDataList().size() > 0) {
@@ -52,11 +52,11 @@ public class SpriteSerializer extends Serializer {
 
 		if (sprite.getNumberOfScripts() > 0) {
 			ScriptSerializer scriptSerializer = new ScriptSerializer(sprite, serializedProject);
-			spriteStrings.add(tab + tab + tab + getStartTag(CatroidXMLConstants.scriptListElementName));
+			spriteStrings.add(tab + tab + tab + getStartTag(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
 			for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
 				spriteStrings.addAll(scriptSerializer.serialize(sprite.getScript(i)));
 			}
-			spriteStrings.add(tab + tab + tab + getEndTag(CatroidXMLConstants.scriptListElementName));
+			spriteStrings.add(tab + tab + tab + getEndTag(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
 		}
 
 		if (sprite.getSoundList().size() > 0) {
@@ -64,13 +64,13 @@ public class SpriteSerializer extends Serializer {
 			spriteStrings.addAll(soundSerializer.serializeSoundList(sprite.getSoundList()));
 		}
 
-		spriteStrings.add(tab + tab + getEndTag(CatroidXMLConstants.spriteElementName));
+		spriteStrings.add(tab + tab + getEndTag(CatroidXMLConstants.SPRITE_ELEMENT_NAME));
 
 		return spriteStrings;
 	}
 
 	private String getSpriteNameElement(Sprite sprite) {
-		return getElementString(CatroidXMLConstants.spriteName, sprite.getName());
+		return getElementString(CatroidXMLConstants.SPRITE_NAME, sprite.getName());
 	}
 
 	public List<String> serializeList() throws IllegalArgumentException, SecurityException, IllegalAccessException,
@@ -82,11 +82,11 @@ public class SpriteSerializer extends Serializer {
 			spriteElements.addAll(serialize(projectSprite));
 		}
 		if (spriteElements.isEmpty()) {
-			spriteListStrings.add(getEmptyTag(CatroidXMLConstants.spriteListElementName));
+			spriteListStrings.add(getEmptyTag(CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME));
 		} else {
-			spriteListStrings.add(tab + getStartTag(CatroidXMLConstants.spriteListElementName));
+			spriteListStrings.add(tab + getStartTag(CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME));
 			spriteListStrings.addAll(spriteElements);
-			spriteListStrings.add(tab + getEndTag(CatroidXMLConstants.spriteListElementName));
+			spriteListStrings.add(tab + getEndTag(CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME));
 
 		}
 		return spriteListStrings;

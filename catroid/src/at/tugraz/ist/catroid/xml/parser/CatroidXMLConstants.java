@@ -24,39 +24,39 @@ package at.tugraz.ist.catroid.xml.parser;
 
 public class CatroidXMLConstants {
 
-	public static final String parentElement = "..";
-	public static final String referenceAttribute = "reference";
+	public static final String PARENT_ELEMENT = "..";
+	public static final String REFERENCE_ATTRIBUTE = "reference";
 
-	public static final String projectElementName = "Project";
+	public static final String PROJECT_ELEMENT_NAME = "Project";
 
-	public static final String contentPackage = "at.tugraz.ist.catroid.content.";
+	public static final String CONTENT_PACKAGE = "at.tugraz.ist.catroid.content.";
 
-	public static final String spriteElementName = "Sprite";
-	public static final String spriteName = "name";
-	public static final String spriteListElementName = "spriteList";
-	public static final String sprite = "sprite";
+	public static final String SPRITE_ELEMENT_NAME = "Sprite";
+	public static final String SPRITE_NAME = "name";
+	public static final String SPRITE_LIST_ELEMENT_NAME = "spriteList";
+	public static final String SPRITE = "sprite";
 
-	public static final String scriptListElementName = "scriptList";
-	public static final String scriptclassSuffix = "Script";
+	public static final String SCRIPT_LIST_ELEMENT_NAME = "scriptList";
+	public static final String SCRIPTCLASS_SUFFIX = "Script";
 
-	public static final String brickListElementName = "brickList";
-	public static final String brickPackage = "at.tugraz.ist.catroid.content.bricks.";
-	public static final String brickClassSuffix = "Brick";
-	public static final String loopEndBrick = "loopEndBrick";
-	public static final String loopBeginBrick = "loopBeginBrick";
-	public static final String loopEndBrickreference = "loopEndBrickRef";
+	public static final String BRICK_LIST_ELEMENT_NAME = "brickList";
+	public static final String BRICK_PACKAGE = "at.tugraz.ist.catroid.content.bricks.";
+	public static final String BRICK_CLASS_SUFFIX = "Brick";
+	public static final String LOOP_END_BRICK = "loopEndBrick";
+	public static final String LOOP_BEGIN_BRICK = "loopBeginBrick";
+	public static final String LOOP_END_BRICKREFERENCE = "loopEndBrickRef";
 
-	public static final String soundInfo = "soundInfo";
-	public static final String soundListElementName = "soundList";
-	public static final String soundInfoElementName = "SoundInfo";
+	public static final String SOUND_INFO = "soundInfo";
+	public static final String SOUND_LIST_ELEMENT_NAME = "soundList";
+	public static final String SOUND_INFO_ELEMENT_NAME = "SoundInfo";
 
-	public static final String costumeDataElementName = "CostumeData";
-	public static final String costumeListElementName = "costumeDataList";
+	public static final String COSTUME_DATA_ELEMENT_NAME = "CostumeData";
+	public static final String COSTUME_LIST_ELEMENT_NAME = "costumeDataList";
 
-	public static final String fileName = "fileName";
-	public static final String name = "name";
+	public static final String FILE_NAME = "fileName";
+	public static final String NAME = "name";
 
-	public static final String costumeRefFromBrick = "../../../../../costumeDataList/CostumeData";
-	public static final String spriteRefFromBrick = "../../../../../../Sprite";
-	public static final String soundRefFromBrick = "../../../../../soundList/SoundInfo";
+	public static final String COSTUMEREFERENCE_FROM_BRICK = "../../../../../costumeDataList/CostumeData";
+	public static final String SPRITEREFERENCE_FROM_BRICK = "../../../../../../Sprite";
+	public static final String SOUNDREFERENCE_FROM_BRICK = "../../../../../soundList/SoundInfo";
 }

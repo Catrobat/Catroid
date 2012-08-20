@@ -40,13 +40,13 @@ public class SoundSerializer extends Serializer {
 		String costumeName = soundInfo.getTitle();
 		List<String> soundStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = soundTabs + tab + getStartTag(CatroidXMLConstants.soundInfoElementName);
+		xmlElementString = soundTabs + tab + getStartTag(CatroidXMLConstants.SOUND_INFO_ELEMENT_NAME);
 		soundStringList.add(xmlElementString);
-		xmlElementString = soundTabs + tab + tab + getElementString(CatroidXMLConstants.fileName, costumeFileName);
+		xmlElementString = soundTabs + tab + tab + getElementString(CatroidXMLConstants.FILE_NAME, costumeFileName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = soundTabs + tab + tab + getElementString(CatroidXMLConstants.name, costumeName);
+		xmlElementString = soundTabs + tab + tab + getElementString(CatroidXMLConstants.NAME, costumeName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = soundTabs + tab + getEndTag(CatroidXMLConstants.soundInfoElementName);
+		xmlElementString = soundTabs + tab + getEndTag(CatroidXMLConstants.SOUND_INFO_ELEMENT_NAME);
 		soundStringList.add(xmlElementString);
 
 		return soundStringList;
@@ -55,11 +55,11 @@ public class SoundSerializer extends Serializer {
 	public List<String> serializeSoundList(List<SoundInfo> soundList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
 		List<String> soundStrings = new ArrayList<String>();
-		soundStrings.add(soundTabs + getStartTag(CatroidXMLConstants.soundListElementName));
+		soundStrings.add(soundTabs + getStartTag(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME));
 		for (SoundInfo soundInfo : soundList) {
 			soundStrings.addAll(this.serialize(soundInfo));
 		}
-		soundStrings.add(soundTabs + getEndTag(CatroidXMLConstants.soundListElementName));
+		soundStrings.add(soundTabs + getEndTag(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME));
 		return soundStrings;
 	}
 

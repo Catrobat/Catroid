@@ -64,14 +64,7 @@ import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 public class SerializerTest extends InstrumentationTestCase {
 	Context androidContext;
-	private static final String XMLSCHEMA_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/catrobatXmlSchemaNew.xsd";
 
-	//	@Override
-	//	public void tearDown() {
-	//		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
-	//		TestUtils.clearProject("testSerializeProject");
-	//	}
-	//
 	@Override
 	protected void tearDown() throws Exception {
 		androidContext = null;
@@ -80,12 +73,6 @@ public class SerializerTest extends InstrumentationTestCase {
 
 	@Override
 	public void setUp() {
-		//		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
-		//				+ getInstrumentation().getContext().getString(R.string.default_project_name));
-		//
-		//		if (projectFile.exists()) {
-		//			UtilFile.deleteDirectory(projectFile);
-		//		}
 
 		androidContext = getInstrumentation().getContext();
 		NativeAppActivity.setContext(androidContext);
@@ -188,8 +175,6 @@ public class SerializerTest extends InstrumentationTestCase {
 				postSpriteList.get(2).getName());
 		assertEquals("Fourth sprite does not match after deserialization", preSpriteList.get(3).getName(),
 				postSpriteList.get(3).getName());
-		//		assertEquals("Fifth sprite does not match after deserialization", preSpriteList.get(4).getName(),
-		//				postSpriteList.get(4).getName());
 
 		// Test project name:
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
@@ -209,18 +194,7 @@ public class SerializerTest extends InstrumentationTestCase {
 
 		assertFalse("paused should not be set in script", preSpriteList.get(0).getScript(0).isPaused());
 
-		//		// Test version codes and names
-		//		final int preVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", project, false);
-		//		final int postVersionCode = (Integer) TestUtils.getPrivateField("catroidVersionCode", loadedProject, false);
-		//		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
-		//
-		//		final String preVersionName = (String) TestUtils.getPrivateField("catroidVersionName", project, false);
-		//		final String postVersionName = (String) TestUtils.getPrivateField("catroidVersionName", loadedProject, false);
-		//		assertEquals("Version names are not equal", preVersionName, postVersionName);
 		UtilFile.deleteDirectory(projectDirectory);
-		//		projectDirectoryName = Utils.buildProjectPath("testProject7");
-		//		projectDirectory = new File(projectDirectoryName);
-		//		UtilFile.deleteDirectory(projectDirectory);
 	}
 
 	public void testReferenceSerializing() {
@@ -371,7 +345,6 @@ public class SerializerTest extends InstrumentationTestCase {
 		StartScript referencedScript = (StartScript) TestUtils.getPrivateField("script", loadedScriptBrick, false);
 		assertEquals("Script referencing of bricks wrong", loadedFirstSprite.getScript(0), referencedScript);
 		UtilFile.deleteDirectory(projectDirectory);
-		//TestUtils.deleteTestProjects("My First Project");
 	}
 
 	public void testSerializePerformanceTest() {

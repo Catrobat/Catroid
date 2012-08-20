@@ -52,7 +52,7 @@ public class ScriptParser {
 			if (scriptListNodes.item(j).getNodeType() != Node.TEXT_NODE) {
 				Element scriptElement = (Element) scriptListNodes.item(j);
 				foundScript = getpopulatedScript(scriptElement, foundSprite);
-				Node brickListNode = scriptElement.getElementsByTagName(CatroidXMLConstants.brickListElementName).item(
+				Node brickListNode = scriptElement.getElementsByTagName(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME).item(
 						0);
 				if (brickListNode != null) {
 					brickParser.parseBricks(foundSprite, foundScript, scriptElement, brickListNode, referencedObjects,
@@ -71,7 +71,7 @@ public class ScriptParser {
 			NoSuchMethodException, ClassNotFoundException, ParseException {
 		String scriptClassName = element.getNodeName();
 
-		Class<?> scriptClass = Class.forName(CatroidXMLConstants.contentPackage + scriptClassName);
+		Class<?> scriptClass = Class.forName(CatroidXMLConstants.CONTENT_PACKAGE + scriptClassName);
 		Script newScript = objectGetter.getScriptObject(scriptClassName, sprite);
 
 		Map<String, Field> scriptClassFieldMap = objectGetter.getFieldMap(scriptClass);
@@ -81,10 +81,10 @@ public class ScriptParser {
 			Node child = scriptChildren.item(o);
 			if (child.getNodeType() != Node.TEXT_NODE) {
 				String childNodeName = child.getNodeName();
-				if (childNodeName.equals(CatroidXMLConstants.brickListElementName)) {
+				if (childNodeName.equals(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME)) {
 					continue;
 				}
-				if (childNodeName.equals(CatroidXMLConstants.sprite)) {
+				if (childNodeName.equals(CatroidXMLConstants.SPRITE)) {
 					continue;
 				}
 				Field scriptClassField = scriptClassFieldMap.get(childNodeName);

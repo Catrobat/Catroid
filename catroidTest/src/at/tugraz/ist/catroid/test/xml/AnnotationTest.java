@@ -54,7 +54,6 @@ public class AnnotationTest extends InstrumentationTestCase {
 
 		Project project = Project.class.newInstance();
 
-		// in the parser, e.g. onEndTag(String xmlTagName, String value)
 		String xmlTagName = "projectName";
 		String value = "blubb";
 
