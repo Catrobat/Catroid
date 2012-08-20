@@ -274,7 +274,6 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 			if (!isCanceled) {
 				if (addScript) {
 					setAddNewScript();
-					// FIXME nothing is done here?!
 					addScript = false;
 				}
 			}
@@ -324,10 +323,10 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	private class NewBrickAddedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// FIXME should this really be possible?
-			//			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
-			//				updateAdapterAfterAddNewBrick();
-			//			}
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
+				Brick brickToBeAdded = (Brick) intent.getExtras().get("added_brick");
+				updateAdapterAfterAddNewBrick(brickToBeAdded);
+			}
 		}
 	}
 
@@ -335,7 +334,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED)) {
-				adapter.notifyDataSetChanged();
+				adapter.updateProjectBrickList();
 			}
 		}
 	}
