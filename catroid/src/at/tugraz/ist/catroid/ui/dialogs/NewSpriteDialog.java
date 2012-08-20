@@ -26,7 +26,7 @@ import android.content.Intent;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewSpriteDialog extends TextDialog {
@@ -62,7 +62,7 @@ public class NewSpriteDialog extends TextDialog {
 		Sprite sprite = new Sprite(spriteName);
 		projectManager.addSprite(sprite);
 
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(BaseScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
 
 		return true;
 	}

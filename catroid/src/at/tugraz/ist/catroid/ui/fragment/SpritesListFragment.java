@@ -22,7 +22,7 @@
  */
 package at.tugraz.ist.catroid.ui.fragment;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -42,7 +42,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
@@ -60,7 +60,7 @@ public class SpritesListFragment extends SherlockListFragment {
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
 
 	private SpriteAdapter spriteAdapter;
-	private ArrayList<Sprite> spriteList;
+	private List<Sprite> spriteList;
 	private Sprite spriteToEdit;
 	private int activatedSpritePosition = ListView.INVALID_POSITION;
 
@@ -135,10 +135,10 @@ public class SpritesListFragment extends SherlockListFragment {
 			spritesListChangedReceiver = new SpritesListChangedReceiver();
 		}
 
-		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptTabActivity.ACTION_SPRITE_RENAMED);
+		IntentFilter intentFilterSpriteRenamed = new IntentFilter(BaseScriptTabActivity.ACTION_SPRITE_RENAMED);
 		getActivity().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
 
-		IntentFilter intentFilterSpriteListChanged = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED);
+		IntentFilter intentFilterSpriteListChanged = new IntentFilter(BaseScriptTabActivity.ACTION_SPRITES_LIST_CHANGED);
 		getActivity().registerReceiver(spritesListChangedReceiver, intentFilterSpriteListChanged);
 
 		spriteAdapter.notifyDataSetChanged();
@@ -174,7 +174,7 @@ public class SpritesListFragment extends SherlockListFragment {
 
 	public interface Callbacks {
 
-		public void onSpriteSelected(Sprite selectedSprite);
+		public void onSpriteSelected(String oldSpriteName);
 
 	}
 
@@ -189,7 +189,7 @@ public class SpritesListFragment extends SherlockListFragment {
 	}
 
 	private void initListeners() {
-		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item, R.id.sprite_title,
 				spriteList);
 
@@ -201,8 +201,10 @@ public class SpritesListFragment extends SherlockListFragment {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+				String oldSpriteName = (currentSprite != null) ? currentSprite.getName() : null;
 				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				callbacks.onSpriteSelected(spriteAdapter.getItem(position));
+				callbacks.onSpriteSelected(oldSpriteName);
 			}
 		});
 
@@ -267,7 +269,7 @@ public class SpritesListFragment extends SherlockListFragment {
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITE_RENAMED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
 				spriteToEdit.setName(newSpriteName);
 			}
@@ -277,7 +279,7 @@ public class SpritesListFragment extends SherlockListFragment {
 	private class SpritesListChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_SPRITES_LIST_CHANGED)) {
 				spriteAdapter.notifyDataSetChanged();
 			}
 		}

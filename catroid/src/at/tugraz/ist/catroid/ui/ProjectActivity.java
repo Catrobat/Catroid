@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
@@ -39,6 +38,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class ProjectActivity extends BaseScriptTabActivity implements SpritesListFragment.Callbacks {
+
+	private ProjectManager projectManager;
 
 	private ActionBar actionBar;
 	private boolean twoPane = false;
@@ -59,11 +60,18 @@ public class ProjectActivity extends BaseScriptTabActivity implements SpritesLis
 	protected void onStart() {
 		super.onStart();
 
+		projectManager = ProjectManager.getInstance();
+		Utils.loadProjectIfNeeded(this);
+
 		String title = getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		if (twoPane) {
+			setUpTwoPaneLayout();
+		}
 	}
 
 	@Override
@@ -101,6 +109,8 @@ public class ProjectActivity extends BaseScriptTabActivity implements SpritesLis
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 			startActivity(intent);
@@ -111,7 +121,7 @@ public class ProjectActivity extends BaseScriptTabActivity implements SpritesLis
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
+			sendBroadcast(new Intent(BaseScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
 		}
 	}
 
@@ -119,11 +129,28 @@ public class ProjectActivity extends BaseScriptTabActivity implements SpritesLis
 	}
 
 	@Override
-	public void onSpriteSelected(Sprite selectedSprite) {
+	public void onSpriteSelected(String oldSpriteName) {
+		if (oldSpriteName == null) {
+			updateSpriteTabs();
+		} else if (!oldSpriteName.equals(ProjectManager.getInstance().getCurrentSprite().getName())) {
+			updateSpriteTabs();
+		}
+	}
+
+	private void setUpTwoPaneLayout() {
+		if (projectManager.getCurrentSprite() == null) {
+			projectManager.setCurrentSprite(projectManager.getCurrentProject().getSpriteList().get(0));
+		}
+		updateActionBarTitle();
+		setUpSpriteTabs();
+	}
+
+	private void updateSpriteTabs() {
 		if (twoPane) {
 			Utils.loadProjectIfNeeded(this);
 			updateActionBarTitle();
 			setUpSpriteTabs();
+			sendBroadcast(new Intent(BaseScriptTabActivity.ACTION_VISIBLE_SPRITE_CHANGED));
 		} else {
 			Intent intent = new Intent(this, ScriptTabActivity.class);
 			startActivity(intent);
@@ -133,6 +160,6 @@ public class ProjectActivity extends BaseScriptTabActivity implements SpritesLis
 	private void updateActionBarTitle() {
 		String title = getResources().getString(R.string.sprite_name) + " "
 				+ ProjectManager.getInstance().getCurrentSprite().getName();
-		actionBar.setTitle(title);
+		actionBar.setSubtitle(title);
 	}
 }

@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter.BrickInteractionListener;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
@@ -66,7 +66,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 
 	private Sprite sprite;
 	private Script scriptToEdit;
-	public String selectedCategory;
+	private String selectedCategory;
 
 	private boolean addNewScript;
 	private boolean dontCreateNewBrick;
@@ -75,6 +75,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 
 	private NewBrickAddedReceiver brickAddedReceiver;
 	private BrickListChangedReceiver brickListChangedReceiver;
+	private SpriteChangedReceiver spriteChangedReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -128,18 +129,10 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		if (brickListChangedReceiver != null) {
 			getActivity().unregisterReceiver(brickListChangedReceiver);
 		}
-	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		sprite = ProjectManager.getInstance().getCurrentSprite();
-		if (sprite == null) {
-			return;
+		if (spriteChangedReceiver != null) {
+			getActivity().unregisterReceiver(spriteChangedReceiver);
 		}
-
-		initListeners();
 	}
 
 	@Override
@@ -158,11 +151,18 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 			brickListChangedReceiver = new BrickListChangedReceiver();
 		}
 
-		IntentFilter filterBrickAdded = new IntentFilter(ScriptTabActivity.ACTION_NEW_BRICK_ADDED);
+		if (spriteChangedReceiver == null) {
+			spriteChangedReceiver = new SpriteChangedReceiver();
+		}
+
+		IntentFilter filterBrickAdded = new IntentFilter(BaseScriptTabActivity.ACTION_NEW_BRICK_ADDED);
 		getActivity().registerReceiver(brickAddedReceiver, filterBrickAdded);
 
-		IntentFilter filterBrickListChanged = new IntentFilter(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
+		IntentFilter filterBrickListChanged = new IntentFilter(BaseScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
 		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
+
+		IntentFilter filterSpriteChanged = new IntentFilter(BaseScriptTabActivity.ACTION_VISIBLE_SPRITE_CHANGED);
+		getActivity().registerReceiver(spriteChangedReceiver, filterSpriteChanged);
 
 		initListeners();
 	}
@@ -328,7 +328,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	private class NewBrickAddedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
 				updateAdapterAfterAddNewBrick();
 			}
 		}
@@ -337,8 +337,17 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	private class BrickListChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_BRICK_LIST_CHANGED)) {
 				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
+	private class SpriteChangedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_VISIBLE_SPRITE_CHANGED)) {
+				initListeners();
 			}
 		}
 	}

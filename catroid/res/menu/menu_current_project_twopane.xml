@@ -38,12 +38,12 @@
     <item
         android:id="@+id/menu_add_sprite"
         android:icon="@drawable/ic_plus_black"
-        android:showAsAction="withText"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/add_sprite"/>
     <item
         android:id="@+id/menu_start"
         android:icon="@drawable/ic_play_black"
-        android:showAsAction="withText"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/start"/>
 
 </menu>

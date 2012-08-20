@@ -35,7 +35,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 
 public class DeleteCostumeDialog extends DialogFragment {
 
@@ -68,7 +68,7 @@ public class DeleteCostumeDialog extends DialogFragment {
 						for (int i = 0; i < selectedPositions.length; i++) {
 							handleDeleteCostume(selectedPositions[i] - i);
 						}
-						getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_COSTUME_DELETED));
+						getActivity().sendBroadcast(new Intent(BaseScriptTabActivity.ACTION_COSTUME_DELETED));
 					}
 				}).create();
 

@@ -43,6 +43,17 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public abstract class BaseScriptTabActivity extends SherlockFragmentActivity {
 
+	public static final String ACTION_SOUND_RENAMED = "at.tugraz.ist.catroid.SOUND_RENAMED";
+	public static final String ACTION_SOUND_DELETED = "at.tugraz.ist.catroid.SOUND_DELETED";
+	public static final String ACTION_COSTUME_RENAMED = "at.tugraz.ist.catroid.COSTUME_RENAMED";
+	public static final String ACTION_COSTUME_DELETED = "at.tugraz.ist.catroid.COSTUME_DELETED";
+	public static final String ACTION_BRICK_LIST_CHANGED = "at.tugraz.ist.catroid.BRICK_LIST_CHANGED";
+	public static final String ACTION_NEW_BRICK_ADDED = "at.tugraz.ist.catroid.NEW_BRICK_ADDED";
+	public static final String ACTION_SPRITES_LIST_CHANGED = "at.tugraz.ist.catroid.SPRITES_LIST_CHANGED";
+	public static final String ACTION_SPRITE_RENAMED = "at.tugraz.ist.catroid.SPRITE_RENAMED";
+	public static final String ACTION_TAB_CHANGED = "at.tugraz.ist.catroid.TAB_CHANGED";
+	public static final String ACTION_VISIBLE_SPRITE_CHANGED = "at.tugraz.ist.catroid.VISIBLE_SPRITE_CHANGED";
+
 	public static final int INDEX_TAB_SCRIPTS = 0;
 	public static final int INDEX_TAB_COSTUMES = 1;
 	public static final int INDEX_TAB_SOUNDS = 2;
@@ -77,6 +88,7 @@ public abstract class BaseScriptTabActivity extends SherlockFragmentActivity {
 
 	protected void setUpSpriteTabs() {
 		tabsAdapter.clearTabs();
+
 		setupTab(R.drawable.ic_tab_scripts_selector, getString(R.string.scripts), ScriptFragment.class, null);
 
 		int costumeIcon;
@@ -100,7 +112,7 @@ public abstract class BaseScriptTabActivity extends SherlockFragmentActivity {
 	}
 
 	private static View createTabView(Integer id, final Context context, final String text) {
-		View view = LayoutInflater.from(context).inflate(R.layout.activity_tabscriptactivity_tabs, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.activity_scripttab_tabs, null);
 		TextView tabTextView = (TextView) view.findViewById(R.id.tabsText);
 		ImageView tabImageView = (ImageView) view.findViewById(R.id.tabsIcon);
 		tabTextView.setText(text);
@@ -109,6 +121,7 @@ public abstract class BaseScriptTabActivity extends SherlockFragmentActivity {
 			tabImageView.setVisibility(ImageView.VISIBLE);
 			tabImageView.setTag(id);
 		}
+
 		return view;
 	}
 }

@@ -35,7 +35,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 
 public class DeleteSoundDialog extends DialogFragment {
 
@@ -68,7 +68,7 @@ public class DeleteSoundDialog extends DialogFragment {
 						for (int i = 0; i < selectedPositions.length; i++) {
 							handleDeleteSound(selectedPositions[i] - i);
 						}
-						getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_SOUND_DELETED));
+						getActivity().sendBroadcast(new Intent(BaseScriptTabActivity.ACTION_SOUND_DELETED));
 					}
 				}).create();
 

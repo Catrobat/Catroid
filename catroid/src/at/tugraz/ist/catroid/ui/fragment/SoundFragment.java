@@ -48,7 +48,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter.OnSoundCheckedListener;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
@@ -72,16 +72,17 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 	private final int REQUEST_SELECT_MUSIC = 0;
 
-	public MediaPlayer mediaPlayer;
+	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
-	public SoundInfo selectedSoundInfo;
+	private SoundInfo selectedSoundInfo;
 
 	private ActionMode actionMode;
 
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
 	private TabChangedReceiver tabChangedReceiver;
+	private SpriteChangedReceiver spriteChangedReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -102,13 +103,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 		if (savedInstanceState != null) {
 			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
-		adapter.setOnSoundCheckedListener(this);
-		adapter.setOnSoundPlayPauseListener(this);
-		adapter.setOnSoundEditListener(this);
-		setListAdapter(adapter);
 
 		mediaPlayer = new MediaPlayer();
 	}
@@ -161,17 +155,24 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 			tabChangedReceiver = new TabChangedReceiver();
 		}
 
-		IntentFilter intentFilterDeleteSound = new IntentFilter(ScriptTabActivity.ACTION_SOUND_DELETED);
+		if (spriteChangedReceiver == null) {
+			spriteChangedReceiver = new SpriteChangedReceiver();
+		}
+
+		IntentFilter intentFilterDeleteSound = new IntentFilter(BaseScriptTabActivity.ACTION_SOUND_DELETED);
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
 
-		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptTabActivity.ACTION_SOUND_RENAMED);
+		IntentFilter intentFilterRenameSound = new IntentFilter(BaseScriptTabActivity.ACTION_SOUND_RENAMED);
 		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
 
-		IntentFilter intentFilterTabChanged = new IntentFilter(ScriptTabActivity.ACTION_TAB_CHANGED);
+		IntentFilter intentFilterTabChanged = new IntentFilter(BaseScriptTabActivity.ACTION_TAB_CHANGED);
 		getActivity().registerReceiver(tabChangedReceiver, intentFilterTabChanged);
 
-		stopSound(null);
+		IntentFilter filterSpriteChanged = new IntentFilter(BaseScriptTabActivity.ACTION_VISIBLE_SPRITE_CHANGED);
+		getActivity().registerReceiver(spriteChangedReceiver, filterSpriteChanged);
+
 		reloadAdapter();
+		stopSound(null);
 	}
 
 	@Override
@@ -194,6 +195,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 
 		if (tabChangedReceiver != null) {
 			getActivity().unregisterReceiver(tabChangedReceiver);
+		}
+
+		if (spriteChangedReceiver != null) {
+			getActivity().unregisterReceiver(spriteChangedReceiver);
 		}
 
 		destroyActionMode();
@@ -415,7 +420,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 	private class TabChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_TAB_CHANGED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_TAB_CHANGED)) {
 				destroyActionMode();
 			}
 		}
@@ -424,7 +429,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 	private class SoundDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_DELETED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_SOUND_DELETED)) {
 				reloadAdapter();
 			}
 		}
@@ -433,13 +438,22 @@ public class SoundFragment extends SherlockListFragment implements OnSoundChecke
 	private class SoundRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_RENAMED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_SOUND_RENAMED)) {
 				String newSoundTitle = intent.getExtras().getString(RenameSoundDialog.EXTRA_NEW_SOUND_TITLE);
 
 				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 					selectedSoundInfo.setTitle(newSoundTitle);
 					adapter.notifyDataSetChanged();
 				}
+			}
+		}
+	}
+
+	private class SpriteChangedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_VISIBLE_SPRITE_CHANGED)) {
+				reloadAdapter();
 			}
 		}
 	}

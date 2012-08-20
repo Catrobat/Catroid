@@ -55,7 +55,7 @@ import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter.OnCostumeCheckedListener;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter.OnCostumeEditListener;
@@ -80,6 +80,10 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
+	public static final int REQUEST_SELECT_IMAGE = 0;
+	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
+	public static final int REQUEST_TAKE_PICTURE = 2;
+
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
 	private CostumeData selectedCostumeData;
@@ -90,10 +94,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	private CostumeDeletedReceiver costumeDeletedReceiver;
 	private CostumeRenamedReceiver costumeRenamedReceiver;
 	private TabChangedReceiver tabChangedReceiver;
-
-	public static final int REQUEST_SELECT_IMAGE = 0;
-	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
-	public static final int REQUEST_TAKE_PICTURE = 2;
+	private SpriteChangedReceiver spriteChangedReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -120,12 +121,6 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 				costumeFromCameraUri = UtilCamera.getDefaultCostumeFromCameraUri(defCostumeName);
 			}
 		}
-
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList);
-		adapter.setOnCostumeEditListener(this);
-		adapter.setOnCostumeCheckedListener(this);
-		setListAdapter(adapter);
 	}
 
 	@Override
@@ -154,14 +149,21 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 			tabChangedReceiver = new TabChangedReceiver();
 		}
 
-		IntentFilter intentFilterDeleteCostume = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_DELETED);
+		if (spriteChangedReceiver == null) {
+			spriteChangedReceiver = new SpriteChangedReceiver();
+		}
+
+		IntentFilter intentFilterDeleteCostume = new IntentFilter(BaseScriptTabActivity.ACTION_COSTUME_DELETED);
 		getActivity().registerReceiver(costumeDeletedReceiver, intentFilterDeleteCostume);
 
-		IntentFilter intentFilterRenameCostume = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_RENAMED);
+		IntentFilter intentFilterRenameCostume = new IntentFilter(BaseScriptTabActivity.ACTION_COSTUME_RENAMED);
 		getActivity().registerReceiver(costumeRenamedReceiver, intentFilterRenameCostume);
 
-		IntentFilter intentFilterTabChanged = new IntentFilter(ScriptTabActivity.ACTION_TAB_CHANGED);
+		IntentFilter intentFilterTabChanged = new IntentFilter(BaseScriptTabActivity.ACTION_TAB_CHANGED);
 		getActivity().registerReceiver(tabChangedReceiver, intentFilterTabChanged);
+
+		IntentFilter filterSpriteChanged = new IntentFilter(BaseScriptTabActivity.ACTION_VISIBLE_SPRITE_CHANGED);
+		getActivity().registerReceiver(spriteChangedReceiver, filterSpriteChanged);
 
 		reloadAdapter();
 	}
@@ -185,6 +187,10 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 
 		if (tabChangedReceiver != null) {
 			getActivity().unregisterReceiver(tabChangedReceiver);
+		}
+
+		if (spriteChangedReceiver != null) {
+			getActivity().unregisterReceiver(spriteChangedReceiver);
 		}
 
 		destroyActionMode();
@@ -257,12 +263,12 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	@Override
 	public void onCostumeRename(int position) {
 		destroyActionMode();
-		handleRenameCostumeButton(position);
+		handleRenameCostume(position);
 	}
 
 	@Override
 	public void onCostumeEditPaintroid(int position) {
-		handleEditCostumeButton(position);
+		handleEditCostume(position);
 	}
 
 	@Override
@@ -406,7 +412,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		}
 
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(BaseScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	private void loadImageIntoCatroid(Intent intent) {
@@ -483,14 +489,14 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 		deleteCostumeDialog.show(getFragmentManager(), DeleteCostumeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void handleRenameCostumeButton(int position) {
+	private void handleRenameCostume(int position) {
 		selectedCostumeData = costumeDataList.get(position);
 
 		RenameCostumeDialog renameCostumeDialog = RenameCostumeDialog.newInstance(selectedCostumeData.getCostumeName());
 		renameCostumeDialog.show(getFragmentManager(), RenameCostumeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void handleCopyCostumeButton(int position) {
+	private void handleCopyCostume(int position) {
 		CostumeData costumeData = costumeDataList.get(position);
 		try {
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
@@ -503,10 +509,10 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 			e.printStackTrace();
 		}
 
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(BaseScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
-	private void handleEditCostumeButton(int position) {
+	private void handleEditCostume(int position) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName("at.tugraz.ist.paintroid", "at.tugraz.ist.paintroid.MainActivity"));
 
@@ -558,10 +564,10 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	private class CostumeDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_DELETED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_COSTUME_DELETED)) {
 				reloadAdapter();
 				adapter.notifyDataSetChanged();
-				getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+				getActivity().sendBroadcast(new Intent(BaseScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
 			}
 		}
 	}
@@ -569,7 +575,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	private class CostumeRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_RENAMED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_COSTUME_RENAMED)) {
 				String newCostumeName = intent.getExtras().getString(RenameCostumeDialog.EXTRA_NEW_COSTUME_NAME);
 
 				if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
@@ -583,8 +589,17 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 	private class TabChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_TAB_CHANGED)) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_TAB_CHANGED)) {
 				destroyActionMode();
+			}
+		}
+	}
+
+	private class SpriteChangedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(BaseScriptTabActivity.ACTION_VISIBLE_SPRITE_CHANGED)) {
+				reloadAdapter();
 			}
 		}
 	}
@@ -609,7 +624,7 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 			switch (itemId) {
 				case R.id.menu_costume_copy: {
 					for (Integer checkedCostume : adapter.getCheckedCostumes()) {
-						handleCopyCostumeButton(checkedCostume);
+						handleCopyCostume(checkedCostume);
 					}
 
 					destroyActionMode();
@@ -628,12 +643,12 @@ public class CostumeFragment extends SherlockListFragment implements LoaderManag
 					return true;
 				}
 				case R.id.menu_costume_edit: {
-					handleRenameCostumeButton(adapter.getSingleCheckedCostume());
+					handleRenameCostume(adapter.getSingleCheckedCostume());
 					destroyActionMode();
 					return true;
 				}
 				case R.id.menu_costume_paintroid: {
-					handleEditCostumeButton(adapter.getSingleCheckedCostume());
+					handleEditCostume(adapter.getSingleCheckedCostume());
 					destroyActionMode();
 					return true;
 				}

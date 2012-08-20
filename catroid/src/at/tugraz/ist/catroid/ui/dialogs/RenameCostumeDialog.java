@@ -29,7 +29,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameCostumeDialog extends TextDialog {
@@ -71,7 +71,7 @@ public class RenameCostumeDialog extends TextDialog {
 			dismiss();
 		}
 
-		Intent intent = new Intent(ScriptTabActivity.ACTION_COSTUME_RENAMED);
+		Intent intent = new Intent(BaseScriptTabActivity.ACTION_COSTUME_RENAMED);
 		intent.putExtra(EXTRA_NEW_COSTUME_NAME, newCostumeName);
 		getActivity().sendBroadcast(intent);
 		return true;

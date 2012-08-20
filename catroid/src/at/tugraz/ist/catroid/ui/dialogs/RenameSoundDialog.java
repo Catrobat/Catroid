@@ -29,7 +29,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.BaseScriptTabActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSoundDialog extends TextDialog {
@@ -70,7 +70,7 @@ public class RenameSoundDialog extends TextDialog {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.soundname_invalid));
 		}
 
-		Intent intent = new Intent(ScriptTabActivity.ACTION_SOUND_RENAMED);
+		Intent intent = new Intent(BaseScriptTabActivity.ACTION_SOUND_RENAMED);
 		intent.putExtra(EXTRA_NEW_SOUND_TITLE, newSoundTitle);
 		getActivity().sendBroadcast(intent);
 
