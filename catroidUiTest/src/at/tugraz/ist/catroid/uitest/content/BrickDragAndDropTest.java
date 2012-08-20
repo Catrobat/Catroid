@@ -113,7 +113,9 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 	public void testAddNewBrickFromAnotherCategory() {
 		int categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.btn_action_add_button);
+		// FIXME blah
+		//		UiTestUtils.clickOnActionBar(solo, R.id.btn_action_add_button);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnImageButton(0);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);

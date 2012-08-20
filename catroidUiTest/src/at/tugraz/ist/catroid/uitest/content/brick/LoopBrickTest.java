@@ -257,6 +257,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		checkIfForeverLoopsAreCorrectlyPlaced(3);
 
 		yPos = UiTestUtils.getListItemYPositions(solo);
+
+		solo.clickOnScreen(20, yPos.get(0)); // needed because of bug? in Nexus S 2.3.6
 		solo.clickOnScreen(20, yPos.get(1));
 		clickOnDeleteInDialog();
 
