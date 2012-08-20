@@ -127,7 +127,15 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
+		}
+		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
+			ProjectManager projectManager = ProjectManager.getInstance();
+			int currentSpritePos = projectManager.getCurrentSpritePosition();
+			int currentScriptPos = projectManager.getCurrentScriptPosition();
+			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
+			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		}
 	}
 
