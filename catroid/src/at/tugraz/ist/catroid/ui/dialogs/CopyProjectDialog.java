@@ -30,6 +30,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -49,13 +50,45 @@ public class CopyProjectDialog extends TextDialog {
 			String newProjectName = array[0];
 
 			try {
-				UtilFile.copyProject(newProjectName, oldProjectName);
+				copyProject(newProjectName, oldProjectName);
+
 			} catch (IOException exception) {
 				UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
 				Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
 				return false;
 			}
 			return true;
+		}
+
+		private void copyProject(String newProjectName, String oldProjectName) throws IOException {
+			if (Utils.deleteSpecialCharactersInString(newProjectName) == "") {
+				return;
+			}
+			File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
+			File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
+			//oldProjectRootDirectory = new File("Test");
+
+			copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
+
+			Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);
+			copiedProject.setName(newProjectName);
+			StorageHandler.getInstance().saveProject(copiedProject);
+		}
+
+		private void copyDirectory(File destinationFile, File sourceFile) throws IOException {
+			if (isCancelled()) {
+				orientationChangedWhileCopying = true;
+				return;
+			}
+			if (sourceFile.isDirectory()) {
+
+				destinationFile.mkdirs();
+				for (String subDirectoryName : sourceFile.list()) {
+					copyDirectory(new File(destinationFile, subDirectoryName), new File(sourceFile, subDirectoryName));
+				}
+			} else {
+				UtilFile.copyFile(destinationFile, sourceFile, null);
+			}
 		}
 
 		@Override
@@ -69,13 +102,12 @@ public class CopyProjectDialog extends TextDialog {
 			if (result) {
 				if (onCopyProjectListener != null) {
 					onCopyProjectListener.onCopyProject();
+					dismiss();
 				}
-			}
-
-			if (!result) {
+			} else {
 				Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
+				return;
 			}
-
 		}
 	}
 
@@ -87,6 +119,7 @@ public class CopyProjectDialog extends TextDialog {
 	private String oldProjectName;
 	private CopyProjectAsyncTask currentCopyProjectAsyncTask;
 	ProgressDialog progressDialog;
+	Boolean orientationChangedWhileCopying = false;
 
 	public static CopyProjectDialog newInstance(String oldProjectName) {
 		CopyProjectDialog dialog = new CopyProjectDialog();
@@ -131,7 +164,7 @@ public class CopyProjectDialog extends TextDialog {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
 			return false;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -142,6 +175,14 @@ public class CopyProjectDialog extends TextDialog {
 	@Override
 	protected String getHint() {
 		return null;
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (currentCopyProjectAsyncTask != null) {
+			currentCopyProjectAsyncTask.cancel(true);
+		}
 	}
 
 	public interface OnCopyProjectListener {
