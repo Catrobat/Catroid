@@ -30,6 +30,7 @@ import android.view.Display;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
@@ -63,6 +64,12 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		super.tearDown();
 	}
 
+	public void testClickOnEmptySpace() {
+		solo.clickOnScreen(20, Values.SCREEN_HEIGHT - 50);
+		solo.sleep(200);
+		assertTrue("Wrong number of Bricks", solo.searchText(solo.getString(R.string.categories)));
+	}
+
 	public void testPutHoveringBrickDown() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
 		String spriteName = solo.getString(R.string.sprite_name);
@@ -71,7 +78,13 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
+		assertEquals("Wrong number of Bricks", 3, adapter.getCount());
+
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		solo.sleep(200);
+		assertFalse("Wrong number of Bricks", solo.searchText(solo.getString(R.string.categories)));
 		solo.clickOnScreen(200, 200);
+
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
 		solo.clickOnText(spriteName);
 

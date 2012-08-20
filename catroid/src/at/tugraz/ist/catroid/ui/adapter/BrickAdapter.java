@@ -84,8 +84,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private List<Brick> brickList;
 	private List<Brick> animatedBricks;
 
-	private BrickInteractionListener brickInteractionListener;
-
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
@@ -112,10 +110,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				brickList.add(brick);
 			}
 		}
-	}
-
-	public void setBrickInteractionListener(BrickInteractionListener listener) {
-		brickInteractionListener = listener;
 	}
 
 	@Override
