@@ -29,6 +29,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -324,7 +325,16 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
-				Brick brickToBeAdded = (Brick) intent.getExtras().get("added_brick");
+				Brick brickToBeAdded = null;
+				Object tempObject = intent.getExtras().get("added_brick");
+				if (tempObject instanceof Brick) {
+					brickToBeAdded = (Brick) tempObject;
+				}
+
+				if (brickToBeAdded == null) {
+					Log.w("NewBrickAddedReceiver", "no Brick given in extras");
+					return;
+				}
 				updateAdapterAfterAddNewBrick(brickToBeAdded);
 			}
 		}
