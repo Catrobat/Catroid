@@ -81,13 +81,13 @@ public class BrickSerializer extends Serializer {
 			String fieldName = objectCreator.extractTagName(brickClassField);
 			brickClassField.setAccessible(true);
 			if (!brickClassField.getType().isPrimitive()) {
-				if (fieldName.equals(CatroidXMLConstants.sprite)) {
-
+				if (fieldName.equals(CatroidXMLConstants.SPRITE)) {
+					// sprites are not serialized
 				} else if (brickClassField.getType().equals(String.class)) {
 					xmlElementString = brickTabs + tab + tab
 							+ getElementString(fieldName, (String) brickClassField.get(object));
 					brickStringList.add(xmlElementString);
-				} else {
+				} else if (!fieldName.equals(CatroidXMLConstants.SPRITE)) {
 					String referenceString = getReference(brickClassField, object);
 					xmlElementString = brickTabs + tab + tab + "<" + fieldName + " reference=\"" + referenceString
 							+ "\"/>" + "\n";
@@ -104,11 +104,11 @@ public class BrickSerializer extends Serializer {
 	public List<String> serializeBrickList(List<Brick> brickList) throws IllegalArgumentException,
 			IllegalAccessException {
 		List<String> brickStrings = new ArrayList<String>();
-		brickStrings.add(brickTabs + getStartTag(CatroidXMLConstants.brickListElementName));
+		brickStrings.add(brickTabs + getStartTag(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME));
 		for (Object brickObject : brickList) {
 			brickStrings.addAll(serialize(brickObject));
 		}
-		brickStrings.add(brickTabs + getEndTag(CatroidXMLConstants.brickListElementName));
+		brickStrings.add(brickTabs + getEndTag(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME));
 		return brickStrings;
 
 	}

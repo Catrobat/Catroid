@@ -50,7 +50,7 @@ public class SoundInfoParser {
 				SoundInfo foundSoundInfo = new SoundInfo();
 				String soundRef = References.getReferenceAttribute(soundNode);
 				if (soundRef != null) {
-					String suffix = soundRef.substring(soundRef.lastIndexOf(CatroidXMLConstants.scriptListElementName));
+					String suffix = soundRef.substring(soundRef.lastIndexOf(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
 
 					if (referencedObjects.containsKey(suffix)) {
 						foundSoundInfo = (SoundInfo) referencedObjects.get(suffix);
@@ -62,12 +62,12 @@ public class SoundInfoParser {
 					}
 				} else {
 
-					Node soundFileNameNode = soundElement.getElementsByTagName(CatroidXMLConstants.fileName).item(0);
+					Node soundFileNameNode = soundElement.getElementsByTagName(CatroidXMLConstants.FILE_NAME).item(0);
 					String soundFileName = null;
 					if (soundFileNameNode != null) {
 						soundFileName = soundFileNameNode.getChildNodes().item(0).getNodeValue();
 					}
-					Node soundNameNode = soundElement.getElementsByTagName(CatroidXMLConstants.name).item(0);
+					Node soundNameNode = soundElement.getElementsByTagName(CatroidXMLConstants.NAME).item(0);
 					String soundName = null;
 					if (soundNameNode != null) {
 						soundName = soundNameNode.getChildNodes().item(0).getNodeValue();
@@ -81,7 +81,7 @@ public class SoundInfoParser {
 				String soundInfoXPath = ParserUtil.getElementXpath(soundElement);
 				referencedObjects.put(soundInfoXPath, foundSoundInfo);
 				String playSoundQeuery = soundInfoXPath.substring(soundInfoXPath
-						.lastIndexOf(CatroidXMLConstants.soundListElementName));
+						.lastIndexOf(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME));
 				PlaySoundBrick playSoundBrickWithRef = (PlaySoundBrick) referencedObjects
 						.get("PlaySounfRef../../../../../" + playSoundQeuery);
 				if (playSoundBrickWithRef != null) {
@@ -89,7 +89,7 @@ public class SoundInfoParser {
 				}
 			}
 		}
-		Field soundListField = sprite.getClass().getDeclaredField(CatroidXMLConstants.soundListElementName);
+		Field soundListField = sprite.getClass().getDeclaredField(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME);
 		objectGetter.setFieldOfObject(soundListField, sprite, soundList);
 
 	}

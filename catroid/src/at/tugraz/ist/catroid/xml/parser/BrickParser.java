@@ -68,8 +68,8 @@ public class BrickParser {
 				String brickName = currentBrickNode.getNodeName();
 				String brickReferenceAttr = References.getReferenceAttribute(brickElement);
 				if (brickReferenceAttr != null) {
-					String loopEndReferenceQuery = brickReferenceAttr.replace(CatroidXMLConstants.parentElement,
-							CatroidXMLConstants.brickListElementName);
+					String loopEndReferenceQuery = brickReferenceAttr.replace(CatroidXMLConstants.PARENT_ELEMENT,
+							CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME);
 					if (brickName.equals(LoopEndBrick.class.getSimpleName())
 							&& (referencedObjects.containsKey(loopEndReferenceQuery))) {
 						foundBrickObj = (Brick) referencedObjects.get(loopEndReferenceQuery);
@@ -114,7 +114,7 @@ public class BrickParser {
 
 		String brickClassName = brickName;
 		Brick brickObject = null;
-		Class<?> brickClass = Class.forName(CatroidXMLConstants.brickPackage + brickClassName);
+		Class<?> brickClass = Class.forName(CatroidXMLConstants.BRICK_PACKAGE + brickClassName);
 		Map<String, Field> brickFieldsToSet = objectGetter.getFieldMap(brickClass);
 		brickObject = (Brick) objectGetter.getobjectOfClass(brickClass, "0");
 		if (valueNodes != null) {
@@ -174,21 +174,21 @@ public class BrickParser {
 						if (brickvalueName.equals("soundInfo")) {
 							referencedObjects.put("PlaySounfRef" + referenceAttribute, brickObject);
 						}
-						if (brickvalueName.equals(CatroidXMLConstants.loopEndBrick)) {
+						if (brickvalueName.equals(CatroidXMLConstants.LOOP_END_BRICK)) {
 							LoopEndBrick parsedLoopEndBrick = new LoopEndBrick(foundSprite,
 									(LoopBeginBrick) brickObject);
 							String brickValueXpath = ParserUtil.getElementXpath((Element) brickValue);
 							String referenceString = brickValueXpath.substring(brickValueXpath
-									.lastIndexOf(CatroidXMLConstants.brickListElementName));
-							referencedObjects.put(CatroidXMLConstants.loopEndBrickreference + referenceString,
+									.lastIndexOf(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME));
+							referencedObjects.put(CatroidXMLConstants.LOOP_END_BRICKREFERENCE + referenceString,
 									parsedLoopEndBrick);
 							valueField.set(brickObject, parsedLoopEndBrick);
 							continue;
 						}
-						if (brickvalueName.equals(CatroidXMLConstants.loopBeginBrick)) {
+						if (brickvalueName.equals(CatroidXMLConstants.LOOP_BEGIN_BRICK)) {
 
 							String loopEndref = referenceAttribute.replace("../..", "brickList");
-							brickObject = (Brick) referencedObjects.get(CatroidXMLConstants.loopEndBrickreference
+							brickObject = (Brick) referencedObjects.get(CatroidXMLConstants.LOOP_END_BRICKREFERENCE
 									+ loopEndref + "/loopEndBrick");
 							if (brickObject != null) {
 								return brickObject;
@@ -217,12 +217,12 @@ public class BrickParser {
 				}
 
 				if (brickValue.getChildNodes().getLength() > 1) {
-					if (brickvalueName.endsWith(CatroidXMLConstants.brickClassSuffix)) {
+					if (brickvalueName.endsWith(CatroidXMLConstants.BRICK_CLASS_SUFFIX)) {
 
-						if (brickvalueName.equals(CatroidXMLConstants.loopEndBrick)) {
+						if (brickvalueName.equals(CatroidXMLConstants.LOOP_END_BRICK)) {
 							Element brickValueElement = (Element) brickValue;
 							Element brickLoopBeginElement = (Element) brickValueElement.getElementsByTagName(
-									CatroidXMLConstants.loopBeginBrick).item(0);
+									CatroidXMLConstants.LOOP_BEGIN_BRICK).item(0);
 							String loopBeginRef = References.getReferenceAttribute(brickLoopBeginElement);
 							if (loopBeginRef.equals("../..")) {
 								LoopEndBrick foundLoopEndBrick = new LoopEndBrick(foundSprite,
@@ -230,7 +230,7 @@ public class BrickParser {
 								valueField.set(brickObject, foundLoopEndBrick);
 								String childBrickXPath = ParserUtil.getElementXpath((Element) brickValue);
 								String key = childBrickXPath.substring(childBrickXPath
-										.lastIndexOf(CatroidXMLConstants.brickListElementName));
+										.lastIndexOf(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME));
 								referencedObjects.put(key, foundLoopEndBrick);
 								continue;
 							}
@@ -252,9 +252,9 @@ public class BrickParser {
 						valueField.set(brickObject, valueObj);
 
 						String valueObjXPath = ParserUtil.getElementXpath((Element) brickValue);
-						if (brickvalueName.equals(CatroidXMLConstants.soundInfo)) {
+						if (brickvalueName.equals(CatroidXMLConstants.SOUND_INFO)) {
 							String suffix = valueObjXPath.substring(valueObjXPath
-									.lastIndexOf(CatroidXMLConstants.scriptListElementName));
+									.lastIndexOf(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
 							referencedObjects.put(suffix, valueObj);
 						} else {
 							referencedObjects.put(valueObjXPath, valueObj);

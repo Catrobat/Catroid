@@ -40,13 +40,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import android.media.MediaPlayer;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -101,27 +98,27 @@ public class FullParser {
 			Document doc = docBuilder.parse(xmlInputStream);
 			doc.getDocumentElement().normalize();
 
-			NodeList spriteNodes = doc.getElementsByTagName(CatroidXMLConstants.spriteElementName);
+			NodeList spriteNodes = doc.getElementsByTagName(CatroidXMLConstants.SPRITE_ELEMENT_NAME);
 			for (int i = 0; i < spriteNodes.getLength(); i++) {
 				Element spriteElement = (Element) spriteNodes.item(i);
 				String spriteName = getSpriteName(spriteElement);
 				Sprite foundSprite = new Sprite(spriteName);
 
-				Node costumeListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.costumeListElementName)
+				Node costumeListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME)
 						.item(0);
 				if (costumeListItem != null) {
 					NodeList costumeNodes = costumeListItem.getChildNodes();
 					costumeParser.parseCostumeList(costumeNodes, foundSprite, referencedObjects);
 				}
 
-				Node scriptListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.scriptListElementName)
+				Node scriptListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME)
 						.item(0);
 				if (scriptListItem != null) {
 					NodeList scriptNodes = scriptListItem.getChildNodes();
 					scriptParser.parseScripts(scriptNodes, foundSprite, referencedObjects, forwardRefs);
 				}
 
-				Node soundListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.soundListElementName).item(
+				Node soundListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME).item(
 						0);
 				if (soundListItem != null) {
 					NodeList soundNodes = soundListItem.getChildNodes();
@@ -143,29 +140,8 @@ public class FullParser {
 			throw new ParseException(e);
 		}
 
-		//initiateMediaPlayers(parsedProject);
 		setCheckSumsOnProjectManager(parsedProject);
 		return parsedProject;
-
-	}
-
-	private void initiateMediaPlayers(Project parsedProject) throws NoSuchFieldException, IllegalArgumentException,
-			IllegalAccessException {
-		List<Sprite> sprites = parsedProject.getSpriteList();
-		for (Sprite sprite : sprites) {
-			if (!(sprite.getSoundList().isEmpty())) {
-				Field mediaPlayers = SoundManager.class.getDeclaredField("mediaPlayers");
-				mediaPlayers.setAccessible(true);
-				//TODO: look at mediaplayer init
-				ArrayList<MediaPlayer> mediaPlayerList = (ArrayList<MediaPlayer>) mediaPlayers.get(SoundManager
-						.getInstance());
-				if (mediaPlayerList.isEmpty()) {
-					SoundManager.getInstance().getMediaPlayer();
-					Log.i("Full Parser", "Media players added by parser");
-					break;
-				}
-			}
-		}
 
 	}
 
@@ -179,7 +155,6 @@ public class FullParser {
 		if (imageFiles != null) {
 			for (File projectFile : imageFiles) {
 				String checksums = Utils.md5Checksum(projectFile);
-				//checksumList.add(checksums);
 				if (!(projectFile.getName().equals(".nomedia"))) {
 					checkSumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
 				}
@@ -201,7 +176,7 @@ public class FullParser {
 		for (int i = 0; i < spriteChildren.getLength(); i++) {
 			if (spriteChildren.item(i).getNodeType() != Node.TEXT_NODE) {
 				Element childElement = (Element) spriteChildren.item(i);
-				if (childElement.getNodeName().equals(CatroidXMLConstants.spriteName)) {
+				if (childElement.getNodeName().equals(CatroidXMLConstants.SPRITE_NAME)) {
 					spriteName = childElement.getChildNodes().item(0).getNodeValue();
 					break;
 				}

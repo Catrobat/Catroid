@@ -49,7 +49,7 @@ public class ProjectSerializer extends Serializer {
 			xmlElementString = getStartTag(className);
 		} else {
 
-			xmlElementString = getStartTag(CatroidXMLConstants.projectElementName);
+			xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME);
 		}
 		projectStringList.add(xmlElementString);
 		if (!(object.getClass().getSuperclass().equals(Object.class))) {
@@ -62,7 +62,7 @@ public class ProjectSerializer extends Serializer {
 			xmlElementString = getEndTag(className);
 		} else {
 
-			xmlElementString = getEndTag(CatroidXMLConstants.projectElementName);
+			xmlElementString = getEndTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME);
 
 		}
 		projectStringList.add(xmlElementString);

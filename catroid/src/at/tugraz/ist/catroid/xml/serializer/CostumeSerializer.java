@@ -40,13 +40,13 @@ public class CostumeSerializer extends Serializer {
 		String costumeName = costumedata.getCostumeName();
 		List<String> costumeStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = costumeTabs + tab + getStartTag(CatroidXMLConstants.costumeDataElementName);
+		xmlElementString = costumeTabs + tab + getStartTag(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + tab + getElementString(CatroidXMLConstants.fileName, costumeFileName);
+		xmlElementString = costumeTabs + tab + tab + getElementString(CatroidXMLConstants.FILE_NAME, costumeFileName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + tab + getElementString(CatroidXMLConstants.name, costumeName);
+		xmlElementString = costumeTabs + tab + tab + getElementString(CatroidXMLConstants.NAME, costumeName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + getEndTag(CatroidXMLConstants.costumeDataElementName);
+		xmlElementString = costumeTabs + tab + getEndTag(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME);
 		costumeStringList.add(xmlElementString);
 
 		return costumeStringList;
@@ -55,11 +55,11 @@ public class CostumeSerializer extends Serializer {
 	public List<String> serializeCostumeList(List<CostumeData> costumeList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
 		List<String> costumeStrings = new ArrayList<String>();
-		costumeStrings.add(costumeTabs + getStartTag(CatroidXMLConstants.costumeListElementName));
+		costumeStrings.add(costumeTabs + getStartTag(CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME));
 		for (CostumeData costumeData : costumeList) {
 			costumeStrings.addAll(this.serialize(costumeData));
 		}
-		costumeStrings.add(costumeTabs + getEndTag(CatroidXMLConstants.costumeListElementName));
+		costumeStrings.add(costumeTabs + getEndTag(CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME));
 		return costumeStrings;
 	}
 
