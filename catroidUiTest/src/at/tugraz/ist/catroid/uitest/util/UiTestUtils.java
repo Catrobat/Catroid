@@ -616,7 +616,7 @@ public class UiTestUtils {
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
-		solo.sleep(100);
+		solo.sleep(400);
 		int width = 0;
 		if (assertMode) {
 			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(value));
