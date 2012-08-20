@@ -60,7 +60,6 @@ public class ObjectCreator {
 				String valueInString = headerValues.get(tagName);
 
 				if (valueInString != null) {
-					//Object finalObject = getObjectWithValue(fieldinProject, valueInString);
 					Object finalObject = getobjectOfClass(fieldinProject.getType(), valueInString);
 					fieldinProject.setAccessible(true);
 					fieldinProject.set(project, finalObject);
@@ -69,28 +68,12 @@ public class ObjectCreator {
 
 		} catch (Throwable e) {
 			throw new ParseException("Exception when creating object", e);
-
 		}
 
 		return project;
 	}
 
-	//	public Object getObjectWithValue(Field field, String valueInString) {
-	//		String fieldClassCannonicalName = field.getType().getCanonicalName();
-	//		if (fieldClassCannonicalName.equals("int") || fieldClassCannonicalName.equals("java.lang.Integer")) {
-	//			return new Integer(valueInString);
-	//		} else if (fieldClassCannonicalName.equals("java.lang.String")) {
-	//			return valueInString;
-	//		} else if (fieldClassCannonicalName.equals("java.lang.Double") || fieldClassCannonicalName.equals("double")) {
-	//			return new Double(valueInString);
-	//		} else if (fieldClassCannonicalName.equals("java.lang.Float") || fieldClassCannonicalName.equals("float")) {
-	//			return new Float(valueInString);
-	//		}
-	//		return null;
-	//	}
-
-	@SuppressWarnings("rawtypes")
-	public Map<String, Field> getFieldMap(Class cls) {
+	public Map<String, Field> getFieldMap(Class<?> cls) {
 		Map<String, Field> fieldsToSetofSuperClass = getFieldMapOfSuperClass(cls);
 		Map<String, Field> fieldsToSetofClass = getFieldMapOfThisClass(cls);
 		Map<String, Field> allFieldsMap = new TreeMap<String, Field>();
@@ -100,8 +83,7 @@ public class ObjectCreator {
 		return allFieldsMap;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Map<String, Field> getFieldMapOfThisClass(Class cls) {
+	public Map<String, Field> getFieldMapOfThisClass(Class<?> cls) {
 		Map<String, Field> fieldsToSetofClass = new TreeMap<String, Field>();
 		Field[] classFields = cls.getDeclaredFields();
 		for (Field field : classFields) {
@@ -119,8 +101,7 @@ public class ObjectCreator {
 		return fieldsToSetofClass;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Map<String, Field> getFieldMapOfSuperClass(Class cls) {
+	public Map<String, Field> getFieldMapOfSuperClass(Class<?> cls) {
 		Map<String, Field> fieldsToSetofSuperClass = new TreeMap<String, Field>();
 		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
 		for (Field field : superClassFields) {
@@ -138,8 +119,7 @@ public class ObjectCreator {
 		return fieldsToSetofSuperClass;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public static Object createWithoutConstructor(final Class clazz) throws IllegalArgumentException,
+	public static Object createWithoutConstructor(final Class<?> clazz) throws IllegalArgumentException,
 			IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
 		Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
 		newInstance.setAccessible(true);
@@ -158,13 +138,12 @@ public class ObjectCreator {
 		return tagName;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public Script getScriptObject(String scriptImplName, Sprite foundSprite) throws ClassNotFoundException,
 			SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
 			IllegalAccessException, InvocationTargetException, ParseException {
 		Script scriptObject = null;
-		Class scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptImplName);
-		Constructor scriptConstructor = scriptClass.getConstructor(Sprite.class);
+		Class<?> scriptClass = Class.forName("at.tugraz.ist.catroid.content." + scriptImplName);
+		Constructor<?> scriptConstructor = scriptClass.getConstructor(Sprite.class);
 		if (scriptConstructor == null) {
 			return (Script) getobjectOfClass(scriptClass, "0");
 		}
@@ -173,10 +152,9 @@ public class ObjectCreator {
 		return scriptObject;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Object getobjectOfClass(Class cls, String val) throws IllegalArgumentException, SecurityException,
+	public Object getobjectOfClass(Class<?> cls, String val) throws IllegalArgumentException, SecurityException,
 			InstantiationException, IllegalAccessException, InvocationTargetException, ParseException {
-		Constructor clsConstructor = null;
+		Constructor<?> clsConstructor = null;
 		Object obj = null;
 		try {
 			if (cls == int.class) {
@@ -201,16 +179,14 @@ public class ObjectCreator {
 				return new String(val);
 			} else {
 
-				//Method newInstance = ObjectStreamClass.class.getDeclaredMethod("newInstance", Class.class, int.class);
 				Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
 				newInstance.setAccessible(true);
 				return newInstance.invoke(null, cls, Object.class);
 			}
 			clsConstructor = cls.getConstructor(String.class);
 		} catch (NoSuchMethodException ex) {
-			//Log.i("ObjectCreator", "No method to create object, calling default constructor");
 			try {
-				Constructor defaultConstructor = cls.getDeclaredConstructor();
+				Constructor<?> defaultConstructor = cls.getDeclaredConstructor();
 				defaultConstructor.setAccessible(true);
 				return defaultConstructor.newInstance();
 			} catch (NoSuchMethodException e) {

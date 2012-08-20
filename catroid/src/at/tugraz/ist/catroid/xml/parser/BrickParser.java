@@ -68,7 +68,6 @@ public class BrickParser {
 				String brickName = currentBrickNode.getNodeName();
 				String brickReferenceAttr = References.getReferenceAttribute(brickElement);
 				if (brickReferenceAttr != null) {
-					//String referenceQuery = brickReferenceAttr.substring(brickReferenceAttr.lastIndexOf("brickList"));
 					String loopEndReferenceQuery = brickReferenceAttr.replace(CatroidXMLConstants.parentElement,
 							CatroidXMLConstants.brickListElementName);
 					if (brickName.equals(LoopEndBrick.class.getSimpleName())
@@ -107,7 +106,6 @@ public class BrickParser {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	private Brick getBrickObject(String brickName, Sprite foundSprite, NodeList valueNodes, Element brickElement,
 			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs)
 			throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
@@ -116,7 +114,7 @@ public class BrickParser {
 
 		String brickClassName = brickName;
 		Brick brickObject = null;
-		Class brickClass = Class.forName(CatroidXMLConstants.brickPackage + brickClassName);
+		Class<?> brickClass = Class.forName(CatroidXMLConstants.brickPackage + brickClassName);
 		Map<String, Field> brickFieldsToSet = objectGetter.getFieldMap(brickClass);
 		brickObject = (Brick) objectGetter.getobjectOfClass(brickClass, "0");
 		if (valueNodes != null) {

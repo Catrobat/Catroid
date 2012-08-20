@@ -34,7 +34,6 @@ import at.tugraz.ist.catroid.xml.parser.ObjectCreator;
 
 public class ScriptSerializer extends Serializer {
 
-	//private final String scriptTagPrefix = "";
 	private final String scriptTabs = tab + tab + tab + tab;
 
 	public ScriptSerializer(Sprite serializedSprite, Project serializedProject) {
@@ -66,8 +65,7 @@ public class ScriptSerializer extends Serializer {
 		return scriptStringList;
 	}
 
-	@SuppressWarnings("rawtypes")
-	private void getScriptFieldsAsElements(Object object, List<String> scriptStringList, Class cls)
+	private void getScriptFieldsAsElements(Object object, List<String> scriptStringList, Class<?> cls)
 			throws IllegalAccessException {
 		String xmlElementString;
 		fieldMap = objectCreator.getFieldMapOfThisClass(cls);
@@ -77,8 +75,6 @@ public class ScriptSerializer extends Serializer {
 			scriptClassField.setAccessible(true);
 			if (!scriptClassField.getType().isPrimitive()) {
 				if (fieldName.equals("sprite")) {
-					//					xmlElementString = scriptTabs + tab + spriteElementPrefix + "\"../../..\"/>" + "\n";
-					//					scriptStringList.add(xmlElementString);
 				} else if (fieldName.equals("brickList")) {
 					if (serializedScript.getBrickList().size() > 0) {
 						BrickSerializer brickSerializer = new BrickSerializer(serializedSprite, (Script) object,
