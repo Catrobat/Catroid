@@ -52,7 +52,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class FullParser {
 
-	//List<Sprite> sprites = new ArrayList<Sprite>();
 	Map<String, Object> referencedObjects = new HashMap<String, Object>();
 	List<ForwardReferences> forwardRefs = new ArrayList<ForwardReferences>();
 	ObjectCreator objectGetter = new ObjectCreator();
@@ -144,8 +143,8 @@ public class FullParser {
 			throw new ParseException(e);
 		}
 
+		//initiateMediaPlayers(parsedProject);
 		setCheckSumsOnProjectManager(parsedProject);
-		initiateMediaPlayers(parsedProject);
 		return parsedProject;
 
 	}
@@ -157,6 +156,7 @@ public class FullParser {
 			if (!(sprite.getSoundList().isEmpty())) {
 				Field mediaPlayers = SoundManager.class.getDeclaredField("mediaPlayers");
 				mediaPlayers.setAccessible(true);
+				//TODO: look at mediaplayer init
 				ArrayList<MediaPlayer> mediaPlayerList = (ArrayList<MediaPlayer>) mediaPlayers.get(SoundManager
 						.getInstance());
 				if (mediaPlayerList.isEmpty()) {
@@ -215,19 +215,16 @@ public class FullParser {
 			NoSuchMethodException, ParseException {
 		Node rootNode = doc.getDocumentElement();
 		String nameOfRoot = rootNode.getNodeName();
-		Object projectobj;
-		Class projectClass;
+		Class<?> projectClass = null;
 		if (!nameOfRoot.equals("Project")) {
 			String classNameOriginal = nameOfRoot.replace("_-", "$");
 			try {
 				projectClass = Class.forName(classNameOriginal);
-				//projectobj = objectGetter.getobjectOfClass(projectClass, "0");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				throw new ParseException("project class not found");
 			}
 		} else {
-			//projectobj = objectGetter.getobjectOfClass(Project.class, "0");
 			projectClass = Project.class;
 		}
 

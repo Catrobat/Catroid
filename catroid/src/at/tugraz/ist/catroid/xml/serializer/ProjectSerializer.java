@@ -69,9 +69,8 @@ public class ProjectSerializer extends Serializer {
 		return projectStringList;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void getProjectStringsofClass(Object object, Project project, List<String> projectStringList,
-			Class classOfObject) throws IllegalAccessException, NoSuchFieldException, SerializeException {
+			Class<?> classOfObject) throws IllegalAccessException, NoSuchFieldException, SerializeException {
 		String xmlElementString;
 		fieldMap = objectCreator.getFieldMapOfThisClass(classOfObject);
 		Collection<Field> fields = fieldMap.values();

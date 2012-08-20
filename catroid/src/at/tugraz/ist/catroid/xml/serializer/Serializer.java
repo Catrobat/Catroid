@@ -56,6 +56,7 @@ public abstract class Serializer {
 
 	public String getReference(Field fieldNeedingReference, Object objectWIthField) throws IllegalArgumentException,
 			IllegalAccessException {
+		// TODO: reference = "tODO ...."
 		String reference = "";
 		Object referencedObject = fieldNeedingReference.get(objectWIthField);
 		if (referencedObject != null) {
@@ -108,8 +109,7 @@ public abstract class Serializer {
 
 	}
 
-	@SuppressWarnings("rawtypes")
-	private String getReferenceIndexSuffix(String reference, Object referencedObject, List sameTypeList) {
+	private String getReferenceIndexSuffix(String reference, Object referencedObject, List<?> sameTypeList) {
 		int index = 0;
 		for (int j = 0; j < sameTypeList.size(); j++) {
 			if (referencedObject.equals(sameTypeList.get(j))) {

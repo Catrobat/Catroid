@@ -88,7 +88,6 @@ public class References {
 
 	}
 
-	@SuppressWarnings("unused")
 	public void resolveForwardReferences(Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs)
 			throws IllegalArgumentException, IllegalAccessException {
 		for (ForwardReferences reference : forwardRefs) {
@@ -97,10 +96,7 @@ public class References {
 			if (!referencedObjects.containsKey(referenceString)) {
 				Log.i("Forward referencing", "reference for " + referenceString + " not found");
 			}
-			if (refField == null) {
-				Object objectWithReference = reference.getObjectWithReferencedField();
-				objectWithReference = referencedObjects.get(reference.getReferenceString());
-			} else {
+			if (refField != null) {
 				Object parentObj = reference.getObjectWithReferencedField();
 				Object valueObj = referencedObjects.get(reference.getReferenceString());
 				if (!(valueObj.equals(refField.get(parentObj)))) {
