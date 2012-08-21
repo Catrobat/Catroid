@@ -525,7 +525,7 @@ public class UiTestUtils {
 			LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
 			solo.clickOnView(linearLayout);
 		} else {
-			solo.clickOnActionBarItem(R.id.menu_add);
+			solo.clickOnActionBarItem(imageButtonId);
 		}
 	}
 
@@ -759,11 +759,17 @@ public class UiTestUtils {
 
 	public static void getIntoScriptTabActivityFromMainMenu(Solo solo) {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
 
 		solo.clickOnButton(solo.getString(R.string.current_project_button));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
+
 		solo.clickInList(0);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
 	}
 
 	public static boolean clickOnTextInList(Solo solo, String text) {
