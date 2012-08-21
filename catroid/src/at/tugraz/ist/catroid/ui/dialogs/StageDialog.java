@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -115,7 +116,7 @@ public class StageDialog extends Dialog {
 
 	private void exitStage() {
 		this.dismiss();
-		stageActivity.manageLoadAndFinish();
+		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
 
 	@Override
@@ -144,6 +145,15 @@ public class StageDialog extends Dialog {
 		} else {
 			stageListener.axesOn = true;
 			axesToggleButton.setText(R.string.stagemenu_axes_off);
+		}
+	}
+
+	private class FinishThreadAndDisposeTexturesTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			stageActivity.manageLoadAndFinish();
+			return null;
 		}
 	}
 }
