@@ -124,7 +124,7 @@ public class AddBrickDialog extends DialogFragment {
 		setRetainInstance(true);
 
 		selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
-		getScriptFragment().setDontCreateNewBrick(false);
+		getScriptFragment().setCreateNewBrick(true);
 	}
 
 	@Override
@@ -167,7 +167,7 @@ public class AddBrickDialog extends DialogFragment {
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				scriptFragment.setDontCreateNewBrick(false);
+				scriptFragment.setCreateNewBrick(true);
 				Brick brickToBeAdded = getBrickClone(adapter.getItem(position));
 				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
@@ -200,7 +200,7 @@ public class AddBrickDialog extends DialogFragment {
 	}
 
 	private void abort() {
-		getScriptFragment().setDontCreateNewBrick(true);
+		getScriptFragment().setCreateNewBrick(false);
 	}
 
 	private ScriptFragment getScriptFragment() {

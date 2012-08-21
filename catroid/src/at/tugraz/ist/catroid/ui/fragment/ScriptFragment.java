@@ -69,7 +69,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	public String selectedCategory;
 
 	private boolean addNewScript;
-	private boolean dontCreateNewBrick;
+	private boolean createNewBrick;
 	private boolean addScript;
 	private boolean isCanceled;
 
@@ -96,7 +96,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		dontCreateNewBrick = false;
+		createNewBrick = true;
 		addScript = false;
 		isCanceled = false;
 
@@ -179,12 +179,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 					return false;
 				}
 
-				BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
-				brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
-				brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
-				brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
-
-				adapter.notifyDataSetChanged();
+				showCategoryDialog();
 
 				return true;
 			}
@@ -234,8 +229,8 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		return true;
 	}
 
-	public void setDontCreateNewBrick(boolean dontCreateNewBrick) {
-		this.dontCreateNewBrick = dontCreateNewBrick;
+	public void setCreateNewBrick(boolean createNewBrick) {
+		this.createNewBrick = createNewBrick;
 	}
 
 	public void setAddNewScript() {
@@ -271,7 +266,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 
 	@Override
 	public void onBrickCategoryDialogDismiss() {
-		if (!dontCreateNewBrick) {
+		if (createNewBrick) {
 			if (!isCanceled) {
 				if (addScript) {
 					setAddNewScript();
@@ -280,7 +275,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 			}
 			isCanceled = false;
 		}
-		dontCreateNewBrick = false;
+		createNewBrick = true;
 	}
 
 	@Override
@@ -309,7 +304,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		}
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
-		if (adapter.getScriptCount() > 0) {
+		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
 			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
 		}
 

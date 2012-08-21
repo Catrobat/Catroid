@@ -646,8 +646,8 @@ public class UiTestUtils {
 
 			Rect globalVisibleRect = new Rect();
 			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
-			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
-			yPositionList.add(middleYPos);
+			int middleYPosition = globalVisibleRect.top + globalVisibleRect.height() / 2;
+			yPositionList.add(middleYPosition);
 		}
 
 		return yPositionList;
@@ -758,6 +758,10 @@ public class UiTestUtils {
 	}
 
 	public static void getIntoScriptTabActivityFromMainMenu(Solo solo) {
+		getIntoScriptTabActivityFromMainMenu(solo, 0);
+	}
+
+	public static void getIntoScriptTabActivityFromMainMenu(Solo solo, int spriteIndex) {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
 
@@ -766,7 +770,7 @@ public class UiTestUtils {
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
 
-		solo.clickInList(0);
+		solo.clickInList(spriteIndex);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
