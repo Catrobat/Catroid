@@ -47,6 +47,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
@@ -487,10 +488,24 @@ public class UiTestUtils {
 		field.set(object, value);
 	}
 
+	/**
+	 * @deprecated Will fail on devices with API > 14, replaced by {@link #clickOnActionBar(Solo, int)}
+	 */
+	@Deprecated
 	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
 		solo.clickOnView(linearLayout);
+	}
+
+	public static void clickOnActionBar(Solo solo, int imageButtonId) {
+		if (Build.VERSION.SDK_INT < 15) {
+			solo.waitForView(LinearLayout.class);
+			LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
+			solo.clickOnView(linearLayout);
+		} else {
+			solo.clickOnActionBarItem(R.id.menu_add);
+		}
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
