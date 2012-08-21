@@ -34,14 +34,17 @@
 	    android:layout_marginLeft="10dp"
 	    android:text="@string/new_project_name" >
 	</TextView>	
+
 	<EditText
 	    android:id="@+id/project_name_edittext"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@+id/project_name"
+	    android:hint="@string/new_project_dialog_hint"
 	    android:inputType="text"
 	    android:maxLines="1"
-	    android:selectAllOnFocus="true" />
+	    android:selectAllOnFocus="true" />
+
 	<TextView
 	    android:id="@+id/project_description"
 	    android:layout_width="wrap_content"
@@ -66,13 +69,14 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/project_description_edittext">
-
+
 		<Button
 		    android:id="@+id/new_project_ok_button"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:layout_weight=".5"
-		    android:text="@string/ok" />
+		    android:text="@string/ok" />
+
 		<Button
 		    android:id="@+id/new_project_cancel_button"
 		    android:layout_width="match_parent"

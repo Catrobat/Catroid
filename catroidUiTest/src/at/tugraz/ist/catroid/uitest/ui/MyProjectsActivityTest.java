@@ -215,6 +215,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(solo.getString(R.string.delete));
 		solo.sleep(400);
 		solo.goBack();
+		solo.goBack();
+		solo.sleep(400);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(1);
 
@@ -606,7 +608,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(100);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton(0);
+
 		solo.sleep(200);
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.getInstance()
@@ -628,7 +631,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME1);
 		solo.sleep(100);
-		solo.sendKey(Solo.ENTER);
+
+		solo.clickOnButton(0);
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
@@ -649,7 +653,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
+
+		solo.clickOnButton(0);
 		solo.sleep(200);
 		assertTrue("No or wrong error message shown",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));

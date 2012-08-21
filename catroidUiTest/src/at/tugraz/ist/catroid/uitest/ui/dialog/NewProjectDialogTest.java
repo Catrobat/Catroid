@@ -22,16 +22,12 @@
  */
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -64,23 +60,19 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	public void testNewProjectDialog() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
-		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, nameEditTextId, testingproject);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
+		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
+		solo.enterText(newProject, testingproject);
+		solo.clickOnButton(0); //button ok
+		solo.sleep(600);
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
 				.equals(UiTestUtils.PROJECTNAME1));
 	}
 
 	public void testPositiveButtonDisabledOnCreate() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.sleep(1000);
+		solo.sleep(500);
 
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		NewProjectDialog dialogFragment = (NewProjectDialog) fragmentManager.findFragmentByTag("dialog_new_project");
-		AlertDialog dialog = (AlertDialog) dialogFragment.getDialog();
-
-		Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
 	}
 
@@ -88,12 +80,8 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.sleep(1000);
 
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		NewProjectDialog dialogFragment = (NewProjectDialog) fragmentManager.findFragmentByTag("dialog_new_project");
-		AlertDialog dialog = (AlertDialog) dialogFragment.getDialog();
-
-		Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-		EditText editText = (EditText) solo.getView(R.id.dialog_text_EditText);
+		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
+		EditText editText = (EditText) solo.getView(R.id.project_name_edittext);
 
 		assertTrue("EditText was not empty", editText.getText().length() == 0);
 

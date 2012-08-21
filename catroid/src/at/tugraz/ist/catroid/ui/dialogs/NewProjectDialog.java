@@ -30,6 +30,8 @@ import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,6 +68,28 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 
 		newProjectEditText.setText("");
 		newProjectDescriptionEditText.setText("");
+
+		okButton.setEnabled(false);
+
+		newProjectEditText.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (newProjectEditText.length() == 0) {
+					okButton.setEnabled(false);
+				} else {
+					okButton.setEnabled(true);
+				}
+			}
+		});
 
 		okButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -105,7 +129,8 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 	}
 
 	protected boolean handleOkButtonClick() {
-		String projectName = (newProjectEditText.getText().toString().trim());
+		String projectName = newProjectEditText.getText().toString().trim();
+		String projectDescription = newProjectDescriptionEditText.getText().toString();
 
 		if (projectName.length() == 0) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_no_name_entered));
@@ -118,7 +143,11 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		}
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity());
+			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
+			//Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
+			//ProjectManager.INSTANCE.loadProject(projectName, getActivity(), false);
+			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
+			//ProjectManager.INSTANCE.setProject(currentProject);
 		} catch (IOException e) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_new_project));
 			dismiss();
@@ -145,54 +174,3 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 	}
 
 }
-
-/*
- * 
- * 
- * public class NewProjectDialog extends TextDialog {
- * 
- * public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
- * 
- * @Override
- * protected void initialize() {
- * }
- * 
- * @Override
- * protected boolean handleOkButton() {
- * String projectName = (input.getText().toString().trim());
- * 
- * if (projectName.length() == 0) {
- * Utils.displayErrorMessage(getActivity(), getString(R.string.error_no_name_entered));
- * return false;
- * }
- * 
- * if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
- * Utils.displayErrorMessage(getActivity(), getString(R.string.error_project_exists));
- * return false;
- * }
- * 
- * try {
- * ProjectManager.getInstance().initializeNewProject(projectName, getActivity());
- * } catch (IOException e) {
- * Utils.displayErrorMessage(getActivity(), getString(R.string.error_new_project));
- * dismiss();
- * }
- * 
- * Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
- * Intent intent = new Intent(getActivity(), ProjectActivity.class);
- * getActivity().startActivity(intent);
- * 
- * return true;
- * }
- * 
- * @Override
- * protected String getTitle() {
- * return getString(R.string.new_project_dialog_title);
- * }
- * 
- * @Override
- * protected String getHint() {
- * return getString(R.string.new_project_dialog_hint);
- * }
- * }
- */

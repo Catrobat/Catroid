@@ -32,6 +32,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -132,11 +133,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
-		solo.sendKey(Solo.ENTER);
-
-		assertTrue("No error message was displayed upon creating a project with an empty name.",
-				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
-		solo.clickOnButton(0);
+		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
+		assertFalse("New project ok button is enabled!", okButton.isEnabled());
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
@@ -424,7 +422,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		ProjectManager.INSTANCE.setCurrentScript(startingScript);
 		ProjectManager.INSTANCE.saveProject();
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
 		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation()
@@ -458,12 +456,26 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickInList(2);
 		solo.enterText(0, testDescription);
 		solo.clickOnButton(0); //button ok
-		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		uploadProject = ProjectManager.INSTANCE.getCurrentProject();
+		solo.sleep(3000);
+		solo.goBack();
+		solo.sleep(1500);
 
 		ProjectManager.INSTANCE.setProject(uploadProject);
 		solo.clickOnButton(getActivity().getString(R.string.upload_project));
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(6000);
+
+		EditText usernameEditText = (EditText) solo.getView(R.id.username);
+		EditText passwordEditText = (EditText) solo.getView(R.id.password);
+		if (usernameEditText != null && passwordEditText != null) {
+			String username = "maxmustermann";
+			String password = "password";
+			solo.enterText(usernameEditText, username);
+			solo.enterText(passwordEditText, password);
+			solo.clickOnButton(getActivity().getString(R.string.login_or_register));
+			solo.sleep(7000);
+		}
 
 		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
 		String uploadDescription = uploadDescriptionView.getText().toString();
