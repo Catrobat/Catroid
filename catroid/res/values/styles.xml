@@ -105,10 +105,6 @@
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
     </style>
 
-    <style name="brick_delete">
-        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
-    </style>
-
     <style name="brick_blink">
         <item name="android:windowEnterAnimation">@anim/blink</item>
     </style>
