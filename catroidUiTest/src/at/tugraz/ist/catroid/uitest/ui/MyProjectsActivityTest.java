@@ -213,10 +213,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.clickLongOnText(getActivity().getString(R.string.default_project_name), 2);
 		solo.clickOnText(solo.getString(R.string.delete));
-		solo.sleep(400);
+		solo.sleep(1000);
 		solo.goBack();
-		solo.goBack();
-		solo.sleep(400);
+		solo.sleep(1000);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(1);
 
