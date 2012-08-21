@@ -62,13 +62,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 
-		getActivity().finish();
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 
@@ -85,8 +79,8 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int groupCount = adapter.getScriptCount();
-		ArrayList<Integer> yPos;
-		int addedYPos;
+		ArrayList<Integer> yPosition;
+		int addedYPosition;
 
 		assertEquals("Incorrect number of bricks.", 4 + 1, solo.getCurrentListViews().get(0).getCount()); // don't forget the footer
 
@@ -105,10 +99,10 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
 
-		yPos = UiTestUtils.getListItemYPositions(solo);
-		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo);
+		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.drag(20, 20, addedYPos, yPos.get(yPos.size() - 1) + 20, 100);
+		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 100);
 		solo.sleep(200);
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
@@ -119,10 +113,10 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
 
-		yPos = UiTestUtils.getListItemYPositions(solo);
-		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo);
+		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.drag(20, 20, addedYPos, yPos.get(3) + 20, 100);
+		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 100);
 		solo.sleep(200);
 		projectBrickList = ProjectManager.getInstance().getCurrentSprite().getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
@@ -143,8 +137,8 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 2);
 
-		yPos = UiTestUtils.getListItemYPositions(solo);
-		addedYPos = UiTestUtils.getAddedListItemYPosition(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo);
+		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.goBack();
 

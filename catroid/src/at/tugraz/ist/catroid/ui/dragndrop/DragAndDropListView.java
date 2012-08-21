@@ -404,9 +404,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		return true;
 	}
 
-	private void setDragViewAnimation(int style) {
+	private void setDragViewAnimation(int styleId) {
 		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
-		dragViewParameters.windowAnimations = style;
+		dragViewParameters.windowAnimations = styleId;
 		try {
 			getWindowManager().updateViewLayout(dragView, dragViewParameters);
 		} catch (IllegalArgumentException e) {

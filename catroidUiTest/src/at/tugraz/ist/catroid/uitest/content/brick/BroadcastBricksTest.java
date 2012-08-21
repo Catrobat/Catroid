@@ -71,7 +71,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
-		int childrenCount = adapter.getBrickCount(adapter.getScriptCount() - 1);
+		int childrenCount = ProjectManager.getInstance().getCurrentSprite().getScript(adapter.getScriptCount() - 1)
+				.getBrickList().size();
 		assertEquals("Incorrect number of bricks.", 3 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
