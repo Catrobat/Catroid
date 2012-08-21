@@ -165,11 +165,6 @@ public class AddBrickDialog extends DialogFragment {
 		listView.setAdapter(adapter);
 
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-			//			@Override
-			//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			//				handleOnBrickItemClick(position);
-			//			}
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				scriptFragment.setDontCreateNewBrick(false);
