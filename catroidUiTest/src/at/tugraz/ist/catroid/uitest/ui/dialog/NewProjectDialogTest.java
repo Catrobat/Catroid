@@ -62,7 +62,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
 		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProject, testingproject);
-		solo.clickOnButton(0); //button ok
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(600);
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
 				.equals(UiTestUtils.PROJECTNAME1));
