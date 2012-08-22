@@ -605,9 +605,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
-		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME2);
+		solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
@@ -624,13 +624,14 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void testAddNewProject2() {
 		createProjects();
 		solo.sleep(200);
+		String buttonOkText = solo.getString(R.string.ok);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
-		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME1);
+		solo.enterText(0, UiTestUtils.PROJECTNAME1);
 		solo.sleep(100);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
@@ -646,13 +647,14 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void testAddNewProjectMixedCase() {
 		createProjects();
 		solo.sleep(200);
+		String buttonOkText = solo.getString(R.string.ok);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
 		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		solo.sleep(200);
-		UiTestUtils.enterText(solo, 0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
 		assertTrue("No or wrong error message shown",
