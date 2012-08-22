@@ -39,6 +39,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	private static final int LOOP_DELAY = 20;
 	private static final int MILLION = 1000 * 1000;
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = LoopEndBrick.class.getSimpleName();
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
 	private transient int timesToRepeat;
@@ -138,7 +139,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	@Override
 	public void initialize() {
 		loopBeginBrick = new ForeverBrick(sprite);
-		Log.w("LoopEndBrick", "Not supposed to create the LoopBeginBrick!");
+		Log.w(TAG, "Not supposed to create the LoopBeginBrick!");
 	}
 
 	@Override

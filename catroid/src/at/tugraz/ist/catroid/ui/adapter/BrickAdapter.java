@@ -66,6 +66,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener {
 
+	private static final String TAG = BrickAdapter.class.getSimpleName();
 	private Context context;
 	private Sprite sprite;
 	private int dragTargetPosition;
@@ -339,7 +340,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		Brick brick = fromScript.getBrick(brickPositionFrom);
 		if (draggedBrick != brick) {
-			Log.e("BrickAdapter", "Want to save wrong brick");
+			Log.e(TAG, "Want to save wrong brick");
 			return;
 		}
 		fromScript.removeBrick(brick);
@@ -369,7 +370,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			for (int i = 0; i < nestingBrickList.size(); i++) {
 				if (nestingBrickList.get(i) instanceof DeadEndBrick) {
 					if (i < nestingBrickList.size() - 1) {
-						Log.w("BrickAdapter", "Adding a DeadEndBrick in the middle of the NestingBricks");
+						Log.w(TAG, "Adding a DeadEndBrick in the middle of the NestingBricks");
 					}
 					position = getPositionForDeadEndBrick(position);
 					temp = getScriptAndBrickIndexFromProject(position);
@@ -477,7 +478,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	public void addNewBrick(int position, Brick brickToBeAdded) {
 		if (draggedBrick != null) {
-			Log.w(BrickAdapter.class.getSimpleName(), "Want to add Brick while there is another one currently dragged.");
+			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
 			return;
 		}
 
