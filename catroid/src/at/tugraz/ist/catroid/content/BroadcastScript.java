@@ -25,6 +25,8 @@ package at.tugraz.ist.catroid.content;
 import java.util.concurrent.CountDownLatch;
 
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 
 public class BroadcastScript extends Script {
 
@@ -34,6 +36,20 @@ public class BroadcastScript extends Script {
 	public BroadcastScript(Sprite sprite) {
 		super(sprite);
 		super.isFinished = true;
+	}
+
+	public BroadcastScript(Sprite sprite, BroadcastReceiverBrick brick) {
+		this(sprite);
+		this.brick = brick;
+	}
+
+	@Override
+	public ScriptBrick getScriptBrick() {
+		if (brick == null) {
+			brick = new BroadcastReceiverBrick(sprite, this);
+		}
+
+		return brick;
 	}
 
 	@Override

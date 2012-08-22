@@ -238,7 +238,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
+		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
