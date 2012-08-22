@@ -32,6 +32,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TabHost;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
+import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 
 /**
  * This is a helper class that implements the management of tabs and all details of connecting a
@@ -112,6 +115,20 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 	public void onTabChanged(String tabId) {
 		int position = mTabHost.getCurrentTab();
 		mViewPager.setCurrentItem(position);
+
+		ScriptTabActivity activity = (ScriptTabActivity) mContext;
+		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		if (fragment != null) {
+			DragAndDropListView listView = fragment.getListView();
+			if (listView != null) {
+				listView.resetDraggingScreen();
+			}
+
+			BrickAdapter adapter = fragment.getAdapter();
+			if (adapter != null) {
+				adapter.removeDraggedBrick();
+			}
+		}
 	}
 
 	@Override

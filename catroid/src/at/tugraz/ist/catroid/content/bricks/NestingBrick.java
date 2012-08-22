@@ -22,53 +22,35 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Sprite;
+import java.util.List;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+public abstract class NestingBrick implements Brick {
 
-public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
-	@XStreamOmitField
-	private transient View view;
-
-	public ForeverBrick(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
-		super.setFirstStartTime();
-	}
-
-	@Override
-	public Brick clone() {
-		return new ForeverBrick(getSprite());
-	}
-
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_forever, null);
+	public boolean containsDeadEnd() {
+		for (Brick brick : getAllNestingBrickParts()) {
+			if (brick instanceof DeadEndBrick) {
+				return true;
+			}
 		}
 
-		return view;
-	}
-
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_forever, null);
+		return false;
 	}
 
 	@Override
-	public void initialize() {
-		loopEndBrick = new LoopEndlessBrick(sprite, this);
-	}
+	public abstract Brick clone();
+
+	public abstract boolean isInitialized();
+
+	public abstract void initialize();
+
+	public abstract boolean isDraggableOver(Brick brick);
+
+	/**
+	 * 
+	 * @return List of NestingBricks in order of their appearance
+	 */
+	public abstract List<NestingBrick> getAllNestingBrickParts();
+
 }

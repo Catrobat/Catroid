@@ -25,66 +25,20 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+public abstract class ScriptBrick implements AllowedAfterDeadEndBrick {
 
-public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
-	private Script script;
-	private Sprite sprite;
+	public abstract Script initScript(Sprite sprite);
 
-	@XStreamOmitField
-	private transient View view;
-
-	public WhenStartedBrick(Sprite sprite, Script script) {
-		this.script = script;
-		this.sprite = sprite;
+	@Override
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
+		return getView(context, brickId, adapter);
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, final BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_started, null);
-		}
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_started, null);
-	}
-
-	@Override
-	public Brick clone() {
-		return new WhenStartedBrick(getSprite(), null);
-	}
-
-	@Override
-	public Script initScript(Sprite sprite) {
-		if (script == null) {
-			script = new StartScript(sprite);
-		}
-
-		return script;
-	}
+	public abstract Brick clone();
 }

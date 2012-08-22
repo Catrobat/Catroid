@@ -116,6 +116,10 @@
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
+    <!-- Brick context dialog -->
+    <string name="brick_context_dialog_move_brick">Move Brick</string>
+    <string name="brick_context_dialog_delete_brick">Delete Brick</string>
+    <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <!-- New project dialog -->
     <string name="new_project_dialog_title">Name of new project</string>
     <string name="new_project_dialog_hint">My Project</string>

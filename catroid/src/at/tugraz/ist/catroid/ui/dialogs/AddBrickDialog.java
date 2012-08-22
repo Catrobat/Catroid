@@ -45,8 +45,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
@@ -77,6 +75,7 @@ import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
@@ -106,13 +105,15 @@ public class AddBrickDialog extends DialogFragment {
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
 	private String selectedCategory;
+	private ScriptFragment scriptFragment;
 
-	public static AddBrickDialog newInstance(String selectedCategory) {
+	public static AddBrickDialog newInstance(String selectedCategory, ScriptFragment scriptFragment) {
 		AddBrickDialog dialog = new AddBrickDialog();
 
 		Bundle arguments = new Bundle();
 		arguments.putString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY, selectedCategory);
 		dialog.setArguments(arguments);
+		dialog.scriptFragment = scriptFragment;
 
 		return dialog;
 	}
@@ -123,7 +124,7 @@ public class AddBrickDialog extends DialogFragment {
 		setRetainInstance(true);
 
 		selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
-		getScriptFragment().setDontCreateNewBrick(false);
+		getScriptFragment().setCreateNewBrick(true);
 	}
 
 	@Override
@@ -166,8 +167,23 @@ public class AddBrickDialog extends DialogFragment {
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				handleOnBrickItemClick(position);
+				scriptFragment.setCreateNewBrick(true);
+				Brick brickToBeAdded = getBrickClone(adapter.getItem(position));
+				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
+
+				if (brickToBeAdded instanceof ScriptBrick) {
+					Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
+							.getCurrentSprite());
+					ProjectManager.getInstance().setCurrentScript(script);
+				}
+
+				dismiss();
+
+				BrickCategoryDialog brickCategoryDialog = (BrickCategoryDialog) getFragmentManager().findFragmentByTag(
+						"dialog_brick_category");
+				brickCategoryDialog.dismiss();
 			}
+
 		});
 	}
 
@@ -184,86 +200,7 @@ public class AddBrickDialog extends DialogFragment {
 	}
 
 	private void abort() {
-		getScriptFragment().setDontCreateNewBrick(true);
-	}
-
-	private void handleOnBrickItemClick(int position) {
-		Brick addedBrick = adapter.getItem(position);
-		ProjectManager projectManager = ProjectManager.getInstance();
-
-		if (addedBrick instanceof WhenStartedBrick) {
-			if (projectManager.getCurrentScriptPosition() < 0) {
-				getScriptFragment().setNewScript();
-				Script newScript = new StartScript(projectManager.getCurrentSprite());
-				projectManager.addScript(newScript);
-
-				projectManager.setCurrentScript(newScript);
-			} else {
-				Brick brickClone = getBrickClone(addedBrick);
-				projectManager.getCurrentScript().addBrick(brickClone);
-			}
-		} else if (addedBrick instanceof WhenBrick) {
-			if (projectManager.getCurrentScriptPosition() < 0) {
-				getScriptFragment().setNewScript();
-				Script newScript = new WhenScript(projectManager.getCurrentSprite());
-				projectManager.addScript(newScript);
-
-				projectManager.setCurrentScript(newScript);
-			} else {
-				Brick brickClone = getBrickClone(addedBrick);
-				projectManager.getCurrentScript().addBrick(brickClone);
-			}
-		} else if (addedBrick instanceof BroadcastReceiverBrick) {
-			if (projectManager.getCurrentScriptPosition() < 0) {
-				getScriptFragment().setNewScript();
-				Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
-				projectManager.addScript(newScript);
-
-				projectManager.setCurrentScript(newScript);
-			} else {
-				Brick brickClone = getBrickClone(addedBrick);
-				projectManager.getCurrentScript().addBrick(brickClone);
-			}
-			//				} 
-			//				else if (addedBrick instanceof LoopBeginBrick
-			//						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
-			//						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
-			//					//Don't add new loop brick, only one loop per script for now
-		} else {
-			Brick brickClone = getBrickClone(adapter.getItem(position));
-
-			if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
-
-				Script newScript = new StartScript(projectManager.getCurrentSprite());
-				projectManager.addScript(newScript);
-
-				Script temp;
-				if (projectManager.getCurrentScriptPosition() < 0) {
-					temp = newScript;
-				} else {
-					temp = projectManager.getCurrentScript();
-				}
-
-				projectManager.setCurrentScript(newScript);
-				projectManager.getCurrentScript().addBrick(brickClone);
-				projectManager.setCurrentScript(temp);
-
-			} else {
-				projectManager.getCurrentScript().addBrick(brickClone);
-			}
-			//					if (addedBrick instanceof LoopBeginBrick) {
-			//						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
-			//								(LoopBeginBrick) brickClone);
-			//						projectManager.getCurrentScript().addBrick(loopEndBrick);
-			//						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
-			//					}
-		}
-
-		dismiss();
-
-		BrickCategoryDialog brickCategoryDialog = (BrickCategoryDialog) getFragmentManager().findFragmentByTag(
-				"dialog_brick_category");
-		brickCategoryDialog.dismiss();
+		getScriptFragment().setCreateNewBrick(false);
 	}
 
 	private ScriptFragment getScriptFragment() {
@@ -327,7 +264,7 @@ public class AddBrickDialog extends DialogFragment {
 		controlBrickList.add(new WhenStartedBrick(sprite, null));
 		controlBrickList.add(new WhenBrick(sprite, null));
 		controlBrickList.add(new WaitBrick(sprite, 1000));
-		controlBrickList.add(new BroadcastReceiverBrick(sprite, null));
+		controlBrickList.add(new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite)));
 		controlBrickList.add(new BroadcastBrick(sprite));
 		controlBrickList.add(new BroadcastWaitBrick(sprite));
 		controlBrickList.add(new NoteBrick(sprite));
