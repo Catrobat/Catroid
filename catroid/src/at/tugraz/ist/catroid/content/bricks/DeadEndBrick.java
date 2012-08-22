@@ -20,38 +20,9 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content;
+package at.tugraz.ist.catroid.content.bricks;
 
-import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 
-public class StartScript extends Script {
+public interface DeadEndBrick extends Brick {
 
-	private static final long serialVersionUID = 1L;
-
-	public StartScript(Sprite sprite) {
-		super(sprite);
-		super.isFinished = false;
-	}
-
-	public StartScript(Sprite sprite, WhenStartedBrick brick) {
-		this(sprite);
-		this.brick = brick;
-	}
-
-	@Override
-	protected Object readResolve() {
-		isFinished = false;
-		super.readResolve();
-		return this;
-	}
-
-	@Override
-	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenStartedBrick(sprite, this);
-		}
-
-		return brick;
-	}
 }

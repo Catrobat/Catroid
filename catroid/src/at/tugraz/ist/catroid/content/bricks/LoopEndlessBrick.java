@@ -20,38 +20,37 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content;
+package at.tugraz.ist.catroid.content.bricks;
 
-import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Sprite;
 
-public class StartScript extends Script {
+public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public StartScript(Sprite sprite) {
-		super(sprite);
-		super.isFinished = false;
-	}
-
-	public StartScript(Sprite sprite, WhenStartedBrick brick) {
-		this(sprite);
-		this.brick = brick;
+	public LoopEndlessBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
+		super(sprite, loopStartingBrick);
 	}
 
 	@Override
-	protected Object readResolve() {
-		isFinished = false;
-		super.readResolve();
-		return this;
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_endless, null);
 	}
 
 	@Override
-	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenStartedBrick(sprite, this);
-		}
+	public Brick clone() {
+		return new LoopEndlessBrick(getSprite(), getLoopBeginBrick());
+	}
 
-		return brick;
+	@Override
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
 	}
 }

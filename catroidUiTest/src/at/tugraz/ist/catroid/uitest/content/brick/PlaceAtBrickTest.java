@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -81,9 +82,9 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
-		int groupCount = adapter.getGroupCount();
+		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 5 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -125,6 +126,9 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testResizeInputFields() {
 		ProjectManager.getInstance().deleteCurrentProject();
 		createTestProject();
+		Intent intent = new Intent(ScriptTabActivity.ACTION_NEW_BRICK_ADDED);
+		intent.setAction(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
+		solo.getCurrentActivity().sendBroadcast(intent);
 
 		for (int i = 0; i < 2; i++) {
 			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);

@@ -20,15 +20,14 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Catroid" parent="Theme.Sherlock.Light.ForceOverflow">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-<!--         <item name="actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
-<!--         <item name="android:actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
+        <!-- <item name="actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
+        <!-- <item name="android:actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
     </style>
 
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
@@ -47,7 +46,7 @@
     <style name="TabText">
         <item name="android:textSize">@dimen/text_size_small</item>
     </style>
-    
+
     <style name="stage_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
@@ -100,6 +99,14 @@
         <item name="android:textSize">18dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="brick_new">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+    </style>
+
+    <style name="brick_blink">
+        <item name="android:windowEnterAnimation">@anim/blink</item>
     </style>
 
 </resources>
