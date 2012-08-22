@@ -293,7 +293,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		initBrickList();
 		notifyDataSetChanged();
 
-		scrollToPosition(to);
+		int scrollTo = to;
+		if (scrollTo >= brickList.size() - 1) {
+			scrollTo = getCount() - 1;
+		}
+		dragAndDropListView.smoothScrollToPosition(scrollTo);
 	}
 
 	private void addScriptToProject(int position, ScriptBrick scriptBrick) {
