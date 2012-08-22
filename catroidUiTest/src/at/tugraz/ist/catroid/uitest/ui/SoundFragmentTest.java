@@ -207,17 +207,17 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.clickOnView(solo.getView(R.id.view_below_soundlist_non_scrollable));
 		solo.waitForText(addSoundDialogTitle, 0, 1000);
-		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
 		solo.goBack();
 
 		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
 		solo.waitForText(addSoundDialogTitle, 0, 1000);
-		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
 		solo.goBack();
 
 		solo.clickOnView(solo.getView(R.id.soundlist_footerview_add_image));
 		solo.waitForText(addSoundDialogTitle, 0, 1000);
-		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
 		solo.goBack();
 
 		solo.sleep(200);
@@ -232,7 +232,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.goBack();
 		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
 		solo.waitForText(addSoundDialogTitle, 0, 1000);
-		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
 	}
 
 	public void testSoundNames() {

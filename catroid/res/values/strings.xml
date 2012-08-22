@@ -93,6 +93,8 @@
     <string name="delete_costume_dialog">Delete costume?</string>
     <string name="add_costume_from_camera">From Camera</string>
     <string name="add_costume_from_gallery">From Gallery</string>
+    <string name="select_costume_from_gallery">Select image</string>
+    <string name="select_costume_from_camera">Select photo</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
@@ -289,5 +291,4 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
-    <string name="select_image">Select image</string>
 </resources>

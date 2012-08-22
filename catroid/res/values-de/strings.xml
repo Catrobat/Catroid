@@ -91,6 +91,10 @@
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
     <string name="default_costume_name">Kostüm</string>
     <string name="delete_costume_dialog">Kostüm löschen?</string>
+    <string name="add_costume_from_gallery">von Galerie</string>
+    <string name="add_costume_from_camera">von Kamera</string>
+    <string name="select_costume_from_gallery">Bild wählen</string>
+    <string name="select_costume_from_camera">Photo wählen</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
@@ -285,8 +289,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Wert ist zu klein!</string>
     <string name="number_to_big">Wert ist zu groß!</string>
-    <string name="select_image">Bild auswählen</string>
-    <string name="add_costume_from_gallery">von Galerie</string>
-    <string name="add_costume_from_camera">von Kamera</string>
 
 </resources>
