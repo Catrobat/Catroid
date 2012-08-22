@@ -19,12 +19,13 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="70dip"
+    android:baselineAligned="false"
     android:orientation="horizontal"
     android:weightSum="2" >
 
@@ -45,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:contentDescription="@string/soundlist_footer_image_description"
+            android:contentDescription="@string/costumelist_footer_image_description_for_camera"
             android:src="@android:drawable/ic_menu_camera" />
     </FrameLayout>
 
@@ -66,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:contentDescription="@string/soundlist_footer_image_description"
+            android:contentDescription="@string/costumelist_footer_image_description_for_gallery"
             android:src="@android:drawable/ic_menu_gallery" />
     </FrameLayout>
 
