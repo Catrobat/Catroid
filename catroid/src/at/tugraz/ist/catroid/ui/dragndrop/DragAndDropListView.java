@@ -185,7 +185,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		super.onSizeChanged(width, height, oldWidth, oldHeight);
 		upperScrollBound = height / 6;
 		lowerScrollBound = height * 5 / 6;
-		maximumDragViewHeight = height / 3;
+		maximumDragViewHeight = height / 2;
 	}
 
 	@Override
