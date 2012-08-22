@@ -38,6 +38,8 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private StageDialog stageDialog;
 
+	public static final int STAGE_ACTIVITY_FINISH = 7777;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,20 +66,13 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void manageLoadAndFinish() {
+		finish();
 		stageListener.pause();
 		stageListener.finish();
 
 		PreStageActivity.shutdownResources();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		stagePlaying = false;
 
-		finish();
 	}
 
 	public void toggleAxes() {
