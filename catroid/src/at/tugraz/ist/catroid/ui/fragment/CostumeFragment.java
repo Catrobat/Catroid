@@ -180,6 +180,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		getActivity().registerReceiver(costumeRenamedReceiver, intentFilterRenameCostume);
 
 		reloadAdapter();
+		addCostumeViewsSetClickableFlag(true);
 	}
 
 	@Override
@@ -333,24 +334,30 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.view_camera_non_scrollable:
+				addCostumeViewsSetClickableFlag(false);
 				selectImageFromCamera();
 				break;
 			case R.id.view_gallery_non_scrollable:
+				addCostumeViewsSetClickableFlag(false);
 				selectImageFromGallery();
 				break;
 			case R.id.costumelist_footerview_camera:
-				selectImageFromCamera();
-				break;
-			case R.id.costumelist_footerview_camera_add_image:
+				addCostumeViewsSetClickableFlag(false);
 				selectImageFromCamera();
 				break;
 			case R.id.costumelist_footerview_gallery:
-				selectImageFromGallery();
-				break;
-			case R.id.costumelist_footerview_gallery_add_image:
+				addCostumeViewsSetClickableFlag(false);
 				selectImageFromGallery();
 				break;
 		}
+	}
+
+	private void addCostumeViewsSetClickableFlag(boolean setClickableFlag) {
+		viewCameraNonScrollable.setClickable(setClickableFlag);
+		viewGalleryNonScrollable.setClickable(setClickableFlag);
+		costumelistFooterCamera.setClickable(setClickableFlag);
+		costumelistFooterGallery.setClickable(setClickableFlag);
+
 	}
 
 	private void updateCostumeAdapter(String name, String fileName) {

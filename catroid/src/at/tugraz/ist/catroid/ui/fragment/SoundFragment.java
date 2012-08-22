@@ -172,6 +172,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 		stopSound(null);
 		reloadAdapter();
+		addSoundViewsSetClickableFlag(true);
 	}
 
 	@Override
@@ -263,12 +264,19 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.view_below_soundlist_non_scrollable:
+				addSoundViewsSetClickableFlag(false);
 				startSelectSoundIntent();
 				break;
 			case R.id.soundlist_footerview:
+				addSoundViewsSetClickableFlag(false);
 				startSelectSoundIntent();
 				break;
 		}
+	}
+
+	private void addSoundViewsSetClickableFlag(boolean setClickableFlag) {
+		viewBelowSoundlistNonScrollable.setClickable(setClickableFlag);
+		soundlistFooterView.setClickable(setClickableFlag);
 	}
 
 	private void copySoundToCatroid(String audioPath) {
