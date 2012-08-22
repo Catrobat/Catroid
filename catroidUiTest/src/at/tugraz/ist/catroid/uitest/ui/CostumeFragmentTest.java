@@ -23,12 +23,11 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
@@ -547,8 +546,8 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testResolutionWhenEditedAndCroppedWithPaintroid() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.sleep(1000);
 
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
@@ -563,21 +562,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		intent.putExtras(bundleForPaintroid);
 
 		/// >>
-		String pathToImage = bundleForPaintroid.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		options.inSampleSize = 4; //original: 24x24
-		BitmapFactory.decodeFile(pathToImage, options);
-		int h = options.outHeight;
-		int w = options.outWidth;
-		OutputStream stream = null;
-		imageFile = new File(pathToImage);
-		try {
-			stream = new FileOutputStream(imageFile);
-			stream.flush();
-			stream.close();
-		} catch (IOException e) {
-		}
+
 		/// <<
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
@@ -586,11 +571,11 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		/// >>
-		BitmapFactory.Options options2 = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(pathToImage, options2);
-		int h2 = options2.outHeight;
-		int w2 = options2.outWidth;
+		String pathToImage = bundleForPaintroid.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		Bitmap image = BitmapFactory.decodeFile(pathToImage, options);
+		int h2 = options.outHeight;
+		int w2 = options.outWidth;
 		/// <<
 
 		//assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
