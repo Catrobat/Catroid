@@ -23,9 +23,13 @@
 package at.tugraz.ist.catroid.uitest.mockups;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 public class MockPaintroidActivity extends Activity {
@@ -54,6 +58,25 @@ public class MockPaintroidActivity extends Activity {
 
 		if (bundle.containsKey("thirdExtra")) {
 			finish(); //no bundle returned
+		} else if (bundle.containsKey("fourthExtra")) {
+			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			//options.inJustDecodeBounds = true;
+			int sampleSize = bundle.getInt("fourthExtra");
+			int h = options.outHeight;
+			int w = options.outWidth;
+			options.inSampleSize = sampleSize;
+			BitmapFactory.decodeFile(pathToImage, options);
+			h = options.outHeight;
+			w = options.outWidth;
+			OutputStream stream = null;
+			imageFile = new File(pathToImage);
+			try {
+				stream = new FileOutputStream(imageFile);
+				stream.flush();
+				stream.close();
+			} catch (IOException e) {
+			}
 		} else {
 			sendBundleBackToCatroidAndFinish();
 		}
