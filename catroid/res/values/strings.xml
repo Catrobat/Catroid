@@ -95,6 +95,8 @@
     <string name="add_costume_from_gallery">From Gallery</string>
     <string name="select_costume_from_gallery">Select image</string>
     <string name="select_costume_from_camera">Select photo</string>
+    <string name="costumelist_footer_image_description_for_camera">Tap to add new photo</string>
+    <string name="costumelist_footer_image_description_for_gallery">Tap to add new image</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
