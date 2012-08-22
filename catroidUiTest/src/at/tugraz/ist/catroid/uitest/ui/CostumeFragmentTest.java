@@ -93,21 +93,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 
 		solo = new Solo(getInstrumentation(), getActivity());
-
-		// HACK ScriptTabActivity is opened with the Intent because original activity does not create
-		// a test project and does not display costumes list.
-		// Have not found another workaround.
-		// When modifying this test case be careful with calls to getActivity():
-		// - getActivity() - obtains a link to the original ScriptTabActivity, which does not create test project
-		// - solo.getCurrentActivity() - obtains a link to the Activity started by Intent.
-		//		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
-		//		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		//		getActivity().startActivity(intent);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		paintroidImageFile.delete();
@@ -118,14 +107,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		String addCostumeFromCameraDialogTitle = solo.getString(R.string.select_costume_from_camera);
 		String addCostumeFromGalleryDialogTitle = solo.getString(R.string.select_costume_from_gallery);
 
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickInList(0);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		goToCostumesTab();
 		solo.clickOnText(solo.getString(R.string.sound_delete));
 		solo.clickOnButton(0);
 		solo.sleep(300);
@@ -169,35 +151,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.searchText(addCostumeFromGalleryDialogTitle));
 		solo.goBack();
 		solo.sleep(200);
-		//
-		//		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
-		//		solo.waitForText(addSoundDialogTitle, 0, 1000);
-		//		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
-		//		solo.goBack();
-		//
-		//		solo.clickOnView(solo.getView(R.id.soundlist_footerview_add_image));
-		//		solo.waitForText(addSoundDialogTitle, 0, 1000);
-		//		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
-		//		solo.goBack();
-		//
-		//		solo.sleep(200);
-		//		solo.clickOnText(solo.getString(R.string.backgrounds));
-		//		solo.sleep(200);
-		//		addNewSound();
-		//		solo.sleep(200);
-		//		solo.clickOnText(solo.getString(R.string.sounds));
-		//		solo.sleep(200);
-		//
-		//		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
-		//		solo.goBack();
-		//		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
-		//		solo.waitForText(addSoundDialogTitle, 0, 1000);
-		//		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
 	}
 
 	public void testCopyCostume() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		goToCostumesTab();
 		solo.clickOnText(getActivity().getString(R.string.copy_costume), 1);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition), 1, true)) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
@@ -208,9 +165,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testDeleteCostume() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(700);
-
+		goToCostumesTab();
 		ListAdapter adapter = getCostumeFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
@@ -226,8 +181,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testRenameCostume() {
 		String newName = "newName";
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		goToCostumesTab();
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
@@ -249,8 +203,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testRenameCostumeMixedCase() {
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.sleep(500);
+		goToCostumesTab();
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.sleep(300);
 		solo.clearEditText(0);
@@ -265,20 +218,18 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testMainMenuButton() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		goToCostumesTab();
 		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
 		// needed to fix NullPointerException in next Testcase
-		solo.finishInactiveActivities();
+		//solo.finishInactiveActivities();
 	}
 
 	public void testDialogsOnChangeOrientation() {
 		String newName = "newTestName";
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		goToCostumesTab();
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
@@ -300,8 +251,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testGetImageFromPaintroid() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		goToCostumesTab();
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -330,9 +280,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testEditImageWithPaintroid() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-
+		goToCostumesTab();
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
 
@@ -369,9 +317,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testEditImageWithPaintroidNoChanges() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-
+		goToCostumesTab();
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
@@ -396,9 +342,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testEditImageWithPaintroidNoPath() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-
+		goToCostumesTab();
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
@@ -422,9 +366,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testGetImageFromPaintroidNoPath() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-
+		goToCostumesTab();
 		CostumeData costumeData = costumeDataList.get(0);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
@@ -444,9 +386,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testGetImageFromGallery() {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-
+		goToCostumesTab();
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
@@ -474,9 +414,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
-
+		goToCostumesTab();
 		int numberOfCostumeDatas = costumeDataList.size();
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
@@ -517,8 +455,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 				costumeDataToAdd.getAbsolutePath());
 
 		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.sleep(500);
+		goToCostumesTab();
 
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
@@ -544,9 +481,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testCostumeNames() {
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.sleep(500);
-
+		goToCostumesTab();
 		String buttonCopyCostumeText = solo.getString(R.string.copy_costume);
 		solo.clickOnText(buttonCopyCostumeText);
 		while (solo.scrollUp()) {
@@ -637,5 +572,16 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	private CostumeFragment getCostumeFragment() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+	}
+
+	private void goToCostumesTab() {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickInList(0);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.sleep(500);
 	}
 }
