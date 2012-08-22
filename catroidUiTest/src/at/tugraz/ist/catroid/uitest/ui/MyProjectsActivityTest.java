@@ -710,7 +710,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
-		UiTestUtils.enterText(solo, 0, lorem);
+		solo.enterText(0, lorem);
 		solo.sleep(300);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(500);
