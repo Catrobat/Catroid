@@ -37,6 +37,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -44,7 +45,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_IMAGE = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 
@@ -57,7 +58,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	private ArrayList<CostumeData> costumeDataList;
 
 	public CostumeFragmentTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -99,9 +100,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		// When modifying this test case be careful with calls to getActivity():
 		// - getActivity() - obtains a link to the original ScriptTabActivity, which does not create test project
 		// - solo.getCurrentActivity() - obtains a link to the Activity started by Intent.
-		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		getActivity().startActivity(intent);
+		//		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		//		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		//		getActivity().startActivity(intent);
 	}
 
 	@Override
@@ -111,6 +112,87 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		UiTestUtils.clearAllUtilTestProjects();
 		paintroidImageFile.delete();
 		super.tearDown();
+	}
+
+	public void testAddNewCostumeDialog() {
+		String addCostumeFromCameraDialogTitle = solo.getString(R.string.select_costume_from_camera);
+		String addCostumeFromGalleryDialogTitle = solo.getString(R.string.select_costume_from_gallery);
+
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickInList(0);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.sleep(500);
+		solo.clickOnText(solo.getString(R.string.sound_delete));
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		solo.clickOnView(solo.getView(R.id.view_camera_non_scrollable));
+		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
+		assertTrue("Dialog to add new costume from camera did not appear",
+				solo.searchText(addCostumeFromCameraDialogTitle));
+		solo.goBack();
+		solo.sleep(200);
+
+		solo.clickOnView(solo.getView(R.id.view_gallery_non_scrollable));
+		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
+		assertTrue("Dialog to add new costume from gallery did not appear",
+				solo.searchText(addCostumeFromGalleryDialogTitle));
+		solo.goBack();
+		solo.sleep(200);
+
+		solo.clickOnView(solo.getView(R.id.costumelist_footerview_camera));
+		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
+		assertTrue("Dialog to add new costume from camera did not appear",
+				solo.searchText(addCostumeFromCameraDialogTitle));
+		solo.goBack();
+		solo.sleep(200);
+		solo.clickOnView(solo.getView(R.id.costumelist_footerview_camera_add_image));
+		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
+		assertTrue("Dialog to add new costume from camera did not appear",
+				solo.searchText(addCostumeFromCameraDialogTitle));
+		solo.goBack();
+		solo.sleep(200);
+
+		solo.clickOnView(solo.getView(R.id.costumelist_footerview_gallery));
+		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
+		assertTrue("Dialog to add new costume from gallery did not appear",
+				solo.searchText(addCostumeFromGalleryDialogTitle));
+		solo.goBack();
+		solo.sleep(200);
+		solo.clickOnView(solo.getView(R.id.costumelist_footerview_gallery_add_image));
+		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
+		assertTrue("Dialog to add new costume from gallery did not appear",
+				solo.searchText(addCostumeFromGalleryDialogTitle));
+		solo.goBack();
+		solo.sleep(200);
+		//
+		//		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
+		//		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		//		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		//		solo.goBack();
+		//
+		//		solo.clickOnView(solo.getView(R.id.soundlist_footerview_add_image));
+		//		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		//		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
+		//		solo.goBack();
+		//
+		//		solo.sleep(200);
+		//		solo.clickOnText(solo.getString(R.string.backgrounds));
+		//		solo.sleep(200);
+		//		addNewSound();
+		//		solo.sleep(200);
+		//		solo.clickOnText(solo.getString(R.string.sounds));
+		//		solo.sleep(200);
+		//
+		//		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
+		//		solo.goBack();
+		//		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
+		//		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		//		assertTrue("New Sprite dialog did not appear", solo.searchText(addSoundDialogTitle));
 	}
 
 	public void testCopyCostume() {
