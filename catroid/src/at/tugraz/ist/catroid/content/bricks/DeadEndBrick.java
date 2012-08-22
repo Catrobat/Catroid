@@ -20,15 +20,9 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.ui.dragndrop;
+package at.tugraz.ist.catroid.content.bricks;
 
-public interface DragAndDropListener {
 
-	void drag(int from, int to);
+public interface DeadEndBrick extends Brick {
 
-	void drop();
-
-	void remove(int index);
-
-	void setTouchedScript(int index);
 }
