@@ -51,10 +51,12 @@ public class GlideToBrick implements Brick, OnClickListener {
 		this.durationInMilliSeconds = durationInMilliSeconds;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		/* That's the way how an action is made */
 		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
@@ -121,6 +123,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		sprite.costume.releaseXYWidthHeightLock();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -129,6 +132,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		return durationInMilliSeconds;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
@@ -159,6 +163,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_glide_to, null);
 	}
@@ -168,6 +173,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
 	}
 
+	@Override
 	public void onClick(final View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
 		
