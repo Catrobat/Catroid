@@ -114,8 +114,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	@Override
-	public void onCopyProject() {
-		initAdapter();
+	public void onCopyProject(boolean orientationChangedWhileCopying) {
+		if (!orientationChangedWhileCopying) {
+			initAdapter();
+		}
 	}
 
 	@Override
