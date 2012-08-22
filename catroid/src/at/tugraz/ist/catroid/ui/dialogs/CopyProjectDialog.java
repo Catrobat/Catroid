@@ -25,7 +25,9 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +41,9 @@ public class CopyProjectDialog extends TextDialog {
 
 	private class CopyProjectAsyncTask extends AsyncTask<String, Void, Boolean> {
 		//ProgressDialog progressDialog;
+		boolean screenOrientationChanged = false;
+		Activity activityAsync = getActivity();
+		boolean copyProcessFinished = false;
 
 		@Override
 		protected void onPreExecute() {
@@ -48,37 +53,35 @@ public class CopyProjectDialog extends TextDialog {
 		@Override
 		protected Boolean doInBackground(String... array) {
 			String newProjectName = array[0];
+			if (isCancelled()) {
+				return false;
+			}
 
 			try {
-				copyProject(newProjectName, oldProjectName);
+				File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
+				File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
+
+				copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
+				if (isCancelled()) {
+					return false;
+				}
+
+				Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);
+				copiedProject.setName(newProjectName);
+				StorageHandler.getInstance().saveProject(copiedProject);
 
 			} catch (IOException exception) {
 				UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
 				Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
 				return false;
 			}
+			copyProcessFinished = true;
 			return true;
-		}
-
-		private void copyProject(String newProjectName, String oldProjectName) throws IOException {
-			if (Utils.deleteSpecialCharactersInString(newProjectName) == "") {
-				return;
-			}
-			File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
-			File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
-			//oldProjectRootDirectory = new File("Test");
-
-			copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
-
-			Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);
-			copiedProject.setName(newProjectName);
-			StorageHandler.getInstance().saveProject(copiedProject);
 		}
 
 		private void copyDirectory(File destinationFile, File sourceFile) throws IOException {
 			if (isCancelled()) {
-				orientationChangedWhileCopying = true;
-				return;
+				throw new IOException();
 			}
 			if (sourceFile.isDirectory()) {
 
@@ -92,6 +95,27 @@ public class CopyProjectDialog extends TextDialog {
 		}
 
 		@Override
+		protected void onCancelled() {
+			if (screenOrientationChanged && !copyProcessFinished) {
+				Log.d("Catroid", "Copy process cancelled");
+				Utils.displayErrorMessage(activityAsync, "Don't rotate the device during the copy process");
+				currentCopyProjectAsyncTask = null;
+			}
+
+			if (!screenOrientationChanged && !copyProcessFinished) {
+				Log.d("Catroid", "Copy process cancelled");
+				Utils.displayErrorMessage(getActivity(), "Copy proecess cancelled");
+			}
+
+			if (copyProcessFinished) {
+				if (onCopyProjectListener != null) {
+					onCopyProjectListener.onCopyProject(screenOrientationChanged);
+					dismiss();
+				}
+			}
+		}
+
+		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 
@@ -101,7 +125,7 @@ public class CopyProjectDialog extends TextDialog {
 
 			if (result) {
 				if (onCopyProjectListener != null) {
-					onCopyProjectListener.onCopyProject();
+					onCopyProjectListener.onCopyProject(screenOrientationChanged);
 					dismiss();
 				}
 			} else {
@@ -119,7 +143,10 @@ public class CopyProjectDialog extends TextDialog {
 	private String oldProjectName;
 	private CopyProjectAsyncTask currentCopyProjectAsyncTask;
 	ProgressDialog progressDialog;
-	Boolean orientationChangedWhileCopying = false;
+
+	public CopyProjectDialog() {
+
+	}
 
 	public static CopyProjectDialog newInstance(String oldProjectName) {
 		CopyProjectDialog dialog = new CopyProjectDialog();
@@ -157,6 +184,13 @@ public class CopyProjectDialog extends TextDialog {
 			String title = getString(R.string.please_wait);
 			String message = getString(R.string.copying);
 			progressDialog = ProgressDialog.show(getActivity(), title, message);
+			progressDialog.setCancelable(true);
+			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					currentCopyProjectAsyncTask.cancel(true);
+				}
+			});
 
 			currentCopyProjectAsyncTask = new CopyProjectAsyncTask();
 			currentCopyProjectAsyncTask.execute(newProjectName);
@@ -181,13 +215,25 @@ public class CopyProjectDialog extends TextDialog {
 	public void onPause() {
 		super.onPause();
 		if (currentCopyProjectAsyncTask != null) {
+			currentCopyProjectAsyncTask.screenOrientationChanged = true;
 			currentCopyProjectAsyncTask.cancel(true);
+
+			//activity = null;
+		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (currentCopyProjectAsyncTask != null) {
+			if (currentCopyProjectAsyncTask.screenOrientationChanged) {
+			}
 		}
 	}
 
 	public interface OnCopyProjectListener {
 
-		public void onCopyProject();
+		public void onCopyProject(boolean orientationChangedWhileCopying);
 
 	}
 }
