@@ -543,6 +543,45 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 	}
 
+	public void testResolutionWhenEditedAndCroppedWithPaintroid() {
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.sleep(500);
+
+		CostumeData costumeData = costumeDataList.get(0);
+		getCostumeFragment().setSelectedCostumeData(costumeData);
+
+		String md5PaintroidImage = Utils.md5Checksum(paintroidImageFile);
+		String md5ImageFile = Utils.md5Checksum(imageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
+		bundleForPaintroid.putString("secondExtra", paintroidImageFile.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		intent.putExtras(bundleForPaintroid);
+
+		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+
+		solo.sleep(5000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+
+		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
+				md5PaintroidImage);
+
+		boolean isInCostumeDataListPaintroidImage = false;
+		boolean isInCostumeDataListSunnglasses = false;
+		for (CostumeData costumeDatas : projectManager.getCurrentSprite().getCostumeDataList()) {
+			if (costumeDatas.getChecksum().equalsIgnoreCase(md5PaintroidImage)) {
+				isInCostumeDataListPaintroidImage = true;
+			}
+			if (costumeDatas.getChecksum().equalsIgnoreCase(md5ImageFile)) {
+				isInCostumeDataListSunnglasses = true;
+			}
+		}
+		assertTrue("File not added in CostumeDataList", isInCostumeDataListPaintroidImage);
+		assertFalse("File not deleted from CostumeDataList", isInCostumeDataListSunnglasses);
+	}
+
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
 		solo.clickOnText(currentCostumeName);
 		EditText editTextCostumeName = solo.getEditText(0);
