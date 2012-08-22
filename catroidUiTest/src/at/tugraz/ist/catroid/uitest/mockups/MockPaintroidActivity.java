@@ -29,8 +29,10 @@ import java.io.OutputStream;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MockPaintroidActivity extends Activity {
 
@@ -41,42 +43,58 @@ public class MockPaintroidActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Log.v(getLocalClassName(), "MOCKING PAINTROIDDDDDDDDDDDDDDD*****************");
+
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle == null) {
+			Log.v(getLocalClassName(), "no bundel");
 			return;
 		}
 
 		if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
 			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 			imageFile = new File(pathToImage);
+			Log.v(getLocalClassName(), "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH=" + pathToImage + " imageFile="
+					+ imageFile);
 		}
 
 		if (bundle.containsKey("secondExtra")) {
 			String secondPath = bundle.getString("secondExtra");
 			secondImageFile = new File(secondPath);
+			Log.v(getLocalClassName(), "secondExtra=" + secondPath + " imageFile=" + secondImageFile);
 		}
 
 		if (bundle.containsKey("thirdExtra")) {
+			Log.v(getLocalClassName(), "finish");
 			finish(); //no bundle returned
 		} else if (bundle.containsKey("fourthExtra")) {
 			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 			BitmapFactory.Options options = new BitmapFactory.Options();
-			//options.inJustDecodeBounds = true;
-			int sampleSize = bundle.getInt("fourthExtra");
-			int h = options.outHeight;
-			int w = options.outWidth;
-			options.inSampleSize = sampleSize;
-			BitmapFactory.decodeFile(pathToImage, options);
-			h = options.outHeight;
-			w = options.outWidth;
+			options.inSampleSize = bundle.getInt("fourthExtra");
+			Bitmap image = BitmapFactory.decodeFile(pathToImage, options);
 			OutputStream stream = null;
-			imageFile = new File(pathToImage);
+			//imageFile = new File(pathToImage);
+			Log.v(getLocalClassName(), "before try");
 			try {
+				imageFile.setWritable(true);
+				Log.v(getLocalClassName(), "try");
+				boolean write = imageFile.canWrite();
+				boolean read = imageFile.canRead();
+				Log.v(getLocalClassName(), "write=" + write + "read=" + read);
 				stream = new FileOutputStream(imageFile);
+
+				Log.v(getLocalClassName(), "stream=" + stream);
+				boolean success = image.compress(Bitmap.CompressFormat.PNG, 80, stream); //-->png
+				Log.v(getLocalClassName(), "success=" + success);
 				stream.flush();
 				stream.close();
 			} catch (IOException e) {
+				Log.v(getLocalClassName(), "IO Exception in 4th extra");
+				e.printStackTrace();
 			}
+			Log.v(getLocalClassName(), "fourthExtra path=" + pathToImage + " image=" + image + "image file="
+					+ imageFile + " sample size=" + options.inSampleSize + " width=" + options.outWidth + " heigth="
+					+ options.outHeight);
 		} else {
 			sendBundleBackToCatroidAndFinish();
 		}
