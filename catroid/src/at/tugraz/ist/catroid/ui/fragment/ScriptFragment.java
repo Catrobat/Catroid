@@ -60,6 +60,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		OnBrickCategoryDialogDismissCancelListener {
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
+	private static final String TAG = ScriptFragment.class.getSimpleName();
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
@@ -327,7 +328,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 				}
 
 				if (brickToBeAdded == null) {
-					Log.w("NewBrickAddedReceiver", "no Brick given in extras");
+					Log.w(TAG, "NewBrickAddedReceiver: no Brick given in extras");
 					return;
 				}
 				updateAdapterAfterAddNewBrick(brickToBeAdded);
