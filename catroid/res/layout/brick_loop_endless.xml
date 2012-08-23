@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -18,17 +19,16 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package at.tugraz.ist.catroid.ui.dragndrop;
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_yellow_end"
+    android:orientation="horizontal" >
 
-public interface DragAndDropListener {
+    <TextView
+        style="@style/brick_text_style"
+        android:text="@string/brick_loop_end" />
 
-	void drag(int from, int to);
-
-	void drop();
-
-	void remove(int index);
-
-	void setTouchedScript(int index);
-}
+</LinearLayout>

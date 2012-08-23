@@ -22,6 +22,9 @@
  */
 package at.tugraz.ist.catroid.content;
 
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+
 public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
@@ -31,10 +34,24 @@ public class StartScript extends Script {
 		super.isFinished = false;
 	}
 
+	public StartScript(Sprite sprite, WhenStartedBrick brick) {
+		this(sprite);
+		this.brick = brick;
+	}
+
 	@Override
 	protected Object readResolve() {
 		isFinished = false;
 		super.readResolve();
 		return this;
+	}
+
+	@Override
+	public ScriptBrick getScriptBrick() {
+		if (brick == null) {
+			brick = new WhenStartedBrick(sprite, this);
+		}
+
+		return brick;
 	}
 }

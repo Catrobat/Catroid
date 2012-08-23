@@ -88,9 +88,9 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
-		int groupCount = adapter.getGroupCount();
+		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

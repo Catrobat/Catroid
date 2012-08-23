@@ -23,68 +23,34 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
-public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
-	private Script script;
-	private Sprite sprite;
-
-	@XStreamOmitField
-	private transient View view;
-
-	public WhenStartedBrick(Sprite sprite, Script script) {
-		this.script = script;
-		this.sprite = sprite;
+	public LoopEndlessBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
+		super(sprite, loopStartingBrick);
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, final BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_started, null);
-		}
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_started, null);
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_endless, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new WhenStartedBrick(getSprite(), null);
+		return new LoopEndlessBrick(getSprite(), getLoopBeginBrick());
 	}
 
 	@Override
-	public Script initScript(Sprite sprite) {
-		if (script == null) {
-			script = new StartScript(sprite);
-		}
-
-		return script;
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
 	}
 }
