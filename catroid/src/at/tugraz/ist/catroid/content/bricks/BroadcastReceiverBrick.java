@@ -33,13 +33,14 @@ import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class BroadcastReceiverBrick implements Brick {
+public class BroadcastReceiverBrick extends ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
 	private transient final ProjectManager projectManager;
@@ -71,6 +72,9 @@ public class BroadcastReceiverBrick implements Brick {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+		if (receiveScript == null) {
+			receiveScript = new BroadcastScript(sprite);
+		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
@@ -115,12 +119,12 @@ public class BroadcastReceiverBrick implements Brick {
 			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-				
+
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override
 					protected void initialize() {
 					}
-					
+
 					@Override
 					protected boolean handleOkButton() {
 						String newMessage = (input.getText().toString()).trim();
@@ -129,16 +133,16 @@ public class BroadcastReceiverBrick implements Brick {
 							dismiss();
 							return false;
 						}
-						
+
 						receiveScript.setBroadcastMessage(newMessage);
 						int position = projectManager.getMessageContainer().getPositionOfMessageInAdapter(newMessage);
 
 						broadcastSpinner.setSelection(position);
-						
+
 						return true;
 					}
 				};
-				
+
 				editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_receiver_brick");
 			}
 		});
@@ -155,6 +159,15 @@ public class BroadcastReceiverBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new BroadcastReceiverBrick(sprite, receiveScript);
+		return new BroadcastReceiverBrick(sprite, null);
+	}
+
+	@Override
+	public Script initScript(Sprite sprite) {
+		if (receiveScript == null) {
+			receiveScript = new BroadcastScript(sprite);
+		}
+
+		return receiveScript;
 	}
 }

@@ -22,7 +22,11 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -30,11 +34,12 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class LoopEndBrick implements Brick {
+public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
 	private static final int LOOP_DELAY = 20;
 	private static final int MILLION = 1000 * 1000;
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = LoopEndBrick.class.getSimpleName();
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
 	private transient int timesToRepeat;
@@ -42,12 +47,15 @@ public class LoopEndBrick implements Brick {
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
 		this.loopBeginBrick = loopStartingBrick;
+		loopStartingBrick.setLoopEndBrick(this);
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		loopBeginBrick.setBeginLoopTime(System.nanoTime());
 
@@ -81,6 +89,7 @@ public class LoopEndBrick implements Brick {
 		return null;
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -93,6 +102,7 @@ public class LoopEndBrick implements Brick {
 		return loopBeginBrick;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_loop_end, null);
@@ -103,7 +113,48 @@ public class LoopEndBrick implements Brick {
 		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
-		return null;
+		return View.inflate(context, R.layout.brick_loop_end, null);
 	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		if (brick == loopBeginBrick) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean isInitialized() {
+		if (loopBeginBrick == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public void initialize() {
+		loopBeginBrick = new ForeverBrick(sprite);
+		Log.w(TAG, "Not supposed to create the LoopBeginBrick!");
+	}
+
+	@Override
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		nestingBrickList.add(loopBeginBrick);
+		nestingBrickList.add(this);
+
+		return nestingBrickList;
+	}
+
+	@Override
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
+	}
+
 }

@@ -28,10 +28,11 @@ import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class WhenStartedBrick implements Brick {
+public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Script script;
@@ -75,6 +76,15 @@ public class WhenStartedBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new WhenStartedBrick(getSprite(), script);
+		return new WhenStartedBrick(getSprite(), null);
+	}
+
+	@Override
+	public Script initScript(Sprite sprite) {
+		if (script == null) {
+			script = new StartScript(sprite);
+		}
+
+		return script;
 	}
 }
