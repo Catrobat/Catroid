@@ -31,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -562,10 +563,18 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		intent.putExtras(bundleForPaintroid);
 
 		/// >>
-
+		if (bundleForPaintroid.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
+			String pathToImage_ = bundleForPaintroid.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
+			File imageFile2 = new File(pathToImage_);
+			boolean write = imageFile2.canWrite();
+			boolean read = imageFile2.canRead();
+			boolean exec = false; //imageFile2.canExecute();
+			Log.v("TEST", "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH=" + pathToImage_ + " imageFile=" + imageFile2);
+			Log.v("TEST", "write=" + write + "read=" + read + "exe=" + exec);
+		}
 		/// <<
 
-		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+		//getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 
 		solo.sleep(5000);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());

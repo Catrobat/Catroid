@@ -53,9 +53,13 @@ public class MockPaintroidActivity extends Activity {
 
 		if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
 			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-			imageFile = new File(pathToImage);
+			File imageFile2 = new File(pathToImage);
+			boolean write = imageFile2.canWrite();
+			boolean read = imageFile2.canRead();
+			boolean exec = false; //imageFile2.canExecute();
 			Log.v(getLocalClassName(), "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH=" + pathToImage + " imageFile="
-					+ imageFile);
+					+ imageFile2);
+			Log.v(getLocalClassName(), "write=" + write + "read=" + read + "exe=" + exec);
 		}
 
 		if (bundle.containsKey("secondExtra")) {
@@ -73,15 +77,17 @@ public class MockPaintroidActivity extends Activity {
 			options.inSampleSize = bundle.getInt("fourthExtra");
 			Bitmap image = BitmapFactory.decodeFile(pathToImage, options);
 			OutputStream stream = null;
-			//imageFile = new File(pathToImage);
+			File imageFile3 = new File(pathToImage);
 			Log.v(getLocalClassName(), "before try");
 			try {
-				imageFile.setWritable(true);
+				boolean write = imageFile3.canWrite();
+				//imageFile3.setWritable(true);
 				Log.v(getLocalClassName(), "try");
-				boolean write = imageFile.canWrite();
-				boolean read = imageFile.canRead();
-				Log.v(getLocalClassName(), "write=" + write + "read=" + read);
-				stream = new FileOutputStream(imageFile);
+				boolean write_new = imageFile3.canWrite();
+				boolean read = imageFile3.canRead();
+				boolean exec = false; //imageFile3.canExecute();
+				Log.v(getLocalClassName(), "write=" + write + " write new" + write_new + "read=" + read + "exe=" + exec);
+				stream = new FileOutputStream(imageFile3);
 
 				Log.v(getLocalClassName(), "stream=" + stream);
 				boolean success = image.compress(Bitmap.CompressFormat.PNG, 80, stream); //-->png
