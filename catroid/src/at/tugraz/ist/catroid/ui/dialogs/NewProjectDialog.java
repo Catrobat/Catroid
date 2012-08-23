@@ -144,10 +144,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 
 		try {
 			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
-			//Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
-			//ProjectManager.INSTANCE.loadProject(projectName, getActivity(), false);
 			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
-			//ProjectManager.INSTANCE.setProject(currentProject);
 		} catch (IOException e) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_new_project));
 			dismiss();
@@ -172,5 +169,4 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 	protected String getHint() {
 		return getString(R.string.new_project_dialog_hint);
 	}
-
 }

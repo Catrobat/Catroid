@@ -103,17 +103,17 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.sleep(2000);
 
-		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
+		EditText newProjectName = (EditText) solo.getView(R.id.project_name_edittext);
 		EditText newProjectDescription = (EditText) solo.getView(R.id.project_description_edittext);
-		int newProjectInputType = newProject.getInputType();
+		int newProjectInputType = newProjectName.getInputType();
 		int newProjectDescriptionInputType = newProjectDescription.getInputType();
-		int newProjectInputTypeToCheck = android.text.InputType.TYPE_CLASS_TEXT
+		int newProjectInputTypeReference = android.text.InputType.TYPE_CLASS_TEXT
 				+ android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
 		int newProjectDescriptionInputTypeToCheck = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
 				+ android.text.InputType.TYPE_CLASS_TEXT + android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
 		solo.sleep(2000);
 
-		assertEquals("New project name field is not a text field!", newProjectInputType, newProjectInputTypeToCheck);
+		assertEquals("New project name field is not a text field!", newProjectInputTypeReference, newProjectInputType);
 		assertEquals("Project description field is not a text area!", newProjectDescriptionInputType,
 				newProjectDescriptionInputTypeToCheck);
 	}
