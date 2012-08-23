@@ -130,7 +130,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 
 	protected boolean handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
-		String projectDescription = newProjectDescriptionEditText.getText().toString();
+		String projectDescription = newProjectDescriptionEditText.getText().toString().trim();
 
 		if (projectName.length() == 0) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_no_name_entered));

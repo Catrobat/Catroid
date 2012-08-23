@@ -483,34 +483,4 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Project description was not set or is wrong", testDescription, uploadDescription);
 	}
 
-	//will be FIXED from Catroid Webteam (from server-side)
-	public void testLoginWhenUploading() {
-		/*
-		 * SharedPreferences defaultSharedPreferences =
-		 * PreferenceManager.getDefaultSharedPreferences(getInstrumentation()
-		 * .getTargetContext());
-		 * Editor edit = defaultSharedPreferences.edit();
-		 * edit.clear();
-		 * edit.commit();
-		 * 
-		 * solo.sleep(500);
-		 * solo.clickOnButton(getActivity().getString(R.string.upload_project));
-		 * solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		 * solo.sleep(5000);
-		 * 
-		 * String username = "Maxmustermann"; //real username is maxmustermann (first letter lower case)
-		 * String password = "password";
-		 * EditText usernameEditText = (EditText) solo.getView(R.id.username);
-		 * EditText passwordEditText = (EditText) solo.getView(R.id.password);
-		 * solo.enterText(usernameEditText, username);
-		 * solo.enterText(passwordEditText, password);
-		 * solo.clickOnButton(getActivity().getString(R.string.login_or_register));
-		 * solo.sleep(5000);
-		 * 
-		 * TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
-		 * ArrayList<View> currentViews = solo.getCurrentViews();
-		 * assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
-		 */
-	}
-
 }
