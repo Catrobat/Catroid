@@ -295,7 +295,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	private class SpritesListInitReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED)) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_INIT)) {
 				spriteAdapter.notifyDataSetChanged();
 			}
 		}
