@@ -107,6 +107,12 @@ public class CopyProjectDialog extends TextDialog {
 				Utils.displayErrorMessage(getActivity(), "Copy proecess cancelled");
 			}
 
+			if (copyProcessFinished && screenOrientationChanged) {
+				if (onCopyProjectListener != null) {
+					onCopyProjectListener.onCopyProject(screenOrientationChanged);
+					dismiss();
+				}
+			}
 			if (copyProcessFinished) {
 				if (onCopyProjectListener != null) {
 					onCopyProjectListener.onCopyProject(screenOrientationChanged);
