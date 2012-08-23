@@ -57,10 +57,10 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
-			input.setText(projectManager.getCurrentProject().description);
+			input.setText(projectManager.getCurrentProject().getDescription());
 		} else {
 			projectManager.loadProject(projectToChangeName, getActivity(), false); //TODO: check something
-			input.setText(projectManager.getCurrentProject().description);
+			input.setText(projectManager.getCurrentProject().getDescription());
 			projectManager.loadProject(currentProjectName, getActivity(), false);
 		}
 	}
