@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -19,39 +20,15 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package at.tugraz.ist.catroid.content;
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_yellow_end"
+    android:orientation="horizontal" >
 
-import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+    <TextView
+        style="@style/brick_text_style"
+        android:text="@string/brick_loop_end" />
 
-public class StartScript extends Script {
-
-	private static final long serialVersionUID = 1L;
-
-	public StartScript(Sprite sprite) {
-		super(sprite);
-		super.isFinished = false;
-	}
-
-	public StartScript(Sprite sprite, WhenStartedBrick brick) {
-		this(sprite);
-		this.brick = brick;
-	}
-
-	@Override
-	protected Object readResolve() {
-		isFinished = false;
-		super.readResolve();
-		return this;
-	}
-
-	@Override
-	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenStartedBrick(sprite, this);
-		}
-
-		return brick;
-	}
-}
+</LinearLayout>

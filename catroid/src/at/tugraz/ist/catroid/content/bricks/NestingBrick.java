@@ -20,38 +20,37 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content;
+package at.tugraz.ist.catroid.content.bricks;
 
-import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+import java.util.List;
 
-public class StartScript extends Script {
+public abstract class NestingBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 
-	public StartScript(Sprite sprite) {
-		super(sprite);
-		super.isFinished = false;
-	}
-
-	public StartScript(Sprite sprite, WhenStartedBrick brick) {
-		this(sprite);
-		this.brick = brick;
-	}
-
-	@Override
-	protected Object readResolve() {
-		isFinished = false;
-		super.readResolve();
-		return this;
-	}
-
-	@Override
-	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenStartedBrick(sprite, this);
+	public boolean containsDeadEnd() {
+		for (Brick brick : getAllNestingBrickParts()) {
+			if (brick instanceof DeadEndBrick) {
+				return true;
+			}
 		}
 
-		return brick;
+		return false;
 	}
+
+	@Override
+	public abstract Brick clone();
+
+	public abstract boolean isInitialized();
+
+	public abstract void initialize();
+
+	public abstract boolean isDraggableOver(Brick brick);
+
+	/**
+	 * 
+	 * @return List of NestingBricks in order of their appearance
+	 */
+	public abstract List<NestingBrick> getAllNestingBrickParts();
+
 }

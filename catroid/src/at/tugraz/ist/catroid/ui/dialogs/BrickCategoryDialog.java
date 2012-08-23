@@ -159,7 +159,7 @@ public class BrickCategoryDialog extends DialogFragment {
 	private void abort() {
 		ScriptTabActivity activity = ((ScriptTabActivity) getActivity());
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		fragment.setDontCreateNewBrick(true);
+		fragment.setCreateNewBrick(false);
 	}
 
 	private void setupBrickCategories(ListView listView, LayoutInflater inflater) {
