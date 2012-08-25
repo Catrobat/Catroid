@@ -117,7 +117,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(nyanCat);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 	}
@@ -167,7 +167,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(manImage);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 	}
