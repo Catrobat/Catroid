@@ -107,25 +107,14 @@ public class ImageEditing {
 
 	public static void overwriteImageFileWithNewBitmap(File imageFile) throws FileNotFoundException {
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-
-		int tmpWidth = options.outWidth;
-		int tmpHeight = options.outHeight;
-		int sampleSize = 1;
-
-		options.inJustDecodeBounds = false;
-		options.inSampleSize = sampleSize;
-
 		Bitmap unmutableBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-		tmpWidth = unmutableBitmap.getWidth();
-		tmpHeight = unmutableBitmap.getHeight();
-		int[] tmpPixels = new int[tmpWidth * tmpHeight];
-		unmutableBitmap.getPixels(tmpPixels, 0, tmpWidth, 0, 0, tmpWidth, tmpHeight);
+		int bitmapWidth = unmutableBitmap.getWidth();
+		int bitmapHeight = unmutableBitmap.getHeight();
+		int[] bitmapPixels = new int[bitmapWidth * bitmapHeight];
+		unmutableBitmap.getPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
 
-		Bitmap mutableBitmap = Bitmap.createBitmap(tmpWidth, tmpHeight, Bitmap.Config.ARGB_8888);
-		mutableBitmap.setPixels(tmpPixels, 0, tmpWidth, 0, 0, tmpWidth, tmpHeight);
-
+		Bitmap mutableBitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
+		mutableBitmap.setPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
 		StorageHandler.saveBitmapToImageFile(imageFile, mutableBitmap);
 	}
 
