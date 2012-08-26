@@ -23,7 +23,6 @@
 package at.tugraz.ist.catroid.ui.fragment;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +68,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -380,23 +377,20 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			}
 
 			String imageFileName = imageFile.getName();
-			// if exception occurrs, image would throw an Exception in stage
+			// if pixmap cannot be created, image would throw an Exception in stage
 			// so has to be loaded again with other Config
-			@SuppressWarnings("unused")
 			Pixmap pixmap = null;
-			try {
-				pixmap = new Pixmap(new FileHandle(imageFile));
-			} catch (GdxRuntimeException e) {
-				try {
-					ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
-				} catch (FileNotFoundException e1) {
+			pixmap = Utils.getPixmapFromFile(imageFile);
+			if (pixmap == null) {
+				ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
+				pixmap = Utils.getPixmapFromFile(imageFile);
+				if (pixmap == null) {
 					Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
 					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath());
 					return;
 				}
-			} finally {
-				pixmap = null;
 			}
+			pixmap = null;
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
