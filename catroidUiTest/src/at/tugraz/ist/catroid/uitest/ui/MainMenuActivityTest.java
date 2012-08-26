@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -130,10 +131,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
-		solo.sendKey(Solo.ENTER);
+		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
 
-		assertTrue("No error message was displayed upon creating a project with an empty name.",
-				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		assertFalse("New project ok button is enabled!", okButton.isEnabled());
 		solo.clickOnButton(0);
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
