@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
@@ -196,10 +197,19 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.createTestProject();
 		solo.sleep(200);
 
+		String x = solo.getCurrentActivity().toString();
+
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		//UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		//solo.clickOnActionBarItem(R.id.menu_add);
+		if (Build.VERSION.SDK_INT < 15) {
+			UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		} else {
+			solo.clickOnActionBarItem(R.id.menu_add);
+		}
+
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
 			fail("Edit-Dialog not shown in 5 secs!");
 		}
@@ -221,7 +231,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			fail("ListView not shown in 5 secs!");
 		}
 
-		solo.goBack();
+		solo.goBackToActivity("MainMenuActivity");
+
+		/*
+		 * if (Build.VERSION.SDK_INT < 15) {
+		 * UiTestUtils.clickOnLinearLayout(solo, R.id.btn_home);
+		 * } else {
+		 * solo.clickOnActionBarItem(R.id.btn_home);
+		 * }
+		 */
 
 		if (!solo.waitForText(myProjectsText, 0, 5000)) {
 			fail("Button not shown in 5 secs!");
