@@ -74,7 +74,6 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			setDescription(description);
 			updateProjectDescriptionListener();
 			dismiss();
-
 			return false;
 		}
 

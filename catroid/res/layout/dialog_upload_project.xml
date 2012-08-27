@@ -85,8 +85,11 @@
         android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="5"
-        android:gravity="top">
+        android:maxLines="10"
+        android:lines="2"
+        android:gravity="top"
+        android:scrollbars="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
     </EditText>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
