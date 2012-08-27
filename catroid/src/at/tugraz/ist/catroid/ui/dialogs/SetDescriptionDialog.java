@@ -83,6 +83,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 		projectManager.loadProject(currentProjectName, getActivity(), false);
 
 		updateProjectDescriptionListener();
+		dismiss();
 		return true;
 	}
 
