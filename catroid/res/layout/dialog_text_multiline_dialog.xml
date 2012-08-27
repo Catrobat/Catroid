@@ -25,18 +25,21 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <EditText
             android:id="@+id/dialog_text_EditMultiLineText"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="wrap_content"
+            android:lines="2"
             android:gravity="left"
             android:inputType="textMultiLine"
             android:maxLines="10"
             android:singleLine="false" 
-            android:selectAllOnFocus="true" >
-
+            android:selectAllOnFocus="true" 
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
         </EditText>
 </LinearLayout>
 
