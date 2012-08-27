@@ -79,8 +79,10 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		String nyanCat = "nyancat";
 		String nyanCatPng = "nyancat_crash.png";
 		try {
-			// need to load image from assets, not from resources folder
-			// this way, the image is loaded similar to catroid, when importing an costume
+			// need to load image from assets, not from resources folder.
+			// this way, the image is loaded similar to catroid, when importing an costume.
+			// if we use the image from res-folder instead of assets, test would
+			// pass even if the needed code in copyImageIntoCatroid() was deleted
 			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(nyanCatPng);
 			nyanCatPath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
 					Constants.IMAGE_DIRECTORY, nyanCatPng);
@@ -131,8 +133,10 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		String manImage = "man_crash";
 		String manImageJpg = "man_crash.jpg";
 		try {
-			// need to load image from assets, not from resources folder
-			// this way, the image is loaded similar to catroid, when importing an costume
+			// need to load image from assets, not from resources folder.
+			// this way, the image is loaded similar to catroid, when importing an costume.
+			// if we use the image from res-folder instead of assets, test would
+			// pass even if the needed code in copyImageIntoCatroid() was deleted
 			InputStream inputStream = getInstrumentation().getContext().getResources().getAssets().open(manImageJpg);
 			manImagePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
 					Constants.IMAGE_DIRECTORY, manImageJpg);
