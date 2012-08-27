@@ -22,10 +22,8 @@
  */
 package at.tugraz.ist.catroid.uitest.mockups;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +36,7 @@ public class MockPaintroidActivity extends Activity {
 
 	private File imageFile;
 	private File secondImageFile;
+	private ByteArrayOutputStream imageStream;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,25 +46,28 @@ public class MockPaintroidActivity extends Activity {
 
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle == null) {
-			Log.v(getLocalClassName(), "no bundel");
+			Log.v(getLocalClassName(), "no bundle");
 			return;
 		}
 
 		if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
 			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-			File imageFile2 = new File(pathToImage);
-			boolean write = imageFile2.canWrite();
-			boolean read = imageFile2.canRead();
-			boolean exec = false; //imageFile2.canExecute();
-			Log.v(getLocalClassName(), "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH=" + pathToImage + " imageFile="
-					+ imageFile2);
-			Log.v(getLocalClassName(), "write=" + write + "read=" + read + "exe=" + exec);
+			imageFile = new File(pathToImage);
+
+			/*
+			 * boolean write = imageFile.canWrite();
+			 * boolean read = imageFile.canRead();
+			 * boolean exec = false; //imageFile2.canExecute();
+			 * Log.v(getLocalClassName(), "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH=" + pathToImage + " imageFile="
+			 * + imageFile2);
+			 * Log.v(getLocalClassName(), "write=" + write + "read=" + read + "exe=" + exec);
+			 */
 		}
 
 		if (bundle.containsKey("secondExtra")) {
 			String secondPath = bundle.getString("secondExtra");
 			secondImageFile = new File(secondPath);
-			Log.v(getLocalClassName(), "secondExtra=" + secondPath + " imageFile=" + secondImageFile);
+			//Log.v(getLocalClassName(), "secondExtra=" + secondPath + " imageFile=" + secondImageFile);
 		}
 
 		if (bundle.containsKey("thirdExtra")) {
@@ -75,32 +77,37 @@ public class MockPaintroidActivity extends Activity {
 			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inSampleSize = bundle.getInt("fourthExtra");
-			Bitmap image = BitmapFactory.decodeFile(pathToImage, options);
-			OutputStream stream = null;
-			File imageFile3 = new File(pathToImage);
-			Log.v(getLocalClassName(), "before try");
-			try {
-				boolean write = imageFile3.canWrite();
-				//imageFile3.setWritable(true);
-				Log.v(getLocalClassName(), "try");
-				boolean write_new = imageFile3.canWrite();
-				boolean read = imageFile3.canRead();
-				boolean exec = false; //imageFile3.canExecute();
-				Log.v(getLocalClassName(), "write=" + write + " write new" + write_new + "read=" + read + "exe=" + exec);
-				stream = new FileOutputStream(imageFile3);
+			Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImage, options);
+			imageStream = new ByteArrayOutputStream();
+			imageBitmap.compress(Bitmap.CompressFormat.PNG, 50, imageStream);
 
-				Log.v(getLocalClassName(), "stream=" + stream);
-				boolean success = image.compress(Bitmap.CompressFormat.PNG, 80, stream); //-->png
-				Log.v(getLocalClassName(), "success=" + success);
-				stream.flush();
-				stream.close();
-			} catch (IOException e) {
-				Log.v(getLocalClassName(), "IO Exception in 4th extra");
-				e.printStackTrace();
-			}
-			Log.v(getLocalClassName(), "fourthExtra path=" + pathToImage + " image=" + image + "image file="
-					+ imageFile + " sample size=" + options.inSampleSize + " width=" + options.outWidth + " heigth="
-					+ options.outHeight);
+			/*
+			 * OutputStream stream = null;
+			 * File imageFile3 = new File(pathToImage);
+			 * Log.v(getLocalClassName(), "before try");
+			 * try {
+			 * boolean write = imageFile3.canWrite();
+			 * //imageFile3.setWritable(true);
+			 * Log.v(getLocalClassName(), "try");
+			 * boolean write_new = imageFile3.canWrite();
+			 * boolean read = imageFile3.canRead();
+			 * boolean exec = false; //imageFile3.canExecute();
+			 * Log.v(getLocalClassName(), "write=" + write + " write new" + write_new + "read=" + read + "exe=" + exec);
+			 * stream = new FileOutputStream(imageFile3);
+			 * 
+			 * Log.v(getLocalClassName(), "stream=" + stream);
+			 * boolean success = image.compress(Bitmap.CompressFormat.PNG, 80, stream); //-->png
+			 * Log.v(getLocalClassName(), "success=" + success);
+			 * stream.flush();
+			 * stream.close();
+			 * } catch (IOException e) {
+			 * Log.v(getLocalClassName(), "IO Exception in 4th extra");
+			 * e.printStackTrace();
+			 * }
+			 * Log.v(getLocalClassName(), "fourthExtra path=" + pathToImage + " image=" + image + "image file="
+			 * + imageFile + " sample size=" + options.inSampleSize + " width=" + options.outWidth + " heigth="
+			 * + options.outHeight);
+			 */
 		} else {
 			sendBundleBackToCatroidAndFinish();
 		}
@@ -108,7 +115,11 @@ public class MockPaintroidActivity extends Activity {
 
 	public void sendBundleBackToCatroidAndFinish() {
 		Bundle bundle = new Bundle();
-		if (secondImageFile != null) {
+		if (imageStream != null) {
+			bundle.putByteArray("bitmapStream", imageStream.toByteArray());
+			Log.v(getLocalClassName(),
+					"imageStream=" + imageStream + " imageStreamBiteArray=" + imageStream.toByteArray());
+		} else if (secondImageFile != null) {
 			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", secondImageFile.getAbsolutePath());
 		} else {
 			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", imageFile.getAbsolutePath());
@@ -117,6 +128,8 @@ public class MockPaintroidActivity extends Activity {
 		Intent intent = new Intent();
 		intent.putExtras(bundle);
 		setResult(RESULT_OK, intent);
+		//CostumeFragmentTest test = new CostumeFragmentTest();
+		//test.onActivityResult(1, RESULT_OK, intent);
 		finish();
 	}
 }

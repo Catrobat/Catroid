@@ -552,4 +552,5 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			}
 		}
 	}
+
 }
