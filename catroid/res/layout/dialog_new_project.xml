@@ -64,7 +64,7 @@
 	    android:layout_below="@+id/project_description"
 	    android:gravity="top"
 	    android:inputType="textMultiLine"
-	    android:lines="2"
+	    android:lines="3"
 	    android:maxLines="10"
 	    android:scrollHorizontally="true"
 	    android:scrollbars="vertical" 
