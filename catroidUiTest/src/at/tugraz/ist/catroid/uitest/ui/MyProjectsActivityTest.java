@@ -202,8 +202,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		//UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-		//solo.clickOnActionBarItem(R.id.menu_add);
 		if (Build.VERSION.SDK_INT < 15) {
 			UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		} else {
@@ -232,14 +230,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 
 		solo.goBackToActivity("MainMenuActivity");
-
-		/*
-		 * if (Build.VERSION.SDK_INT < 15) {
-		 * UiTestUtils.clickOnLinearLayout(solo, R.id.btn_home);
-		 * } else {
-		 * solo.clickOnActionBarItem(R.id.btn_home);
-		 * }
-		 */
 
 		if (!solo.waitForText(myProjectsText, 0, 5000)) {
 			fail("Button not shown in 5 secs!");
