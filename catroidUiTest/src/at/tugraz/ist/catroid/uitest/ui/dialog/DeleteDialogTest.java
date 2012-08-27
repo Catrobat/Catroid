@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
@@ -33,6 +32,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_IMAGE = at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses;
 	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
@@ -60,7 +60,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private ArrayList<SoundInfo> soundInfoList;
 
 	public DeleteDialogTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -127,13 +127,10 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 	}
 
 	public void testDeleteCostumes() {
-		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		getActivity().startActivity(intent);
-
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
 		String deleteCostumeText = solo.getString(R.string.sound_delete);
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(200);
@@ -164,6 +161,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<ScriptTab
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
 		String deleteSoundText = solo.getString(R.string.sound_delete);
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 
 		solo.clickOnText(getActivity().getString(R.string.sounds));
 		solo.sleep(200);
