@@ -197,8 +197,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.createTestProject();
 		solo.sleep(200);
 
-		String x = solo.getCurrentActivity().toString();
-
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
@@ -206,6 +204,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
 		} else {
 			solo.clickOnActionBarItem(R.id.menu_add);
+			UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		}
 
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
