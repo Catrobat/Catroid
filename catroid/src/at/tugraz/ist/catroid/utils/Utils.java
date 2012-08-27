@@ -397,6 +397,8 @@ public class Utils {
 			pixmap = new Pixmap(new FileHandle(imageFile));
 		} catch (GdxRuntimeException e) {
 			return null;
+		} catch (Exception e1) {
+			return null;
 		}
 		return pixmap;
 	}
