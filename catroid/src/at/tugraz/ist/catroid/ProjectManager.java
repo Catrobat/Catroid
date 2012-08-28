@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
@@ -57,12 +58,12 @@ public class ProjectManager {
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
-
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
 		Project oldProject = project;
 		project = StorageHandler.getInstance().loadProject(projectName);
 
+		FragmentActivity fragmentActivity = (FragmentActivity) context;
 		if (project == null) {
 			if (oldProject != null) {
 				project = oldProject;
@@ -73,7 +74,8 @@ public class ProjectManager {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
 					} catch (IOException e) {
 						if (errorMessage) {
-							Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+							Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
+									context.getString(R.string.error_load_project));
 						}
 						Log.e("CATROID", "Cannot load project.", e);
 						return false;
@@ -81,14 +83,16 @@ public class ProjectManager {
 				}
 			}
 			if (errorMessage) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+				Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
+						context.getString(R.string.error_load_project));
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
 			project = oldProject;
 			if (errorMessage) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_project_compatability));
+				Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
+						context.getString(R.string.error_project_compatability));
 				// TODO show dialog to download latest catroid version instead
 			}
 			return false;
@@ -130,8 +134,10 @@ public class ProjectManager {
 			currentScript = null;
 			return true;
 		} catch (Exception e) {
+			FragmentActivity fragmentActivity = (FragmentActivity) context;
 			Log.e("CATROID", "Cannot initialize default project.", e);
-			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+			Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
+					context.getString(R.string.error_load_project));
 			return false;
 		}
 	}
@@ -164,7 +170,9 @@ public class ProjectManager {
 
 	public boolean renameProject(String newProjectName, Context context) {
 		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+			FragmentActivity fragmentActivity = (FragmentActivity) context;
+			Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
+					context.getString(R.string.error_project_exists));
 			return false;
 		}
 

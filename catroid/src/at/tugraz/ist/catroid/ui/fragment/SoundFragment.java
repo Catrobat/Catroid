@@ -251,7 +251,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			updateSoundAdapter(soundTitle, soundFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Utils.displayErrorMessage(getActivity(), getActivity().getString(R.string.error_load_sound));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getActivity().getString(R.string.error_load_sound));
 		}
 
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);

@@ -59,7 +59,7 @@ public class RenameSpriteDialog extends TextDialog {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_already_exists));
 			return false;
 		}
 
@@ -73,7 +73,7 @@ public class RenameSpriteDialog extends TextDialog {
 			intent.putExtra(EXTRA_NEW_SPRITE_NAME, newSpriteName);
 			getActivity().sendBroadcast(intent);
 		} else {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_invalid));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_invalid));
 			return false;
 		}
 

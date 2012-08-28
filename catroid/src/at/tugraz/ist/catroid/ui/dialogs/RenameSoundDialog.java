@@ -67,7 +67,7 @@ public class RenameSoundDialog extends TextDialog {
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			newSoundTitle = Utils.getUniqueSoundName(newSoundTitle);
 		} else {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.soundname_invalid));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.soundname_invalid));
 		}
 
 		Intent intent = new Intent(ScriptTabActivity.ACTION_SOUND_RENAMED);

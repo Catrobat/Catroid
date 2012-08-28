@@ -53,6 +53,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -70,6 +72,7 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.dialogs.ErrorDialogFragment;
 
 public class Utils {
 
@@ -170,15 +173,35 @@ public class Utils {
 	 * Displays an AlertDialog with the given error message and just a close
 	 * button
 	 * 
-	 * @param context
+	 * @param fragmentManager
 	 * @param errorMessage
 	 */
+	public static void displayErrorMessageFragment(FragmentManager fragmentManager, String errorMessage) {
+		DialogFragment errorDialog = ErrorDialogFragment.newInstance(errorMessage);
+		errorDialog.show(fragmentManager, ErrorDialogFragment.DIALOG_FRAGMENT_TAG);
+		/*
+		 * Builder builder = new AlertDialog.Builder(context);
+		 * 
+		 * builder.setTitle(context.getString(R.string.error));
+		 * builder.setMessage(errorMessage);
+		 * builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+		 * 
+		 * @Override
+		 * public void onClick(DialogInterface dialog, int which) {
+		 * }
+		 * });
+		 * builder.show();
+		 */
+	}
+
 	public static void displayErrorMessage(Context context, String errorMessage) {
+
 		Builder builder = new AlertDialog.Builder(context);
 
 		builder.setTitle(context.getString(R.string.error));
 		builder.setMessage(errorMessage);
 		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 			}

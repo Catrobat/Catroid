@@ -67,7 +67,7 @@ public class RenameCostumeDialog extends TextDialog {
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 			newCostumeName = Utils.getUniqueCostumeName(newCostumeName);
 		} else {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.costumename_invalid));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.costumename_invalid));
 			dismiss();
 		}
 
