@@ -71,6 +71,10 @@ import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+
 public class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
@@ -385,5 +389,17 @@ public class Utils {
 		} else {
 			return (context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
 		}
+	}
+
+	public static Pixmap getPixmapFromFile(File imageFile) {
+		Pixmap pixmap = null;
+		try {
+			pixmap = new Pixmap(new FileHandle(imageFile));
+		} catch (GdxRuntimeException e) {
+			return null;
+		} catch (Exception e1) {
+			return null;
+		}
+		return pixmap;
 	}
 }
