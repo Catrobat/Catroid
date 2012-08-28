@@ -39,7 +39,8 @@
             android:singleLine="false" 
             android:selectAllOnFocus="true" 
             android:scrollbars="vertical"
-            android:scrollbarAlwaysDrawVerticalTrack="true">
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:hint="@string/new_project_description_dialog_hint">
         </EditText>
 </LinearLayout>
 
