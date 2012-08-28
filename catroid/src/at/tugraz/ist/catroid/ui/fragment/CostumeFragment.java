@@ -68,6 +68,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.badlogic.gdx.graphics.Pixmap;
 
 public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -376,6 +377,20 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			}
 
 			String imageFileName = imageFile.getName();
+			// if pixmap cannot be created, image would throw an Exception in stage
+			// so has to be loaded again with other Config
+			Pixmap pixmap = null;
+			pixmap = Utils.getPixmapFromFile(imageFile);
+			if (pixmap == null) {
+				ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
+				pixmap = Utils.getPixmapFromFile(imageFile);
+				if (pixmap == null) {
+					Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));
+					StorageHandler.getInstance().deleteFile(imageFile.getAbsolutePath());
+					return;
+				}
+			}
+			pixmap = null;
 			updateCostumeAdapter(imageName, imageFileName);
 		} catch (IOException e) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_image));

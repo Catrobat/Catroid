@@ -22,9 +22,13 @@
  */
 package at.tugraz.ist.catroid.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class ImageEditing {
 
@@ -99,6 +103,19 @@ public class ImageEditing {
 		Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		newBitmap.eraseColor(color);
 		return newBitmap;
+	}
+
+	public static void overwriteImageFileWithNewBitmap(File imageFile) throws FileNotFoundException {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		Bitmap unmutableBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+		int bitmapWidth = unmutableBitmap.getWidth();
+		int bitmapHeight = unmutableBitmap.getHeight();
+		int[] bitmapPixels = new int[bitmapWidth * bitmapHeight];
+		unmutableBitmap.getPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
+
+		Bitmap mutableBitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
+		mutableBitmap.setPixels(bitmapPixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
+		StorageHandler.saveBitmapToImageFile(imageFile, mutableBitmap);
 	}
 
 	public static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegree) {

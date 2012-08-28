@@ -213,15 +213,15 @@ public class Costume extends Image {
 	}
 
 	public float getXPosition() {
-		float xPos = this.x;
-		xPos += this.width / 2f;
-		return xPos;
+		float xPosition = this.x;
+		xPosition += this.width / 2f;
+		return xPosition;
 	}
 
 	public float getYPosition() {
-		float yPos = this.y;
-		yPos += this.height / 2f;
-		return yPos;
+		float yPosition = this.y;
+		yPosition += this.height / 2f;
+		return yPosition;
 	}
 
 	public float getWidth() {
