@@ -23,21 +23,16 @@
 package at.tugraz.ist.catroid.uitest.web;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -105,36 +100,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 
 		downloadProject();
-	}
-
-	public void testLoginWhenUploading() throws Throwable {
-		setServerURLToTestUrl();
-		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation()
-				.getTargetContext());
-		Editor edit = defaultSharedPreferences.edit();
-		edit.clear();
-		edit.commit();
-
-		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(3000);
-
-		String username = "Maxmustermann"; //real username is maxmustermann (first letter lower case)
-		String password = "password";
-		EditText usernameEditText = (EditText) solo.getView(R.id.username);
-		EditText passwordEditText = (EditText) solo.getView(R.id.password);
-		solo.enterText(usernameEditText, username);
-		solo.enterText(passwordEditText, password);
-		solo.clickOnButton(getActivity().getString(R.string.login_or_register));
-		solo.sleep(5000);
-
-		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
-		ArrayList<View> currentViews = solo.getCurrentViews();
-
-		solo.sleep(100000);
-		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
-
 	}
 
 	private void createTestProject(String projectToCreate) {
