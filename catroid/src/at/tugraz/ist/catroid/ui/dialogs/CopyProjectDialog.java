@@ -40,10 +40,9 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class CopyProjectDialog extends TextDialog {
 
 	private class CopyProjectAsyncTask extends AsyncTask<String, Void, Boolean> {
-		//ProgressDialog progressDialog;
 		boolean screenOrientationChanged = false;
-		Activity activityAsync = getActivity();
 		boolean copyProcessFinished = false;
+		Activity activityAsync = getActivity();
 
 		@Override
 		protected void onPreExecute() {
@@ -100,20 +99,12 @@ public class CopyProjectDialog extends TextDialog {
 				Log.d("Catroid", "Copy process cancelled");
 				Utils.displayErrorMessage(activityAsync, "Don't rotate the device during the copy process");
 				currentCopyProjectAsyncTask = null;
-			}
 
-			if (!screenOrientationChanged && !copyProcessFinished) {
+			} else if (!screenOrientationChanged && !copyProcessFinished) {
 				Log.d("Catroid", "Copy process cancelled");
 				Utils.displayErrorMessage(getActivity(), "Copy proecess cancelled");
-			}
 
-			if (copyProcessFinished && screenOrientationChanged) {
-				if (onCopyProjectListener != null) {
-					onCopyProjectListener.onCopyProject(screenOrientationChanged);
-					dismiss();
-				}
-			}
-			if (copyProcessFinished) {
+			} else if (copyProcessFinished && !screenOrientationChanged) {
 				if (onCopyProjectListener != null) {
 					onCopyProjectListener.onCopyProject(screenOrientationChanged);
 					dismiss();
@@ -223,17 +214,6 @@ public class CopyProjectDialog extends TextDialog {
 		if (currentCopyProjectAsyncTask != null) {
 			currentCopyProjectAsyncTask.screenOrientationChanged = true;
 			currentCopyProjectAsyncTask.cancel(true);
-
-			//activity = null;
-		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (currentCopyProjectAsyncTask != null) {
-			if (currentCopyProjectAsyncTask.screenOrientationChanged) {
-			}
 		}
 	}
 
