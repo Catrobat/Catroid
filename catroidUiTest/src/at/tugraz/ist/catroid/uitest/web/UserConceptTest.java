@@ -224,10 +224,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.upload_project));
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(5000);
+		solo.sleep(3000);
 
-		String username = "Maxmustermann"; //real username is maxmustermann (first letter lower case)
+		String username = "MAXmustermann"; //real username is MaxMustermann
 		String password = "password";
+		String testEmail = "maxmustermann@gmail.com";
+		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
 		EditText usernameEditText = (EditText) solo.getView(R.id.username);
 		EditText passwordEditText = (EditText) solo.getView(R.id.password);
 		solo.enterText(usernameEditText, username);
@@ -238,7 +240,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
 		ArrayList<View> currentViews = solo.getCurrentViews();
 		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
-
 	}
 
 	private void clearSharedPreferences() {
