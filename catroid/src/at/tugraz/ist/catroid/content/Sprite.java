@@ -246,6 +246,9 @@ public class Sprite implements Serializable {
 	}
 
 	public Script getScript(int index) {
+		if (index < 0 || index >= scriptList.size()) {
+			return null;
+		}
 		return scriptList.get(index);
 	}
 

@@ -22,6 +22,9 @@
  */
 package at.tugraz.ist.catroid.content;
 
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenBrick;
+
 public class WhenScript extends Script {
 
 	private static final long serialVersionUID = 1L;
@@ -44,6 +47,11 @@ public class WhenScript extends Script {
 		this.action = TAPPED;
 	}
 
+	public WhenScript(Sprite sprite, WhenBrick brick) {
+		this(sprite);
+		this.brick = brick;
+	}
+
 	@Override
 	protected Object readResolve() {
 		isFinished = true;
@@ -62,5 +70,14 @@ public class WhenScript extends Script {
 
 	public int getPosition() {
 		return position;
+	}
+
+	@Override
+	public ScriptBrick getScriptBrick() {
+		if (brick == null) {
+			brick = new WhenBrick(sprite, this);
+		}
+
+		return brick;
 	}
 }

@@ -80,7 +80,10 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		super.tearDown();
 	}
 
-	public void testBackButtonPressedTwice() {
+	public void testBackButtonPressedTwice() throws NameNotFoundException, IOException {
+		Project project = createTestProject(testProject);
+		ProjectManager.getInstance().setProject(project);
+
 		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
