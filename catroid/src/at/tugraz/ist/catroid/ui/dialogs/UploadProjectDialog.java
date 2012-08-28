@@ -175,7 +175,7 @@ public class UploadProjectDialog extends DialogFragment {
 
 		String uploadName = projectUploadName.getText().toString();
 		if (uploadName.length() == 0) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.error_no_name_entered));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_no_name_entered));
 			return;
 		} else if (!uploadName.equals(currentProjectName)) {
 			projectRename.setVisibility(View.VISIBLE);

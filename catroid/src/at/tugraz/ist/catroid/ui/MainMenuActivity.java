@@ -105,7 +105,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			int b = path.lastIndexOf('.');
 			String projectName = path.substring(a, b);
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.displayErrorMessage(this, getResources().getString(R.string.error_load_project));
+				Utils.displayErrorMessageFragment(getSupportFragmentManager(),
+						getResources().getString(R.string.error_load_project));
 			} else {
 				if (projectManager.loadProject(projectName, this, true)) {
 					writeProjectTitleInTextfield();
