@@ -23,17 +23,12 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -578,7 +573,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		 */
 		/// <<
 
-		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_CROP_IMAGE);
 
 		solo.sleep(5000);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
@@ -619,29 +614,5 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 	private CostumeFragment getCostumeFragment() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
-	}
-
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.v("onActivityResult", "Getting result....");
-		if (requestCode == CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE && resultCode == android.app.Activity.RESULT_OK) {
-			if (data.hasExtra("bitmapStream")) {
-				Bitmap imageBitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("bitmapStream"), 0,
-						data.getBooleanArrayExtra("bitmapStream").length);
-				String pathToImage = imageFile.getAbsolutePath(); //Constants.EXTRA_PICTURE_PATH_PAINTROID;
-				imageFile = new File(pathToImage);
-				boolean write = imageFile.canWrite();
-				boolean read = imageFile.canRead();
-				OutputStream stream = null;
-				try {
-					stream = new FileOutputStream(imageFile);
-					boolean success = imageBitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
-					stream.flush();
-					stream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			}
-		}
 	}
 }

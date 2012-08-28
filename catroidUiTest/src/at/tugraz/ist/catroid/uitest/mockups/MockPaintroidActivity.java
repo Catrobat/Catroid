@@ -31,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import at.tugraz.ist.catroid.common.Constants;
 
 public class MockPaintroidActivity extends Activity {
 
@@ -74,12 +75,17 @@ public class MockPaintroidActivity extends Activity {
 			Log.v(getLocalClassName(), "finish");
 			finish(); //no bundle returned
 		} else if (bundle.containsKey("fourthExtra")) {
+			Log.v(getLocalClassName(), "fourth extra --> so crop the image");
 			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 			BitmapFactory.Options options = new BitmapFactory.Options();
+			Log.v(getLocalClassName(), "what size?");
 			options.inSampleSize = bundle.getInt("fourthExtra");
 			Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImage, options);
 			imageStream = new ByteArrayOutputStream();
+			Log.v(getLocalClassName(), "now compress - image stream = " + imageStream);
 			imageBitmap.compress(Bitmap.CompressFormat.PNG, 50, imageStream);
+			Log.v(getLocalClassName(), "Finally cropped :) imageStream= " + imageStream);
+			sendBundleBackToCatroidAndFinish();
 
 			/*
 			 * OutputStream stream = null;
@@ -115,8 +121,11 @@ public class MockPaintroidActivity extends Activity {
 
 	public void sendBundleBackToCatroidAndFinish() {
 		Bundle bundle = new Bundle();
+		Log.v(getLocalClassName(), "send bundle back to catroid + imageStream= " + imageStream);
 		if (imageStream != null) {
+			Log.v(getLocalClassName(), "imagesteram != null");
 			bundle.putByteArray("bitmapStream", imageStream.toByteArray());
+			bundle.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
 			Log.v(getLocalClassName(),
 					"imageStream=" + imageStream + " imageStreamBiteArray=" + imageStream.toByteArray());
 		} else if (secondImageFile != null) {
