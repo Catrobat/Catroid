@@ -63,10 +63,9 @@
 	    android:layout_height="wrap_content"
 	    android:layout_below="@+id/project_description"
 	    android:gravity="top"
+	    android:hint="@string/new_project_description_dialog_hint"
 	    android:inputType="textMultiLine"
-	    android:lines="3"
-	    android:maxLines="10"
-	    android:scrollHorizontally="true"
+	    android:lines="2"
 	    android:scrollbars="vertical" 
 	    android:scrollbarAlwaysDrawVerticalTrack="true">
 	</EditText>
