@@ -114,6 +114,7 @@ public class Sprite implements Serializable {
 	private synchronized void startScript(Script s) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
+			@Override
 			public void run() {
 				script.run();
 			}
@@ -140,6 +141,7 @@ public class Sprite implements Serializable {
 	public synchronized void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					simultaneousStart.await();
@@ -171,6 +173,7 @@ public class Sprite implements Serializable {
 			final CountDownLatch wait) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					simultaneousStart.await();
@@ -243,6 +246,9 @@ public class Sprite implements Serializable {
 	}
 
 	public Script getScript(int index) {
+		if (index < 0 || index >= scriptList.size()) {
+			return null;
+		}
 		return scriptList.get(index);
 	}
 

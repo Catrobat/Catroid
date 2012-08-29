@@ -33,6 +33,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
@@ -154,12 +155,26 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		@SuppressWarnings("deprecation")
 		int displayWidth = display.getWidth();
 
-		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2) + 500, 40);
+		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2), 40);
 		solo.sleep(1000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
-		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,
+		assertEquals("This brick shouldn't be deleted due TrashView does not exist", brickListToCheck.size(),
 				brickList.size());
+
+		solo.clickOnScreen(20, yPositionList.get(2));
+		if (!solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick), 0, 5000)) {
+			fail("Text not shown in 5 secs!");
+		}
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+		if (!solo.waitForView(ListView.class, 0, 5000)) {
+			fail("Dialog does not close in 5 sec!");
+		}
+		brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+
+		assertEquals("Wrong size of BrickList - one item should be removed", brickListToCheck.size() - 1,
+				brickList.size());
+
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(0), brickList.get(0));
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(2), brickList.get(1));
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(3), brickList.get(2));

@@ -71,15 +71,14 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
-		int childrenCount = adapter.getBrickCount(adapter.getScriptCount() - 1);
-		int groupCount = adapter.getScriptCount();
-		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
+		int childrenCount = ProjectManager.getInstance().getCurrentSprite().getScript(adapter.getScriptCount() - 1)
+				.getBrickList().size();
+		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				adapter.getItem(adapter.getScriptId(groupCount - 1) + 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getItem(1));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_wait)));
 
 		double waitTime = 2.25;
