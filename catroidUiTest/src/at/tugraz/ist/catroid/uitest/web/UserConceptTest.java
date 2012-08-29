@@ -222,9 +222,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		clearSharedPreferences();
 
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(3000);
+		solo.clickOnButton(solo.getString(R.string.upload_project));
+		solo.sleep(4000);
 
 		String username = "MAXmustermann"; //real username is MaxMustermann
 		String password = "password";
@@ -234,7 +233,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		EditText passwordEditText = (EditText) solo.getView(R.id.password);
 		solo.enterText(usernameEditText, username);
 		solo.enterText(passwordEditText, password);
-		solo.clickOnButton(getActivity().getString(R.string.login_or_register));
+		solo.clickOnButton(solo.getString(R.string.login_or_register));
 		solo.sleep(5000);
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
