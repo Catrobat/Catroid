@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -145,5 +146,24 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
 		UiTestUtils.goToHomeActivity(getActivity());
+	}
+
+	public void testProjectDescriptionUploadProject() {
+		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+		solo.sleep(2000);
+
+		EditText projectUploadName = (EditText) solo.getView(R.id.project_upload_name);
+		EditText projectUploadDescription = (EditText) solo.getView(R.id.project_description_upload);
+		int projectUploadNameInputType = projectUploadName.getInputType();
+		int projectUploadDescriptionInputType = projectUploadDescription.getInputType();
+		int newProjectInputTypeReference = android.text.InputType.TYPE_CLASS_TEXT
+				| android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+				| android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		solo.sleep(2000);
+
+		assertEquals("Project name field is not a text field", newProjectInputTypeReference, projectUploadNameInputType);
+		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
+				projectUploadDescriptionInputType);
 	}
 }

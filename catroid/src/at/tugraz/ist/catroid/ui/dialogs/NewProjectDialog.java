@@ -24,25 +24,113 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.io.IOException;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class NewProjectDialog extends TextDialog {
+public class NewProjectDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 
+	private EditText newProjectEditText;
+	private EditText newProjectDescriptionEditText;
+	private Button okButton;
+	private Button cancelButton;
+
 	@Override
-	protected void initialize() {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.dialog_new_project, container);
+
+		newProjectEditText = (EditText) rootView.findViewById(R.id.project_name_edittext);
+		newProjectDescriptionEditText = (EditText) rootView.findViewById(R.id.project_description_edittext);
+		okButton = (Button) rootView.findViewById(R.id.new_project_ok_button);
+		cancelButton = (Button) rootView.findViewById(R.id.new_project_cancel_button);
+
+		newProjectEditText.setText("");
+		newProjectDescriptionEditText.setText("");
+
+		okButton.setEnabled(false);
+
+		newProjectEditText.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (newProjectEditText.length() == 0) {
+					okButton.setEnabled(false);
+				} else {
+					okButton.setEnabled(true);
+				}
+			}
+		});
+
+		okButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleOkButtonClick();
+			}
+		});
+		cancelButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleCancelButtonClick();
+			}
+		});
+
+		getDialog().setTitle(R.string.new_project_dialog_title);
+		getDialog().setCanceledOnTouchOutside(true);
+		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+
+		getDialog().setOnShowListener(new OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(newProjectEditText, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
+
+		return rootView;
 	}
 
 	@Override
-	protected boolean handleOkButton() {
-		String projectName = (input.getText().toString().trim());
+	public void onRegistrationComplete() {
+		dismiss();
+
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	protected boolean handleOkButtonClick() {
+		String projectName = newProjectEditText.getText().toString().trim();
+		String projectDescription = newProjectDescriptionEditText.getText().toString().trim();
 
 		if (projectName.length() == 0) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_no_name_entered));
@@ -55,7 +143,8 @@ public class NewProjectDialog extends TextDialog {
 		}
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity());
+			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
+			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
 		} catch (IOException e) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_new_project));
 			dismiss();
@@ -68,12 +157,15 @@ public class NewProjectDialog extends TextDialog {
 		return true;
 	}
 
-	@Override
+	protected boolean handleCancelButtonClick() {
+		dismiss();
+		return false;
+	}
+
 	protected String getTitle() {
 		return getString(R.string.new_project_dialog_title);
 	}
 
-	@Override
 	protected String getHint() {
 		return getString(R.string.new_project_dialog_hint);
 	}
