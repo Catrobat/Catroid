@@ -69,7 +69,7 @@
                 <data
                     android:host="*"
                     android:mimeType="application/zip"
-                    android:pathPattern=".*\\.catroid"
+                    android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="file" />
             </intent-filter>
         </activity>
