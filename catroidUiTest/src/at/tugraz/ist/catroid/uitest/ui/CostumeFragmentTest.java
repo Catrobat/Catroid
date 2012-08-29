@@ -554,7 +554,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
-		bundleForPaintroid.putInt("fourthExtra", 4);
+		bundleForPaintroid.putInt("crop", 4);
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);

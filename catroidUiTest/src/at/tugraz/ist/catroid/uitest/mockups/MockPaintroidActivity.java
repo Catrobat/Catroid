@@ -43,7 +43,7 @@ public class MockPaintroidActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.v(getLocalClassName(), "MOCKING PAINTROIDDDDDDDDDDDDDDD*****************");
+		Log.v(getLocalClassName(), "********MOCKING PAINTROID*********");
 
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle == null) {
@@ -53,67 +53,63 @@ public class MockPaintroidActivity extends Activity {
 
 		if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
 			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-			imageFile = new File(pathToImage);
+			if (bundle.containsKey("crop")) {
+				Log.v(getLocalClassName(), "crop --> so crop the image");
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				Log.v(getLocalClassName(), "what size?");
+				options.inSampleSize = bundle.getInt("crop");
+				Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImage, options);
+				imageStream = new ByteArrayOutputStream();
+				Log.v(getLocalClassName(), "Bitmap=" + imageBitmap + "w/h=" + imageBitmap.getWidth() + "/"
+						+ imageBitmap.getHeight());
+				Log.v(getLocalClassName(), "now compress - image stream = " + imageStream);
+				imageBitmap.compress(Bitmap.CompressFormat.PNG, 50, imageStream);
+				Log.v(getLocalClassName(), "Finally cropped :) imageStream= " + imageStream + " tostring:"
+						+ imageStream.toString());
+				//sendBundleBackToCatroidAndFinish();
 
-			/*
-			 * boolean write = imageFile.canWrite();
-			 * boolean read = imageFile.canRead();
-			 * boolean exec = false; //imageFile2.canExecute();
-			 * Log.v(getLocalClassName(), "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH=" + pathToImage + " imageFile="
-			 * + imageFile2);
-			 * Log.v(getLocalClassName(), "write=" + write + "read=" + read + "exe=" + exec);
-			 */
+				/*
+				 * OutputStream stream = null;
+				 * File imageFile3 = new File(pathToImage);
+				 * Log.v(getLocalClassName(), "before try");
+				 * try {
+				 * boolean write = imageFile3.canWrite();
+				 * //imageFile3.setWritable(true);
+				 * Log.v(getLocalClassName(), "try");
+				 * boolean write_new = imageFile3.canWrite();
+				 * boolean read = imageFile3.canRead();
+				 * boolean exec = false; //imageFile3.canExecute();
+				 * Log.v(getLocalClassName(), "write=" + write + " write new" + write_new + "read=" + read + "exe=" +
+				 * exec);
+				 * stream = new FileOutputStream(imageFile3);
+				 * 
+				 * Log.v(getLocalClassName(), "stream=" + stream);
+				 * boolean success = image.compress(Bitmap.CompressFormat.PNG, 80, stream); //-->png
+				 * Log.v(getLocalClassName(), "success=" + success);
+				 * stream.flush();
+				 * stream.close();
+				 * } catch (IOException e) {
+				 * Log.v(getLocalClassName(), "IO Exception in 4th extra");
+				 * e.printStackTrace();
+				 * }
+				 * Log.v(getLocalClassName(), "fourthExtra path=" + pathToImage + " image=" + image + "image file="
+				 * + imageFile + " sample size=" + options.inSampleSize + " width=" + options.outWidth + " heigth="
+				 * + options.outHeight);
+				 */
+			} else {
+				imageFile = new File(pathToImage);
+			}
 		}
 
 		if (bundle.containsKey("secondExtra")) {
 			String secondPath = bundle.getString("secondExtra");
 			secondImageFile = new File(secondPath);
-			//Log.v(getLocalClassName(), "secondExtra=" + secondPath + " imageFile=" + secondImageFile);
+			Log.v(getLocalClassName(), "secondExtra=" + secondPath + " imageFile=" + secondImageFile);
 		}
 
 		if (bundle.containsKey("thirdExtra")) {
 			Log.v(getLocalClassName(), "finish");
 			finish(); //no bundle returned
-		} else if (bundle.containsKey("fourthExtra")) {
-			Log.v(getLocalClassName(), "fourth extra --> so crop the image");
-			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			Log.v(getLocalClassName(), "what size?");
-			options.inSampleSize = bundle.getInt("fourthExtra");
-			Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImage, options);
-			imageStream = new ByteArrayOutputStream();
-			Log.v(getLocalClassName(), "now compress - image stream = " + imageStream);
-			imageBitmap.compress(Bitmap.CompressFormat.PNG, 50, imageStream);
-			Log.v(getLocalClassName(), "Finally cropped :) imageStream= " + imageStream);
-			sendBundleBackToCatroidAndFinish();
-
-			/*
-			 * OutputStream stream = null;
-			 * File imageFile3 = new File(pathToImage);
-			 * Log.v(getLocalClassName(), "before try");
-			 * try {
-			 * boolean write = imageFile3.canWrite();
-			 * //imageFile3.setWritable(true);
-			 * Log.v(getLocalClassName(), "try");
-			 * boolean write_new = imageFile3.canWrite();
-			 * boolean read = imageFile3.canRead();
-			 * boolean exec = false; //imageFile3.canExecute();
-			 * Log.v(getLocalClassName(), "write=" + write + " write new" + write_new + "read=" + read + "exe=" + exec);
-			 * stream = new FileOutputStream(imageFile3);
-			 * 
-			 * Log.v(getLocalClassName(), "stream=" + stream);
-			 * boolean success = image.compress(Bitmap.CompressFormat.PNG, 80, stream); //-->png
-			 * Log.v(getLocalClassName(), "success=" + success);
-			 * stream.flush();
-			 * stream.close();
-			 * } catch (IOException e) {
-			 * Log.v(getLocalClassName(), "IO Exception in 4th extra");
-			 * e.printStackTrace();
-			 * }
-			 * Log.v(getLocalClassName(), "fourthExtra path=" + pathToImage + " image=" + image + "image file="
-			 * + imageFile + " sample size=" + options.inSampleSize + " width=" + options.outWidth + " heigth="
-			 * + options.outHeight);
-			 */
 		} else {
 			sendBundleBackToCatroidAndFinish();
 		}
@@ -123,7 +119,7 @@ public class MockPaintroidActivity extends Activity {
 		Bundle bundle = new Bundle();
 		Log.v(getLocalClassName(), "send bundle back to catroid + imageStream= " + imageStream);
 		if (imageStream != null) {
-			Log.v(getLocalClassName(), "imagesteram != null");
+			Log.v(getLocalClassName(), "imageStream != null");
 			bundle.putByteArray("bitmapStream", imageStream.toByteArray());
 			bundle.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
 			Log.v(getLocalClassName(),
