@@ -101,7 +101,7 @@ public class CopyProjectDialog extends TextDialog {
 				currentCopyProjectAsyncTask = null;
 
 			} else if (!screenOrientationChanged && !copyProcessFinished) {
-				Log.d("Catroid", "Copy process cancelled");
+				Log.d("CATROID", "Copy process cancelled");
 				Utils.displayErrorMessage(getActivity(), "Copy proecess cancelled");
 
 			} else if (copyProcessFinished && !screenOrientationChanged) {
