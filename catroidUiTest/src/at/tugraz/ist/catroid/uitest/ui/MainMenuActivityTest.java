@@ -219,6 +219,20 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
 	}
 
+	public void testErrorDialogOrientationChange() {
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, " ");
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(100);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		String errorMessage = getActivity().getString(R.string.error_no_name_entered);
+		assertTrue("Error dialog dissapeared after orientation change", solo.searchText(errorMessage));
+		solo.goBack();
+	}
+
 	public void testLoadProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
