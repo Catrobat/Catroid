@@ -35,8 +35,6 @@ import java.util.List;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
@@ -176,32 +174,6 @@ public class UtilFile {
 		return projectList;
 	}
 
-	public static void copyProject(String newProjectName, String oldProjectName) throws IOException {
-		if (Utils.deleteSpecialCharactersInString(newProjectName) == "") {
-			return;
-		}
-		File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
-		File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
-		//oldProjectRootDirectory = new File("Test");
-
-		copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
-		Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);
-		copiedProject.setName(newProjectName);
-		StorageHandler.getInstance().saveProject(copiedProject);
-	}
-
-	private static void copyDirectory(File destinationFile, File sourceFile) throws IOException {
-		if (sourceFile.isDirectory()) {
-
-			destinationFile.mkdirs();
-			for (String subDirectoryName : sourceFile.list()) {
-				copyDirectory(new File(destinationFile, subDirectoryName), new File(sourceFile, subDirectoryName));
-			}
-		} else {
-			copyFile(destinationFile, sourceFile, null);
-		}
-	}
-
 	public static File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
 		FileInputStream inputStream = null;
 		FileChannel inputChannel = null;
@@ -215,7 +187,6 @@ public class UtilFile {
 			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
 			return destinationFile;
 		} catch (IOException exception) {
-			exception.printStackTrace();
 			throw exception;
 		} finally {
 			if (inputChannel != null) {
