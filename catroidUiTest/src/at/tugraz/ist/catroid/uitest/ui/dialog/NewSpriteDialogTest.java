@@ -85,6 +85,23 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
 	}
 
+	public void testAddSpriteDialogNoName() {
+		createTestProject(testingproject);
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		UiTestUtils.clickOnTextInList(solo, testingproject);
+		solo.sleep(500);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		solo.waitForView(EditText.class);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, " ");
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		String errorMessageInvalidInput = solo.getString(R.string.spritename_invalid);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
+		solo.clickOnButton(solo.getString(R.string.close));
+	}
+
 	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		Project project = new Project(getActivity(), projectName);
