@@ -179,35 +179,24 @@ public class Utils {
 	public static void displayErrorMessageFragment(FragmentManager fragmentManager, String errorMessage) {
 		DialogFragment errorDialog = ErrorDialogFragment.newInstance(errorMessage);
 		errorDialog.show(fragmentManager, ErrorDialogFragment.DIALOG_FRAGMENT_TAG);
-		/*
-		 * Builder builder = new AlertDialog.Builder(context);
-		 * 
-		 * builder.setTitle(context.getString(R.string.error));
-		 * builder.setMessage(errorMessage);
-		 * builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
-		 * 
-		 * @Override
-		 * public void onClick(DialogInterface dialog, int which) {
-		 * }
-		 * });
-		 * builder.show();
-		 */
 	}
 
-	public static void displayErrorMessage(Context context, String errorMessage) {
-
-		Builder builder = new AlertDialog.Builder(context);
-
-		builder.setTitle(context.getString(R.string.error));
-		builder.setMessage(errorMessage);
-		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			}
-		});
-		builder.show();
-	}
+	/*
+	 * public static void displayErrorMessage(Context context, String errorMessage) {
+	 * 
+	 * Builder builder = new AlertDialog.Builder(context);
+	 * 
+	 * builder.setTitle(context.getString(R.string.error));
+	 * builder.setMessage(errorMessage);
+	 * builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+	 * 
+	 * @Override
+	 * public void onClick(DialogInterface dialog, int which) {
+	 * }
+	 * });
+	 * builder.show();
+	 * }
+	 */
 
 	public static void displayToast(Activity activity, String message/* , int duration */) {
 		LayoutInflater inflater = activity.getLayoutInflater();
