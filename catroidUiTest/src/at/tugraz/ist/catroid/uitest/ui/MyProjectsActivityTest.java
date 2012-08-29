@@ -606,12 +606,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
-		assertTrue("No or wrong error message shown",
-				solo.searchText(getActivity().getString(R.string.error_project_exists)));
-		solo.sleep(100);
-		solo.clickOnButton(getActivity().getString(R.string.close));
+		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.goBack();
-		assertFalse("Project was renamed by mistake", solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE));
 	}
 
 	public void testAddNewProject() {

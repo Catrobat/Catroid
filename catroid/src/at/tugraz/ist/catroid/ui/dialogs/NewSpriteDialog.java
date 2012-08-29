@@ -47,19 +47,17 @@ public class NewSpriteDialog extends TextDialog {
 			return false;
 		}
 
-		String spriteName = input.getText().toString();
-
-		if (spriteName == null || spriteName.equalsIgnoreCase("")) {
+		if (newSpriteName == null || newSpriteName.equalsIgnoreCase("")) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_invalid));
 			return false;
 		}
 
-		if (projectManager.spriteExists(spriteName)) {
+		if (projectManager.spriteExists(newSpriteName)) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
 			return false;
 		}
 
-		Sprite sprite = new Sprite(spriteName);
+		Sprite sprite = new Sprite(newSpriteName);
 		projectManager.addSprite(sprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
