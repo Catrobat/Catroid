@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:theme="@android:style/Theme.Light"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	>
+	<TextView
+	    android:id="@+id/project_name"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="10dp"
+	    android:text="@string/new_project_name" >
+	</TextView>	
+
+	<EditText
+	    android:id="@+id/project_name_edittext"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/project_name"
+	    android:hint="@string/new_project_dialog_hint"
+	    android:inputType="text"
+	    android:maxLines="1"
+	    android:selectAllOnFocus="true" />
+
+	<TextView
+	    android:id="@+id/project_description"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/project_name_edittext"
+	    android:layout_marginLeft="10dp"
+	    android:text="@string/new_project_description" 
+	    >
+
+	</TextView>
+
+	<EditText
+	    android:id="@+id/project_description_edittext"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/project_description"
+	    android:gravity="top"
+	    android:hint="@string/new_project_description_dialog_hint"
+	    android:inputType="textMultiLine"
+	    android:lines="2"
+	    android:scrollbars="vertical" 
+	    android:scrollbarAlwaysDrawVerticalTrack="true">
+	</EditText>
+	
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/project_description_edittext">
+		<Button
+		    android:id="@+id/new_project_ok_button"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight=".5"
+		    android:text="@string/ok" />
+		<Button
+		    android:id="@+id/new_project_cancel_button"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight=".5"
+		    android:text="@string/cancel_button" />
+
+	</LinearLayout>
+</RelativeLayout>
