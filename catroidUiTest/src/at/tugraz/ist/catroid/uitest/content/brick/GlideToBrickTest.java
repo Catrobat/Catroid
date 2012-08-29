@@ -79,7 +79,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
 
 		ProjectManager manager = ProjectManager.getInstance();
-		List<Brick> brickList = manager.getCurrentScript().getBrickList();
+		List<Brick> brickList = manager.getCurrentSprite().getScript(0).getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
 				glideToBrick.getDurationInMilliSeconds());

@@ -29,6 +29,10 @@ import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class CostumeData implements Serializable {
 
@@ -41,6 +45,39 @@ public class CostumeData implements Serializable {
 	private transient Integer height;
 	private transient static final int THUMBNAIL_WIDTH = 150;
 	private transient static final int THUMBNAIL_HEIGHT = 150;
+	private transient Pixmap pixmap = null;
+	private transient Pixmap originalPixmap = null;
+	private transient TextureRegion region = null;
+
+	public TextureRegion getTextureRegion() {
+		if (region == null) {
+			region = new TextureRegion(new Texture(getPixmap()));
+		}
+		return region;
+	}
+
+	public void setTextureRegion() {
+		this.region = new TextureRegion(new Texture(getPixmap()));
+	}
+
+	public Pixmap getPixmap() {
+		if (pixmap == null) {
+			pixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
+		}
+		return pixmap;
+	}
+
+	public void setPixmap(Pixmap pixmap) {
+		this.pixmap = pixmap;
+	}
+
+	public Pixmap getOriginalPixmap() {
+		if (originalPixmap == null) {
+			originalPixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
+		}
+		return originalPixmap;
+
+	}
 
 	public CostumeData() {
 	}

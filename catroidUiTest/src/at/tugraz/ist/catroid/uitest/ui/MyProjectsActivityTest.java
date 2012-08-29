@@ -34,6 +34,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -86,6 +87,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void tearDown() throws Exception {
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
+		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
 			UtilFile.deleteDirectory(renameDirectory);
@@ -160,7 +162,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
@@ -197,9 +199,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
-		solo.sleep(1000);
-
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
+			fail("Edit-Dialog not shown in 5 secs!");
+		}
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
@@ -213,9 +216,15 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.clickLongOnText(getActivity().getString(R.string.default_project_name), 2);
 		solo.clickOnText(solo.getString(R.string.delete));
-		solo.sleep(400);
+		if (!solo.waitForView(ListView.class, 0, 5000)) {
+			fail("ListView not shown in 5 secs!");
+		}
 		solo.goBack();
+		if (!solo.waitForText(myProjectsText, 0, 5000)) {
+			fail("Button not shown in 5 secs!");
+		}
 		solo.clickOnButton(myProjectsText);
+		solo.sleep(200);
 		solo.clickInList(1);
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
