@@ -87,7 +87,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testAddSpriteDialogNoName() {
 		createTestProject(testingproject);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(solo.getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.clickOnTextInList(solo, testingproject);
 		solo.sleep(500);
@@ -99,7 +99,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		String errorMessageInvalidInput = solo.getString(R.string.spritename_invalid);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
-		solo.clickOnButton(getActivity().getString(R.string.close));
+		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
 	public void createTestProject(String projectName) {
