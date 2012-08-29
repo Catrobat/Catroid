@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
@@ -550,56 +551,36 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		CostumeData costumeData = costumeDataList.get(0);
 		getCostumeFragment().setSelectedCostumeData(costumeData);
 
-		String md5ImageFile = Utils.md5Checksum(imageFile);
+		String pathToImageFile = imageFile.getAbsolutePath();
+		int[] resolutionBeforeCrop = getResolutionFromBitmap(pathToImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
-		bundleForPaintroid.putInt("crop", 4);
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, pathToImageFile);
+		bundleForPaintroid.putInt("crop", 2); //Samples the image resolution down by the given value
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-
-		/// >>
-		/*
-		 * if (bundleForPaintroid.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
-		 * String pathToImage_ = bundleForPaintroid.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-		 * File imageFile2 = new File(pathToImage_);
-		 * boolean write = imageFile2.canWrite();
-		 * boolean read = imageFile2.canRead();
-		 * boolean exec = false; //imageFile2.canExecute();
-		 * Log.v("TEST", "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH=" + pathToImage_ + " imageFile=" + imageFile2);
-		 * Log.v("TEST", "write=" + write + "read=" + read + "exe=" + exec);
-		 * }
-		 */
-		/// <<
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_CROP_IMAGE);
 
 		solo.sleep(5000);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
-		/// >>
-		/*
-		 * String pathToImage = bundleForPaintroid.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-		 * BitmapFactory.Options options = new BitmapFactory.Options();
-		 * Bitmap image = BitmapFactory.decodeFile(pathToImage, options);
-		 * int h2 = options.outHeight;
-		 * int w2 = options.outWidth;
-		 */
-		/// <<
+		int[] resolutionAfterCrop = getResolutionFromBitmap(pathToImageFile);
 
-		//assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
-		//md5ImageFile);
+		assertTrue("Bitmap resolution was not cropped", resolutionAfterCrop[0] < resolutionBeforeCrop[0]
+				&& resolutionAfterCrop[1] < resolutionBeforeCrop[1]);
+	}
 
-		boolean isInCostumeDataListSunnglasses = false;
-		for (CostumeData costumeDatas : projectManager.getCurrentSprite().getCostumeDataList()) {
-			if (costumeDatas.getChecksum().equalsIgnoreCase(md5ImageFile)) {
-				isInCostumeDataListSunnglasses = true;
-			}
-		}
+	private int[] getResolutionFromBitmap(String pathToImageFile) {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		BitmapFactory.decodeFile(pathToImageFile, options);
 
-		//assertTrue("File not added in CostumeDataList", isInCostumeDataListPaintroidImage);
-		//assertFalse("File not deleted from CostumeDataList", isInCostumeDataListSunnglasses);
+		int[] resolution = new int[2];
+		resolution[0] = options.outWidth;
+		resolution[1] = options.outHeight;
+
+		return resolution;
 	}
 
 	private void renameCostume(String currentCostumeName, String newCostumeName) {

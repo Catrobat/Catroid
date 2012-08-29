@@ -49,7 +49,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,7 +225,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.v("***************onActivityResult***************", "Getting result....");
 		if (resultCode != Activity.RESULT_OK) {
 			return;
 		}
@@ -236,7 +234,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				loadImageIntoCatroid(data);
 				break;
 			case REQUEST_PAINTROID_EDIT_IMAGE:
-				Log.v("onActivityResult", "EDIT IMAGE....");
 				loadPaintroidImageIntoCatroid(data);
 				break;
 			case REQUEST_TAKE_PICTURE:
@@ -245,11 +242,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				loadPictureFromCameraIntoCatroid();
 				break;
 			case REQUEST_PAINTROID_CROP_IMAGE:
-				//TODO: remove import log
-				Log.v("onActivityResult", "CROP IMAGE....");
-				if (resultCode == android.app.Activity.RESULT_OK) {
-					savePaintroidBitmapToFile(data);
-				}
+				savePaintroidBitmapToFile(data);
 				break;
 		}
 	}
@@ -583,28 +576,18 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	}
 
 	void savePaintroidBitmapToFile(Intent data) {
-		Log.v("savePaintroidBitmapToFile", "Getting result....");
 		if (data.hasExtra("bitmapStream")) {
 			Bundle bundle = data.getExtras();
 			if (bundle != null) {
-				Log.v("savePaintroidBitmapToFile", "get bitmap....");
-				//BitmapFactory.Options options = new BitmapFactory.Options();
-				//options.inSampleSize = 1; //todo: remove
 				Bitmap imageBitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("bitmapStream"), 0,
-						data.getBooleanArrayExtra("bitmapStream").length);
-				Log.v("savePaintroidBitmapToFile",
-						"Bitmap W/H= " + imageBitmap.getWidth() + "/" + imageBitmap.getHeight());
+						data.getByteArrayExtra("bitmapStream").length);
 				if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
 					String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 					File imageFile = new File(pathToImage);
-					boolean write = imageFile.canWrite();
-					boolean read = imageFile.canRead();
-					Log.v("R/W", "read=" + read + "write=" + write);
 					OutputStream stream = null;
 					try {
 						stream = new FileOutputStream(imageFile);
-						boolean success = imageBitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
-						Log.v("Compress", "success? -->" + success + "stream:" + stream.toString());
+						imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
 						stream.flush();
 						stream.close();
 					} catch (IOException e) {
