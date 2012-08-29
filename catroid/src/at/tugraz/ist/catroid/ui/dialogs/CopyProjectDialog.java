@@ -97,12 +97,13 @@ public class CopyProjectDialog extends TextDialog {
 		protected void onCancelled() {
 			if (screenOrientationChanged && !copyProcessFinished) {
 				Log.d("Catroid", "Copy process cancelled");
-				Utils.displayErrorMessage(activityAsync, "Don't rotate the device during the copy process");
+				Utils.displayErrorMessage(activityAsync,
+						activityAsync.getString(R.string.error_orientation_change_copy_project));
 				currentCopyProjectAsyncTask = null;
 
 			} else if (!screenOrientationChanged && !copyProcessFinished) {
 				Log.d("CATROID", "Copy process cancelled");
-				Utils.displayErrorMessage(getActivity(), "Copy proecess cancelled");
+				Utils.displayErrorMessage(getActivity(), getActivity().getString(R.string.copy_process_canceled));
 
 			} else if (copyProcessFinished && !screenOrientationChanged) {
 				if (onCopyProjectListener != null) {
