@@ -587,8 +587,13 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		if (data.hasExtra("bitmapStream")) {
 			Bundle bundle = data.getExtras();
 			if (bundle != null) {
+				Log.v("savePaintroidBitmapToFile", "get bitmap....");
+				//BitmapFactory.Options options = new BitmapFactory.Options();
+				//options.inSampleSize = 1; //todo: remove
 				Bitmap imageBitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("bitmapStream"), 0,
 						data.getBooleanArrayExtra("bitmapStream").length);
+				Log.v("savePaintroidBitmapToFile",
+						"Bitmap W/H= " + imageBitmap.getWidth() + "/" + imageBitmap.getHeight());
 				if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
 					String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 					File imageFile = new File(pathToImage);
@@ -599,7 +604,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 					try {
 						stream = new FileOutputStream(imageFile);
 						boolean success = imageBitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
-						Log.v("Compress", "success? -->" + success);
+						Log.v("Compress", "success? -->" + success + "stream:" + stream.toString());
 						stream.flush();
 						stream.close();
 					} catch (IOException e) {
