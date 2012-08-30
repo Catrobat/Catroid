@@ -81,6 +81,25 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 					}
 				}).create();
 
+		/*
+		 * dialog.setOnKeyListener(new OnKeyListener() {
+		 * 
+		 * @Override
+		 * public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		 * if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+		 * boolean okButtonResult = handleOkButton();
+		 * onOkButtonHandled();
+		 * if (okButtonResult) {
+		 * dismiss();
+		 * }
+		 * return okButtonResult;
+		 * }
+		 * 
+		 * return false;
+		 * }
+		 * });
+		 */
+
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
