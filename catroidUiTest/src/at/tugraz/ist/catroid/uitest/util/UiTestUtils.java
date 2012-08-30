@@ -104,6 +104,7 @@ public class UiTestUtils {
 	public static final String PROJECTNAME2 = "testproject2";
 	public static final String PROJECTNAME3 = "testproject3";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
+	public static final String COPIED_PROJECT_NAME = "copiedProject";
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
@@ -435,6 +436,16 @@ public class UiTestUtils {
 		}
 
 		directory = new File(Constants.DEFAULT_ROOT + "/" + "Mein erstes Projekt");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + COPIED_PROJECT_NAME);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
@@ -782,6 +793,18 @@ public class UiTestUtils {
 			TextView view = textViews.get(i);
 			if (view.getText().toString().equalsIgnoreCase(text)) {
 				solo.clickOnView(view);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean longClickOnTextInList(Solo solo, String text) {
+		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+		for (int i = 0; i < textViews.size(); i++) {
+			TextView view = textViews.get(i);
+			if (view.getText().toString().equalsIgnoreCase(text)) {
+				solo.clickLongOnView(view);
 				return true;
 			}
 		}
