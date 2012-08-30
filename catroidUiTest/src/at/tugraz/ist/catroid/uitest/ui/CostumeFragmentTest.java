@@ -37,7 +37,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -568,11 +567,11 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.sleep(5000);
 		expectedCostumeName = defaultCostumeName + "4";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(5).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
 				projectManager.getFileChecksumContainer().containsChecksum(checksumImageFile));
-
 	}
 
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
@@ -590,12 +589,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private void goToCostumesTab() {
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickInList(0);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(500);
 	}
