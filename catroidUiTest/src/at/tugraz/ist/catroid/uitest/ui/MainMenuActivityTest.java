@@ -28,7 +28,6 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
@@ -443,45 +442,4 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 4,
 				ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
-
-	public void testUploadingProjectDescriptionDefaultValue() {
-		String testDescription = "Test description";
-		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
-		ProjectManager.INSTANCE.saveProject();
-
-		solo.sleep(300);
-		solo.clickOnButton(solo.getString(R.string.my_projects));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.longClickOnTextInList(solo, uploadProject.getName());
-		solo.clickInList(2);
-		solo.sleep(200);
-		solo.enterText(0, testDescription);
-		solo.clickOnButton(0); //button ok
-		solo.goBack();
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-
-		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation()
-				.getTargetContext());
-		Editor edit = defaultSharedPreferences.edit();
-		edit.clear();
-		edit.commit();
-		solo.clickOnButton(solo.getString(R.string.upload_project));
-
-		assertTrue("upload project dialog not shown",
-				solo.waitForText(solo.getString(R.string.login_register_dialog_title), 0, 3000));
-		String username = "maxmustermann";
-		String password = "password";
-		solo.enterText(0, username);
-		solo.enterText(1, password);
-		solo.clickOnButton(getActivity().getString(R.string.login_or_register));
-
-		assertTrue("upload project dialog not shown",
-				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
-		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
-		String uploadDescription = uploadDescriptionView.getText().toString();
-		solo.sleep(500);
-		assertEquals("Project description was not set or is wrong", testDescription, uploadDescription);
-	}
-
 }
