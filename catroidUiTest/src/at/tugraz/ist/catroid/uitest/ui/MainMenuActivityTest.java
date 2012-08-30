@@ -456,12 +456,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickInList(2);
 		solo.enterText(0, testDescription);
 		solo.clickOnButton(0); //button ok
-		uploadProject = ProjectManager.INSTANCE.getCurrentProject();
+
 		solo.sleep(3000);
 		solo.goBack();
 		solo.sleep(1500);
 
-		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.INSTANCE.loadProject(testProject, getActivity(), true);
 		solo.clickOnButton(getActivity().getString(R.string.upload_project));
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(6000);
