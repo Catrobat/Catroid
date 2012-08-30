@@ -208,4 +208,5 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue(testProject + " was not created!", file.exists());
 		UiTestUtils.goToHomeActivity(getActivity());
 	}
+
 }
