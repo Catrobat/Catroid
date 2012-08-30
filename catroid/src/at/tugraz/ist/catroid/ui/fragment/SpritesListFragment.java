@@ -165,6 +165,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		if (spritesListChangedReceiver != null) {
 			getActivity().unregisterReceiver(spritesListChangedReceiver);
 		}
+
+		if (spritesListInitReceiver != null) {
+			getActivity().unregisterReceiver(spritesListInitReceiver);
+		}
 	}
 
 	@Override
