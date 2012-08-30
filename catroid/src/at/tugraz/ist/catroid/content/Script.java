@@ -28,14 +28,11 @@ import java.util.ArrayList;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
 
-	@XStreamOmitField
 	protected ScriptBrick brick;
 
 	protected transient boolean isFinished;
