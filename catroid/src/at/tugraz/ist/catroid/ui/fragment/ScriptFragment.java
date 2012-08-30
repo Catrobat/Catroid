@@ -29,20 +29,21 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.ScriptBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
-import at.tugraz.ist.catroid.ui.adapter.BrickAdapter.BrickInteractionListener;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog.OnBrickCategoryDialogDismissCancelListener;
@@ -55,10 +56,11 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class ScriptFragment extends SherlockFragment implements BrickInteractionListener, OnCategorySelectedListener,
+public class ScriptFragment extends SherlockFragment implements OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
+	private static final String TAG = ScriptFragment.class.getSimpleName();
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
@@ -68,7 +70,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	public String selectedCategory;
 
 	private boolean addNewScript;
-	private boolean dontCreateNewBrick;
+	private boolean createNewBrick;
 	private boolean addScript;
 	private boolean isCanceled;
 
@@ -87,7 +89,6 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		View rootView = inflater.inflate(R.layout.fragment_script, null);
 
 		listView = (DragAndDropListView) rootView.findViewById(R.id.brick_list_view);
-		listView.setTrashView((ImageView) rootView.findViewById(R.id.trash));
 
 		return rootView;
 	}
@@ -96,7 +97,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		dontCreateNewBrick = false;
+		createNewBrick = true;
 		addScript = false;
 		isCanceled = false;
 
@@ -175,16 +176,24 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				listView.setHoveringBrick();
-				adapter.notifyDataSetChanged();
+				if (listView.setHoveringBrick()) {
+					return false;
+				}
 
-				BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
-				brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
-				brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
-				brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
+				showCategoryDialog();
+
 				return true;
 			}
 		});
+	}
+
+	public void showCategoryDialog() {
+		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
+		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
+		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
+		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
+
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -192,8 +201,9 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		if (view.getId() == R.id.brick_list_view) {
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
-			if (adapter.getItem(listView.getTouchedListPosition()) instanceof Script) {
-				scriptToEdit = (Script) adapter.getItem(listView.getTouchedListPosition());
+			if (adapter.getItem(listView.getTouchedListPosition()) instanceof ScriptBrick) {
+				scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition()))
+						.initScript(ProjectManager.getInstance().getCurrentSprite());
 				MenuInflater inflater = getActivity().getMenuInflater();
 				inflater.inflate(R.menu.script_menu, menu);
 			}
@@ -207,22 +217,21 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 				sprite.removeScript(scriptToEdit);
 				if (sprite.getNumberOfScripts() == 0) {
 					ProjectManager.getInstance().setCurrentScript(null);
-					adapter.notifyDataSetChanged();
+					adapter.updateProjectBrickList();
 					return true;
 				}
 				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
 				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
-				adapter.setCurrentScriptPosition(lastScriptIndex);
-				adapter.notifyDataSetChanged();
+				adapter.updateProjectBrickList();
 			}
 		}
 
 		return true;
 	}
 
-	public void setDontCreateNewBrick(boolean dontCreateNewBrick) {
-		this.dontCreateNewBrick = dontCreateNewBrick;
+	public void setCreateNewBrick(boolean createNewBrick) {
+		this.createNewBrick = createNewBrick;
 	}
 
 	public void setAddNewScript() {
@@ -237,14 +246,8 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		return adapter;
 	}
 
-	@Override
-	public void onInsertedBrickChanged(int position) {
-		listView.setInsertedBrick(position);
-	}
-
-	@Override
-	public void onBrickLongClick(View brickView) {
-		listView.onLongClick(brickView);
+	public DragAndDropListView getListView() {
+		return listView;
 	}
 
 	@Override
@@ -258,43 +261,38 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		}
 		ft.addToBackStack(null);
 
-		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory);
+		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory, this);
 		addBrickDialog.show(ft, AddBrickDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
 	public void onBrickCategoryDialogDismiss() {
-		if (!dontCreateNewBrick) {
+		if (createNewBrick) {
 			if (!isCanceled) {
 				if (addScript) {
 					setAddNewScript();
 					addScript = false;
 				}
-
-				updateAdapterAfterAddNewBrick();
 			}
 			isCanceled = false;
 		}
-		dontCreateNewBrick = false;
+		createNewBrick = true;
 	}
 
 	@Override
 	public void onBrickCategoryDialogCancel() {
 		isCanceled = true;
-		updateAdapterAfterAddNewBrick();
 	}
 
-	private void updateAdapterAfterAddNewBrick() {
+	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
 		if (addNewScript) {
 			addNewScript = false;
 		} else {
-			int visibleF = listView.getFirstVisiblePosition();
-			int visibleL = listView.getLastVisiblePosition();
-			int pos = ((visibleL - visibleF) / 2);
-			pos += visibleF;
-			pos = adapter.rearangeBricks(pos);
-			adapter.setInsertedBrickpos(pos);
-			listView.setInsertedBrick(pos);
+			int firstVisibleBrick = listView.getFirstVisiblePosition();
+			int lastVisibleBrick = listView.getLastVisiblePosition();
+			int position = ((lastVisibleBrick - firstVisibleBrick) / 2);
+			position += firstVisibleBrick;
+			adapter.addNewBrick(position, brickToBeAdded);
 		}
 
 		adapter.notifyDataSetChanged();
@@ -307,10 +305,8 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		}
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
-		adapter.setBrickInteractionListener(this);
-		if (adapter.getScriptCount() > 0) {
-			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
-			adapter.setCurrentScriptPosition(0);
+		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
+			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
 		}
 
 		listView.setOnCreateContextMenuListener(this);
@@ -325,7 +321,17 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
-				updateAdapterAfterAddNewBrick();
+				Brick brickToBeAdded = null;
+				Object tempObject = intent.getExtras().get("added_brick");
+				if (tempObject instanceof Brick) {
+					brickToBeAdded = (Brick) tempObject;
+				}
+
+				if (brickToBeAdded == null) {
+					Log.w(TAG, "NewBrickAddedReceiver: no Brick given in extras");
+					return;
+				}
+				updateAdapterAfterAddNewBrick(brickToBeAdded);
 			}
 		}
 	}
@@ -334,7 +340,7 @@ public class ScriptFragment extends SherlockFragment implements BrickInteraction
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED)) {
-				adapter.notifyDataSetChanged();
+				adapter.updateProjectBrickList();
 			}
 		}
 	}

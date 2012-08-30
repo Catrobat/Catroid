@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,7 +38,9 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.adapter.TabsPagerAdapter;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
@@ -127,8 +130,36 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
 		}
+		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
+			ProjectManager projectManager = ProjectManager.getInstance();
+			int currentSpritePos = projectManager.getCurrentSpritePosition();
+			int currentScriptPos = projectManager.getCurrentScriptPosition();
+			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
+			projectManager.setCurrentScriptWithPosition(currentScriptPos);
+		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (getCurrentTabFragment() instanceof ScriptFragment) {
+			if (keyCode == KeyEvent.KEYCODE_BACK) {
+				ScriptFragment scriptFragment = (ScriptFragment) getCurrentTabFragment();
+				DragAndDropListView listView = scriptFragment.getListView();
+				if (listView.isCurrentlyDragging()) {
+					listView.resetDraggingScreen();
+
+					BrickAdapter adapter = scriptFragment.getAdapter();
+					adapter.removeDraggedBrick();
+
+					return true;
+				}
+			}
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 
 	private void setupTabHost() {

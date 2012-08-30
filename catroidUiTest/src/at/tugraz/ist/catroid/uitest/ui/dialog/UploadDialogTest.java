@@ -29,10 +29,13 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.web.ServerCalls;
@@ -130,6 +133,65 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
 	}
 
+	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
+		String testDescription = "Test description";
+		Project uploadProject = new Project(getActivity(), testProject);
+		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.INSTANCE.saveProject();
+		setServerURLToTestURL();
+		UiTestUtils.createValidUser(getActivity());
+
+		solo.sleep(300);
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		UiTestUtils.longClickOnTextInList(solo, uploadProject.getName());
+		solo.clickInList(2);
+		solo.sleep(200);
+		solo.enterText(0, testDescription);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.upload_project));
+
+		assertTrue("upload project dialog not shown",
+				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
+		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
+		String uploadDescription = uploadDescriptionView.getText().toString();
+		solo.sleep(500);
+		assertEquals("Project description was not set or is wrong", testDescription, uploadDescription);
+	}
+
+	public void testProjectDescriptionUploadProject() throws Throwable {
+		Project uploadProject = new Project(getActivity(), testProject);
+		ProjectManager.INSTANCE.setProject(uploadProject);
+		ProjectManager.INSTANCE.saveProject();
+
+		solo.sleep(300);
+		setServerURLToTestURL();
+		UiTestUtils.createValidUser(getActivity());
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.upload_project));
+
+		assertTrue("upload project dialog not shown",
+				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
+		EditText editTextUploadName = solo.getEditText(0);
+		EditText editTextUploadDescription = solo.getEditText(1);
+		int projectUploadNameInputType = editTextUploadName.getInputType();
+		int projectUploadDescriptionInputType = editTextUploadDescription.getInputType();
+		int newProjectInputTypeReference = android.text.InputType.TYPE_CLASS_TEXT
+				| android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+				| android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		solo.sleep(200);
+
+		assertEquals("Project name field is not a text field", newProjectInputTypeReference, projectUploadNameInputType);
+		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
+				projectUploadDescriptionInputType);
+	}
+
 	private void createTestProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		if (directory.exists()) {
@@ -146,4 +208,5 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue(testProject + " was not created!", file.exists());
 		UiTestUtils.goToHomeActivity(getActivity());
 	}
+
 }
