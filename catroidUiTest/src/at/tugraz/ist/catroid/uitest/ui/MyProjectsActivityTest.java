@@ -165,26 +165,17 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		String projectName = UiTestUtils.PROJECTNAME1;
 		String newProjectDialogTitle = solo.getString(R.string.new_project_dialog_title);
+		String buttonPositiveText = solo.getString(R.string.ok);
 
 		solo.clickOnView(solo.getView(R.id.view_below_myprojectlist_non_scrollable));
 		solo.waitForText(newProjectDialogTitle, 0, 2000);
 		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
-
-		EditText addNewProjectEditText = solo.getEditText(0);
-		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
-				addNewProjectEditText.getHint());
-		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
 		solo.clearEditText(0);
 		solo.enterText(0, projectName);
 		solo.sleep(200);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(projectName));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-		solo.goBack();
+		solo.clickOnText(buttonPositiveText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnButton(myProjectsButton);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -198,9 +189,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
 		solo.clearEditText(0);
 		solo.enterText(0, projectName);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-		solo.goBack();
+		solo.sleep(200);
+		solo.clickOnText(buttonPositiveText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnButton(myProjectsButton);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -213,9 +205,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
 		solo.clearEditText(0);
 		solo.enterText(0, projectName);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-		solo.goBack();
+		solo.sleep(200);
+		solo.clickOnText(buttonPositiveText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnButton(myProjectsButton);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
