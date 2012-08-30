@@ -217,7 +217,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 				return true;
 			}
 		};
-
+		
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_glide_to_brick");
 	}
 }

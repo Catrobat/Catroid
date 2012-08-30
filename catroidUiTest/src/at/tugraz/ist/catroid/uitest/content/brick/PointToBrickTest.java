@@ -73,7 +73,7 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 
-		assertEquals("Incorrect number of bricks.", 3, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 3 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

@@ -39,8 +39,8 @@ public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String projectName;
-	private double applicationXmlVersion = 0.10;
-	private String platform = "Android";
+	private String description;
+
 	// Only used for Catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
@@ -58,8 +58,6 @@ public class Project implements Serializable {
 	//@XStreamAlias("screenHeight")
 	@XMLAlias("screenHeight")
 	public int virtualScreenHeight = 0;
-
-	public String description;
 
 	public Project(Context context, String name) {
 		this.projectName = name;
@@ -113,6 +111,14 @@ public class Project implements Serializable {
 
 	public String getName() {
 		return projectName;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public int getCatroidVersionCode() {

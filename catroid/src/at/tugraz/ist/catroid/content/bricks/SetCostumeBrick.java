@@ -45,10 +45,6 @@ public class SetCostumeBrick implements Brick {
 		this.sprite = sprite;
 	}
 
-	public SetCostumeBrick() {
-
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

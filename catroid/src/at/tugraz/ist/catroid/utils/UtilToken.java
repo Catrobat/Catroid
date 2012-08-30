@@ -29,7 +29,7 @@ public class UtilToken {
 
 	public static String calculateToken(String username, String password) {
 
-		String md5Username = Utils.md5Checksum(username).toLowerCase();
+		String md5Username = Utils.md5Checksum(username.toLowerCase()).toLowerCase();
 		String md5Password = Utils.md5Checksum(password).toLowerCase();
 
 		String token = Utils.md5Checksum(md5Username + ":" + md5Password);
