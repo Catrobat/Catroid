@@ -22,93 +22,93 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:scrollbars="vertical"
     android:scrollbarAlwaysDrawVerticalTrack="true">
-<LinearLayout
-	android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:theme="@android:style/Theme.Light">
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-			<TextView 
-				android:text="@string/size_of_project" 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:layout_marginLeft="10dp"/>
-			<TextView 
-				android:id="@+id/dialog_upload_size_of_project" 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:layout_marginLeft="10dp"/>
-	</LinearLayout>
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-		<TextView 
-			android:text="@string/project_name" 
-			android:id="@+id/tv_title" 
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:layout_marginLeft="10dp">
-		</TextView>
-		<TextView 
-			android:text="@string/project_rename" 
-			android:id="@+id/tv_project_rename" 
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:layout_marginLeft="10dp">
-		</TextView>
-	</LinearLayout>
-	
-	<EditText
-		android:id="@+id/project_upload_name"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:maxLines="1"
-		android:inputType="text"
-		android:selectAllOnFocus="true" />
-	<TextView 
-		android:text="@string/upload_description" 
-		android:id="@+id/tv_description" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:layout_marginLeft="10dp">
-	</TextView>
-	<EditText
-		android:id="@+id/project_description_upload"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:lines="5"
-		android:gravity="top">
-	</EditText>
-	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-		<Button
-			android:id="@+id/upload_button"
-			android:text="@string/upload_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight=".5" />
-		<Button
-			android:id="@+id/cancel_button"
-			android:text="@string/cancel_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight=".5" />
-	</LinearLayout>
-</LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <TextView 
+                android:text="@string/size_of_project" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="10dp"/>
+            <TextView 
+                android:id="@+id/dialog_upload_size_of_project" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView 
+            android:text="@string/project_name" 
+            android:id="@+id/tv_title" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="10dp">
+        </TextView>
+        <TextView 
+            android:text="@string/project_rename" 
+            android:id="@+id/tv_project_rename" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="10dp">
+        </TextView>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/project_upload_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/new_project_dialog_hint"
+        android:maxLines="1"
+        android:inputType="text"
+        android:selectAllOnFocus="true" />
+    <TextView 
+        android:text="@string/upload_description" 
+        android:id="@+id/tv_description" 
+        android:layout_width="300dp" 
+        android:layout_height="wrap_content" 
+        android:layout_marginLeft="10dp">
+    </TextView>
+    <EditText
+        android:id="@+id/project_description_upload"
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/new_project_description_dialog_hint"
+        android:lines="2"
+        android:gravity="top"
+        android:scrollbars="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
+    </EditText>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/upload_button"
+            android:text="@string/upload_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5" />
+        <Button
+            android:id="@+id/cancel_button"
+            android:text="@string/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5" />
+    </LinearLayout>
 </LinearLayout>
 </ScrollView>

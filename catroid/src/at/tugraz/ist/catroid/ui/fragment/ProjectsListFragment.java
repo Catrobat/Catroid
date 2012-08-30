@@ -50,6 +50,8 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.ProjectAdapter;
+import at.tugraz.ist.catroid.ui.dialogs.CopyProjectDialog;
+import at.tugraz.ist.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog;
@@ -62,7 +64,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnClickListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnClickListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 
@@ -76,8 +78,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
-
 	private static final int FOOTER_ADD_PROJECT_ALPHA_VALUE = 35;
+	private static final int CONTEXT_MENU_ITEM_COPY = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -128,6 +130,13 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 
 		initAdapter();
+	}
+
+	@Override
+	public void onCopyProject(boolean orientationChangedWhileCopying) {
+		if (!orientationChangedWhileCopying) {
+			initAdapter();
+		}
 	}
 
 	@Override
@@ -221,6 +230,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				CONTEXT_MENU_ITEM_DESCRIPTION);
 		adapter.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
 				CONTEXT_MENU_ITEM_DELETE);
+		adapter.addItem(resources, this.getString(R.string.copy), R.drawable.ic_context_copy, CONTEXT_MENU_ITEM_COPY);
 		iconContextMenu.setAdapter(adapter);
 
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
@@ -241,6 +251,11 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						deleteProject();
+						break;
+					case CONTEXT_MENU_ITEM_COPY:
+						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
+						dialogCopyProject.setOnCopyProjectListener(ProjectsListFragment.this);
+						dialogCopyProject.show(getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
 						break;
 				}
 			}
