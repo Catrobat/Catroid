@@ -148,9 +148,12 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.goToHomeActivity(getActivity());
 	}
 
-	public void testProjectDescriptionUploadProject() {
+	public void testProjectDescriptionUploadProject() throws Throwable {
+		setServerURLToTestURL();
+		UiTestUtils.createValidUser(getActivity());
+
 		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-		solo.sleep(2000);
+		solo.sleep(5000);
 
 		EditText projectUploadName = (EditText) solo.getView(R.id.project_upload_name);
 		EditText projectUploadDescription = (EditText) solo.getView(R.id.project_description_upload);
