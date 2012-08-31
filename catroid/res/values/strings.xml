@@ -33,11 +33,13 @@
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="copy">Copy</string>
     <!-- General -->
     <string name="close">Close</string>
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
     <string name="loading">Loading…</string>
+    <string name="copying">Copying…</string>
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
@@ -105,6 +107,7 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
+    <string name="copy_project">Copy Project</string>
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Start recording</string>
@@ -121,8 +124,12 @@
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
     <!-- New project dialog -->
-    <string name="new_project_dialog_title">Name of new project</string>
+    <string name="new_project_dialog_title">New project</string>
     <string name="new_project_dialog_hint">My Project</string>
+    <string name="new_project_description_dialog_hint">My Description</string>
+    <string name="new_project_name">Project name:</string>
+    <string name="new_project_description">Project description:</string>
+    
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Sprite</string>
@@ -254,6 +261,8 @@
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatability">The project is not compatible with this version of catroid.</string>
+    <string name="error_copy_project">An error occurred while copying the project.</string>
+    <string name="error_orientation_change_copy_project">Copy process Cancelled.\nDo not rotate the device during the copy process!</string>
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
@@ -262,6 +271,7 @@
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="size_of_project">Size of project:</string>
+    <string name="copy_process_canceled">Copy proecess cancelled</string>
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
