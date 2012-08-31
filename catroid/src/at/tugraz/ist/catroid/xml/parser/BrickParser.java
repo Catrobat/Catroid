@@ -137,12 +137,6 @@ public class BrickParser {
 		} else {
 			spriteField = brickObject.getClass().getSuperclass().getDeclaredField("sprite");
 		}
-		//		if (brickObject.getClass().getSuperclass().equals(Object.class)) {
-		//			spriteField = brickObject.getClass().getDeclaredField("sprite");
-		//
-		//		} else {
-		//			spriteField = brickObject.getClass().getSuperclass().getDeclaredField("sprite");
-		//		}
 		spriteField.setAccessible(true);
 		spriteField.set(brickObject, foundSprite);
 		for (int l = 0; l < valueNodes.getLength(); l++) {
