@@ -33,7 +33,7 @@ public abstract class Script implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
 
-	protected ScriptBrick brick;
+	protected transient ScriptBrick brick;
 
 	protected transient boolean isFinished;
 	private transient volatile boolean paused;
