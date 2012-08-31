@@ -112,9 +112,16 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
 				| android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
 		solo.sleep(2000);
-
 		assertEquals("New project name field is not a text field", newProjectInputTypeReference, newProjectInputType);
 		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
 				newProjectDescriptionInputType);
+
+		int projectNameNumberOfLines = (newProjectName.getHeight() - newProjectName.getCompoundPaddingTop() - newProjectName
+				.getCompoundPaddingBottom()) / newProjectName.getLineHeight();
+		int projectDescriptionNumberOfLines = (newProjectDescription.getHeight()
+				- newProjectDescription.getCompoundPaddingTop() - newProjectDescription.getCompoundPaddingBottom())
+				/ newProjectDescription.getLineHeight();
+		assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
+		assertEquals("Project description field is not multiline", 2, projectDescriptionNumberOfLines);
 	}
 }
