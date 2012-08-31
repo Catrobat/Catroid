@@ -72,8 +72,12 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 		EditText description = (EditText) solo.getView(R.id.dialog_text_EditMultiLineText);
 		solo.sleep(2000);
 		int descriptionInputType = description.getInputType();
-		int typeToCheck = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE + android.text.InputType.TYPE_CLASS_TEXT
-				+ android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		int typeToCheck = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE | android.text.InputType.TYPE_CLASS_TEXT
+				| android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
 		assertEquals("Description field is not multiline!", descriptionInputType, typeToCheck);
+
+		int projectDescriptionNumberOfLines = (description.getHeight() - description.getCompoundPaddingTop() - description
+				.getCompoundPaddingBottom()) / description.getLineHeight();
+		assertEquals("Project description field is not multiline", 3, projectDescriptionNumberOfLines);
 	}
 }
