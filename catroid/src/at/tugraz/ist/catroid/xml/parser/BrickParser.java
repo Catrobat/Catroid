@@ -132,12 +132,17 @@ public class BrickParser {
 			InstantiationException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException,
 			ParseException, SecurityException, NoSuchFieldException {
 		Field spriteField = null;
-		if (brickObject.getClass().getSuperclass().equals(Object.class)) {
-			spriteField = brickObject.getClass().getDeclaredField("sprite");
-
+		if (brickFieldsToSet.containsKey("sprite")) {
+			spriteField = brickFieldsToSet.get("sprite");
 		} else {
 			spriteField = brickObject.getClass().getSuperclass().getDeclaredField("sprite");
 		}
+		//		if (brickObject.getClass().getSuperclass().equals(Object.class)) {
+		//			spriteField = brickObject.getClass().getDeclaredField("sprite");
+		//
+		//		} else {
+		//			spriteField = brickObject.getClass().getSuperclass().getDeclaredField("sprite");
+		//		}
 		spriteField.setAccessible(true);
 		spriteField.set(brickObject, foundSprite);
 		for (int l = 0; l < valueNodes.getLength(); l++) {
