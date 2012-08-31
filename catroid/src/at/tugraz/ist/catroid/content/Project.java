@@ -51,6 +51,11 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private int applicationVersionCode;
 
+	// These are added to match the new xml schema at http://catroidtestserver.ist.tugraz.at/xmlSchema/validateXmlNew.php
+	// requires review
+	private int applicationXmlVersion = 101;
+	private String platform = "Android";
+
 	//@XStreamAlias("screenWidth")
 	@XMLAlias("screenWidth")
 	public int virtualScreenWidth = 0;
