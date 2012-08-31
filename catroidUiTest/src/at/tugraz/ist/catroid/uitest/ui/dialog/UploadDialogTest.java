@@ -187,10 +187,18 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
 				| android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
 		solo.sleep(200);
-
 		assertEquals("Project name field is not a text field", newProjectInputTypeReference, projectUploadNameInputType);
 		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
 				projectUploadDescriptionInputType);
+
+		int projectUploadNameNumberOfLines = (editTextUploadName.getHeight()
+				- editTextUploadName.getCompoundPaddingTop() - editTextUploadName.getCompoundPaddingBottom())
+				/ editTextUploadName.getLineHeight();
+		int projectUploadDescriptionNumberOfLines = (editTextUploadDescription.getHeight()
+				- editTextUploadDescription.getCompoundPaddingTop() - editTextUploadDescription
+					.getCompoundPaddingBottom()) / editTextUploadDescription.getLineHeight();
+		assertEquals("Project name field is not a text field", 1, projectUploadNameNumberOfLines);
+		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
 	}
 
 	private void createTestProject() {
