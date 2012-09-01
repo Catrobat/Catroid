@@ -717,9 +717,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(500);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(500);
-		UiTestUtils.enterText(solo, 0, lorem);
-		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.ok));
+		solo.enterText(0, lorem);
+		solo.sleep(3000);
+		solo.clickOnView(solo.getCurrentButtons().get(0));
 		solo.waitForDialogToClose(500);
 
 		solo.sleep(500);
@@ -744,17 +744,16 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
 		solo.sleep(200);
 		solo.clickOnText(actionSetDescriptionText);
-		solo.sleep(200);
+		solo.sleep(500);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+		solo.sleep(500);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(500);
 		solo.enterText(0, lorem);
-		solo.sleep(300);
-		//solo.sendKey(Solo.ENTER);
-		String buttonOkText = solo.getString(R.string.ok);
-		solo.clickOnButton(buttonOkText);
-		solo.sleep(5000);
+		solo.sleep(1500);
+		solo.clickOnView(solo.getCurrentButtons().get(0));
+		solo.waitForDialogToClose(500);
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 		// temporarily removed - should be added when displaying projectdescription
 		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
