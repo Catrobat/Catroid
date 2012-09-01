@@ -174,12 +174,16 @@ public class UploadProjectDialog extends DialogFragment {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		String uploadName = projectUploadName.getText().toString();
+		String projectDescription = projectDescriptionField.getText().toString();
+
 		if (uploadName.length() == 0) {
 			Utils.displayErrorMessage(getActivity(), getString(R.string.error_no_name_entered));
 			return;
-		} else if (!uploadName.equals(currentProjectName)) {
+		}
+		if (!uploadName.equals(currentProjectName)) {
 			projectRename.setVisibility(View.VISIBLE);
-			boolean renamed = projectManager.renameProject(newProjectName, getActivity());
+			boolean renamed = projectManager.renameProjectNameAndDescription(newProjectName, projectDescription,
+					getActivity());
 			if (!renamed) {
 				return;
 			}
@@ -190,13 +194,14 @@ public class UploadProjectDialog extends DialogFragment {
 
 		dismiss();
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
-		String projectDescription;
 
-		if (projectDescriptionField.length() != 0) {
-			projectDescription = projectDescriptionField.getText().toString();
-		} else {
-			projectDescription = "";
-		}
+		/*
+		 * if (projectDescriptionField.length() != 0) {
+		 * projectDescription = projectDescriptionField.getText().toString();
+		 * } else {
+		 * projectDescription = "";
+		 * }
+		 */
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = prefs.getString(Constants.TOKEN, "0");
