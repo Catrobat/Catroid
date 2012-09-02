@@ -154,7 +154,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
 
-		String projectName = testProject;
+		String projectName = testProject; // + System.currentTimeMillis();
 		String originalProjectDescription = testDescription;
 		createTestProject(projectName);
 		ProjectManager.INSTANCE.getCurrentProject().setDescription(originalProjectDescription);
@@ -262,7 +262,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
+		assertTrue("Testproject not loaded.", solo.searchText(newTestProject) || solo.searchText(testProject));
 		assertTrue("OverwriteRenameDialog not showed.",
 				solo.searchText(getActivity().getString(R.string.overwrite_text)));
 
