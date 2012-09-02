@@ -173,7 +173,7 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	private void handleUploadButtonClick() {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.INSTANCE;
 
 		String uploadName = projectUploadName.getText().toString();
 		String projectDescription = projectDescriptionField.getText().toString();
@@ -190,11 +190,14 @@ public class UploadProjectDialog extends DialogFragment {
 				return;
 			}
 		} else if (uploadName.equals(currentProjectName) && (!projectDescription.equals(currentProjectDescription))) {
-			boolean renamed = projectManager.renameProjectNameAndDescription(currentProjectName, projectDescription,
-					getActivity());
-			if (!renamed) {
-				return;
-			}
+			projectManager.getCurrentProject().setDescription(projectDescription);
+			/*
+			 * boolean renamed = projectManager.renameProjectNameAndDescription(currentProjectName, projectDescription,
+			 * getActivity());
+			 * if (!renamed) {
+			 * return;
+			 * }
+			 */
 		}
 
 		projectManager.getCurrentProject().setDeviceData(getActivity());
