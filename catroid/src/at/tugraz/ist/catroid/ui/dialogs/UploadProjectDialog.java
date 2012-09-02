@@ -63,6 +63,7 @@ public class UploadProjectDialog extends DialogFragment {
 	private Button cancelButton;
 
 	private String currentProjectName;
+	private String currentProjectDescription;
 	private String newProjectName;
 
 	@Override
@@ -97,11 +98,12 @@ public class UploadProjectDialog extends DialogFragment {
 	}
 
 	private void initControls() {
-		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
+		currentProjectDescription = ProjectManager.INSTANCE.getCurrentProject().getDescription();
 		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Constants.DEFAULT_ROOT + "/" + currentProjectName)));
 		projectRename.setVisibility(View.GONE);
 		projectUploadName.setText(currentProjectName);
-		projectDescriptionField.setText(ProjectManager.INSTANCE.getCurrentProject().getDescription());
+		projectDescriptionField.setText(currentProjectDescription);
 		projectUploadName.requestFocus();
 		projectUploadName.selectAll();
 
@@ -183,6 +185,12 @@ public class UploadProjectDialog extends DialogFragment {
 		if (!uploadName.equals(currentProjectName)) {
 			projectRename.setVisibility(View.VISIBLE);
 			boolean renamed = projectManager.renameProjectNameAndDescription(newProjectName, projectDescription,
+					getActivity());
+			if (!renamed) {
+				return;
+			}
+		} else if (uploadName.equals(currentProjectName) && (!projectDescription.equals(currentProjectDescription))) {
+			boolean renamed = projectManager.renameProjectNameAndDescription(currentProjectName, projectDescription,
 					getActivity());
 			if (!renamed) {
 				return;
