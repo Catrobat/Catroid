@@ -33,13 +33,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo> {
 
 	private String name;
 	private String fileName;
-	public transient boolean isPlaying = false;
-	public transient boolean isPaused = false;
-
-	public SoundInfo() {
-		isPlaying = false;
-		isPaused = false;
-	}
+	public transient boolean isPlaying;
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
