@@ -22,21 +22,16 @@
  */
 package at.tugraz.ist.catroid.uitest.mockups;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import at.tugraz.ist.catroid.common.Constants;
 
 public class MockPaintroidActivity extends Activity {
 
 	private File imageFile;
 	private File secondImageFile;
-	private ByteArrayOutputStream imageStream;
 	private String pathToImage;
 
 	@Override
@@ -49,15 +44,7 @@ public class MockPaintroidActivity extends Activity {
 
 		if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
 			pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-			if (bundle.containsKey("crop")) {
-				BitmapFactory.Options options = new BitmapFactory.Options();
-				options.inSampleSize = bundle.getInt("crop");
-				Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImage, options);
-				imageStream = new ByteArrayOutputStream();
-				imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, imageStream);
-			} else {
-				imageFile = new File(pathToImage);
-			}
+			imageFile = new File(pathToImage);
 		}
 
 		if (bundle.containsKey("secondExtra")) {
@@ -74,10 +61,7 @@ public class MockPaintroidActivity extends Activity {
 
 	public void sendBundleBackToCatroidAndFinish() {
 		Bundle bundle = new Bundle();
-		if (imageStream != null) {
-			bundle.putByteArray("bitmapStream", imageStream.toByteArray());
-			bundle.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, pathToImage);
-		} else if (secondImageFile != null) {
+		if (secondImageFile != null) {
 			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", secondImageFile.getAbsolutePath());
 		} else {
 			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", imageFile.getAbsolutePath());

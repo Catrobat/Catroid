@@ -46,6 +46,8 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -831,4 +833,27 @@ public class UiTestUtils {
 			}
 		}
 	}
+
+	public static void cropImage(String pathToImageFile, int sampleSize) {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = sampleSize;
+		Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImageFile, options);
+		//imageStream = new ByteArrayOutputStream();
+		//imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, imageStream);
+
+		//bundle.putByteArray("bitmapStream", imageStream.toByteArray());
+		//bundle.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, pathToImage);
+
+		File imageFile = new File(pathToImageFile);
+		OutputStream stream = null;
+		try {
+			stream = new FileOutputStream(imageFile);
+			imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+			stream.flush();
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

@@ -23,9 +23,7 @@
 package at.tugraz.ist.catroid.ui.fragment;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +39,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -94,7 +90,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	public static final int REQUEST_SELECT_IMAGE = 0;
 	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
 	public static final int REQUEST_TAKE_PICTURE = 2;
-	public static final int REQUEST_PAINTROID_CROP_IMAGE = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -240,9 +235,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				String defCostumeName = getString(R.string.default_costume_name);
 				costumeFromCameraUri = UtilCamera.rotatePictureIfNecessary(costumeFromCameraUri, defCostumeName);
 				loadPictureFromCameraIntoCatroid();
-				break;
-			case REQUEST_PAINTROID_CROP_IMAGE:
-				savePaintroidBitmapToFile(data);
 				break;
 		}
 	}
@@ -570,29 +562,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 					selectedCostumeData.setCostumeName(newCostumeName);
 					reloadAdapter();
-				}
-			}
-		}
-	}
-
-	void savePaintroidBitmapToFile(Intent data) {
-		if (data.hasExtra("bitmapStream")) {
-			Bundle bundle = data.getExtras();
-			if (bundle != null) {
-				Bitmap imageBitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("bitmapStream"), 0,
-						data.getByteArrayExtra("bitmapStream").length);
-				if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
-					String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-					File imageFile = new File(pathToImage);
-					OutputStream stream = null;
-					try {
-						stream = new FileOutputStream(imageFile);
-						imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-						stream.flush();
-						stream.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
 				}
 			}
 		}
