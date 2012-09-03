@@ -106,10 +106,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 	private final int REQUEST_SELECT_MUSIC = 0;
 
-	public MediaPlayer mediaPlayer;
+	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
-	public SoundInfo selectedSoundInfo;
+	private SoundInfo selectedSoundInfo;
 
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
@@ -138,8 +138,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
-
-		mediaPlayer = new MediaPlayer();
 	}
 
 	@Override
@@ -210,6 +208,12 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		if (soundRenamedReceiver != null) {
 			getActivity().unregisterReceiver(soundRenamedReceiver);
 		}
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		mediaPlayer = new MediaPlayer();
 	}
 
 	@Override
