@@ -250,6 +250,7 @@
     <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_project_download">Beim Download des Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_new_project">Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_rename_project">Beim Umbenennen des Projektes vor dem Upload ist ein Fehler aufgetreten.</string>
     <string name="error_load_project">Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_no_number_entered">Bitte eine Zahl eingeben.</string>
     <string name="error_screenshot_failed">Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
