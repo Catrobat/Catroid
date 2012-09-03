@@ -27,13 +27,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -542,7 +541,6 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(5).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
 				projectManager.getFileChecksumContainer().containsChecksum(checksumImageFile));
-
 	}
 
 	public void testResolutionWhenEditedAndCroppedWithPaintroid() {
@@ -553,8 +551,8 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		getCostumeFragment().setSelectedCostumeData(costumeData);
 
 		String pathToImageFile = imageFile.getAbsolutePath();
-		int[] fileResolutionBeforeCrop = getResolutionFromBitmap(pathToImageFile);
-		int[] displayedResolutionBeforeCrop = costumeData.getResolution();//getDisplayedResolution(pathToImageFile);
+		int[] fileResolutionBeforeCrop = costumeData.getResolution();
+		int[] displayedResolutionBeforeCrop = getDisplayedResolution(costumeData);
 
 		int sampleSize = 2;
 		UiTestUtils.cropImage(pathToImageFile, sampleSize);
@@ -566,8 +564,8 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.sleep(1000);
 
-		int[] fileResolutionAfterCrop = getResolutionFromBitmap(pathToImageFile);
-		int[] displayedResolutionAfterCrop = costumeData.getResolution();
+		int[] fileResolutionAfterCrop = costumeData.getResolution();
+		int[] displayedResolutionAfterCrop = getDisplayedResolution(costumeData);
 
 		assertTrue("Bitmap resolution in file was not cropped",
 				fileResolutionAfterCrop[0] < fileResolutionBeforeCrop[0]
@@ -575,36 +573,23 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue("Image resolution was not updated in costume fragment",
 				displayedResolutionAfterCrop[0] < displayedResolutionBeforeCrop[0]
 						&& fileResolutionAfterCrop[1] < displayedResolutionBeforeCrop[1]);
-
-		Log.v("*************", fileResolutionAfterCrop[0] + " " + fileResolutionBeforeCrop[0] + " "
-				+ fileResolutionAfterCrop[1] + " " + fileResolutionBeforeCrop[1]);
-		Log.v("*************", displayedResolutionAfterCrop[0] + " " + displayedResolutionBeforeCrop[0] + " "
-				+ displayedResolutionAfterCrop[1] + " " + displayedResolutionBeforeCrop[1]);
 	}
 
-	private int[] getResolutionFromBitmap(String pathToImageFile) {
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		BitmapFactory.decodeFile(pathToImageFile, options);
+	private int[] getDisplayedResolution(CostumeData costume) {
+		TextView resolutionTextView = (TextView) solo.getView(R.id.costume_res);
+		String resolutionString = resolutionTextView.getText().toString();
+		//resolution string has form "width x height"
+		int dividingPosition = resolutionString.indexOf(' ');
+		String widthString = resolutionString.substring(0, dividingPosition);
+		String heightString = resolutionString.substring(dividingPosition + 3, resolutionString.length());
+		int width = Integer.parseInt(widthString);
+		int heigth = Integer.parseInt(heightString);
 
 		int[] resolution = new int[2];
-		resolution[0] = options.outWidth;
-		resolution[1] = options.outHeight;
-
+		resolution[0] = width;
+		resolution[1] = heigth;
 		return resolution;
 	}
-
-	/*
-	 * private int[] getDisplayedResolution(String pathToImageFile) {
-	 * BitmapFactory.Options options = new BitmapFactory.Options();
-	 * BitmapFactory.decodeFile(pathToImageFile, options);
-	 * 
-	 * int[] resolution = new int[2];
-	 * resolution[0] = options.outWidth;
-	 * resolution[1] = options.outHeight;
-	 * 
-	 * return resolution;
-	 * }
-	 */
 
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
 		solo.clickOnText(currentCostumeName);
