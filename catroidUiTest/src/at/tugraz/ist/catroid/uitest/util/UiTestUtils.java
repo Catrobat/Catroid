@@ -838,11 +838,6 @@ public class UiTestUtils {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = sampleSize;
 		Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImageFile, options);
-		//imageStream = new ByteArrayOutputStream();
-		//imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, imageStream);
-
-		//bundle.putByteArray("bitmapStream", imageStream.toByteArray());
-		//bundle.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, pathToImage);
 
 		File imageFile = new File(pathToImageFile);
 		OutputStream stream = null;
