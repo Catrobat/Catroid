@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -552,24 +553,33 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		getCostumeFragment().setSelectedCostumeData(costumeData);
 
 		String pathToImageFile = imageFile.getAbsolutePath();
-		int[] resolutionBeforeCrop = getResolutionFromBitmap(pathToImageFile);
+		int[] fileResolutionBeforeCrop = getResolutionFromBitmap(pathToImageFile);
+		int[] displayedResolutionBeforeCrop = costumeData.getResolution();//getDisplayedResolution(pathToImageFile);
 
-		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, pathToImageFile);
-		bundleForPaintroid.putInt("crop", 2); //Samples the image resolution down by the given value
-		Intent intent = new Intent(getInstrumentation().getContext(),
-				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
-		intent.putExtras(bundleForPaintroid);
+		int sampleSize = 2;
+		UiTestUtils.cropImage(pathToImageFile, sampleSize);
 
-		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_CROP_IMAGE);
+		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		getActivity().startActivity(intent);
 
-		solo.sleep(5000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.sleep(1000);
 
-		int[] resolutionAfterCrop = getResolutionFromBitmap(pathToImageFile);
+		int[] fileResolutionAfterCrop = getResolutionFromBitmap(pathToImageFile);
+		int[] displayedResolutionAfterCrop = costumeData.getResolution();
 
-		assertTrue("Bitmap resolution was not cropped", resolutionAfterCrop[0] < resolutionBeforeCrop[0]
-				&& resolutionAfterCrop[1] < resolutionBeforeCrop[1]);
+		assertTrue("Bitmap resolution in file was not cropped",
+				fileResolutionAfterCrop[0] < fileResolutionBeforeCrop[0]
+						&& fileResolutionAfterCrop[1] < fileResolutionBeforeCrop[1]);
+		assertTrue("Image resolution was not updated in costume fragment",
+				displayedResolutionAfterCrop[0] < displayedResolutionBeforeCrop[0]
+						&& fileResolutionAfterCrop[1] < displayedResolutionBeforeCrop[1]);
+
+		Log.v("*************", fileResolutionAfterCrop[0] + " " + fileResolutionBeforeCrop[0] + " "
+				+ fileResolutionAfterCrop[1] + " " + fileResolutionBeforeCrop[1]);
+		Log.v("*************", displayedResolutionAfterCrop[0] + " " + displayedResolutionBeforeCrop[0] + " "
+				+ displayedResolutionAfterCrop[1] + " " + displayedResolutionBeforeCrop[1]);
 	}
 
 	private int[] getResolutionFromBitmap(String pathToImageFile) {
@@ -582,6 +592,19 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 
 		return resolution;
 	}
+
+	/*
+	 * private int[] getDisplayedResolution(String pathToImageFile) {
+	 * BitmapFactory.Options options = new BitmapFactory.Options();
+	 * BitmapFactory.decodeFile(pathToImageFile, options);
+	 * 
+	 * int[] resolution = new int[2];
+	 * resolution[0] = options.outWidth;
+	 * resolution[1] = options.outHeight;
+	 * 
+	 * return resolution;
+	 * }
+	 */
 
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
 		solo.clickOnText(currentCostumeName);
