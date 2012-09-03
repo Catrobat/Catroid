@@ -191,13 +191,6 @@ public class UploadProjectDialog extends DialogFragment {
 			}
 		} else if (uploadName.equals(currentProjectName) && (!projectDescription.equals(currentProjectDescription))) {
 			projectManager.getCurrentProject().setDescription(projectDescription);
-			/*
-			 * boolean renamed = projectManager.renameProjectNameAndDescription(currentProjectName, projectDescription,
-			 * getActivity());
-			 * if (!renamed) {
-			 * return;
-			 * }
-			 */
 		}
 
 		projectManager.getCurrentProject().setDeviceData(getActivity());
@@ -205,14 +198,6 @@ public class UploadProjectDialog extends DialogFragment {
 
 		dismiss();
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
-
-		/*
-		 * if (projectDescriptionField.length() != 0) {
-		 * projectDescription = projectDescriptionField.getText().toString();
-		 * } else {
-		 * projectDescription = "";
-		 * }
-		 */
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = prefs.getString(Constants.TOKEN, "0");
