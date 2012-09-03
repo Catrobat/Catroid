@@ -24,7 +24,7 @@
 <Project>
   <applicationVersionCode>10</applicationVersionCode>
    <applicationVersionName>0.5.5.ba</applicationVersionName>
-	<applicationXmlVersion>0.5</applicationXmlVersion>
+	<applicationXmlVersion>101</applicationXmlVersion>
 	<deviceName>HTC Sensation Z710e</deviceName>
 	<platform>Android</platform>
 	<platformVersion>10</platformVersion>
