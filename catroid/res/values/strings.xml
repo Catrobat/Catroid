@@ -262,6 +262,7 @@
     <string name="error_project_upload">An error occurred while uploading the project.</string>
     <string name="error_project_download">An error occurred while downloading the project.</string>
     <string name="error_new_project">An error occurred while creating a new project.</string>
+    <string name="error_rename_project">An error occurred while renaming the project before upload.</string>
     <string name="error_load_project">An error occurred while loading the project.</string>
     <string name="error_no_number_entered">Please enter a number.</string>
     <string name="error_screenshot_failed">An error occurred while saving the screenshot.</string>

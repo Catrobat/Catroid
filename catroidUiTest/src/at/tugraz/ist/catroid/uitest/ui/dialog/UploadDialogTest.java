@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import java.io.File;
 
+import junit.framework.AssertionFailedError;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
@@ -135,6 +136,8 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
 		String testDescription = "Test description";
+		String actionSetDescriptionText = solo.getString(R.string.set_description);
+		String setDescriptionDialogTitle = solo.getString(R.string.description);
 		Project uploadProject = new Project(getActivity(), testProject);
 		ProjectManager.INSTANCE.setProject(uploadProject);
 		ProjectManager.INSTANCE.saveProject();
@@ -145,17 +148,31 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnButton(solo.getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		UiTestUtils.longClickOnTextInList(solo, uploadProject.getName());
-		solo.clickInList(2);
-		solo.sleep(200);
+		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
+		solo.clickOnText(actionSetDescriptionText);
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		solo.clearEditText(0);
 		solo.enterText(0, testDescription);
-		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		solo.sleep(300);
+
+		String buttonPositiveText = solo.getString(R.string.ok);
+		// if keyboard is there, hide it and click ok
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.goBack();
+			solo.clickOnText(buttonPositiveText);
+		}
+		solo.waitForDialogToClose(500);
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.upload_project));
-
 		assertTrue("upload project dialog not shown",
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
 		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
@@ -186,10 +203,18 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
 				| android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
 		solo.sleep(200);
-
 		assertEquals("Project name field is not a text field", newProjectInputTypeReference, projectUploadNameInputType);
 		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
 				projectUploadDescriptionInputType);
+
+		int projectUploadNameNumberOfLines = (editTextUploadName.getHeight()
+				- editTextUploadName.getCompoundPaddingTop() - editTextUploadName.getCompoundPaddingBottom())
+				/ editTextUploadName.getLineHeight();
+		int projectUploadDescriptionNumberOfLines = (editTextUploadDescription.getHeight()
+				- editTextUploadDescription.getCompoundPaddingTop() - editTextUploadDescription
+					.getCompoundPaddingBottom()) / editTextUploadDescription.getLineHeight();
+		assertEquals("Project name field is not a text field", 1, projectUploadNameNumberOfLines);
+		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
 	}
 
 	private void createTestProject() {
