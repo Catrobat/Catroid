@@ -386,13 +386,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "activity visible");
 
-		while (solo.scrollDown()) {
-			;
-		}
+		solo.scrollToBottom();
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
-		while (solo.scrollUp()) {
-			;
-		}
+		solo.scrollToTop();
 		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll up");
 		solo.sleep(300);
 		int currentViewID;
@@ -530,10 +526,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertEquals("the renamed project is not first in list", ((ProjectData) (solo.getCurrentListViews().get(0)
 				.getAdapter().getItem(0))).projectName, UiTestUtils.PROJECTNAME3);
 
-		while (solo.scrollUp()) {
-			;
-		}
-
+		solo.scrollToTop();
 		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2, true);
 		solo.clickOnText(actionRenameText);
 		solo.sleep(200);
