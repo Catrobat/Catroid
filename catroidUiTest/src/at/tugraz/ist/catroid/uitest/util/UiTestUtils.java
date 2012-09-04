@@ -835,18 +835,12 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void cropImage(String pathToImageFile, int sampleSize) {
+	public static void cropImage(String pathToImageFile, int sampleSize) throws FileNotFoundException {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = sampleSize;
 		Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImageFile, options);
-
 		File imageFile = new File(pathToImageFile);
-
-		try {
-			StorageHandler.saveBitmapToImageFile(imageFile, imageBitmap);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		StorageHandler.saveBitmapToImageFile(imageFile, imageBitmap);
 	}
 
 }
