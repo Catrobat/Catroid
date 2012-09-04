@@ -42,7 +42,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class SoundRecorderActivity extends SherlockFragmentActivity implements OnClickListener {
-	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
 
 	private SoundRecorder soundRecorder;
 	private ImageView recordButton;
@@ -72,6 +71,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		Utils.checkForSdCard(this);
 	}
 
+	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.recordLayout) {
 			if (soundRecorder != null && soundRecorder.isRecording()) {
@@ -105,7 +105,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 			soundRecorder.start();
 			setViewsToRecordingState();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Error recording sound.", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -124,10 +124,9 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		try {
 			soundRecorder.stop();
 			Uri uri = soundRecorder.getPath();
-			Log.i(TAG, "uri from record file:" + uri);
 			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("CATROID", "Error recording sound.", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 			setResult(Activity.RESULT_CANCELED);
 		}
