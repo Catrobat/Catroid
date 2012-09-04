@@ -27,13 +27,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface.OnKeyListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -82,22 +80,6 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 					public void onClick(DialogInterface dialog, int which) {
 					}
 				}).create();
-
-		dialog.setOnKeyListener(new OnKeyListener() {
-			@Override
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					boolean okButtonResult = handleOkButton();
-					onOkButtonHandled();
-					if (okButtonResult) {
-						dismiss();
-					}
-					return okButtonResult;
-				}
-
-				return false;
-			}
-		});
 
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.setOnShowListener(new OnShowListener() {
