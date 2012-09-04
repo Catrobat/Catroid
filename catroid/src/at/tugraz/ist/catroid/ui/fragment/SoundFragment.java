@@ -70,13 +70,13 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
 
 	private class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
-		private ProgressDialog mDialog = new ProgressDialog(getActivity());
+		private ProgressDialog progressDialog = new ProgressDialog(getActivity());
 
 		@Override
 		protected void onPreExecute() {
-			mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			mDialog.setTitle(getString(R.string.loading));
-			mDialog.show();
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setTitle(getString(R.string.loading));
+			progressDialog.show();
 		}
 
 		@Override
@@ -92,7 +92,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 		@Override
 		protected void onPostExecute(File file) {
-			mDialog.dismiss();
+			progressDialog.dismiss();
 
 			if (file != null) {
 				String fileName = file.getName();
