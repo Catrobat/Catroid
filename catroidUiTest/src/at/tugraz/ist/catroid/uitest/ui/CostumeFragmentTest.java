@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -570,6 +572,57 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(5).getCostumeName());
 		assertTrue("Checksum not in checksumcontainer",
 				projectManager.getFileChecksumContainer().containsChecksum(checksumImageFile));
+	}
+
+	public void testResolutionWhenEditedAndCroppedWithPaintroid() {
+		goToCostumesTab();
+
+		CostumeData costumeData = costumeDataList.get(0);
+		getCostumeFragment().setSelectedCostumeData(costumeData);
+
+		String pathToImageFile = imageFile.getAbsolutePath();
+		int[] fileResolutionBeforeCrop = costumeData.getResolution();
+		int[] displayedResolutionBeforeCrop = getDisplayedResolution(costumeData);
+
+		int sampleSize = 2;
+
+		solo.sleep(1000);
+		try {
+			UiTestUtils.cropImage(pathToImageFile, sampleSize);
+		} catch (FileNotFoundException e) {
+			fail("Test failed because file was not found");
+			e.printStackTrace();
+		}
+
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		goToCostumesTab();
+
+		int[] fileResolutionAfterCrop = costumeData.getResolution();
+		int[] displayedResolutionAfterCrop = getDisplayedResolution(costumeData);
+
+		assertTrue("Bitmap resolution in file was not cropped",
+				fileResolutionAfterCrop[0] < fileResolutionBeforeCrop[0]
+						&& fileResolutionAfterCrop[1] < fileResolutionBeforeCrop[1]);
+		assertTrue("Image resolution was not updated in costume fragment",
+				displayedResolutionAfterCrop[0] < displayedResolutionBeforeCrop[0]
+						&& fileResolutionAfterCrop[1] < displayedResolutionBeforeCrop[1]);
+	}
+
+	private int[] getDisplayedResolution(CostumeData costume) {
+		TextView resolutionTextView = (TextView) solo.getView(R.id.costume_res);
+		String resolutionString = resolutionTextView.getText().toString();
+		//resolution string has form "width x height"
+		int dividingPosition = resolutionString.indexOf(' ');
+		String widthString = resolutionString.substring(0, dividingPosition);
+		String heightString = resolutionString.substring(dividingPosition + 3, resolutionString.length());
+		int width = Integer.parseInt(widthString);
+		int heigth = Integer.parseInt(heightString);
+
+		int[] resolution = new int[2];
+		resolution[0] = width;
+		resolution[1] = heigth;
+		return resolution;
 	}
 
 	private void renameCostume(String currentCostumeName, String newCostumeName) {
