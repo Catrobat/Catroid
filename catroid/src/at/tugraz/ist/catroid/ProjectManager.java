@@ -90,7 +90,7 @@ public class ProjectManager {
 				&& project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
 			project = oldProject;
 			if (errorMessage && errorListener != null) {
-				errorListener.showErrorDialog(context.getString(R.string.error_load_project));
+				errorListener.showErrorDialog(context.getString(R.string.error_project_compatability));
 				// TODO show dialog to download latest catroid version instead
 			}
 			return false;
