@@ -30,13 +30,15 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ProjectActivity extends SherlockFragmentActivity {
+public class ProjectActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
 
 	private ActionBar actionBar;
 
@@ -96,7 +98,7 @@ public class ProjectActivity extends SherlockFragmentActivity {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePos = projectManager.getCurrentSpritePosition();
 			int currentScriptPos = projectManager.getCurrentScriptPosition();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		}
@@ -111,5 +113,10 @@ public class ProjectActivity extends SherlockFragmentActivity {
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	@Override
+	public void showErrorDialog(String errorMessage) {
+		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 }

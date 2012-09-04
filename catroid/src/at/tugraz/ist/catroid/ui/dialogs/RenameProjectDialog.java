@@ -89,9 +89,9 @@ public class RenameProjectDialog extends TextDialog {
 				isCurrentProject = true;
 				Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, newProjectName);
 			} else {
-				projectManager.loadProject(oldProjectName, getActivity(), false);
+				projectManager.loadProject(oldProjectName, getActivity(), null, false);
 				projectManager.renameProject(newProjectName, getActivity());
-				projectManager.loadProject(currentProjectName, getActivity(), false);
+				projectManager.loadProject(currentProjectName, getActivity(), null, false);
 			}
 
 			if (onProjectRenameListener != null) {

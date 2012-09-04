@@ -326,7 +326,7 @@ public class Utils {
 			String projectName = prefs.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
 			if (projectName != null) {
-				ProjectManager.getInstance().loadProject(projectName, context, false);
+				ProjectManager.getInstance().loadProject(projectName, context, null, false);
 			} else {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}

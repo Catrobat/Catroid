@@ -53,6 +53,7 @@ import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import at.tugraz.ist.catroid.ui.dialogs.SetDescriptionDialog;
 import at.tugraz.ist.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -140,7 +141,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (!ProjectManager.getInstance().loadProject((adapter.getItem(position)).projectName, getActivity(),
-						true)) {
+						(ErrorListenerInterface) getActivity(), true)) {
 					return; // error message already in ProjectManager
 							// loadProject
 				}
@@ -226,7 +227,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		if (projectList.size() == 0) {
 			projectManager.initializeDefaultProject(getActivity());
 		} else {
-			projectManager.loadProject((projectList.get(0)).projectName, getActivity(), false);
+			projectManager.loadProject((projectList.get(0)).projectName, getActivity(), null, false);
 			projectManager.saveProject();
 		}
 

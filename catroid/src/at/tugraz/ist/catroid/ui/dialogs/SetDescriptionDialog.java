@@ -59,9 +59,9 @@ public class SetDescriptionDialog extends TextDialog {
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
 			input.setText(projectManager.getCurrentProject().description);
 		} else {
-			projectManager.loadProject(projectToChangeName, getActivity(), false); //TODO: check something
+			projectManager.loadProject(projectToChangeName, getActivity(), null, false); //TODO: check something
 			input.setText(projectManager.getCurrentProject().description);
-			projectManager.loadProject(currentProjectName, getActivity(), false);
+			projectManager.loadProject(currentProjectName, getActivity(), null, false);
 		}
 	}
 
@@ -78,9 +78,9 @@ public class SetDescriptionDialog extends TextDialog {
 			return false;
 		}
 
-		projectManager.loadProject(projectToChangeName, getActivity(), false);
+		projectManager.loadProject(projectToChangeName, getActivity(), null, false);
 		setDescription(description);
-		projectManager.loadProject(currentProjectName, getActivity(), false);
+		projectManager.loadProject(currentProjectName, getActivity(), null, false);
 
 		updateProjectDescriptionListener();
 		return true;

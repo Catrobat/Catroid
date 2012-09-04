@@ -46,7 +46,7 @@ public class NativeAppActivity extends StageActivity {
 
 		context = this;
 
-		manager.loadProject("project.xml", this, false);
+		manager.loadProject("project.xml", this, null, false);
 		manager = ProjectManager.getInstance();
 		super.onCreate(savedInstanceState);
 	}

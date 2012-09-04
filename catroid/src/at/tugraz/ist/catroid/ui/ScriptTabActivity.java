@@ -44,6 +44,7 @@ import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
 import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -51,7 +52,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class ScriptTabActivity extends SherlockFragmentActivity {
+public class ScriptTabActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
 
 	public static final String ACTION_SPRITE_RENAMED = "at.tugraz.ist.catroid.SPRITE_RENAMED";
 	public static final String ACTION_SPRITES_LIST_CHANGED = "at.tugraz.ist.catroid.SPRITES_LIST_CHANGED";
@@ -136,7 +137,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			int currentSpritePos = projectManager.getCurrentSpritePosition();
 			int currentScriptPos = projectManager.getCurrentScriptPosition();
-			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		}
@@ -203,5 +204,15 @@ public class ScriptTabActivity extends SherlockFragmentActivity {
 
 	public Fragment getCurrentTabFragment() {
 		return getTabFragment(tabHost.getCurrentTab());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see at.tugraz.ist.catroid.utils.ErrorListenerInterface#showErrorDialog(java.lang.String)
+	 */
+	@Override
+	public void showErrorDialog(String errorMessage) {
+		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 }
