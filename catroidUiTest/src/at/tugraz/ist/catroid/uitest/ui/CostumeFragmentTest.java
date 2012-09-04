@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -555,11 +556,19 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<Script
 		int[] displayedResolutionBeforeCrop = getDisplayedResolution(costumeData);
 
 		int sampleSize = 2;
-		UiTestUtils.cropImage(pathToImageFile, sampleSize);
+
+		solo.sleep(1000);
+		try {
+			UiTestUtils.cropImage(pathToImageFile, sampleSize);
+		} catch (FileNotFoundException e) {
+			fail("Test failed because file was not found");
+			e.printStackTrace();
+		}
 
 		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		getActivity().startActivity(intent);
+		solo.sleep(1000);
 
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.sleep(1000);
