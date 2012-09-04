@@ -100,7 +100,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		UiTestUtils.createValidUser(getActivity());
 
-		uploadProject();
+		uploadProject(newTestProject, newTestDescription);
 
 		UiTestUtils.clearAllUtilTestProjects();
 
@@ -125,7 +125,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		//Project name and description are renamed to testproject2 and testdescription2 in uploadProject()
 		String projectNameSetWhenUploading = newTestProject;
 		String projectDescriptionSetWhenUploading = newTestDescription;
-		uploadProject();
+		uploadProject(newTestProject, newTestDescription);
 		solo.sleep(5000);
 
 		Project uploadProject = StorageHandler.getInstance().loadProject(newTestProject);
@@ -140,13 +140,54 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 
 		//Download replaces project. Name and description should be testproject2 and testdescription2
-		downloadProjectAndReplace();
+		downloadProjectAndReplace(newTestProject);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(newTestProject);
 
 		String serverProjectName = downloadedProject.getName();
 		String serverProjectDescription = downloadedProject.getDescription();
 		assertTrue("Project name on server was not correctly renamed",
 				serverProjectName.equalsIgnoreCase(projectNameSetWhenUploading));
+		assertTrue("Project name on server was not correctly renamed",
+				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
+	}
+
+	public void testRenameProjectDescriptionWhenUploading() throws Throwable {
+		setServerURLToTestUrl();
+
+		String projectName = testProject;
+		String originalProjectDescription = testDescription;
+		createTestProject(projectName);
+		ProjectManager.INSTANCE.getCurrentProject().setDescription(originalProjectDescription);
+
+		//intent to the main activity is sent since changing activity orientation is not working
+		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
+
+		UiTestUtils.createValidUser(getActivity());
+
+		//Project description is changed to testdescription2 in uploadProject()
+		String projectDescriptionSetWhenUploading = newTestDescription;
+		uploadProject(projectName, newTestDescription);
+		solo.sleep(5000);
+
+		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
+
+		String DeserializedProjectName = uploadProject.getName();
+		String DeserializedProjectDescription = uploadProject.getDescription();
+		assertTrue("Deserialized project name was changed", DeserializedProjectName.equalsIgnoreCase(projectName));
+		assertTrue("Deserialized project description was not renamed correctly",
+				DeserializedProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
+
+		UiTestUtils.clearAllUtilTestProjects();
+
+		//Download replaces project. Name and description should be testproject1 and testdescription2
+		downloadProjectAndReplace(projectName);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
+
+		String serverProjectName = downloadedProject.getName();
+		String serverProjectDescription = downloadedProject.getDescription();
+		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(projectName));
 		assertTrue("Project name on server was not correctly renamed",
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
@@ -173,19 +214,19 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.goToHomeActivity(getActivity());
 	}
 
-	private void uploadProject() {
+	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(500);
 
 		// enter a new title
 		solo.clearEditText(0);
 		solo.clickOnEditText(0);
-		solo.enterText(0, newTestProject);
+		solo.enterText(0, uploadProjectName);
 
 		// enter a description
 		solo.clearEditText(1);
 		solo.clickOnEditText(1);
-		solo.enterText(1, newTestDescription);
+		solo.enterText(1, uploadProjectDescription);
 
 		//		solo.setActivityOrientation(Solo.LANDSCAPE);
 
@@ -210,9 +251,9 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		}
 	}
 
-	private void downloadProjectAndReplace() {
+	private void downloadProjectAndReplace(String projectName) {
 		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROID_EXTENTION;
-		downloadUrl += "?fname=" + newTestProject;
+		downloadUrl += "?fname=" + projectName;
 
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
@@ -221,7 +262,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
+		assertTrue("Testproject not loaded.", solo.searchText(projectName));
 		assertTrue("OverwriteRenameDialog not showed.",
 				solo.searchText(getActivity().getString(R.string.overwrite_text)));
 
@@ -230,7 +271,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
 
-		String projectPath = Constants.DEFAULT_ROOT + "/" + newTestProject;
+		String projectPath = Constants.DEFAULT_ROOT + "/" + projectName;
 		File downloadedDirectory = new File(projectPath);
 		File downloadedProjectFile = new File(projectPath + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue("Original Directory does not exist.", downloadedDirectory.exists());
