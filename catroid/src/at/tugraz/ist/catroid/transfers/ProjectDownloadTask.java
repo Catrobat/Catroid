@@ -119,7 +119,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 			return;
 		}
 		Toast.makeText(activity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
-		if (projectManager.loadProject(projectName, activity, true)) {
+		if (projectManager.loadProject(projectName, activity, activity, true)) {
 			activity.writeProjectTitleInTextfield();
 		}
 	}
@@ -132,6 +132,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		new Builder(activity).setMessage(messageId).setPositiveButton("OK", null).show();
 	}
 
+	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		if (!result) {
 			activity.finish();

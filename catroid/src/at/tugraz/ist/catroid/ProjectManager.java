@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
@@ -57,13 +58,13 @@ public class ProjectManager {
 		return INSTANCE;
 	}
 
-	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
+	public boolean loadProject(String projectName, Context context, ErrorListenerInterface errorListener,
+			boolean errorMessage) {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
 		Project oldProject = project;
 		project = StorageHandler.getInstance().loadProject(projectName);
 
-		FragmentActivity fragmentActivity = (FragmentActivity) context;
 		if (project == null) {
 			if (oldProject != null) {
 				project = oldProject;
@@ -73,26 +74,23 @@ public class ProjectManager {
 					try {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
 					} catch (IOException e) {
-						if (errorMessage) {
-							Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
-									context.getString(R.string.error_load_project));
+						if (errorMessage && errorListener != null) {
+							errorListener.showErrorDialog(context.getString(R.string.error_load_project));
 						}
 						Log.e("CATROID", "Cannot load project.", e);
 						return false;
 					}
 				}
 			}
-			if (errorMessage) {
-				Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
-						context.getString(R.string.error_load_project));
+			if (errorMessage && errorListener != null) {
+				errorListener.showErrorDialog(context.getString(R.string.error_load_project));
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
 			project = oldProject;
-			if (errorMessage) {
-				Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
-						context.getString(R.string.error_project_compatability));
+			if (errorMessage && errorListener != null) {
+				errorListener.showErrorDialog(context.getString(R.string.error_load_project));
 				// TODO show dialog to download latest catroid version instead
 			}
 			return false;

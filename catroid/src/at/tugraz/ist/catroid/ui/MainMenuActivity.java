@@ -44,6 +44,7 @@ import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -52,7 +53,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
+public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
+		ErrorListenerInterface {
 
 	private static final String TAG = "MainMenuActivity";
 	private static final String PROJECTNAME_TAG = "fname=";
@@ -108,7 +110,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				Utils.displayErrorMessageFragment(getSupportFragmentManager(),
 						getResources().getString(R.string.error_load_project));
 			} else {
-				if (projectManager.loadProject(projectName, this, true)) {
+				if (projectManager.loadProject(projectName, this, this, true)) {
 					writeProjectTitleInTextfield();
 				}
 			}
@@ -171,7 +173,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 		ignoreResume = false;
 
-		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
+		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, this, false);
 		writeProjectTitleInTextfield();
 	}
 
@@ -267,5 +269,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
 		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void showErrorDialog(String errorMessage) {
+		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 }
