@@ -34,9 +34,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -45,24 +47,31 @@ import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
+import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class SpritesListFragment extends SherlockListFragment {
+public class SpritesListFragment extends SherlockListFragment implements OnClickListener {
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
 
+	private static final int FOOTER_ADD_SPRITE_ALPHA_VALUE = 35;
+
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
 
+	private View viewBelowSpritelistNonScrollable;
+	private View spritelistFooterView;
+
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
+	private SpritesListInitReceiver spritesListInitReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +92,17 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
 		}
+
+		viewBelowSpritelistNonScrollable = getActivity().findViewById(R.id.view_below_spritelist_non_scrollable);
+		viewBelowSpritelistNonScrollable.setOnClickListener(this);
+
+		View footerView = getActivity().getLayoutInflater().inflate(R.layout.activity_project_spritelist_footer,
+				getListView(), false);
+		spritelistFooterView = footerView.findViewById(R.id.spritelist_footerview);
+		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.spritelist_footerview_add_image);
+		footerAddImage.setAlpha(FOOTER_ADD_SPRITE_ALPHA_VALUE);
+		spritelistFooterView.setOnClickListener(this);
+		getListView().addFooterView(footerView);
 
 		Utils.loadProjectIfNeeded(getActivity());
 	}
@@ -114,11 +134,18 @@ public class SpritesListFragment extends SherlockListFragment {
 			spritesListChangedReceiver = new SpritesListChangedReceiver();
 		}
 
+		if (spritesListInitReceiver == null) {
+			spritesListInitReceiver = new SpritesListInitReceiver();
+		}
+
 		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptTabActivity.ACTION_SPRITE_RENAMED);
 		getActivity().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
 
 		IntentFilter intentFilterSpriteListChanged = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED);
 		getActivity().registerReceiver(spritesListChangedReceiver, intentFilterSpriteListChanged);
+
+		IntentFilter intentFilterSpriteListInit = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_INIT);
+		getActivity().registerReceiver(spritesListInitReceiver, intentFilterSpriteListInit);
 
 		spriteAdapter.notifyDataSetChanged();
 	}
@@ -137,6 +164,25 @@ public class SpritesListFragment extends SherlockListFragment {
 
 		if (spritesListChangedReceiver != null) {
 			getActivity().unregisterReceiver(spritesListChangedReceiver);
+		}
+
+		if (spritesListInitReceiver != null) {
+			getActivity().unregisterReceiver(spritesListInitReceiver);
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		NewSpriteDialog dialog = null;
+		switch (v.getId()) {
+			case R.id.view_below_spritelist_non_scrollable:
+				dialog = new NewSpriteDialog();
+				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				break;
+			case R.id.spritelist_footerview:
+				dialog = new NewSpriteDialog();
+				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				break;
 		}
 	}
 
@@ -238,6 +284,22 @@ public class SpritesListFragment extends SherlockListFragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED)) {
+				spriteAdapter.notifyDataSetChanged();
+				final ListView listView = getListView();
+				listView.post(new Runnable() {
+					@Override
+					public void run() {
+						listView.setSelection(listView.getCount() - 1);
+					}
+				});
+			}
+		}
+	}
+
+	private class SpritesListInitReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_INIT)) {
 				spriteAdapter.notifyDataSetChanged();
 			}
 		}

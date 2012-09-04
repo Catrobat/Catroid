@@ -42,7 +42,9 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -61,16 +63,20 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class SoundFragment extends SherlockListFragment implements OnSoundEditListener,
-		LoaderManager.LoaderCallbacks<Cursor> {
+		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
+	private static final int FOOTER_ADD_SOUND_ALPHA_VALUE = 35;
 	private final int REQUEST_SELECT_MUSIC = 0;
 
 	public MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
 	public SoundInfo selectedSoundInfo;
+
+	private View viewBelowSoundlistNonScrollable;
+	private View soundlistFooterView;
 
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
@@ -95,6 +101,17 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
 
+		viewBelowSoundlistNonScrollable = getActivity().findViewById(R.id.view_below_soundlist_non_scrollable);
+		viewBelowSoundlistNonScrollable.setOnClickListener(this);
+
+		View footerView = getActivity().getLayoutInflater().inflate(R.layout.fragment_sound_soundlist_footer,
+				getListView(), false);
+		soundlistFooterView = footerView.findViewById(R.id.soundlist_footerview);
+		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.soundlist_footerview_add_image);
+		footerAddImage.setAlpha(FOOTER_ADD_SOUND_ALPHA_VALUE);
+		soundlistFooterView.setOnClickListener(this);
+		getListView().addFooterView(footerView);
+
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundEditListener(this);
@@ -118,14 +135,17 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
-						REQUEST_SELECT_MUSIC);
-
+				startSelectSoundIntent();
 				return true;
 			}
 		});
+	}
+
+	private void startSelectSoundIntent() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("audio/*");
+		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+				REQUEST_SELECT_MUSIC);
 	}
 
 	@Override
@@ -152,6 +172,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 		stopSound(null);
 		reloadAdapter();
+		addSoundViewsSetClickableFlag(true);
 	}
 
 	@Override
@@ -237,6 +258,25 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.view_below_soundlist_non_scrollable:
+				addSoundViewsSetClickableFlag(false);
+				startSelectSoundIntent();
+				break;
+			case R.id.soundlist_footerview:
+				addSoundViewsSetClickableFlag(false);
+				startSelectSoundIntent();
+				break;
+		}
+	}
+
+	private void addSoundViewsSetClickableFlag(boolean setClickableFlag) {
+		viewBelowSoundlistNonScrollable.setClickable(setClickableFlag);
+		soundlistFooterView.setClickable(setClickableFlag);
 	}
 
 	private void copySoundToCatroid(String audioPath) {
