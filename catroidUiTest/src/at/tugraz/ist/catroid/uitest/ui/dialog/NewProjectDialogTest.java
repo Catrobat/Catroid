@@ -28,6 +28,7 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -59,12 +60,13 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testNewProjectDialog() {
 		String buttonOkText = solo.getString(R.string.ok);
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
+		solo.clickOnButton(solo.getString(R.string.new_project));
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProject, testingproject);
 		solo.clickOnButton(buttonOkText);
-		solo.sleep(600);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
 				.equals(UiTestUtils.PROJECTNAME1));
 	}
@@ -112,9 +114,16 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
 				| android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
 		solo.sleep(2000);
-
 		assertEquals("New project name field is not a text field", newProjectInputTypeReference, newProjectInputType);
 		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
 				newProjectDescriptionInputType);
+
+		int projectNameNumberOfLines = (newProjectName.getHeight() - newProjectName.getCompoundPaddingTop() - newProjectName
+				.getCompoundPaddingBottom()) / newProjectName.getLineHeight();
+		int projectDescriptionNumberOfLines = (newProjectDescription.getHeight()
+				- newProjectDescription.getCompoundPaddingTop() - newProjectDescription.getCompoundPaddingBottom())
+				/ newProjectDescription.getLineHeight();
+		assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
+		assertEquals("Project description field is not multiline", 2, projectDescriptionNumberOfLines);
 	}
 }

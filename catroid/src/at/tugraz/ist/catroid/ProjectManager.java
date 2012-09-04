@@ -184,7 +184,6 @@ public class ProjectManager {
 				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
 			}
 		} else {
-
 			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 		}
 
@@ -193,7 +192,11 @@ public class ProjectManager {
 			this.saveProject();
 		}
 
-		return (directoryRenamed);
+		if (!directoryRenamed) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_rename_project));
+		}
+
+		return directoryRenamed;
 	}
 
 	public boolean renameProjectNameAndDescription(String newProjectName, String newProjectDescription, Context context) {
@@ -218,7 +221,6 @@ public class ProjectManager {
 				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
 			}
 		} else {
-
 			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 		}
 
@@ -228,7 +230,11 @@ public class ProjectManager {
 			this.saveProject();
 		}
 
-		return (directoryRenamed);
+		if (!directoryRenamed) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_rename_project));
+		}
+
+		return directoryRenamed;
 	}
 
 	public Sprite getCurrentSprite() {

@@ -139,9 +139,6 @@ public class CostumeData implements Serializable {
 	}
 
 	public int[] getResolution() {
-		if (width != null && height != null) {
-			return new int[] { width, height };
-		}
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(getAbsolutePath(), options);

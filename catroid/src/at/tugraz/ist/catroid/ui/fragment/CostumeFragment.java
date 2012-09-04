@@ -47,7 +47,9 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -71,16 +73,23 @@ import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.graphics.Pixmap;
 
 public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener,
-		LoaderManager.LoaderCallbacks<Cursor> {
+		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_COSTUME = "selected_costume";
 	private static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
 	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
+	private static final int FOOTER_ADD_COSTUME_ALPHA_VALUE = 35;
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
 	private CostumeData selectedCostumeData;
+
+	private View viewBelowCostumelistNonScrollable;
+	private View viewCameraNonScrollable;
+	private View viewGalleryNonScrollable;
+	private View costumelistFooterCamera;
+	private View costumelistFooterGallery;
 
 	private Uri costumeFromCameraUri = null;
 
@@ -117,6 +126,26 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			}
 		}
 
+		viewBelowCostumelistNonScrollable = getActivity().findViewById(R.id.view_below_costumelist_non_scrollable);
+		viewCameraNonScrollable = viewBelowCostumelistNonScrollable.findViewById(R.id.view_camera_non_scrollable);
+		viewGalleryNonScrollable = viewBelowCostumelistNonScrollable.findViewById(R.id.view_gallery_non_scrollable);
+		viewCameraNonScrollable.setOnClickListener(this);
+		viewGalleryNonScrollable.setOnClickListener(this);
+
+		View footerView = getActivity().getLayoutInflater().inflate(R.layout.fragment_costume_costumelist_footer,
+				getListView(), false);
+		costumelistFooterCamera = footerView.findViewById(R.id.costumelist_footerview_camera);
+		ImageView footerAddImageCamera = (ImageView) footerView
+				.findViewById(R.id.costumelist_footerview_camera_add_image);
+		footerAddImageCamera.setAlpha(FOOTER_ADD_COSTUME_ALPHA_VALUE);
+		costumelistFooterCamera.setOnClickListener(this);
+		costumelistFooterGallery = footerView.findViewById(R.id.costumelist_footerview_gallery);
+		ImageView footerAddImageGallery = (ImageView) footerView
+				.findViewById(R.id.costumelist_footerview_gallery_add_image);
+		footerAddImageGallery.setAlpha(FOOTER_ADD_COSTUME_ALPHA_VALUE);
+		costumelistFooterGallery.setOnClickListener(this);
+		getListView().addFooterView(footerView);
+
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList);
 		adapter.setOnCostumeEditListener(this);
@@ -152,6 +181,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		getActivity().registerReceiver(costumeRenamedReceiver, intentFilterRenameCostume);
 
 		reloadAdapter();
+		addCostumeViewsSetClickableFlag(true);
 	}
 
 	@Override
@@ -220,7 +250,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		if (resultCode != Activity.RESULT_OK) {
 			return;
 		}
@@ -301,6 +330,36 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.view_camera_non_scrollable:
+				addCostumeViewsSetClickableFlag(false);
+				selectImageFromCamera();
+				break;
+			case R.id.view_gallery_non_scrollable:
+				addCostumeViewsSetClickableFlag(false);
+				selectImageFromGallery();
+				break;
+			case R.id.costumelist_footerview_camera:
+				addCostumeViewsSetClickableFlag(false);
+				selectImageFromCamera();
+				break;
+			case R.id.costumelist_footerview_gallery:
+				addCostumeViewsSetClickableFlag(false);
+				selectImageFromGallery();
+				break;
+		}
+	}
+
+	private void addCostumeViewsSetClickableFlag(boolean setClickableFlag) {
+		viewCameraNonScrollable.setClickable(setClickableFlag);
+		viewGalleryNonScrollable.setClickable(setClickableFlag);
+		costumelistFooterCamera.setClickable(setClickableFlag);
+		costumelistFooterGallery.setClickable(setClickableFlag);
+
+	}
+
 	private void updateCostumeAdapter(String name, String fileName) {
 		name = Utils.getUniqueCostumeName(name);
 		CostumeData costumeData = new CostumeData();
@@ -334,7 +393,8 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		costumeFromCameraUri = UtilCamera.getDefaultCostumeFromCameraUri(getString(R.string.default_costume_name));
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, costumeFromCameraUri);
-		startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+		Intent chooser = Intent.createChooser(intent, getString(R.string.select_costume_from_camera));
+		startActivityForResult(chooser, REQUEST_TAKE_PICTURE);
 	}
 
 	private void selectImageFromGallery() {
@@ -346,7 +406,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 		intent.setType("image/*");
 		intent.putExtras(bundleForPaintroid);
-		Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
+		Intent chooser = Intent.createChooser(intent, getString(R.string.select_costume_from_gallery));
 		startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 	}
 
