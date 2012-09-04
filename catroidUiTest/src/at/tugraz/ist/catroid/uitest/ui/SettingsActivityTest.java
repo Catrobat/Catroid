@@ -72,7 +72,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnText(currentProject);
 		solo.clickOnText(background);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
 		solo.goBack();
@@ -88,7 +88,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(background);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 		// needed to fix NullPointerException in next Testcase
 		solo.finishInactiveActivities();
