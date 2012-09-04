@@ -56,10 +56,10 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testToggleMindstormBricks() {
-		String currentProject = getActivity().getString(R.string.current_project_button);
-		String background = getActivity().getString(R.string.background);
-		String settings = getActivity().getString(R.string.settings);
-		String prefMsBricks = getActivity().getString(R.string.pref_enable_ms_bricks);
+		String currentProject = solo.getString(R.string.current_project_button);
+		String background = solo.getString(R.string.background);
+		String settings = solo.getString(R.string.settings);
+		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences preferances = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -90,7 +90,5 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
-		// needed to fix NullPointerException in next Testcase
-		solo.finishInactiveActivities();
 	}
 }

@@ -33,19 +33,19 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
 	private List<Brick> brickListToCheck;
 
 	public ScriptFragmentTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -53,6 +53,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		super.setUp();
 		brickListToCheck = UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -122,9 +123,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.goBack();
 		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
 				solo.searchText(categoryLegoNXTLabel));
-
-		// needed to fix NullPointerException in next Testcase
-		solo.finishInactiveActivities();
 	}
 
 	public void testSimpleDragNDrop() {
@@ -209,9 +207,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
-
-		// needed to fix NullPointerException in next Testcase
-		solo.finishInactiveActivities();
 	}
 
 	public void testSelectCategoryDialogOnOrientationChange() {
