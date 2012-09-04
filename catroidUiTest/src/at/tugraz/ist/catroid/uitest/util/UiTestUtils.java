@@ -30,6 +30,7 @@ import static junit.framework.Assert.fail;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -840,13 +841,10 @@ public class UiTestUtils {
 		Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImageFile, options);
 
 		File imageFile = new File(pathToImageFile);
-		OutputStream stream = null;
+
 		try {
-			stream = new FileOutputStream(imageFile);
-			imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-			stream.flush();
-			stream.close();
-		} catch (IOException e) {
+			StorageHandler.saveBitmapToImageFile(imageFile, imageBitmap);
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
