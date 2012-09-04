@@ -103,9 +103,9 @@ public class UiTestUtils {
 	private static SparseIntArray brickCategoryMap;
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
-	public static final String PROJECTNAME1 = "testproject1";
-	public static final String PROJECTNAME2 = "testproject2";
-	public static final String PROJECTNAME3 = "testproject3";
+	public static final String PROJECTNAME1 = "testingproject1";
+	public static final String PROJECTNAME2 = "testingproject2";
+	public static final String PROJECTNAME3 = "testingproject3";
 	public static final String PROJECTDESCRIPTION1 = "testdescription1";
 	public static final String PROJECTDESCRIPTION2 = "testdescription2";
 	public static final String PROJECTDESCRIPTION3 = "testdescription3";
