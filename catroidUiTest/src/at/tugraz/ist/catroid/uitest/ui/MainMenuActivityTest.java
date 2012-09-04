@@ -307,7 +307,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		runTestOnUiThread(new Runnable() {
 			public void run() {
-				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(), true);
+				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(),
+						getActivity(), true);
 			}
 		});
 
