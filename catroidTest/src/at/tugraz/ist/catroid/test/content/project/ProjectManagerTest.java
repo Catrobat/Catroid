@@ -130,7 +130,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		createTestProject(oldProjectName);
-		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
+		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext(), null)) {
 			fail("could not rename Project");
 		}
 		projectManager.saveProject();

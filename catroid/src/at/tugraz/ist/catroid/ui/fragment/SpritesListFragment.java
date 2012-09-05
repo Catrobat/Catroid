@@ -46,6 +46,7 @@ import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -84,7 +85,7 @@ public class SpritesListFragment extends SherlockListFragment {
 			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
 		}
 
-		Utils.loadProjectIfNeeded(getActivity());
+		Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
 	}
 
 	@Override

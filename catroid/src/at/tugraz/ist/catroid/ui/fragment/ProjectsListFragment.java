@@ -232,7 +232,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		projectList.remove(projectToEdit);
 		if (projectList.size() == 0) {
-			projectManager.initializeDefaultProject(getActivity());
+			projectManager.initializeDefaultProject(getActivity(), (ErrorListenerInterface) getActivity());
 		} else {
 			projectManager.loadProject((projectList.get(0)).projectName, getActivity(), null, false);
 			projectManager.saveProject();

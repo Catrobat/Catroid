@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
@@ -123,7 +122,7 @@ public class ProjectManager {
 		return StorageHandler.getInstance().saveProject(project);
 	}
 
-	public boolean initializeDefaultProject(Context context) {
+	public boolean initializeDefaultProject(Context context, ErrorListenerInterface errorListener) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
@@ -132,10 +131,8 @@ public class ProjectManager {
 			currentScript = null;
 			return true;
 		} catch (Exception e) {
-			FragmentActivity fragmentActivity = (FragmentActivity) context;
 			Log.e("CATROID", "Cannot initialize default project.", e);
-			Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
-					context.getString(R.string.error_load_project));
+			errorListener.showErrorDialog(context.getString(R.string.error_load_project));
 			return false;
 		}
 	}
@@ -166,11 +163,9 @@ public class ProjectManager {
 		project = null;
 	}
 
-	public boolean renameProject(String newProjectName, Context context) {
+	public boolean renameProject(String newProjectName, Context context, ErrorListenerInterface errorListener) {
 		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			FragmentActivity fragmentActivity = (FragmentActivity) context;
-			Utils.displayErrorMessageFragment(fragmentActivity.getSupportFragmentManager(),
-					context.getString(R.string.error_project_exists));
+			errorListener.showErrorDialog(context.getString(R.string.error_project_exists));
 			return false;
 		}
 

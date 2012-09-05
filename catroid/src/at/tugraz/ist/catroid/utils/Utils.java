@@ -320,7 +320,7 @@ public class Utils {
 		edit.commit();
 	}
 
-	public static void loadProjectIfNeeded(Context context) {
+	public static void loadProjectIfNeeded(Context context, ErrorListenerInterface errorListener) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = prefs.getString(Constants.PREF_PROJECTNAME_KEY, null);
@@ -328,7 +328,7 @@ public class Utils {
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, null, false);
 			} else {
-				ProjectManager.getInstance().initializeDefaultProject(context);
+				ProjectManager.getInstance().initializeDefaultProject(context, errorListener);
 			}
 		}
 	}
