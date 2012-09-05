@@ -33,6 +33,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -184,11 +185,16 @@ public class UploadProjectDialog extends DialogFragment {
 			return;
 		}
 		if (!uploadName.equals(currentProjectName)) {
-			projectRename.setVisibility(View.VISIBLE);
-			boolean renamed = projectManager.renameProjectNameAndDescription(newProjectName, projectDescription,
-					getActivity(), (ErrorListenerInterface) getActivity());
-			if (!renamed) {
-				return;
+			try {
+				projectRename.setVisibility(View.VISIBLE);
+				boolean renamed = projectManager.renameProjectNameAndDescription(newProjectName, projectDescription,
+						getActivity(), (ErrorListenerInterface) getActivity());
+				if (!renamed) {
+					return;
+				}
+			} catch (ClassCastException exception) {
+				Log.e("CATROID", "FragmentActivityfrom getActivity does not implement ErrorListenerInterface",
+						exception);
 			}
 		} else if (uploadName.equals(currentProjectName) && (!projectDescription.equals(currentProjectDescription))) {
 			projectManager.getCurrentProject().setDescription(projectDescription);

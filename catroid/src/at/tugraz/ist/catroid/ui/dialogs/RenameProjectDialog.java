@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.os.Bundle;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -34,14 +35,16 @@ public class RenameProjectDialog extends TextDialog {
 
 	private static final String BUNDLE_ARGUMENTS_OLD_PROJECT_NAME = "old_project_name";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_rename_project";
+	private static ErrorListenerInterface errorListener;
 
 	private OnProjectRenameListener onProjectRenameListener;
 
 	private String oldProjectName;
 
-	public static RenameProjectDialog newInstance(String oldProjectName) {
+	public static RenameProjectDialog newInstance(String oldProjectName, ErrorListenerInterface errorListenerInterface) {
 		RenameProjectDialog dialog = new RenameProjectDialog();
 
+		errorListener = errorListenerInterface;
 		Bundle arguments = new Bundle();
 		arguments.putString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME, oldProjectName);
 		dialog.setArguments(arguments);
@@ -64,8 +67,9 @@ public class RenameProjectDialog extends TextDialog {
 		String newProjectName = (input.getText().toString()).trim();
 
 		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessageFragment(getFragmentManager(),
-					getString(R.string.notification_invalid_text_entered));
+			//Utils.displayErrorMessageFragment(getFragmentManager(),
+			//		getString(R.string.notification_invalid_text_entered));
+			errorListener.showErrorDialog(getString(R.string.notification_invalid_text_entered));
 			return false;
 
 		} else if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)
@@ -85,17 +89,22 @@ public class RenameProjectDialog extends TextDialog {
 
 			// check if is current project
 			boolean isCurrentProject = false;
-			if (oldProjectName.equalsIgnoreCase(currentProjectName)) {
-				projectManager.renameProject(newProjectName, getActivity(), (ErrorListenerInterface) getActivity());
+			try {
+				if (oldProjectName.equalsIgnoreCase(currentProjectName)) {
+					projectManager.renameProject(newProjectName, getActivity(), (ErrorListenerInterface) getActivity());
 
-				isCurrentProject = true;
-				Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, newProjectName);
-			} else {
-				projectManager
-						.loadProject(oldProjectName, getActivity(), (ErrorListenerInterface) getActivity(), false);
-				projectManager.renameProject(newProjectName, getActivity(), (ErrorListenerInterface) getActivity());
-				projectManager.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(),
-						false);
+					isCurrentProject = true;
+					Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, newProjectName);
+				} else {
+					projectManager.loadProject(oldProjectName, getActivity(), (ErrorListenerInterface) getActivity(),
+							false);
+					projectManager.renameProject(newProjectName, getActivity(), (ErrorListenerInterface) getActivity());
+					projectManager.loadProject(currentProjectName, getActivity(),
+							(ErrorListenerInterface) getActivity(), false);
+				}
+			} catch (ClassCastException exception) {
+				Log.e("CATROID", "FragmentActivityfrom getActivity does not implement ErrorListenerInterface",
+						exception);
 			}
 
 			if (onProjectRenameListener != null) {

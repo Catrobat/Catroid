@@ -192,7 +192,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 								// loadProject
 					}
 				} catch (ClassCastException exception) {
-					Log.e("CATROID", "Activity was no FragmentActivity");
+					Log.e("CATROID", "FragmentActivityfrom getActivity does not implement ErrorListenerInterface",
+							exception);
 					return;
 				}
 
@@ -244,27 +245,33 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
 			@Override
 			public void onClick(int menuId) {
-				switch (menuId) {
-					case CONTEXT_MENU_ITEM_RENAME:
-						RenameProjectDialog dialogRenameProject = RenameProjectDialog
-								.newInstance(projectToEdit.projectName);
-						dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
-						dialogRenameProject.show(getFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
-						break;
-					case CONTEXT_MENU_ITEM_DESCRIPTION:
-						SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
-								.newInstance(projectToEdit.projectName);
-						dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-						dialogSetDescription.show(getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
-						break;
-					case CONTEXT_MENU_ITEM_DELETE:
-						deleteProject();
-						break;
-					case CONTEXT_MENU_ITEM_COPY:
-						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
-						dialogCopyProject.setOnCopyProjectListener(ProjectsListFragment.this);
-						dialogCopyProject.show(getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
-						break;
+				try {
+					switch (menuId) {
+						case CONTEXT_MENU_ITEM_RENAME:
+							RenameProjectDialog dialogRenameProject = RenameProjectDialog.newInstance(
+									projectToEdit.projectName, (ErrorListenerInterface) getActivity());
+							dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
+							dialogRenameProject.show(getFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
+							break;
+						case CONTEXT_MENU_ITEM_DESCRIPTION:
+							SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
+									.newInstance(projectToEdit.projectName);
+							dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
+							dialogSetDescription.show(getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+							break;
+						case CONTEXT_MENU_ITEM_DELETE:
+							deleteProject();
+							break;
+						case CONTEXT_MENU_ITEM_COPY:
+							CopyProjectDialog dialogCopyProject = CopyProjectDialog
+									.newInstance(projectToEdit.projectName);
+							dialogCopyProject.setOnCopyProjectListener(ProjectsListFragment.this);
+							dialogCopyProject.show(getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+							break;
+					}
+				} catch (ClassCastException exception) {
+					Log.e("CATROID", "FragmentActivityfrom getActivity does not implement ErrorListenerInterface",
+							exception);
 				}
 			}
 		});
@@ -284,9 +291,14 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		if (projectList.size() == 0) {
 			projectManager.initializeDefaultProject(getActivity(), (ErrorListenerInterface) getActivity());
 		} else {
-			projectManager.loadProject((projectList.get(0)).projectName, getActivity(),
-					(ErrorListenerInterface) getActivity(), false);
-			projectManager.saveProject();
+			try {
+				projectManager.loadProject((projectList.get(0)).projectName, getActivity(),
+						(ErrorListenerInterface) getActivity(), false);
+				projectManager.saveProject();
+			} catch (ClassCastException exception) {
+				Log.e("CATROID", "FragmentActivityfrom getActivity does not implement ErrorListenerInterface",
+						exception);
+			}
 		}
 
 		updateProjectTitle();
