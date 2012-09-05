@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
 
@@ -60,9 +61,11 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			input.setText(projectManager.getCurrentProject().getDescription());
 		} else {
 
-			projectManager.loadProject(projectToChangeName, getActivity(), null, false); //TODO: check something
+			projectManager.loadProject(projectToChangeName, getActivity(), (ErrorListenerInterface) getActivity(),
+					false); //TODO: check something
 			input.setText(projectManager.getCurrentProject().getDescription());
-			projectManager.loadProject(currentProjectName, getActivity(), null, false);
+			projectManager
+					.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(), false);
 
 		}
 	}
@@ -79,9 +82,9 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			return false;
 		}
 
-		projectManager.loadProject(projectToChangeName, getActivity(), null, false);
+		projectManager.loadProject(projectToChangeName, getActivity(), (ErrorListenerInterface) getActivity(), false);
 		setDescription(description);
-		projectManager.loadProject(currentProjectName, getActivity(), null, false);
+		projectManager.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(), false);
 
 		updateProjectDescriptionListener();
 		dismiss();
