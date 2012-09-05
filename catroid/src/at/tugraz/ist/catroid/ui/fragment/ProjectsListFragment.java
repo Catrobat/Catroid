@@ -248,8 +248,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				try {
 					switch (menuId) {
 						case CONTEXT_MENU_ITEM_RENAME:
-							RenameProjectDialog dialogRenameProject = RenameProjectDialog.newInstance(
-									projectToEdit.projectName, (ErrorListenerInterface) getActivity());
+							RenameProjectDialog dialogRenameProject = RenameProjectDialog
+									.newInstance(projectToEdit.projectName);
 							dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
 							dialogRenameProject.show(getFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
 							break;
