@@ -59,7 +59,7 @@ public class NewSpriteDialog extends TextDialog {
 			return false;
 		}
 
-		Sprite sprite = new Sprite(spriteName);
+		Sprite sprite = new Sprite(newSpriteName);
 		projectManager.addSprite(sprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));

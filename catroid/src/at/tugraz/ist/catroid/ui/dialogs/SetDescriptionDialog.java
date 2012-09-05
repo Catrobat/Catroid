@@ -26,7 +26,7 @@ import android.os.Bundle;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 
-public class SetDescriptionDialog extends TextDialog {
+public class SetDescriptionDialog extends MultiLineTextDialog {
 
 	private static final String BUNDLE_ARGUMENTS_OLD_PROJECT_DESCRIPTION = "old_project_description";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_set_description";
@@ -57,11 +57,13 @@ public class SetDescriptionDialog extends TextDialog {
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
-			input.setText(projectManager.getCurrentProject().description);
+			input.setText(projectManager.getCurrentProject().getDescription());
 		} else {
+
 			projectManager.loadProject(projectToChangeName, getActivity(), null, false); //TODO: check something
-			input.setText(projectManager.getCurrentProject().description);
+			input.setText(projectManager.getCurrentProject().getDescription());
 			projectManager.loadProject(currentProjectName, getActivity(), null, false);
+
 		}
 	}
 
@@ -74,7 +76,6 @@ public class SetDescriptionDialog extends TextDialog {
 			setDescription(description);
 			updateProjectDescriptionListener();
 			dismiss();
-
 			return false;
 		}
 
@@ -83,6 +84,7 @@ public class SetDescriptionDialog extends TextDialog {
 		projectManager.loadProject(currentProjectName, getActivity(), null, false);
 
 		updateProjectDescriptionListener();
+		dismiss();
 		return true;
 	}
 
@@ -97,7 +99,7 @@ public class SetDescriptionDialog extends TextDialog {
 	}
 
 	private void setDescription(String description) {
-		projectManager.getCurrentProject().description = description;
+		projectManager.getCurrentProject().setDescription(description);
 		projectManager.saveProject();
 	}
 

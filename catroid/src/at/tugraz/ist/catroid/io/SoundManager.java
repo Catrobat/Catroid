@@ -35,10 +35,10 @@ public class SoundManager {
 	private transient float volume = 70.0f;
 
 	public static final int MAX_MEDIA_PLAYERS = 7;
-	private static SoundManager soundManager = null;
+	private static SoundManager soundManager;
 
 	private SoundManager() {
-		mediaPlayers = new ArrayList<MediaPlayer>();
+		mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
 	}
 
 	public synchronized static SoundManager getInstance() {
@@ -49,11 +49,11 @@ public class SoundManager {
 	}
 
 	public MediaPlayer getMediaPlayer() {
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			if (!mediaPlayer.isPlaying()) {
-				mediaPlayer.reset();
+		for (int i = 0; i < mediaPlayers.size(); i++) {
+			if (!mediaPlayers.get(i).isPlaying()) {
+				mediaPlayers.get(i).reset();
 				setVolume(volume);
-				return mediaPlayer;
+				return mediaPlayers.get(i);
 			}
 		}
 		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
@@ -88,8 +88,8 @@ public class SoundManager {
 	public synchronized void setVolume(float volume) {
 		this.volume = volume;
 		float volumeScalar = volume * 0.01f;
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			mediaPlayer.setVolume(volumeScalar, volumeScalar);
+		for (int i = 0; i < mediaPlayers.size(); i++) {
+			mediaPlayers.get(i).setVolume(volumeScalar, volumeScalar);
 		}
 	}
 
@@ -98,36 +98,35 @@ public class SoundManager {
 	}
 
 	public synchronized void clear() {
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			mediaPlayer.release();
+		for (int i = 0; i < mediaPlayers.size(); i++) {
+			mediaPlayers.get(i).release();
 		}
 		mediaPlayers.clear();
 	}
 
 	public synchronized void pause() {
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			if (mediaPlayer.isPlaying()) {
-				mediaPlayer.pause();
+		for (int i = 0; i < mediaPlayers.size(); i++) {
+			if (mediaPlayers.get(i).isPlaying()) {
+				mediaPlayers.get(i).pause();
 			} else {
-				mediaPlayer.reset();
+				mediaPlayers.get(i).reset();
 			}
 		}
 	}
 
 	public synchronized void resume() {
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			if (!mediaPlayer.isPlaying()) {
-				mediaPlayer.start();
+		for (int i = 0; i < mediaPlayers.size(); i++) {
+			if (!mediaPlayers.get(i).isPlaying()) {
+				mediaPlayers.get(i).start();
 			}
 		}
 	}
 
 	public synchronized void stopAllSounds() {
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			if (mediaPlayer.isPlaying()) {
-				mediaPlayer.stop();
+		for (int i = 0; i < mediaPlayers.size(); i++) {
+			if (mediaPlayers.get(i).isPlaying()) {
+				mediaPlayers.get(i).stop();
 			}
 		}
 	}
-
 }

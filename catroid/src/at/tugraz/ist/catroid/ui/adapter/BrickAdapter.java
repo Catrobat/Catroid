@@ -66,6 +66,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener {
 
+	private static final int FOOTER_ADD_BRICK_ALPHA_VALUE = 35;
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	private Context context;
 	private Sprite sprite;
@@ -672,6 +673,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		ImageView imageView = new ImageView(context);
 		imageView.setImageResource(android.R.drawable.ic_menu_add);
+		imageView.setAlpha(FOOTER_ADD_BRICK_ALPHA_VALUE);
 
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.MATCH_PARENT);

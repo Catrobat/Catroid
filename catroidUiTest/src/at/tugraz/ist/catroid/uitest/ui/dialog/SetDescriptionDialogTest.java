@@ -22,31 +22,24 @@
  */
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.IOException;
-
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.MyProjectsActivity;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
-import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
-	private String testingproject = UiTestUtils.PROJECTNAME1;
-	private String testingsprite = "testingsprite";
+	private String testProject = UiTestUtils.PROJECTNAME1;
 
-	public NewSpriteDialogTest() {
+	public SetDescriptionDialogTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -66,47 +59,25 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		super.tearDown();
 	}
 
-	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
-		createTestProject(testingproject);
+	public void testMultiLineProjectDescription() {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+		Project uploadProject = new Project(getActivity(), testProject);
+		storageHandler.saveProject(uploadProject);
+
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickLongOnText(testProject);
+		solo.clickInList(2);
+		EditText description = (EditText) solo.getView(R.id.dialog_text_EditMultiLineText);
+		solo.sleep(2000);
+		int descriptionInputType = description.getInputType();
+		int typeToCheck = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE | android.text.InputType.TYPE_CLASS_TEXT
+				| android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		assertEquals("Description field is not multiline!", descriptionInputType, typeToCheck);
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
-		solo.waitForView(EditText.class);
-		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-		solo.clickOnText(testingsprite);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
-	}
-
-	public void testAddSpriteDialogNoName() {
-		createTestProject(testingproject);
-		solo.clickOnButton(solo.getString(R.string.my_projects));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.clickOnTextInList(solo, testingproject);
-		solo.sleep(500);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-		solo.waitForView(EditText.class);
-		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, " ");
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
-		String errorMessageInvalidInput = solo.getString(R.string.spritename_invalid);
-		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
-		solo.clickOnButton(solo.getString(R.string.close));
-	}
-
-	public void createTestProject(String projectName) {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-		Project project = new Project(getActivity(), projectName);
-		Sprite firstSprite = new Sprite("cat");
-		project.addSprite(firstSprite);
-		storageHandler.saveProject(project);
+		int projectDescriptionNumberOfLines = (description.getHeight() - description.getCompoundPaddingTop() - description
+				.getCompoundPaddingBottom()) / description.getLineHeight();
+		assertEquals("Project description field is not multiline", 3, projectDescriptionNumberOfLines);
 	}
 }

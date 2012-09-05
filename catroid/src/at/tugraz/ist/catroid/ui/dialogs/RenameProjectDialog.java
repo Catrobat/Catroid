@@ -67,6 +67,7 @@ public class RenameProjectDialog extends TextDialog {
 			Utils.displayErrorMessageFragment(getFragmentManager(),
 					getString(R.string.notification_invalid_text_entered));
 			return false;
+
 		} else if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)
 				&& !newProjectName.equalsIgnoreCase(oldProjectName)) {
 			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_project_exists));
