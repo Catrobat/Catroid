@@ -284,7 +284,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		if (projectList.size() == 0) {
 			projectManager.initializeDefaultProject(getActivity(), (ErrorListenerInterface) getActivity());
 		} else {
-			projectManager.loadProject((projectList.get(0)).projectName, getActivity(), null, false);
+			projectManager.loadProject((projectList.get(0)).projectName, getActivity(),
+					(ErrorListenerInterface) getActivity(), false);
 			projectManager.saveProject();
 		}
 
