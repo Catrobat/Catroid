@@ -27,6 +27,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameProjectDialog extends TextDialog {
@@ -84,13 +85,13 @@ public class RenameProjectDialog extends TextDialog {
 			// check if is current project
 			boolean isCurrentProject = false;
 			if (oldProjectName.equalsIgnoreCase(currentProjectName)) {
-				projectManager.renameProject(newProjectName, getActivity());
+				projectManager.renameProject(newProjectName, getActivity(), (ErrorListenerInterface) getActivity());
 
 				isCurrentProject = true;
 				Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, newProjectName);
 			} else {
 				projectManager.loadProject(oldProjectName, getActivity(), null, false);
-				projectManager.renameProject(newProjectName, getActivity());
+				projectManager.renameProject(newProjectName, getActivity(), (ErrorListenerInterface) getActivity());
 				projectManager.loadProject(currentProjectName, getActivity(), null, false);
 			}
 

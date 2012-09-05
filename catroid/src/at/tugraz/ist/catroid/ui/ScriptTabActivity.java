@@ -78,7 +78,7 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements Error
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_scripttab);
-		Utils.loadProjectIfNeeded(this);
+		Utils.loadProjectIfNeeded(this, this);
 
 		setUpActionBar();
 

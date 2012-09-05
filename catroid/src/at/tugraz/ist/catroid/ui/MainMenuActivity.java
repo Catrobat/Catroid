@@ -76,7 +76,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		actionBar.setDisplayUseLogoEnabled(true);
 
 		projectManager = ProjectManager.getInstance();
-		Utils.loadProjectIfNeeded(this);
+		Utils.loadProjectIfNeeded(this, this);
 
 		if (projectManager.getCurrentProject() == null) {
 			findViewById(R.id.current_project_button).setEnabled(false);

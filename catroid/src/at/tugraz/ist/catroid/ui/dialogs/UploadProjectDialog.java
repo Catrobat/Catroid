@@ -48,6 +48,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -179,7 +180,8 @@ public class UploadProjectDialog extends DialogFragment {
 			return;
 		} else if (!uploadName.equals(currentProjectName)) {
 			projectRename.setVisibility(View.VISIBLE);
-			boolean renamed = projectManager.renameProject(newProjectName, getActivity());
+			boolean renamed = projectManager.renameProject(newProjectName, getActivity(),
+					(ErrorListenerInterface) getActivity());
 			if (!renamed) {
 				return;
 			}
