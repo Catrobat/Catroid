@@ -22,16 +22,13 @@
  */
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -62,25 +59,23 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testNewProjectDialog() {
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
-		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, nameEditTextId, testingproject);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
+		String buttonOkText = solo.getString(R.string.ok);
+		solo.clickOnButton(solo.getString(R.string.new_project));
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
+		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
+		solo.enterText(newProject, testingproject);
+		solo.clickOnButton(buttonOkText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
 				.equals(UiTestUtils.PROJECTNAME1));
 	}
 
 	public void testPositiveButtonDisabledOnCreate() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.sleep(1000);
+		solo.sleep(500);
 
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		NewProjectDialog dialogFragment = (NewProjectDialog) fragmentManager.findFragmentByTag("dialog_new_project");
-		AlertDialog dialog = (AlertDialog) dialogFragment.getDialog();
-
-		Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
 	}
 
@@ -88,12 +83,8 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.sleep(1000);
 
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		NewProjectDialog dialogFragment = (NewProjectDialog) fragmentManager.findFragmentByTag("dialog_new_project");
-		AlertDialog dialog = (AlertDialog) dialogFragment.getDialog();
-
-		Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-		EditText editText = (EditText) solo.getView(R.id.dialog_text_EditText);
+		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
+		EditText editText = (EditText) solo.getView(R.id.project_name_edittext);
 
 		assertTrue("EditText was not empty", editText.getText().length() == 0);
 
@@ -108,5 +99,31 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 		assertEquals("EditText was not empty", "", editText.getText().toString());
 		assertFalse("New project ok button not disabled!", okButton.isEnabled());
+	}
+
+	public void testProjectDescriptionNewProject() {
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.sleep(2000);
+
+		EditText newProjectName = (EditText) solo.getView(R.id.project_name_edittext);
+		EditText newProjectDescription = (EditText) solo.getView(R.id.project_description_edittext);
+		int newProjectInputType = newProjectName.getInputType();
+		int newProjectDescriptionInputType = newProjectDescription.getInputType();
+		int newProjectInputTypeReference = android.text.InputType.TYPE_CLASS_TEXT
+				| android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		int newProjectDescriptionInputTypeReference = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+				| android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
+		solo.sleep(2000);
+		assertEquals("New project name field is not a text field", newProjectInputTypeReference, newProjectInputType);
+		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
+				newProjectDescriptionInputType);
+
+		int projectNameNumberOfLines = (newProjectName.getHeight() - newProjectName.getCompoundPaddingTop() - newProjectName
+				.getCompoundPaddingBottom()) / newProjectName.getLineHeight();
+		int projectDescriptionNumberOfLines = (newProjectDescription.getHeight()
+				- newProjectDescription.getCompoundPaddingTop() - newProjectDescription.getCompoundPaddingBottom())
+				/ newProjectDescription.getLineHeight();
+		assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
+		assertEquals("Project description field is not multiline", 2, projectDescriptionNumberOfLines);
 	}
 }

@@ -108,7 +108,7 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED));
+			sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_INIT));
 		}
 	}
 

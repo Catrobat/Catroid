@@ -27,7 +27,7 @@
 
     <!-- Language independent -->
     <string name="percent">%</string>
-    <string name="catroid_extension_pathPattern">.*\\.catroid</string>
+    <string name="catroid_extension_pathPattern">.*\\.catrobat</string>
 
     <!-- Lego Mindstorms -->
     <string name="minus_symbol">-</string>

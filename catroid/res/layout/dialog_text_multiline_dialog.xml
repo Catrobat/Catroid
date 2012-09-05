@@ -21,23 +21,27 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/website_blue">
-
-	<!-- Sound list -->
-	<ListView
-		android:id="@android:id/list"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:cacheColorHint="#00000000"/>
-	
-	<View
-        android:id="@+id/view_below_soundlist_non_scrollable"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@android:id/list"
-        android:clickable="true" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        >
+
+        <EditText
+            android:id="@+id/dialog_text_EditMultiLineText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="3"
+            android:gravity="left"
+            android:inputType="textMultiLine"
+            android:maxLines="10"
+            android:singleLine="false" 
+            android:selectAllOnFocus="true" 
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:hint="@string/new_project_description_dialog_hint">
+        </EditText>
+</LinearLayout>
+
+

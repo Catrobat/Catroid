@@ -25,9 +25,11 @@ package at.tugraz.ist.catroid.utils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +145,7 @@ public class UtilFile {
 		File[] sdFileList = directory.listFiles();
 		for (File file : sdFileList) {
 			FilenameFilter filenameFilter = new FilenameFilter() {
+				@Override
 				public boolean accept(File dir, String filename) {
 					return filename.contentEquals(Constants.PROJECTCODE_NAME);
 				}
@@ -158,6 +161,7 @@ public class UtilFile {
 		List<File> projectList = new ArrayList<File>();
 		File[] sdFileList = directory.listFiles();
 		FilenameFilter filenameFilter = new FilenameFilter() {
+			@Override
 			public boolean accept(File dir, String filename) {
 				return filename.contentEquals(Constants.PROJECTCODE_NAME);
 			}
@@ -168,6 +172,36 @@ public class UtilFile {
 			}
 		}
 		return projectList;
+	}
+
+	public static File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
+		FileInputStream inputStream = null;
+		FileChannel inputChannel = null;
+		FileOutputStream outputStream = null;
+		FileChannel outputChannel = null;
+		try {
+			inputStream = new FileInputStream(sourceFile);
+			inputChannel = inputStream.getChannel();
+			outputStream = new FileOutputStream(destinationFile);
+			outputChannel = outputStream.getChannel();
+			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
+			return destinationFile;
+		} catch (IOException exception) {
+			throw exception;
+		} finally {
+			if (inputChannel != null) {
+				inputChannel.close();
+			}
+			if (inputStream != null) {
+				inputStream.close();
+			}
+			if (outputChannel != null) {
+				outputChannel.close();
+			}
+			if (outputStream != null) {
+				outputStream.close();
+			}
+		}
 	}
 
 }

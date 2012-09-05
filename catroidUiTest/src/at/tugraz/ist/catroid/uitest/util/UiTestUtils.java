@@ -30,6 +30,7 @@ import static junit.framework.Assert.fail;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +47,8 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -103,7 +106,11 @@ public class UiTestUtils {
 	public static final String PROJECTNAME1 = "testproject1";
 	public static final String PROJECTNAME2 = "testproject2";
 	public static final String PROJECTNAME3 = "testproject3";
+	public static final String PROJECTDESCRIPTION1 = "testdescription1";
+	public static final String PROJECTDESCRIPTION2 = "testdescription2";
+	public static final String PROJECTDESCRIPTION3 = "testdescription3";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
+	public static final String COPIED_PROJECT_NAME = "copiedProject";
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
@@ -435,6 +442,16 @@ public class UiTestUtils {
 		}
 
 		directory = new File(Constants.DEFAULT_ROOT + "/" + "Mein erstes Projekt");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + COPIED_PROJECT_NAME);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
@@ -788,6 +805,18 @@ public class UiTestUtils {
 		return false;
 	}
 
+	public static boolean longClickOnTextInList(Solo solo, String text) {
+		ArrayList<TextView> textViews = solo.getCurrentTextViews(solo.getView(android.R.id.list));
+		for (int i = 0; i < textViews.size(); i++) {
+			TextView view = textViews.get(i);
+			if (view.getText().toString().equalsIgnoreCase(text)) {
+				solo.clickLongOnView(view);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Returns to the main screen.
 	 * This method should be called in tearDown() in tests which use Robotium.
@@ -805,4 +834,13 @@ public class UiTestUtils {
 			}
 		}
 	}
+
+	public static void cropImage(String pathToImageFile, int sampleSize) throws FileNotFoundException {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = sampleSize;
+		Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImageFile, options);
+		File imageFile = new File(pathToImageFile);
+		StorageHandler.saveBitmapToImageFile(imageFile, imageBitmap);
+	}
+
 }
