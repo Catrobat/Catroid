@@ -98,6 +98,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
@@ -144,6 +145,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
@@ -271,6 +273,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
@@ -316,6 +319,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		storageHandler.saveProject(project);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
