@@ -193,7 +193,7 @@ public class UploadProjectDialog extends DialogFragment {
 					return;
 				}
 			} catch (ClassCastException exception) {
-				Log.e("CATROID", "FragmentActivityfrom getActivity does not implement ErrorListenerInterface",
+				Log.e("CATROID", "FragmentActivity from getActivity does not implement ErrorListenerInterface",
 						exception);
 			}
 		} else if (uploadName.equals(currentProjectName) && (!projectDescription.equals(currentProjectDescription))) {
