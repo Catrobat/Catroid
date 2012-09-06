@@ -32,6 +32,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -105,7 +106,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		spritelistFooterView.setOnClickListener(this);
 		getListView().addFooterView(footerView);
 
-		Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
+		try {
+			Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
+		} catch (ClassCastException exception) {
+			Log.e("CATROID", "FragmentActivity from getActivity does not implement ErrorListenerInterface", exception);
+		}
 	}
 
 	@Override

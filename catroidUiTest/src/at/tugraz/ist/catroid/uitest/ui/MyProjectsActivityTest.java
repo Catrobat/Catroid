@@ -248,6 +248,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("No error message was shown", solo.searchText(getActivity().getString(R.string.error_load_project)));
+
 		solo.clickOnButton(0);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));

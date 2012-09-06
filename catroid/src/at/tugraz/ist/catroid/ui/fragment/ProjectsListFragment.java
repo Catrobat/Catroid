@@ -192,7 +192,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 								// loadProject
 					}
 				} catch (ClassCastException exception) {
-					Log.e("CATROID", "FragmentActivityfrom getActivity does not implement ErrorListenerInterface",
+					Log.e("CATROID", "FragmentActivity from getActivity does not implement ErrorListenerInterface",
 							exception);
 					return;
 				}
@@ -296,7 +296,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 						(ErrorListenerInterface) getActivity(), false);
 				projectManager.saveProject();
 			} catch (ClassCastException exception) {
-				Log.e("CATROID", "FragmentActivityfrom getActivity does not implement ErrorListenerInterface",
+				Log.e("CATROID", "FragmentActivity from getActivity does not implement ErrorListenerInterface",
 						exception);
 			}
 		}
