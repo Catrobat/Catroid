@@ -248,8 +248,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleAboutCatroidButton(View v) {
-		AboutDialog aboutDialog = new AboutDialog(this);
-		aboutDialog.show();
+		AboutDialog aboutDialog = new AboutDialog();
+		aboutDialog.show(getSupportFragmentManager(), AboutDialog.DIALOG_FRAGMENT_TAG);
+		//aboutDialog.show();
 	}
 
 	@Override
