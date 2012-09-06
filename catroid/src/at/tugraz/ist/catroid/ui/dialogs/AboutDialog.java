@@ -26,14 +26,14 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.Utils;
+
+import com.actionbarsherlock.view.Window;
 
 public class AboutDialog extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_catroid";
@@ -67,22 +67,22 @@ public class AboutDialog extends DialogFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_about, container);
 
 		getDialog().requestWindowFeature(Window.FEATURE_LEFT_ICON);
-		getDialog().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
 		getDialog().setTitle(R.string.about_title);
 		getDialog().setCanceledOnTouchOutside(true);
+		View rootView = inflater.inflate(R.layout.dialog_about, container);
 
-		TextView aboutURLTextView = (TextView) rootView.findViewById(R.id.dialog_about_url_text_view);
-		aboutURLTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		getDialog().show();
+		getDialog().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
 
-		Resources resources = getActivity().getResources();
-		String aboutURL = String.format(resources.getString(R.string.about_link_template),
+		TextView aboutUrlTextView = (TextView) rootView.findViewById(R.id.dialog_about_url_text_view);
+		Resources resources = getResources();
+		String aboutUrl = String.format(resources.getString(R.string.about_link_template),
 				resources.getString(R.string.about_catroid_license_url),
 				resources.getString(R.string.about_catroid_license_link_text));
 
-		aboutURLTextView.setText(Html.fromHtml(aboutURL));
+		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 
 		TextView aboutVersionNameTextView = (TextView) rootView.findViewById(R.id.dialog_about_version_name_text_view);
 		String versionName = Utils.getVersionName(getActivity());
