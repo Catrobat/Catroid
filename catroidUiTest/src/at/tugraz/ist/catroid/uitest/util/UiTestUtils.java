@@ -616,9 +616,11 @@ public class UiTestUtils {
 
 	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth,
 			boolean assertMode) {
-		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
-		solo.waitForText(buttonOKText);
-		solo.clickOnText(buttonOKText);
+		//		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
+		//		solo.waitForText(buttonOKText);
+		//		solo.clickOnText(buttonOKText);
+		solo.sleep(200);
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(400);
 		int width = 0;
 		if (assertMode) {
