@@ -22,48 +22,72 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class AboutDialog extends Dialog {
+public class AboutDialog extends DialogFragment {
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_catroid";
 
-	private Context context;
-
-	public AboutDialog(Context context) {
-		super(context);
-		this.context = context;
-	}
+	/*
+	 * @Override
+	 * public void onCreate(Bundle savedInstanceState) {
+	 * super.onCreate(savedInstanceState);
+	 * requestWindowFeature(Window.FEATURE_LEFT_ICON);
+	 * setContentView(R.layout.dialog_about);
+	 * setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
+	 * 
+	 * setTitle(R.string.about_title);
+	 * setCanceledOnTouchOutside(true);
+	 * 
+	 * TextView aboutUrlTextView = (TextView) findViewById(R.id.dialog_about_url_text_view);
+	 * aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+	 * 
+	 * Resources resources = context.getResources();
+	 * String aboutUrl = String.format(resources.getString(R.string.about_link_template),
+	 * resources.getString(R.string.about_catroid_license_url),
+	 * resources.getString(R.string.about_catroid_license_link_text));
+	 * 
+	 * aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
+	 * 
+	 * TextView aboutVersionNameTextView = (TextView) findViewById(R.id.dialog_about_version_name_text_view);
+	 * String versionName = Utils.getVersionName(context);
+	 * aboutVersionNameTextView.setText(versionName);
+	 * }
+	 */
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_LEFT_ICON);
-		setContentView(R.layout.dialog_about);
-		setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.dialog_about, container);
 
-		setTitle(R.string.about_title);
-		setCanceledOnTouchOutside(true);
+		getDialog().requestWindowFeature(Window.FEATURE_LEFT_ICON);
+		getDialog().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
+		getDialog().setTitle(R.string.about_title);
+		getDialog().setCanceledOnTouchOutside(true);
 
-		TextView aboutUrlTextView = (TextView) findViewById(R.id.dialog_about_url_text_view);
-		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		TextView aboutURLTextView = (TextView) rootView.findViewById(R.id.dialog_about_url_text_view);
+		aboutURLTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		Resources resources = context.getResources();
-		String aboutUrl = String.format(resources.getString(R.string.about_link_template),
+		Resources resources = getActivity().getResources();
+		String aboutURL = String.format(resources.getString(R.string.about_link_template),
 				resources.getString(R.string.about_catroid_license_url),
 				resources.getString(R.string.about_catroid_license_link_text));
 
-		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
+		aboutURLTextView.setText(Html.fromHtml(aboutURL));
 
-		TextView aboutVersionNameTextView = (TextView) findViewById(R.id.dialog_about_version_name_text_view);
-		String versionName = Utils.getVersionName(context);
+		TextView aboutVersionNameTextView = (TextView) rootView.findViewById(R.id.dialog_about_version_name_text_view);
+		String versionName = Utils.getVersionName(getActivity());
 		aboutVersionNameTextView.setText(versionName);
+
+		return rootView;
 	}
 }
