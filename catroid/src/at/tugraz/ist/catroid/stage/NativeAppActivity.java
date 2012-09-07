@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 
 public class NativeAppActivity extends StageActivity {
 	private static Context context = null;
@@ -75,8 +76,8 @@ public class NativeAppActivity extends StageActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.nativeappMenuAbout) {
-			//AboutDialog aboutDialog = new AboutDialog(this);
-			//aboutDialog.show();
+			AboutDialog aboutDialog = new AboutDialog(this);
+			aboutDialog.show();
 		}
 		return true;
 	}
