@@ -30,6 +30,7 @@ import static junit.framework.Assert.fail;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +47,8 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -831,4 +834,13 @@ public class UiTestUtils {
 			}
 		}
 	}
+
+	public static void cropImage(String pathToImageFile, int sampleSize) throws FileNotFoundException {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = sampleSize;
+		Bitmap imageBitmap = BitmapFactory.decodeFile(pathToImageFile, options);
+		File imageFile = new File(pathToImageFile);
+		StorageHandler.saveBitmapToImageFile(imageFile, imageBitmap);
+	}
+
 }

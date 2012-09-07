@@ -36,9 +36,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -51,6 +53,7 @@ import at.tugraz.ist.catroid.ui.adapter.ProjectAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CopyProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
+import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import at.tugraz.ist.catroid.ui.dialogs.SetDescriptionDialog;
@@ -61,7 +64,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnClickListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 
@@ -69,9 +72,13 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 
+	private View viewBelowMyProjectlistNonScrollable;
+	private View myprojectlistFooterView;
+
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
+	private static final int FOOTER_ADD_PROJECT_ALPHA_VALUE = 35;
 	private static final int CONTEXT_MENU_ITEM_COPY = 3;
 
 	@Override
@@ -83,6 +90,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_projects_list, null);
+
 		return rootView;
 	}
 
@@ -93,6 +101,17 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		if (savedInstanceState != null) {
 			projectToEdit = (ProjectData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA);
 		}
+
+		viewBelowMyProjectlistNonScrollable = getActivity().findViewById(R.id.view_below_myprojectlist_non_scrollable);
+		viewBelowMyProjectlistNonScrollable.setOnClickListener(this);
+
+		View footerView = getActivity().getLayoutInflater().inflate(R.layout.activity_my_projects_footer,
+				getListView(), false);
+		myprojectlistFooterView = footerView.findViewById(R.id.myprojectlist_footerview);
+		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.myprojectlist_footerview_add_image);
+		footerAddImage.setAlpha(FOOTER_ADD_PROJECT_ALPHA_VALUE);
+		myprojectlistFooterView.setOnClickListener(this);
+		getListView().addFooterView(footerView);
 
 		initAdapter();
 		initClickListener();
@@ -123,6 +142,21 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public void onUpdateProjectDescription() {
 		initAdapter();
+	}
+
+	@Override
+	public void onClick(View v) {
+		NewProjectDialog dialog = null;
+		switch (v.getId()) {
+			case R.id.view_below_myprojectlist_non_scrollable:
+				dialog = new NewProjectDialog();
+				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+				break;
+			case R.id.myprojectlist_footerview:
+				dialog = new NewProjectDialog();
+				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
+				break;
+		}
 	}
 
 	private void initAdapter() {

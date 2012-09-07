@@ -77,6 +77,7 @@
     <string name="number_of_sounds">Klänge:</string>
     <!-- Sprite activity -->
     <string name="sprite_name">Objekt:</string>
+    <string name="spritelist_footer_image_description">Hier drücken, um neues Objekt hinzuzufügen</string>
     <!-- ScriptTab activity -->
     <string name="scripts">Skripte</string>
     <string name="costumes">Kostüme</string>
@@ -92,6 +93,12 @@
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
     <string name="default_costume_name">Kostüm</string>
     <string name="delete_costume_dialog">Kostüm löschen?</string>
+    <string name="add_costume_from_gallery">Von Galerie</string>
+    <string name="add_costume_from_camera">Von Kamera</string>
+    <string name="select_costume_from_gallery">Bild auswählen</string>
+    <string name="select_costume_from_camera">Photo auswählen</string>
+    <string name="costumelist_footer_image_description_for_camera">Hier drücken, um neues Bild hinzuzufügen</string>
+    <string name="costumelist_footer_image_description_for_gallery">Hier drücken, um neues Photo hinzuzufügen</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
@@ -100,6 +107,7 @@
     <string name="sound_delete">löschen</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
+    <string name="soundlist_footer_image_description">Hier drücken, um neuen Klang hinzuzufügen</string>
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Aufnehmen</string>
@@ -114,6 +122,7 @@
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
+    <string name="myprojectlist_footer_image_description">Hier drücken, um neues Projekt hinzuzufügen</string>
     <string name="copy_project">Projekt kopieren</string>
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
@@ -250,6 +259,7 @@
     <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_project_download">Beim Download des Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_new_project">Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_rename_project">Beim Umbenennen des Projektes vor dem Upload ist ein Fehler aufgetreten.</string>
     <string name="error_load_project">Beim Laden des Projektes ist ein Fehler aufgetreten.</string>
     <string name="error_no_number_entered">Bitte eine Zahl eingeben.</string>
     <string name="error_screenshot_failed">Beim Speichern des Screenshots ist ein Fehler aufgetreten.</string>
@@ -295,8 +305,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Wert ist zu klein!</string>
     <string name="number_to_big">Wert ist zu groß!</string>
-    <string name="select_image">Bild auswählen</string>
-    <string name="add_costume_from_gallery">von Galerie</string>
-    <string name="add_costume_from_camera">von Kamera</string>
 
 </resources>

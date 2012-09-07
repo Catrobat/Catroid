@@ -32,18 +32,18 @@ public class MockPaintroidActivity extends Activity {
 
 	private File imageFile;
 	private File secondImageFile;
+	private String pathToImage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle == null) {
 			return;
 		}
 
 		if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
-			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
+			pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 			imageFile = new File(pathToImage);
 		}
 
