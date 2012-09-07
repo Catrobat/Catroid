@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -83,23 +84,17 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker_playing));
 				playSoundButton.setVisibility(Button.GONE);
 				pauseSoundButton.setVisibility(Button.VISIBLE);
-			} else if (soundInfo.isPaused) {
-				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker));
-				playSoundButton.setVisibility(Button.VISIBLE);
-				pauseSoundButton.setVisibility(Button.GONE);
 			} else {
 				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker));
 				playSoundButton.setVisibility(Button.VISIBLE);
 				pauseSoundButton.setVisibility(Button.GONE);
 			}
 
-			//setting filesize and duration
 			try {
 				MediaPlayer tempPlayer = new MediaPlayer();
 				tempPlayer.setDataSource(soundInfo.getAbsolutePath());
 				tempPlayer.prepare();
 
-				//setting duration TextView:
 				long milliseconds = tempPlayer.getDuration();
 				int seconds = (int) ((milliseconds / 1000) % 60);
 				int minutes = (int) ((milliseconds / 1000) / 60);
@@ -107,8 +102,11 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 				soundDuration.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 				soundFileSize.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+
+				tempPlayer.reset();
+				tempPlayer.release();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e("CATROID", "Cannot get view.", e);
 			}
 
 			soundNameTextView.setText(soundInfo.getTitle());

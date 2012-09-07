@@ -33,13 +33,14 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.SoundFragment;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
 
@@ -51,7 +52,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	private ArrayList<SoundInfo> soundInfoList;
 
 	public SoundFragmentTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -85,15 +86,13 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testDeleteSound() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(1000);
+		goToSoundsTab();
 		ListAdapter adapter = getSoundFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
@@ -109,9 +108,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	}
 
 	public void testRenameSound() {
+		goToSoundsTab();
 		String newName = "newSoundName";
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
 		solo.clickOnView(solo.getView(R.id.sound_name));
 		assertTrue("wrong title of dialog", solo.searchText(soundName));
 		solo.setActivityOrientation(Solo.PORTRAIT);
@@ -132,9 +130,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	}
 
 	public void testRenameSoundMixedCase() {
+		goToSoundsTab();
 		String newNameMixedCase = "TeStSoUNd1";
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
 		solo.clickOnView(solo.getView(R.id.sound_name));
 		solo.sleep(300);
 		solo.clearEditText(0);
@@ -147,8 +144,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	}
 
 	public void testPlayAndStopStound() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
+		goToSoundsTab();
 		SoundInfo soundInfo = soundInfoList.get(0);
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
 		solo.clickOnButton(getActivity().getString(R.string.sound_play));
@@ -160,9 +156,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	}
 
 	public void testToStageButton() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
+		goToSoundsTab();
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("not in stage", StageActivity.class);
 
@@ -172,24 +167,18 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
-		// needed to fix NullPointerException in next Testcase
-		solo.finishInactiveActivities();
 	}
 
 	public void testMainMenuButton() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
+		goToSoundsTab();
 		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
-		// needed to fix NullPointerException in next Testcase
-		solo.finishInactiveActivities();
 	}
 
 	public void testDialogsOnChangeOrientation() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
+		goToSoundsTab();
 		String newName = "newTestName";
 		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
 		solo.clickOnView(solo.getView(R.id.sound_name));
@@ -212,8 +201,42 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 		assertTrue("Sounds wasnt renamed", solo.searchText(newName));
 	}
 
+	public void testAddNewSoundDialog() {
+		goToSoundsTab();
+		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
+
+		solo.clickOnView(solo.getView(R.id.view_below_soundlist_non_scrollable));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
+		solo.goBack();
+
+		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
+		solo.goBack();
+
+		solo.clickOnView(solo.getView(R.id.soundlist_footerview_add_image));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
+		solo.goBack();
+
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.sleep(200);
+		addNewSound();
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.sleep(200);
+
+		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
+		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.soundlist_footerview));
+		solo.waitForText(addSoundDialogTitle, 0, 1000);
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
+	}
+
 	public void testSoundNames() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
+		goToSoundsTab();
 		renameSound(soundName, "sound");
 		renameSound(soundName2, "sound");
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
@@ -232,5 +255,30 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptTa
 	private SoundFragment getSoundFragment() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		return (SoundFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SOUNDS);
+	}
+
+	private void goToSoundsTab() {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickInList(0);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(500);
+	}
+
+	private void addNewSound() {
+		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle("sound3");
+
+		soundInfoList.add(soundInfo);
+		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
+				soundInfo.getAbsolutePath());
+		ProjectManager.INSTANCE.saveProject();
 	}
 }

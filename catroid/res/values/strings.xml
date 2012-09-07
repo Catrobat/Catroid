@@ -77,6 +77,7 @@
     <string name="number_of_sounds">Sounds:</string>
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
+    <string name="spritelist_footer_image_description">Tap to add new sprite</string>
     <!-- ScriptTab activity -->
     <string name="scripts">Scripts</string>
     <string name="costumes">Costumes</string>
@@ -94,6 +95,10 @@
     <string name="delete_costume_dialog">Delete costume?</string>
     <string name="add_costume_from_camera">From Camera</string>
     <string name="add_costume_from_gallery">From Gallery</string>
+    <string name="select_costume_from_gallery">Select image</string>
+    <string name="select_costume_from_camera">Select photo</string>
+    <string name="costumelist_footer_image_description_for_camera">Tap to add new photo</string>
+    <string name="costumelist_footer_image_description_for_gallery">Tap to add new image</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
@@ -102,12 +107,15 @@
     <string name="sound_delete">delete</string>
     <string name="sound_select_source">Select a sound</string>
     <string name="delete_sound_dialog">Delete sound?</string>
+    <string name="soundlist_footer_image_description">Tap to add new sound</string>
     <!-- My Projects activity -->
     <string name="last_used">Last used:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
+    <string name="myprojectlist_footer_image_description">Tap to add new project</string>
     <string name="copy_project">Copy Project</string>
+
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Start recording</string>
@@ -254,6 +262,7 @@
     <string name="error_project_upload">An error occurred while uploading the project.</string>
     <string name="error_project_download">An error occurred while downloading the project.</string>
     <string name="error_new_project">An error occurred while creating a new project.</string>
+    <string name="error_rename_project">An error occurred while renaming the project before upload.</string>
     <string name="error_load_project">An error occurred while loading the project.</string>
     <string name="error_no_number_entered">Please enter a number.</string>
     <string name="error_screenshot_failed">An error occurred while saving the screenshot.</string>
@@ -300,5 +309,4 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
-    <string name="select_image">Select image</string>
 </resources>

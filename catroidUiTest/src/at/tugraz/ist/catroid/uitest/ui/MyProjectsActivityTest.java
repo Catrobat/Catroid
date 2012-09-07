@@ -29,8 +29,8 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
@@ -79,8 +79,10 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	@Override
-	public void setUp() {
+	public void setUp() throws Exception {
+		super.setUp();
 		unzip = false;
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -148,6 +150,74 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		zipFile.delete();
 	}
 
+	public void testAddNewProjectUnderList() {
+		unzip = true;
+		saveProjectsToZip();
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
+
+		String myProjectsButton = solo.getString(R.string.my_projects);
+
+		solo.clickOnButton(myProjectsButton);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+
+		String projectName = UiTestUtils.PROJECTNAME1;
+		String newProjectDialogTitle = solo.getString(R.string.new_project_dialog_title);
+		String buttonPositiveText = solo.getString(R.string.ok);
+
+		solo.clickOnView(solo.getView(R.id.view_below_myprojectlist_non_scrollable));
+		solo.waitForText(newProjectDialogTitle, 0, 2000);
+		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
+		solo.clearEditText(0);
+		solo.enterText(0, projectName);
+		solo.sleep(200);
+		solo.clickOnText(buttonPositiveText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(myProjectsButton);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+
+		ListView projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		assertEquals("Project was not added", 3, projectList.getCount());
+
+		projectName = UiTestUtils.PROJECTNAME2;
+		solo.clickOnView(solo.getView(R.id.myprojectlist_footerview));
+		solo.waitForText(newProjectDialogTitle, 0, 2000);
+		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
+		solo.clearEditText(0);
+		solo.enterText(0, projectName);
+		solo.sleep(200);
+		solo.clickOnText(buttonPositiveText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(myProjectsButton);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		assertEquals("Project was not added", 4, projectList.getCount());
+
+		projectName = UiTestUtils.PROJECTNAME3;
+		solo.clickOnView(solo.getView(R.id.myprojectlist_footerview_add_image));
+		solo.waitForText(newProjectDialogTitle, 0, 2000);
+		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
+		solo.clearEditText(0);
+		solo.enterText(0, projectName);
+		solo.sleep(200);
+		solo.clickOnText(buttonPositiveText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(myProjectsButton);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		assertEquals("Project was not added", 5, projectList.getCount());
+	}
+
 	public void testInvalidProject() {
 		unzip = true;
 		saveProjectsToZip();
@@ -200,12 +270,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(myProjectsText);
 		solo.clickInList(2);
-		if (Build.VERSION.SDK_INT < 15) {
-			UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
-		} else {
-			solo.clickOnActionBarItem(R.id.menu_add);
-			UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-		}
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
 			fail("Edit-Dialog not shown in 5 secs!");
@@ -628,7 +693,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String buttonMyProjectsText = solo.getString(R.string.my_projects);
 		solo.clickOnButton(buttonMyProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.sleep(200);
 		EditText addNewProjectEditText = solo.getEditText(0);
 		String buttonOkText = solo.getString(R.string.ok);
@@ -663,7 +728,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String buttonOkText = solo.getString(R.string.ok);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.sleep(200);
 		solo.enterText(0, UiTestUtils.PROJECTNAME1);
 		solo.sleep(100);
@@ -686,7 +751,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String buttonOkText = solo.getString(R.string.ok);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.sleep(200);
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
@@ -706,61 +771,90 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testSetDescriptionCurrentProject() {
 		createProjects();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(300);
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.sleep(200);
-		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
-		solo.sleep(200);
+		String setDescriptionDialogTitle = solo.getString(R.string.description);
+
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		solo.clearEditText(0);
+		solo.enterText(0, lorem);
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.sleep(300);
-		UiTestUtils.enterText(solo, 0, lorem);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(500);
-		ProjectManager projectManager = ProjectManager.getInstance();
+
+		String buttonPositiveText = solo.getString(R.string.ok);
+		// if keyboard is there, hide it and click ok
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.goBack();
+			solo.clickOnText(buttonPositiveText);
+		}
+		solo.waitForDialogToClose(500);
+
 		// temporarily removed - should be added when displaying projectdescription
 		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
-		solo.clickLongOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 2);
-		solo.sleep(200);
+		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
-		solo.sleep(200);
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
-		assertTrue("description is not set in project", projectManager.getCurrentProject().getDescription()
+		assertTrue("description is not set in project", ProjectManager.INSTANCE.getCurrentProject().getDescription()
 				.equalsIgnoreCase(lorem));
 	}
 
 	public void testSetDescription() {
 		createProjects();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(300);
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
-		solo.sleep(200);
-		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
-		solo.sleep(200);
+		String setDescriptionDialogTitle = solo.getString(R.string.description);
+
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
+		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		solo.clearEditText(0);
+		solo.enterText(0, lorem);
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.sleep(300);
-		solo.enterText(0, lorem);
-		solo.sleep(300);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(500);
-		ProjectManager projectManager = ProjectManager.getInstance();
+
+		String buttonPositiveText = solo.getString(R.string.ok);
+		// if keyboard is there, hide it and click ok
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.goBack();
+			solo.clickOnText(buttonPositiveText);
+		}
+		solo.waitForDialogToClose(500);
+
 		// temporarily removed - should be added when displaying projectdescription
 		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
-		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1);
-		solo.sleep(200);
+		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
+		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
-		solo.sleep(200);
-		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
-		projectManager.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
-		assertTrue("description is not set in project", projectManager.getCurrentProject().getDescription()
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("description is not shown in edittext", solo.searchText("Lorem ipsum"));
+		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
+		assertTrue("description is not set in project", ProjectManager.INSTANCE.getCurrentProject().getDescription()
 				.equalsIgnoreCase(lorem));
 	}
 
@@ -771,7 +865,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo.sleep(500);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		solo.enterText(0, "testSprite");
