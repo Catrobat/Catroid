@@ -231,8 +231,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(100);
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, " ");
-		solo.clickOnButton(0);
-		//solo.sendKey(Solo.ENTER);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		String errorMessage = getActivity().getString(R.string.error_no_name_entered);
