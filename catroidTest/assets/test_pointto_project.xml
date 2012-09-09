@@ -22,13 +22,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Project>
-  <androidVersion>10</androidVersion>
-  <catroidVersionCode>500</catroidVersionCode>
-  <catroidVersionName>0.6.0beta-500-debug</catroidVersionName>
-  <deviceName>SGH-T679</deviceName>
-  <projectName>batmobile</projectName>
-  <screenHeight>800</screenHeight>
-  <screenWidth>480</screenWidth>
+    <Header>
+  <applicationVersionCode>500</applicationVersionCode>
+   <applicationVersionName>0.6.0beta-500-debug</applicationVersionName>
+	<applicationXmlVersion>101</applicationXmlVersion>
+	<deviceName>SGH-T679</deviceName>
+	<platform>Android</platform>
+	<platformVersion>10</platformVersion>
+	<projectName>batmobile</projectName>
+	<screenHeight>800</screenHeight>
+	<screenWidth>480</screenWidth>
+	</Header>
   <spriteList>
     <Sprite>
       <costumeDataList>

@@ -28,6 +28,7 @@ public class CatroidXMLConstants {
 	public static final String REFERENCE_ATTRIBUTE = "reference";
 
 	public static final String PROJECT_ELEMENT_NAME = "Project";
+	public static final String PROJECT_HEADER_NAME = "Header";
 
 	public static final String CONTENT_PACKAGE = "at.tugraz.ist.catroid.content.";
 

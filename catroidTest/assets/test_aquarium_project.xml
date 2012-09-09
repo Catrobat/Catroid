@@ -22,6 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Project>
+    <Header>
   <applicationVersionCode>10</applicationVersionCode>
    <applicationVersionName>0.5.5.ba</applicationVersionName>
 	<applicationXmlVersion>101</applicationXmlVersion>
@@ -31,6 +32,7 @@
 	<projectName>Aquarium v2</projectName>
 	<screenHeight>960</screenHeight>
 	<screenWidth>540</screenWidth>
+	</Header>
   <spriteList>
     <Sprite>
       <costumeDataList>
