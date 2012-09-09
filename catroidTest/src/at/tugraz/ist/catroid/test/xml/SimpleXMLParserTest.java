@@ -122,7 +122,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 			fail("Exception When parsing");
 		}
 
-		assertEquals("the full headers not added. still have" + values.size() + "values", values.size(), 8);
+		assertEquals("the full headers not added. still have " + values.size() + " values ", values.size(), 10);
 		assertEquals("androidVersion tag not parsed", values.get(HeaderTags.ANDROIDVERSION.getXmlTagString()), "10");
 		assertEquals("catroidVersionCode tag not parsed", values.get(HeaderTags.CATROIDVERSIONCODE.getXmlTagString()),
 				"8");

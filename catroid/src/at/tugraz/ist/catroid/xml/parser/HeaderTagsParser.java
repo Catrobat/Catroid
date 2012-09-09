@@ -80,8 +80,9 @@ public class HeaderTagsParser extends DefaultHandler {
 
 	@Override
 	public void endElement(String uri, String localName, String tagName) throws SAXException {
-
-		parsedStrings.put(tagName, tempVal);
+		if (tagName != CatroidXMLConstants.PROJECT_HEADER_NAME) {
+			parsedStrings.put(tagName, tempVal);
+		}
 
 	}
 
