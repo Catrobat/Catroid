@@ -173,34 +173,10 @@ public class Utils {
 	//		return projectFileName;
 	//	}
 
-	/**
-	 * Displays an AlertDialog with the given error message and just a close
-	 * button
-	 * 
-	 * @param fragmentManager
-	 * @param errorMessage
-	 */
 	public static void displayErrorMessageFragment(FragmentManager fragmentManager, String errorMessage) {
 		DialogFragment errorDialog = ErrorDialogFragment.newInstance(errorMessage);
 		errorDialog.show(fragmentManager, ErrorDialogFragment.DIALOG_FRAGMENT_TAG);
 	}
-
-	/*
-	 * public static void displayErrorMessage(Context context, String errorMessage) {
-	 * 
-	 * Builder builder = new AlertDialog.Builder(context);
-	 * 
-	 * builder.setTitle(context.getString(R.string.error));
-	 * builder.setMessage(errorMessage);
-	 * builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
-	 * 
-	 * @Override
-	 * public void onClick(DialogInterface dialog, int which) {
-	 * }
-	 * });
-	 * builder.show();
-	 * }
-	 */
 
 	public static void displayToast(Activity activity, String message/* , int duration */) {
 		LayoutInflater inflater = activity.getLayoutInflater();

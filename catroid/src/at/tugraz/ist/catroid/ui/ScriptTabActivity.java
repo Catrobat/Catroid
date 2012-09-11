@@ -207,11 +207,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements Error
 		return getTabFragment(tabHost.getCurrentTab());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see at.tugraz.ist.catroid.utils.ErrorListenerInterface#showErrorDialog(java.lang.String)
-	 */
 	@Override
 	public void showErrorDialog(String errorMessage) {
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
