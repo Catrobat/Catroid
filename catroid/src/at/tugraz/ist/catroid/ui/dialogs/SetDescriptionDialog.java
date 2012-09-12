@@ -68,8 +68,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 				projectManager.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(),
 						false);
 			} catch (ClassCastException exception) {
-				Log.e("CATROID", "FragmentActivity from getActivity does not implement ErrorListenerInterface",
-						exception);
+				Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 			}
 		}
 	}
@@ -92,7 +91,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			projectManager
 					.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(), false);
 		} catch (ClassCastException exception) {
-			Log.e("CATROID", "FragmentActivity from getActivity does not implement ErrorListenerInterface", exception);
+			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
 		updateProjectDescriptionListener();
 		dismiss();
