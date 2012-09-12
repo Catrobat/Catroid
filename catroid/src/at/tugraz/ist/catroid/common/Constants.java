@@ -41,13 +41,13 @@ public final class Constants {
 	public static final String TOKEN = "token";
 
 	// Paintroid
-	public static final String EXTRA_PICTURE_PATH_PAINTROID = "at.tugraz.ist.extra.PAINTROID_PICTURE_PATH";
-	public static final String EXTRA_PICTURE_NAME_PAINTROID = "at.tugraz.ist.extra.PAINTROID_PICTURE_NAME";
-	public static final String EXTRA_X_VALUE_PAINTROID = "at.tugraz.ist.extra.PAINTROID_X";
-	public static final String EXTRA_Y_VALUE_PAINTROID = "at.tugraz.ist.extra.PAINTROID_Y";
+	public static final String EXTRA_PICTURE_PATH_PAINTROID = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
+	public static final String EXTRA_PICTURE_NAME_PAINTROID = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
+	public static final String EXTRA_X_VALUE_PAINTROID = "org.catrobat.extra.PAINTROID_X";
+	public static final String EXTRA_Y_VALUE_PAINTROID = "org.catrobat.extra.PAINTROID_Y";
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
-	public static final String PAINTROID_DOWNLOAD_LINK = "http://code.google.com/p/catroid/downloads";
+	public static final String PAINTROID_DOWNLOAD_LINK = "https://github.com/Catrobat/Paintroid/downloads";
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 }

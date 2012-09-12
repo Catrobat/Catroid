@@ -42,8 +42,8 @@ public class MockPaintroidActivity extends Activity {
 			return;
 		}
 
-		if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
-			pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
+		if (bundle.containsKey("org.catrobat.extra.PAINTROID_PICTURE_PATH")) {
+			pathToImage = bundle.getString("org.catrobat.extra.PAINTROID_PICTURE_PATH");
 			imageFile = new File(pathToImage);
 		}
 
@@ -62,9 +62,9 @@ public class MockPaintroidActivity extends Activity {
 	public void sendBundleBackToCatroidAndFinish() {
 		Bundle bundle = new Bundle();
 		if (secondImageFile != null) {
-			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", secondImageFile.getAbsolutePath());
+			bundle.putString("org.catrobat.extra.PAINTROID_PICTURE_PATH", secondImageFile.getAbsolutePath());
 		} else {
-			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", imageFile.getAbsolutePath());
+			bundle.putString("org.catrobat.extra.PAINTROID_PICTURE_PATH", imageFile.getAbsolutePath());
 		}
 
 		Intent intent = new Intent();
