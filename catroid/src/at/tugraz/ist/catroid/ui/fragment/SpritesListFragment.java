@@ -109,7 +109,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		try {
 			Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
 		} catch (ClassCastException exception) {
-			Log.e("CATROID", "FragmentActivity from getActivity does not implement ErrorListenerInterface", exception);
+			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
 	}
 

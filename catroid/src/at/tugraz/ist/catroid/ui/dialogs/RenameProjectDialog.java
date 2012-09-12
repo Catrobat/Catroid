@@ -65,12 +65,14 @@ public class RenameProjectDialog extends TextDialog {
 		String newProjectName = (input.getText().toString()).trim();
 
 		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessageFragment(getFragmentManager(),
+			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
 					getString(R.string.notification_invalid_text_entered));
 			return false;
 		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)
 				&& !oldProjectName.equalsIgnoreCase(newProjectName)) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_project_exists));
+			//	Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_project_exists));
+			ErrorListenerInterface test = (ErrorListenerInterface) getActivity();
+			test.showErrorDialog("Cheer up!");
 			return false;
 		}
 
@@ -108,7 +110,7 @@ public class RenameProjectDialog extends TextDialog {
 				return false;
 			}
 		} catch (ClassCastException exception) {
-			Log.e("CATROID", "FragmentActivity from getActivity() does not implement ErrorListenerInterface", exception);
+			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
 
 		return true;
