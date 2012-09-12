@@ -74,6 +74,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 
+	private int activeDialogId = -1;
+
 	private View viewBelowMyProjectlistNonScrollable;
 	private View myprojectlistFooterView;
 
@@ -85,8 +87,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -117,12 +119,41 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		initAdapter();
 		initClickListener();
+		reatachDialogFragmentListener(activeDialogId);
+	}
+
+	private void reatachDialogFragmentListener(int activeDialogId) {
+
+		Fragment activeFragmentDialog;
+		if (activeDialogId != -1) {
+			switch (activeDialogId) {
+				case CONTEXT_MENU_ITEM_RENAME:
+					activeFragmentDialog = getFragmentManager().findFragmentByTag(
+							RenameProjectDialog.DIALOG_FRAGMENT_TAG);
+					RenameProjectDialog displayingRenameProjectDialog = (RenameProjectDialog) activeFragmentDialog;
+					displayingRenameProjectDialog.setOnProjectRenameListener(ProjectsListFragment.this);
+					break;
+				case CONTEXT_MENU_ITEM_DESCRIPTION:
+					activeFragmentDialog = getFragmentManager().findFragmentByTag(
+							SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+					SetDescriptionDialog displayingSetDescriptionProjectDialog = (SetDescriptionDialog) activeFragmentDialog;
+					displayingSetDescriptionProjectDialog
+							.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
+					break;
+				case CONTEXT_MENU_ITEM_COPY:
+					activeFragmentDialog = getFragmentManager()
+							.findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+					CopyProjectDialog displayingCopyProjectDialog = (CopyProjectDialog) activeFragmentDialog;
+					displayingCopyProjectDialog.setOnCopyProjectListener(ProjectsListFragment.this);
+					break;
+			}
+		}
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA, projectToEdit);
 		super.onSaveInstanceState(outState);
+		outState.putSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA, projectToEdit);
 	}
 
 	@Override
@@ -246,18 +277,21 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			@Override
 			public void onClick(int menuId) {
 				try {
+					activeDialogId = menuId;
 					switch (menuId) {
 						case CONTEXT_MENU_ITEM_RENAME:
 							RenameProjectDialog dialogRenameProject = RenameProjectDialog
 									.newInstance(projectToEdit.projectName);
 							dialogRenameProject.setOnProjectRenameListener(ProjectsListFragment.this);
-							dialogRenameProject.show(getFragmentManager(), RenameProjectDialog.DIALOG_FRAGMENT_TAG);
+							dialogRenameProject.show(getActivity().getSupportFragmentManager(),
+									RenameProjectDialog.DIALOG_FRAGMENT_TAG);
 							break;
 						case CONTEXT_MENU_ITEM_DESCRIPTION:
 							SetDescriptionDialog dialogSetDescription = SetDescriptionDialog
 									.newInstance(projectToEdit.projectName);
 							dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-							dialogSetDescription.show(getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+							dialogSetDescription.show(getActivity().getSupportFragmentManager(),
+									SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
 							break;
 						case CONTEXT_MENU_ITEM_DELETE:
 							deleteProject();
@@ -266,7 +300,8 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 							CopyProjectDialog dialogCopyProject = CopyProjectDialog
 									.newInstance(projectToEdit.projectName);
 							dialogCopyProject.setOnCopyProjectListener(ProjectsListFragment.this);
-							dialogCopyProject.show(getFragmentManager(), CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+							dialogCopyProject.show(getActivity().getSupportFragmentManager(),
+									CopyProjectDialog.DIALOG_FRAGMENT_TAG);
 							break;
 					}
 				} catch (ClassCastException exception) {
