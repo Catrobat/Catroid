@@ -890,7 +890,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
-		solo.clickOnText(buttonPositiveText, 1, true);
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.goBack();
+			solo.clickOnText(buttonPositiveText);
+		}
 		solo.waitForDialogToClose(500);
 
 		assertEquals("The project is not first in list",
@@ -1035,7 +1040,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		String buttonPositiveText = solo.getString(R.string.ok);
-		solo.clickOnText(buttonPositiveText, 1, true);
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.goBack();
+			solo.clickOnText(buttonPositiveText);
+		}
+		solo.waitForDialogToClose(500);
 		assertTrue("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME3));
 	}
 
