@@ -35,7 +35,7 @@
     <TextView
         android:id="@+id/dialog_about_url_text_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:textColorLink="#E68B00"
         android:textSize="20dp" />
@@ -43,7 +43,7 @@
     <TextView
         android:id="@+id/dialog_about_version_name_text_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="right"
         android:textSize="8dp" />
 

@@ -72,9 +72,12 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
 
+	private int activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
+
 	private View viewBelowMyProjectlistNonScrollable;
 	private View myprojectlistFooterView;
 
+	private static final int NO_DIALOG_FRAGMENT_ACTIVE = -1;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
@@ -113,6 +116,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		myprojectlistFooterView.setOnClickListener(this);
 		getListView().addFooterView(footerView);
 
+		reattachDialogFragmentListener();
 		initAdapter();
 		initClickListener();
 	}
@@ -129,18 +133,21 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			updateProjectTitle();
 		}
 
+		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		initAdapter();
 	}
 
 	@Override
 	public void onCopyProject(boolean orientationChangedWhileCopying) {
 		if (!orientationChangedWhileCopying) {
+			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 			initAdapter();
 		}
 	}
 
 	@Override
 	public void onUpdateProjectDescription() {
+		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		initAdapter();
 	}
 
@@ -156,6 +163,33 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				dialog = new NewProjectDialog();
 				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 				break;
+		}
+	}
+
+	private void reattachDialogFragmentListener() {
+		Fragment activeFragmentDialog;
+		if (activeDialogId != NO_DIALOG_FRAGMENT_ACTIVE) {
+			switch (activeDialogId) {
+				case CONTEXT_MENU_ITEM_RENAME:
+					activeFragmentDialog = getFragmentManager().findFragmentByTag(
+							RenameProjectDialog.DIALOG_FRAGMENT_TAG);
+					RenameProjectDialog displayingRenameProjectDialog = (RenameProjectDialog) activeFragmentDialog;
+					displayingRenameProjectDialog.setOnProjectRenameListener(ProjectsListFragment.this);
+					break;
+				case CONTEXT_MENU_ITEM_DESCRIPTION:
+					activeFragmentDialog = getFragmentManager().findFragmentByTag(
+							SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+					SetDescriptionDialog displayingSetDescriptionProjectDialog = (SetDescriptionDialog) activeFragmentDialog;
+					displayingSetDescriptionProjectDialog
+							.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
+					break;
+				case CONTEXT_MENU_ITEM_COPY:
+					activeFragmentDialog = getFragmentManager()
+							.findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+					CopyProjectDialog displayingCopyProjectDialog = (CopyProjectDialog) activeFragmentDialog;
+					displayingCopyProjectDialog.setOnCopyProjectListener(ProjectsListFragment.this);
+					break;
+			}
 		}
 	}
 
@@ -236,6 +270,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
 			@Override
 			public void onClick(int menuId) {
+				activeDialogId = menuId;
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
 						RenameProjectDialog dialogRenameProject = RenameProjectDialog
