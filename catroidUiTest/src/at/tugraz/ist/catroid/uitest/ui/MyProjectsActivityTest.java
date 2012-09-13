@@ -721,15 +721,20 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.waitForFragmentById(R.id.fr_projects_list);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
+		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
+		solo.sleep(300);
 		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
 		assertFalse("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
 
@@ -915,13 +920,14 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-
-		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.waitForFragmentById(R.id.fr_projects_list);
+		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
 		solo.clickOnText(solo.getString(R.string.set_description));
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTDESCRIPTION1);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
@@ -932,6 +938,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			solo.clickOnText(buttonPositiveText);
 		}
 		solo.waitForDialogToClose(500);
+		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
 
 		assertEquals("The project is not first in list",
 				((ProjectData) (solo.getCurrentListViews().get(0).getAdapter().getItem(0))).projectName,
@@ -1079,10 +1086,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.waitForFragmentById(R.id.fr_projects_list);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.copy));
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
+		solo.sleep(200);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
 		solo.setActivityOrientation(Solo.PORTRAIT);
@@ -1095,6 +1105,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			solo.clickOnText(buttonPositiveText);
 		}
 		solo.waitForDialogToClose(500);
+		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
 		assertTrue("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME3));
 	}
 
