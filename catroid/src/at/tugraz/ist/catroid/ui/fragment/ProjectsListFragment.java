@@ -116,7 +116,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		myprojectlistFooterView.setOnClickListener(this);
 		getListView().addFooterView(footerView);
 
-		reatachDialogFragmentListener();
+		reattachDialogFragmentListener();
 		initAdapter();
 		initClickListener();
 	}
@@ -166,7 +166,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 	}
 
-	private void reatachDialogFragmentListener() {
+	private void reattachDialogFragmentListener() {
 		Fragment activeFragmentDialog;
 		if (activeDialogId != NO_DIALOG_FRAGMENT_ACTIVE) {
 			switch (activeDialogId) {
