@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
-import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
+import at.tugraz.ist.catroid.ui.dialogs.AboutDialogFragment;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
@@ -248,8 +248,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleAboutCatroidButton(View v) {
-		AboutDialog aboutDialog = new AboutDialog(this);
-		aboutDialog.show();
+		AboutDialogFragment aboutDialog = new AboutDialogFragment();
+		aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

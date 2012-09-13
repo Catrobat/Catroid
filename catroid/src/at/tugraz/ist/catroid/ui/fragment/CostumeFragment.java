@@ -562,7 +562,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 	private void handleEditCostumeButton(View v) {
 		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName("at.tugraz.ist.paintroid", "at.tugraz.ist.paintroid.MainActivity"));
+		intent.setComponent(new ComponentName("org.catrobat.paintroid", "org.catrobat.paintroid.MainActivity"));
 
 		// Confirm if paintroid is installed else start dialog --------------------------
 		List<ResolveInfo> packageList = getActivity().getPackageManager().queryIntentActivities(intent,
@@ -597,7 +597,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, costumeDataList.get(position)
 				.getAbsolutePath());
 		bundleForPaintroid.putInt(Constants.EXTRA_X_VALUE_PAINTROID, 0);
-		bundleForPaintroid.putInt(Constants.EXTRA_X_VALUE_PAINTROID, 0);
+		bundleForPaintroid.putInt(Constants.EXTRA_Y_VALUE_PAINTROID, 0);
 		intent.putExtras(bundleForPaintroid);
 		intent.addCategory("android.intent.category.LAUNCHER");
 		startActivityForResult(intent, REQUEST_PAINTROID_EDIT_IMAGE);
