@@ -695,12 +695,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		//UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
-		solo.enterText(0, UiTestUtils.PROJECTNAME2);
+		//solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		solo.sendKey(Solo.ENTER);
 		assertFalse("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
