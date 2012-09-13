@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.common.Constants;
 public class ImportantValuesTest extends TestCase {
 
 	public void testPaintroidDownloadLink() {
-		assertEquals("wrong paintroid download link", "http://code.google.com/p/catroid/downloads",
+		assertEquals("wrong paintroid download link", "https://github.com/Catrobat/Paintroid/downloads",
 				Constants.PAINTROID_DOWNLOAD_LINK);
 	}
 }
