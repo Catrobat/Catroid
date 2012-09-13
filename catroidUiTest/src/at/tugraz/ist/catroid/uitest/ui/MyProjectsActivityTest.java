@@ -687,6 +687,23 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 	}
 
+	public void testRenameWithOrientationChange() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.clickOnText(solo.getString(R.string.rename));
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(100);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
+		solo.sendKey(Solo.ENTER);
+		assertFalse("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME1));
+	}
+
 	public void testAddNewProject() {
 		createProjects();
 		solo.sleep(200);
@@ -858,6 +875,34 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				.equalsIgnoreCase(lorem));
 	}
 
+	public void testSetDescriptionWithOrientationChange() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.clickOnText(solo.getString(R.string.set_description));
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTDESCRIPTION1);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
+		String buttonPositiveText = solo.getString(R.string.ok);
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.goBack();
+			solo.clickOnText(buttonPositiveText);
+		}
+		solo.waitForDialogToClose(500);
+
+		assertEquals("The project is not first in list",
+				((ProjectData) (solo.getCurrentListViews().get(0).getAdapter().getItem(0))).projectName,
+				UiTestUtils.PROJECTNAME1);
+	}
+
 	public void testCopyCurrentProject() {
 		createProjects();
 
@@ -979,6 +1024,30 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.clickOnButton(getActivity().getString(R.string.close));
+	}
+
+	public void testCopyWithOrientationChange() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.clickLongOnText(UiTestUtils.PROJECTNAME1, 1, true);
+		solo.clickOnText(solo.getString(R.string.copy));
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		String buttonPositiveText = solo.getString(R.string.ok);
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.goBack();
+			solo.clickOnText(buttonPositiveText);
+		}
+		solo.waitForDialogToClose(500);
+		assertTrue("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME3));
 	}
 
 	public void createProjects() {
