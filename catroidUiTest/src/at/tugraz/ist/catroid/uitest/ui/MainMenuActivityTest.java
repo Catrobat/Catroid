@@ -289,6 +289,19 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 	}
 
+	public void testAboutDialogOrientationChange() {
+		solo.clickOnButton(solo.getString(R.string.about));
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
+		assertTrue("About dialog is not visible", solo.searchText(getActivity().getString(R.string.about_text)));
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
+		assertTrue("About dialog is not visible", solo.searchText(getActivity().getString(R.string.about_text)));
+		solo.goBack();
+	}
+
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		// Prevent Utils from returning true in isApplicationDebuggable
