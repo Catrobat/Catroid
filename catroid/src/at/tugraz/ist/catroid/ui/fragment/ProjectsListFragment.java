@@ -116,9 +116,9 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		myprojectlistFooterView.setOnClickListener(this);
 		getListView().addFooterView(footerView);
 
+		reatachDialogFragmentListener();
 		initAdapter();
 		initClickListener();
-		reatachDialogFragmentListener();
 	}
 
 	@Override
@@ -133,18 +133,21 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			updateProjectTitle();
 		}
 
+		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		initAdapter();
 	}
 
 	@Override
 	public void onCopyProject(boolean orientationChangedWhileCopying) {
 		if (!orientationChangedWhileCopying) {
+			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 			initAdapter();
 		}
 	}
 
 	@Override
 	public void onUpdateProjectDescription() {
+		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		initAdapter();
 	}
 
@@ -191,7 +194,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	private void initAdapter() {
-		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
 		projectList = new ArrayList<ProjectData>();
