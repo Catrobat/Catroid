@@ -195,7 +195,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
 		setServerURLToTestUrl();
 
-		String testProject = "これは例の説明です。";
+		String testProject = UiTestUtils.JAPANESE_PROJECT_NAME;
 		createTestProject(testProject);
 
 		//intent to the main activity is sent since changing activity orientation is not working

@@ -111,6 +111,7 @@ public class UiTestUtils {
 	public static final String PROJECTDESCRIPTION3 = "testdescription3";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
+	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
@@ -452,6 +453,11 @@ public class UiTestUtils {
 		}
 
 		directory = new File(Constants.DEFAULT_ROOT + "/" + COPIED_PROJECT_NAME);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + JAPANESE_PROJECT_NAME);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
