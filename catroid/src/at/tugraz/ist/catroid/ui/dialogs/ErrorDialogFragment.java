@@ -46,6 +46,20 @@ public class ErrorDialogFragment extends DialogFragment {
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+
+	@Override
+	public void onDestroyView() {
+		if (getDialog() != null && getRetainInstance()) {
+			getDialog().setOnDismissListener(null);
+		}
+		super.onDestroyView();
+	}
+
+	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 		Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getActivity().getString(R.string.error));

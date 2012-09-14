@@ -70,9 +70,7 @@ public class RenameProjectDialog extends TextDialog {
 			return false;
 		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)
 				&& !oldProjectName.equalsIgnoreCase(newProjectName)) {
-			//	Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_project_exists));
-			ErrorListenerInterface test = (ErrorListenerInterface) getActivity();
-			test.showErrorDialog("Cheer up!");
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_project_exists));
 			return false;
 		}
 
