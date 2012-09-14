@@ -276,6 +276,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testAboutCatroid() {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.about));
 		solo.sleep(200);
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
@@ -290,6 +292,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testAboutDialogOrientationChange() {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.about));
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
