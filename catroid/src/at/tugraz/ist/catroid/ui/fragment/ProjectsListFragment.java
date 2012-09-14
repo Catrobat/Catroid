@@ -195,7 +195,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	private void initAdapter() {
-		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		File projectCodeFile;
 		projectList = new ArrayList<ProjectData>();
