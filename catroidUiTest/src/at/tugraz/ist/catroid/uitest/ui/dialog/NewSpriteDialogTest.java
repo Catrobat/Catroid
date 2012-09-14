@@ -71,10 +71,11 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_add);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.waitForView(EditText.class);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
@@ -89,6 +90,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		createTestProject(testingproject);
 		solo.clickOnButton(solo.getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_projects_list);
 		UiTestUtils.clickOnTextInList(solo, testingproject);
 		solo.sleep(500);
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);

@@ -59,7 +59,7 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
-		UiTestUtils.clickOnLinearLayout(solo, R.id.menu_start);
+		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
 
