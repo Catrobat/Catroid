@@ -51,9 +51,9 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 
 	@Override
 	protected void setUp() throws Exception {
+		super.setUp();
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		super.setUp();
 	}
 
 	@Override
@@ -67,9 +67,10 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 	// This prevents regression of https://github.com/Catrobat/Catroid/issues/3
 	public void testYAxis() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(500);
+		solo.sleep(2000);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, 100);
+		solo.sleep(500);
 
 		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
 		byte[] screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, 100, 1, 1);
