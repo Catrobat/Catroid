@@ -89,8 +89,6 @@ public abstract class TextDialog extends DialogFragment {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					boolean okButtonResult = handleOkButton();
 					onOkButtonHandled();
-					//DEBUG
-					int test = getFragmentManager().getBackStackEntryCount();
 					if (okButtonResult) {
 						dismiss();
 					}
@@ -176,9 +174,6 @@ public abstract class TextDialog extends DialogFragment {
 			public void onClick(View v) {
 				boolean okButtonResult = handleOkButton();
 				onOkButtonHandled();
-
-				//DEBUG
-				int test = getFragmentManager().getBackStackEntryCount();
 
 				if (okButtonResult) {
 					dismiss();
