@@ -120,7 +120,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		initAdapter();
 		initClickListener();
-		reatachDialogFragmentListener();
 	}
 
 	@Override
@@ -161,33 +160,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				dialog = new NewProjectDialog();
 				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 				break;
-		}
-	}
-
-	private void reatachDialogFragmentListener() {
-		Fragment activeFragmentDialog;
-		if (activeDialogId != NO_DIALOG_FRAGMENT_ACTIVE) {
-			switch (activeDialogId) {
-				case CONTEXT_MENU_ITEM_RENAME:
-					activeFragmentDialog = getFragmentManager().findFragmentByTag(
-							RenameProjectDialog.DIALOG_FRAGMENT_TAG);
-					RenameProjectDialog displayingRenameProjectDialog = (RenameProjectDialog) activeFragmentDialog;
-					displayingRenameProjectDialog.setOnProjectRenameListener(ProjectsListFragment.this);
-					break;
-				case CONTEXT_MENU_ITEM_DESCRIPTION:
-					activeFragmentDialog = getFragmentManager().findFragmentByTag(
-							SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
-					SetDescriptionDialog displayingSetDescriptionProjectDialog = (SetDescriptionDialog) activeFragmentDialog;
-					displayingSetDescriptionProjectDialog
-							.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-					break;
-				case CONTEXT_MENU_ITEM_COPY:
-					activeFragmentDialog = getFragmentManager()
-							.findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG);
-					CopyProjectDialog displayingCopyProjectDialog = (CopyProjectDialog) activeFragmentDialog;
-					displayingCopyProjectDialog.setOnCopyProjectListener(ProjectsListFragment.this);
-					break;
-			}
 		}
 	}
 
