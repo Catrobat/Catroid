@@ -95,8 +95,10 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		createProject();
 		solo.sleep(200);
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.current_project_button));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1);
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
