@@ -237,7 +237,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(myProjectsText);
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-
+		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
+			fail("Edit-Dialog not shown in 5 secs!");
+		}
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
