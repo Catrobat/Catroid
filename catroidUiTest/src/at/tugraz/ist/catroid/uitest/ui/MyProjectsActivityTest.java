@@ -237,7 +237,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(myProjectsText);
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-
+		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
+			fail("Edit-Dialog not shown in 5 secs!");
+		}
 		solo.enterText(0, "testSprite");
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
@@ -659,7 +661,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clearEditText(0);
 		solo.enterText(0, renameString);
 		solo.clickOnText(solo.getString(R.string.ok));
-		solo.sleep(200);
+		solo.waitForDialogToClose(500);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
 	}
@@ -677,7 +679,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clearEditText(0);
 		solo.enterText(0, renameString);
 		solo.clickOnText(solo.getString(R.string.ok));
-		solo.sleep(200);
+		solo.waitForDialogToClose(500);
 		renameDirectory = new File(Utils.buildProjectPath(renameString));
 		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
 	}
@@ -695,7 +697,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clearEditText(0);
 		solo.enterText(0, renameString);
 		solo.clickOnText(solo.getString(R.string.ok));
-		solo.sleep(200);
+		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.clickOnButton(getActivity().getString(R.string.close));
@@ -714,7 +716,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
+		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.goBack();
@@ -737,7 +739,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
+		solo.waitForDialogToClose(500);
 		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
 		assertFalse("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME1));
 	}
