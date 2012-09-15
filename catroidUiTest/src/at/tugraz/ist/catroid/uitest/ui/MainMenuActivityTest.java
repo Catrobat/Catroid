@@ -234,7 +234,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		String errorMessage = getActivity().getString(R.string.error_no_name_entered);
+		solo.sleep(200);
+		String errorMessage = solo.getString(R.string.error_no_name_entered);
 		assertTrue("Error dialog dissapeared after orientation change", solo.searchText(errorMessage));
 		solo.goBack();
 	}
