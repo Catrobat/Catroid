@@ -226,12 +226,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testErrorDialogOrientationChange() {
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnButton(solo.getString(R.string.new_project));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, " ");
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
