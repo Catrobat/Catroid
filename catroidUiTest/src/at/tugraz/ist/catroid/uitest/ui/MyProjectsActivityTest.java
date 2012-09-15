@@ -253,11 +253,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		assertTrue("No error message was shown", solo.searchText(getActivity().getString(R.string.error_load_project)));
+		solo.sleep(200);
+		assertTrue("No error message was shown", solo.searchText(solo.getString(R.string.error_load_project)));
 
 		solo.clickOnButton(0);
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.current_project_button));
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 3);
 	}
