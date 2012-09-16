@@ -99,7 +99,8 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
 				updateSoundAdapter(soundTitle, fileName);
 			} else {
-				Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_sound));
+				Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+						getString(R.string.error_load_sound));
 			}
 		}
 	}
@@ -305,7 +306,8 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 
 		if (audioPath.equalsIgnoreCase("")) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.error_load_sound));
+			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+					getString(R.string.error_load_sound));
 		} else {
 			new CopyAudioFilesTask().execute(audioPath);
 		}

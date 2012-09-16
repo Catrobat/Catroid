@@ -71,30 +71,32 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 		super.onCreate(savedInstanceState);
 	}
 
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.dialog_overwrite_project_button_ok:
 				if (replaceButton.isChecked()) {
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-					ProjectManager.getInstance().loadProject(projectName, activity, true);
+					ProjectManager.getInstance().loadProject(projectName, activity, activity, true);
 					activity.writeProjectTitleInTextfield();
 				} else if (renameButton.isChecked()) {
 					String newProjectName = projectName + UUID.randomUUID();
-					ProjectManager.getInstance().loadProject(projectName, activity, true);
-					ProjectManager.getInstance().renameProject(newProjectName, activity);
+					ProjectManager.getInstance().loadProject(projectName, activity, activity, true);
+					ProjectManager.getInstance().renameProject(newProjectName, activity, activity);
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-					ProjectManager.getInstance().loadProject(projectName, activity, true);
+					ProjectManager.getInstance().loadProject(projectName, activity, activity, true);
 					boolean error = !ProjectManager.getInstance().renameProject(projectText.getText().toString(),
-							activity);
+							activity, activity);
 					if (error) {
 						ProjectManager.getInstance().deleteCurrentProject();
 					}
-					ProjectManager.getInstance().loadProject(newProjectName, activity, true);
-					ProjectManager.getInstance().renameProject(projectName, activity);
+					ProjectManager.getInstance().loadProject(newProjectName, activity, activity, true);
+					ProjectManager.getInstance().renameProject(projectName, activity, activity);
 					if (error) {
 						break;
 					} else {
-						ProjectManager.getInstance().loadProject(projectText.getText().toString(), activity, true);
+						ProjectManager.getInstance().loadProject(projectText.getText().toString(), activity, activity,
+								true);
 						activity.writeProjectTitleInTextfield();
 					}
 				}

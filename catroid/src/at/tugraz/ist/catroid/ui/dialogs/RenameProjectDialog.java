@@ -23,10 +23,12 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.os.Bundle;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameProjectDialog extends TextDialog {
@@ -63,11 +65,12 @@ public class RenameProjectDialog extends TextDialog {
 		String newProjectName = (input.getText().toString()).trim();
 
 		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
+			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+					getString(R.string.notification_invalid_text_entered));
 			return false;
 		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)
 				&& !oldProjectName.equalsIgnoreCase(newProjectName)) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.error_project_exists));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_project_exists));
 			return false;
 		}
 
@@ -75,30 +78,37 @@ public class RenameProjectDialog extends TextDialog {
 			dismiss();
 			return false;
 		}
+		try {
+			if (newProjectName != null && !newProjectName.equalsIgnoreCase("")) {
+				ProjectManager projectManager = ProjectManager.getInstance();
+				String currentProjectName = projectManager.getCurrentProject().getName();
 
-		if (newProjectName != null && !newProjectName.equalsIgnoreCase("")) {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			String currentProjectName = projectManager.getCurrentProject().getName();
+				// check if is current project
+				boolean isCurrentProject = false;
 
-			// check if is current project
-			boolean isCurrentProject = false;
-			if (oldProjectName.equalsIgnoreCase(currentProjectName)) {
-				projectManager.renameProject(newProjectName, getActivity());
+				if (oldProjectName.equalsIgnoreCase(currentProjectName)) {
+					projectManager.renameProject(newProjectName, getActivity(), (ErrorListenerInterface) getActivity());
 
-				isCurrentProject = true;
-				Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, newProjectName);
+					isCurrentProject = true;
+					Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, newProjectName);
+				} else {
+					projectManager.loadProject(oldProjectName, getActivity(), (ErrorListenerInterface) getActivity(),
+							false);
+					projectManager.renameProject(newProjectName, getActivity(), (ErrorListenerInterface) getActivity());
+					projectManager.loadProject(currentProjectName, getActivity(),
+							(ErrorListenerInterface) getActivity(), false);
+				}
+
+				if (onProjectRenameListener != null) {
+					onProjectRenameListener.onProjectRename(isCurrentProject);
+				}
 			} else {
-				projectManager.loadProject(oldProjectName, getActivity(), false);
-				projectManager.renameProject(newProjectName, getActivity());
-				projectManager.loadProject(currentProjectName, getActivity(), false);
+				Utils.displayErrorMessageFragment(getFragmentManager(),
+						getString(R.string.notification_invalid_text_entered));
+				return false;
 			}
-
-			if (onProjectRenameListener != null) {
-				onProjectRenameListener.onProjectRename(isCurrentProject);
-			}
-		} else {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
-			return false;
+		} catch (ClassCastException exception) {
+			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
 
 		return true;

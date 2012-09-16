@@ -22,7 +22,11 @@
  */
 package at.tugraz.ist.catroid.stage;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -46,7 +50,21 @@ public class NativeAppActivity extends StageActivity {
 
 		context = this;
 
-		manager.loadProject("project.xml", this, false);
+		if (!manager.loadProject("project.xml", this, null, false)) {
+
+			Builder builder = new AlertDialog.Builder(context);
+
+			builder.setTitle(context.getString(R.string.error));
+			builder.setMessage(context.getString(R.string.error_load_project));
+			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				}
+			});
+			builder.show();
+
+		}
 		manager = ProjectManager.getInstance();
 		super.onCreate(savedInstanceState);
 	}

@@ -225,6 +225,21 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
 	}
 
+	public void testErrorDialogOrientationChange() {
+		solo.clickOnButton(solo.getString(R.string.new_project));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(100);
+		solo.clearEditText(0);
+		UiTestUtils.enterText(solo, 0, " ");
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(100);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
+		String errorMessage = solo.getString(R.string.error_no_name_entered);
+		assertTrue("Error dialog dissapeared after orientation change", solo.searchText(errorMessage));
+		solo.goBack();
+	}
+
 	public void testLoadProject() {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
@@ -276,6 +291,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testAboutCatroid() {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
 		solo.clickOnButton(getActivity().getString(R.string.about));
 		solo.sleep(200);
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
@@ -289,6 +306,21 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 	}
 
+	public void testAboutDialogOrientationChange() {
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.about));
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
+		assertTrue("About dialog is not visible", solo.searchText(getActivity().getString(R.string.about_text)));
+		solo.sleep(200);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
+		assertTrue("About dialog is not visible", solo.searchText(getActivity().getString(R.string.about_text)));
+		solo.goBack();
+	}
+
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		// Prevent Utils from returning true in isApplicationDebuggable
@@ -299,7 +331,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		runTestOnUiThread(new Runnable() {
 			public void run() {
-				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(), true);
+				ProjectManager.INSTANCE.loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(),
+						getActivity(), true);
 			}
 		});
 

@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.test.utils.TestErrorListenerInterface;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -55,25 +56,25 @@ public class ProjectManagerTest extends AndroidTestCase {
 	public void testShouldReturnFalseIfVersionNumberTooHigh() {
 		TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
 
-		boolean result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
+		boolean result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), null, false);
 		assertFalse("Load project didn't return false", result);
 
 		TestUtils.deleteTestProjects();
 		TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
 
-		result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
+		result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), null, false);
 		assertTrue("Load project didn't return true", result);
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {
 		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(0, OLD_PROJECT);
 
-		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), false);
+		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), null, false);
 		assertTrue("Could not load project.", result);
 
 		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(Integer.MAX_VALUE, NEW_PROJECT);
 
-		result = projectManager.loadProject(NEW_PROJECT, getContext(), false);
+		result = projectManager.loadProject(NEW_PROJECT, getContext(), null, false);
 		assertFalse("Load project didn't return false", result);
 
 		Project currentProject = projectManager.getCurrentProject();
@@ -87,7 +88,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	public void testShouldLoadDefaultProjectIfCannotLoadAnotherProject() throws Exception {
 		assertNull("Current project not null.", projectManager.getCurrentProject());
 
-		boolean result = projectManager.loadProject(DOES_NOT_EXIST, getContext(), false);
+		boolean result = projectManager.loadProject(DOES_NOT_EXIST, getContext(), null, false);
 		assertFalse("Load project didn't return false", result);
 
 		Project currentProject = projectManager.getCurrentProject();
@@ -95,5 +96,12 @@ public class ProjectManagerTest extends AndroidTestCase {
 		assertNotNull("Didn't create default project.", currentProject);
 		assertEquals("Didn't create default project.", getContext().getString(R.string.default_project_name),
 				currentProject.getName());
+	}
+
+	public void testErrorListenerInterface() {
+		TestErrorListenerInterface testErrorListener = new TestErrorListenerInterface();
+		String errorMessage = getContext().getString(R.string.error_load_project);
+		projectManager.loadProject(DOES_NOT_EXIST, getContext(), testErrorListener, true);
+		assertTrue("Wrong error message in ErrorListener", testErrorListener.errorMessage.equals(errorMessage));
 	}
 }

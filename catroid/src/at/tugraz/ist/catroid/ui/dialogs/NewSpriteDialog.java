@@ -43,17 +43,17 @@ public class NewSpriteDialog extends TextDialog {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_already_exists));
 			return false;
 		}
 
 		if (newSpriteName == null || newSpriteName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_invalid));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_invalid));
 			return false;
 		}
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.spritename_already_exists));
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.spritename_already_exists));
 			return false;
 		}
 

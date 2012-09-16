@@ -174,6 +174,7 @@ public abstract class TextDialog extends DialogFragment {
 			public void onClick(View v) {
 				boolean okButtonResult = handleOkButton();
 				onOkButtonHandled();
+
 				if (okButtonResult) {
 					dismiss();
 				}
