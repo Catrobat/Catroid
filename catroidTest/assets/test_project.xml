@@ -21,13 +21,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Project>
-  <platformVersion>10</platformVersion>
+    <Header>
   <applicationVersionCode>8</applicationVersionCode>
-  <applicationVersionName>0.5.6a</applicationVersionName>
-  <deviceName>HTC Desire</deviceName>
-  <projectName>testProject</projectName>
-  <screenHeight>800</screenHeight>
-  <screenWidth>480</screenWidth>
+   <applicationVersionName>0.5.6a</applicationVersionName>
+	<applicationXmlVersion>101</applicationXmlVersion>
+	<deviceName>HTC Desire</deviceName>
+		<platform>Android</platform>
+	<platformVersion>10</platformVersion>
+	<projectName>testProject</projectName>
+	<screenHeight>800</screenHeight>
+	<screenWidth>480</screenWidth>
+	</Header>
   <spriteList>
     <Sprite>
       <name>Stage</name>

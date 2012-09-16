@@ -52,10 +52,16 @@ public class ProjectSerializer extends Serializer {
 			xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME);
 		}
 		projectStringList.add(xmlElementString);
+		xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_HEADER_NAME);
+		projectStringList.add(xmlElementString);
 		if (!(object.getClass().getSuperclass().equals(Object.class))) {
 			getProjectStringsofClass(object, project, projectStringList, object.getClass().getSuperclass());
 		}
 		getProjectStringsofClass(object, project, projectStringList, object.getClass());
+		xmlElementString = getEndTag(CatroidXMLConstants.PROJECT_HEADER_NAME);
+		projectStringList.add(xmlElementString);
+		SpriteSerializer spriteSerializer = new SpriteSerializer(project);
+		projectStringList.addAll(spriteSerializer.serializeList());
 		if (!(object.getClass().getSuperclass().equals(Object.class))) {
 			String className = object.getClass().getName();
 			className = className.replace("$", "_-");
@@ -84,8 +90,8 @@ public class ProjectSerializer extends Serializer {
 						xmlElementString = tab + getElementString(fieldName, (String) fieldValue);
 						projectStringList.add(xmlElementString);
 					} else if (projectField.getName().equals("spriteList")) {
-						SpriteSerializer spriteSerializer = new SpriteSerializer(project);
-						projectStringList.addAll(spriteSerializer.serializeList());
+						//						SpriteSerializer spriteSerializer = new SpriteSerializer(project);
+						//						projectStringList.addAll(spriteSerializer.serializeList());
 					} else {
 						throw new SerializeException("unknown field found in Project class");
 					}
