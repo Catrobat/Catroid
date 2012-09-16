@@ -22,13 +22,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Project>
-  <androidVersion>15</androidVersion>
-  <catroidVersionCode>515</catroidVersionCode>
-  <catroidVersionName>0.6.0beta-515-debug</catroidVersionName>
-  <deviceName>Galaxy Nexus</deviceName>
-  <projectName>Instrumente - eines ist aber falsch!</projectName>
-  <screenHeight>800</screenHeight>
-  <screenWidth>480</screenWidth>
+     <Header>
+  <applicationVersionCode>515</applicationVersionCode>
+   <applicationVersionName>0.6.0beta-515-debug</applicationVersionName>
+	<applicationXmlVersion>101</applicationXmlVersion>
+	<deviceName>Galaxy Nexus</deviceName>
+	 	<platform>Android</platform>
+	<platformVersion>15</platformVersion>
+	<projectName>Instrumente - eines ist aber falsch!</projectName>
+	<screenHeight>800</screenHeight>
+	<screenWidth>480</screenWidth>
+	</Header>
   <spriteList>
     <Sprite>
       <costumeDataList>

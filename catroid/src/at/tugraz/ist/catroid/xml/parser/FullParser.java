@@ -104,8 +104,8 @@ public class FullParser {
 				String spriteName = getSpriteName(spriteElement);
 				Sprite foundSprite = new Sprite(spriteName);
 
-				Node costumeListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME)
-						.item(0);
+				Node costumeListItem = spriteElement
+						.getElementsByTagName(CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME).item(0);
 				if (costumeListItem != null) {
 					NodeList costumeNodes = costumeListItem.getChildNodes();
 					costumeParser.parseCostumeList(costumeNodes, foundSprite, referencedObjects);
@@ -118,8 +118,8 @@ public class FullParser {
 					scriptParser.parseScripts(scriptNodes, foundSprite, referencedObjects, forwardRefs);
 				}
 
-				Node soundListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME).item(
-						0);
+				Node soundListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME)
+						.item(0);
 				if (soundListItem != null) {
 					NodeList soundNodes = soundListItem.getChildNodes();
 					soundParser.parseSoundInfo(soundNodes, foundSprite, referencedObjects, forwardRefs);
@@ -208,10 +208,11 @@ public class FullParser {
 		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(projectClass);
 
 		NodeList projectNodes = doc.getElementsByTagName(nameOfRoot);
-		NodeList projectNodeChildren = projectNodes.item(0).getChildNodes();
-		for (int i = 0; i < projectNodeChildren.getLength(); i++) {
-			if (projectNodeChildren.item(i).getNodeType() != Node.TEXT_NODE) {
-				Element projectChildElement = (Element) projectNodeChildren.item(i);
+		Element headerElement = (Element) doc.getElementsByTagName("Header").item(0);
+		NodeList projectHeaderChildren = headerElement.getChildNodes();
+		for (int i = 0; i < projectHeaderChildren.getLength(); i++) {
+			if (projectHeaderChildren.item(i).getNodeType() != Node.TEXT_NODE) {
+				Element projectChildElement = (Element) projectHeaderChildren.item(i);
 				Field projectField = projectFieldsToSet.get(projectChildElement.getNodeName());
 				if (projectChildElement.getNodeName().equals("spriteList")) {
 					objectGetter.setFieldOfObject(projectField, newProject, sprites2);
@@ -225,6 +226,7 @@ public class FullParser {
 				}
 			}
 		}
+		objectGetter.setFieldOfObject(projectFieldsToSet.get("spriteList"), newProject, sprites2);
 		return newProject;
 	}
 

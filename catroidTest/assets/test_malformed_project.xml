@@ -22,13 +22,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <Project>
-  <androidVersion>10</androidVersion>
-  <catroidVersionCode>10</catroidVersionCode>
-  <catroidVersionName>0.5.6a</catroidVersionName>
-  <deviceName>GT-I9100</deviceName>
-  <projectName>standardProjekt</projectName>
-  <screenHeight>800</screenHeight>
-  <screenWidth>480</screenWidth>
+   <Header>
+  <applicationVersionCode>10</applicationVersionCode>
+   <applicationVersionName>0.5.6a</applicationVersionName>
+	<applicationXmlVersion>101</applicationXmlVersion>
+	<deviceName>GT-I9100</deviceName>
+	<platform>Android</platform>
+	<platformVersion>10</platformVersion>
+	<projectName>standardProjekt</projectName>
+	<screenHeight>800</screenHeight>
+	<screenWidth>480</screenWidth>
+	</Header>
   <spriteList>
     <Sprite>
       <name>Hintergrund</name>
