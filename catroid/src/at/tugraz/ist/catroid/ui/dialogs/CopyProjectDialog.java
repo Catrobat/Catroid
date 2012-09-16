@@ -25,11 +25,11 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -42,7 +42,7 @@ public class CopyProjectDialog extends TextDialog {
 	private class CopyProjectAsyncTask extends AsyncTask<String, Void, Boolean> {
 		boolean screenOrientationChanged = false;
 		boolean copyProcessFinished = false;
-		Activity activityAsync = getActivity();
+		FragmentActivity activityAsync = getActivity();
 
 		@Override
 		protected void onPreExecute() {
@@ -97,13 +97,14 @@ public class CopyProjectDialog extends TextDialog {
 		protected void onCancelled() {
 			if (screenOrientationChanged && !copyProcessFinished) {
 				Log.d("Catroid", "Copy process cancelled");
-				Utils.displayErrorMessage(activityAsync,
+				Utils.displayErrorMessageFragment(activityAsync.getSupportFragmentManager(),
 						activityAsync.getString(R.string.error_orientation_change_copy_project));
 				currentCopyProjectAsyncTask = null;
 
 			} else if (!screenOrientationChanged && !copyProcessFinished) {
 				Log.d("CATROID", "Copy process cancelled");
-				Utils.displayErrorMessage(getActivity(), getActivity().getString(R.string.copy_process_canceled));
+				Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+						getActivity().getString(R.string.copy_process_canceled));
 
 			} else if (copyProcessFinished && !screenOrientationChanged) {
 				if (onCopyProjectListener != null) {
@@ -127,7 +128,8 @@ public class CopyProjectDialog extends TextDialog {
 					dismiss();
 				}
 			} else {
-				Utils.displayErrorMessage(getActivity(), getString(R.string.error_copy_project));
+				Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+						getString(R.string.error_copy_project));
 				return;
 			}
 		}
@@ -170,10 +172,12 @@ public class CopyProjectDialog extends TextDialog {
 		String newProjectName = (input.getText().toString()).trim();
 
 		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
+			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+					getString(R.string.notification_invalid_text_entered));
 			return false;
 		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)) {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.error_project_exists));
+			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+					getString(R.string.error_project_exists));
 			return false;
 		}
 
@@ -193,7 +197,8 @@ public class CopyProjectDialog extends TextDialog {
 			currentCopyProjectAsyncTask = new CopyProjectAsyncTask();
 			currentCopyProjectAsyncTask.execute(newProjectName);
 		} else {
-			Utils.displayErrorMessage(getActivity(), getString(R.string.notification_invalid_text_entered));
+			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+					getString(R.string.notification_invalid_text_entered));
 			return false;
 		}
 		return false;

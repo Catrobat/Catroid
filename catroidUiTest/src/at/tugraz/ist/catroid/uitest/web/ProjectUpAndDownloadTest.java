@@ -192,6 +192,35 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
+		setServerURLToTestUrl();
+
+		String testProject = UiTestUtils.JAPANESE_PROJECT_NAME;
+		createTestProject(testProject);
+
+		//intent to the main activity is sent since changing activity orientation is not working
+		//after executing line "UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);" 
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
+
+		UiTestUtils.createValidUser(getActivity());
+
+		uploadProject(testProject, "");
+		solo.sleep(5000);
+
+		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
+		String DeserializedProjectName = uploadProject.getName();
+		assertTrue("Deserialized project name was changed", DeserializedProjectName.equalsIgnoreCase(testProject));
+
+		UiTestUtils.clearAllUtilTestProjects();
+
+		downloadProjectAndReplace(testProject);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
+
+		String serverProjectName = downloadedProject.getName();
+		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
+	}
+
 	private void createTestProject(String projectToCreate) {
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectToCreate);
 		if (directory.exists()) {

@@ -23,8 +23,10 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.os.Bundle;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
 
@@ -59,9 +61,15 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
 			input.setText(projectManager.getCurrentProject().getDescription());
 		} else {
-			projectManager.loadProject(projectToChangeName, getActivity(), false); //TODO: check something
-			input.setText(projectManager.getCurrentProject().getDescription());
-			projectManager.loadProject(currentProjectName, getActivity(), false);
+			try {
+				projectManager.loadProject(projectToChangeName, getActivity(), (ErrorListenerInterface) getActivity(),
+						false); //TODO: check something
+				input.setText(projectManager.getCurrentProject().getDescription());
+				projectManager.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(),
+						false);
+			} catch (ClassCastException exception) {
+				Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
+			}
 		}
 	}
 
@@ -76,11 +84,15 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			dismiss();
 			return false;
 		}
-
-		projectManager.loadProject(projectToChangeName, getActivity(), false);
-		setDescription(description);
-		projectManager.loadProject(currentProjectName, getActivity(), false);
-
+		try {
+			projectManager.loadProject(projectToChangeName, getActivity(), (ErrorListenerInterface) getActivity(),
+					false);
+			setDescription(description);
+			projectManager
+					.loadProject(currentProjectName, getActivity(), (ErrorListenerInterface) getActivity(), false);
+		} catch (ClassCastException exception) {
+			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
+		}
 		updateProjectDescriptionListener();
 		dismiss();
 		return true;

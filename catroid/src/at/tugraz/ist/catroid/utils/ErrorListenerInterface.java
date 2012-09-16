@@ -20,15 +20,10 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.test.code;
+package at.tugraz.ist.catroid.utils;
 
-import junit.framework.TestCase;
-import at.tugraz.ist.catroid.common.Constants;
+public interface ErrorListenerInterface {
 
-public class ImportantValuesTest extends TestCase {
+	public void showErrorDialog(String errorMessage);
 
-	public void testPaintroidDownloadLink() {
-		assertEquals("wrong paintroid download link", "https://github.com/Catrobat/Paintroid/downloads",
-				Constants.PAINTROID_DOWNLOAD_LINK);
-	}
 }

@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
-import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
+import at.tugraz.ist.catroid.ui.dialogs.AboutDialogFragment;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -52,7 +53,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener {
+public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
+		ErrorListenerInterface {
 
 	private static final String TAG = "MainMenuActivity";
 	private static final String PROJECTNAME_TAG = "fname=";
@@ -74,7 +76,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		actionBar.setDisplayUseLogoEnabled(true);
 
 		projectManager = ProjectManager.getInstance();
-		Utils.loadProjectIfNeeded(this);
+		Utils.loadProjectIfNeeded(this, this);
 
 		if (projectManager.getCurrentProject() == null) {
 			findViewById(R.id.current_project_button).setEnabled(false);
@@ -105,9 +107,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			int b = path.lastIndexOf('.');
 			String projectName = path.substring(a, b);
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.displayErrorMessage(this, getResources().getString(R.string.error_load_project));
+				Utils.displayErrorMessageFragment(getSupportFragmentManager(),
+						getResources().getString(R.string.error_load_project));
 			} else {
-				if (projectManager.loadProject(projectName, this, true)) {
+				if (projectManager.loadProject(projectName, this, this, true)) {
 					writeProjectTitleInTextfield();
 				}
 			}
@@ -170,7 +173,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 		ignoreResume = false;
 
-		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, false);
+		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, this, false);
 		writeProjectTitleInTextfield();
 	}
 
@@ -248,8 +251,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public void handleAboutCatroidButton(View v) {
-		AboutDialog aboutDialog = new AboutDialog(this);
-		aboutDialog.show();
+		AboutDialogFragment aboutDialog = new AboutDialogFragment();
+		aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
@@ -266,5 +269,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	private void showLoginRegisterDialog() {
 		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
 		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void showErrorDialog(String errorMessage) {
+		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 }

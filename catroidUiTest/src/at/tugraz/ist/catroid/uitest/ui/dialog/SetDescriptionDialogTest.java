@@ -67,6 +67,7 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_projects_list);
 		solo.clickLongOnText(testProject);
 		solo.clickInList(2);
 		EditText description = (EditText) solo.getView(R.id.dialog_text_EditMultiLineText);

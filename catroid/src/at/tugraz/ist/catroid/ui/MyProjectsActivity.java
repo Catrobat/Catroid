@@ -28,13 +28,15 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MyProjectsActivity extends SherlockFragmentActivity {
+public class MyProjectsActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
 
 	private ActionBar actionBar;
 
@@ -82,5 +84,10 @@ public class MyProjectsActivity extends SherlockFragmentActivity {
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public void showErrorDialog(String errorMessage) {
+		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 }

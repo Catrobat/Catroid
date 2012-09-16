@@ -32,6 +32,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,6 +50,7 @@ import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
+import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -104,7 +106,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		spritelistFooterView.setOnClickListener(this);
 		getListView().addFooterView(footerView);
 
-		Utils.loadProjectIfNeeded(getActivity());
+		try {
+			Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
+		} catch (ClassCastException exception) {
+			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
+		}
 	}
 
 	@Override
