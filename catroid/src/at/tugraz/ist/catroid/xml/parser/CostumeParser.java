@@ -64,12 +64,12 @@ public class CostumeParser {
 				if (costumeIndex > 1) {
 					costumeindexString = "[" + costumeIndex + "]";
 				}
-				referencedObjects
-						.put(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME + costumeindexString, foundCostumeData);
+				referencedObjects.put(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME + costumeindexString,
+						foundCostumeData);
 				costumeIndex++;
 			}
 		}
-		Field costumeListField = sprite.getClass().getDeclaredField(CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME);
+		Field costumeListField = sprite.getClass().getDeclaredField("costumeDataList");
 		objectGetter.setFieldOfObject(costumeListField, sprite, costumeList);
 
 	}

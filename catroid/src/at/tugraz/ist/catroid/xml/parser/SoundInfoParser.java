@@ -50,7 +50,8 @@ public class SoundInfoParser {
 				SoundInfo foundSoundInfo = new SoundInfo();
 				String soundRef = References.getReferenceAttribute(soundNode);
 				if (soundRef != null) {
-					String suffix = soundRef.substring(soundRef.lastIndexOf(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
+					String suffix = soundRef.substring(soundRef
+							.lastIndexOf(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
 
 					if (referencedObjects.containsKey(suffix)) {
 						foundSoundInfo = (SoundInfo) referencedObjects.get(suffix);
@@ -89,7 +90,7 @@ public class SoundInfoParser {
 				}
 			}
 		}
-		Field soundListField = sprite.getClass().getDeclaredField(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME);
+		Field soundListField = sprite.getClass().getDeclaredField("soundList");
 		objectGetter.setFieldOfObject(soundListField, sprite, soundList);
 
 	}

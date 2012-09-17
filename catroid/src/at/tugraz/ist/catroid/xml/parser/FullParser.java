@@ -214,7 +214,7 @@ public class FullParser {
 			if (projectHeaderChildren.item(i).getNodeType() != Node.TEXT_NODE) {
 				Element projectChildElement = (Element) projectHeaderChildren.item(i);
 				Field projectField = projectFieldsToSet.get(projectChildElement.getNodeName());
-				if (projectChildElement.getNodeName().equals("spriteList")) {
+				if (projectChildElement.getNodeName().equals("SpriteList")) {
 					objectGetter.setFieldOfObject(projectField, newProject, sprites2);
 					continue;
 				}
@@ -226,7 +226,7 @@ public class FullParser {
 				}
 			}
 		}
-		objectGetter.setFieldOfObject(projectFieldsToSet.get("spriteList"), newProject, sprites2);
+		objectGetter.setFieldOfObject(projectFieldsToSet.get("SpriteList"), newProject, sprites2);
 		return newProject;
 	}
 
