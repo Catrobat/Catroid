@@ -1123,12 +1123,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
 		solo.clickOnText(solo.getString(R.string.rename));
-		String negativePositiveText = solo.getString(R.string.cancel_button);
+		String buttonNegativeText = solo.getString(R.string.cancel_button);
 		try {
-			solo.clickOnText(negativePositiveText);
+			solo.clickOnText(buttonNegativeText);
 		} catch (AssertionFailedError e) {
 			solo.goBack();
-			solo.clickOnText(negativePositiveText);
+			solo.clickOnText(buttonNegativeText);
 		}
 		solo.waitForDialogToClose(500);
 
