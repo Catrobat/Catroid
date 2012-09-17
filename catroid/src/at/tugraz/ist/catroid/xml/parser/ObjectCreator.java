@@ -135,6 +135,14 @@ public class ObjectCreator {
 		} else {
 			tagName = field.getName();
 		}
+		tagName = capitalizeFirstLetter(tagName);
+		return tagName;
+	}
+
+	private String capitalizeFirstLetter(String tagName) {
+		char firstLetter = tagName.charAt(0);
+		char capitolFirstLetter = (char) (firstLetter - 32);
+		tagName = capitolFirstLetter + tagName.substring(1);
 		return tagName;
 	}
 

@@ -30,6 +30,7 @@ import java.util.List;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.xml.parser.CatroidXMLConstants;
 import at.tugraz.ist.catroid.xml.parser.ObjectCreator;
 
 public class ScriptSerializer extends Serializer {
@@ -74,9 +75,9 @@ public class ScriptSerializer extends Serializer {
 			String fieldName = objectCreator.extractTagName(scriptClassField);
 			scriptClassField.setAccessible(true);
 			if (!scriptClassField.getType().isPrimitive()) {
-				if (fieldName.equals("sprite")) {
+				if (fieldName.equals("Sprite")) {
 					// sprites are not serialized
-				} else if (fieldName.equals("brickList")) {
+				} else if (fieldName.equals(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME)) {
 					if (serializedScript.getBrickList().size() > 0) {
 						BrickSerializer brickSerializer = new BrickSerializer(serializedSprite, (Script) object,
 								serializedProject);
@@ -99,5 +100,4 @@ public class ScriptSerializer extends Serializer {
 			}
 		}
 	}
-
 }

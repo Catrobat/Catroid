@@ -132,10 +132,11 @@ public class BrickParser {
 			InstantiationException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException,
 			ParseException, SecurityException, NoSuchFieldException {
 		Field spriteField = null;
-		if (brickFieldsToSet.containsKey("sprite")) {
-			spriteField = brickFieldsToSet.get("sprite");
+		if (brickFieldsToSet.containsKey(CatroidXMLConstants.SPRITE_ELEMENT_NAME)) {
+			spriteField = brickFieldsToSet.get(CatroidXMLConstants.SPRITE_ELEMENT_NAME);
 		} else {
-			spriteField = brickObject.getClass().getSuperclass().getDeclaredField("sprite");
+			spriteField = brickObject.getClass().getSuperclass()
+					.getDeclaredField(CatroidXMLConstants.SPRITE_ELEMENT_NAME);
 		}
 		spriteField.setAccessible(true);
 		spriteField.set(brickObject, foundSprite);
@@ -151,14 +152,14 @@ public class BrickParser {
 			if (valueField != null) {
 				valueField.setAccessible(true);
 
-				if (brickvalueName.equals("sprite")) {
+				if (brickvalueName.equals("Sprite")) {
 					valueField.set(brickObject, foundSprite);
 					continue;
 				}
 				String referenceAttribute = References.getReferenceAttribute(brickValue);
 				if (referenceAttribute != null) {
 					if (!referenceAttribute.equals("")) {
-						if (brickvalueName.equals("costumeData")) {
+						if (brickvalueName.equals("CostumeData")) {
 							costumeParser = new CostumeParser();
 							Boolean costumeSet = costumeParser.setCostumedataOfBrick(brickObject, valueField,
 									referenceAttribute, referencedObjects, forwardRefs);
@@ -170,7 +171,7 @@ public class BrickParser {
 							continue;
 
 						}
-						if (brickvalueName.equals("soundInfo")) {
+						if (brickvalueName.equals("SoundInfo")) {
 							referencedObjects.put("PlaySounfRef" + referenceAttribute, brickObject);
 						}
 						if (brickvalueName.equals(CatroidXMLConstants.LOOP_END_BRICK)) {
@@ -186,9 +187,9 @@ public class BrickParser {
 						}
 						if (brickvalueName.equals(CatroidXMLConstants.LOOP_BEGIN_BRICK)) {
 
-							String loopEndref = referenceAttribute.replace("../..", "brickList");
+							String loopEndref = referenceAttribute.replace("../..", "BrickList");
 							brickObject = (Brick) referencedObjects.get(CatroidXMLConstants.LOOP_END_BRICKREFERENCE
-									+ loopEndref + "/loopEndBrick");
+									+ loopEndref + "/LoopEndBrick");
 							if (brickObject != null) {
 								return brickObject;
 							}
