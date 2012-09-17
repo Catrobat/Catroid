@@ -1115,6 +1115,28 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME3));
 	}
 
+	public void testResettActiveDialogId() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_projects_list);
+		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(solo.getString(R.string.rename));
+		String negativePositiveText = solo.getString(R.string.cancel_button);
+		try {
+			solo.clickOnText(negativePositiveText);
+		} catch (AssertionFailedError e) {
+			solo.goBack();
+			solo.clickOnText(negativePositiveText);
+		}
+		solo.waitForDialogToClose(500);
+
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		solo.assertCurrentActivity("Catroid should not crash", MyProjectsActivity.class);
+	}
+
 	public void createProjects() {
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);
