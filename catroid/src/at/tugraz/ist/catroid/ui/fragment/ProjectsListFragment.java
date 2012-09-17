@@ -199,7 +199,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		if (getFragmentManager().findFragmentByTag(RenameProjectDialog.DIALOG_FRAGMENT_TAG) == null
 				&& activeDialogId == CONTEXT_MENU_ITEM_RENAME) {
 			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
-		} else if (getFragmentManager().findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG) == null
+		} else if (getFragmentManager().findFragmentByTag(SetDescriptionDialog.DIALOG_FRAGMENT_TAG) == null
 				&& activeDialogId == CONTEXT_MENU_ITEM_DESCRIPTION) {
 			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		} else if (getFragmentManager().findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG) == null
