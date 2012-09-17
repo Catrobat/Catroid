@@ -1115,7 +1115,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME3));
 	}
 
-	public void testResettActiveDialogId() {
+	public void testResetActiveDialogId() {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.my_projects));
