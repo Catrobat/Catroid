@@ -427,6 +427,28 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		}
 	}
 
+	public void testGetImageFromGalleryNullData() {
+		goToCostumesTab();
+		costumeDataList = ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList();
+		int numberOfCostumeDatasBeforeIntent = costumeDataList.size();
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
+		bundleForGallery.putBoolean("returnNullData", true);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+
+		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
+		solo.sleep(2000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 2000);
+		solo.assertCurrentActivity("Test should not fail - should be in ScriptTabActivity",
+				ScriptTabActivity.class.getSimpleName());
+		costumeDataList = ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList();
+		int numberOfCostumeDatasAfterReturning = costumeDataList.size();
+		assertEquals("wrong size of costumedatalist", numberOfCostumeDatasBeforeIntent,
+				numberOfCostumeDatasAfterReturning);
+	}
+
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
 		goToCostumesTab();
 		int numberOfCostumeDatas = costumeDataList.size();
