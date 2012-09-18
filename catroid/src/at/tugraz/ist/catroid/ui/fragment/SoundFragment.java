@@ -251,7 +251,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		//when new sound title is selected and ready to be added to the catroid project
-		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC) {
+		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
 			arguments.putParcelable(BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
 			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
