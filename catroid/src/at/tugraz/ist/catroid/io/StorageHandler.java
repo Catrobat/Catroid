@@ -297,6 +297,7 @@ public class StorageHandler {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			//deleteFile(filepath);
 		}
 	}
 

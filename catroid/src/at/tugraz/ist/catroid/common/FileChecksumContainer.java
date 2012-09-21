@@ -86,6 +86,9 @@ public class FileChecksumContainer implements Serializable {
 	public boolean decrementUsage(String filepath) throws FileNotFoundException {
 		String checksum = null;
 		for (Map.Entry<String, FileInfo> entry : checksumFileInfoMap.entrySet()) {
+
+			String path = entry.getValue().path;
+
 			if (entry.getValue().path.equalsIgnoreCase(filepath)) {
 				checksum = entry.getKey();
 				break;
