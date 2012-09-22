@@ -38,31 +38,43 @@ import at.tugraz.ist.catroid.xml.parser.XMLAlias;
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
+
 	private String projectName;
 	private String description;
+	@XMLAlias("screenWidth")
+	public int virtualScreenWidth = 0;
+	@XMLAlias("screenHeight")
+	public int virtualScreenHeight = 0;
 
-	// Only used for Catroid website
+	private String catrobatLanguageVersion;
+
+	// fields only used on the catrobat.org website so far
+	@SuppressWarnings("unused")
+	private String applicationBuildNumber;
+	@SuppressWarnings("unused")
+	private String applicationName;
+	@SuppressWarnings("unused")
+	private String applicationVersion;
+	@SuppressWarnings("unused")
+	private String DateTimeUpload;
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
+	private String MediaLicense;
+	@SuppressWarnings("unused")
+	private String platform;
+	@SuppressWarnings("unused")
 	private int platformVersion;
 	@SuppressWarnings("unused")
-	private String applicationVersionName;
+	private String programLicense;
 	@SuppressWarnings("unused")
-	private int applicationVersionCode;
-
-	// These are added to match the new xml schema at http://catroidtestserver.ist.tugraz.at/xmlSchema/validateXmlNew.php
-	// requires review
-	private int applicationXmlVersion = 101;
-	private String platform = "Android";
-
-	//@XStreamAlias("screenWidth")
-	@XMLAlias("screenWidth")
-	public int virtualScreenWidth = 0;
-
-	//@XStreamAlias("screenHeight")
-	@XMLAlias("screenHeight")
-	public int virtualScreenHeight = 0;
+	private String remixOf;
+	@SuppressWarnings("unused")
+	private String url;
+	@SuppressWarnings("unused")
+	private String userHandle;
+	@SuppressWarnings("unused")
+	private String applicationVersionName;
 
 	public Project(Context context, String name) {
 		this.projectName = name;
