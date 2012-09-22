@@ -124,7 +124,15 @@ public abstract class Serializer {
 	}
 
 	public String getElementString(String elementName, String value) {
-		return "<" + elementName + ">" + value + "</" + elementName + ">\n";
+		if (value != null) {
+			if (value.equals("")) {
+				return getEmptyTag(elementName);
+			} else {
+				return "<" + elementName + ">" + value + "</" + elementName + ">\n";
+			}
+		} else {
+			return getEmptyTag(elementName);
+		}
 	}
 
 	public String getStartTag(String tagName) {

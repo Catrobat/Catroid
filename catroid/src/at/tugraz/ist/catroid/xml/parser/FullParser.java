@@ -191,7 +191,7 @@ public class FullParser {
 		Node rootNode = doc.getDocumentElement();
 		String nameOfRoot = rootNode.getNodeName();
 		Class<?> projectClass = null;
-		if (!nameOfRoot.equals("Project")) {
+		if (!nameOfRoot.equals("CatrobatProgram")) {
 			String classNameOriginal = nameOfRoot.replace("_-", "$");
 			try {
 				projectClass = Class.forName(classNameOriginal);
@@ -220,9 +220,14 @@ public class FullParser {
 				}
 
 				if (projectField != null) {
-					String valueInString = projectChildElement.getChildNodes().item(0).getNodeValue();
-					Object valueObject = objectGetter.getobjectOfClass(projectField.getType(), valueInString);
-					objectGetter.setFieldOfObject(projectField, newProject, valueObject);
+					NodeList gs = projectChildElement.getChildNodes();
+					if (projectChildElement.getChildNodes().getLength() > 0) {
+						String valueInString = projectChildElement.getChildNodes().item(0).getNodeValue();
+						Object valueObject = objectGetter.getobjectOfClass(projectField.getType(), valueInString);
+						objectGetter.setFieldOfObject(projectField, newProject, valueObject);
+					} else {
+						objectGetter.setFieldOfObject(projectField, newProject, null);
+					}
 				}
 			}
 		}
