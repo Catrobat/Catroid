@@ -200,28 +200,29 @@ public class TestUtils {
 		return null;
 	}
 
-	private static class ProjectWithVersionCode extends Project {
+	private static class ProjectWithCatrobatLanguageVersion extends Project {
 		static final long serialVersionUID = 1L;
-		private final int mCatroidVersionCode;
+		private final String catrobatLanguageVersion;
 
 		@SuppressWarnings("unused")
-		public ProjectWithVersionCode() {
-			mCatroidVersionCode = 123;
+		public ProjectWithCatrobatLanguageVersion() {
+			catrobatLanguageVersion = "123";
 		}
 
-		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+		public ProjectWithCatrobatLanguageVersion(String name, String catrobatLanguageVersion) {
 			super(null, name);
-			mCatroidVersionCode = catroidVersionCode;
+			this.catrobatLanguageVersion = catrobatLanguageVersion;
 		}
 
 		@Override
-		public int getCatroidVersionCode() {
-			return mCatroidVersionCode;
+		public String getCatrobatLanguageVersion() {
+			return catrobatLanguageVersion;
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name) {
-		Project project = new ProjectWithVersionCode(name, versionCode);
+	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
+			String catrobatLanguageVersion, String name) {
+		Project project = new ProjectWithCatrobatLanguageVersion(name, catrobatLanguageVersion);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
 
@@ -231,8 +232,9 @@ public class TestUtils {
 		StorageHandler.getInstance().saveProject(project);
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
-		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, DEFAULT_TEST_PROJECT_NAME);
+	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersion(String catrobatLanguageVersion) {
+		createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
+				DEFAULT_TEST_PROJECT_NAME);
 	}
 
 	public static void deleteTestProjects(String... additionalProjectNames) {

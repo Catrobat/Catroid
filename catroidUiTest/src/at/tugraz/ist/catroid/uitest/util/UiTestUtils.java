@@ -717,23 +717,28 @@ public class UiTestUtils {
 		solo.sleep(1000);
 	}
 
-	private static class ProjectWithVersionCode extends Project {
+	private static class ProjectWithCatrobatLanguageVersion extends Project {
 		static final long serialVersionUID = 1L;
-		private final int mCatroidVersionCode;
+		private final String catrobatLanguageVersion;
 
-		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+		@SuppressWarnings("unused")
+		public ProjectWithCatrobatLanguageVersion() {
+			catrobatLanguageVersion = "0.2";
+		}
+
+		public ProjectWithCatrobatLanguageVersion(String name, String catrobatLanguageVersion) {
 			super(null, name);
-			mCatroidVersionCode = catroidVersionCode;
+			this.catrobatLanguageVersion = catrobatLanguageVersion;
 		}
 
 		@Override
-		public int getCatroidVersionCode() {
-			return mCatroidVersionCode;
+		public String getCatrobatLanguageVersion() {
+			return catrobatLanguageVersion;
 		}
 	}
 
-	public static boolean createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
-		Project project = new ProjectWithVersionCode(DEFAULT_TEST_PROJECT_NAME, versionCode);
+	public static boolean createTestProjectOnLocalStorageWithCatrobatLanguageVersion(String catrobatLanguageVersion) {
+		Project project = new ProjectWithCatrobatLanguageVersion(DEFAULT_TEST_PROJECT_NAME, catrobatLanguageVersion);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
 
