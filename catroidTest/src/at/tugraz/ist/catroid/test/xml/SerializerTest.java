@@ -404,28 +404,28 @@ public class SerializerTest extends InstrumentationTestCase {
 		UtilFile.deleteDirectory(bigProjectDirectory);
 	}
 
-	private static class ProjectWithVersionCode extends Project {
+	private static class ProjectWithCatrobatLanguageVersion extends Project {
 		static final long serialVersionUID = 1L;
-		private final int mCatroidVersionCode;
+		private final String catrobatLanguageVersion;
 
 		@SuppressWarnings("unused")
-		public ProjectWithVersionCode() {
-			mCatroidVersionCode = Integer.MAX_VALUE;
+		public ProjectWithCatrobatLanguageVersion() {
+			catrobatLanguageVersion = "123";
 		}
 
-		public ProjectWithVersionCode(String name, int catroidVersionCode) {
+		public ProjectWithCatrobatLanguageVersion(String name, String catrobatLanguageVersion) {
 			super(null, name);
-			mCatroidVersionCode = catroidVersionCode;
+			this.catrobatLanguageVersion = catrobatLanguageVersion;
 		}
 
 		@Override
-		public int getCatroidVersionCode() {
-			return mCatroidVersionCode;
+		public String getCatrobatLanguageVersion() {
+			return catrobatLanguageVersion;
 		}
 	}
 
 	public void testSerializingChildClassProject() {
-		Project project = new ProjectWithVersionCode("versionProject", 123);
+		Project project = new ProjectWithCatrobatLanguageVersion("versionProject", "0.1");
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
 

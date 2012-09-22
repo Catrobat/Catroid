@@ -67,6 +67,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String projectNameWithBlacklistedCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
 	private String projectNameWithWhitelistedCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 
+	private static final String CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = "0.0";
+
 	public MainMenuActivityTest() {
 		super(MainMenuActivity.class);
 	}
@@ -326,7 +328,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		// Prevent Utils from returning true in isApplicationDebuggable
 		UiTestUtils.setPrivateField2(Utils.class, null, "isUnderTest", true);
 
-		boolean result = UiTestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
+		boolean result = UiTestUtils
+				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 		assertTrue("Could not create test project.", result);
 
 		runTestOnUiThread(new Runnable() {
