@@ -24,6 +24,6 @@ package at.tugraz.ist.catroid.common;
 
 public class Values {
 
-	public static int SCREEN_WIDTH;
-	public static int SCREEN_HEIGHT;
+	public static int SCREEN_WIDTH = 480;
+	public static int SCREEN_HEIGHT = 320;
 }
