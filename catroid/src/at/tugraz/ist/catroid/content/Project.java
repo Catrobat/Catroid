@@ -48,31 +48,31 @@ public class Project implements Serializable {
 
 	// fields only used on the catrobat.org website so far
 	@SuppressWarnings("unused")
-	private int applicationBuildNumber;
+	private int applicationBuildNumber = 0;
 	@SuppressWarnings("unused")
-	private String applicationName;
+	private String applicationName = "";
 	@SuppressWarnings("unused")
-	private String applicationVersion;
+	private String applicationVersion = "";
 	@SuppressWarnings("unused")
-	private String DateTimeUpload;
+	private String dateTimeUpload = "";
 	@SuppressWarnings("unused")
-	private String deviceName;
+	private String deviceName = "";
 	@SuppressWarnings("unused")
-	private String MediaLicense;
+	private String mediaLicense = "";
 	@SuppressWarnings("unused")
-	private String platform;
+	private String platform = "";
 	@SuppressWarnings("unused")
-	private int platformVersion;
+	private int platformVersion = 0;
 	@SuppressWarnings("unused")
-	private String programLicense;
+	private String programLicense = "";
 	@SuppressWarnings("unused")
-	private String remixOf;
+	private String remixOf = "";
 	@SuppressWarnings("unused")
-	private String url;
+	private String url = "";
 	@SuppressWarnings("unused")
-	private String userHandle;
+	private String userHandle = "";
 	@SuppressWarnings("unused")
-	private String applicationVersionName;
+	private String applicationVersionName = "";
 
 	public Project(Context context, String name) {
 		this.projectName = name;
