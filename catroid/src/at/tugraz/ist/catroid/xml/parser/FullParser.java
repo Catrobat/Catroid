@@ -191,7 +191,7 @@ public class FullParser {
 		Node rootNode = doc.getDocumentElement();
 		String nameOfRoot = rootNode.getNodeName();
 		Class<?> projectClass = null;
-		if (!nameOfRoot.equals("CatrobatProgram")) {
+		if (!nameOfRoot.equals(CatroidXMLConstants.PROJECT_ELEMENT_NAME)) {
 			String classNameOriginal = nameOfRoot.replace("_-", "$");
 			try {
 				projectClass = Class.forName(classNameOriginal);
