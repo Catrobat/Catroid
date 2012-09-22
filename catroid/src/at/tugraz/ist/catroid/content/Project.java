@@ -33,9 +33,8 @@ import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.parser.XMLAlias;
 
-//import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 public class Project implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 
@@ -45,12 +44,11 @@ public class Project implements Serializable {
 	public int virtualScreenWidth = 0;
 	@XMLAlias("screenHeight")
 	public int virtualScreenHeight = 0;
-
 	private String catrobatLanguageVersion;
 
 	// fields only used on the catrobat.org website so far
 	@SuppressWarnings("unused")
-	private String applicationBuildNumber;
+	private int applicationBuildNumber;
 	@SuppressWarnings("unused")
 	private String applicationName;
 	@SuppressWarnings("unused")
@@ -138,23 +136,25 @@ public class Project implements Serializable {
 		return description;
 	}
 
-	public int getCatroidVersionCode() {
-		return applicationVersionCode;
+	public String getCatrobatLanguageVersion() {
+		return this.catrobatLanguageVersion;
 	}
 
 	public void setDeviceData(Context context) {
+		// TODO add other header values
 		deviceName = Build.MODEL;
 		platformVersion = Build.VERSION.SDK_INT;
 
 		if (context == null) {
 			applicationVersionName = "unknown";
-			applicationVersionCode = 0;
+
 		} else {
 			applicationVersionName = Utils.getVersionName(context);
-			applicationVersionCode = Utils.getVersionCode(context);
+
 		}
 	}
 
+	// default constructor for XMLParser
 	public Project() {
 
 	}

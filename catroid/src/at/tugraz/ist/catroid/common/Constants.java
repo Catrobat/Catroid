@@ -26,6 +26,7 @@ import android.os.Environment;
 
 public final class Constants {
 
+	public static final String SUPPORTED_CATROBAT_LANGUAGE_VERSION = "0.1";
 	public static final String PROJECTCODE_NAME = "projectcode.xml";
 	public static final String CATROID_EXTENTION = ".catrobat";
 	public static final String RECORDING_EXTENTION = ".mp3";
