@@ -202,26 +202,26 @@ public class TestUtils {
 
 	private static class ProjectWithCatrobatLanguageVersion extends Project {
 		static final long serialVersionUID = 1L;
-		private final String catrobatLanguageVersion;
+		private final float catrobatLanguageVersion;
 
 		@SuppressWarnings("unused")
 		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = "123";
+			catrobatLanguageVersion = 0.1f;
 		}
 
-		public ProjectWithCatrobatLanguageVersion(String name, String catrobatLanguageVersion) {
+		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
 			super(null, name);
 			this.catrobatLanguageVersion = catrobatLanguageVersion;
 		}
 
 		@Override
-		public String getCatrobatLanguageVersion() {
+		public float getCatrobatLanguageVersion() {
 			return catrobatLanguageVersion;
 		}
 	}
 
-	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
-			String catrobatLanguageVersion, String name) {
+	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(float catrobatLanguageVersion,
+			String name) {
 		Project project = new ProjectWithCatrobatLanguageVersion(name, catrobatLanguageVersion);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
@@ -232,7 +232,7 @@ public class TestUtils {
 		StorageHandler.getInstance().saveProject(project);
 	}
 
-	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersion(String catrobatLanguageVersion) {
+	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
 				DEFAULT_TEST_PROJECT_NAME);
 	}

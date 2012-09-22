@@ -67,7 +67,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String projectNameWithBlacklistedCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
 	private String projectNameWithWhitelistedCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 
-	private static final String CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = "0.0";
+	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
 
 	public MainMenuActivityTest() {
 		super(MainMenuActivity.class);

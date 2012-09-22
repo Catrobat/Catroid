@@ -35,8 +35,8 @@ public class ProjectManagerTest extends AndroidTestCase {
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
 
-	private static final String CATROBAT_LANGUAGE_VERSION_SUPPORTED = "0.1";
-	private static final String CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = "0.0";
+	private static final float CATROBAT_LANGUAGE_VERSION_SUPPORTED = 0.1f;
+	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
 
 	private ProjectManager projectManager;
 
