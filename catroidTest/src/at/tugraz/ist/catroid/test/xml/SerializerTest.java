@@ -406,26 +406,26 @@ public class SerializerTest extends InstrumentationTestCase {
 
 	private static class ProjectWithCatrobatLanguageVersion extends Project {
 		static final long serialVersionUID = 1L;
-		private final String catrobatLanguageVersion;
+		private final float catrobatLanguageVersion;
 
 		@SuppressWarnings("unused")
 		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = "123";
+			catrobatLanguageVersion = 0.1f;
 		}
 
-		public ProjectWithCatrobatLanguageVersion(String name, String catrobatLanguageVersion) {
+		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
 			super(null, name);
 			this.catrobatLanguageVersion = catrobatLanguageVersion;
 		}
 
 		@Override
-		public String getCatrobatLanguageVersion() {
+		public float getCatrobatLanguageVersion() {
 			return catrobatLanguageVersion;
 		}
 	}
 
 	public void testSerializingChildClassProject() {
-		Project project = new ProjectWithCatrobatLanguageVersion("versionProject", "0.1");
+		Project project = new ProjectWithCatrobatLanguageVersion("versionProject", 0.1f);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
 

@@ -719,25 +719,25 @@ public class UiTestUtils {
 
 	private static class ProjectWithCatrobatLanguageVersion extends Project {
 		static final long serialVersionUID = 1L;
-		private final String catrobatLanguageVersion;
+		private final float catrobatLanguageVersion;
 
 		@SuppressWarnings("unused")
 		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = "0.2";
+			catrobatLanguageVersion = 0.2f;
 		}
 
-		public ProjectWithCatrobatLanguageVersion(String name, String catrobatLanguageVersion) {
+		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
 			super(null, name);
 			this.catrobatLanguageVersion = catrobatLanguageVersion;
 		}
 
 		@Override
-		public String getCatrobatLanguageVersion() {
+		public float getCatrobatLanguageVersion() {
 			return catrobatLanguageVersion;
 		}
 	}
 
-	public static boolean createTestProjectOnLocalStorageWithCatrobatLanguageVersion(String catrobatLanguageVersion) {
+	public static boolean createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		Project project = new ProjectWithCatrobatLanguageVersion(DEFAULT_TEST_PROJECT_NAME, catrobatLanguageVersion);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);

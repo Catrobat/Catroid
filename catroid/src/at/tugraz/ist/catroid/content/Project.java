@@ -44,7 +44,7 @@ public class Project implements Serializable {
 	public int virtualScreenWidth = 0;
 	@XMLAlias("screenHeight")
 	public int virtualScreenHeight = 0;
-	private String catrobatLanguageVersion;
+	private float catrobatLanguageVersion;
 
 	// fields only used on the catrobat.org website so far
 	@SuppressWarnings("unused")
@@ -136,7 +136,7 @@ public class Project implements Serializable {
 		return description;
 	}
 
-	public String getCatrobatLanguageVersion() {
+	public float getCatrobatLanguageVersion() {
 		return this.catrobatLanguageVersion;
 	}
 
