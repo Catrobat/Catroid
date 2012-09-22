@@ -86,7 +86,7 @@ public class ProjectManager {
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
-				&& project.getCatroidVersionCode() > Utils.getVersionCode(context)) {
+				&& !project.getCatrobatLanguageVersion().equals(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
 			if (errorMessage && errorListener != null) {
 				errorListener.showErrorDialog(context.getString(R.string.error_project_compatability));
