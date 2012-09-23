@@ -29,6 +29,7 @@ import java.util.List;
 import android.content.Context;
 import android.os.Build;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.parser.XMLAlias;
@@ -68,14 +69,15 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private String remixOf = "";
 	@SuppressWarnings("unused")
-	private String url = "";
+	private String uRL = "";
 	@SuppressWarnings("unused")
 	private String userHandle = "";
-	@SuppressWarnings("unused")
-	private String applicationVersionName = "";
 
 	public Project(Context context, String name) {
-		this.projectName = name;
+		projectName = name;
+		description = "";
+		catrobatLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
+
 		ifLandscapeSwitchWidthAndHeight();
 		virtualScreenWidth = Values.SCREEN_WIDTH;
 		virtualScreenHeight = Values.SCREEN_HEIGHT;
@@ -146,10 +148,10 @@ public class Project implements Serializable {
 		platformVersion = Build.VERSION.SDK_INT;
 
 		if (context == null) {
-			applicationVersionName = "unknown";
+			applicationVersion = "unknown";
 
 		} else {
-			applicationVersionName = Utils.getVersionName(context);
+			applicationVersion = Utils.getVersionName(context);
 
 		}
 	}
