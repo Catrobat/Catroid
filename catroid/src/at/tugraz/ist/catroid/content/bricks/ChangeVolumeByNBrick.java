@@ -32,26 +32,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-//import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-public class ChangeXByBrick implements Brick, OnClickListener {
+public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xMovement;
-	private Sprite sprite;
 
-	//@XStreamOmitField
+	private Sprite sprite;
+	private double volume;
+
 	private transient View view;
 
-	public ChangeXByBrick() {
+	public ChangeVolumeByNBrick() {
 
 	}
 
-	public ChangeXByBrick(Sprite sprite, int xMovement) {
+	public ChangeVolumeByNBrick(Sprite sprite, double changeVolume) {
 		this.sprite = sprite;
-		this.xMovement = xMovement;
+		this.volume = changeVolume;
 	}
 
 	@Override
@@ -61,19 +60,14 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.costume.aquireXYWidthHeightLock();
-		int xPosition = (int) sprite.costume.getXPosition();
-
-		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
-			xPosition = Integer.MAX_VALUE;
-		} else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
-			xPosition = Integer.MIN_VALUE;
-		} else {
-			xPosition += xMovement;
+		float currentVolume = SoundManager.getInstance().getVolume();
+		currentVolume += volume;
+		if (currentVolume < 0.0f) {
+			currentVolume = 0.0f;
+		} else if (currentVolume > 100.0f) {
+			currentVolume = 100.0f;
 		}
-
-		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
-		sprite.costume.releaseXYWidthHeightLock();
+		SoundManager.getInstance().setVolume(currentVolume);
 	}
 
 	@Override
@@ -81,30 +75,35 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
+	public double getVolume() {
+		return volume;
+	}
+
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
-		view = View.inflate(context, R.layout.brick_change_x, null);
+		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_text_view);
+		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
+		edit.setText(String.valueOf(volume));
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
-		editX.setText(String.valueOf(xMovement));
+		text.setVisibility(View.GONE);
+		edit.setVisibility(View.VISIBLE);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		editX.setOnClickListener(this);
+		edit.setOnClickListener(this);
 
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_x, null);
+		View view = View.inflate(context, R.layout.brick_change_volume_by, null);
+		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeXByBrick(getSprite(), xMovement);
+		return new ChangeVolumeByNBrick(getSprite(), getVolume());
 	}
 
 	@Override
@@ -114,15 +113,16 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				input.setText(String.valueOf(xMovement));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+				input.setText(String.valueOf(volume));
+				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
 
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					xMovement = Integer.parseInt(input.getText().toString());
+					volume = Float.parseFloat(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
@@ -131,6 +131,6 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 			}
 		};
 
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_x_by_brick");
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
 	}
 }

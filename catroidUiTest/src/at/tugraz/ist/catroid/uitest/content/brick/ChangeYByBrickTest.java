@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -46,7 +46,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	private Solo solo;
 	private Project project;
-	private ChangeYByBrick changeYByBrick;
+	private ChangeYByNBrick changeYByBrick;
 
 	public ChangeYByBrickTest() {
 		super(ScriptTabActivity.class);
@@ -105,7 +105,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeYByBrick = new ChangeYByBrick(sprite, 0);
+		changeYByBrick = new ChangeYByNBrick(sprite, 0);
 		script.addBrick(changeYByBrick);
 
 		sprite.addScript(script);

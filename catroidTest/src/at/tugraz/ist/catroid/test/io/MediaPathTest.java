@@ -38,8 +38,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
@@ -257,8 +257,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		ArrayList<Brick> brickList1 = new ArrayList<Brick>();
 		ArrayList<Brick> brickList2 = new ArrayList<Brick>();
-		brickList1.add(new ChangeXByBrick(sprite, 4));
-		brickList1.add(new ChangeYByBrick(sprite, 5));
+		brickList1.add(new ChangeXByNBrick(sprite, 4));
+		brickList1.add(new ChangeYByNBrick(sprite, 5));
 		brickList1.add(new ComeToFrontBrick(sprite));
 		brickList1.add(new GoNStepsBackBrick(sprite, 5));
 		brickList1.add(new HideBrick(sprite));

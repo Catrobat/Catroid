@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByNBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
@@ -67,14 +67,14 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 
 		float volume = SoundManager.getInstance().getVolume();
 		volume += louder;
-		ChangeVolumeByBrick changeVolumeByBrick1 = new ChangeVolumeByBrick(sprite, louder);
+		ChangeVolumeByNBrick changeVolumeByBrick1 = new ChangeVolumeByNBrick(sprite, louder);
 		changeVolumeByBrick1.execute();
 		assertEquals("Incorrect sprite volume after ChangeVolumeByBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 
 		volume = SoundManager.getInstance().getVolume();
 		volume += softer;
-		ChangeVolumeByBrick changeVolumeByBrick2 = new ChangeVolumeByBrick(sprite, softer);
+		ChangeVolumeByNBrick changeVolumeByBrick2 = new ChangeVolumeByNBrick(sprite, softer);
 		changeVolumeByBrick2.execute();
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", volume, SoundManager.getInstance()
 				.getVolume());

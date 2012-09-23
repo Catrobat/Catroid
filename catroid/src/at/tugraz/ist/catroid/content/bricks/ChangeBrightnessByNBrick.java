@@ -35,92 +35,87 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-public class ChangeGhostEffectBrick implements Brick, OnClickListener {
+public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeGhostEffect;
+	private double changeBrightness;
 	private Sprite sprite;
 
 	private transient View view;
 
-	public ChangeGhostEffectBrick() {
-
+	public ChangeBrightnessByNBrick(){
+		
 	}
-
-	public ChangeGhostEffectBrick(Sprite sprite, double changeGhostEffect) {
+	
+	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightness) {
 		this.sprite = sprite;
-		this.changeGhostEffect = changeGhostEffect;
+		this.changeBrightness = changeBrightness;
 	}
 
-	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
-	@Override
 	public void execute() {
-		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / -100);
+		sprite.costume.changeBrightnessValueBy((float) (this.changeBrightness / 100));
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public double getChangeGhostEffect() {
-		return changeGhostEffect;
+	public double getChangeBrightness() {
+		return changeBrightness;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_change_brightness, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-		editX.setText(String.valueOf(changeGhostEffect));
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_text_view);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
+		editX.setText(String.valueOf(changeBrightness));
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
+
 		editX.setOnClickListener(this);
 
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		return View.inflate(context, R.layout.brick_change_brightness, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeGhostEffectBrick(getSprite(), getChangeGhostEffect());
+		return new ChangeBrightnessByNBrick(getSprite(), getChangeBrightness());
 	}
 
-	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-
+		
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				input.setText(String.valueOf(changeGhostEffect));
+				input.setText(String.valueOf(changeBrightness));
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
 						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-
+			
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					changeGhostEffect = Double.parseDouble(input.getText().toString());
+					changeBrightness = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-
+				
 				return true;
 			}
 		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_ghost_effect_brick");
+		
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_brightness_brick");
 	}
 }

@@ -37,21 +37,21 @@ import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
 //import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class ChangeYByBrick implements Brick, OnClickListener {
+public class ChangeXByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int yMovement;
+	private int xMovement;
 	private Sprite sprite;
 
 	//@XStreamOmitField
 	private transient View view;
 
-	public ChangeYByBrick() {
+	public ChangeXByNBrick() {
 
 	}
 
-	public ChangeYByBrick(Sprite sprite, int yMovement) {
+	public ChangeXByNBrick(Sprite sprite, int xMovement) {
 		this.sprite = sprite;
-		this.yMovement = yMovement;
+		this.xMovement = xMovement;
 	}
 
 	@Override
@@ -62,17 +62,17 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 	@Override
 	public void execute() {
 		sprite.costume.aquireXYWidthHeightLock();
-		int yPosition = (int) sprite.costume.getYPosition();
+		int xPosition = (int) sprite.costume.getXPosition();
 
-		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
-			yPosition = Integer.MAX_VALUE;
-		} else if (yPosition < 0 && yMovement < 0 && yPosition + yMovement > 0) {
-			yPosition = Integer.MIN_VALUE;
+		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
+			xPosition = Integer.MAX_VALUE;
+		} else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
+			xPosition = Integer.MIN_VALUE;
 		} else {
-			yPosition += yMovement;
+			xPosition += xMovement;
 		}
 
-		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
+		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
 		sprite.costume.releaseXYWidthHeightLock();
 	}
 
@@ -84,27 +84,27 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_change_y, null);
+		view = View.inflate(context, R.layout.brick_change_x, null);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_text_view);
-		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
-		editY.setText(String.valueOf(yMovement));
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_text_view);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
+		editX.setText(String.valueOf(xMovement));
 
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
-		editY.setOnClickListener(this);
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+		editX.setOnClickListener(this);
 
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_y, null);
+		return View.inflate(context, R.layout.brick_change_x, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeYByBrick(getSprite(), yMovement);
+		return new ChangeXByNBrick(getSprite(), xMovement);
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				input.setText(String.valueOf(yMovement));
+				input.setText(String.valueOf(xMovement));
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
@@ -122,7 +122,7 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					yMovement = Integer.parseInt(input.getText().toString());
+					xMovement = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
@@ -131,6 +131,6 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 			}
 		};
 
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_y_by_brick");
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_x_by_brick");
 	}
 }

@@ -35,87 +35,102 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-public class ChangeBrightnessBrick implements Brick, OnClickListener {
+//import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+public class ChangeYByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeBrightness;
+	private int yMovement;
 	private Sprite sprite;
 
+	//@XStreamOmitField
 	private transient View view;
 
-	public ChangeBrightnessBrick(){
-		
-	}
-	
-	public ChangeBrightnessBrick(Sprite sprite, double changeBrightness) {
-		this.sprite = sprite;
-		this.changeBrightness = changeBrightness;
+	public ChangeYByNBrick() {
+
 	}
 
+	public ChangeYByNBrick(Sprite sprite, int yMovement) {
+		this.sprite = sprite;
+		this.yMovement = yMovement;
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
-		sprite.costume.changeBrightnessValueBy((float) (this.changeBrightness / 100));
+		sprite.costume.aquireXYWidthHeightLock();
+		int yPosition = (int) sprite.costume.getYPosition();
+
+		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
+			yPosition = Integer.MAX_VALUE;
+		} else if (yPosition < 0 && yMovement < 0 && yPosition + yMovement > 0) {
+			yPosition = Integer.MIN_VALUE;
+		} else {
+			yPosition += yMovement;
+		}
+
+		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public double getChangeBrightness() {
-		return changeBrightness;
-	}
-
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_change_brightness, null);
+		view = View.inflate(context, R.layout.brick_change_y, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
-		editX.setText(String.valueOf(changeBrightness));
+		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_text_view);
+		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
+		editY.setText(String.valueOf(yMovement));
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-
-		editX.setOnClickListener(this);
+		textY.setVisibility(View.GONE);
+		editY.setVisibility(View.VISIBLE);
+		editY.setOnClickListener(this);
 
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_brightness, null);
+		return View.inflate(context, R.layout.brick_change_y, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeBrightnessBrick(getSprite(), getChangeBrightness());
+		return new ChangeYByNBrick(getSprite(), yMovement);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				input.setText(String.valueOf(changeBrightness));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
+				input.setText(String.valueOf(yMovement));
+				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					changeBrightness = Double.parseDouble(input.getText().toString());
+					yMovement = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_brightness_brick");
+
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_y_by_brick");
 	}
 }
