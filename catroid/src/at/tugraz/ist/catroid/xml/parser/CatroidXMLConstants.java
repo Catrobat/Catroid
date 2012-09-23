@@ -49,15 +49,15 @@ public class CatroidXMLConstants {
 
 	public static final String SOUND_INFO = "SoundInfo";
 	public static final String SOUND_LIST_ELEMENT_NAME = "SoundList";
-	public static final String SOUND_INFO_ELEMENT_NAME = "SoundInfo";
+	public static final String SOUND_INFO_ELEMENT_NAME = "Sound";
 
-	public static final String COSTUME_DATA_ELEMENT_NAME = "CostumeData";
-	public static final String COSTUME_LIST_ELEMENT_NAME = "CostumeDataList";
+	public static final String COSTUME_DATA_ELEMENT_NAME = "Costume";
+	public static final String COSTUME_LIST_ELEMENT_NAME = "CostumeList";
 
 	public static final String FILE_NAME = "FileName";
 	public static final String NAME = "Name";
 
-	public static final String COSTUMEREFERENCE_FROM_BRICK = "../../../../../CostumeDataList/CostumeData";
+	public static final String COSTUMEREFERENCE_FROM_BRICK = "../../../../../CostumeList/Costume";
 	public static final String SPRITEREFERENCE_FROM_BRICK = "../../../../../../Sprite";
-	public static final String SOUNDREFERENCE_FROM_BRICK = "../../../../../SoundList/SoundInfo";
+	public static final String SOUNDREFERENCE_FROM_BRICK = "../../../../../SoundList/Sound";
 }
