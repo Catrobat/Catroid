@@ -24,33 +24,32 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
 
-public class ChangeYByBrickTest extends AndroidTestCase {
+public class ChangeXByNBrickTest extends AndroidTestCase {
 
-	private int yMovement = 100;
+	private int xMovement = 100;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.costume.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.costume.getYPosition());
 
-		int yPosition = (int) sprite.costume.getYPosition();
+		int xPosition = (int) sprite.costume.getXPosition();
 
-		ChangeYByNBrick changeYByBrick = new ChangeYByNBrick(sprite, yMovement);
-		changeYByBrick.execute();
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, xMovement);
+		changeXByNBrick.execute();
 
-		yPosition += yMovement;
-		assertEquals("Incorrect sprite y position after ChangeYByBrick executed", (float) yPosition,
-				sprite.costume.getYPosition());
+		xPosition += xMovement;
+		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", (float) xPosition,
+				sprite.costume.getXPosition());
 	}
 
 	public void testNullSprite() {
-		ChangeYByNBrick brick = new ChangeYByNBrick(null, yMovement);
-
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(null, xMovement);
 		try {
-			brick.execute();
-			fail("Execution of ChangeYByBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
+			changeXByNBrick.execute();
+			fail("Execution of ChangeXByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
 		}
@@ -59,21 +58,21 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		int yPosition = 10;
-		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
-		ChangeYByNBrick changeYByBrick = new ChangeYByNBrick(sprite, Integer.MAX_VALUE);
-		changeYByBrick.execute();
+		int xPosition = 10;
+		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, Integer.MAX_VALUE);
+		changeXByNBrick.execute();
 
-		assertEquals("ChangeYByBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				(int) sprite.costume.getYPosition());
+		assertEquals("ChangeXByNBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
+				(int) sprite.costume.getXPosition());
 
-		yPosition = -10;
-		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
-		changeYByBrick = new ChangeYByNBrick(sprite, Integer.MIN_VALUE);
-		changeYByBrick.execute();
+		xPosition = -10;
+		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
+		changeXByNBrick = new ChangeXByNBrick(sprite, Integer.MIN_VALUE);
+		changeXByNBrick.execute();
 
-		assertEquals("ChangeYByBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				(int) sprite.costume.getYPosition());
+		assertEquals("ChangeXByNBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
+				(int) sprite.costume.getXPosition());
 
 	}
 }

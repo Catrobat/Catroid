@@ -24,41 +24,42 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectByNBrick;
 
-public class ChangeGhostEffectBrickTest extends AndroidTestCase {
+public class ChangeBrightnessByNBrickTest extends AndroidTestCase {
 
-	private final float increaseGhostEffect = 1f;
-	private final float decreaseGhostEffect = -0.1f;
+	private final float brighter = 50.5f;
+	private final float dimmer = -20.8f;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.costume.getAlphaValue());
+		assertEquals("Unexpected initial sprite brightness value", 1f, sprite.costume.getBrightnessValue());
 
-		float ghostEffect = sprite.costume.getAlphaValue();
-		ghostEffect -= increaseGhostEffect;
+		float brightness = sprite.costume.getBrightnessValue();
+		brightness += brighter / 100f;
 
-		ChangeGhostEffectByNBrick changeGhostEffectBrick1 = new ChangeGhostEffectByNBrick(sprite, increaseGhostEffect * 100);
-		changeGhostEffectBrick1.execute();
-		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectBrick executed", ghostEffect,
-				sprite.costume.getAlphaValue());
+		ChangeBrightnessByNBrick brick1 = new ChangeBrightnessByNBrick(sprite, brighter);
+		brick1.execute();
+		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
+				sprite.costume.getBrightnessValue());
 
-		ghostEffect = sprite.costume.getAlphaValue();
-		ghostEffect -= decreaseGhostEffect;
-		ChangeGhostEffectByNBrick changeGhostEffectBrick2 = new ChangeGhostEffectByNBrick(sprite, decreaseGhostEffect * 100);
-		changeGhostEffectBrick2.execute();
-		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectBrick executed", ghostEffect,
-				sprite.costume.getAlphaValue());
+		brightness = sprite.costume.getBrightnessValue();
+		brightness += dimmer / 100f;
+
+		ChangeBrightnessByNBrick brick2 = new ChangeBrightnessByNBrick(sprite, dimmer);
+		brick2.execute();
+		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
+				sprite.costume.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
-		ChangeGhostEffectByNBrick brick = new ChangeGhostEffectByNBrick(null, increaseGhostEffect);
+		ChangeGhostEffectByNBrick brick = new ChangeGhostEffectByNBrick(null, brighter);
 		try {
 			brick.execute();
-			fail("Execution of ChangeGhostEffectBrick with null Sprite did not cause a NullPointerException to be thrown");
+			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
-
 }
