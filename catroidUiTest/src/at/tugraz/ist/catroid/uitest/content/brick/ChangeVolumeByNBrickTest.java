@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -41,14 +41,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-	private static final double EFFECT_TO_CHANGE = 11.2;
+public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final float VOLUME_TO_CHANGE = 50.0f;
 
 	private Solo solo;
 	private Project project;
-	private ChangeGhostEffectByNBrick changeGhostEffectBrick;
+	private ChangeVolumeByNBrick changeVolumeByNBrick;
 
-	public ChangeGhostEffectTest() {
+	public ChangeVolumeByNBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 
@@ -67,7 +67,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	@Smoke
-	public void testChangeGhostEffectBrick() {
+	public void testChangeVolumeByNBrick() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
@@ -82,31 +82,30 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist",
-				solo.getText(getActivity().getString(R.string.brick_change_ghost_effect)));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(R.string.brick_change_volume_by)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, EFFECT_TO_CHANGE + "");
+		solo.enterText(0, VOLUME_TO_CHANGE + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectBrick.getChangeGhostEffect());
-		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Text not updated", VOLUME_TO_CHANGE, Float.parseFloat(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
 		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 12.5, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.12, 60, false);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeGhostEffectBrick = new ChangeGhostEffectByNBrick(sprite, 30.5);
-		script.addBrick(changeGhostEffectBrick);
+		changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, 100);
+		script.addBrick(changeVolumeByNBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

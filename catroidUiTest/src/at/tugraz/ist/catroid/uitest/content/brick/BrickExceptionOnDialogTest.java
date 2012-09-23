@@ -124,16 +124,16 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
-	public void testChangeBrightnessBrick() {
-		ChangeBrightnessByNBrick brightnessBrick = new ChangeBrightnessByNBrick(sprite, 40);
-		script.addBrick(brightnessBrick);
+	public void testChangeBrightnessByNBrick() {
+		ChangeBrightnessByNBrick brightnessByNBrick = new ChangeBrightnessByNBrick(sprite, 40);
+		script.addBrick(brightnessByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testChangeGhostEffectBrick() {
-		ChangeGhostEffectByNBrick ghostBrick = new ChangeGhostEffectByNBrick(sprite, 40);
-		script.addBrick(ghostBrick);
+	public void testChangeGhostEffectByNBrick() {
+		ChangeGhostEffectByNBrick ghostByNBrick = new ChangeGhostEffectByNBrick(sprite, 40);
+		script.addBrick(ghostByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
@@ -145,23 +145,23 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testChangeVolumeByBrick() {
-		ChangeVolumeByNBrick changeVolumeBrick = new ChangeVolumeByNBrick(sprite, 40);
-		script.addBrick(changeVolumeBrick);
+	public void testChangeVolumeByNBrick() {
+		ChangeVolumeByNBrick changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, 40);
+		script.addBrick(changeVolumeByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testChangeXByBrick() {
-		ChangeXByNBrick changeXByBrick = new ChangeXByNBrick(sprite, 40);
-		script.addBrick(changeXByBrick);
+	public void testChangeXByNBrick() {
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, 40);
+		script.addBrick(changeXByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testChangeYByBrick() {
-		ChangeYByNBrick changeYByBrick = new ChangeYByNBrick(sprite, 40);
-		script.addBrick(changeYByBrick);
+	public void testChangeYByNBrick() {
+		ChangeYByNBrick changeYByNBrick = new ChangeYByNBrick(sprite, 40);
+		script.addBrick(changeYByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}

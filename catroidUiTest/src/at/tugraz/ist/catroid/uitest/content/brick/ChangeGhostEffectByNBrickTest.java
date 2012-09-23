@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -41,14 +41,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-	private static final int X_TO_CHANGE = 17;
+public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final double EFFECT_TO_CHANGE = 11.2;
 
 	private Solo solo;
 	private Project project;
-	private ChangeXByNBrick changeXByBrick;
+	private ChangeGhostEffectByNBrick changeGhostEffectByNBrick;
 
-	public ChangeXByBrickTest() {
+	public ChangeGhostEffectByNBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 
@@ -67,7 +67,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	@Smoke
-	public void testChangeXByBrick() {
+	public void testChangeGhostEffectByNBrick() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
@@ -82,31 +82,31 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_x_by)));
+		assertNotNull("TextView does not exist",
+				solo.getText(getActivity().getString(R.string.brick_change_ghost_effect)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, X_TO_CHANGE + "");
+		solo.enterText(0, EFFECT_TO_CHANGE + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		int xMovementValue = (Integer) UiTestUtils.getPrivateField("xMovement", changeXByBrick);
-		assertEquals("Wrong text in field.", X_TO_CHANGE, xMovementValue);
-		assertEquals("Value in Brick is not updated.", X_TO_CHANGE + "", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectByNBrick.getChangeGhostEffect());
+		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	public void testResizeInputField() {
-		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
+		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 100.55, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 60, true);
+		UiTestUtils.testDoubleEditText(solo, 0, 1000.55, 60, false);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeXByBrick = new ChangeXByNBrick(sprite, 0);
-		script.addBrick(changeXByBrick);
+		changeGhostEffectByNBrick = new ChangeGhostEffectByNBrick(sprite, 30.5);
+		script.addBrick(changeGhostEffectByNBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
