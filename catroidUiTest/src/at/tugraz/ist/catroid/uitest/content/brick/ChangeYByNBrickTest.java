@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -41,14 +41,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
-	private static final int X_TO_CHANGE = 17;
+public class ChangeYByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final int Y_TO_CHANGE = 17;
 
 	private Solo solo;
 	private Project project;
-	private ChangeXByNBrick changeXByBrick;
+	private ChangeYByNBrick changeYByNBrick;
 
-	public ChangeXByBrickTest() {
+	public ChangeYByNBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 
@@ -67,7 +67,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	@Smoke
-	public void testChangeXByBrick() {
+	public void testChangeYByNBrick() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
@@ -82,16 +82,16 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_x_by)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_y_by)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, X_TO_CHANGE + "");
+		solo.enterText(0, Y_TO_CHANGE + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		int xMovementValue = (Integer) UiTestUtils.getPrivateField("xMovement", changeXByBrick);
-		assertEquals("Wrong text in field.", X_TO_CHANGE, xMovementValue);
-		assertEquals("Value in Brick is not updated.", X_TO_CHANGE + "", solo.getEditText(0).getText().toString());
+		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByNBrick);
+		assertEquals("Wrong text in field.", Y_TO_CHANGE, yMovementValue);
+		assertEquals("Value in Brick is not updated.", Y_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}
 
 	public void testResizeInputField() {
@@ -105,8 +105,8 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeXByBrick = new ChangeXByNBrick(sprite, 0);
-		script.addBrick(changeXByBrick);
+		changeYByNBrick = new ChangeYByNBrick(sprite, 0);
+		script.addBrick(changeYByNBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

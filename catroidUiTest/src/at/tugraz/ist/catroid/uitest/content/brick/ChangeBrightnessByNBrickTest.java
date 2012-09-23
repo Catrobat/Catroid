@@ -42,14 +42,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class ChangeBrightnessByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
 
 	private Solo solo;
 	private Project project;
-	private ChangeBrightnessByNBrick changeBrightnessBrick;
+	private ChangeBrightnessByNBrick changeBrightnessByNBrick;
 
-	public ChangeBrightnessTest() {
+	public ChangeBrightnessByNBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 
@@ -68,7 +68,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	@Smoke
-	public void testChangeBrightnessBrick() {
+	public void testChangeBrightnessByNBrick() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
@@ -101,7 +101,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.sendKey(KeyEvent.KEYCODE_ENTER);
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessBrick.getChangeBrightness());
+		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessByNBrick.getChangeBrightness());
 		assertEquals("Text not updated", BRIGHTNESS_TO_CHANGE,
 				Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
@@ -117,8 +117,8 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeBrightnessBrick = new ChangeBrightnessByNBrick(sprite, 10.2);
-		script.addBrick(changeBrightnessBrick);
+		changeBrightnessByNBrick = new ChangeBrightnessByNBrick(sprite, 10.2);
+		script.addBrick(changeBrightnessByNBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

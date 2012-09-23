@@ -67,7 +67,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 	}
 
 	@Smoke
-	public void testChangeXByBrick() {
+	public void testSetYBrick() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();

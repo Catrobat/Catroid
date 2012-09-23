@@ -41,14 +41,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private static final double EFFECT_TO_CHANGE = 11.2;
 
 	private Solo solo;
 	private Project project;
-	private ChangeGhostEffectByNBrick changeGhostEffectBrick;
+	private ChangeGhostEffectByNBrick changeGhostEffectByNBrick;
 
-	public ChangeGhostEffectTest() {
+	public ChangeGhostEffectByNBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 
@@ -67,7 +67,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	@Smoke
-	public void testChangeGhostEffectBrick() {
+	public void testChangeGhostEffectByNBrick() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
@@ -90,7 +90,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		solo.enterText(0, EFFECT_TO_CHANGE + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectBrick.getChangeGhostEffect());
+		assertEquals("Wrong text in field", EFFECT_TO_CHANGE, changeGhostEffectByNBrick.getChangeGhostEffect());
 		assertEquals("Text not updated", EFFECT_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
@@ -105,8 +105,8 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeGhostEffectBrick = new ChangeGhostEffectByNBrick(sprite, 30.5);
-		script.addBrick(changeGhostEffectBrick);
+		changeGhostEffectByNBrick = new ChangeGhostEffectByNBrick(sprite, 30.5);
+		script.addBrick(changeGhostEffectByNBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

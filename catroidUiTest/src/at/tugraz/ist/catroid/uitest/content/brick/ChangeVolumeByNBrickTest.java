@@ -41,14 +41,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private static final float VOLUME_TO_CHANGE = 50.0f;
 
 	private Solo solo;
 	private Project project;
-	private ChangeVolumeByNBrick changeVolumeByBrick;
+	private ChangeVolumeByNBrick changeVolumeByNBrick;
 
-	public ChangeVolumeByBrickTest() {
+	public ChangeVolumeByNBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 
@@ -67,7 +67,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 	}
 
 	@Smoke
-	public void testChangeVolumeByBrick() {
+	public void testChangeVolumeByNBrick() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
@@ -104,8 +104,8 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeVolumeByBrick = new ChangeVolumeByNBrick(sprite, 100);
-		script.addBrick(changeVolumeByBrick);
+		changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, 100);
+		script.addBrick(changeVolumeByNBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
