@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -47,7 +47,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 	private Solo solo;
 	private Project project;
-	private ChangeBrightnessBrick changeBrightnessBrick;
+	private ChangeBrightnessByNBrick changeBrightnessBrick;
 
 	public ChangeBrightnessTest() {
 		super(ScriptTabActivity.class);
@@ -117,7 +117,7 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeBrightnessBrick = new ChangeBrightnessBrick(sprite, 10.2);
+		changeBrightnessBrick = new ChangeBrightnessByNBrick(sprite, 10.2);
 		script.addBrick(changeBrightnessBrick);
 
 		sprite.addScript(script);

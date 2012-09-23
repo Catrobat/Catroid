@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -46,7 +46,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	private Solo solo;
 	private Project project;
-	private ChangeVolumeByBrick changeVolumeByBrick;
+	private ChangeVolumeByNBrick changeVolumeByBrick;
 
 	public ChangeVolumeByBrickTest() {
 		super(ScriptTabActivity.class);
@@ -104,7 +104,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeVolumeByBrick = new ChangeVolumeByBrick(sprite, 100);
+		changeVolumeByBrick = new ChangeVolumeByNBrick(sprite, 100);
 		script.addBrick(changeVolumeByBrick);
 
 		sprite.addScript(script);

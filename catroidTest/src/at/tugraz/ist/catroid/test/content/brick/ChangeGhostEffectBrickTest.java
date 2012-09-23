@@ -24,7 +24,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectByNBrick;
 
 public class ChangeGhostEffectBrickTest extends AndroidTestCase {
 
@@ -38,21 +38,21 @@ public class ChangeGhostEffectBrickTest extends AndroidTestCase {
 		float ghostEffect = sprite.costume.getAlphaValue();
 		ghostEffect -= increaseGhostEffect;
 
-		ChangeGhostEffectBrick changeGhostEffectBrick1 = new ChangeGhostEffectBrick(sprite, increaseGhostEffect * 100);
+		ChangeGhostEffectByNBrick changeGhostEffectBrick1 = new ChangeGhostEffectByNBrick(sprite, increaseGhostEffect * 100);
 		changeGhostEffectBrick1.execute();
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectBrick executed", ghostEffect,
 				sprite.costume.getAlphaValue());
 
 		ghostEffect = sprite.costume.getAlphaValue();
 		ghostEffect -= decreaseGhostEffect;
-		ChangeGhostEffectBrick changeGhostEffectBrick2 = new ChangeGhostEffectBrick(sprite, decreaseGhostEffect * 100);
+		ChangeGhostEffectByNBrick changeGhostEffectBrick2 = new ChangeGhostEffectByNBrick(sprite, decreaseGhostEffect * 100);
 		changeGhostEffectBrick2.execute();
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectBrick executed", ghostEffect,
 				sprite.costume.getAlphaValue());
 	}
 
 	public void testNullSprite() {
-		ChangeGhostEffectBrick brick = new ChangeGhostEffectBrick(null, increaseGhostEffect);
+		ChangeGhostEffectByNBrick brick = new ChangeGhostEffectByNBrick(null, increaseGhostEffect);
 		try {
 			brick.execute();
 			fail("Execution of ChangeGhostEffectBrick with null Sprite did not cause a NullPointerException to be thrown");

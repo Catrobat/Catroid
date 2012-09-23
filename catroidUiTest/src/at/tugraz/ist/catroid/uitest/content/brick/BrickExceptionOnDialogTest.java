@@ -34,12 +34,12 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
@@ -125,14 +125,14 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	}
 
 	public void testChangeBrightnessBrick() {
-		ChangeBrightnessBrick brightnessBrick = new ChangeBrightnessBrick(sprite, 40);
+		ChangeBrightnessByNBrick brightnessBrick = new ChangeBrightnessByNBrick(sprite, 40);
 		script.addBrick(brightnessBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
 	public void testChangeGhostEffectBrick() {
-		ChangeGhostEffectBrick ghostBrick = new ChangeGhostEffectBrick(sprite, 40);
+		ChangeGhostEffectByNBrick ghostBrick = new ChangeGhostEffectByNBrick(sprite, 40);
 		script.addBrick(ghostBrick);
 
 		clickEditTextGoBackAndClickAgain();
@@ -146,21 +146,21 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	}
 
 	public void testChangeVolumeByBrick() {
-		ChangeVolumeByBrick changeVolumeBrick = new ChangeVolumeByBrick(sprite, 40);
+		ChangeVolumeByNBrick changeVolumeBrick = new ChangeVolumeByNBrick(sprite, 40);
 		script.addBrick(changeVolumeBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
 	public void testChangeXByBrick() {
-		ChangeXByBrick changeXByBrick = new ChangeXByBrick(sprite, 40);
+		ChangeXByNBrick changeXByBrick = new ChangeXByNBrick(sprite, 40);
 		script.addBrick(changeXByBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
 	public void testChangeYByBrick() {
-		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, 40);
+		ChangeYByNBrick changeYByBrick = new ChangeYByNBrick(sprite, 40);
 		script.addBrick(changeYByBrick);
 
 		clickEditTextGoBackAndClickAgain();

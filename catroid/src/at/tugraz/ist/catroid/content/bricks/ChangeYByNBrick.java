@@ -35,20 +35,23 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-public class ChangeGhostEffectBrick implements Brick, OnClickListener {
+//import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+public class ChangeYByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private double changeGhostEffect;
+	private int yMovement;
 	private Sprite sprite;
 
+	//@XStreamOmitField
 	private transient View view;
 
-	public ChangeGhostEffectBrick() {
+	public ChangeYByNBrick() {
 
 	}
 
-	public ChangeGhostEffectBrick(Sprite sprite, double changeGhostEffect) {
+	public ChangeYByNBrick(Sprite sprite, int yMovement) {
 		this.sprite = sprite;
-		this.changeGhostEffect = changeGhostEffect;
+		this.yMovement = yMovement;
 	}
 
 	@Override
@@ -58,7 +61,19 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / -100);
+		sprite.costume.aquireXYWidthHeightLock();
+		int yPosition = (int) sprite.costume.getYPosition();
+
+		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
+			yPosition = Integer.MAX_VALUE;
+		} else if (yPosition < 0 && yMovement < 0 && yPosition + yMovement > 0) {
+			yPosition = Integer.MIN_VALUE;
+		} else {
+			yPosition += yMovement;
+		}
+
+		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	@Override
@@ -66,34 +81,30 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
-	public double getChangeGhostEffect() {
-		return changeGhostEffect;
-	}
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_change_y, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-		editX.setText(String.valueOf(changeGhostEffect));
+		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_text_view);
+		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
+		editY.setText(String.valueOf(yMovement));
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
-		editX.setOnClickListener(this);
+		textY.setVisibility(View.GONE);
+		editY.setVisibility(View.VISIBLE);
+		editY.setOnClickListener(this);
 
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		return View.inflate(context, R.layout.brick_change_y, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeGhostEffectBrick(getSprite(), getChangeGhostEffect());
+		return new ChangeYByNBrick(getSprite(), yMovement);
 	}
 
 	@Override
@@ -103,16 +114,15 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				input.setText(String.valueOf(changeGhostEffect));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-						| InputType.TYPE_NUMBER_FLAG_SIGNED);
+				input.setText(String.valueOf(yMovement));
+				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
 
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					changeGhostEffect = Double.parseDouble(input.getText().toString());
+					yMovement = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
@@ -121,6 +131,6 @@ public class ChangeGhostEffectBrick implements Brick, OnClickListener {
 			}
 		};
 
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_ghost_effect_brick");
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_y_by_brick");
 	}
 }

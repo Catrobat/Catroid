@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -46,7 +46,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 
 	private Solo solo;
 	private Project project;
-	private ChangeGhostEffectBrick changeGhostEffectBrick;
+	private ChangeGhostEffectByNBrick changeGhostEffectBrick;
 
 	public ChangeGhostEffectTest() {
 		super(ScriptTabActivity.class);
@@ -105,7 +105,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeGhostEffectBrick = new ChangeGhostEffectBrick(sprite, 30.5);
+		changeGhostEffectBrick = new ChangeGhostEffectByNBrick(sprite, 30.5);
 		script.addBrick(changeGhostEffectBrick);
 
 		sprite.addScript(script);

@@ -38,8 +38,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
@@ -220,8 +220,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
 		ArrayList<Brick> whenScriptBrickList = new ArrayList<Brick>();
-		startScriptBrickList.add(new ChangeXByBrick(sprite, 4));
-		startScriptBrickList.add(new ChangeYByBrick(sprite, 5));
+		startScriptBrickList.add(new ChangeXByNBrick(sprite, 4));
+		startScriptBrickList.add(new ChangeYByNBrick(sprite, 5));
 		startScriptBrickList.add(new ComeToFrontBrick(sprite));
 		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
 		startScriptBrickList.add(new HideBrick(sprite));

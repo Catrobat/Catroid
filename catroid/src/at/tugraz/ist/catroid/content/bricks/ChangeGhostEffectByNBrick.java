@@ -35,23 +35,20 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-//import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-public class ChangeXByBrick implements Brick, OnClickListener {
+public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private int xMovement;
+	private double changeGhostEffect;
 	private Sprite sprite;
 
-	//@XStreamOmitField
 	private transient View view;
 
-	public ChangeXByBrick() {
+	public ChangeGhostEffectByNBrick() {
 
 	}
 
-	public ChangeXByBrick(Sprite sprite, int xMovement) {
+	public ChangeGhostEffectByNBrick(Sprite sprite, double changeGhostEffect) {
 		this.sprite = sprite;
-		this.xMovement = xMovement;
+		this.changeGhostEffect = changeGhostEffect;
 	}
 
 	@Override
@@ -61,19 +58,7 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.costume.aquireXYWidthHeightLock();
-		int xPosition = (int) sprite.costume.getXPosition();
-
-		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
-			xPosition = Integer.MAX_VALUE;
-		} else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
-			xPosition = Integer.MIN_VALUE;
-		} else {
-			xPosition += xMovement;
-		}
-
-		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
-		sprite.costume.releaseXYWidthHeightLock();
+		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / -100);
 	}
 
 	@Override
@@ -81,14 +66,18 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
+	public double getChangeGhostEffect() {
+		return changeGhostEffect;
+	}
+
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		view = View.inflate(context, R.layout.brick_change_x, null);
+		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
-		editX.setText(String.valueOf(xMovement));
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_text_view);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+		editX.setText(String.valueOf(changeGhostEffect));
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -99,12 +88,12 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_x, null);
+		return View.inflate(context, R.layout.brick_change_ghost_effect, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeXByBrick(getSprite(), xMovement);
+		return new ChangeGhostEffectByNBrick(getSprite(), getChangeGhostEffect());
 	}
 
 	@Override
@@ -114,15 +103,16 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				input.setText(String.valueOf(xMovement));
-				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+				input.setText(String.valueOf(changeGhostEffect));
+				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
 
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					xMovement = Integer.parseInt(input.getText().toString());
+					changeGhostEffect = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
@@ -131,6 +121,6 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 			}
 		};
 
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_x_by_brick");
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_ghost_effect_brick");
 	}
 }

@@ -24,7 +24,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
 
 public class ChangeYByBrickTest extends AndroidTestCase {
 
@@ -37,7 +37,7 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 
 		int yPosition = (int) sprite.costume.getYPosition();
 
-		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, yMovement);
+		ChangeYByNBrick changeYByBrick = new ChangeYByNBrick(sprite, yMovement);
 		changeYByBrick.execute();
 
 		yPosition += yMovement;
@@ -46,7 +46,7 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		ChangeYByBrick brick = new ChangeYByBrick(null, yMovement);
+		ChangeYByNBrick brick = new ChangeYByNBrick(null, yMovement);
 
 		try {
 			brick.execute();
@@ -61,7 +61,7 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 
 		int yPosition = 10;
 		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
-		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, Integer.MAX_VALUE);
+		ChangeYByNBrick changeYByBrick = new ChangeYByNBrick(sprite, Integer.MAX_VALUE);
 		changeYByBrick.execute();
 
 		assertEquals("ChangeYByBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
@@ -69,7 +69,7 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 
 		yPosition = -10;
 		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
-		changeYByBrick = new ChangeYByBrick(sprite, Integer.MIN_VALUE);
+		changeYByBrick = new ChangeYByNBrick(sprite, Integer.MIN_VALUE);
 		changeYByBrick.execute();
 
 		assertEquals("ChangeYByBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,

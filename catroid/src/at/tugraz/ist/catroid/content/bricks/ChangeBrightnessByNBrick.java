@@ -32,105 +32,90 @@ import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-public class ChangeVolumeByBrick implements Brick, OnClickListener {
+public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-
+	private double changeBrightness;
 	private Sprite sprite;
-	private double volume;
 
 	private transient View view;
 
-	public ChangeVolumeByBrick() {
-
+	public ChangeBrightnessByNBrick(){
+		
 	}
-
-	public ChangeVolumeByBrick(Sprite sprite, double changeVolume) {
+	
+	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightness) {
 		this.sprite = sprite;
-		this.volume = changeVolume;
+		this.changeBrightness = changeBrightness;
 	}
 
-	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
-	@Override
 	public void execute() {
-		float currentVolume = SoundManager.getInstance().getVolume();
-		currentVolume += volume;
-		if (currentVolume < 0.0f) {
-			currentVolume = 0.0f;
-		} else if (currentVolume > 100.0f) {
-			currentVolume = 100.0f;
-		}
-		SoundManager.getInstance().setVolume(currentVolume);
+		sprite.costume.changeBrightnessValueBy((float) (this.changeBrightness / 100));
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public double getVolume() {
-		return volume;
+	public double getChangeBrightness() {
+		return changeBrightness;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
-		edit.setText(String.valueOf(volume));
+		view = View.inflate(context, R.layout.brick_change_brightness, null);
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_text_view);
+		EditText editX = (EditText) view.findViewById(R.id.brick_change_brightness_edit_text);
+		editX.setText(String.valueOf(changeBrightness));
 
-		edit.setOnClickListener(this);
+		textX.setVisibility(View.GONE);
+		editX.setVisibility(View.VISIBLE);
+
+		editX.setOnClickListener(this);
 
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_change_volume_by, null);
-		return view;
+		return View.inflate(context, R.layout.brick_change_brightness, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeVolumeByBrick(getSprite(), getVolume());
+		return new ChangeBrightnessByNBrick(getSprite(), getChangeBrightness());
 	}
 
-	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-
+		
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				input.setText(String.valueOf(volume));
+				input.setText(String.valueOf(changeBrightness));
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
 						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-
+			
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					volume = Float.parseFloat(input.getText().toString());
+					changeBrightness = Double.parseDouble(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-
+				
 				return true;
 			}
 		};
-
-		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
+		
+		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_brightness_brick");
 	}
 }

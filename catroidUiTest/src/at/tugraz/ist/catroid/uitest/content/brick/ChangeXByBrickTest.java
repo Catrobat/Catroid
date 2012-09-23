@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -46,7 +46,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	private Solo solo;
 	private Project project;
-	private ChangeXByBrick changeXByBrick;
+	private ChangeXByNBrick changeXByBrick;
 
 	public ChangeXByBrickTest() {
 		super(ScriptTabActivity.class);
@@ -105,7 +105,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		changeXByBrick = new ChangeXByBrick(sprite, 0);
+		changeXByBrick = new ChangeXByNBrick(sprite, 0);
 		script.addBrick(changeXByBrick);
 
 		sprite.addScript(script);
