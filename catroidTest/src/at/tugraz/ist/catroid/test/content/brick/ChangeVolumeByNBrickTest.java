@@ -37,7 +37,7 @@ import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
-public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
+public class ChangeVolumeByNBrickTest extends InstrumentationTestCase {
 
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
@@ -67,17 +67,17 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 
 		float volume = SoundManager.getInstance().getVolume();
 		volume += louder;
-		ChangeVolumeByNBrick changeVolumeByBrick1 = new ChangeVolumeByNBrick(sprite, louder);
-		changeVolumeByBrick1.execute();
-		assertEquals("Incorrect sprite volume after ChangeVolumeByBrick executed", volume, SoundManager.getInstance()
+		ChangeVolumeByNBrick changeVolumeByNBrick1 = new ChangeVolumeByNBrick(sprite, louder);
+		changeVolumeByNBrick1.execute();
+		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 
 		volume = SoundManager.getInstance().getVolume();
 		volume += softer;
-		ChangeVolumeByNBrick changeVolumeByBrick2 = new ChangeVolumeByNBrick(sprite, softer);
-		changeVolumeByBrick2.execute();
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", volume, SoundManager.getInstance()
-				.getVolume());
+		ChangeVolumeByNBrick changeVolumeByNBrick2 = new ChangeVolumeByNBrick(sprite, softer);
+		changeVolumeByNBrick2.execute();
+		assertEquals("Incorrect sprite size value after ChangeVolumeByNBrick executed", volume, SoundManager
+				.getInstance().getVolume());
 	}
 
 	private void createTestProject() throws IOException {

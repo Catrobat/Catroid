@@ -121,12 +121,12 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				TestUtils.getPrivateField("yPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
 						.get(2), false));
 		assertEquals(
-				"ChangeXByBrick was not loaded right",
+				"ChangeXByNBrick was not loaded right",
 				xMovement,
 				TestUtils.getPrivateField("xMovement", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
 						.get(3), false));
 		assertEquals(
-				"ChangeYByBrick was not loaded right",
+				"ChangeYByNBrick was not loaded right",
 				yMovement,
 				TestUtils.getPrivateField("yMovement", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
 						.get(4), false));
