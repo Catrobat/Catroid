@@ -159,7 +159,7 @@ public class BrickParser {
 				String referenceAttribute = References.getReferenceAttribute(brickValue);
 				if (referenceAttribute != null) {
 					if (!referenceAttribute.equals("")) {
-						if (brickvalueName.equals("CostumeData")) {
+						if (brickvalueName.equals("Costume")) {
 							costumeParser = new CostumeParser();
 							Boolean costumeSet = costumeParser.setCostumedataOfBrick(brickObject, valueField,
 									referenceAttribute, referencedObjects, forwardRefs);
@@ -171,7 +171,7 @@ public class BrickParser {
 							continue;
 
 						}
-						if (brickvalueName.equals("SoundInfo")) {
+						if (brickvalueName.equals(CatroidXMLConstants.SOUND_INFO_ELEMENT_NAME)) {
 							referencedObjects.put("PlaySounfRef" + referenceAttribute, brickObject);
 						}
 						if (brickvalueName.equals(CatroidXMLConstants.LOOP_END_BRICK)) {
