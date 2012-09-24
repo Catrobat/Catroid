@@ -19,12 +19,12 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="TabText">
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
-    
+
 </resources>

@@ -19,49 +19,48 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/website_blue"
->
-	
-	<!-- Sprite list -->
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_weight="1"
-		
-	>
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView
-				android:id="@+id/brick_list_view"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:drawSelectorOnTop="false"
-				android:fastScrollEnabled="true"
-				android:clickable="false"
-				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" 
-				android:divider="@android:color/transparent"
-				android:dividerHeight="-5dip"	
-			/>
-			<ImageView
-				android:id="@+id/trash"
-				android:layout_width="51dip"
-				android:layout_height="97dip"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="-3dip"
-				android:visibility="gone"
-				android:src="@drawable/trash_green" />
-		</RelativeLayout>
-	</LinearLayout>
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/website_blue"
+    android:orientation="vertical" >
+
+    <!-- Sprite list -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView
+                android:id="@+id/brick_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="#00000000"
+                android:clickable="false"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="-5dip"
+                android:drawSelectorOnTop="false"
+                android:drawingCacheQuality="high"
+                android:fastScrollEnabled="true" />
+
+            <ImageView
+                android:id="@+id/trash"
+                android:layout_width="51dip"
+                android:layout_height="97dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="-3dip"
+                android:src="@drawable/trash_green"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

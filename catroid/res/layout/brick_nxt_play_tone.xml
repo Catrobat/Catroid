@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -138,12 +138,12 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:visibility="gone"
                     android:gravity="right"
                     android:inputType="number|numberDecimal|numberSigned"
                     android:maxLength="3"
                     android:maxLines="1"
-                    android:text="0.0" >
+                    android:text="0.0"
+                    android:visibility="gone" >
                 </EditText>
 
                 <TextView

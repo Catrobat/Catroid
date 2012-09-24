@@ -19,20 +19,21 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/toast_layout_root"
-              android:orientation="horizontal"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:background="@drawable/toast_background"
-              >
-    <TextView android:id="@+id/text"
-              android:layout_width="wrap_content"
-              android:layout_height="fill_parent"
-              android:textColor="#000"
-              android:shadowDx="0"
-              android:shadowDy="0"
-              />
+    android:id="@+id/toast_layout_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/toast_background"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:textColor="#000" />
+
 </LinearLayout>

@@ -22,6 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+
     <!-- General terms -->
     <string name="app_name">キャット\nロイド</string>
     <string name="project">"プロジェクト"</string>
@@ -272,4 +273,5 @@
     <string name="nxt_tone_hundred_hz">"x100Hz"</string>
     <string name="number_to_small">"値が小さすぎる！"</string>
     <string name="number_to_big">"値が大きすぎる！"</string>
+
 </resources>

@@ -19,29 +19,26 @@
  *  GNU Affero General Public License for more details.
  *   
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/dialog_text_EditMultiLineText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:gravity="left"
+        android:hint="@string/new_project_description_dialog_hint"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:maxLines="10"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="vertical"
+        android:selectAllOnFocus="true"
+        android:singleLine="false" >
+    </EditText>
 
-        <EditText
-            android:id="@+id/dialog_text_EditMultiLineText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="3"
-            android:gravity="left"
-            android:inputType="textMultiLine"
-            android:maxLines="10"
-            android:singleLine="false" 
-            android:selectAllOnFocus="true" 
-            android:scrollbars="vertical"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:hint="@string/new_project_description_dialog_hint">
-        </EditText>
 </LinearLayout>
-
-
