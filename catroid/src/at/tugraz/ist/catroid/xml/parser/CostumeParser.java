@@ -69,7 +69,7 @@ public class CostumeParser {
 				costumeIndex++;
 			}
 		}
-		Field costumeListField = sprite.getClass().getDeclaredField("costumeDataList");
+		Field costumeListField = sprite.getClass().getDeclaredField(CatroidXMLConstants.COSTUME_LIST_FIELD_NAME);
 		objectGetter.setFieldOfObject(costumeListField, sprite, costumeList);
 
 	}

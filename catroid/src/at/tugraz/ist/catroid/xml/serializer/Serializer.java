@@ -80,13 +80,13 @@ public abstract class Serializer {
 					} else {
 						reference = "TODO for bricks of other scripts";
 					}
-				} else if (referencedObjectName.equals(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME)) {
+				} else if (referencedObjectName.equals(CatroidXMLConstants.COSTUME_DATA_CLASS_NAME)) {
 					reference = CatroidXMLConstants.COSTUMEREFERENCE_FROM_BRICK;
 					reference = getReferenceIndexSuffix(reference, referencedObject, costumeList);
 				} else if (referencedObjectName.equals(CatroidXMLConstants.SPRITE_ELEMENT_NAME)) {
 					reference = CatroidXMLConstants.SPRITEREFERENCE_FROM_BRICK;
 					reference = getReferenceIndexSuffix(reference, referencedObject, spriteList);
-				} else if (referencedObjectName.equals(CatroidXMLConstants.SOUND_INFO_ELEMENT_NAME)) {
+				} else if (referencedObjectName.equals(CatroidXMLConstants.SOUND_INFO_CLASS_NAME)) {
 					reference = CatroidXMLConstants.SOUNDREFERENCE_FROM_BRICK;
 					reference = getReferenceIndexSuffix(reference, referencedObject, soundList);
 				} else if (referencedObjectName.endsWith("Script")) {

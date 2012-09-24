@@ -49,10 +49,16 @@ public class CatroidXMLConstants {
 
 	public static final String SOUND_INFO = "SoundInfo";
 	public static final String SOUND_LIST_ELEMENT_NAME = "SoundList";
+	public static final String SOUND_LIST_FIELD_NAME = "soundList";
 	public static final String SOUND_INFO_ELEMENT_NAME = "Sound";
+	public static final String SOUND_INFO_CLASS_NAME = "SoundInfo";
+	public static final String SOUND_INFO_FIELD_NAME = "sound";
 
 	public static final String COSTUME_DATA_ELEMENT_NAME = "Costume";
 	public static final String COSTUME_LIST_ELEMENT_NAME = "CostumeList";
+	public static final String COSTUME_LIST_FIELD_NAME = "costumeList";
+	public static final String COSTUME_DATA_FIELD_NAME = "costume";
+	public static final String COSTUME_DATA_CLASS_NAME = "CostumeData";
 
 	public static final String FILE_NAME = "FileName";
 	public static final String NAME = "Name";

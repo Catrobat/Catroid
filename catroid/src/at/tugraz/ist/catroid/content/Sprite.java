@@ -41,7 +41,7 @@ public class Sprite implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
-	private ArrayList<CostumeData> costumeDataList;
+	private ArrayList<CostumeData> costumeList;
 	private ArrayList<SoundInfo> soundList;
 	public transient Costume costume;
 
@@ -53,7 +53,7 @@ public class Sprite implements Serializable {
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
-		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+		if (soundList != null && costumeList != null && ProjectManager.getInstance().getCurrentProject() != null) {
 			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 			if (container == null) {
 				ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
@@ -61,7 +61,7 @@ public class Sprite implements Serializable {
 			for (SoundInfo soundInfo : soundList) {
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 			}
-			for (CostumeData costumeData : costumeDataList) {
+			for (CostumeData costumeData : costumeList) {
 				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 			}
 		}
@@ -76,8 +76,8 @@ public class Sprite implements Serializable {
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
 		}
-		if (costumeDataList == null) {
-			costumeDataList = new ArrayList<CostumeData>();
+		if (costumeList == null) {
+			costumeList = new ArrayList<CostumeData>();
 		}
 		activeThreads = new HashMap<Thread, Boolean>();
 		activeScripts = new HashMap<Script, List<Thread>>();
@@ -86,7 +86,7 @@ public class Sprite implements Serializable {
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
-		costumeDataList = new ArrayList<CostumeData>();
+		costumeList = new ArrayList<CostumeData>();
 		soundList = new ArrayList<SoundInfo>();
 		init();
 	}
@@ -281,7 +281,7 @@ public class Sprite implements Serializable {
 	}
 
 	public ArrayList<CostumeData> getCostumeDataList() {
-		return costumeDataList;
+		return costumeList;
 	}
 
 	public ArrayList<SoundInfo> getSoundList() {

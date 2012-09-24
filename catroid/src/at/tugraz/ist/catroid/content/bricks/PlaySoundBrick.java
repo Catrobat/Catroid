@@ -38,7 +38,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
-	private SoundInfo soundInfo;
+	private SoundInfo sound;
 	private Sprite sprite;
 
 	public PlaySoundBrick(Sprite sprite) {
@@ -56,11 +56,11 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void execute() {
-		if (soundInfo != null && sprite.getSoundList().contains(soundInfo)) {
-			if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
-				SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
+		if (sound != null && sprite.getSoundList().contains(sound)) {
+			if (!NativeAppActivity.isRunning() && sound.getAbsolutePath() != null) {
+				SoundManager.getInstance().playSoundFile(sound.getAbsolutePath());
 			} else {
-				SoundManager.getInstance().playSoundFile("sounds/" + soundInfo.getSoundFileName());
+				SoundManager.getInstance().playSoundFile("sounds/" + sound.getSoundFileName());
 			}
 		}
 	}
@@ -80,8 +80,8 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 		soundbrickSpinner.setFocusable(true);
 		soundbrickSpinner.setOnItemSelectedListener(this);
 
-		if (sprite.getSoundList().contains(soundInfo)) {
-			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(soundInfo) + 1, true);
+		if (sprite.getSoundList().contains(sound)) {
+			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(sound) + 1, true);
 		} else {
 			soundbrickSpinner.setSelection(0);
 		}
@@ -114,15 +114,15 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 
 	//for testing purposes:
 	public void setSoundInfo(SoundInfo soundInfo) {
-		this.soundInfo = soundInfo;
+		this.sound = soundInfo;
 	}
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View arg1, int position, long arg3) {
 		if (position == 0) {
-			soundInfo = null;
+			sound = null;
 		} else {
-			soundInfo = (SoundInfo) parent.getItemAtPosition(position);
+			sound = (SoundInfo) parent.getItemAtPosition(position);
 		}
 	}
 
