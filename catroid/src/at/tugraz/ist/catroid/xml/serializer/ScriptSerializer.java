@@ -52,9 +52,9 @@ public class ScriptSerializer extends Serializer {
 		xmlElementString = scriptTabs + getStartTag(/* scriptTagPrefix + */object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 
-		if (!(object.getClass().getSuperclass().equals(Object.class))) {
-			getScriptFieldsAsElements(object, scriptStringList, object.getClass().getSuperclass());
-		}
+		//		if (!(object.getClass().getSuperclass().equals(Object.class))) {
+		//			getScriptFieldsAsElements(object, scriptStringList, object.getClass().getSuperclass());
+		//		}
 		getScriptFieldsAsElements(object, scriptStringList, object.getClass());
 
 		xmlElementString = scriptTabs + getEndTag(/* scriptTagPrefix + */object.getClass().getSimpleName());
@@ -69,7 +69,8 @@ public class ScriptSerializer extends Serializer {
 	private void getScriptFieldsAsElements(Object object, List<String> scriptStringList, Class<?> cls)
 			throws IllegalAccessException {
 		String xmlElementString;
-		fieldMap = objectCreator.getFieldMapOfThisClass(cls);
+		//		fieldMap = objectCreator.getFieldMapOfThisClass(cls);
+		fieldMap = objectCreator.getFieldMap(cls);
 		Collection<Field> fields = fieldMap.values();
 		for (Field scriptClassField : fields) {
 			String fieldName = objectCreator.extractTagName(scriptClassField);
