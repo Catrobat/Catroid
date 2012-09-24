@@ -27,16 +27,14 @@
     android:background="@color/website_blue"
     android:orientation="vertical" >
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dip"
         android:layout_gravity="center_horizontal"
+        android:padding="20dip"
         android:text="@string/soundrecorder_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/dark_gray" />
-
 
     <ImageView
         android:id="@+id/recordButton"

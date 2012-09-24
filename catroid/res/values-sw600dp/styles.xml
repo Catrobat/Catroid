@@ -26,5 +26,5 @@
     <style name="TabText">
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
-    
+
 </resources>

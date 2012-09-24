@@ -22,6 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+
     <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">project</string>
@@ -137,7 +138,7 @@
     <string name="new_project_description_dialog_hint">My Description</string>
     <string name="new_project_name">Project name:</string>
     <string name="new_project_description">Project description:</string>
-    
+
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Sprite</string>
@@ -309,4 +310,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
+
 </resources>
