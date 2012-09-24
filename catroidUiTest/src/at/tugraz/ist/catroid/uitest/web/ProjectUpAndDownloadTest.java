@@ -264,7 +264,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(500);
 
 		try {
-			solo.setActivityOrientation(Solo.LANDSCAPE);
+			//solo.setActivityOrientation(Solo.LANDSCAPE);
 
 			solo.waitForDialogToClose(10000);
 			assertTrue("Upload failed. Internet connection?",
