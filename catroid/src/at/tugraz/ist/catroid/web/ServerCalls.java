@@ -52,16 +52,20 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
-	public static final String BASE_URL = "http://www.catroid.org/";
-//	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
-	private static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
-	private static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
-	public static final String REGISTRATION_URL = BASE_URL + "api/checkTokenOrRegister/check.json";
+	public static final String BASE_URL_HTTP = "http://www.catroid.org/";
+	public static final String BASE_URL_FTP = "ftp://www.catroid.org/";
 
-	public static final String BASE_URL_TEST = "http://catroidtest.ist.tugraz.at/";
-	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST + "api/upload/upload.json";
-	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";
-	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/checkTokenOrRegister/check.json";
+	private static final String FILE_UPLOAD_URL = BASE_URL_FTP + "api/upload/upload.json";
+	private static final String CHECK_TOKEN_URL = BASE_URL_FTP + "api/checkToken/check.json";
+	public static final String REGISTRATION_URL = BASE_URL_FTP + "api/checkTokenOrRegister/check.json";
+
+	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
+
+	public static final String BASE_URL_TEST_FTP = "ftp://catroidtest.ist.tugraz.at/";
+
+	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP + "api/upload/upload.json";
+	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_FTP + "api/checkToken/check.json";
+	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_FTP + "api/checkTokenOrRegister/check.json";
 
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
@@ -106,7 +110,7 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			resultString = connection.doHttpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString);
+			resultString = connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -132,12 +136,14 @@ public class ServerCalls {
 	}
 
 	public void downloadProject(String downloadUrl, String zipFileString) throws WebconnectionException {
-		try {
-			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(0);
-		}
+		/*
+		 * try {
+		 * connection.doHttpPostFileDownload(downloadUrl, null, zipFileString);
+		 * } catch (IOException e) {
+		 * e.printStackTrace();
+		 * throw new WebconnectionException(0);
+		 * }
+		 */
 	}
 
 	public boolean checkToken(String token) throws WebconnectionException {
@@ -148,7 +154,7 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			resultString = connection.doHttpPost(serverUrl, postValues);
+			//resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -167,10 +173,13 @@ public class ServerCalls {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
+		/*
+		 * catch (IOException e) {
+		 * e.printStackTrace();
+		 * throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+		 * }
+		 */
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
@@ -195,7 +204,7 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
 			Log.v(TAG, "url to use: " + serverUrl);
-			resultString = connection.doHttpPost(serverUrl, postValues);
+			//resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -218,10 +227,12 @@ public class ServerCalls {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
-		}
+		}/*
+		 * catch (IOException e) {
+		 * e.printStackTrace();
+		 * throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+		 * }
+		 */
 	}
 
 }
