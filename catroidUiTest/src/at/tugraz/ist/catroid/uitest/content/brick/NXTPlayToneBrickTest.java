@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
+import at.tugraz.ist.catroid.content.bricks.NxtPlayToneBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -51,7 +51,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 	private Solo solo;
 	private Project project;
-	private NXTPlayToneBrick playToneBrick;
+	private NxtPlayToneBrick playToneBrick;
 
 	public NXTPlayToneBrickTest() {
 		super(ScriptTabActivity.class);
@@ -165,7 +165,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		Script script = new StartScript(sprite);
 
 		int setDurationInitially = 1000;
-		playToneBrick = new NXTPlayToneBrick(sprite, SET_FREQUENCY_INITIALLY * 100, setDurationInitially);
+		playToneBrick = new NxtPlayToneBrick(sprite, SET_FREQUENCY_INITIALLY * 100, setDurationInitially);
 
 		script.addBrick(playToneBrick);
 		sprite.addScript(script);

@@ -33,14 +33,14 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
+public class NxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
 	}
 
-	public NXTMotorStopBrick() {
+	public NxtMotorStopBrick() {
 
 	}
 
@@ -57,7 +57,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 		return this;
 	}
 
-	public NXTMotorStopBrick(Sprite sprite, Motor motor) {
+	public NxtMotorStopBrick(Sprite sprite, Motor motor) {
 		this.sprite = sprite;
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
@@ -95,7 +95,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public Brick clone() {
-		return new NXTMotorStopBrick(getSprite(), motorEnum);
+		return new NxtMotorStopBrick(getSprite(), motorEnum);
 	}
 
 	@Override

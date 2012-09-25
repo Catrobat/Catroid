@@ -39,7 +39,7 @@ public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 
-	private String projectName;
+	private String programName;
 	private String description;
 	@XMLAlias("screenWidth")
 	public int virtualScreenWidth = 0;
@@ -74,7 +74,7 @@ public class Project implements Serializable {
 	private String userHandle = "";
 
 	public Project(Context context, String name) {
-		projectName = name;
+		programName = name;
 		description = "";
 		catrobatLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
 
@@ -91,6 +91,7 @@ public class Project implements Serializable {
 			return;
 		}
 
+		applicationName = context.getString(R.string.app_name);
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.costume.zPosition = Integer.MIN_VALUE;
 		addSprite(background);
@@ -123,11 +124,11 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.projectName = name;
+		this.programName = name;
 	}
 
 	public String getName() {
-		return projectName;
+		return programName;
 	}
 
 	public void setDescription(String description) {
