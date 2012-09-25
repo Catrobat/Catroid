@@ -39,7 +39,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChangeListener {
+public class NxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
 
 	private static final int MIN_FREQ_IN_HERTZ = 200;
@@ -47,7 +47,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	private static final int MIN_DURATION = 0;
 	private static final int MAX_DURATION = Integer.MAX_VALUE;
 
-	public NXTPlayToneBrick() {
+	public NxtPlayToneBrick() {
 
 	}
 
@@ -58,7 +58,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 	private transient EditText editFreq;
 	private transient SeekBar freqBar;
 
-	public NXTPlayToneBrick(Sprite sprite, int hertz, int duration) {
+	public NxtPlayToneBrick(Sprite sprite, int hertz, int duration) {
 		this.sprite = sprite;
 		this.hertz = hertz;
 		this.durationInMs = duration;
@@ -90,7 +90,7 @@ public class NXTPlayToneBrick implements Brick, OnClickListener, OnSeekBarChange
 
 	@Override
 	public Brick clone() {
-		return new NXTPlayToneBrick(getSprite(), hertz, durationInMs);
+		return new NxtPlayToneBrick(getSprite(), hertz, durationInMs);
 	}
 
 	@Override

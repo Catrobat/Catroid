@@ -34,7 +34,7 @@
       <Platform>Android</Platform>
       <PlatformVersion>10</PlatformVersion>
       <ProgramLicense/>
-      <ProjectName>standardProjekt</ProjectName>
+      <ProgramName>standardProjekt</ProgramName>
       <RemixOf/>
       <ScreenHeight>800</ScreenHeight>
       <ScreenWidth>480</ScreenWidth>
