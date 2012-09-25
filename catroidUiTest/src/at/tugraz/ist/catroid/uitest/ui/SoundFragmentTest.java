@@ -89,8 +89,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
-		System.gc();
 	}
 
 	public void testDeleteSound() {
