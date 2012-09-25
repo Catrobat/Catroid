@@ -96,7 +96,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.enterText(0, SET_DURATION + "");
 		solo.clickOnButton(buttonPositiveText);
 
-		double duration = (Integer) UiTestUtils.getPrivateField("durationInMs", playToneBrick);
+		double duration = (Integer) UiTestUtils.getPrivateField("durationInMilliSeconds", playToneBrick);
 		assertEquals("Wrong text in field.", SET_DURATION, duration / 1000);
 		assertEquals("Value in Brick is not updated.", SET_DURATION + "", solo.getEditText(0).getText().toString());
 
