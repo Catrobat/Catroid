@@ -77,6 +77,7 @@ public class Project implements Serializable {
 		programName = name;
 		description = "";
 		catrobatLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
+		platform = Constants.PLATFORM_NAME;
 
 		ifLandscapeSwitchWidthAndHeight();
 		virtualScreenWidth = Values.SCREEN_WIDTH;
