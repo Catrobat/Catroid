@@ -54,7 +54,7 @@ public class AnnotationTest extends InstrumentationTestCase {
 
 		Project project = Project.class.newInstance();
 
-		String xmlTagName = "projectName";
+		String xmlTagName = "programName";
 		String value = "blubb";
 
 		Field fieldToSet = projectFieldsToSet.get(xmlTagName);
