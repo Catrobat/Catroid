@@ -84,22 +84,22 @@ public class ProjectSerializer extends Serializer {
 			String fieldName = objectCreator.extractTagName(projectField);
 			projectField.setAccessible(true);
 			Object fieldValue = projectField.get(object);
-			if (fieldValue != null) {
-				if (!projectField.getType().isPrimitive()) {
-					if (projectField.getType().equals(String.class)) {
-						xmlElementString = tab + getElementString(fieldName, (String) fieldValue);
-						projectStringList.add(xmlElementString);
-					} else if (projectField.getName().equals("spriteList")) {
-						//						SpriteSerializer spriteSerializer = new SpriteSerializer(project);
-						//						projectStringList.addAll(spriteSerializer.serializeList());
-					} else {
-						throw new SerializeException("unknown field found in Project class");
-					}
-				} else {
-					xmlElementString = tab + getElementString(fieldName, fieldValue.toString());
+			//if (fieldValue != null) {
+			if (!projectField.getType().isPrimitive()) {
+				if (projectField.getType().equals(String.class)) {
+					xmlElementString = tab + getElementString(fieldName, (String) fieldValue);
 					projectStringList.add(xmlElementString);
+				} else if (projectField.getName().equals("spriteList")) {
+					//						SpriteSerializer spriteSerializer = new SpriteSerializer(project);
+					//						projectStringList.addAll(spriteSerializer.serializeList());
+				} else {
+					throw new SerializeException("unknown field found in Project class");
 				}
+			} else {
+				xmlElementString = tab + getElementString(fieldName, fieldValue.toString());
+				projectStringList.add(xmlElementString);
 			}
+			//}
 		}
 	}
 
