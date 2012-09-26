@@ -46,14 +46,14 @@ import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
-public class NxtMotorTurnAngleBrick implements Brick {
+public class LegoNxtMotorTurnAngleBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
 	}
 
-	public NxtMotorTurnAngleBrick() {
+	public LegoNxtMotorTurnAngleBrick() {
 
 	}
 
@@ -72,7 +72,7 @@ public class NxtMotorTurnAngleBrick implements Brick {
 		return this;
 	}
 
-	public NxtMotorTurnAngleBrick(Sprite sprite, Motor motor, int degrees) {
+	public LegoNxtMotorTurnAngleBrick(Sprite sprite, Motor motor, int degrees) {
 		this.sprite = sprite;
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
@@ -122,7 +122,7 @@ public class NxtMotorTurnAngleBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new NxtMotorTurnAngleBrick(getSprite(), motorEnum, degrees);
+		return new LegoNxtMotorTurnAngleBrick(getSprite(), motorEnum, degrees);
 	}
 
 	@Override

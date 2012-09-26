@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.NxtMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorStopBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -46,7 +46,7 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 
 	private Solo solo;
 	private Project project;
-	private NxtMotorStopBrick motorStopBrick;
+	private LegoNxtMotorStopBrick motorStopBrick;
 
 	public NXTMotorStopBrickTest() {
 		super(ScriptTabActivity.class);
@@ -105,7 +105,7 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 
-		motorStopBrick = new NxtMotorStopBrick(sprite, NxtMotorStopBrick.Motor.MOTOR_A);
+		motorStopBrick = new LegoNxtMotorStopBrick(sprite, LegoNxtMotorStopBrick.Motor.MOTOR_A);
 
 		script.addBrick(motorStopBrick);
 
