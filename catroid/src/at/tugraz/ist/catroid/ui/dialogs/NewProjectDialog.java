@@ -146,6 +146,8 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
 			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
 
+			//fillChecksumContainer();
+
 			//DEBUG
 			//ProjectManager.INSTANCE.loadProject(projectName, getActivity(), (ErrorListenerInterface) getActivity(),
 			//	true);
