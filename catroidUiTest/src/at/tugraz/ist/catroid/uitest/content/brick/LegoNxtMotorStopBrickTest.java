@@ -42,13 +42,13 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class LegoNxtMotorStopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 
 	private Solo solo;
 	private Project project;
 	private LegoNxtMotorStopBrick motorStopBrick;
 
-	public NXTMotorStopBrickTest() {
+	public LegoNxtMotorStopBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 

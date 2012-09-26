@@ -43,14 +43,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private static final int SET_ANGLE = 135;
 
 	private Solo solo;
 	private Project project;
 	private LegoNxtMotorTurnAngleBrick motorBrick;
 
-	public NXTMotorTurnAngleBrickTest() {
+	public LegoNxtMotorTurnAngleBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 
