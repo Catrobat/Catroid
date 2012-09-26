@@ -43,14 +43,14 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-public class NxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
+public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
 	}
 
-	public NxtMotorActionBrick() {
+	public LegoNxtMotorActionBrick() {
 
 	}
 
@@ -73,7 +73,7 @@ public class NxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 		return this;
 	}
 
-	public NxtMotorActionBrick(Sprite sprite, Motor motor, int speed) {
+	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, int speed) {
 		this.sprite = sprite;
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
@@ -112,7 +112,7 @@ public class NxtMotorActionBrick implements Brick, OnSeekBarChangeListener, OnCl
 
 	@Override
 	public Brick clone() {
-		return new NxtMotorActionBrick(getSprite(), motorEnum, speed);
+		return new LegoNxtMotorActionBrick(getSprite(), motorEnum, speed);
 	}
 
 	@Override

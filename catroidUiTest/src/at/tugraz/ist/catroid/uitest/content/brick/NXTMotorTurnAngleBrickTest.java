@@ -35,7 +35,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.NxtMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -48,7 +48,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 
 	private Solo solo;
 	private Project project;
-	private NxtMotorTurnAngleBrick motorBrick;
+	private LegoNxtMotorTurnAngleBrick motorBrick;
 
 	public NXTMotorTurnAngleBrickTest() {
 		super(ScriptTabActivity.class);
@@ -148,7 +148,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		Script script = new StartScript(sprite);
 
 		int setAngleInitially = 90;
-		motorBrick = new NxtMotorTurnAngleBrick(sprite, NxtMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
+		motorBrick = new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
 
 		script.addBrick(motorBrick);
 		sprite.addScript(script);

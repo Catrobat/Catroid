@@ -41,10 +41,10 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
-import at.tugraz.ist.catroid.content.bricks.NxtMotorActionBrick;
-import at.tugraz.ist.catroid.content.bricks.NxtMotorStopBrick;
-import at.tugraz.ist.catroid.content.bricks.NxtMotorTurnAngleBrick;
-import at.tugraz.ist.catroid.content.bricks.NxtPlayToneBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -272,22 +272,22 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Script whenScript = new WhenScript(firstSprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
-		NxtMotorActionBrick nxt = new NxtMotorActionBrick(firstSprite, NxtMotorActionBrick.Motor.MOTOR_A_C, 100);
+		LegoNxtMotorActionBrick nxt = new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A_C, 100);
 		commands.add(new int[] { MOTOR_ACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
 		commands.add(new int[] { MOTOR_ACTION, 2, 100 });
 		WaitBrick wait = new WaitBrick(firstSprite, 500);
 
-		NxtMotorStopBrick nxtStop = new NxtMotorStopBrick(firstSprite, NxtMotorStopBrick.Motor.MOTOR_A_C);
+		LegoNxtMotorStopBrick nxtStop = new LegoNxtMotorStopBrick(firstSprite, LegoNxtMotorStopBrick.Motor.MOTOR_A_C);
 		commands.add(new int[] { MOTOR_STOP, 0 });
 		commands.add(new int[] { MOTOR_STOP, 2 });
 		WaitBrick wait2 = new WaitBrick(firstSprite, 500);
 
-		NxtMotorTurnAngleBrick nxtTurn = new NxtMotorTurnAngleBrick(firstSprite, NxtMotorTurnAngleBrick.Motor.MOTOR_C,
+		LegoNxtMotorTurnAngleBrick nxtTurn = new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_C,
 				515);
 		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
 		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
-		NxtPlayToneBrick nxtTone = new NxtPlayToneBrick(firstSprite, 5000, 1000);
+		LegoNxtPlayToneBrick nxtTone = new LegoNxtPlayToneBrick(firstSprite, 5000, 1000);
 		//Tone does not return a command
 
 		whenScript.addBrick(nxt);

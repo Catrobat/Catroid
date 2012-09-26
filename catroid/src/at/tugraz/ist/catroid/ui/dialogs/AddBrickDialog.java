@@ -63,10 +63,10 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
-import at.tugraz.ist.catroid.content.bricks.NxtMotorActionBrick;
-import at.tugraz.ist.catroid.content.bricks.NxtMotorStopBrick;
-import at.tugraz.ist.catroid.content.bricks.NxtMotorTurnAngleBrick;
-import at.tugraz.ist.catroid.content.bricks.NxtPlayToneBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.NextCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
@@ -273,10 +273,10 @@ public class AddBrickDialog extends DialogFragment {
 		brickMap.put(context.getString(R.string.category_control), controlBrickList);
 
 		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
-		legoNXTBrickList.add(new NxtMotorTurnAngleBrick(sprite, NxtMotorTurnAngleBrick.Motor.MOTOR_A, 180));
-		legoNXTBrickList.add(new NxtMotorStopBrick(sprite, NxtMotorStopBrick.Motor.MOTOR_A));
-		legoNXTBrickList.add(new NxtMotorActionBrick(sprite, NxtMotorActionBrick.Motor.MOTOR_A, 100));
-		legoNXTBrickList.add(new NxtPlayToneBrick(sprite, 200, 1000));
+		legoNXTBrickList.add(new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 180));
+		legoNXTBrickList.add(new LegoNxtMotorStopBrick(sprite, LegoNxtMotorStopBrick.Motor.MOTOR_A));
+		legoNXTBrickList.add(new LegoNxtMotorActionBrick(sprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 100));
+		legoNXTBrickList.add(new LegoNxtPlayToneBrick(sprite, 200, 1000));
 		brickMap.put(context.getString(R.string.category_lego_nxt), legoNXTBrickList);
 
 		return brickMap;
