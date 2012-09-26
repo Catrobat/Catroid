@@ -95,8 +95,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		StorageHandler.getInstance().fillChecksumContainer();
-
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
 		}
@@ -137,6 +135,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		if (!Utils.checkForSdCard(getActivity())) {
 			return;
 		}
+
+		StorageHandler.getInstance().fillChecksumContainer();
 
 		if (spriteRenamedReceiver == null) {
 			spriteRenamedReceiver = new SpriteRenamedReceiver();
