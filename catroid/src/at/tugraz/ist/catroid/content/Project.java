@@ -49,6 +49,8 @@ public class Project implements Serializable {
 
 	// fields only used on the catrobat.org website so far
 	@SuppressWarnings("unused")
+	private String applicationBuildName = "";
+	@SuppressWarnings("unused")
 	private int applicationBuildNumber = 0;
 	@SuppressWarnings("unused")
 	private String applicationName = "";
@@ -78,6 +80,8 @@ public class Project implements Serializable {
 		description = "";
 		catrobatLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
 		platform = Constants.PLATFORM_NAME;
+		applicationBuildName = Constants.APPLICATION_BUILD_NAME;
+		applicationBuildNumber = Constants.APPLICATION_BUILD_NUMBER;
 
 		ifLandscapeSwitchWidthAndHeight();
 		virtualScreenWidth = Values.SCREEN_WIDTH;
