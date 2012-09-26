@@ -42,7 +42,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private static final int SET_SPEED = 30;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int MAX_SPEED = 100;
@@ -52,7 +52,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 	private Project project;
 	private LegoNxtMotorActionBrick motorBrick;
 
-	public NXTMotorActionBrickTest() {
+	public LegoNxtMotorActionBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 

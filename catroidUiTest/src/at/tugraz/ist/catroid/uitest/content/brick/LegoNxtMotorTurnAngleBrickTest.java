@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.EditText;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -34,7 +35,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.fragment.ScriptFragment;
@@ -42,13 +43,14 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private static final int SET_ANGLE = 135;
 
 	private Solo solo;
 	private Project project;
-	private LegoNxtMotorStopBrick motorStopBrick;
+	private LegoNxtMotorTurnAngleBrick motorBrick;
 
-	public NXTMotorStopBrickTest() {
+	public LegoNxtMotorTurnAngleBrickTest() {
 		super(ScriptTabActivity.class);
 	}
 
@@ -67,7 +69,7 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	@Smoke
-	public void testMotorActionBrick() {
+	public void testMotorTurnAngleBrick() {
 		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
@@ -82,22 +84,62 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_stop)));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(R.string.brick_motor_turn_angle)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_angle)));
+		assertTrue("Unit missing for angle!", solo.searchText("°"));
 
-		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_stop_motor_chooser);
-		assertTrue("Spinner items list too short!", motors.length == 5);
+		EditText turnEditText = (EditText) solo.getView(R.id.motor_turn_angle_edit_text);
+		assertFalse("Edittext should not be clickable", turnEditText.isClickable());
+		assertFalse("Edittext should be disabled", turnEditText.isEnabled());
+
+		solo.clickOnButton(0);
+		solo.clickInList(1);
+		assertEquals("Wrong value in field!", "45", solo.getEditText(0).getText().toString());
+		solo.clickInList(2);
+		assertEquals("Wrong value in field!", "90", solo.getEditText(0).getText().toString());
+		solo.clickInList(3);
+		assertEquals("Wrong value in field!", "-45", solo.getEditText(0).getText().toString());
+		solo.clickInList(4);
+		assertEquals("Wrong value in field!", "-90", solo.getEditText(0).getText().toString());
+		solo.clickInList(5);
+		assertEquals("Wrong value in field!", "180", solo.getEditText(0).getText().toString());
+
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, SET_ANGLE + "");
+		solo.clickOnButton(0);
+
+		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
+		assertEquals("Wrong text in field.", SET_ANGLE, angle);
+		assertEquals("Value in Brick is not updated.", SET_ANGLE + "", solo.getEditText(0).getText().toString());
+
+		solo.sleep(200);
+		solo.clickOnView(solo.getView(R.id.directions_btn));
+		try {
+			solo.clickOnEditText(0);
+			solo.clearEditText(0);
+			solo.clickOnButton(0);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			fail("Numberformat Exception should not occur");
+		}
+		angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
+		assertEquals("Wrong text in field.", 0, angle);
+		assertEquals("Value in Brick is not updated.", "0", solo.getEditText(0).getText().toString());
+
+		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
+		assertTrue("Spinner items list too short!", array.length == 4);
 
 		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
-		solo.pressSpinnerItem(0, 5);
-		assertEquals("Wrong item in spinner!", motors[4], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
-		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
-		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
-		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
-		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
+		solo.pressSpinnerItem(0, 0);
+		assertEquals("Wrong item in spinner!", array[0], currentSpinner.getSelectedItem());
+		solo.pressSpinnerItem(0, 1);
+		assertEquals("Wrong item in spinner!", array[1], currentSpinner.getSelectedItem());
+		solo.pressSpinnerItem(0, 1);
+		assertEquals("Wrong item in spinner!", array[2], currentSpinner.getSelectedItem());
+		solo.pressSpinnerItem(0, 1);
+		assertEquals("Wrong item in spinner!", array[3], currentSpinner.getSelectedItem());
 	}
 
 	private void createProject() {
@@ -105,10 +147,10 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 
-		motorStopBrick = new LegoNxtMotorStopBrick(sprite, LegoNxtMotorStopBrick.Motor.MOTOR_A);
+		int setAngleInitially = 90;
+		motorBrick = new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
 
-		script.addBrick(motorStopBrick);
-
+		script.addBrick(motorBrick);
 		sprite.addScript(script);
 		project.addSprite(sprite);
 
