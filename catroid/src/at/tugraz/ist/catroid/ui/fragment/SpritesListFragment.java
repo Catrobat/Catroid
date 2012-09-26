@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,7 +44,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.IconMenuAdapter;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
@@ -90,6 +94,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		StorageHandler.getInstance().fillChecksumContainer();
 
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
@@ -266,6 +272,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 					case CONTEXT_MENU_ITEM_DELETE:
 						ProjectManager projectManager = ProjectManager.getInstance();
 						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+						deleteSpriteFiles();
 						if (projectManager.getCurrentSprite() != null
 								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
 							projectManager.setCurrentSprite(null);
@@ -274,6 +281,19 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 				}
 			}
 		});
+	}
+
+	private void deleteSpriteFiles() {
+		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
+		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
+
+		for (CostumeData currentCostumeData : costumeDataList) {
+			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
+		}
+
+		for (SoundInfo currentSoundInfo : soundInfoList) {
+			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
+		}
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {

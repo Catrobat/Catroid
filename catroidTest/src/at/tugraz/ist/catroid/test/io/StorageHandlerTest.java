@@ -71,7 +71,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void setUp() {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+		File projectFile = new File(Constants.DEFAULT_ROOT + "/"
+				+ getContext().getString(R.string.default_project_name));
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
@@ -252,6 +253,23 @@ public class StorageHandlerTest extends AndroidTestCase {
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
 		}
+	}
+
+	public void testDeleteSprite() throws IOException {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(getContext()));
+
+		Project activeProject = projectManager.getCurrentProject();
+		ArrayList<CostumeData> catroidCostumeList = activeProject.getSpriteList().get(1).getCostumeDataList();
+		activeProject.getSpriteList().remove(1);
+
+		File imageFile = null;
+
+		for (CostumeData currentCostumeData : catroidCostumeList) {
+			imageFile = new File(currentCostumeData.getAbsolutePath());
+			assertFalse("Imagefile should be deleted", imageFile.exists());
+		}
+
 	}
 
 }
