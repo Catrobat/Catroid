@@ -23,7 +23,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Catroid" parent="Theme.Sherlock.Light.ForceOverflow">
+    <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <!-- <item name="actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
