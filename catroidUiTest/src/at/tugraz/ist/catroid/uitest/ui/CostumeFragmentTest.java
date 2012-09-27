@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
@@ -124,7 +125,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		String addCostumeFromGalleryDialogTitle = solo.getString(R.string.select_costume_from_gallery);
 
 		goToCostumesTab();
-		solo.clickOnText(solo.getString(R.string.sound_delete));
+		solo.clickOnText(solo.getString(R.string.delete_lowercase));
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
@@ -171,8 +172,8 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testCopyCostume() {
 		goToCostumesTab();
-		solo.clickOnText(getActivity().getString(R.string.copy_costume), 1);
-		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition), 1, true)) {
+		solo.clickOnText(solo.getString(R.string.copy_costume), 1);
+		if (solo.searchText(costumeName + "_" + solo.getString(R.string.copy_costume_addition), 1, true)) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
 					costumeDataList.size());
 		} else {
@@ -185,7 +186,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		ListAdapter adapter = getCostumeFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.clickOnButton(solo.getString(R.string.delete_lowercase));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(300);
@@ -193,6 +194,20 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("the old count was not right", 2, oldCount);
 		assertEquals("the new count is not right - all costumes should be deleted", 1, newCount);
 		assertEquals("the count of the costumeDataList is not right", 1, costumeDataList.size());
+	}
+
+	public void testDeleteCostumeFile() {
+		goToCostumesTab();
+
+		Sprite firstSprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);
+		CostumeData costumeToDelete = firstSprite.getCostumeDataList().get(1);
+
+		solo.clickOnText(solo.getString(R.string.delete_lowercase), 2);
+		String buttonPositive = solo.getString(R.string.ok);
+		solo.clickOnText(buttonPositive);
+
+		File deletedFile = new File(costumeToDelete.getAbsolutePath());
+		assertFalse("File should be deleted", deletedFile.exists());
 	}
 
 	public void testRenameCostume() {

@@ -145,6 +145,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		try {
 			ProjectManager.INSTANCE.initializeNewProject(projectName, getActivity());
 			ProjectManager.INSTANCE.getCurrentProject().setDescription(projectDescription);
+
 		} catch (IOException e) {
 			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_new_project));
 			dismiss();

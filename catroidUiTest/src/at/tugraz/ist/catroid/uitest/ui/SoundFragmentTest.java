@@ -96,7 +96,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		ListAdapter adapter = getSoundFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.clickOnButton(getActivity().getString(R.string.delete_lowercase));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);

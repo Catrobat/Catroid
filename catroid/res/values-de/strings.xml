@@ -32,6 +32,7 @@
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
+    <string name="delete_lowercase">löschen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="copy">Kopieren</string>
@@ -104,7 +105,6 @@
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
-    <string name="sound_delete">löschen</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
     <string name="soundlist_footer_image_description">Hier drücken, um neuen Klang hinzuzufügen</string>
