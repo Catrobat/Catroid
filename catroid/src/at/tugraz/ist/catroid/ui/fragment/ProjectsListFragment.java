@@ -118,6 +118,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		myprojectlistFooterView.setOnClickListener(this);
 		getListView().addFooterView(footerView);
 
+		checkForCanceledFragment();
 		reattachDialogFragmentListener();
 		initAdapter();
 		initClickListener();
@@ -191,6 +192,19 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 					displayingCopyProjectDialog.setOnCopyProjectListener(ProjectsListFragment.this);
 					break;
 			}
+		}
+	}
+
+	private void checkForCanceledFragment() {
+		if (getFragmentManager().findFragmentByTag(RenameProjectDialog.DIALOG_FRAGMENT_TAG) == null
+				&& activeDialogId == CONTEXT_MENU_ITEM_RENAME) {
+			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
+		} else if (getFragmentManager().findFragmentByTag(SetDescriptionDialog.DIALOG_FRAGMENT_TAG) == null
+				&& activeDialogId == CONTEXT_MENU_ITEM_DESCRIPTION) {
+			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
+		} else if (getFragmentManager().findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG) == null
+				&& activeDialogId == CONTEXT_MENU_ITEM_COPY) {
+			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		}
 	}
 
