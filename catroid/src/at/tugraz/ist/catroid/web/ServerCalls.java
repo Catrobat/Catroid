@@ -53,19 +53,23 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
 	public static final String BASE_URL_HTTP = "http://www.catroid.org/";
-	public static final String BASE_URL_FTP = "ftp://www.catroid.org/";
+	public static final String BASE_URL_FTP = "ftp://catroid.org/";
+	public static final String FTP_PORT_EXTENSION = ":8080";
 
-	private static final String FILE_UPLOAD_URL = BASE_URL_FTP + "api/upload/upload.json";
-	private static final String CHECK_TOKEN_URL = BASE_URL_FTP + "api/checkToken/check.json";
-	public static final String REGISTRATION_URL = BASE_URL_FTP + "api/checkTokenOrRegister/check.json";
+	//private static final String FILE_UPLOAD_URL = BASE_URL_FTP + "api/upload/upload.json";
+	private static final String FILE_UPLOAD_URL = BASE_URL_FTP + /* "api/upload/upload.json" + */FTP_PORT_EXTENSION;
+	private static final String CHECK_TOKEN_URL = BASE_URL_HTTP + "api/checkToken/check.json";
+	public static final String REGISTRATION_URL = BASE_URL_HTTP + "api/checkTokenOrRegister/check.json";
 
 	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
+	public static final String BASE_URL_TEST_FTP = "ftp://catroidtest.ist.tugraz.at";
 
-	public static final String BASE_URL_TEST_FTP = "ftp://catroidtest.ist.tugraz.at/";
+	//public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP + "api/upload/upload.json";
 
-	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP + "api/upload/upload.json";
-	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_FTP + "api/checkToken/check.json";
-	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_FTP + "api/checkTokenOrRegister/check.json";
+	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP
+			+ /* "api/upload/upload.json" + */FTP_PORT_EXTENSION;
+	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
+	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
 
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
@@ -154,7 +158,7 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			//resultString = connection.doHttpPost(serverUrl, postValues);
+			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -174,12 +178,11 @@ public class ServerCalls {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
 		}
-		/*
-		 * catch (IOException e) {
-		 * e.printStackTrace();
-		 * throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
-		 * }
-		 */
+
+		catch (IOException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+		}
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
@@ -204,7 +207,7 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
 			Log.v(TAG, "url to use: " + serverUrl);
-			//resultString = connection.doHttpPost(serverUrl, postValues);
+			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -227,12 +230,10 @@ public class ServerCalls {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
-		}/*
-		 * catch (IOException e) {
-		 * e.printStackTrace();
-		 * throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
-		 * }
-		 */
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+		}
 	}
 
 }

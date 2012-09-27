@@ -192,6 +192,12 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	public void testUpload() throws Throwable {
+		setServerURLToTestUrl();
+		UiTestUtils.createValidUser(getActivity());
+		uploadProject(testProject, "");
+	}
+
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
 		setServerURLToTestUrl();
 

@@ -111,7 +111,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	private class MockConnection extends ConnectionWrapper {
 		@Override
-		public String doHttpPostFileUpload(String urlstring, HashMap<String, String> postValues, String filetag,
+		public String doFtpPostFileUpload(String urlstring, HashMap<String, String> postValues, String filetag,
 				String filePath) throws IOException, WebconnectionException {
 
 			new File(filePath).renameTo(projectZipOnMockServer);
@@ -119,7 +119,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		}
 
 		@Override
-		public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
+		public void doFtpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
 				throws IOException {
 			projectZipOnMockServer.renameTo(new File(filePath));
 		}
