@@ -124,7 +124,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		String addCostumeFromGalleryDialogTitle = solo.getString(R.string.select_costume_from_gallery);
 
 		goToCostumesTab();
-		solo.clickOnText(solo.getString(R.string.sound_delete));
+		solo.clickOnText(solo.getString(R.string.delete));
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
