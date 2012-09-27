@@ -49,7 +49,8 @@ public class ProjectSerializer extends Serializer {
 			xmlElementString = getStartTag(className);
 		} else {
 
-			xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME);
+			xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME
+					+ CatroidXMLConstants.PROJECT_ELEMENT_NAME_OPTIONAL_STARTTAG);
 		}
 		projectStringList.add(xmlElementString);
 		xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_HEADER_NAME);
