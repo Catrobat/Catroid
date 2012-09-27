@@ -24,9 +24,12 @@ package at.tugraz.ist.catroid.xml.parser;
 
 public enum HeaderTags {
 
-	ANDROIDVERSION("PlatformVersion"), CATROIDVERSIONCODE("ApplicationVersionCode"), CATROIDVERSIONNAME(
-			"ApplicationVersionName"), DEVICENAME("DeviceName"), PROJECTNAME("ProjectName"), SCREENHEIGHT(
-			"ScreenHeight"), SCREENWIDTH("ScreenWidth");
+	APPLICATIONBUILDNAME("ApplicationBuildName"), APPLICATIONBUILDNUMBER("ApplicationBuildNumber"), APPLICATIONNAME(
+			"ApplicationName"), APPLICATIONVERSION("ApplicationVersion"), CATROBATLANGUAGEVERSION(
+			"CatrobatLanguageVersion"), DATETIMEUPLOAD("DateTimeUpload"), DESCRIPTION("Description"), DEVICENAME(
+			"DeviceName"), MEDIALICENSE("MediaLicense"), PLATFORM("Platform"), PLATFORMVERSION("PlatformVersion"), PROGRAMLICENSE(
+			"ProgramLicense"), PROGRAMNAME("ProgramName"), REMIXOF("RemixOf"), SCREENHEIGHT("ScreenHeight"), SCREENWIDTH(
+			"ScreenWidth"), URL("URL"), USERHANDLE("UserHandle");
 
 	private String xmlTagString;
 
