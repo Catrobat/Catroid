@@ -72,7 +72,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		InputStream xmlFileStream = null;
 
 		try {
-			xmlFileStream = androidContext.getAssets().open("test_project.xml");
+			xmlFileStream = androidContext.getAssets().open("standardProject.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -155,7 +155,7 @@ public class FullParserTest extends InstrumentationTestCase {
 
 		Project testProject = null;
 		try {
-			testProject = parser.fullParser("test_standard_project_new_version.xml");
+			testProject = parser.fullParser("standardProject.xml");
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parser Exception");
@@ -166,11 +166,11 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("all sprites not given", 2, sprites.size());
 		Sprite testSprite = sprites.get(1);
 		@SuppressWarnings("unchecked")
-		List<CostumeData> givenCostumes = (List<CostumeData>) TestUtils.getPrivateField("costumeDataList", testSprite,
+		List<CostumeData> givenCostumes = (List<CostumeData>) TestUtils.getPrivateField("costumeList", testSprite,
 				false);
 
 		assertEquals("costumes number wrong", 3, givenCostumes.size());
-		CostumeData testData = givenCostumes.get(1);
+		CostumeData testData = givenCostumes.get(0);
 		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 		WhenScript script = (WhenScript) testSprite.getScript(1);
