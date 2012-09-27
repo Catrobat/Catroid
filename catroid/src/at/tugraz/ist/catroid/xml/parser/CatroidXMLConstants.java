@@ -27,7 +27,10 @@ public class CatroidXMLConstants {
 	public static final String PARENT_ELEMENT = "..";
 	public static final String REFERENCE_ATTRIBUTE = "reference";
 
-	public static final String PROJECT_ELEMENT_NAME = "CatrobatProgram";
+	public static final String OPTIONAL_HEADER = " xmlns:xsi= " + "\"" + "http://www.w3.org/2001/XMLSchema-instance"
+			+ "\"" + " xsi:noNamespaceSchemaLocation=" + "\""
+			+ "http://catroidtestserver.ist.tugraz.at/xmlSchema/version-0.3/catrobatXmlSchema.xsd" + "\"" + ">";
+	public static final String PROJECT_ELEMENT_NAME = "CatrobatProgram" + OPTIONAL_HEADER;// xmlns:xsi= \"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://catroidtestserver.ist.tugraz.at/xmlSchema/version-0.3/catrobatXmlSchema.xsd\"";
 	public static final String PROJECT_HEADER_NAME = "Header";
 
 	public static final String CONTENT_PACKAGE = "at.tugraz.ist.catroid.content.";

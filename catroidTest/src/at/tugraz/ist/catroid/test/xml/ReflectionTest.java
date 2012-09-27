@@ -56,12 +56,12 @@ public class ReflectionTest extends InstrumentationTestCase {
 			fail("Excption when parsing");
 		}
 
-		int androidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.ANDROIDVERSION.getXmlTagString(),
+		int androidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.PLATFORMVERSION.getXmlTagString(),
 				createdProject, false);
-		int catroidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.CATROIDVERSIONCODE.getXmlTagString(),
+		int catroidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.PLATFORMVERSION.getXmlTagString(),
 				createdProject, false);
 		String catroidVersionNameResult = (String) TestUtils.getPrivateField(
-				HeaderTags.CATROIDVERSIONNAME.getXmlTagString(), createdProject, false);
+				HeaderTags.APPLICATIONVERSION.getXmlTagString(), createdProject, false);
 		String deviceNameresult = (String) TestUtils.getPrivateField(HeaderTags.DEVICENAME.getXmlTagString(),
 				createdProject, false);
 
