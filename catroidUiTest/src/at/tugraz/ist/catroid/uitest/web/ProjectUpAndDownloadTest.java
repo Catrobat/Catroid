@@ -195,7 +195,14 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void testUpload() throws Throwable {
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
-		uploadProject(testProject, "");
+		uploadProject(testProject + System.currentTimeMillis(), "");
+	}
+
+	public void testDownload() throws Throwable {
+		setServerURLToTestUrl();
+		UiTestUtils.createValidUser(getActivity());
+		downloadProjectAndReplace("testingproject1");
+		solo.sleep(20000);
 	}
 
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {

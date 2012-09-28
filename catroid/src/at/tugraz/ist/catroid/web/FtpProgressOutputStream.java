@@ -23,69 +23,62 @@
 package at.tugraz.ist.catroid.web;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 
-public class FtpProgressInputStream extends InputStream {
+public class FtpProgressOutputStream extends OutputStream {
 
-	private final static String TAG = FtpProgressInputStream.class.getSimpleName();
-	private static final int DATA_STREAM_UPDATE_SIZE = 1024 * 10; //10 KB
-	private InputStream inputStream;
+	private final static String TAG = FtpProgressOutputStream.class.getSimpleName();
+	private static final int DATA_STREAM_SIZE = 1024 * 20; //20 KB
+	private OutputStream outputStream;
 	private Handler handler;
-
 	private long progress;
 	private long lastUpdate;
 	private boolean connectionClosed;
 
-	public FtpProgressInputStream(InputStream inputStream, Handler handler) { //handler?
-		this.inputStream = inputStream;
+	public FtpProgressOutputStream(OutputStream outputStream, Handler handler) { //handler?
+		this.outputStream = outputStream;
 		this.handler = handler; //new Handler();
-
 		this.progress = 0;
 		this.lastUpdate = 0;
 		this.connectionClosed = false;
 	}
 
-	@Override
-	public int read() throws IOException {
-		int count = inputStream.read();
-		return updateProgress(count);
-	}
-
-	@Override
-	public int read(byte[] buffer, int offset, int length) throws IOException {
-		int count = inputStream.read(buffer, offset, length);
-		return updateProgress(count);
-	}
-
-	@Override
-	public void close() throws IOException {
-		super.close();
-		if (connectionClosed) {
-			throw new IOException("Connection is already closed");
-		}
-		connectionClosed = true;
-	}
+	/*
+	 * @Override
+	 * public int read() throws IOException {
+	 * //int count = outputStream.read();
+	 * return updateProgress(0);
+	 * }
+	 * 
+	 * @Override
+	 * public int read(byte[] buffer, int offset, int length) throws IOException {
+	 * //int count = outputStream.read(buffer, offset, length);
+	 * return updateProgress(0);
+	 * }
+	 * 
+	 * @Override
+	 * public void close() throws IOException {
+	 * super.close();
+	 * if (connectionClosed) {
+	 * throw new IOException("Connection is already closed");
+	 * }
+	 * connectionClosed = true;
+	 * }
+	 */
 
 	private int updateProgress(int count) {
-		if (count > 0) {
-			progress += count;
-
-			lastUpdate = progress;
-			sendUpdateIntent(progress);
+		if (count == 0) {
+			;
 		}
 		return count;
 	}
 
-	private void sendUpdateIntent(long progress) {
-		Bundle progressBundle = new Bundle();
-		progressBundle.putLong("currentUploadProgress", progress);
-		Message progressMessage = Message.obtain();
-		progressMessage.setData(progressBundle);
-		handler.sendMessage(progressMessage);
+	@Override
+	public void write(int oneByte) throws IOException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

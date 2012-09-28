@@ -29,6 +29,7 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
@@ -48,6 +49,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private String serverAnswer;
 	private String token;
 	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
+	public Handler progressHandler;
 
 	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
 			String token) {
@@ -56,6 +58,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
 		this.token = token;
+		this.progressHandler = new Handler();
 
 		if (context != null) {
 			serverAnswer = context.getString(R.string.error_project_upload);
@@ -103,7 +106,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
 
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
-					language, token);
+					language, token, progressHandler);
 			zipFile.delete();
 			return true;
 		} catch (IOException e) {

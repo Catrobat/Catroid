@@ -29,6 +29,7 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Handler;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -53,7 +54,7 @@ public class ServerCalls {
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
 	public static final String BASE_URL_HTTP = "http://www.catroid.org/";
-	public static final String BASE_URL_FTP = "catroid.org/";
+	public static final String BASE_URL_FTP = "catroid.org";
 	public static final int FTP_PORT = 8080;
 
 	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
@@ -92,7 +93,7 @@ public class ServerCalls {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token) throws WebconnectionException {
+			String language, String token, Handler progressHandler) throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
@@ -112,7 +113,9 @@ public class ServerCalls {
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			/* resultString = */connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString);
+			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, progressHandler);
+
+			/* resultString = */
 			/*
 			 * JSONObject jsonObject = null;
 			 * int statusCode = 0;
@@ -140,14 +143,26 @@ public class ServerCalls {
 	}
 
 	public void downloadProject(String downloadUrl, String zipFileString) throws WebconnectionException {
+
 		/*
+		 * String serverUrl = useTestUrl ? BASE_URL_TEST_FTP : BASE_URL_FTP;
+		 * 
+		 * Log.v(TAG, "url to download: " + serverUrl);
 		 * try {
-		 * connection.doHttpPostFileDownload(downloadUrl, null, zipFileString);
+		 * connection.doFtpPostFileDownload(serverUrl, null, zipFileString);
 		 * } catch (IOException e) {
 		 * e.printStackTrace();
 		 * throw new WebconnectionException(0);
 		 * }
 		 */
+
+		try {
+			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(0);
+		}
+
 	}
 
 	public boolean checkToken(String token) throws WebconnectionException {
