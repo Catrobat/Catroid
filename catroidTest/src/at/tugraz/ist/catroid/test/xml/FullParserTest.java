@@ -222,7 +222,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		PlaySoundBrick playSoundBrick = (PlaySoundBrick) testScript.getBrick(4);
 
 		assertNotNull("The PlaySoundBrick is null", playSoundBrick);
-		SoundInfo brickSoundInfo = (SoundInfo) TestUtils.getPrivateField("soundInfo", playSoundBrick, false);
+		SoundInfo brickSoundInfo = (SoundInfo) TestUtils.getPrivateField("sound", playSoundBrick, false);
 		assertEquals("SoundInfo name is not correct", "Geige", brickSoundInfo.getTitle());
 		assertEquals("Sound infos don't match", soundListSoundinfo, brickSoundInfo);
 	}
