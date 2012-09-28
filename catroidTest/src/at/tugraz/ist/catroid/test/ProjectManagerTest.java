@@ -53,7 +53,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		projectManager.setProject(null);
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 
 	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() {
