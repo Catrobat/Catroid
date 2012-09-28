@@ -53,14 +53,13 @@ public class ConnectionWrapper {
 	private FTPClient ftpClient = new FTPClient();
 	public Handler handler = new Handler();
 
-	public String doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
+	@SuppressWarnings("unused")
+	public void doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
 			String filePath) throws IOException, WebconnectionException {
 
 		try {
-			//ftpClient.connect(urlString, 8080);
-			ftpClient.connect("ftp.at.debian.org");
-			//ftpClient.connect("ftp://catroidtest.ist.tugraz.at", 8080);
-			ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
+			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
+			boolean success = ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
 			//ftpClient.changeWorkingDirectory(filePath); //???
 
 			int replyCode = ftpClient.getReplyCode();
@@ -71,21 +70,20 @@ public class ConnectionWrapper {
 				throw new WebconnectionException(replyCode);
 			}
 
-			ftpClient.setFileType(FILE_TYPE);
+			boolean good = ftpClient.setFileType(FILE_TYPE);
 			BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
-			//ftpClient.enterLocalPassiveMode();
+			ftpClient.enterLocalPassiveMode();
 			FtpProgressInputStream ftpProgressStream = new FtpProgressInputStream(inputStream, handler); // + Handler?
 
 			if (filePath != null) {
 				String fileName = postValues.get("projectTitle");
 				String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
-				boolean result = ftpClient.storeFile(fileName + extension, ftpProgressStream);
+				boolean result = ftpClient.storeFile(fileName + "." + extension, ftpProgressStream);
 
-				/*
-				 * if(!result){
-				 * throws new IOException();
-				 * }
-				 */
+				if (!result) {
+					throw new IOException();
+				}
+
 			}
 
 			inputStream.close();
@@ -105,7 +103,6 @@ public class ConnectionWrapper {
 
 			}
 		}
-		return "";
 	}
 
 	public void doFtpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
