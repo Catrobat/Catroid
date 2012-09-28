@@ -72,7 +72,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		InputStream xmlFileStream = null;
 
 		try {
-			xmlFileStream = androidContext.getAssets().open("standardProject.xml");
+			xmlFileStream = androidContext.getAssets().open("test_project.xml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -108,7 +108,7 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("SETSizetoBrick size incorrect", 0.8, sizeFormBrick);
 
 		WhenScript testWhnScript = (WhenScript) values.get(1).getScript(1);
-		assertEquals("WhenScript action incorrect", "TappedChanged", testWhnScript.getAction());
+		assertEquals("WhenScript action incorrect", "Tapped", testWhnScript.getAction());
 
 		StartScript testScript2 = (StartScript) values.get(2).getScript(0);
 		GlideToBrick testBrick2 = (GlideToBrick) testScript2.getBrick(5);
@@ -170,13 +170,13 @@ public class FullParserTest extends InstrumentationTestCase {
 				false);
 
 		assertEquals("costumes number wrong", 3, givenCostumes.size());
-		CostumeData testData = givenCostumes.get(0);
+		CostumeData testData = givenCostumes.get(1);
 		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 		WhenScript script = (WhenScript) testSprite.getScript(1);
 		SetCostumeBrick costumeBrick = (SetCostumeBrick) script.getBrick(0);
 		assertNotNull("brick sprite is null", costumeBrick.getSprite());
-		testData = (CostumeData) TestUtils.getPrivateField("costumeData", costumeBrick, false);
+		testData = (CostumeData) TestUtils.getPrivateField("costume", costumeBrick, false);
 		testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
 		assertEquals("costume data wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
 		StartScript startScript = (StartScript) testSprite.getScript(0);
@@ -268,12 +268,12 @@ public class FullParserTest extends InstrumentationTestCase {
 		Project loadedProject = null;
 		Project loadedProject2 = null;
 		try {
-			InputStream firstFileStream = androidContext.getAssets().open("test_standard_project_new_version.xml");
+			InputStream firstFileStream = androidContext.getAssets().open("standardProject.xml");
 			loadedProject = parser.parseSpritesWithProject(firstFileStream);
 			assertNotNull("loadedProject null", loadedProject);
 			assertEquals("sprites not right", 2, loadedProject.getSpriteList().size());
 
-			InputStream secondFileStream = androidContext.getAssets().open("test_standard_project_new_version.xml");
+			InputStream secondFileStream = androidContext.getAssets().open("standardProject.xml");
 			loadedProject2 = parser.parseSpritesWithProject(secondFileStream);
 			assertNotNull("loadedProject null", loadedProject2);
 			assertEquals("sprites not right", 2, loadedProject2.getSpriteList().size());
