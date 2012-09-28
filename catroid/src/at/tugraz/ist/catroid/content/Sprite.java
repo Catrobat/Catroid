@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class Sprite implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
@@ -52,7 +53,7 @@ public class Sprite implements Serializable {
 	private transient Map<Script, List<Thread>> activeScripts;
 
 	private Object readResolve() {
-		//filling FileChecksumContainer:
+
 		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
 			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 			if (container == null) {
