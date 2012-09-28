@@ -24,7 +24,7 @@ package at.tugraz.ist.catroid.xml.parser;
 
 public enum HeaderStarterAndEndTags {
 
-	CONTENTPROJECT("<Content.Project>"), SPRITELIST("<spriteList>");
+	CONTENTPROJECT("<Content.Project>"), SPRITELIST("<SpriteList>");
 
 	private String XMLTagString;
 
