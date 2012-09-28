@@ -29,7 +29,6 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.xml.parser.HeaderTags;
 import at.tugraz.ist.catroid.xml.parser.ObjectCreator;
 import at.tugraz.ist.catroid.xml.parser.ParseException;
 
@@ -56,18 +55,16 @@ public class ReflectionTest extends InstrumentationTestCase {
 			fail("Excption when parsing");
 		}
 
-		int androidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.PLATFORMVERSION.getXmlTagString(),
+		int androidVersionResult = (Integer) TestUtils.getPrivateField("platformVersion", createdProject, false);
+		float catrobatLanguageVersionResult = (Float) TestUtils.getPrivateField("catrobatLanguageVersion",
 				createdProject, false);
-		int catroidVersionResult = (Integer) TestUtils.getPrivateField(HeaderTags.PLATFORMVERSION.getXmlTagString(),
-				createdProject, false);
-		String catroidVersionNameResult = (String) TestUtils.getPrivateField(
-				HeaderTags.APPLICATIONVERSION.getXmlTagString(), createdProject, false);
-		String deviceNameresult = (String) TestUtils.getPrivateField(HeaderTags.DEVICENAME.getXmlTagString(),
-				createdProject, false);
+		String catroidVersionNameResult = (String) TestUtils.getPrivateField("applicationVersion", createdProject,
+				false);
+		String deviceNameresult = (String) TestUtils.getPrivateField("deviceName", createdProject, false);
 
 		assertEquals("the Android version is wrong", 10, androidVersionResult);
-		assertEquals("catroidversionCode wrong", 8, catroidVersionResult);
-		assertEquals("catroidVersionName wrong", "0.5.6a", catroidVersionNameResult);
+		assertEquals("catrobatlanguageversion wrong", 0.3f, catrobatLanguageVersionResult);
+		assertEquals("applicationVersion wrong", "0.6.0beta", catroidVersionNameResult);
 		assertEquals("DeviceName wrong", "HTC Desire", deviceNameresult);
 		assertNotNull("createdProject is null", createdProject);
 		assertEquals("ProjectName tag not set", createdProject.getName(), "testProject");
