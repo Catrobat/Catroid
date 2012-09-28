@@ -148,6 +148,12 @@ public class Project implements Serializable {
 		return this.catrobatLanguageVersion;
 	}
 
+	// this method should be removed by the nex refactoring
+	// (used only in tests)
+	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
+		this.catrobatLanguageVersion = catrobatLanguageVersion;
+	}
+
 	public void setDeviceData(Context context) {
 		// TODO add other header values
 		deviceName = Build.MODEL;

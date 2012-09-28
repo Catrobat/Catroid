@@ -42,6 +42,8 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
@@ -200,31 +202,36 @@ public class TestUtils {
 		return null;
 	}
 
-	private static class ProjectWithCatrobatLanguageVersion extends Project {
-		static final long serialVersionUID = 1L;
-		private final float catrobatLanguageVersion;
-
-		@SuppressWarnings("unused")
-		public ProjectWithCatrobatLanguageVersion() {
-			catrobatLanguageVersion = 0.1f;
-		}
-
-		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
-			super(null, name);
-			this.catrobatLanguageVersion = catrobatLanguageVersion;
-		}
-
-		@Override
-		public float getCatrobatLanguageVersion() {
-			return catrobatLanguageVersion;
-		}
-	}
+	//	private static class ProjectWithCatrobatLanguageVersion extends Project {
+	//		static final long serialVersionUID = 1L;
+	//		private final float catrobatLanguageVersion;
+	//
+	//		@SuppressWarnings("unused")
+	//		public ProjectWithCatrobatLanguageVersion() {
+	//			catrobatLanguageVersion = 0.1f;
+	//		}
+	//
+	//		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
+	//			super(null, name);
+	//			this.catrobatLanguageVersion = catrobatLanguageVersion;
+	//		}
+	//
+	//		@Override
+	//		public float getCatrobatLanguageVersion() {
+	//			return catrobatLanguageVersion;
+	//		}
+	//	}
 
 	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(float catrobatLanguageVersion,
 			String name) {
-		Project project = new ProjectWithCatrobatLanguageVersion(name, catrobatLanguageVersion);
+		//		Project project = new ProjectWithCatrobatLanguageVersion(name, catrobatLanguageVersion);
+		Project project = new Project(null, name);
+		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
+
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
+		Brick testBrick = new HideBrick();
+		testScript.addBrick(testBrick);
 
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
