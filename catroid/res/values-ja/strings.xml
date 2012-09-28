@@ -31,6 +31,7 @@
     <string name="cancel_button">"キャンセル"</string>
     <string name="rename">"名前の変更"</string>
     <string name="delete">"削除"</string>
+    <string name="delete_lowercase">"消す"</string>
     <string name="yes">"はい"</string>
     <string name="no">"いいえ"</string>
     <!-- General -->
@@ -91,7 +92,6 @@
     <string name="soundname_invalid">"この音の名前は無効です"</string>
     <string name="sound_play">"再生"</string>
     <string name="sound_pause">"休止"</string>
-    <string name="sound_delete">"消す"</string>
     <string name="sound_select_source">"音を選択してください"</string>
     <!-- My Projects activity -->
     <string name="last_used">"最新の使用："</string>

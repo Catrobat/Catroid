@@ -33,6 +33,7 @@
     <string name="cancel_button">Отмена</string>
     <string name="rename">Переименовать</string>
     <string name="delete">Удалить</string>
+    <string name="delete_lowercase">удалить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <!-- User interface -->
@@ -113,7 +114,6 @@
     <string name="soundname_invalid">Это название звука недействительно</string>
     <string name="sound_play">проигрывание</string>
     <string name="sound_pause">пауза </string>
-    <string name="sound_delete">удалить</string>
     <string name="sound_rename">переименовать</string>
     <string name="sound_select_source">Выберите звук</string>
     <string name="delete_sound_dialog">Удалить звук?</string>

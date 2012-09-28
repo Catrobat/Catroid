@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.fragment.CostumeFragment;
@@ -124,7 +125,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		String addCostumeFromGalleryDialogTitle = solo.getString(R.string.select_costume_from_gallery);
 
 		goToCostumesTab();
-		solo.clickOnText(solo.getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete_lowercase));
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
@@ -185,7 +186,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		ListAdapter adapter = getCostumeFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(solo.getString(R.string.delete));
+		solo.clickOnButton(solo.getString(R.string.delete_lowercase));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(300);
@@ -198,10 +199,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testDeleteCostumeFile() {
 		goToCostumesTab();
 
-		CostumeData costumeToDelete = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0)
-				.getCostumeDataList().get(1);
+		Sprite firstSprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);
+		CostumeData costumeToDelete = firstSprite.getCostumeDataList().get(1);
 
-		solo.clickOnText(solo.getString(R.string.delete), 2);
+		solo.clickOnText(solo.getString(R.string.delete_lowercase), 2);
 		String buttonPositive = solo.getString(R.string.ok);
 		solo.clickOnText(buttonPositive);
 

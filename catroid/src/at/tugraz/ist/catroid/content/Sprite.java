@@ -39,10 +39,6 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class Sprite implements Serializable {
 
-	//DEBUG
-	public static int readResolveCounter = 0;
-	//DEBUG
-
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
@@ -57,12 +53,6 @@ public class Sprite implements Serializable {
 	private transient Map<Script, List<Thread>> activeScripts;
 
 	private Object readResolve() {
-		//filling FileChecksumContainer:
-
-		//DEBUG
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		readResolveCounter++;
-		//DEBUG
 
 		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
 			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
