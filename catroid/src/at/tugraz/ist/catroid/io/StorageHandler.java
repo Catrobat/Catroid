@@ -37,8 +37,11 @@ import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -297,6 +300,28 @@ public class StorageHandler {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			//deleteFile(filepath);
+		}
+	}
+
+	public void fillChecksumContainer() {
+		//FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+		//if (container == null) {
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		//}
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+
+		Project newProject = ProjectManager.INSTANCE.getCurrentProject();
+		List<Sprite> currentSpriteList = newProject.getSpriteList();
+
+		for (Sprite currentSprite : currentSpriteList) {
+			for (SoundInfo soundInfo : currentSprite.getSoundList()) {
+				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+			}
+
+			for (CostumeData costumeData : currentSprite.getCostumeDataList()) {
+				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			}
 		}
 	}
 
