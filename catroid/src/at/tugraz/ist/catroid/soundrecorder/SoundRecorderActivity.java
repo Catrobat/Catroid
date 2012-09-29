@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -84,7 +85,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		if (view.getBackground() != null) {
 			view.getBackground().setCallback(null);
 		}
-		if (view instanceof ViewGroup) {
+		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
 			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
 				unbindDrawables(((ViewGroup) view).getChildAt(i));
 			}
