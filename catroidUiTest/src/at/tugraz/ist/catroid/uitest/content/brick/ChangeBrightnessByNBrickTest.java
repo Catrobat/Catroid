@@ -65,6 +65,7 @@ public class ChangeBrightnessByNBrickTest extends ActivityInstrumentationTestCas
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

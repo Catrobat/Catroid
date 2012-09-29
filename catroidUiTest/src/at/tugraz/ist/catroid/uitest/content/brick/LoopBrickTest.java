@@ -72,6 +72,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clearAllUtilTestProjects();
 
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testRepeatBrick() {

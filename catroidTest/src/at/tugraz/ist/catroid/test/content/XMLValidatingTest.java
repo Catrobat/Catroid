@@ -58,8 +58,9 @@ public class XMLValidatingTest extends AndroidTestCase {
 	}
 
 	@Override
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		TestUtils.clearProject(testProjectName);
+		super.tearDown();
 	}
 
 	@Override

@@ -55,10 +55,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	private Script otherScript;
 
 	@Override
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		TestUtils.clearProject(projectNameOne);
 		TestUtils.clearProject("oldProject");
 		TestUtils.clearProject("newProject");
+		super.tearDown();
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException, IOException {

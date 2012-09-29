@@ -51,6 +51,7 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testStartStageInLandscape() {

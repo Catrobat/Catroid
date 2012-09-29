@@ -59,6 +59,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		}
 		TestUtils.clearProject(projectName);
 		SoundManager.getInstance().clear();
+		super.tearDown();
 	}
 
 	public void testStopOneSound() {

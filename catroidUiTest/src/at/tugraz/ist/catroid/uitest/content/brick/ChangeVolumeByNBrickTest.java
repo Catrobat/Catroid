@@ -64,6 +64,7 @@ public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<S
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

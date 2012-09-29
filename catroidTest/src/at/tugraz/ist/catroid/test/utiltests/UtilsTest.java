@@ -75,6 +75,7 @@ public class UtilsTest extends AndroidTestCase {
 		if (copiedFile != null && copiedFile.exists()) {
 			copiedFile.delete();
 		}
+		super.tearDown();
 	}
 
 	public void testMD5CheckSumOfFile() {

@@ -67,6 +67,7 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptTabActivity
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

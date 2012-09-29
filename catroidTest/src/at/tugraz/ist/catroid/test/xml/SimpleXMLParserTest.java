@@ -44,6 +44,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		androidContext = null;
+		super.tearDown();
 	}
 
 	public void testParseHeader() {
