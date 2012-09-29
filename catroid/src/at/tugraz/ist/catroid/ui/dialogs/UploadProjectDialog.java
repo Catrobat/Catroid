@@ -207,7 +207,9 @@ public class UploadProjectDialog extends DialogFragment {
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = prefs.getString(Constants.TOKEN, "0");
-		new ProjectUploadTask(getActivity(), uploadName, projectDescription, projectPath, token).execute();
+		new ProjectUploadTask(getActivity(), uploadName, projectDescription, projectPath, token, this.getActivity())
+				.execute();
+
 	}
 
 	private void handleCancelButtonClick() {
