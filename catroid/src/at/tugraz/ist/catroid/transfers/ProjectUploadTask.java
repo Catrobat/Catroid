@@ -25,11 +25,18 @@ package at.tugraz.ist.catroid.transfers;
 import java.io.File;
 import java.io.IOException;
 
+import android.app.Activity;
 import android.app.AlertDialog.Builder;
-import android.app.ProgressDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
@@ -38,27 +45,40 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
-public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
+public class ProjectUploadTask extends AsyncTask<Void, Integer, Boolean> {
 	//private final static String TAG = ProjectUploadTask.class.getSimpleName();
+
+	private static final int UPLOAD_NOTIFICATION = 100;
+	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
 
 	private Context context;
 	private String projectPath;
-	private ProgressDialog progressdialog;
+	//private ProgressDialog progressdialog;
 	private String projectName;
 	private String projectDescription;
 	private String serverAnswer;
 	private String token;
-	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
+	private Activity uploadActivity;
 	public Handler progressHandler;
+	Notification uploadNotification;
+	PendingIntent pendingUpload;
 
 	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
-			String token) {
+			String token, Activity uploadActivity) {
 		this.context = context;
 		this.projectPath = projectPath;
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
 		this.token = token;
-		this.progressHandler = new Handler();
+		this.uploadActivity = uploadActivity;
+		this.progressHandler = new Handler() {
+			@Override
+			public void handleMessage(Message message) {
+				Bundle progressBundle = message.getData();
+				long progress = progressBundle.getLong("currentUploadProgress");
+				publishProgress((int) progress);
+			}
+		};
 
 		if (context != null) {
 			serverAnswer = context.getString(R.string.error_project_upload);
@@ -71,9 +91,9 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		if (context == null) {
 			return;
 		}
-		String title = context.getString(R.string.please_wait);
-		String message = context.getString(R.string.loading);
-		progressdialog = ProgressDialog.show(context, title, message);
+		//String title = context.getString(R.string.please_wait);
+		//String message = context.getString(R.string.loading);
+		//progressdialog = ProgressDialog.show(context, title, message);
 	}
 
 	@Override
@@ -105,8 +125,10 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			String userEmail = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
 
+			createNotification(projectName, projectDescription, projectPath, token);
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
 					language, token, progressHandler);
+
 			zipFile.delete();
 			return true;
 		} catch (IOException e) {
@@ -119,11 +141,24 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
+	protected void onProgressUpdate(Integer... progress) {
+		super.onProgressUpdate(progress);
+		Double progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress[0]);
+		uploadNotification.setLatestEventInfo(uploadActivity, "Uploading Project", "upload " + progressPercent
+				+ "% completed:" + projectName, pendingUpload);
+		uploadNotification.number += 1;
+
+		NotificationManager uploadNotificationManager = (NotificationManager) uploadActivity
+				.getSystemService(Activity.NOTIFICATION_SERVICE);
+		uploadNotificationManager.notify(UPLOAD_NOTIFICATION, uploadNotification);
+	}
+
+	@Override
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
-		if (progressdialog != null && progressdialog.isShowing()) {
-			progressdialog.dismiss();
-		}
+		//if (progressdialog != null && progressdialog.isShowing()) {
+		//	progressdialog.dismiss();
+		//}
 
 		if (!result) {
 			showDialog(serverAnswer);
@@ -138,6 +173,31 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		new Builder(context).setMessage(message).setPositiveButton(context.getString(R.string.ok), null).show();
+	}
+
+	@SuppressWarnings("deprecation")
+	public void createNotification(String uploadName, String projectDescription, String projectPath, String token) {
+		NotificationManager uploadNotificationManager = (NotificationManager) uploadActivity
+				.getSystemService(Activity.NOTIFICATION_SERVICE);
+		uploadNotification = new Notification(R.drawable.ic_upload, "Uploading project", System.currentTimeMillis());
+
+		uploadNotification.flags = Notification.FLAG_AUTO_CANCEL;
+
+		Intent uploadIntent = new Intent(uploadActivity, ProjectUploadTask.class);
+		uploadIntent.putExtra("projectName", uploadName);
+		uploadIntent.putExtra("projectDescription", projectDescription);
+		uploadIntent.putExtra("projectPath", projectPath);
+		uploadIntent.putExtra("token", token);
+
+		uploadIntent.setAction(Intent.ACTION_MAIN); //??
+		uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED); //??
+
+		pendingUpload = PendingIntent.getActivity(uploadActivity, 0, uploadIntent, 0);
+		String notificationTitle = "Notification Title";
+		//String notificationTitle = getString(R.string.notification_upload_title);
+		uploadNotification.setLatestEventInfo(uploadActivity, notificationTitle, uploadName, pendingUpload);
+		uploadNotification.number += 1;
+		uploadNotificationManager.notify(UPLOAD_NOTIFICATION, uploadNotification);
 	}
 
 }

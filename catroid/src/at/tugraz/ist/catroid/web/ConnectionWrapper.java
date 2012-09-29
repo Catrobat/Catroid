@@ -93,8 +93,8 @@ public class ConnectionWrapper {
 			ftpClient.logout();
 			ftpClient.disconnect();
 
-			String answer = sendUploadPost(urlString, postValues, fileTag, filePath);
-			return answer;
+			//String answer = sendUploadPost(urlString, postValues, fileTag, filePath);
+			//return answer;
 
 		} catch (SocketException e) {
 			e.printStackTrace();
