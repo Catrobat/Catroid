@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -69,6 +70,26 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		}
 
 		Utils.checkForSdCard(this);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		unbindDrawables(findViewById(R.id.SoundrecorderActivityRoot));
+		System.gc();
+	}
+
+	private void unbindDrawables(View view) {
+		if (view.getBackground() != null) {
+			view.getBackground().setCallback(null);
+		}
+		if (view instanceof ViewGroup) {
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+				unbindDrawables(((ViewGroup) view).getChildAt(i));
+			}
+			((ViewGroup) view).removeAllViews();
+		}
 	}
 
 	@Override

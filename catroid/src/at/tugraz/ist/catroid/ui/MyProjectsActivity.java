@@ -24,6 +24,8 @@ package at.tugraz.ist.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -45,6 +47,26 @@ public class MyProjectsActivity extends SherlockFragmentActivity implements Erro
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_projects);
 		setUpActionBar();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		unbindDrawables(findViewById(R.id.MyProjectsActivityRoot));
+		System.gc();
+	}
+
+	private void unbindDrawables(View view) {
+		if (view.getBackground() != null) {
+			view.getBackground().setCallback(null);
+		}
+		if (view instanceof ViewGroup) {
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+				unbindDrawables(((ViewGroup) view).getChildAt(i));
+			}
+			((ViewGroup) view).removeAllViews();
+		}
 	}
 
 	@Override

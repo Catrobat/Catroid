@@ -26,7 +26,8 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/website_blue" >
+	android:background="@color/website_blue"
+	android:id="@+id/ProjectActivityRoot" >
 	
 	<fragment class="at.tugraz.ist.catroid.ui.fragment.SpritesListFragment" 
 	    android:id="@+id/fr_sprites_list"
