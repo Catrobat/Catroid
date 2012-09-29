@@ -64,6 +64,7 @@ public class ChangeXByNBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

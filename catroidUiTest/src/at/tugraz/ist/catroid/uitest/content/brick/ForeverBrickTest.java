@@ -62,6 +62,7 @@ public class ForeverBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

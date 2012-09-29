@@ -64,6 +64,7 @@ public class FullParserTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 		androidContext = null;
 		NativeAppActivity.setContext(androidContext);
+		super.tearDown();
 	}
 
 	public void testSpriteListParsing() {

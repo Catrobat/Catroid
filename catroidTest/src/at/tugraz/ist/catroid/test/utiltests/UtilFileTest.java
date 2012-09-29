@@ -66,6 +66,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 		UtilFile.deleteDirectory(testDirectory);
 		TestUtils.clearProject(projectName);
+		super.tearDown();
 	}
 
 	public void testClearDirectory() {

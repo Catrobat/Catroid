@@ -35,6 +35,7 @@ public class AnnotationTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
+		super.tearDown();
 	}
 
 	public void testReadingFieldsWithAnnotation() throws Exception {

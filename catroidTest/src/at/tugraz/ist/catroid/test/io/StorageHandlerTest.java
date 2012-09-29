@@ -64,9 +64,10 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	@Override
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
 		TestUtils.clearProject("testProject");
+		super.tearDown();
 	}
 
 	@Override

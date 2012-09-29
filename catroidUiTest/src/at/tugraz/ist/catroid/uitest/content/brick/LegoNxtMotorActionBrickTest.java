@@ -68,6 +68,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

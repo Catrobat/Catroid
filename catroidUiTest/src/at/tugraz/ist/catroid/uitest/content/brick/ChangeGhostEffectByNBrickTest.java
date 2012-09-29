@@ -64,6 +64,7 @@ public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCa
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

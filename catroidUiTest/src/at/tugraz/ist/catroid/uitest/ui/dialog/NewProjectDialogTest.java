@@ -56,6 +56,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testNewProjectDialog() {

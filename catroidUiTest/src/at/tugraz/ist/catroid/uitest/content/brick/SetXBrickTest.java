@@ -64,6 +64,7 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

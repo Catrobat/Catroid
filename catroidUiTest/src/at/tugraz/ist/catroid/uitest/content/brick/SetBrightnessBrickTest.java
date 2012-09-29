@@ -63,6 +63,7 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

@@ -88,6 +88,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testBroadCastBrick() {

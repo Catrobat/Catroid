@@ -62,6 +62,7 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptTabA
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

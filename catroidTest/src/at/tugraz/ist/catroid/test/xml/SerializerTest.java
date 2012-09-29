@@ -70,6 +70,7 @@ public class SerializerTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 		androidContext = null;
 		NativeAppActivity.setContext(androidContext);
+		super.tearDown();
 	}
 
 	@Override

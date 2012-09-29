@@ -111,6 +111,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 		TestUtils.clearProject(projectName);
 		TestUtils.clearProject("mockProject");
+		super.tearDown();
 	}
 
 	public void testPathsInProjectFile() throws IOException {
