@@ -32,12 +32,11 @@ import android.os.Message;
 public class FtpProgressInputStream extends InputStream {
 
 	private final static String TAG = FtpProgressInputStream.class.getSimpleName();
-	private static final int DATA_STREAM_UPDATE_SIZE = 1024 * 10; //10 KB
+	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 50; //10 KB
 	private InputStream inputStream;
 	private Handler handler;
 
-	private long progress;
-	private long lastUpdate;
+	private Integer progress;
 	private boolean connectionClosed;
 
 	public FtpProgressInputStream(InputStream inputStream, Handler handler) { //handler?
@@ -45,7 +44,6 @@ public class FtpProgressInputStream extends InputStream {
 		this.handler = handler; //new Handler();
 
 		this.progress = 0;
-		this.lastUpdate = 0;
 		this.connectionClosed = false;
 	}
 
@@ -73,16 +71,20 @@ public class FtpProgressInputStream extends InputStream {
 	private int updateProgress(int count) {
 		if (count > 0) {
 			progress += count;
-
-			lastUpdate = progress;
-			sendUpdateIntent(progress);
+			//send for every 50 kilobytes read a message to update the progress
+			if ((progress % DATA_STREAM_UPDATE_SIZE) == 0) {
+				sendUpdateIntent(progress, false);
+			}
+		} else if (count == -1) {
+			sendUpdateIntent(0, true);
 		}
 		return count;
 	}
 
-	private void sendUpdateIntent(long progress) {
+	private void sendUpdateIntent(long progress, boolean endOfFileReached) {
 		Bundle progressBundle = new Bundle();
 		progressBundle.putLong("currentUploadProgress", progress);
+		progressBundle.putBoolean("endOfFileReached", endOfFileReached);
 		Message progressMessage = Message.obtain();
 		progressMessage.setData(progressBundle);
 		handler.sendMessage(progressMessage);

@@ -24,7 +24,6 @@ package at.tugraz.ist.catroid;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 
 import android.content.Context;
 import android.util.Log;
@@ -338,36 +337,9 @@ public class ProjectManager {
 		return this.messageContainer;
 	}
 
-	public Double getProgressFromBytes(String projectName, Integer progress) {
-		String fileSizeString = UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName)));
-		String fileSizeSubString;
-		boolean megaByte = false;
-		if (fileSizeString.contains("KB")) {
-			fileSizeSubString = fileSizeString.substring(0, fileSizeString.indexOf("KB") - 1);
-		} else {
-			fileSizeSubString = fileSizeString.substring(0, fileSizeString.indexOf("MB") - 1);
-			megaByte = true;
-		}
-
-		String formattedFileSizeSubString = fileSizeSubString.replace(",", ".");
-		Double fileByteSize = 0.0;
-		try {
-			fileByteSize = Double.parseDouble(formattedFileSizeSubString) * 1024;
-			if (megaByte) {
-				fileByteSize *= 1024;
-			}
-			Double progressValue = 0.0;
-			if (progress > fileByteSize) {
-				progressValue = 100.00;
-			} else {
-				progressValue = progress / fileByteSize * 100.0;
-				DecimalFormat twoDecimalFormat = new DecimalFormat("#,##");
-				progressValue = Double.valueOf(twoDecimalFormat.format(progressValue));
-			}
-			return progressValue;
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		return -1.0;
+	public Long getProgressFromBytes(String projectName, Long progress) {
+		Long fileByteSize = UtilFile.getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
+		Long progressValue = progress * 100 / fileByteSize;
+		return progressValue;
 	}
 }

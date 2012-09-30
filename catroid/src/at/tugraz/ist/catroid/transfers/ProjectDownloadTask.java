@@ -23,7 +23,6 @@
 package at.tugraz.ist.catroid.transfers;
 
 import android.app.AlertDialog.Builder;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
@@ -41,13 +40,17 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implements OnClickListener {
+
+	private static final int DOWNLOAD_NOTIFICATION = 101;
+	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROID_EXTENTION;
+
 	private MainMenuActivity activity;
 	private String projectName;
 	private String zipFileString;
 	private String url;
-	private ProgressDialog progressDialog;
+	//private ProgressDialog progressDialog;
 	private boolean result, showOverwriteDialog;
-	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROID_EXTENTION;
+
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	// mock object testing
@@ -68,9 +71,9 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		if (activity == null) {
 			return;
 		}
-		String title = activity.getString(R.string.please_wait);
-		String message = activity.getString(R.string.loading);
-		progressDialog = ProgressDialog.show(activity, title, message);
+		//String title = activity.getString(R.string.please_wait);
+		//String message = activity.getString(R.string.loading);
+		//progressDialog = ProgressDialog.show(activity, title, message);
 	}
 
 	@Override
@@ -100,9 +103,9 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
 
-		if (progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.dismiss();
-		}
+		//if (progressDialog != null && progressDialog.isShowing()) {
+		//	progressDialog.dismiss();
+		//}
 
 		if (result && showOverwriteDialog) {
 			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString);
