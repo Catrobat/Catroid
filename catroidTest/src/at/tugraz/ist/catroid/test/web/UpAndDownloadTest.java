@@ -92,6 +92,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		ServerCalls.getInstance().setConnectionToUse(new MockConnection());
 
 		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
+
 		new ProjectUploadTask(null, testProjectName, projectDescription, pathToDefaultProject, "0").execute();
 		Thread.sleep(3000);
 
@@ -119,7 +120,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		}
 
 		@Override
-		public void doFtpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
+		public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
 				throws IOException {
 			projectZipOnMockServer.renameTo(new File(filePath));
 		}

@@ -45,7 +45,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
-public class ProjectUploadTask extends AsyncTask<Void, Integer, Boolean> {
+public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 	//private final static String TAG = ProjectUploadTask.class.getSimpleName();
 
 	private static final int UPLOAD_NOTIFICATION = 100;
@@ -62,6 +62,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Integer, Boolean> {
 	public Handler progressHandler;
 	Notification uploadNotification;
 	PendingIntent pendingUpload;
+	private boolean endOfFileReached;
 
 	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
 			String token, Activity uploadActivity) {
@@ -71,12 +72,14 @@ public class ProjectUploadTask extends AsyncTask<Void, Integer, Boolean> {
 		this.projectDescription = projectDescription;
 		this.token = token;
 		this.uploadActivity = uploadActivity;
+		this.endOfFileReached = false;
 		this.progressHandler = new Handler() {
 			@Override
 			public void handleMessage(Message message) {
 				Bundle progressBundle = message.getData();
 				long progress = progressBundle.getLong("currentUploadProgress");
-				publishProgress((int) progress);
+				endOfFileReached = progressBundle.getBoolean("endOfFileReached");
+				publishProgress(progress);
 			}
 		};
 
@@ -141,9 +144,14 @@ public class ProjectUploadTask extends AsyncTask<Void, Integer, Boolean> {
 	}
 
 	@Override
-	protected void onProgressUpdate(Integer... progress) {
+	protected void onProgressUpdate(Long... progress) {
 		super.onProgressUpdate(progress);
-		Double progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress[0]);
+		long progressPercent = 0;
+		if (endOfFileReached) {
+			progressPercent = 100;
+		} else {
+			progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress[0]);
+		}
 		uploadNotification.setLatestEventInfo(uploadActivity, "Uploading Project", "upload " + progressPercent
 				+ "% completed:" + projectName, pendingUpload);
 		uploadNotification.number += 1;
