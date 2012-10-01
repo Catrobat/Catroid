@@ -27,10 +27,6 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,12 +38,12 @@ import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
+import at.tugraz.ist.catroid.web.UpAndDownloadNotificationManager;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 	//private final static String TAG = ProjectUploadTask.class.getSimpleName();
 
-	private static final int UPLOAD_NOTIFICATION = 100;
 	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
 
 	//private Context context;
@@ -59,8 +55,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 	private String serverAnswer;
 	private String token;
 	public Handler progressHandler;
-	Notification uploadNotification;
-	PendingIntent pendingUpload;
+	private Integer notificationId;
 	private boolean endOfFileReached;
 
 	public ProjectUploadTask(Activity uploadActivity, String projectName, String projectDescription,
@@ -70,7 +65,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
 		this.token = token;
-		//this.uploadActivity = uploadActivity;
+		this.notificationId = 0;
 		this.endOfFileReached = false;
 		this.progressHandler = new Handler() {
 			@Override
@@ -127,7 +122,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 			String userEmail = UtilDeviceInfo.getUserEmail(uploadActivity);
 			String language = UtilDeviceInfo.getUserLanguageCode(uploadActivity);
 
-			createNotification(projectName, projectDescription, projectPath, token);
+			createNotification(projectName);
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
 					language, token, progressHandler);
 
@@ -151,13 +146,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 		} else {
 			progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress[0]);
 		}
-		uploadNotification.setLatestEventInfo(uploadActivity, "Uploading Project", "upload " + progressPercent
-				+ "% completed:" + projectName, pendingUpload);
-		uploadNotification.number += 1;
-
-		NotificationManager uploadNotificationManager = (NotificationManager) uploadActivity
-				.getSystemService(Activity.NOTIFICATION_SERVICE);
-		uploadNotificationManager.notify(UPLOAD_NOTIFICATION, uploadNotification);
+		String notificationMessage = "upload " + progressPercent + "% completed:" + projectName;
+		UpAndDownloadNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
 	}
 
 	@Override
@@ -183,29 +173,10 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 				.show();
 	}
 
-	@SuppressWarnings("deprecation")
-	public void createNotification(String uploadName, String projectDescription, String projectPath, String token) {
-		NotificationManager uploadNotificationManager = (NotificationManager) uploadActivity
-				.getSystemService(Activity.NOTIFICATION_SERVICE);
-		uploadNotification = new Notification(R.drawable.ic_upload, "Uploading project", System.currentTimeMillis());
-
-		uploadNotification.flags = Notification.FLAG_AUTO_CANCEL;
-
-		Intent uploadIntent = new Intent(uploadActivity, ProjectUploadTask.class);
-		uploadIntent.putExtra("projectName", uploadName);
-		uploadIntent.putExtra("projectDescription", projectDescription);
-		uploadIntent.putExtra("projectPath", projectPath);
-		uploadIntent.putExtra("token", token);
-
-		uploadIntent.setAction(Intent.ACTION_MAIN); //??
-		uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED); //??
-
-		pendingUpload = PendingIntent.getActivity(uploadActivity, 0, uploadIntent, 0);
-		String notificationTitle = "Notification Title";
-		//String notificationTitle = getString(R.string.notification_upload_title);
-		uploadNotification.setLatestEventInfo(uploadActivity, notificationTitle, uploadName, pendingUpload);
-		uploadNotification.number += 1;
-		uploadNotificationManager.notify(UPLOAD_NOTIFICATION, uploadNotification);
+	public void createNotification(String uploadName) {
+		//UpAndDownloadNotificationManager m = UpAndDownloadNotificationManager.INSTANCE;
+		UpAndDownloadNotificationManager m = UpAndDownloadNotificationManager.getInstance();
+		notificationId = m.createNotification(uploadName, uploadActivity, ProjectUploadTask.class);
 	}
 
 }
