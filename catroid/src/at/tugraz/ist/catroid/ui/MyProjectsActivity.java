@@ -73,7 +73,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity implements Erro
 
 	private void setUpActionBar() {
 		String title;
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = ProjectManager.INSTANCE.getCurrentProject();
 
 		if (currentProject != null) {
 			title = getResources().getString(R.string.project_name) + " " + currentProject.getName();

@@ -142,20 +142,21 @@ public class ConnectionWrapper {
 		return getString(resultStream);
 	}
 
-	void updateProgress(Handler progressHandler, long progress, boolean endOfFileReached) {
+	void updateProgress(Handler progressHandler, long progress, boolean endOfFileReached, boolean unknown) {
 		//send for every 20 kilobytes read a message to update the progress
-		sendUpdateIntent(progressHandler, progress, false); //just 4 testing
+		sendUpdateIntent(progressHandler, progress, false, unknown); //just 4 testing
 		if ((!endOfFileReached) && ((progress % DATA_STREAM_UPDATE_SIZE) == 0)) {
-			sendUpdateIntent(progressHandler, progress, false);
+			sendUpdateIntent(progressHandler, progress, false, unknown);
 		} else if (endOfFileReached) {
-			sendUpdateIntent(progressHandler, progress, true);
+			sendUpdateIntent(progressHandler, progress, true, unknown);
 		}
 	}
 
-	private void sendUpdateIntent(Handler progressHandler, long progress, boolean endOfFileReached) {
+	private void sendUpdateIntent(Handler progressHandler, long progress, boolean endOfFileReached, boolean unknown) {
 		Bundle progressBundle = new Bundle();
 		progressBundle.putLong("currentDownloadProgress", progress);
 		progressBundle.putBoolean("endOfFileReached", endOfFileReached);
+		progressBundle.putBoolean("unknown", unknown);
 		Message progressMessage = Message.obtain();
 		progressMessage.setData(progressBundle);
 		progressHandler.sendMessage(progressMessage);
@@ -186,12 +187,17 @@ public class ConnectionWrapper {
 		long bytesWritten = 0;
 		while ((count = input.read(buffer)) != -1) {
 			bytesWritten += count;
-			long progress = bytesWritten * 100 / fileLength;
-			updateProgress(progressHandler, progress, false);
+			if (fileLength != -1) {
+				long progress = bytesWritten * 100 / fileLength;
+				updateProgress(progressHandler, progress, false, false);
+			} else {
+				//progress unknown
+				updateProgress(progressHandler, 0, false, true);
+			}
 			fos.write(buffer, 0, count);
 		}
 		//publish last progress (100% at EOF):
-		updateProgress(progressHandler, 100, true);
+		updateProgress(progressHandler, 100, true, false);
 
 		input.close();
 		fos.flush();
