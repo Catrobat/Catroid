@@ -207,6 +207,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 	}
 
+	// Code from Stackoverflow to reduce memory problems
+	// onDestroy() and unbindDrawables() methods taken from
+	// http://stackoverflow.com/a/6779067
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
