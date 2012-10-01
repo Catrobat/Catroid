@@ -52,15 +52,14 @@ public class StorageHandler {
 
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
-	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static StorageHandler instance;
 	private FullParser fullParser;
-	private XmlSerializer serailizer;
+	private XmlSerializer serializer;
 
 	private StorageHandler() throws IOException {
 
 		fullParser = new FullParser();
-		serailizer = new XmlSerializer();
+		serializer = new XmlSerializer();
 		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
@@ -140,14 +139,7 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			serailizer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
-			//			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-			//					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
-			//
-			//			writer.write(XML_HEADER.concat(projectFile));
-			//			writer.flush();
-			//			writer.close();
-
+			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

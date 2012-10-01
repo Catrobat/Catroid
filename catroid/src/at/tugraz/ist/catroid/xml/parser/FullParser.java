@@ -207,7 +207,7 @@ public class FullParser {
 
 		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(projectClass);
 
-		NodeList projectNodes = doc.getElementsByTagName(nameOfRoot);
+		//NodeList projectNodes = doc.getElementsByTagName(nameOfRoot);
 		Element headerElement = (Element) doc.getElementsByTagName("Header").item(0);
 		NodeList projectHeaderChildren = headerElement.getChildNodes();
 		for (int i = 0; i < projectHeaderChildren.getLength(); i++) {
@@ -220,9 +220,9 @@ public class FullParser {
 				}
 
 				if (projectField != null) {
-					NodeList gs = projectChildElement.getChildNodes();
-					if (projectChildElement.getChildNodes().getLength() > 0) {
-						String valueInString = projectChildElement.getChildNodes().item(0).getNodeValue();
+					NodeList childNodes = projectChildElement.getChildNodes();
+					if (childNodes.getLength() > 0) {
+						String valueInString = childNodes.item(0).getNodeValue();
 						Object valueObject = objectGetter.getobjectOfClass(projectField.getType(), valueInString);
 						objectGetter.setFieldOfObject(projectField, newProject, valueObject);
 					} else {
