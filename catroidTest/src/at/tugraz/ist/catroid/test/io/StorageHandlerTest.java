@@ -55,6 +55,7 @@ import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private StorageHandler storageHandler;
@@ -247,7 +248,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 
-		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", storageHandler, false);
+		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", new XmlSerializer(), false);
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
 
 		projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
