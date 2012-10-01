@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 
 import org.json.JSONException;
@@ -142,7 +143,8 @@ public class ServerCalls {
 		}
 	}
 
-	public void downloadProject(String downloadUrl, String zipFileString) throws WebconnectionException {
+	public void downloadProject(String downloadUrl, String zipFileString, Handler progressHandler)
+			throws WebconnectionException {
 
 		/*
 		 * String serverUrl = useTestUrl ? BASE_URL_TEST_FTP : BASE_URL_FTP;
@@ -157,7 +159,10 @@ public class ServerCalls {
 		 */
 
 		try {
-			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString);
+			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, progressHandler);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(0);

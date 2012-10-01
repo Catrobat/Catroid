@@ -30,7 +30,6 @@ import android.app.AlertDialog.Builder;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,27 +50,27 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 	private static final int UPLOAD_NOTIFICATION = 100;
 	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
 
-	private Context context;
+	//private Context context;
+	private Activity uploadActivity;
 	private String projectPath;
 	//private ProgressDialog progressdialog;
 	private String projectName;
 	private String projectDescription;
 	private String serverAnswer;
 	private String token;
-	private Activity uploadActivity;
 	public Handler progressHandler;
 	Notification uploadNotification;
 	PendingIntent pendingUpload;
 	private boolean endOfFileReached;
 
-	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
-			String token, Activity uploadActivity) {
-		this.context = context;
+	public ProjectUploadTask(Activity uploadActivity, String projectName, String projectDescription,
+			String projectPath, String token /* , Activity uploadActivity */) {
+		this.uploadActivity = uploadActivity;
 		this.projectPath = projectPath;
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
 		this.token = token;
-		this.uploadActivity = uploadActivity;
+		//this.uploadActivity = uploadActivity;
 		this.endOfFileReached = false;
 		this.progressHandler = new Handler() {
 			@Override
@@ -83,15 +82,15 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 			}
 		};
 
-		if (context != null) {
-			serverAnswer = context.getString(R.string.error_project_upload);
+		if (uploadActivity != null) {
+			serverAnswer = uploadActivity.getString(R.string.error_project_upload);
 		}
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (context == null) {
+		if (uploadActivity == null) {
 			return;
 		}
 		//String title = context.getString(R.string.please_wait);
@@ -125,8 +124,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 			}
 
 			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-			String userEmail = UtilDeviceInfo.getUserEmail(context);
-			String language = UtilDeviceInfo.getUserLanguageCode(context);
+			String userEmail = UtilDeviceInfo.getUserEmail(uploadActivity);
+			String language = UtilDeviceInfo.getUserLanguageCode(uploadActivity);
 
 			createNotification(projectName, projectDescription, projectPath, token);
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
@@ -173,14 +172,15 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 			return;
 		}
 
-		showDialog(context.getString(R.string.success_project_upload));
+		showDialog(uploadActivity.getString(R.string.success_project_upload));
 	}
 
 	private void showDialog(String message) {
-		if (context == null) {
+		if (uploadActivity == null) {
 			return;
 		}
-		new Builder(context).setMessage(message).setPositiveButton(context.getString(R.string.ok), null).show();
+		new Builder(uploadActivity).setMessage(message).setPositiveButton(uploadActivity.getString(R.string.ok), null)
+				.show();
 	}
 
 	@SuppressWarnings("deprecation")

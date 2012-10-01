@@ -24,13 +24,12 @@ package at.tugraz.ist.catroid.web;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
@@ -41,13 +40,17 @@ import java.util.Set;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 
 public class ConnectionWrapper {
 
 	private final static String TAG = ConnectionWrapper.class.getSimpleName();
+	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 20; //20 KB
+	//private HttpURLConnection urlConnection;
 	private HttpURLConnection urlConnection;
 
 	public static final String FTP_USERNAME = "ftp-uploader";
@@ -118,7 +121,6 @@ public class ConnectionWrapper {
 	 */
 	private String sendUploadPost(String urlString, HashMap<String, String> postValues, String fileTag, String filePath)
 			throws IOException, WebconnectionException {
-		// TODO Auto-generated method stub
 
 		MultiPartFormOutputStream out = buildPost(urlString, postValues);
 
@@ -141,23 +143,57 @@ public class ConnectionWrapper {
 		return getString(resultStream);
 	}
 
-	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath)
-			throws IOException {
+	void updateProgress(Handler progressHandler, long progress, boolean endOfFileReached) {
+		//send for every 20 kilobytes read a message to update the progress
+		sendUpdateIntent(progressHandler, progress, false); //just 4 testing
+		if ((!endOfFileReached) && ((progress % DATA_STREAM_UPDATE_SIZE) == 0)) {
+			sendUpdateIntent(progressHandler, progress, false);
+		} else if (endOfFileReached) {
+			sendUpdateIntent(progressHandler, progress, true);
+		}
+	}
+
+	private void sendUpdateIntent(Handler progressHandler, long progress, boolean endOfFileReached) {
+		Bundle progressBundle = new Bundle();
+		progressBundle.putLong("currentDownloadProgress", progress);
+		progressBundle.putBoolean("endOfFileReached", endOfFileReached);
+		Message progressMessage = Message.obtain();
+		progressMessage.setData(progressBundle);
+		progressHandler.sendMessage(progressMessage);
+	}
+
+	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
+			Handler progressHandler) throws IOException {
 		MultiPartFormOutputStream out = buildPost(urlString, postValues);
 		out.close();
 
-		// read response from server
-		DataInputStream input = new DataInputStream(urlConnection.getInputStream());
+		URL downloadUrl = new URL(urlString);
+		urlConnection = (HttpURLConnection) downloadUrl.openConnection();
+		urlConnection.connect();
+		int fileLength = urlConnection.getContentLength();
 
-		File file = new File(filePath);
-		file.getParentFile().mkdirs();
-		FileOutputStream fos = new FileOutputStream(file);
+		//read response from server
+		//DataInputStream input = new DataInputStream(urlConnection.getInputStream());
+		//InputStream i = urlConnection.getInputStream(); 4debug
+		//InputStream input = new BufferedInputStream(urlConnection2.getInputStream()); /TRUE ONE
+		InputStream input = new BufferedInputStream(downloadUrl.openStream());
+		//File file = new File(filePath);
+		//file.getParentFile().mkdirs();
+		//FileOutputStream fos = new FileOutputStream(file);
+		OutputStream fos = new FileOutputStream(filePath);
 
 		byte[] buffer = new byte[Constants.BUFFER_8K];
-		int length = 0;
-		while ((length = input.read(buffer)) != -1) {
-			fos.write(buffer, 0, length);
+		int count = 0;
+		long bytesWritten = 0;
+		while ((count = input.read(buffer)) != -1) {
+			bytesWritten += count;
+			long progress = bytesWritten * 100 / fileLength;
+			updateProgress(progressHandler, progress, false);
+			fos.write(buffer, 0, count);
 		}
+		//publish last progress (100% at EOF):
+		updateProgress(progressHandler, 100, true);
+
 		input.close();
 		fos.flush();
 		fos.close();

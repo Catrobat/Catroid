@@ -22,10 +22,18 @@
  */
 package at.tugraz.ist.catroid.transfers;
 
+import android.app.Activity;
 import android.app.AlertDialog.Builder;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -39,7 +47,7 @@ import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
-public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implements OnClickListener {
+public class ProjectDownloadTask extends AsyncTask<Void, Long, Boolean> implements OnClickListener {
 
 	private static final int DOWNLOAD_NOTIFICATION = 101;
 	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROID_EXTENTION;
@@ -50,8 +58,11 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	private String url;
 	//private ProgressDialog progressDialog;
 	private boolean result, showOverwriteDialog;
-
 	private static ProjectManager projectManager = ProjectManager.getInstance();
+	public Handler progressHandler;
+	Notification downloadNotification;
+	PendingIntent pendingDownload;
+	private boolean endOfFileReached;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
@@ -63,6 +74,16 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		this.projectName = projectName;
 		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
 		this.url = url;
+		this.endOfFileReached = false;
+		this.progressHandler = new Handler() {
+			@Override
+			public void handleMessage(Message message) {
+				Bundle progressBundle = message.getData();
+				long progress = progressBundle.getLong("currentDownloadProgress");
+				endOfFileReached = progressBundle.getBoolean("endOfFileReached");
+				publishProgress(progress);
+			}
+		};
 	}
 
 	@Override
@@ -80,7 +101,9 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	protected Boolean doInBackground(Void... arg0) {
 		showOverwriteDialog = false;
 		try {
-			ServerCalls.getInstance().downloadProject(url, zipFileString);
+			//createNotification(projectName, projectDescription, projectPath, token);
+			createNotification(projectName);
+			ServerCalls.getInstance().downloadProject(url, zipFileString, progressHandler);
 
 			if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
 				showOverwriteDialog = true;
@@ -96,7 +119,19 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 			e.printStackTrace();
 		}
 		return false;
+	}
 
+	@Override
+	protected void onProgressUpdate(Long... progress) {
+		super.onProgressUpdate(progress);
+		long progressPercent = progress[0];
+		downloadNotification.setLatestEventInfo(activity, "Downloading Project", "download " + progressPercent
+				+ "% completed:" + projectName, pendingDownload);
+		downloadNotification.number += 1;
+
+		NotificationManager uploadNotificationManager = (NotificationManager) activity
+				.getSystemService(Activity.NOTIFICATION_SERVICE);
+		uploadNotificationManager.notify(DOWNLOAD_NOTIFICATION, downloadNotification);
 	}
 
 	@Override
@@ -140,6 +175,32 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		if (!result) {
 			activity.finish();
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	//public void createNotification(String downloadName, String projectDescription, String projectPath, String token) {
+	public void createNotification(String downloadName) {
+		NotificationManager uploadNotificationManager = (NotificationManager) activity
+				.getSystemService(Activity.NOTIFICATION_SERVICE);
+		downloadNotification = new Notification(R.drawable.ic_upload, "Downloading project", System.currentTimeMillis());
+
+		downloadNotification.flags = Notification.FLAG_AUTO_CANCEL;
+
+		Intent downloadIntent = new Intent(activity, ProjectUploadTask.class);
+		downloadIntent.putExtra("projectName", downloadName);
+		//downloadIntent.putExtra("projectDescription", projectDescription);
+		//downloadIntent.putExtra("projectPath", projectPath);
+		//downloadIntent.putExtra("token", token);
+
+		downloadIntent.setAction(Intent.ACTION_MAIN); //??
+		downloadIntent = downloadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED); //??
+
+		pendingDownload = PendingIntent.getActivity(activity, 0, downloadIntent, 0);
+		String notificationTitle = "Notification Title";
+		//String notificationTitle = getString(R.string.notification_upload_title);
+		downloadNotification.setLatestEventInfo(activity, notificationTitle, downloadName, pendingDownload);
+		downloadNotification.number += 1;
+		uploadNotificationManager.notify(DOWNLOAD_NOTIFICATION, downloadNotification);
 	}
 
 }
