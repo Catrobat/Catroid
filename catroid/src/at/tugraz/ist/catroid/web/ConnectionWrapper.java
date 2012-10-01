@@ -49,7 +49,7 @@ import at.tugraz.ist.catroid.common.Constants;
 public class ConnectionWrapper {
 
 	private final static String TAG = ConnectionWrapper.class.getSimpleName();
-	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 20; //20 KB
+	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 16; //16 KB
 	//private HttpURLConnection urlConnection;
 	private HttpURLConnection urlConnection;
 
@@ -110,7 +110,6 @@ public class ConnectionWrapper {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 			}
 		}
 		return "";
@@ -175,8 +174,8 @@ public class ConnectionWrapper {
 		//read response from server
 		//DataInputStream input = new DataInputStream(urlConnection.getInputStream());
 		//InputStream i = urlConnection.getInputStream(); 4debug
-		//InputStream input = new BufferedInputStream(urlConnection2.getInputStream()); /TRUE ONE
-		InputStream input = new BufferedInputStream(downloadUrl.openStream());
+		InputStream input = new BufferedInputStream(urlConnection.getInputStream());
+		//InputStream input = new BufferedInputStream(downloadUrl.openStream());
 		//File file = new File(filePath);
 		//file.getParentFile().mkdirs();
 		//FileOutputStream fos = new FileOutputStream(file);
