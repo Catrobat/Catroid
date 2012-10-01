@@ -60,7 +60,6 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	private transient Direction direction;
 
 	protected Object readResolve() {
-		// initialize direction if parsing from xml with XStream
 		for (Direction direction : Direction.values()) {
 			if (Math.abs(direction.getDegrees() - degrees) < 0.1) {
 				this.direction = direction;

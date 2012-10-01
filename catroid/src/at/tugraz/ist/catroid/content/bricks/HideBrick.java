@@ -28,13 +28,10 @@ import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-//import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
-	//@XStreamOmitField
 	private transient View view;
 
 	public HideBrick(Sprite sprite) {

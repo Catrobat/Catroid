@@ -48,25 +48,17 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.xml.parser.FullParser;
 import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
-//import com.thoughtworks.xstream.XStream;
-
 public class StorageHandler {
 
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static StorageHandler instance;
-	//private XStream xstream;
 	private FullParser fullParser;
 	private XmlSerializer serailizer;
 
 	private StorageHandler() throws IOException {
 
-		//		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
-		//		xstream.processAnnotations(Project.class);
-		//		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
-		//		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
-		//		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 		fullParser = new FullParser();
 		serailizer = new XmlSerializer();
 		if (!Utils.hasSdCard()) {
@@ -99,7 +91,6 @@ public class StorageHandler {
 		try {
 			if (NativeAppActivity.isRunning()) {
 				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
-				//return (Project) xstream.fromXML(spfFileStream);
 				Project returned = fullParser.parseSpritesWithProject(spfFileStream);
 				return returned;
 			}
@@ -109,7 +100,6 @@ public class StorageHandler {
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
-				//return (Project) xstream.fromXML(projectFileStream);
 				Project returned = fullParser.parseSpritesWithProject(projectFileStream);
 				return returned;
 			} else {
@@ -129,8 +119,6 @@ public class StorageHandler {
 		}
 
 		try {
-			//String projectFile = xstream.toXML(project);
-
 			String projectDirectoryName = Utils.buildProjectPath(project.getName());
 			File projectDirectory = new File(projectDirectoryName);
 
