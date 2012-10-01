@@ -41,7 +41,6 @@ public class NoteBrick implements Brick {
 	private Sprite sprite;
 	private String note = "";
 
-	//@XStreamOmitField
 	private transient View view;
 
 	public NoteBrick(Sprite sprite) {
