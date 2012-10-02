@@ -192,6 +192,19 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
+	public void testUpload() throws Throwable {
+		setServerURLToTestUrl();
+		UiTestUtils.createValidUser(getActivity());
+		uploadProject(testProject + System.currentTimeMillis(), "");
+	}
+
+	public void testDownload() throws Throwable {
+		setServerURLToTestUrl();
+		UiTestUtils.createValidUser(getActivity());
+		downloadProjectAndReplace("testingproject1");
+		solo.sleep(20000);
+	}
+
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -264,7 +277,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(500);
 
 		try {
-			solo.setActivityOrientation(Solo.LANDSCAPE);
+			//solo.setActivityOrientation(Solo.LANDSCAPE);
 
 			solo.waitForDialogToClose(10000);
 			assertTrue("Upload failed. Internet connection?",

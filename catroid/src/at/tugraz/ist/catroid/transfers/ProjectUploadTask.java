@@ -25,52 +25,72 @@ package at.tugraz.ist.catroid.transfers;
 import java.io.File;
 import java.io.IOException;
 
+import android.app.Activity;
 import android.app.AlertDialog.Builder;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.utils.StatusBarNotificationManager;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
-public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
+public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 	//private final static String TAG = ProjectUploadTask.class.getSimpleName();
 
-	private Context context;
+	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
+
+	//private Context context;
+	private Activity uploadActivity;
 	private String projectPath;
-	private ProgressDialog progressdialog;
+	//private ProgressDialog progressdialog;
 	private String projectName;
 	private String projectDescription;
 	private String serverAnswer;
 	private String token;
-	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
+	public Handler progressHandler;
+	private Integer notificationId;
+	private boolean endOfFileReached;
 
-	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
-			String token) {
-		this.context = context;
+	public ProjectUploadTask(Activity uploadActivity, String projectName, String projectDescription,
+			String projectPath, String token /* , Activity uploadActivity */) {
+		this.uploadActivity = uploadActivity;
 		this.projectPath = projectPath;
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
 		this.token = token;
+		this.notificationId = 0;
+		this.endOfFileReached = false;
+		this.progressHandler = new Handler() {
+			@Override
+			public void handleMessage(Message message) {
+				Bundle progressBundle = message.getData();
+				long progress = progressBundle.getLong("currentUploadProgress");
+				endOfFileReached = progressBundle.getBoolean("endOfFileReached");
+				publishProgress(progress);
+			}
+		};
 
-		if (context != null) {
-			serverAnswer = context.getString(R.string.error_project_upload);
+		if (uploadActivity != null) {
+			serverAnswer = uploadActivity.getString(R.string.error_project_upload);
 		}
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (context == null) {
+		if (uploadActivity == null) {
 			return;
 		}
-		String title = context.getString(R.string.please_wait);
-		String message = context.getString(R.string.loading);
-		progressdialog = ProgressDialog.show(context, title, message);
+		//String title = context.getString(R.string.please_wait);
+		//String message = context.getString(R.string.loading);
+		//progressdialog = ProgressDialog.show(context, title, message);
 	}
 
 	@Override
@@ -99,11 +119,13 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			}
 
 			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-			String userEmail = UtilDeviceInfo.getUserEmail(context);
-			String language = UtilDeviceInfo.getUserLanguageCode(context);
+			String userEmail = UtilDeviceInfo.getUserEmail(uploadActivity);
+			String language = UtilDeviceInfo.getUserLanguageCode(uploadActivity);
 
+			createNotification(projectName);
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
-					language, token);
+					language, token, progressHandler);
+
 			zipFile.delete();
 			return true;
 		} catch (IOException e) {
@@ -116,25 +138,45 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
+	protected void onProgressUpdate(Long... progress) {
+		super.onProgressUpdate(progress);
+		long progressPercent = 0;
+		if (endOfFileReached) {
+			progressPercent = 100;
+		} else {
+			progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress[0]);
+		}
+		String notificationMessage = "upload " + progressPercent + "% completed:" + projectName;
+		StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
+	}
+
+	@Override
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
-		if (progressdialog != null && progressdialog.isShowing()) {
-			progressdialog.dismiss();
-		}
+		//if (progressdialog != null && progressdialog.isShowing()) {
+		//	progressdialog.dismiss();
+		//}
 
 		if (!result) {
 			showDialog(serverAnswer);
 			return;
 		}
 
-		showDialog(context.getString(R.string.success_project_upload));
+		showDialog(uploadActivity.getString(R.string.success_project_upload));
 	}
 
 	private void showDialog(String message) {
-		if (context == null) {
+		if (uploadActivity == null) {
 			return;
 		}
-		new Builder(context).setMessage(message).setPositiveButton(context.getString(R.string.ok), null).show();
+		new Builder(uploadActivity).setMessage(message).setPositiveButton(uploadActivity.getString(R.string.ok), null)
+				.show();
+	}
+
+	public void createNotification(String uploadName) {
+		//UpAndDownloadNotificationManager m = UpAndDownloadNotificationManager.INSTANCE;
+		StatusBarNotificationManager m = StatusBarNotificationManager.getInstance();
+		notificationId = m.createNotification(uploadName, uploadActivity, ProjectUploadTask.class);
 	}
 
 }

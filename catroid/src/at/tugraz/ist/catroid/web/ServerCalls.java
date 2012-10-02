@@ -24,11 +24,13 @@ package at.tugraz.ist.catroid.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Handler;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -48,20 +50,28 @@ public class ServerCalls {
 	private static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
+	private static final String CATROID_FILE_NAME = "catroidFileName";
 
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
-	public static final String BASE_URL = "http://www.catroid.org/";
-//	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
-	private static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
-	private static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
-	public static final String REGISTRATION_URL = BASE_URL + "api/checkTokenOrRegister/check.json";
+	public static final String BASE_URL_HTTP = "http://www.catroid.org/";
+	public static final String BASE_URL_FTP = "catroid.org";
+	public static final int FTP_PORT = 8080;
 
-	public static final String BASE_URL_TEST = "http://catroidtest.ist.tugraz.at/";
-	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST + "api/upload/upload.json";
-	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";
-	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/checkTokenOrRegister/check.json";
+	private static final String FILE_UPLOAD_URL = BASE_URL_FTP;
+	private static final String CHECK_TOKEN_URL = BASE_URL_HTTP + "api/checkToken/check.json";
+	public static final String REGISTRATION_URL = BASE_URL_HTTP + "api/checkTokenOrRegister/check.json";
+
+	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
+	public static final String BASE_URL_TEST_FTP = "catroidtest.ist.tugraz.at";
+
+	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
+	public static final String FILE_UPLOAD_URL_HTTP = BASE_URL_HTTP + "api/upload/upload.json";
+
+	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP;
+	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
+	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
 
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
@@ -85,8 +95,8 @@ public class ServerCalls {
 		this.connection = connection;
 	}
 
-	public String uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token) throws WebconnectionException {
+	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
+			String language, String token, Handler progressHandler) throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
@@ -99,45 +109,75 @@ public class ServerCalls {
 			postValues.put(USER_EMAIL, userEmail);
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 			postValues.put(Constants.TOKEN, token);
+			postValues.put(CATROID_FILE_NAME, projectName + ".catrobat");
 
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
 			}
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
+			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
+
+			//just 4 testing:
+			//serverUrl = TEST_FILE_UPLOAD_URL;
+			//httpPostUrl = TEST_FILE_UPLOAD_URL_HTTP;
+			//
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			resultString = connection.doHttpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString);
+			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, progressHandler,
+					httpPostUrl);
 
-			JSONObject jsonObject = null;
-			int statusCode = 0;
-
-			Log.v(TAG, "result string: " + resultString);
-
-			jsonObject = new JSONObject(resultString);
-			statusCode = jsonObject.getInt("statusCode");
-			String serverAnswer = jsonObject.getString("answer");
-
-			if (statusCode == 200) {
-				return serverAnswer;
-			} else {
-				throw new WebconnectionException(statusCode, serverAnswer);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+			/* resultString = */
+			/*
+			 * JSONObject jsonObject = null;
+			 * int statusCode = 0;
+			 * 
+			 * Log.v(TAG, "result string: " + resultString);
+			 * 
+			 * jsonObject = new JSONObject(resultString);
+			 * statusCode = jsonObject.getInt("statusCode");
+			 * String serverAnswer = jsonObject.getString("answer");
+			 * 
+			 * if (statusCode == 200) {
+			 * return serverAnswer;
+			 * } else {
+			 * throw new WebconnectionException(statusCode, serverAnswer);
+			 * }
+			 * 
+			 * } catch (JSONException e) {
+			 * e.printStackTrace();
+			 * throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+			 */
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
 
-	public void downloadProject(String downloadUrl, String zipFileString) throws WebconnectionException {
+	public void downloadProject(String downloadUrl, String zipFileString, Handler progressHandler)
+			throws WebconnectionException {
+
+		/*
+		 * String serverUrl = useTestUrl ? BASE_URL_TEST_FTP : BASE_URL_FTP;
+		 * 
+		 * Log.v(TAG, "url to download: " + serverUrl);
+		 * try {
+		 * connection.doFtpPostFileDownload(serverUrl, null, zipFileString);
+		 * } catch (IOException e) {
+		 * e.printStackTrace();
+		 * throw new WebconnectionException(0);
+		 * }
+		 */
+
 		try {
-			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString);
+			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, progressHandler);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(0);
 		}
+
 	}
 
 	public boolean checkToken(String token) throws WebconnectionException {
@@ -167,7 +207,9 @@ public class ServerCalls {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
-		} catch (IOException e) {
+		}
+
+		catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
