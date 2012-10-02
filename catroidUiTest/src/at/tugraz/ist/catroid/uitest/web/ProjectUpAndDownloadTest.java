@@ -193,15 +193,19 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	public void testUpload() throws Throwable {
+		createTestProject(testProject);
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
-		uploadProject(testProject + System.currentTimeMillis(), "");
+		uploadProject("Test1", "");
+		solo.sleep(5000);
 	}
 
 	public void testDownload() throws Throwable {
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
-		downloadProjectAndReplace("testingproject1");
+		downloadProjectAndReplace("test123");
 		solo.sleep(20000);
 	}
 

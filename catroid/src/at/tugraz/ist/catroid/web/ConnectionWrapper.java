@@ -141,6 +141,8 @@ public class ConnectionWrapper {
 		}
 
 		InputStream resultStream = urlConnection.getInputStream();
+		Log.v(TAG, getString(resultStream));
+		getString(resultStream);
 
 		return getString(resultStream);
 	}
