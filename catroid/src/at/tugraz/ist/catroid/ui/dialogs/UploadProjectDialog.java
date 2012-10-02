@@ -209,7 +209,6 @@ public class UploadProjectDialog extends DialogFragment {
 		String token = prefs.getString(Constants.TOKEN, "0");
 		//new ProjectUploadTask(getActivity(), uploadName, projectDescription, projectPath, token, this.getActivity())
 		new ProjectUploadTask(getActivity(), uploadName, projectDescription, projectPath, token).execute(); //getActivity() vs this.getActivity() --> the same??
-
 	}
 
 	private void handleCancelButtonClick() {

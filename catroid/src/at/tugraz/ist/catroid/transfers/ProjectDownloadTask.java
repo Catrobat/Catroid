@@ -38,11 +38,11 @@ import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.dialogs.OverwriteRenameDialog;
+import at.tugraz.ist.catroid.utils.StatusBarNotificationManager;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.ServerCalls;
-import at.tugraz.ist.catroid.web.UpAndDownloadNotificationManager;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectDownloadTask extends AsyncTask<Void, Long, Boolean> implements OnClickListener {
@@ -133,7 +133,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Long, Boolean> implemen
 		} else {
 			notificationMessage = "download " + progressPercent + "% completed:" + projectName;
 		}
-		UpAndDownloadNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
+		StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Long, Boolean> implemen
 	}
 
 	public void createNotification(String uploadName) {
-		notificationId = UpAndDownloadNotificationManager.getInstance().createNotification(uploadName, activity,
+		notificationId = StatusBarNotificationManager.getInstance().createNotification(uploadName, activity,
 				ProjectDownloadTask.class);
 	}
 

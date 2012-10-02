@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.web;
+package at.tugraz.ist.catroid.utils;
 
 import java.util.HashMap;
 
@@ -33,22 +33,21 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 
-public class UpAndDownloadNotificationManager {
+public class StatusBarNotificationManager {
 
 	private Integer id;
 	private HashMap<Integer, NotificationData> notificationDataMap;
-	public static final UpAndDownloadNotificationManager INSTANCE = new UpAndDownloadNotificationManager();
+	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
-	private UpAndDownloadNotificationManager() {
+	private StatusBarNotificationManager() {
 		this.id = 0;
 		notificationDataMap = new HashMap<Integer, NotificationData>();
 	}
 
-	public static UpAndDownloadNotificationManager getInstance() {
+	public static StatusBarNotificationManager getInstance() {
 		return INSTANCE;
 	}
 
-	@SuppressWarnings("deprecation")
 	public Integer createNotification(String name, Activity activity, Class<?> notificationClass) {
 		NotificationManager notificationManager = (NotificationManager) activity
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
@@ -65,12 +64,11 @@ public class UpAndDownloadNotificationManager {
 		Intent intent = new Intent(activity, notificationClass);
 		intent.putExtra("projectName", name);
 
-		intent.setAction(Intent.ACTION_MAIN); //??
-		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED); //??
+		intent.setAction(Intent.ACTION_MAIN);
+		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
 		PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
 
-		//String notificationTitle = getString(R.string.notification_upload_title);
 		notification.setLatestEventInfo(activity, notificationTitle, name, pendingIntent);
 		notification.number += 1;
 		notificationManager.notify(id, notification);
@@ -80,7 +78,6 @@ public class UpAndDownloadNotificationManager {
 		return id++;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void updateNotification(Integer id, String message) {
 		Notification notification = notificationDataMap.get(id).getNotification();
 		Activity activity = notificationDataMap.get(id).getActivity();
