@@ -46,7 +46,6 @@ public class CopyProjectTask extends AsyncTask<String, Void, Boolean> {
 		}
 
 		try {
-			//TODO: OldProjectName
 			File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
 			File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
 
