@@ -40,7 +40,7 @@ public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
-	static private long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
+	static public long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
 		if (!fileOrDirectory.exists()) {
 			return 0;
 		}

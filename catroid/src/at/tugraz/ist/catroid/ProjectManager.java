@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
@@ -334,5 +335,11 @@ public class ProjectManager {
 
 	public MessageContainer getMessageContainer() {
 		return this.messageContainer;
+	}
+
+	public Long getProgressFromBytes(String projectName, Long progress) {
+		Long fileByteSize = UtilFile.getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
+		Long progressValue = progress * 100 / fileByteSize;
+		return progressValue;
 	}
 }
