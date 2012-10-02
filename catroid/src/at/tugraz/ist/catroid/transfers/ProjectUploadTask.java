@@ -34,11 +34,11 @@ import android.os.Message;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.utils.StatusBarNotificationManager;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
-import at.tugraz.ist.catroid.web.UpAndDownloadNotificationManager;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
@@ -147,7 +147,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 			progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress[0]);
 		}
 		String notificationMessage = "upload " + progressPercent + "% completed:" + projectName;
-		UpAndDownloadNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
+		StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
 	}
 
 	@Override
@@ -175,7 +175,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Long, Boolean> {
 
 	public void createNotification(String uploadName) {
 		//UpAndDownloadNotificationManager m = UpAndDownloadNotificationManager.INSTANCE;
-		UpAndDownloadNotificationManager m = UpAndDownloadNotificationManager.getInstance();
+		StatusBarNotificationManager m = StatusBarNotificationManager.getInstance();
 		notificationId = m.createNotification(uploadName, uploadActivity, ProjectUploadTask.class);
 	}
 

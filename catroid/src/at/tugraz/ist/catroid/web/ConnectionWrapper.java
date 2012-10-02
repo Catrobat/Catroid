@@ -60,7 +60,7 @@ public class ConnectionWrapper {
 
 	@SuppressWarnings("unused")
 	public String doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
-			String filePath, Handler progressHandler) throws IOException, WebconnectionException {
+			String filePath, Handler progressHandler, String httpPostUrl) throws IOException, WebconnectionException {
 
 		try {
 			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
@@ -96,8 +96,8 @@ public class ConnectionWrapper {
 			ftpClient.logout();
 			ftpClient.disconnect();
 
-			//String answer = sendUploadPost(urlString, postValues, fileTag, filePath);
-			//return answer;
+			String answer = sendUploadPost(httpPostUrl, postValues, fileTag, filePath);
+			return answer;
 
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -118,21 +118,24 @@ public class ConnectionWrapper {
 	/**
 	 * @param postValues
 	 */
-	private String sendUploadPost(String urlString, HashMap<String, String> postValues, String fileTag, String filePath)
-			throws IOException, WebconnectionException {
-
-		MultiPartFormOutputStream out = buildPost(urlString, postValues);
+	private String sendUploadPost(String httpPostUrl, HashMap<String, String> postValues, String fileTag,
+			String filePath) throws IOException, WebconnectionException {
 
 		if (filePath != null) {
 			String fileName = postValues.get("projectTitle");
 			//String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
 			//String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-			out.writeField("catroidFileName", fileName);
+			//out.writeField("catroidFileName", fileName + ".catrobat");
+			//postValues.put("catroidFileName", fileName + ".catrobat");
 			//out.writeFile(fileTag, mimeType, new File(filePath));
 		}
+
+		MultiPartFormOutputStream out = buildPost(httpPostUrl, postValues);
+
 		out.close();
 
 		// response code != 2xx -> error
+		int code = urlConnection.getResponseCode();
 		if (urlConnection.getResponseCode() / 100 != 2) {
 			throw new WebconnectionException(urlConnection.getResponseCode());
 		}

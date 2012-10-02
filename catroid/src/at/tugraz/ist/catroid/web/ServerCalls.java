@@ -50,6 +50,7 @@ public class ServerCalls {
 	private static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
+	private static final String CATROID_FILE_NAME = "catroidFileName";
 
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
@@ -65,7 +66,8 @@ public class ServerCalls {
 	public static final String BASE_URL_TEST_HTTP = "http://catroidtest.ist.tugraz.at/";
 	public static final String BASE_URL_TEST_FTP = "catroidtest.ist.tugraz.at";
 
-	//public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_HTTP + "api/upload/upload.json";
+	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
+	public static final String FILE_UPLOAD_URL_HTTP = BASE_URL_HTTP + "api/upload/upload.json";
 
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP;
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
@@ -107,14 +109,22 @@ public class ServerCalls {
 			postValues.put(USER_EMAIL, userEmail);
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 			postValues.put(Constants.TOKEN, token);
+			postValues.put(CATROID_FILE_NAME, projectName + ".catrobat");
 
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
 			}
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
+			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
+
+			//just 4 testing:
+			//serverUrl = TEST_FILE_UPLOAD_URL;
+			//httpPostUrl = TEST_FILE_UPLOAD_URL_HTTP;
+			//
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, progressHandler);
+			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, progressHandler,
+					httpPostUrl);
 
 			/* resultString = */
 			/*
