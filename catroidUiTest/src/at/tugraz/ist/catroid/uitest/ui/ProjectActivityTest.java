@@ -43,7 +43,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -74,6 +74,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	private void addNewSprite(String spriteName) {
@@ -553,7 +554,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Script scriptTappedCat = new WhenScript(spriteCat);
 		Brick setXBrick = new SetXBrick(spriteCat, 50);
 		Brick setYBrick = new SetYBrick(spriteCat, 50);
-		Brick changeXBrick = new ChangeXByBrick(spriteCat, 50);
+		Brick changeXBrick = new ChangeXByNBrick(spriteCat, 50);
 		startScriptCat.addBrick(setYBrick);
 		startScriptCat.addBrick(setXBrick);
 		scriptTappedCat.addBrick(changeXBrick);

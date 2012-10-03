@@ -22,12 +22,10 @@
  */
 package at.tugraz.ist.catroid.io;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -47,27 +45,21 @@ import at.tugraz.ist.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
+import at.tugraz.ist.catroid.xml.parser.FullParser;
+import at.tugraz.ist.catroid.xml.serializer.XmlSerializer;
 
 public class StorageHandler {
 
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
-	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static StorageHandler instance;
-	private XStream xstream;
+	private FullParser fullParser;
+	private XmlSerializer serializer;
 
 	private StorageHandler() throws IOException {
 
-		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
-		xstream.processAnnotations(Project.class);
-		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
-		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
-		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
-
+		fullParser = new FullParser();
+		serializer = new XmlSerializer();
 		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
@@ -98,7 +90,8 @@ public class StorageHandler {
 		try {
 			if (NativeAppActivity.isRunning()) {
 				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
-				return (Project) xstream.fromXML(spfFileStream);
+				Project returned = fullParser.parseSpritesWithProject(spfFileStream);
+				return returned;
 			}
 
 			File projectDirectory = new File(Utils.buildProjectPath(projectName));
@@ -106,7 +99,8 @@ public class StorageHandler {
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
-				return (Project) xstream.fromXML(projectFileStream);
+				Project returned = fullParser.parseSpritesWithProject(projectFileStream);
+				return returned;
 			} else {
 				return null;
 			}
@@ -122,9 +116,8 @@ public class StorageHandler {
 		if (project == null) {
 			return false;
 		}
-		try {
-			String projectFile = xstream.toXML(project);
 
+		try {
 			String projectDirectoryName = Utils.buildProjectPath(project.getName());
 			File projectDirectory = new File(projectDirectoryName);
 
@@ -146,13 +139,7 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
-
-			writer.write(XML_HEADER.concat(projectFile));
-			writer.flush();
-			writer.close();
-
+			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

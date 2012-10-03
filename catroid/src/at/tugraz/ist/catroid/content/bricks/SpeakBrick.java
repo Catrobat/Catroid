@@ -54,6 +54,10 @@ public class SpeakBrick implements Brick {
 		this.text = text;
 	}
 
+	public SpeakBrick() {
+
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return TEXT_TO_SPEECH;
@@ -117,21 +121,21 @@ public class SpeakBrick implements Brick {
 			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) context;
-				
+
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override
 					protected void initialize() {
 						input.setText(text);
 						input.setSelectAllOnFocus(true);
 					}
-					
+
 					@Override
 					protected boolean handleOkButton() {
 						text = (input.getText().toString()).trim();
 						return true;
 					}
 				};
-				
+
 				editDialog.show(activity.getSupportFragmentManager(), "dialog_speak_brick");
 			}
 		});

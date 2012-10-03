@@ -33,8 +33,9 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 public class ComeToFrontBrickTest extends AndroidTestCase {
 
 	@Override
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		TestUtils.clearProject("testProject");
+		super.tearDown();
 	}
 
 	public void testComeToFront() {

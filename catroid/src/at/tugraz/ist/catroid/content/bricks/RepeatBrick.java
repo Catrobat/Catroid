@@ -45,8 +45,13 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		this.timesToRepeat = timesToRepeat;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
+	}
+
+	public RepeatBrick() {
+
 	}
 
 	@Override
@@ -65,6 +70,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		return new RepeatBrick(getSprite(), timesToRepeat);
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		View view = View.inflate(context, R.layout.brick_repeat, null);
@@ -80,13 +86,15 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_repeat, null);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -95,7 +103,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -103,11 +111,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_repeat_brick");
 	}
 }

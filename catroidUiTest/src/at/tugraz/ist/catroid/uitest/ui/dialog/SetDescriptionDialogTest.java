@@ -57,6 +57,7 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testMultiLineProjectDescription() {

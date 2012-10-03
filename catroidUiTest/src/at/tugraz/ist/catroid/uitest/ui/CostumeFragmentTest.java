@@ -103,6 +103,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.clearAllUtilTestProjects();
 		paintroidImageFile.delete();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testAddNewCostumeActionbarIcon() {

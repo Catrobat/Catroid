@@ -36,18 +36,19 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class NoteBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String note = "";
 
-	@XStreamOmitField
 	private transient View view;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public NoteBrick() {
+
 	}
 
 	@Override

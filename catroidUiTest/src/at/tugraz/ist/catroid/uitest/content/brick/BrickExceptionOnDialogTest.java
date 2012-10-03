@@ -34,12 +34,12 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
@@ -88,6 +88,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testBroadCastBrick() {
@@ -124,16 +125,16 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
-	public void testChangeBrightnessBrick() {
-		ChangeBrightnessBrick brightnessBrick = new ChangeBrightnessBrick(sprite, 40);
-		script.addBrick(brightnessBrick);
+	public void testChangeBrightnessByNBrick() {
+		ChangeBrightnessByNBrick brightnessByNBrick = new ChangeBrightnessByNBrick(sprite, 40);
+		script.addBrick(brightnessByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testChangeGhostEffectBrick() {
-		ChangeGhostEffectBrick ghostBrick = new ChangeGhostEffectBrick(sprite, 40);
-		script.addBrick(ghostBrick);
+	public void testChangeGhostEffectByNBrick() {
+		ChangeGhostEffectByNBrick ghostByNBrick = new ChangeGhostEffectByNBrick(sprite, 40);
+		script.addBrick(ghostByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
@@ -145,23 +146,23 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testChangeVolumeByBrick() {
-		ChangeVolumeByBrick changeVolumeBrick = new ChangeVolumeByBrick(sprite, 40);
-		script.addBrick(changeVolumeBrick);
+	public void testChangeVolumeByNBrick() {
+		ChangeVolumeByNBrick changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, 40);
+		script.addBrick(changeVolumeByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testChangeXByBrick() {
-		ChangeXByBrick changeXByBrick = new ChangeXByBrick(sprite, 40);
-		script.addBrick(changeXByBrick);
+	public void testChangeXByNBrick() {
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, 40);
+		script.addBrick(changeXByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testChangeYByBrick() {
-		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, 40);
-		script.addBrick(changeYByBrick);
+	public void testChangeYByNBrick() {
+		ChangeYByNBrick changeYByNBrick = new ChangeYByNBrick(sprite, 40);
+		script.addBrick(changeYByNBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}

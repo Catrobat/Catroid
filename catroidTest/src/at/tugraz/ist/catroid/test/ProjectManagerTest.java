@@ -35,6 +35,9 @@ public class ProjectManagerTest extends AndroidTestCase {
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
 
+	private static final float CATROBAT_LANGUAGE_VERSION_SUPPORTED = 0.3f;
+	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
+
 	private ProjectManager projectManager;
 
 	@Override
@@ -50,29 +53,31 @@ public class ProjectManagerTest extends AndroidTestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		projectManager.setProject(null);
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 
-	public void testShouldReturnFalseIfVersionNumberTooHigh() {
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(Integer.MAX_VALUE);
+	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() {
+		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
 		boolean result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), null, false);
 		assertFalse("Load project didn't return false", result);
 
 		TestUtils.deleteTestProjects();
-		TestUtils.createTestProjectOnLocalStorageWithVersionCode(0);
+
+		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_SUPPORTED);
 
 		result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), null, false);
 		assertTrue("Load project didn't return true", result);
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {
-		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(0, OLD_PROJECT);
+		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
+				CATROBAT_LANGUAGE_VERSION_SUPPORTED, OLD_PROJECT);
 
 		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), null, false);
 		assertTrue("Could not load project.", result);
 
-		TestUtils.createTestProjectOnLocalStorageWithVersionCodeAndName(Integer.MAX_VALUE, NEW_PROJECT);
+		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
 		result = projectManager.loadProject(NEW_PROJECT, getContext(), null, false);
 		assertFalse("Load project didn't return false", result);

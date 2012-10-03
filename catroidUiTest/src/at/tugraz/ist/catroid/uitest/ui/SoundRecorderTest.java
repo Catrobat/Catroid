@@ -60,6 +60,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testRecordMultipleSounds() throws InterruptedException {

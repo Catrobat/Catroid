@@ -73,6 +73,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	private void setServerURLToTestURL() throws Throwable {
