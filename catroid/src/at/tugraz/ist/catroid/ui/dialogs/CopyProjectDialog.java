@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -34,6 +33,7 @@ import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.CopyProjectTask;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -185,17 +185,22 @@ public class CopyProjectDialog extends TextDialog {
 
 			String title = getString(R.string.please_wait);
 			String message = getString(R.string.copying);
-			progressDialog = ProgressDialog.show(getActivity(), title, message);
-			progressDialog.setCancelable(true);
-			progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					currentCopyProjectAsyncTask.cancel(true);
-				}
-			});
+			/*
+			 * progressDialog = ProgressDialog.show(getActivity(), title, message);
+			 * progressDialog.setCancelable(true);
+			 * progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			 * 
+			 * @Override
+			 * public void onCancel(DialogInterface dialog) {
+			 * currentCopyProjectAsyncTask.cancel(true);
+			 * }
+			 * });
+			 */
 
-			currentCopyProjectAsyncTask = new CopyProjectAsyncTask();
-			currentCopyProjectAsyncTask.execute(newProjectName);
+			new CopyProjectTask(getActivity()).execute(newProjectName, oldProjectName);
+			this.dismiss();
+			//currentCopyProjectAsyncTask = new CopyProjectAsyncTask();
+			//currentCopyProjectAsyncTask.execute(newProjectName);
 		} else {
 			Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
 					getString(R.string.notification_invalid_text_entered));
