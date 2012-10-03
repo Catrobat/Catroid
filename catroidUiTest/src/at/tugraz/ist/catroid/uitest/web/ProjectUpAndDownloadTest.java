@@ -198,15 +198,15 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		getActivity().startActivity(intent);
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
-		uploadProject("Test1", "");
+		uploadProject("Test132", "");
 		solo.sleep(5000);
 	}
 
 	public void testDownload() throws Throwable {
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
-		downloadProjectAndReplace("test123");
-		solo.sleep(20000);
+		//downloadProjectAndReplace("POC Moorhuhn");
+		solo.sleep(200000);
 	}
 
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {

@@ -45,7 +45,7 @@ import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
-public class ProjectDownloadTask extends AsyncTask<Void, Long, Boolean> implements OnClickListener {
+public class ProjectDownloadService extends AsyncTask<Void, Long, Boolean> implements OnClickListener {
 
 	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROID_EXTENTION;
 
@@ -68,7 +68,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Long, Boolean> implemen
 		return new ConnectionWrapper();
 	}
 
-	public ProjectDownloadTask(MainMenuActivity mainMenuActivity, String url, String projectName) {
+	public ProjectDownloadService(MainMenuActivity mainMenuActivity, String url, String projectName) {
 		this.activity = mainMenuActivity;
 		this.projectName = projectName;
 		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
@@ -181,7 +181,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Long, Boolean> implemen
 
 	public void createNotification(String uploadName) {
 		notificationId = StatusBarNotificationManager.getInstance().createNotification(uploadName, activity,
-				ProjectDownloadTask.class);
+				ProjectDownloadService.class);
 	}
 
 }
