@@ -114,7 +114,7 @@
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
     <string name="myprojectlist_footer_image_description">Tap to add new project</string>
-    <string name="copy_project">Copy Project</string>
+    <string name="copy_project_finished">Project copied</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
@@ -280,7 +280,7 @@
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="size_of_project">Size of project:</string>
-    <string name="copy_process_canceled">Copy proecess cancelled</string>
+    <string name="copy_process_error">Copy failed</string>
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
