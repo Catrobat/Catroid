@@ -63,6 +63,7 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

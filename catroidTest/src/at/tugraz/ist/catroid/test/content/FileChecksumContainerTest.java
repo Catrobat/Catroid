@@ -108,6 +108,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		if (testSound != null && testSound.exists()) {
 			testSound.delete();
 		}
+		super.tearDown();
 	}
 
 	public void testContainer() throws IOException, InterruptedException {

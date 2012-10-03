@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
@@ -20,96 +21,95 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<Content.Project>
-  <androidVersion>10</androidVersion>
-  <catroidVersionCode>8</catroidVersionCode>
-  <catroidVersionName>0.5.6a</catroidVersionName>
-  <deviceName>HTC Desire</deviceName>
-  <projectName>testProject</projectName>
-  <screenHeight>800</screenHeight>
-  <screenWidth>480</screenWidth>
-  <spriteList>
-    <Content.Sprite>
-      <name>Stage</name>
-    </Content.Sprite>
-    <Content.Sprite>
-      <name>first</name>
-      <scriptList>
-        <Content.StartScript>
-          <brickList>
-            <Bricks.HideBrick>
-              <sprite reference="../../../../.."/>
-            </Bricks.HideBrick>
-            <Bricks.ShowBrick>
-              <sprite reference="../../../../.."/>
-            </Bricks.ShowBrick>
-            <Bricks.SetSizeToBrick>
-              <size>0.8</size>
-            </Bricks.SetSizeToBrick>
-            <Bricks.ComeToFrontBrick>
-              <sprite reference="../../../../.."/>
-            </Bricks.ComeToFrontBrick>
-            <Bricks.SetCostumeBrick>
-              <sprite reference="../../../../.."/>
-            </Bricks.SetCostumeBrick>
-          </brickList>
-          <sprite reference="../../.."/>
-        </Content.StartScript>
-        <Content.WhenScript>
-          <brickList>
-            <Bricks.WaitBrick>
-              <sprite reference="../../../../.."/>
-              <timeToWaitInMilliSeconds>1000</timeToWaitInMilliSeconds>
-            </Bricks.WaitBrick>
-            <Bricks.PlaySoundBrick>
-              <sprite reference="../../../../.."/>
-            </Bricks.PlaySoundBrick>
-          </brickList>
-          <sprite reference="../../.."/>
-          <action>Tapped</action>
-        </Content.WhenScript>
-      </scriptList>
-    </Content.Sprite>
-    <Content.Sprite>
-        <name>second</name>
-        <scriptList>
-          <Content.StartScript>
-            <brickList>
-              <Bricks.PlaceAtBrick>
-                <sprite reference="../../../../.."/>
-                <xPosition>100</xPosition>
-                <yPosition>100</yPosition>
-              </Bricks.PlaceAtBrick>
-              <Bricks.SetXBrick>
-                <sprite reference="../../../../.."/>
-                <xPosition>100</xPosition>
-              </Bricks.SetXBrick>
-              <Bricks.SetYBrick>
-                <sprite reference="../../../../.."/>
-                <yPosition>100</yPosition>
-              </Bricks.SetYBrick>
-              <Bricks.ChangeXByBrick>
-                <sprite reference="../../../../.."/>
-                <xMovement>-100</xMovement>
-              </Bricks.ChangeXByBrick>
-              <Bricks.ChangeYByBrick>
-                <sprite reference="../../../../.."/>
-                <yMovement>-100</yMovement>
-              </Bricks.ChangeYByBrick>
-              <Bricks.GlideToBrick>
-                <durationInMilliSeconds>3000</durationInMilliSeconds>
-                <sprite reference="../../../../.."/>
-                <xDestination>500</xDestination>
-                <yDestination>500</yDestination>
-              </Bricks.GlideToBrick>
-              <Bricks.GoNStepsBackBrick>
-                <sprite reference="../../../../.."/>
-                <steps>1</steps>
-              </Bricks.GoNStepsBackBrick>
-            </brickList>
-            <sprite reference="../../.."/>
-          </Content.StartScript>
-        </scriptList>
-    </Content.Sprite>
-  </spriteList>
-</Content.Project>
+<CatrobatProgram xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://catroidtestserver.ist.tugraz.at/xmlSchema/version-0.3/catrobatXmlSchema.xsd">
+<Header>
+	<ApplicationBuildName>CatroidReleaseBuild</ApplicationBuildName>
+	<ApplicationBuildNumber>24</ApplicationBuildNumber>
+	<ApplicationName>Catroid</ApplicationName>
+	<ApplicationVersion>0.6.0beta</ApplicationVersion>
+	<CatrobatLanguageVersion>0.3</CatrobatLanguageVersion>
+	<DateTimeUpload/>
+	<Description/>
+	<DeviceName>HTC Desire</DeviceName>
+	<MediaLicense/>
+	<Platform>Android</Platform>
+	<PlatformVersion>10</PlatformVersion>
+	<ProgramLicense/>
+	<ProgramName>testProject</ProgramName>
+	<RemixOf/>
+	<ScreenHeight>800</ScreenHeight>
+	<ScreenWidth>480</ScreenWidth>
+	<URL/>
+	<UserHandle/>
+</Header>
+	<SpriteList>
+		<Sprite>
+			<Name>Stage</Name>
+		</Sprite>
+		<Sprite>
+			<Name>first</Name>
+			<ScriptList>
+				<StartScript>
+					<BrickList>
+						<HideBrick/>
+						<ShowBrick/>
+						<SetSizeToBrick>
+							<Size>0.8</Size>
+						</SetSizeToBrick>
+						<ComeToFrontBrick/>
+						<SetCostumeBrick>
+							<Costume reference=""/>
+						</SetCostumeBrick>
+						<PointInDirectionBrick>
+							<Degrees>-90.0</Degrees>
+						</PointInDirectionBrick>
+					</BrickList>
+				</StartScript>
+				<WhenScript>
+					<Action>Tapped</Action>
+					<BrickList>
+						<WaitBrick>
+							<TimeToWaitInMilliSeconds>1000</TimeToWaitInMilliSeconds>
+						</WaitBrick>
+						<PlaySoundBrick>
+							<Sound reference=""/>
+						</PlaySoundBrick>
+					</BrickList>
+				</WhenScript>
+			</ScriptList>
+		</Sprite>
+		<Sprite>
+			<Name>second</Name>
+			<ScriptList>
+				<StartScript>
+					<BrickList>
+						<PlaceAtBrick>
+							<XPosition>100</XPosition>
+							<YPosition>100</YPosition>
+						</PlaceAtBrick>
+						<SetXBrick>
+							<XPosition>100</XPosition>
+						</SetXBrick>
+						<SetYBrick>
+							<YPosition>100</YPosition>
+						</SetYBrick>
+						<ChangeXByNBrick>
+							<XMovement>-100</XMovement>
+						</ChangeXByNBrick>
+						<ChangeYByNBrick>
+							<YMovement>-100</YMovement>
+						</ChangeYByNBrick>
+						<GlideToBrick>
+							<DurationInMilliSeconds>3000</DurationInMilliSeconds>
+							<XDestination>500</XDestination>
+							<YDestination>500</YDestination>
+						</GlideToBrick>
+						<GoNStepsBackBrick>
+							<Steps>1</Steps>
+						</GoNStepsBackBrick>
+					</BrickList>
+				</StartScript>
+			</ScriptList>
+		</Sprite>
+	</SpriteList>
+</CatrobatProgram>

@@ -44,6 +44,11 @@ public class NextCostumeBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public NextCostumeBrick() {
+
+	}
+
+	@Override
 	public void execute() {
 
 		final ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
@@ -75,10 +80,12 @@ public class NextCostumeBrick implements Brick {
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_next_costume, null);
@@ -94,11 +101,13 @@ public class NextCostumeBrick implements Brick {
 		return new NextCostumeBrick(sprite);
 	}
 
+	@Override
 	public int getRequiredResources() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_next_costume, null);

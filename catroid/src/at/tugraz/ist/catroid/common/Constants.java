@@ -26,7 +26,11 @@ import android.os.Environment;
 
 public final class Constants {
 
-	public static final String PROJECTCODE_NAME = "projectcode.xml";
+	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = 0.3f;
+	public static final String PLATFORM_NAME = "Android";
+	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
+	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
+	public static final String PROJECTCODE_NAME = "code.xml";
 	public static final String CATROID_EXTENTION = ".catrobat";
 	public static final String RECORDING_EXTENTION = ".mp3";
 

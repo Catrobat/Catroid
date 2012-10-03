@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
 
 public class XMLValidatingTest extends TestCase {
 
-	private static final String XMLSCHEMA_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/catroidXmlSchema.xsd";
+	private static final String XMLSCHEMA_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/version-0.3/catrobatXmlSchema.xsd";
 
 	public void testXmlWithSchemaValidator() throws IOException, SAXException {
 
@@ -50,7 +50,7 @@ public class XMLValidatingTest extends TestCase {
 
 		Validator schemaValidator = schema.newValidator();
 
-		File xmlDirectory = new File("res/catroidXMLsToValidate/");
+		File xmlDirectory = new File("res/catrobat_v0.3_XMLsToValidate/");
 		File[] xmlFilesToValidate = xmlDirectory.listFiles();
 
 		File currentXMLFile = null;

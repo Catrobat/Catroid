@@ -112,6 +112,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 			soundFile2.delete();
 		}
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testSelectandPlaySoundFile() {

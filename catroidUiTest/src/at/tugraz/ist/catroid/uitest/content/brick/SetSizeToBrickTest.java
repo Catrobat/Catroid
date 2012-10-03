@@ -89,6 +89,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		}
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

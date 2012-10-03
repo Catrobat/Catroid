@@ -53,6 +53,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testToggleMindstormBricks() {

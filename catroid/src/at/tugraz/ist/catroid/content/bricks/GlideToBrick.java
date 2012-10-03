@@ -44,6 +44,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
+	public GlideToBrick() {
+
+	}
+
 	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
 		this.sprite = sprite;
 		this.xDestination = xDestination;
@@ -176,7 +180,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	@Override
 	public void onClick(final View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -191,10 +195,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
 							| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				}
-				
+
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -203,12 +207,13 @@ public class GlideToBrick implements Brick, OnClickListener {
 					} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
 						yDestination = Integer.parseInt(input.getText().toString());
 					} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
-						durationInMilliSeconds = (int) Math.round(Double.parseDouble(input.getText().toString()) * 1000);
+						durationInMilliSeconds = (int) Math
+								.round(Double.parseDouble(input.getText().toString()) * 1000);
 					}
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};

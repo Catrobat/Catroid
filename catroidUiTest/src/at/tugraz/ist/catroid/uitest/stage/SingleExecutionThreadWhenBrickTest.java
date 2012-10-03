@@ -74,6 +74,7 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testWaitBrickWhenTapped() {

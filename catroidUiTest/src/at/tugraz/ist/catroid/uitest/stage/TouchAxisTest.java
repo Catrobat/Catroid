@@ -62,6 +62,8 @@ public class TouchAxisTest extends ActivityInstrumentationTestCase2<StageActivit
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
+
 	}
 
 	// This prevents regression of https://github.com/Catrobat/Catroid/issues/3
