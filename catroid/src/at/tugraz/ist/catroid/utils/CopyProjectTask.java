@@ -26,12 +26,15 @@ import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 
+//TODO: USE SUPPORT LIBRARY: android.support.v4.app.NotificationCompat
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
 	private Integer notificationId;
@@ -42,6 +45,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	public CopyProjectTask(Activity parentActivity) {
 		this.parentActivity = parentActivity;
 		this.notificationId = 0;
+		this.copyProjectFinished = false;
 	}
 
 	@Override
@@ -82,6 +86,27 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	}
 
 	@Override
+	protected void onPostExecute(Boolean result) {
+		super.onPostExecute(result);
+
+		copyProjectFinished = true;
+		if (!result) {
+			showDialog("TODO: ERROR MESSAGE");
+			return;
+		}
+
+		showDialog("TODO: OK MESSAGE");
+	}
+
+	private void showDialog(String message) {
+		if (parentActivity == null) {
+			return;
+		}
+		new AlertDialog.Builder(parentActivity).setMessage(message)
+				.setPositiveButton(parentActivity.getString(R.string.ok), null).show();
+	}
+
+	@Override
 	protected void onProgressUpdate(Long... progress) {
 		super.onProgressUpdate(progress);
 		long progressPercent = 0;
@@ -110,8 +135,8 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	}
 
 	public void createNotification(String projectName) {
-		CopyNotificationManager manager = CopyNotificationManager.getInstance();
-		notificationId = manager.createNotification(projectName, parentActivity, CopyProjectTask.class);
+		CopyNotificationManager copyManager = CopyNotificationManager.getInstance();
+		notificationId = copyManager.createNotification(projectName, parentActivity, CopyProjectTask.class);
 	}
 
 }
