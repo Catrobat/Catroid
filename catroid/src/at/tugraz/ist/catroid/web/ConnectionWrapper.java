@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.web;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -180,10 +181,9 @@ public class ConnectionWrapper {
 		//InputStream i = urlConnection.getInputStream(); 4debug
 		InputStream input = new BufferedInputStream(urlConnection.getInputStream());
 		//InputStream input = new BufferedInputStream(downloadUrl.openStream());
-		//File file = new File(filePath);
-		//file.getParentFile().mkdirs();
-		//FileOutputStream fos = new FileOutputStream(file);
-		OutputStream fos = new FileOutputStream(filePath);
+		File file = new File(filePath);
+		file.getParentFile().mkdirs();
+		OutputStream fos = new FileOutputStream(file);
 
 		byte[] buffer = new byte[Constants.BUFFER_8K];
 		int count = 0;
