@@ -43,6 +43,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.ResultReceiver;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 
@@ -60,8 +61,9 @@ public class ConnectionWrapper {
 
 	@SuppressWarnings("unused")
 	public String doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
-			String filePath, Handler progressHandler, String httpPostUrl) throws IOException, WebconnectionException {
-
+			String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId) throws IOException,
+			WebconnectionException {
+		String answer = "";
 		try {
 			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
 			boolean success = ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
@@ -78,12 +80,13 @@ public class ConnectionWrapper {
 			boolean good = ftpClient.setFileType(FILE_TYPE);
 			BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
 			ftpClient.enterLocalPassiveMode();
-			FtpProgressInputStream ftpProgressStream = new FtpProgressInputStream(inputStream, progressHandler);
-			String fileName = "";
 
+			String fileName = "";
 			if (filePath != null) {
 				fileName = postValues.get("projectTitle");
 				String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
+				FtpProgressInputStream ftpProgressStream = new FtpProgressInputStream(inputStream, receiver,
+						notificationId, fileName);
 				boolean result = ftpClient.storeFile(fileName + "." + extension, ftpProgressStream);
 
 				if (!result) {
@@ -96,8 +99,7 @@ public class ConnectionWrapper {
 			ftpClient.logout();
 			ftpClient.disconnect();
 
-			String answer = sendUploadPost(httpPostUrl, postValues, fileTag, filePath);
-			return answer;
+			answer = sendUploadPost(httpPostUrl, postValues, fileTag, filePath);
 
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -112,7 +114,7 @@ public class ConnectionWrapper {
 				}
 			}
 		}
-		return "";
+		return answer;
 	}
 
 	/**
@@ -120,15 +122,6 @@ public class ConnectionWrapper {
 	 */
 	private String sendUploadPost(String httpPostUrl, HashMap<String, String> postValues, String fileTag,
 			String filePath) throws IOException, WebconnectionException {
-
-		if (filePath != null) {
-			String fileName = postValues.get("projectTitle");
-			//String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
-			//String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-			//out.writeField("catroidFileName", fileName + ".catrobat");
-			//postValues.put("catroidFileName", fileName + ".catrobat");
-			//out.writeFile(fileTag, mimeType, new File(filePath));
-		}
 
 		MultiPartFormOutputStream out = buildPost(httpPostUrl, postValues);
 
@@ -141,8 +134,9 @@ public class ConnectionWrapper {
 		}
 
 		InputStream resultStream = urlConnection.getInputStream();
-
-		return getString(resultStream);
+		String resultString = getString(resultStream);
+		Log.v(TAG, resultString);
+		return resultString;
 	}
 
 	void updateProgress(Handler progressHandler, long progress, boolean endOfFileReached, boolean unknown) {
@@ -207,59 +201,6 @@ public class ConnectionWrapper {
 		fos.close();
 	}
 
-	/*
-	 * public void doFtpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
-	 * throws IOException, WebconnectionException {
-	 * 
-	 * try {
-	 * ftpClient.connect(urlstring, ServerCalls.FTP_PORT);
-	 * boolean success = ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
-	 * //ftpClient.changeWorkingDirectory(filePath); //???
-	 * 
-	 * int replyCode = ftpClient.getReplyCode();
-	 * 
-	 * if (!FTPReply.isPositiveCompletion(replyCode)) {
-	 * ftpClient.disconnect();
-	 * Log.e(TAG, "FTP server refused to connect");
-	 * throw new WebconnectionException(replyCode);
-	 * }
-	 * 
-	 * boolean good = ftpClient.setFileType(FILE_TYPE);
-	 * BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
-	 * ftpClient.enterLocalPassiveMode();
-	 * FtpProgressOutputStream ftpProgressStream = new FtpProgressOutputStream(outputStream, null); // + Handler?
-	 * if (filePath != null) {
-	 * String fileName = "testingproject1"; //postValues.get("projectTitle");
-	 * String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
-	 * 
-	 * boolean result = ftpClient.retrieveFile(fileName + "." + extension, ftpProgressStream);
-	 * 
-	 * if (!result) {
-	 * throw new IOException();
-	 * }
-	 * 
-	 * }
-	 * 
-	 * outputStream.close();
-	 * ftpClient.logout();
-	 * ftpClient.disconnect();
-	 * } catch (SocketException e) {
-	 * e.printStackTrace();
-	 * } catch (IOException e) {
-	 * e.printStackTrace();
-	 * } finally {
-	 * if (ftpClient.isConnected()) {
-	 * try {
-	 * ftpClient.disconnect();
-	 * } catch (IOException e) {
-	 * e.printStackTrace();
-	 * }
-	 * 
-	 * }
-	 * }
-	 * }
-	 */
-
 	private String getString(InputStream is) {
 		if (is == null) {
 			return "";
@@ -294,6 +235,7 @@ public class ConnectionWrapper {
 		InputStream resultStream = null;
 
 		Log.i(TAG, "http response code: " + urlConnection.getResponseCode());
+		//Log.i(TAG, "http input stream: " + urlConnection.getInputStream());
 		resultStream = urlConnection.getInputStream();
 
 		return getString(resultStream);

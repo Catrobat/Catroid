@@ -33,6 +33,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -40,7 +42,7 @@ import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
-import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadService;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialogFragment;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
@@ -100,7 +102,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				Log.e(TAG, "Could not decode project name: " + projectName, e);
 			}
 
-			new ProjectDownloadTask(this, url, projectName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			new ProjectDownloadService(this, url, projectName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		} else if (loadExternalProjectUri.getScheme().equals("file")) {
 
 			String path = loadExternalProjectUri.getPath();
@@ -203,6 +205,29 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			ProjectManager.INSTANCE.saveProject();
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
 					.getName());
+		}
+	}
+
+	// Code from Stackoverflow to reduce memory problems
+	// onDestroy() and unbindDrawables() methods taken from
+	// http://stackoverflow.com/a/6779067
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		unbindDrawables(findViewById(R.id.MainMenuActivityRoot));
+		System.gc();
+	}
+
+	private void unbindDrawables(View view) {
+		if (view.getBackground() != null) {
+			view.getBackground().setCallback(null);
+		}
+		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+				unbindDrawables(((ViewGroup) view).getChildAt(i));
+			}
+			((ViewGroup) view).removeAllViews();
 		}
 	}
 

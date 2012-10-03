@@ -64,6 +64,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {

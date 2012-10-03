@@ -75,6 +75,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testMainMenuButton() {

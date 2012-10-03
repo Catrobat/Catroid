@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Handler;
+import android.os.ResultReceiver;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -96,7 +97,8 @@ public class ServerCalls {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, Handler progressHandler) throws WebconnectionException {
+			String language, String token, ResultReceiver receiver, Integer notificationId)
+			throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
@@ -123,8 +125,8 @@ public class ServerCalls {
 			//
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, progressHandler,
-					httpPostUrl);
+			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, receiver,
+					httpPostUrl, notificationId);
 
 			/* resultString = */
 			/*

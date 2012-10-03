@@ -26,22 +26,27 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.ResultReceiver;
+import at.tugraz.ist.catroid.common.Constants;
 
 public class FtpProgressInputStream extends InputStream {
 
 	private final static String TAG = FtpProgressInputStream.class.getSimpleName();
 	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 20; //20 KB
 	private InputStream inputStream;
-	private Handler handler;
+	private ResultReceiver receiver;
+	private Integer notificationId;
+	private String projectName;
 
 	private Integer progress;
 	private boolean connectionClosed;
 
-	public FtpProgressInputStream(InputStream inputStream, Handler handler) { //handler?
+	public FtpProgressInputStream(InputStream inputStream, ResultReceiver receiver, Integer notificationId,
+			String projectName) {
 		this.inputStream = inputStream;
-		this.handler = handler;
+		this.receiver = receiver;
+		this.notificationId = notificationId;
+		this.projectName = projectName;
 
 		this.progress = 0;
 		this.connectionClosed = false;
@@ -85,9 +90,15 @@ public class FtpProgressInputStream extends InputStream {
 		Bundle progressBundle = new Bundle();
 		progressBundle.putLong("currentUploadProgress", progress);
 		progressBundle.putBoolean("endOfFileReached", endOfFileReached);
-		Message progressMessage = Message.obtain();
-		progressMessage.setData(progressBundle);
-		handler.sendMessage(progressMessage);
+		progressBundle.putInt("notificationId", notificationId);
+		progressBundle.putString("projectName", projectName);
+		receiver.send(Constants.UPDATE_UPLOAD_PROGRESS, progressBundle);
+
+		/*
+		 * Message progressMessage = Message.obtain();
+		 * progressMessage.setData(progressBundle);
+		 * handler.sendMessage(progressMessage);
+		 */
 	}
 
 }

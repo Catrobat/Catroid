@@ -29,34 +29,64 @@ import java.util.List;
 import android.content.Context;
 import android.os.Build;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.Utils;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import at.tugraz.ist.catroid.xml.parser.XMLAlias;
 
 public class Project implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	private String projectName;
+
+	private String programName;
 	private String description;
-
-	// Only used for Catroid website
-	@SuppressWarnings("unused")
-	private String deviceName;
-	@SuppressWarnings("unused")
-	private int androidVersion;
-	@SuppressWarnings("unused")
-	private String catroidVersionName;
-	private int catroidVersionCode;
-
-	@XStreamAlias("screenWidth")
+	@XMLAlias("screenWidth")
 	public int virtualScreenWidth = 0;
-	@XStreamAlias("screenHeight")
+	@XMLAlias("screenHeight")
 	public int virtualScreenHeight = 0;
+	private float catrobatLanguageVersion;
+
+	// fields only used on the catrobat.org website so far
+	@SuppressWarnings("unused")
+	private String applicationBuildName = "";
+	@SuppressWarnings("unused")
+	private int applicationBuildNumber = 0;
+	@SuppressWarnings("unused")
+	private String applicationName = "";
+	@SuppressWarnings("unused")
+	private String applicationVersion = "";
+	@SuppressWarnings("unused")
+	private String dateTimeUpload = "";
+	@SuppressWarnings("unused")
+	private String deviceName = "";
+	@SuppressWarnings("unused")
+	private String mediaLicense = "";
+	@SuppressWarnings("unused")
+	private String platform = "";
+	@SuppressWarnings("unused")
+	private int platformVersion = 0;
+	@SuppressWarnings("unused")
+	private String programLicense = "";
+	@SuppressWarnings("unused")
+	private String remixOf = "";
+	@SuppressWarnings("unused")
+	private String uRL = "";
+	@SuppressWarnings("unused")
+	private String userHandle = "";
 
 	public Project(Context context, String name) {
-		this.projectName = name;
+		programName = name;
+		description = "";
+		catrobatLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
+		platform = Constants.PLATFORM_NAME;
+		applicationBuildName = Constants.APPLICATION_BUILD_NAME;
+		applicationBuildNumber = Constants.APPLICATION_BUILD_NUMBER;
 
+		ifLandscapeSwitchWidthAndHeight();
+		virtualScreenWidth = Values.SCREEN_WIDTH;
+		virtualScreenHeight = Values.SCREEN_HEIGHT;
+		setDeviceData(context);
 		ifLandscapeSwitchWidthAndHeight();
 		virtualScreenWidth = Values.SCREEN_WIDTH;
 		virtualScreenHeight = Values.SCREEN_HEIGHT;
@@ -66,6 +96,7 @@ public class Project implements Serializable {
 			return;
 		}
 
+		applicationName = context.getString(R.string.app_name);
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.costume.zPosition = Integer.MIN_VALUE;
 		addSprite(background);
@@ -77,6 +108,7 @@ public class Project implements Serializable {
 			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
 			Values.SCREEN_WIDTH = tmp;
 		}
+
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -84,10 +116,12 @@ public class Project implements Serializable {
 			return;
 		}
 		spriteList.add(sprite);
+
 	}
 
 	public synchronized boolean removeSprite(Sprite sprite) {
 		return spriteList.remove(sprite);
+
 	}
 
 	public List<Sprite> getSpriteList() {
@@ -95,11 +129,11 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.projectName = name;
+		this.programName = name;
 	}
 
 	public String getName() {
-		return projectName;
+		return programName;
 	}
 
 	public void setDescription(String description) {
@@ -110,20 +144,33 @@ public class Project implements Serializable {
 		return description;
 	}
 
-	public int getCatroidVersionCode() {
-		return catroidVersionCode;
+	public float getCatrobatLanguageVersion() {
+		return this.catrobatLanguageVersion;
+	}
+
+	// this method should be removed by the nex refactoring
+	// (used only in tests)
+	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
+		this.catrobatLanguageVersion = catrobatLanguageVersion;
 	}
 
 	public void setDeviceData(Context context) {
+		// TODO add other header values
 		deviceName = Build.MODEL;
-		androidVersion = Build.VERSION.SDK_INT;
+		platformVersion = Build.VERSION.SDK_INT;
 
 		if (context == null) {
-			catroidVersionName = "unknown";
-			catroidVersionCode = 0;
+			applicationVersion = "unknown";
+
 		} else {
-			catroidVersionName = Utils.getVersionName(context);
-			catroidVersionCode = Utils.getVersionCode(context);
+			applicationVersion = Utils.getVersionName(context);
+
 		}
 	}
+
+	// default constructor for XMLParser
+	public Project() {
+
+	}
+
 }

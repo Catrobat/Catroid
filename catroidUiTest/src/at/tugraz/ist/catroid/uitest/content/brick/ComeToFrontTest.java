@@ -67,6 +67,7 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptTabA
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

@@ -64,6 +64,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

@@ -51,6 +51,7 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.finishOpenedActivities();
 		ProjectManager.getInstance().deleteCurrentProject();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testAboutDialog() {

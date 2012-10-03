@@ -29,8 +29,8 @@ import java.util.HashMap;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
-import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadService;
+import at.tugraz.ist.catroid.transfers.ProjectUploadService;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.ServerCalls;
@@ -93,12 +93,12 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
 
-		new ProjectUploadTask(null, testProjectName, projectDescription, pathToDefaultProject, "0").execute();
+		new ProjectUploadService(null, testProjectName, projectDescription, pathToDefaultProject, "0").execute();
 		Thread.sleep(3000);
 
 		assertTrue("Uploaded file does not exist", projectZipOnMockServer.exists());
 
-		new ProjectDownloadTask(null, "", testProjectName).execute();
+		new ProjectDownloadService(null, "", testProjectName).execute();
 		Thread.sleep(3000);
 
 		File downloadProjectRoot = new File(Constants.DEFAULT_ROOT + "/" + testProjectName);

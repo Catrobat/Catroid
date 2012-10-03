@@ -79,6 +79,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testDeleteCostumes() throws Exception {

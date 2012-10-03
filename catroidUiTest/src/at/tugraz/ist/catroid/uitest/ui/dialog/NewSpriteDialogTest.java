@@ -64,6 +64,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {

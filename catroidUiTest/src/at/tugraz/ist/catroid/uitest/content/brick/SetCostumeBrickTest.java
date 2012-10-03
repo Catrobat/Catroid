@@ -116,6 +116,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 			costumeFile2.delete();
 		}
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testSelectCostumeAndPlay() {

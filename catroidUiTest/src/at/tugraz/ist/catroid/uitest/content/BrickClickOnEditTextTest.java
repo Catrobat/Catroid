@@ -73,6 +73,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {

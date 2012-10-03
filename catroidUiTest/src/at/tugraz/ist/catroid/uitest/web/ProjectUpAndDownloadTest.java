@@ -77,6 +77,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	private void setServerURLToTestUrl() throws Throwable {
@@ -193,16 +194,20 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	public void testUpload() throws Throwable {
+		createTestProject(testProject);
+		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		getActivity().startActivity(intent);
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
-		uploadProject(testProject + System.currentTimeMillis(), "");
+		uploadProject("Test132", "");
+		solo.sleep(5000);
 	}
 
 	public void testDownload() throws Throwable {
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
-		downloadProjectAndReplace("testingproject1");
-		solo.sleep(20000);
+		//downloadProjectAndReplace("POC Moorhuhn");
+		solo.sleep(200000);
 	}
 
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {

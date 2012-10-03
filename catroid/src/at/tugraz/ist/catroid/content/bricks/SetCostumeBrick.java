@@ -38,11 +38,15 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private CostumeData costumeData;
+	private CostumeData costume;
 	private transient View view;
 
 	public SetCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public SetCostumeBrick() {
+
 	}
 
 	@Override
@@ -51,16 +55,16 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public void setCostume(CostumeData costumeData) {
-		this.costumeData = costumeData;
+		this.costume = costumeData;
 	}
 
 	@Override
 	public void execute() {
-		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
+		if (costume != null && sprite != null && sprite.getCostumeDataList().contains(costume)) {
 			if (!NativeAppActivity.isRunning()) {
-				sprite.costume.setCostumeData(costumeData);
+				sprite.costume.setCostumeData(costume);
 			} else {
-				sprite.costume.setCostumeDataInternal(costumeData);
+				sprite.costume.setCostumeDataInternal(costume);
 			}
 		}
 	}
@@ -71,7 +75,7 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public String getImagePath() {
-		return costumeData.getAbsolutePath();
+		return costume.getAbsolutePath();
 	}
 
 	@Override
@@ -88,9 +92,9 @@ public class SetCostumeBrick implements Brick {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0) {
-					costumeData = null;
+					costume = null;
 				} else {
-					costumeData = (CostumeData) parent.getItemAtPosition(position);
+					costume = (CostumeData) parent.getItemAtPosition(position);
 				}
 			}
 
@@ -99,8 +103,8 @@ public class SetCostumeBrick implements Brick {
 			}
 		});
 
-		if (sprite.getCostumeDataList().contains(costumeData)) {
-			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costumeData) + 1, true);
+		if (sprite.getCostumeDataList().contains(costume)) {
+			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costume) + 1, true);
 		} else {
 			costumebrickSpinner.setSelection(0);
 		}

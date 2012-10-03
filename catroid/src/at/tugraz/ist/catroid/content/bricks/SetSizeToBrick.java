@@ -47,18 +47,26 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		this.size = size;
 	}
 
+	public SetSizeToBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		sprite.costume.setSize((float) size / 100);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
@@ -74,6 +82,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_set_size_to, null);
 	}
@@ -83,9 +92,10 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 		return new SetSizeToBrick(getSprite(), size);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -93,7 +103,7 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -101,11 +111,11 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_size_to_brick");
 	}
 }

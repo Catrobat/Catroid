@@ -43,6 +43,10 @@ public class WhenBrick extends ScriptBrick {
 		this.sprite = sprite;
 	}
 
+	public WhenBrick() {
+
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

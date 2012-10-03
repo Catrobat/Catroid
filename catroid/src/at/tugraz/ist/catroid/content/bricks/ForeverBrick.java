@@ -28,18 +28,19 @@ import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
-	@XStreamOmitField
 	private transient View view;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
+	public ForeverBrick() {
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
@@ -55,6 +56,7 @@ public class ForeverBrick extends LoopBeginBrick {
 		return new ForeverBrick(getSprite());
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_forever, null);
@@ -63,6 +65,7 @@ public class ForeverBrick extends LoopBeginBrick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_forever, null);
 	}
