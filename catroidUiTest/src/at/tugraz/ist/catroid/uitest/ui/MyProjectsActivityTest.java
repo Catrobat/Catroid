@@ -1015,6 +1015,16 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 
+		/*
+		 * //TODO: waitForAsyncTaskFinished()
+		 * while (true) {
+		 * if (solo.searchButton(solo.getString(R.string.ok))) {
+		 * solo.clickOnButton(solo.getString(R.string.ok));
+		 * break;
+		 * }
+		 * }
+		 */
+
 		Project oldProject = ProjectManager.getInstance().getCurrentProject();
 		ArrayList<CostumeData> costumeDataListOldProject = oldProject.getSpriteList().get(1).getCostumeDataList();
 		CostumeData costumeDataOldProject = costumeDataListOldProject.get(0);

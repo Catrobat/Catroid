@@ -123,7 +123,7 @@
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
     <string name="myprojectlist_footer_image_description">Hier drücken, um neues Projekt hinzuzufügen</string>
-    <string name="copy_project">Projekt kopieren</string>
+    <string name="copy_project_finished">Projekt kopiert</string>
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
     <!-- Brick context dialog -->
@@ -277,7 +277,7 @@
     <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
     <string name="size_of_project">Größe des Projekts:</string>
-    <string name="copy_process_canceled">Kopiervorgang abgebrochen.</string>
+    <string name="copy_process_error">Kopieren fehlgeschlagen </string>
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
