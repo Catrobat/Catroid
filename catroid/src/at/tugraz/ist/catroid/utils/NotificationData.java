@@ -22,25 +22,25 @@
  */
 package at.tugraz.ist.catroid.utils;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 
 public class NotificationData {
 
 	private Notification notification;
 	private PendingIntent pendingIntent;
-	private Activity activity;
+	private Context context;
 	private String name;
 	private String notificationTitle;
 
-	public NotificationData(Notification notification, PendingIntent pendingIntent, Activity activity, String name,
+	public NotificationData(Notification notification, PendingIntent pendingIntent, Context context, String name,
 			String notificationTitle) {
-		this.setNotification(notification);
-		this.setPendingIntent(pendingIntent);
-		this.setActivity(activity);
-		this.setName(name);
-		this.setNotificationTitle(notificationTitle);
+		this.notification = notification;
+		this.pendingIntent = pendingIntent;
+		this.context = context;
+		this.name = name;
+		this.notificationTitle = notificationTitle;
 	}
 
 	public Notification getNotification() {
@@ -59,12 +59,12 @@ public class NotificationData {
 		this.pendingIntent = pendingIntent;
 	}
 
-	public Activity getActivity() {
-		return activity;
+	public Context getContext() {
+		return context;
 	}
 
-	public void setActivity(Activity activity) {
-		this.activity = activity;
+	public void setContext(Context context) {
+		this.context = context;
 	}
 
 	public String getName() {

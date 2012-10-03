@@ -47,10 +47,16 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		this.volume = volume;
 	}
 
+	public SetVolumeToBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		if (volume < 0.0f) {
 			volume = 0.0f;
@@ -60,10 +66,12 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		SoundManager.getInstance().setVolume(volume);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		View view = View.inflate(context, R.layout.brick_set_volume_to, null);
 
@@ -79,6 +87,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_set_volume_to, null);
 	}
@@ -88,9 +97,10 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		return new SetVolumeToBrick(getSprite(), volume);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -98,7 +108,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -106,11 +116,11 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_volume_to_brick");
 	}
 }

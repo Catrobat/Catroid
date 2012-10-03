@@ -69,6 +69,7 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testComplex() {

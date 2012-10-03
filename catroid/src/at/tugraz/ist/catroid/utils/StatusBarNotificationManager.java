@@ -28,10 +28,11 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
-import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadService;
+import at.tugraz.ist.catroid.transfers.ProjectUploadService;
 
 public class StatusBarNotificationManager {
 
@@ -48,46 +49,46 @@ public class StatusBarNotificationManager {
 		return INSTANCE;
 	}
 
-	public Integer createNotification(String name, Activity activity, Class<?> notificationClass) {
-		NotificationManager notificationManager = (NotificationManager) activity
+	public Integer createNotification(String name, Context context, Class<?> notificationClass) {
+		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = "";
-		if (notificationClass == ProjectUploadTask.class) {
+		if (notificationClass == ProjectUploadService.class) {
 			notificationTitle = "Uploading project";
-		} else if (notificationClass == ProjectDownloadTask.class) {
+		} else if (notificationClass == ProjectDownloadService.class) {
 			notificationTitle = "Downloading project";
 		}
 		Notification notification = new Notification(R.drawable.ic_upload, notificationTitle,
 				System.currentTimeMillis());
 		notification.flags = Notification.FLAG_AUTO_CANCEL;
 
-		Intent intent = new Intent(activity, notificationClass);
+		Intent intent = new Intent(context, notificationClass);
 		intent.putExtra("projectName", name);
 
 		intent.setAction(Intent.ACTION_MAIN);
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
-		PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-		notification.setLatestEventInfo(activity, notificationTitle, name, pendingIntent);
+		notification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
 		notification.number += 1;
 		notificationManager.notify(id, notification);
 
-		NotificationData data = new NotificationData(notification, pendingIntent, activity, name, notificationTitle);
+		NotificationData data = new NotificationData(notification, pendingIntent, context, name, notificationTitle);
 		notificationDataMap.put(id, data);
 		return id++;
 	}
 
 	public void updateNotification(Integer id, String message) {
 		Notification notification = notificationDataMap.get(id).getNotification();
-		Activity activity = notificationDataMap.get(id).getActivity();
+		Context context = notificationDataMap.get(id).getContext();
 		String notificationTitle = notificationDataMap.get(id).getNotificationTitle();
 		PendingIntent pendingIntent = notificationDataMap.get(id).getPendingIntent();
 
-		notification.setLatestEventInfo(activity, notificationTitle, message, pendingIntent);
+		notification.setLatestEventInfo(context, notificationTitle, message, pendingIntent);
 		notification.number += 1; // just 4 testing
 
-		NotificationManager uploadNotificationManager = (NotificationManager) activity
+		NotificationManager uploadNotificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		uploadNotificationManager.notify(id, notification);
 	}

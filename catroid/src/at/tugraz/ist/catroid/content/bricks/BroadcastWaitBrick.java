@@ -40,8 +40,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class BroadcastWaitBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
@@ -49,18 +47,23 @@ public class BroadcastWaitBrick implements Brick {
 	private Sprite sprite;
 	private String broadcastMessage = "";
 
-	@XStreamOmitField
 	private transient View view;
+
+	public BroadcastWaitBrick() {
+
+	}
 
 	public BroadcastWaitBrick(Sprite sprite) {
 		this.sprite = sprite;
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		Vector<BroadcastScript> receiver = projectManager.getMessageContainer().getReceiverOfMessage(broadcastMessage);
 		if (receiver == null) {
@@ -83,6 +86,7 @@ public class BroadcastWaitBrick implements Brick {
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -100,6 +104,7 @@ public class BroadcastWaitBrick implements Brick {
 		return this;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
@@ -112,6 +117,7 @@ public class BroadcastWaitBrick implements Brick {
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
 
+			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				if (start) {
 					start = false;
@@ -123,6 +129,7 @@ public class BroadcastWaitBrick implements Brick {
 				}
 			}
 
+			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
@@ -137,14 +144,15 @@ public class BroadcastWaitBrick implements Brick {
 		newBroadcastMessage.setFocusable(true);
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
+			@Override
 			public void onClick(View v) {
 				ScriptTabActivity activity = (ScriptTabActivity) context;
-				
+
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override
 					protected void initialize() {
 					}
-					
+
 					@Override
 					protected boolean handleOkButton() {
 						String newMessage = (input.getText().toString()).trim();
@@ -159,17 +167,18 @@ public class BroadcastWaitBrick implements Brick {
 								broadcastMessage);
 
 						broadcastSpinner.setSelection(position);
-						
+
 						return true;
 					}
 				};
-				
+
 				editDialog.show(activity.getSupportFragmentManager(), "dialog_broadcast_wait_brick");
 			}
 		});
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_broadcast_wait, null);
 	}

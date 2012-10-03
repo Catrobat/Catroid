@@ -64,6 +64,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

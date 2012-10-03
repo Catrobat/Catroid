@@ -71,6 +71,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,

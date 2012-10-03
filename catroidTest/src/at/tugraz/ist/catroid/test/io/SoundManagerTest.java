@@ -56,6 +56,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 			longSoundFile.delete();
 		}
 		SoundManager.getInstance().clear();
+		super.tearDown();
 	}
 
 	public void testGetInstance() {

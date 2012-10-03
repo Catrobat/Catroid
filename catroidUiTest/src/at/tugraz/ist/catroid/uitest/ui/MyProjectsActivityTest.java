@@ -108,6 +108,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			unzipProjects();
 		}
 		super.tearDown();
+		solo = null;
 	}
 
 	public void saveProjectsToZip() {

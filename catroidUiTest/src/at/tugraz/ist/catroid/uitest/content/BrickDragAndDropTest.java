@@ -62,6 +62,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testClickOnEmptySpace() {

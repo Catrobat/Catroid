@@ -35,14 +35,11 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.dialogs.BrickTextDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class SetYBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int yPosition;
 	private Sprite sprite;
 
-	@XStreamOmitField
 	private transient View view;
 
 	public SetYBrick(Sprite sprite, int yPosition) {
@@ -50,20 +47,28 @@ public class SetYBrick implements Brick, OnClickListener {
 		this.yPosition = yPosition;
 	}
 
+	public SetYBrick() {
+
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setYPosition(yPosition);
 		sprite.costume.releaseXYWidthHeightLock();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_set_y, null);
@@ -79,6 +84,7 @@ public class SetYBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_set_y, null);
 	}
@@ -88,9 +94,10 @@ public class SetYBrick implements Brick, OnClickListener {
 		return new SetYBrick(getSprite(), yPosition);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -99,7 +106,7 @@ public class SetYBrick implements Brick, OnClickListener {
 						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -107,11 +114,11 @@ public class SetYBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_set_y_brick");
 	}
 }

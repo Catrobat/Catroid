@@ -78,6 +78,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testBackButtonPressedTwice() throws NameNotFoundException, IOException {

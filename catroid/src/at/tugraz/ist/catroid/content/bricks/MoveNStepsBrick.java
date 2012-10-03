@@ -44,15 +44,21 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
+	public MoveNStepsBrick() {
+
+	}
+
 	public MoveNStepsBrick(Sprite sprite, double steps) {
 		this.sprite = sprite;
 		this.steps = steps;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		sprite.costume.aquireXYWidthHeightLock();
 
@@ -66,10 +72,12 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
@@ -85,6 +93,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_move_n_steps, null);
@@ -96,9 +105,10 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		return new MoveNStepsBrick(getSprite(), steps);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -107,7 +117,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -115,11 +125,11 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_move_n_steps_brick");
 	}
 }
