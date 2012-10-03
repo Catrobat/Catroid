@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.utils;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
 public class NotificationData {
 
@@ -33,14 +34,16 @@ public class NotificationData {
 	private Context context;
 	private String name;
 	private String notificationTitle;
+	private MainMenuActivity activity;
 
 	public NotificationData(Notification notification, PendingIntent pendingIntent, Context context, String name,
-			String notificationTitle) {
+			String notificationTitle, MainMenuActivity activity) {
 		this.notification = notification;
 		this.pendingIntent = pendingIntent;
 		this.context = context;
 		this.name = name;
 		this.notificationTitle = notificationTitle;
+		this.activity = activity;
 	}
 
 	public Notification getNotification() {
@@ -81,6 +84,14 @@ public class NotificationData {
 
 	public void setNotificationTitle(String notificationTitle) {
 		this.notificationTitle = notificationTitle;
+	}
+
+	public MainMenuActivity getActivity() {
+		return activity;
+	}
+
+	public void setActivity(MainMenuActivity activity) {
+		this.activity = activity;
 	}
 
 }

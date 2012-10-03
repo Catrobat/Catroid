@@ -33,6 +33,7 @@ import android.content.Intent;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadService;
 import at.tugraz.ist.catroid.transfers.ProjectUploadService;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
 public class StatusBarNotificationManager {
 
@@ -42,11 +43,16 @@ public class StatusBarNotificationManager {
 
 	private StatusBarNotificationManager() {
 		this.id = 0;
-		notificationDataMap = new HashMap<Integer, NotificationData>();
+		this.notificationDataMap = new HashMap<Integer, NotificationData>();
 	}
 
 	public static StatusBarNotificationManager getInstance() {
 		return INSTANCE;
+	}
+
+	public MainMenuActivity getActivity(int notificationId) {
+		MainMenuActivity activity = notificationDataMap.get(notificationId).getActivity();
+		return activity;
 	}
 
 	public Integer createNotification(String name, Context context, Class<?> notificationClass) {
@@ -74,7 +80,8 @@ public class StatusBarNotificationManager {
 		notification.number += 1;
 		notificationManager.notify(id, notification);
 
-		NotificationData data = new NotificationData(notification, pendingIntent, context, name, notificationTitle);
+		NotificationData data = new NotificationData(notification, pendingIntent, context, name, notificationTitle,
+				(MainMenuActivity) context);
 		notificationDataMap.put(id, data);
 		return id++;
 	}

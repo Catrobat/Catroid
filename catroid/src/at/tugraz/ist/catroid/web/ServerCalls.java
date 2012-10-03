@@ -30,7 +30,6 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
@@ -120,8 +119,8 @@ public class ServerCalls {
 			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
 
 			//just 4 testing:
-			//serverUrl = TEST_FILE_UPLOAD_URL;
-			//httpPostUrl = TEST_FILE_UPLOAD_URL_HTTP;
+			serverUrl = TEST_FILE_UPLOAD_URL;
+			httpPostUrl = TEST_FILE_UPLOAD_URL_HTTP;
 			//
 
 			Log.v(TAG, "url to upload: " + serverUrl);
@@ -155,8 +154,8 @@ public class ServerCalls {
 		}
 	}
 
-	public void downloadProject(String downloadUrl, String zipFileString, Handler progressHandler)
-			throws WebconnectionException {
+	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
+			Integer notificationId, String projectName) throws WebconnectionException {
 
 		/*
 		 * String serverUrl = useTestUrl ? BASE_URL_TEST_FTP : BASE_URL_FTP;
@@ -171,7 +170,7 @@ public class ServerCalls {
 		 */
 
 		try {
-			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, progressHandler);
+			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(0);

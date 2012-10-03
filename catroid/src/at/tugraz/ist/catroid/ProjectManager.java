@@ -347,6 +347,9 @@ public class ProjectManager {
 
 	public Long getProgressFromBytes(String projectName, Long progress) {
 		Long fileByteSize = UtilFile.getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
+		if(fileByteSize == 0){
+			return (long) 0;
+		}
 		Long progressValue = progress * 100 / fileByteSize;
 		return progressValue;
 	}
