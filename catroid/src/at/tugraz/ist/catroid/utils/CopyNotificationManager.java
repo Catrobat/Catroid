@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import at.tugraz.ist.catroid.R;
 
@@ -76,14 +77,14 @@ public class CopyNotificationManager {
 
 	public void updateNotification(Integer id, String message) {
 		Notification notification = notificationDataMap.get(id).getNotification();
-		Activity activity = notificationDataMap.get(id).getActivity();
+		Context context = notificationDataMap.get(id).getContext();
 		String notificationTitle = notificationDataMap.get(id).getNotificationTitle();
 		PendingIntent pendingIntent = notificationDataMap.get(id).getPendingIntent();
 
-		notification.setLatestEventInfo(activity, notificationTitle, message, pendingIntent);
+		notification.setLatestEventInfo(context, notificationTitle, message, pendingIntent);
 		notification.number += 1; // just 4 testing
 
-		NotificationManager uploadNotificationManager = (NotificationManager) activity
+		NotificationManager uploadNotificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		uploadNotificationManager.notify(id, notification);
 	}
