@@ -50,4 +50,8 @@ public final class Constants {
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PAINTROID_DOWNLOAD_LINK = "https://github.com/Catrobat/Paintroid/downloads";
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
+
+	//Services
+	public static final int UPDATE_UPLOAD_PROGRESS = 100;
+	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
 }

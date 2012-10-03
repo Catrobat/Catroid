@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
-import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadService;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialogFragment;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
@@ -100,7 +100,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				Log.e(TAG, "Could not decode project name: " + projectName, e);
 			}
 
-			new ProjectDownloadTask(this, url, projectName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			new ProjectDownloadService(this, url, projectName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		} else if (loadExternalProjectUri.getScheme().equals("file")) {
 
 			String path = loadExternalProjectUri.getPath();
