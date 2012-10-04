@@ -119,8 +119,8 @@ public class ServerCalls {
 			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
 
 			//just 4 testing:
-			serverUrl = TEST_FILE_UPLOAD_URL;
-			httpPostUrl = TEST_FILE_UPLOAD_URL_HTTP;
+			//serverUrl = TEST_FILE_UPLOAD_URL;
+			//httpPostUrl = TEST_FILE_UPLOAD_URL_HTTP;
 			//
 
 			Log.v(TAG, "url to upload: " + serverUrl);
