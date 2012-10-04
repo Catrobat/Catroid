@@ -34,7 +34,6 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.fragment.ProjectsListFragment;
 
-//TODO: USE SUPPORT LIBRARY: android.support.v4.app.NotificationCompat
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
 	private Integer notificationId;
@@ -79,7 +78,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 			Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);
 			return false;
 		}
-
 		return true;
 	}
 
@@ -88,31 +86,18 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 		super.onPostExecute(result);
 
 		if (!result) {
-			//Utils.displayToast(parentActivity.getActivity(), parentActivity.getString(R.string.copy_process_error));
 			Utils.displayErrorMessageFragment(parentActivity.getFragmentManager(),
 					parentActivity.getString(R.string.error_copy_project));
 			return;
 		}
 
-		//Utils.displayToast(parentActivity.getActivity(), parentActivity.getString(R.string.copy_project_finished));
-		Toast.makeText(parentActivity.getActivity(), "Project " + newName + " copied", Toast.LENGTH_SHORT).show();
+		Toast.makeText(
+				parentActivity.getActivity(),
+				parentActivity.getString(R.string.project_name) + " " + newName + " "
+						+ parentActivity.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
 		parentActivity.onCopyProject(false);
 	}
 
-	/*
-	 * @Override
-	 * protected void onProgressUpdate(Long... progress) {
-	 * super.onProgressUpdate(progress);
-	 * long progressPercent = 0;
-	 * if (copyProjectFinished) {
-	 * progressPercent = 100;
-	 * } else {
-	 * progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(notificationString, progress[0]);
-	 * }
-	 * String notificationMessage = "copy " + progressPercent + "% completed:" + notificationString;
-	 * StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
-	 * }
-	 */
 	private void copyDirectory(File destinationFile, File sourceFile) throws IOException {
 		if (isCancelled()) {
 			throw new IOException();
@@ -133,5 +118,4 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 		notificationId = copyManager.createNotification(projectName, parentActivity.getActivity(),
 				CopyProjectTask.class, Constants.COPY_NOTIFICATION);
 	}
-
 }

@@ -123,7 +123,8 @@
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
     <string name="myprojectlist_footer_image_description">Hier drücken, um neues Projekt hinzuzufügen</string>
-    <string name="copy_project_finished">Projekt kopiert</string>
+    <string name="copy_project_finished"> kopiert</string>
+    <string name="notification_title_copy_project">Kopiere Projekt</string>
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
     <!-- Brick context dialog -->

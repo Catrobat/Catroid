@@ -148,7 +148,7 @@ public class StatusBarNotificationManager {
 			int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
-		String notificationTitle = "Copying project";
+		String notificationTitle = context.getString(R.string.notification_title_copy_project);
 		boolean newCopyNotification = copyNotificationDataMap.isEmpty();
 
 		Intent intent = new Intent(context, MyProjectsActivity.class);
