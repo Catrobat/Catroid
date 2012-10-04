@@ -28,8 +28,9 @@ import java.net.URLDecoder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,7 @@ import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
+import at.tugraz.ist.catroid.utils.StatusBarNotificationManager;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -58,6 +60,30 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class MainMenuActivity extends SherlockFragmentActivity implements OnCheckTokenCompleteListener,
 		ErrorListenerInterface {
+
+	private class DownloadReceiver extends ResultReceiver {
+
+		public DownloadReceiver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		protected void onReceiveResult(int resultCode, Bundle resultData) {
+			super.onReceiveResult(resultCode, resultData);
+			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
+				long progress = resultData.getLong("currentDownloadProgress");
+				boolean endOfFileReached = resultData.getBoolean("endOfFileReached");
+				Integer notificationId = resultData.getInt("notificationId");
+				String projectName = resultData.getString("projectName");
+				if (endOfFileReached) {
+					progress = 100;
+				}
+				String notificationMessage = "download " + progress + "% completed:" + projectName;
+				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
+						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
+			}
+		}
+	}
 
 	private static final String TAG = "MainMenuActivity";
 	private static final String PROJECTNAME_TAG = "fname=";
@@ -102,7 +128,14 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				Log.e(TAG, "Could not decode project name: " + projectName, e);
 			}
 
-			new ProjectDownloadService(this, url, projectName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
+			downloadIntent.putExtra("receiver", new DownloadReceiver(new Handler()));
+			downloadIntent.putExtra("downloadName", projectName);
+			downloadIntent.putExtra("url", url);
+			int notificationId = createNotification(projectName);
+			downloadIntent.putExtra("notificationId", notificationId);
+			startService(downloadIntent);
+
 		} else if (loadExternalProjectUri.getScheme().equals("file")) {
 
 			String path = loadExternalProjectUri.getPath();
@@ -118,6 +151,13 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				}
 			}
 		}
+	}
+
+	public int createNotification(String downloadName) {
+		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
+		int notificationId = manager.createNotification(downloadName, this, ProjectDownloadService.class,
+				Constants.DOWNLOAD_NOTIFICATION);
+		return notificationId;
 	}
 
 	@Override
@@ -257,7 +297,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
-			checkTokenTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			checkTokenTask.execute();
 		}
 	}
 

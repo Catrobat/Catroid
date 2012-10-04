@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.web;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,8 +42,6 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.ResultReceiver;
 import android.util.Log;
 import at.tugraz.ist.catroid.common.Constants;
@@ -139,28 +138,36 @@ public class ConnectionWrapper {
 		return resultString;
 	}
 
-	void updateProgress(Handler progressHandler, long progress, boolean endOfFileReached, boolean unknown) {
+	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
+			Integer notificationId, String projectName) {
 		//send for every 20 kilobytes read a message to update the progress
-		sendUpdateIntent(progressHandler, progress, false, unknown); //just 4 testing
+		sendUpdateIntent(receiver, progress, false, unknown, notificationId, projectName); //just 4 testing
 		if ((!endOfFileReached) && ((progress % DATA_STREAM_UPDATE_SIZE) == 0)) {
-			sendUpdateIntent(progressHandler, progress, false, unknown);
+			sendUpdateIntent(receiver, progress, false, unknown, notificationId, projectName);
 		} else if (endOfFileReached) {
-			sendUpdateIntent(progressHandler, progress, true, unknown);
+			sendUpdateIntent(receiver, progress, true, unknown, notificationId, projectName);
 		}
 	}
 
-	private void sendUpdateIntent(Handler progressHandler, long progress, boolean endOfFileReached, boolean unknown) {
+	private void sendUpdateIntent(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
+			Integer notificationId, String projectName) {
 		Bundle progressBundle = new Bundle();
 		progressBundle.putLong("currentDownloadProgress", progress);
 		progressBundle.putBoolean("endOfFileReached", endOfFileReached);
 		progressBundle.putBoolean("unknown", unknown);
-		Message progressMessage = Message.obtain();
-		progressMessage.setData(progressBundle);
-		progressHandler.sendMessage(progressMessage);
+		progressBundle.putInt("notificationId", notificationId);
+		progressBundle.putString("projectName", projectName);
+		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
+
+		/*
+		 * Message progressMessage = Message.obtain();
+		 * progressMessage.setData(progressBundle);
+		 * progressHandler.sendMessage(progressMessage);
+		 */
 	}
 
 	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
-			Handler progressHandler) throws IOException {
+			ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
 		MultiPartFormOutputStream out = buildPost(urlString, postValues);
 		out.close();
 
@@ -174,10 +181,9 @@ public class ConnectionWrapper {
 		//InputStream i = urlConnection.getInputStream(); 4debug
 		InputStream input = new BufferedInputStream(urlConnection.getInputStream());
 		//InputStream input = new BufferedInputStream(downloadUrl.openStream());
-		//File file = new File(filePath);
-		//file.getParentFile().mkdirs();
-		//FileOutputStream fos = new FileOutputStream(file);
-		OutputStream fos = new FileOutputStream(filePath);
+		File file = new File(filePath);
+		file.getParentFile().mkdirs();
+		OutputStream fos = new FileOutputStream(file);
 
 		byte[] buffer = new byte[Constants.BUFFER_8K];
 		int count = 0;
@@ -186,15 +192,15 @@ public class ConnectionWrapper {
 			bytesWritten += count;
 			if (fileLength != -1) {
 				long progress = bytesWritten * 100 / fileLength;
-				updateProgress(progressHandler, progress, false, false);
+				updateProgress(receiver, progress, false, false, notificationId, projectName);
 			} else {
 				//progress unknown
-				updateProgress(progressHandler, 0, false, true);
+				updateProgress(receiver, 0, false, true, notificationId, projectName);
 			}
 			fos.write(buffer, 0, count);
 		}
 		//publish last progress (100% at EOF):
-		updateProgress(progressHandler, 100, true, false);
+		updateProgress(receiver, 100, true, false, notificationId, projectName);
 
 		input.close();
 		fos.flush();
