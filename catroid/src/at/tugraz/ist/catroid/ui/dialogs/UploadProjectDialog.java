@@ -253,8 +253,7 @@ public class UploadProjectDialog extends DialogFragment {
 
 	public int createNotification(String uploadName) {
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(uploadName, getActivity(), ProjectUploadService.class,
-				Constants.UPLOAD_NOTIFICATION);
+		int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
 		return notificationId;
 	}
 

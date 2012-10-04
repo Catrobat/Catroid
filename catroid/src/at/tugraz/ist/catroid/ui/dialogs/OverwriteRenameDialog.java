@@ -37,6 +37,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
+import at.tugraz.ist.catroid.utils.StatusBarNotificationManager;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -58,6 +59,12 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 		this.context = context;
 		this.errorListenerInterface = errorListenerInterface;
 		this.activity = activity;
+	}
+
+	public void setActivity(MainMenuActivity activity) {
+		this.context = activity;
+		this.activity = activity;
+		this.errorListenerInterface = activity;
 	}
 
 	@Override
@@ -127,5 +134,7 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 			default:
 				break;
 		}
+		StatusBarNotificationManager.INSTANCE.downloadProjectName.remove(projectName);
+		StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.remove(zipFileString);
 	}
 }
