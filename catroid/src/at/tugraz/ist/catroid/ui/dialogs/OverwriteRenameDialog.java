@@ -50,7 +50,6 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 	protected ErrorListenerInterface errorListenerInterface;
 	protected MainMenuActivity activity;
 
-	//public OverwriteRenameDialog(MainMenuActivity activity, String projectName, String zipFileString) {
 	public OverwriteRenameDialog(Context context, String projectName, String zipFileString,
 			ErrorListenerInterface errorListenerInterface, MainMenuActivity activity) {
 		super(context);
