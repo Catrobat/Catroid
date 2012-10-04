@@ -160,17 +160,18 @@ public class StatusBarNotificationManager {
 		copyNotificationDataMap.put(copyId, data);
 
 		if (newCopyNotification) {
-			uploadNotification = new Notification(R.drawable.ic_upload, notificationTitle, System.currentTimeMillis());
-			uploadNotification.flags = Notification.FLAG_AUTO_CANCEL;
-			uploadNotification.number += 1;
-			uploadNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
-			notificationManager.notify(notificationCode, uploadNotification);
+			copyNotification = new Notification(R.drawable.ic_upload, notificationTitle, System.currentTimeMillis());
+			copyNotification.flags = Notification.FLAG_AUTO_CANCEL;
+			copyNotification.number += 1;
+			copyNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
+			notificationManager.notify(notificationCode, copyNotification);
 		} else {
-			uploadNotification.number += 1;
-			notificationManager.notify(notificationCode, uploadNotification);
+			copyNotification.number += 1;
+			copyNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
+			notificationManager.notify(notificationCode, copyNotification);
 		}
 
-		return uploadId;
+		return copyId;
 	}
 
 	public void updateNotification(Integer id, String message, int notificationCode, boolean finished) {

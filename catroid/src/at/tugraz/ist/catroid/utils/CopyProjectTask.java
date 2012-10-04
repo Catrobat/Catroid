@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
@@ -38,6 +39,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
 	private Integer notificationId;
 	private ProjectsListFragment parentActivity;
+	private String newName;
 
 	public CopyProjectTask(ProjectsListFragment parentActivity) {
 		this.parentActivity = parentActivity;
@@ -52,6 +54,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	@Override
 	protected Boolean doInBackground(String... projectNameArray) {
 		String newProjectName = projectNameArray[0];
+		newName = newProjectName;
 		createNotification(newProjectName);
 		String oldProjectName = projectNameArray[1];
 		if (isCancelled()) {
@@ -91,7 +94,8 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 			return;
 		}
 
-		Utils.displayToast(parentActivity.getActivity(), parentActivity.getString(R.string.copy_project_finished));
+		//Utils.displayToast(parentActivity.getActivity(), parentActivity.getString(R.string.copy_project_finished));
+		Toast.makeText(parentActivity.getActivity(), "Project " + newName + " copied", Toast.LENGTH_SHORT).show();
 		parentActivity.onCopyProject(false);
 	}
 
