@@ -155,8 +155,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	public int createNotification(String downloadName) {
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(downloadName, this, ProjectDownloadService.class,
-				Constants.DOWNLOAD_NOTIFICATION);
+		int notificationId = manager.createNotification(downloadName, this, Constants.DOWNLOAD_NOTIFICATION);
 		return notificationId;
 	}
 
@@ -218,6 +217,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, this, false);
 		writeProjectTitleInTextfield();
+
+		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
 	}
 
 	public void writeProjectTitleInTextfield() {

@@ -22,6 +22,7 @@
  */
 package at.tugraz.ist.catroid.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -33,6 +34,7 @@ import android.content.Intent;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.dialogs.OverwriteRenameDialog;
 
 public class StatusBarNotificationManager {
 
@@ -42,6 +44,10 @@ public class StatusBarNotificationManager {
 	private HashMap<Integer, NotificationData> downloadNotificationDataMap;
 	private Notification uploadNotification;
 	private Notification downloadNotification;
+	//needed when download service is running in background
+	//public ArrayList<OverwriteRenameDialog> dialogsToDisplay;
+	public ArrayList<String> downloadProjectName;
+	public ArrayList<String> downloadProjectZipFileString;
 	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
 	private StatusBarNotificationManager() {
@@ -51,6 +57,8 @@ public class StatusBarNotificationManager {
 		this.downloadNotification = null;
 		this.uploadNotificationDataMap = new HashMap<Integer, NotificationData>();
 		this.downloadNotificationDataMap = new HashMap<Integer, NotificationData>();
+		this.downloadProjectName = new ArrayList<String>();
+		this.downloadProjectZipFileString = new ArrayList<String>();
 	}
 
 	public static StatusBarNotificationManager getInstance() {
@@ -62,27 +70,25 @@ public class StatusBarNotificationManager {
 		return activity;
 	}
 
-	public Integer createNotification(String name, Context context, Class<?> notificationClass, int notificationCode) {
+	public Integer createNotification(String name, Context context, int notificationCode) {
 		int id = 0;
 		if (notificationCode == Constants.UPLOAD_NOTIFICATION) {
-			id = createUploadNotification(name, context, notificationClass, notificationCode);
+			id = createUploadNotification(name, context, notificationCode);
 			uploadId++;
 		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
-			id = createDownloadNotification(name, context, notificationClass, notificationCode);
+			id = createDownloadNotification(name, context, notificationCode);
 			downloadId++;
 		}
 		return id;
 	}
 
-	private Integer createUploadNotification(String name, Context context, Class<?> notificationClass,
-			int notificationCode) {
+	private Integer createUploadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = "Uploading project";
 		boolean newUploadNotification = uploadNotificationDataMap.isEmpty();
 
-		Intent intent = new Intent(context, notificationClass);
-		intent.putExtra("projectName", name);
+		Intent intent = new Intent(context, MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_MAIN);
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -104,15 +110,13 @@ public class StatusBarNotificationManager {
 		return uploadId;
 	}
 
-	private Integer createDownloadNotification(String name, Context context, Class<?> notificationClass,
-			int notificationCode) {
+	private Integer createDownloadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		String notificationTitle = "Downloading project";
 		boolean newDownloadNotification = downloadNotificationDataMap.isEmpty();
 
-		Intent intent = new Intent(context, notificationClass);
-		intent.putExtra("projectName", name);
+		Intent intent = new Intent(context, MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_MAIN);
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -170,6 +174,16 @@ public class StatusBarNotificationManager {
 		NotificationManager downloadNotificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
 		downloadNotificationManager.notify(notificationCode, downloadNotification);
+	}
+
+	public void displayDialogs(MainMenuActivity activity) {
+		for (int i = 0; i < downloadProjectName.size() && i < downloadProjectZipFileString.size(); i++) {
+			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, downloadProjectName.get(i),
+					downloadProjectZipFileString.get(i), activity, activity);
+			renameDialog.show();
+		}
+		downloadProjectName.clear();
+		downloadProjectZipFileString.clear();
 	}
 
 }

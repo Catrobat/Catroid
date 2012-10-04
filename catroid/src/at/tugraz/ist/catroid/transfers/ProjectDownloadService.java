@@ -121,11 +121,20 @@ public class ProjectDownloadService extends IntentService implements OnClickList
 		super.onDestroy();
 
 		if (result && showOverwriteDialog) {
+
 			//The context of the calling activity is needed, otherwise an exception occurs
-			MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
-			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString,
-					activity, activity);
-			renameDialog.show();
+			StatusBarNotificationManager.INSTANCE.downloadProjectName.add(projectName);
+			StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.add(zipFileString);
+
+			try {
+				MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
+				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString,
+						activity, activity);
+				renameDialog.show();
+			} catch (RuntimeException e) {
+				e.printStackTrace();
+			}
+
 			return;
 		}
 
