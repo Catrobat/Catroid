@@ -42,8 +42,6 @@ public class StatusBarNotificationManager {
 	private HashMap<Integer, NotificationData> downloadNotificationDataMap;
 	private Notification uploadNotification;
 	private Notification downloadNotification;
-	private Integer currentUpload;
-	private Integer currentDownload;
 	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
 	private StatusBarNotificationManager() {
@@ -53,8 +51,6 @@ public class StatusBarNotificationManager {
 		this.downloadNotification = null;
 		this.uploadNotificationDataMap = new HashMap<Integer, NotificationData>();
 		this.downloadNotificationDataMap = new HashMap<Integer, NotificationData>();
-		this.currentUpload = 0;
-		this.currentDownload = 0;
 	}
 
 	public static StatusBarNotificationManager getInstance() {
