@@ -41,7 +41,6 @@
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
     <string name="loading">Laden…</string>
-    <string name="copying">Kopiere…</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">Ok</string>
@@ -269,7 +268,6 @@
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
     <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
-    <string name="error_orientation_change_copy_project">Kopiervorgang abgebrochen.\nDas Gerät während des Kopiervorgangs nicht drehen!</string>
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>
@@ -278,7 +276,6 @@
     <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
     <string name="size_of_project">Größe des Projekts:</string>
-    <string name="copy_process_error">Kopieren fehlgeschlagen </string>
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
