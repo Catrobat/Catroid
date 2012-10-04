@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.io.File;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
@@ -79,8 +80,9 @@ public class UploadProjectDialog extends DialogFragment {
 				} else {
 					progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress);
 				}
+
 				String notificationMessage = "Upload " + progressPercent + "% "
-						+ getActivity().getString(R.string.completed) + ":" + projectName;
+						+ activity.getString(R.string.completed) + ":" + projectName;
 				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
 						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
 			}
@@ -99,6 +101,7 @@ public class UploadProjectDialog extends DialogFragment {
 	private String currentProjectName;
 	private String currentProjectDescription;
 	private String newProjectName;
+	private Activity activity;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -247,7 +250,8 @@ public class UploadProjectDialog extends DialogFragment {
 		uploadIntent.putExtra("token", token);
 		int notificationId = createNotification(uploadName);
 		uploadIntent.putExtra("notificationId", notificationId);
-		getActivity().startService(uploadIntent);
+		activity = getActivity();
+		activity.startService(uploadIntent);
 	}
 
 	public int createNotification(String uploadName) {
