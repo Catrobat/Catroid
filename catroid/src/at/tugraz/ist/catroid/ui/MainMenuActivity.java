@@ -79,7 +79,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 					progress = 100;
 				}
 				String notificationMessage = "download " + progress + "% completed:" + projectName;
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
+				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
+						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
 			}
 		}
 	}
@@ -127,7 +128,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				Log.e(TAG, "Could not decode project name: " + projectName, e);
 			}
 
-			//new ProjectDownloadService(this, url, projectName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			Intent downloadIntent = new Intent(this, ProjectDownloadService.class);
 			downloadIntent.putExtra("receiver", new DownloadReceiver(new Handler()));
 			downloadIntent.putExtra("downloadName", projectName);
@@ -155,7 +155,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	public int createNotification(String downloadName) {
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(downloadName, this, ProjectDownloadService.class);
+		int notificationId = manager.createNotification(downloadName, this, ProjectDownloadService.class,
+				Constants.DOWNLOAD_NOTIFICATION);
 		return notificationId;
 	}
 

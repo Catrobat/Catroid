@@ -80,7 +80,8 @@ public class UploadProjectDialog extends DialogFragment {
 					progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress);
 				}
 				String notificationMessage = "upload " + progressPercent + "% completed:" + projectName;
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage);
+				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
+						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
 			}
 		}
 	}
@@ -252,7 +253,8 @@ public class UploadProjectDialog extends DialogFragment {
 
 	public int createNotification(String uploadName) {
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(uploadName, getActivity(), ProjectUploadService.class);
+		int notificationId = manager.createNotification(uploadName, getActivity(), ProjectUploadService.class,
+				Constants.UPLOAD_NOTIFICATION);
 		return notificationId;
 	}
 
