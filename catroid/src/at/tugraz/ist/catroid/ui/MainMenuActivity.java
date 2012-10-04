@@ -78,7 +78,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				if (endOfFileReached) {
 					progress = 100;
 				}
-				String notificationMessage = "download " + progress + "% completed:" + projectName;
+				String notificationMessage = "Download " + progress + "% " + getString(R.string.completed) + ":"
+						+ projectName;
+
 				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
 						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
 			}

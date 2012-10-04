@@ -278,6 +278,9 @@
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
     <string name="size_of_project">Größe des Projekts:</string>
     <string name="copy_process_canceled">Kopiervorgang abgebrochen.</string>
+    <string name="completed">abgeschlossen</string>
+    <string name="notification_upload_title">Projekt raufladen</string>
+    <string name="notification_download_title">Projekt runterladen</string>
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
     <string name="title_paired_devices">Verbundene Geräte</string>

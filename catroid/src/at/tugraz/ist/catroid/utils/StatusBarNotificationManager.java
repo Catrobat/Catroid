@@ -44,10 +44,11 @@ public class StatusBarNotificationManager {
 	private HashMap<Integer, NotificationData> downloadNotificationDataMap;
 	private Notification uploadNotification;
 	private Notification downloadNotification;
+
 	//needed when download service is running in background
-	//public ArrayList<OverwriteRenameDialog> dialogsToDisplay;
 	public ArrayList<String> downloadProjectName;
 	public ArrayList<String> downloadProjectZipFileString;
+
 	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
 	private StatusBarNotificationManager() {
@@ -85,7 +86,7 @@ public class StatusBarNotificationManager {
 	private Integer createUploadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
-		String notificationTitle = "Uploading project";
+		String notificationTitle = context.getString(R.string.notification_upload_title);
 		boolean newUploadNotification = uploadNotificationDataMap.isEmpty();
 
 		Intent intent = new Intent(context, MainMenuActivity.class);
@@ -93,7 +94,7 @@ public class StatusBarNotificationManager {
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
-				(MainMenuActivity) context, uploadId);
+				(MainMenuActivity) context);
 		uploadNotificationDataMap.put(uploadId, data);
 
 		if (newUploadNotification) {
@@ -113,7 +114,7 @@ public class StatusBarNotificationManager {
 	private Integer createDownloadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
-		String notificationTitle = "Downloading project";
+		String notificationTitle = context.getString(R.string.notification_download_title);
 		boolean newDownloadNotification = downloadNotificationDataMap.isEmpty();
 
 		Intent intent = new Intent(context, MainMenuActivity.class);
@@ -121,7 +122,7 @@ public class StatusBarNotificationManager {
 		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle,
-				(MainMenuActivity) context, downloadId);
+				(MainMenuActivity) context);
 		downloadNotificationDataMap.put(downloadId, data);
 
 		if (newDownloadNotification) {

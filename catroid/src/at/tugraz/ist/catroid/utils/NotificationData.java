@@ -33,16 +33,14 @@ public class NotificationData {
 	private String name;
 	private String notificationTitle;
 	private MainMenuActivity activity;
-	private int id;
 
 	public NotificationData(PendingIntent pendingIntent, Context context, String name, String notificationTitle,
-			MainMenuActivity activity, int id) {
+			MainMenuActivity activity) {
 		this.pendingIntent = pendingIntent;
 		this.context = context;
 		this.name = name;
 		this.notificationTitle = notificationTitle;
 		this.activity = activity;
-		this.id = id;
 	}
 
 	public PendingIntent getPendingIntent() {

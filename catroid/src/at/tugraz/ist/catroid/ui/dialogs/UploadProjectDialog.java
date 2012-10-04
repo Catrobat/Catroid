@@ -79,7 +79,8 @@ public class UploadProjectDialog extends DialogFragment {
 				} else {
 					progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress);
 				}
-				String notificationMessage = "upload " + progressPercent + "% completed:" + projectName;
+				String notificationMessage = "Upload " + progressPercent + "% "
+						+ getActivity().getString(R.string.completed) + ":" + projectName;
 				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
 						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
 			}
@@ -238,10 +239,8 @@ public class UploadProjectDialog extends DialogFragment {
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = prefs.getString(Constants.TOKEN, "0");
-		//new ProjectUploadService(getActivity(), uploadName, projectDescription, projectPath, token).execute(); //getActivity() vs this.getActivity() --> the same??
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
-		//uploadIntent.putExtra("activity", (Parcelable) getActivity());
 		uploadIntent.putExtra("uploadName", uploadName);
 		uploadIntent.putExtra("projectDescription", projectDescription);
 		uploadIntent.putExtra("projectPath", projectPath);

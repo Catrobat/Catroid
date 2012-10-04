@@ -66,7 +66,6 @@ public class ConnectionWrapper {
 		try {
 			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
 			boolean success = ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
-			//ftpClient.changeWorkingDirectory(filePath); //???
 
 			int replyCode = ftpClient.getReplyCode();
 
@@ -76,7 +75,7 @@ public class ConnectionWrapper {
 				throw new WebconnectionException(replyCode);
 			}
 
-			boolean good = ftpClient.setFileType(FILE_TYPE);
+			ftpClient.setFileType(FILE_TYPE);
 			BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
 			ftpClient.enterLocalPassiveMode();
 
@@ -91,7 +90,6 @@ public class ConnectionWrapper {
 				if (!result) {
 					throw new IOException();
 				}
-
 			}
 
 			inputStream.close();
@@ -127,7 +125,7 @@ public class ConnectionWrapper {
 		out.close();
 
 		// response code != 2xx -> error
-		int code = urlConnection.getResponseCode();
+		urlConnection.getResponseCode();
 		if (urlConnection.getResponseCode() / 100 != 2) {
 			throw new WebconnectionException(urlConnection.getResponseCode());
 		}
@@ -141,7 +139,6 @@ public class ConnectionWrapper {
 	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
 			Integer notificationId, String projectName) {
 		//send for every 20 kilobytes read a message to update the progress
-		sendUpdateIntent(receiver, progress, false, unknown, notificationId, projectName); //just 4 testing
 		if ((!endOfFileReached) && ((progress % DATA_STREAM_UPDATE_SIZE) == 0)) {
 			sendUpdateIntent(receiver, progress, false, unknown, notificationId, projectName);
 		} else if (endOfFileReached) {
@@ -158,12 +155,6 @@ public class ConnectionWrapper {
 		progressBundle.putInt("notificationId", notificationId);
 		progressBundle.putString("projectName", projectName);
 		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
-
-		/*
-		 * Message progressMessage = Message.obtain();
-		 * progressMessage.setData(progressBundle);
-		 * progressHandler.sendMessage(progressMessage);
-		 */
 	}
 
 	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
@@ -177,10 +168,7 @@ public class ConnectionWrapper {
 		int fileLength = urlConnection.getContentLength();
 
 		//read response from server
-		//DataInputStream input = new DataInputStream(urlConnection.getInputStream());
-		//InputStream i = urlConnection.getInputStream(); 4debug
 		InputStream input = new BufferedInputStream(urlConnection.getInputStream());
-		//InputStream input = new BufferedInputStream(downloadUrl.openStream());
 		File file = new File(filePath);
 		file.getParentFile().mkdirs();
 		OutputStream fos = new FileOutputStream(file);
@@ -241,7 +229,6 @@ public class ConnectionWrapper {
 		InputStream resultStream = null;
 
 		Log.i(TAG, "http response code: " + urlConnection.getResponseCode());
-		//Log.i(TAG, "http input stream: " + urlConnection.getInputStream());
 		resultStream = urlConnection.getInputStream();
 
 		return getString(resultStream);
