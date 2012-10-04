@@ -33,13 +33,17 @@ import android.content.Intent;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.MyProjectsActivity;
 
 public class StatusBarNotificationManager {
 
 	private Integer uploadId;
 	private Integer downloadId;
+	private Integer copyId;
 	private HashMap<Integer, NotificationData> uploadNotificationDataMap;
 	private HashMap<Integer, NotificationData> downloadNotificationDataMap;
+	private HashMap<Integer, NotificationData> copyNotificationDataMap;
+	private Notification copyNotification;
 	private Notification uploadNotification;
 	private Notification downloadNotification;
 	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
@@ -47,8 +51,11 @@ public class StatusBarNotificationManager {
 	private StatusBarNotificationManager() {
 		this.uploadId = 0;
 		this.downloadId = 0;
+		this.copyId = 0;
 		this.uploadNotification = null;
 		this.downloadNotification = null;
+		this.copyNotification = null;
+		this.copyNotificationDataMap = new HashMap<Integer, NotificationData>();
 		this.uploadNotificationDataMap = new HashMap<Integer, NotificationData>();
 		this.downloadNotificationDataMap = new HashMap<Integer, NotificationData>();
 	}
@@ -70,6 +77,9 @@ public class StatusBarNotificationManager {
 		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
 			id = createDownloadNotification(name, context, notificationClass, notificationCode);
 			downloadId++;
+		} else if (notificationCode == Constants.COPY_NOTIFICATION) {
+			id = createCopyNotification(name, context, notificationClass, notificationCode);
+			copyId++;
 		}
 		return id;
 	}
@@ -132,6 +142,35 @@ public class StatusBarNotificationManager {
 		}
 
 		return downloadId;
+	}
+
+	private Integer createCopyNotification(String name, Context context, Class<?> notificationClass,
+			int notificationCode) {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Activity.NOTIFICATION_SERVICE);
+		String notificationTitle = "Copying project";
+		boolean newCopyNotification = copyNotificationDataMap.isEmpty();
+
+		Intent intent = new Intent(context, MyProjectsActivity.class);
+
+		intent.setAction(Intent.ACTION_MAIN);
+		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle, null, copyId);
+		copyNotificationDataMap.put(copyId, data);
+
+		if (newCopyNotification) {
+			uploadNotification = new Notification(R.drawable.ic_upload, notificationTitle, System.currentTimeMillis());
+			uploadNotification.flags = Notification.FLAG_AUTO_CANCEL;
+			uploadNotification.number += 1;
+			uploadNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
+			notificationManager.notify(notificationCode, uploadNotification);
+		} else {
+			uploadNotification.number += 1;
+			notificationManager.notify(notificationCode, uploadNotification);
+		}
+
+		return uploadId;
 	}
 
 	public void updateNotification(Integer id, String message, int notificationCode, boolean finished) {

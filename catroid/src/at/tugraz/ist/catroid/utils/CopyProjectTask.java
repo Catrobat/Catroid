@@ -28,6 +28,7 @@ import java.io.IOException;
 import android.os.AsyncTask;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.fragment.ProjectsListFragment;
@@ -124,9 +125,9 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	}
 
 	public void createNotification(String projectName) {
-		CopyNotificationManager copyManager = CopyNotificationManager.getInstance();
+		StatusBarNotificationManager copyManager = StatusBarNotificationManager.getInstance();
 		notificationId = copyManager.createNotification(projectName, parentActivity.getActivity(),
-				CopyProjectTask.class);
+				CopyProjectTask.class, Constants.COPY_NOTIFICATION);
 	}
 
 }
