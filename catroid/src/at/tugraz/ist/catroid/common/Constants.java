@@ -55,7 +55,9 @@ public final class Constants {
 	public static final String PAINTROID_DOWNLOAD_LINK = "https://github.com/Catrobat/Paintroid/downloads";
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 
-	//Services
+	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
+	public static final int UPLOAD_NOTIFICATION = 102;
+	public static final int DOWNLOAD_NOTIFICATION = 103;
 }
