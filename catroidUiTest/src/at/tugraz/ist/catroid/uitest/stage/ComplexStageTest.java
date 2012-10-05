@@ -69,6 +69,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testShowTexture() {

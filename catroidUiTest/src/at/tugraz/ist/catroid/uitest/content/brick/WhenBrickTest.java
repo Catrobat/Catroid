@@ -67,6 +67,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		UiTestUtils.clearAllUtilTestProjects();
 
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testWhenBrick() {

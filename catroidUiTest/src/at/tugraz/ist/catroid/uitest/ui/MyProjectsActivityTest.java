@@ -108,6 +108,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			unzipProjects();
 		}
 		super.tearDown();
+		solo = null;
 	}
 
 	public void saveProjectsToZip() {
@@ -150,6 +151,35 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		File zipFile = new File(zipFileString);
 		UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
 		zipFile.delete();
+	}
+
+	public void testDeleteSprite() {
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
+
+		Project activeProject = ProjectManager.INSTANCE.getCurrentProject();
+		ArrayList<CostumeData> catroidCostumeList = activeProject.getSpriteList().get(1).getCostumeDataList();
+
+		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
+		solo.sleep(200);
+		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.sleep(200);
+		solo.clickOnText(solo.getString(R.string.delete));
+		solo.sleep(1000);
+
+		File imageFile;
+
+		for (CostumeData currentCostumeData : catroidCostumeList) {
+			imageFile = new File(currentCostumeData.getAbsolutePath());
+			assertFalse("Imagefile should be deleted", imageFile.exists());
+		}
 	}
 
 	public void testAddNewProjectUnderList() {

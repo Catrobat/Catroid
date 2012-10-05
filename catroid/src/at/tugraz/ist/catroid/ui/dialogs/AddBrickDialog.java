@@ -49,12 +49,12 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ClearGraphicEffectBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
@@ -63,10 +63,10 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
-import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
-import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
-import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
-import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.LegoNxtPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.NextCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
@@ -222,8 +222,8 @@ public class AddBrickDialog extends DialogFragment {
 		motionBrickList.add(new PlaceAtBrick(sprite, 0, 0));
 		motionBrickList.add(new SetXBrick(sprite, 0));
 		motionBrickList.add(new SetYBrick(sprite, 0));
-		motionBrickList.add(new ChangeXByBrick(sprite, 100));
-		motionBrickList.add(new ChangeYByBrick(sprite, 100));
+		motionBrickList.add(new ChangeXByNBrick(sprite, 100));
+		motionBrickList.add(new ChangeYByNBrick(sprite, 100));
 		motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
 		motionBrickList.add(new MoveNStepsBrick(sprite, 10));
 		motionBrickList.add(new TurnLeftBrick(sprite, 15));
@@ -245,9 +245,9 @@ public class AddBrickDialog extends DialogFragment {
 		looksBrickList.add(new HideBrick(sprite));
 		looksBrickList.add(new ShowBrick(sprite));
 		looksBrickList.add(new SetGhostEffectBrick(sprite, 0));
-		looksBrickList.add(new ChangeGhostEffectBrick(sprite, 25));
+		looksBrickList.add(new ChangeGhostEffectByNBrick(sprite, 25));
 		looksBrickList.add(new SetBrightnessBrick(sprite, 0));
-		looksBrickList.add(new ChangeBrightnessBrick(sprite, 25));
+		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, 25));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
 
 		brickMap.put(context.getString(R.string.category_looks), looksBrickList);
@@ -256,7 +256,7 @@ public class AddBrickDialog extends DialogFragment {
 		soundBrickList.add(new PlaySoundBrick(sprite));
 		soundBrickList.add(new StopAllSoundsBrick(sprite));
 		soundBrickList.add(new SetVolumeToBrick(sprite, 100));
-		soundBrickList.add(new ChangeVolumeByBrick(sprite, 25));
+		soundBrickList.add(new ChangeVolumeByNBrick(sprite, 25));
 		soundBrickList.add(new SpeakBrick(sprite, null));
 		brickMap.put(context.getString(R.string.category_sound), soundBrickList);
 
@@ -273,10 +273,10 @@ public class AddBrickDialog extends DialogFragment {
 		brickMap.put(context.getString(R.string.category_control), controlBrickList);
 
 		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
-		legoNXTBrickList.add(new NXTMotorTurnAngleBrick(sprite, NXTMotorTurnAngleBrick.Motor.MOTOR_A, 180));
-		legoNXTBrickList.add(new NXTMotorStopBrick(sprite, NXTMotorStopBrick.Motor.MOTOR_A));
-		legoNXTBrickList.add(new NXTMotorActionBrick(sprite, NXTMotorActionBrick.Motor.MOTOR_A, 100));
-		legoNXTBrickList.add(new NXTPlayToneBrick(sprite, 200, 1000));
+		legoNXTBrickList.add(new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 180));
+		legoNXTBrickList.add(new LegoNxtMotorStopBrick(sprite, LegoNxtMotorStopBrick.Motor.MOTOR_A));
+		legoNXTBrickList.add(new LegoNxtMotorActionBrick(sprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 100));
+		legoNXTBrickList.add(new LegoNxtPlayToneBrick(sprite, 200, 1000));
 		brickMap.put(context.getString(R.string.category_lego_nxt), legoNXTBrickList);
 
 		return brickMap;

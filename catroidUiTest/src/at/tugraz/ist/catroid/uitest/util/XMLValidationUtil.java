@@ -39,7 +39,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 
 public class XMLValidationUtil {
-	private static final String XML_VALIDATING_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/validateXml.php";
+	private static final String XML_VALIDATING_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/version-0.3/validateXmlVersion3.php";
 	private static final String LOG_TAG = XMLValidationUtil.class.getSimpleName();
 
 	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException, JSONException {
@@ -56,9 +56,9 @@ public class XMLValidationUtil {
 		postValues.put("xmlToValidate", xmlContent);
 
 		ConnectionWrapper connection = new ConnectionWrapper();
-		String responce = connection.doHttpPost(XML_VALIDATING_URL, postValues);
+		String response = connection.doHttpPost(XML_VALIDATING_URL, postValues);
 
-		JSONObject jsonResponce = new JSONObject(responce);
+		JSONObject jsonResponce = new JSONObject(response);
 		Log.i(LOG_TAG, "json responce: " + jsonResponce.toString());
 		boolean valid = jsonResponce.getBoolean("valid");
 		String message = jsonResponce.optString("message");

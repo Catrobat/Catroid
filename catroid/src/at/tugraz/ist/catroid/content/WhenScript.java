@@ -40,6 +40,10 @@ public class WhenScript extends Script {
 	private String action;
 	private transient int position;
 
+	public WhenScript() {
+
+	}
+
 	public WhenScript(Sprite sprite) {
 		super(sprite);
 		super.isFinished = true;

@@ -32,6 +32,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		NativeAppActivity.setContext(null);
+		super.tearDown();
 	}
 
 	public void testPlaySoundfile() throws InterruptedException {

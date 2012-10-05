@@ -42,15 +42,21 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	private transient View view;
 
+	public ChangeSizeByNBrick() {
+
+	}
+
 	public ChangeSizeByNBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
 		this.size = size;
 	}
 
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
 
+	@Override
 	public void execute() {
 		float newSize = sprite.costume.getSize() + ((float) size / 100f);
 		if (newSize < 0f) {
@@ -59,10 +65,12 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		sprite.costume.setSize(newSize);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
@@ -79,6 +87,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_change_size_by_n, null);
 	}
@@ -88,9 +97,10 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		return new ChangeSizeByNBrick(getSprite(), size);
 	}
 
+	@Override
 	public void onClick(View view) {
 		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
-		
+
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
@@ -99,7 +109,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 						| InputType.TYPE_NUMBER_FLAG_SIGNED);
 				input.setSelectAllOnFocus(true);
 			}
-			
+
 			@Override
 			protected boolean handleOkButton() {
 				try {
@@ -107,11 +117,11 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
-				
+
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_size_by_n_brick");
 	}
 }

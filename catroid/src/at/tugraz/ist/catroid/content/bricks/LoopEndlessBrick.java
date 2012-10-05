@@ -33,6 +33,10 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public LoopEndlessBrick() {
+
+	}
+
 	public LoopEndlessBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		super(sprite, loopStartingBrick);
 	}

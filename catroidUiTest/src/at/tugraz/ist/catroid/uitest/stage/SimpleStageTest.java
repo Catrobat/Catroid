@@ -53,6 +53,7 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testSimple() {

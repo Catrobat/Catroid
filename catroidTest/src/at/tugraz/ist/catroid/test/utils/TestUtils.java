@@ -42,6 +42,8 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
@@ -200,25 +202,36 @@ public class TestUtils {
 		return null;
 	}
 
-	private static class ProjectWithVersionCode extends Project {
-		static final long serialVersionUID = 1L;
-		private final int mCatroidVersionCode;
+	//	private static class ProjectWithCatrobatLanguageVersion extends Project {
+	//		static final long serialVersionUID = 1L;
+	//		private final float catrobatLanguageVersion;
+	//
+	//		@SuppressWarnings("unused")
+	//		public ProjectWithCatrobatLanguageVersion() {
+	//			catrobatLanguageVersion = 0.1f;
+	//		}
+	//
+	//		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {
+	//			super(null, name);
+	//			this.catrobatLanguageVersion = catrobatLanguageVersion;
+	//		}
+	//
+	//		@Override
+	//		public float getCatrobatLanguageVersion() {
+	//			return catrobatLanguageVersion;
+	//		}
+	//	}
 
-		public ProjectWithVersionCode(String name, int catroidVersionCode) {
-			super(null, name);
-			mCatroidVersionCode = catroidVersionCode;
-		}
+	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(float catrobatLanguageVersion,
+			String name) {
+		//		Project project = new ProjectWithCatrobatLanguageVersion(name, catrobatLanguageVersion);
+		Project project = new Project(null, name);
+		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 
-		@Override
-		public int getCatroidVersionCode() {
-			return mCatroidVersionCode;
-		}
-	}
-
-	public static void createTestProjectOnLocalStorageWithVersionCodeAndName(int versionCode, String name) {
-		Project project = new ProjectWithVersionCode(name, versionCode);
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript(firstSprite);
+		Brick testBrick = new HideBrick();
+		testScript.addBrick(testBrick);
 
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
@@ -226,8 +239,9 @@ public class TestUtils {
 		StorageHandler.getInstance().saveProject(project);
 	}
 
-	public static void createTestProjectOnLocalStorageWithVersionCode(int versionCode) {
-		createTestProjectOnLocalStorageWithVersionCodeAndName(versionCode, DEFAULT_TEST_PROJECT_NAME);
+	public static void createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
+		createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
+				DEFAULT_TEST_PROJECT_NAME);
 	}
 
 	public static void deleteTestProjects(String... additionalProjectNames) {

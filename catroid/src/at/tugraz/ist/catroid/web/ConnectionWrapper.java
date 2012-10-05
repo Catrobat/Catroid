@@ -22,27 +22,175 @@
  */
 package at.tugraz.ist.catroid.web;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
+
+import android.os.Bundle;
+import android.os.ResultReceiver;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 import at.tugraz.ist.catroid.common.Constants;
 
 public class ConnectionWrapper {
 
-	private HttpURLConnection urlConnection;
 	private final static String TAG = ConnectionWrapper.class.getSimpleName();
+	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 16; //16 KB
+	private HttpURLConnection urlConnection;
+
+	public static final String FTP_USERNAME = "ftp-uploader";
+	public static final String FTP_PASSWORD = "cat.ftp.loader";
+	public static final int FILE_TYPE = org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE;
+	private FTPClient ftpClient = new FTPClient();
+
+	public String doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
+			String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId) throws IOException,
+			WebconnectionException {
+		String answer = "";
+		try {
+			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
+			ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
+
+			int replyCode = ftpClient.getReplyCode();
+
+			if (!FTPReply.isPositiveCompletion(replyCode)) {
+				ftpClient.disconnect();
+				Log.e(TAG, "FTP server refused to connect");
+				throw new WebconnectionException(replyCode);
+			}
+
+			ftpClient.setFileType(FILE_TYPE);
+			BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
+			ftpClient.enterLocalPassiveMode();
+
+			String fileName = "";
+			if (filePath != null) {
+				fileName = postValues.get("projectTitle");
+				String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
+				FtpProgressInputStream ftpProgressStream = new FtpProgressInputStream(inputStream, receiver,
+						notificationId, fileName);
+				boolean result = ftpClient.storeFile(fileName + "." + extension, ftpProgressStream);
+
+				if (!result) {
+					throw new IOException();
+				}
+			}
+
+			inputStream.close();
+			ftpClient.logout();
+			ftpClient.disconnect();
+
+			answer = sendUploadPost(httpPostUrl, postValues, fileTag, filePath);
+
+		} catch (SocketException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (ftpClient.isConnected()) {
+				try {
+					ftpClient.disconnect();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return answer;
+	}
+
+	private String sendUploadPost(String httpPostUrl, HashMap<String, String> postValues, String fileTag,
+			String filePath) throws IOException, WebconnectionException {
+
+		MultiPartFormOutputStream out = buildPost(httpPostUrl, postValues);
+
+		out.close();
+
+		// response code != 2xx -> error
+		urlConnection.getResponseCode();
+		if (urlConnection.getResponseCode() / 100 != 2) {
+			throw new WebconnectionException(urlConnection.getResponseCode());
+		}
+
+		InputStream resultStream = urlConnection.getInputStream();
+		String resultString = getString(resultStream);
+		Log.v(TAG, resultString);
+		return resultString;
+	}
+
+	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
+			Integer notificationId, String projectName) {
+		//send for every 20 kilobytes read a message to update the progress
+		if ((!endOfFileReached)) {
+			sendUpdateIntent(receiver, progress, false, unknown, notificationId, projectName);
+		} else if (endOfFileReached) {
+			sendUpdateIntent(receiver, progress, true, unknown, notificationId, projectName);
+		}
+	}
+
+	private void sendUpdateIntent(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
+			Integer notificationId, String projectName) {
+		Bundle progressBundle = new Bundle();
+		progressBundle.putLong("currentDownloadProgress", progress);
+		progressBundle.putBoolean("endOfFileReached", endOfFileReached);
+		progressBundle.putBoolean("unknown", unknown);
+		progressBundle.putInt("notificationId", notificationId);
+		progressBundle.putString("projectName", projectName);
+		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
+	}
+
+	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
+			ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
+		MultiPartFormOutputStream out = buildPost(urlString, postValues);
+		out.close();
+
+		URL downloadUrl = new URL(urlString);
+		urlConnection = (HttpURLConnection) downloadUrl.openConnection();
+		urlConnection.connect();
+		int fileLength = urlConnection.getContentLength();
+
+		//read response from server
+		InputStream input = new BufferedInputStream(urlConnection.getInputStream());
+		File file = new File(filePath);
+		file.getParentFile().mkdirs();
+		OutputStream fos = new FileOutputStream(file);
+
+		byte[] buffer = new byte[Constants.BUFFER_8K];
+		int count = 0;
+		long bytesWritten = 0;
+		while ((count = input.read(buffer)) != -1) {
+			bytesWritten += count;
+			if (fileLength != -1) {
+				if ((bytesWritten % DATA_STREAM_UPDATE_SIZE) == 0) {
+					long progress = bytesWritten * 100 / fileLength;
+					updateProgress(receiver, progress, false, false, notificationId, projectName);
+				}
+			} else {
+				//progress unknown
+				updateProgress(receiver, 0, false, true, notificationId, projectName);
+			}
+			fos.write(buffer, 0, count);
+		}
+		//publish last progress (100% at EOF):
+		updateProgress(receiver, 100, true, false, notificationId, projectName);
+
+		input.close();
+		fos.flush();
+		fos.close();
+	}
 
 	private String getString(InputStream is) {
 		if (is == null) {
@@ -70,53 +218,9 @@ public class ConnectionWrapper {
 		return "";
 	}
 
-	public String doHttpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
-			String filePath) throws IOException, WebconnectionException {
-
-		MultiPartFormOutputStream out = buildPost(urlString, postValues);
-
-		if (filePath != null) {
-			String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
-			String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-
-			out.writeFile(fileTag, mimeType, new File(filePath));
-		}
-		out.close();
-
-		// response code != 2xx -> error
-		if (urlConnection.getResponseCode() / 100 != 2) {
-			throw new WebconnectionException(urlConnection.getResponseCode());
-		}
-
-		InputStream resultStream = urlConnection.getInputStream();
-
-		return getString(resultStream);
-	}
-
-	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath)
-			throws IOException {
-		MultiPartFormOutputStream out = buildPost(urlString, postValues);
-		out.close();
-
-		// read response from server
-		DataInputStream input = new DataInputStream(urlConnection.getInputStream());
-
-		File file = new File(filePath);
-		file.getParentFile().mkdirs();
-		FileOutputStream fos = new FileOutputStream(file);
-
-		byte[] buffer = new byte[Constants.BUFFER_8K];
-		int length = 0;
-		while ((length = input.read(buffer)) != -1) {
-			fos.write(buffer, 0, length);
-		}
-		input.close();
-		fos.flush();
-		fos.close();
-	}
-
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
 		MultiPartFormOutputStream out = buildPost(urlString, postValues);
+		//HttpBuilder out = buildPost(urlString, postValues);
 		out.close();
 
 		InputStream resultStream = null;
@@ -154,4 +258,30 @@ public class ConnectionWrapper {
 
 		return out;
 	}
+
+	/*
+	 * public String doHttpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
+	 * String filePath) throws IOException, WebconnectionException {
+	 * 
+	 * MultiPartFormOutputStream out = buildPost(urlString, postValues);
+	 * 
+	 * if (filePath != null) {
+	 * String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
+	 * String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+	 * 
+	 * out.writeFile(fileTag, mimeType, new File(filePath));
+	 * }
+	 * out.close();
+	 * 
+	 * // response code != 2xx -> error
+	 * if (urlConnection.getResponseCode() / 100 != 2) {
+	 * throw new WebconnectionException(urlConnection.getResponseCode());
+	 * }
+	 * 
+	 * InputStream resultStream = urlConnection.getInputStream();
+	 * 
+	 * return getString(resultStream);
+	 * }
+	 */
+
 }

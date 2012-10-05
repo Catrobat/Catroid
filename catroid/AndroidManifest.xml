@@ -115,6 +115,8 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
+        <service android:name=".transfers.ProjectUploadService"/>
+        <service android:name=".transfers.ProjectDownloadService"/>
     </application>
 
 </manifest>
