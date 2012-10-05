@@ -362,7 +362,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void downloadProject() {
 		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROID_EXTENTION;
 		downloadUrl += "?fname=" + newTestProject;
-		//http://catroidtest.ist.tugraz.at/catroid/download/3018.catrobat?fname=testingproject1
 
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);

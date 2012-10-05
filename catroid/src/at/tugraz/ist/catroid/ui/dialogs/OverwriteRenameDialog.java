@@ -90,25 +90,25 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 			case R.id.dialog_overwrite_project_button_ok:
 				if (replaceButton.isChecked()) {
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-					ProjectManager.getInstance().loadProject(projectName, context, errorListenerInterface, false);
+					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
 					activity.writeProjectTitleInTextfield();
 				} else if (renameButton.isChecked()) {
 					String newProjectName = projectName + UUID.randomUUID();
-					ProjectManager.getInstance().loadProject(projectName, context, errorListenerInterface, false);
-					ProjectManager.getInstance().renameProject(newProjectName, context, errorListenerInterface);
+					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
+					ProjectManager.INSTANCE.renameProject(newProjectName, context, errorListenerInterface);
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-					ProjectManager.getInstance().loadProject(projectName, context, errorListenerInterface, false);
-					boolean error = !ProjectManager.getInstance().renameProject(projectText.getText().toString(),
-							context, errorListenerInterface);
+					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
+					boolean error = !ProjectManager.INSTANCE.renameProject(projectText.getText().toString(), context,
+							errorListenerInterface);
 					if (error) {
-						ProjectManager.getInstance().deleteCurrentProject();
+						ProjectManager.INSTANCE.deleteCurrentProject();
 					}
-					ProjectManager.getInstance().loadProject(newProjectName, context, errorListenerInterface, false);
-					ProjectManager.getInstance().renameProject(projectName, context, errorListenerInterface);
+					ProjectManager.INSTANCE.loadProject(newProjectName, context, errorListenerInterface, false);
+					ProjectManager.INSTANCE.renameProject(projectName, context, errorListenerInterface);
 					if (error) {
 						break;
 					} else {
-						ProjectManager.getInstance().loadProject(projectText.getText().toString(), context,
+						ProjectManager.INSTANCE.loadProject(projectText.getText().toString(), context,
 								errorListenerInterface, false);
 						activity.writeProjectTitleInTextfield();
 					}
