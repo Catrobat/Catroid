@@ -22,20 +22,12 @@
  */
 package at.tugraz.ist.catroid.test.web;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-
-import android.os.ResultReceiver;
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.common.Constants;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.web.ConnectionWrapper;
-import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 
-	private File projectZipOnMockServer;
+	//private File projectZipOnMockServer;
 
 	public UpAndDownloadTest() {
 		super();
@@ -44,7 +36,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		projectZipOnMockServer = new File(Constants.TMP_PATH + "/projectSave" + Constants.CATROID_EXTENTION);
+		//projectZipOnMockServer = new File(Constants.TMP_PATH + "/projectSave" + Constants.CATROID_EXTENTION);
 	}
 
 	@Override
@@ -110,21 +102,25 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		 */
 	}
 
-	private class MockConnection extends ConnectionWrapper {
-		@Override
-		public String doFtpPostFileUpload(String urlstring, HashMap<String, String> postValues, String filetag,
-				String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId)
-				throws IOException, WebconnectionException {
-
-			new File(filePath).renameTo(projectZipOnMockServer);
-			return "";
-		}
-
-		@Override
-		public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath,
-				ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
-			projectZipOnMockServer.renameTo(new File(filePath));
-		}
-	}
+	//not used yet
+	/*
+	 * private class MockConnection extends ConnectionWrapper {
+	 * 
+	 * @Override
+	 * public String doFtpPostFileUpload(String urlstring, HashMap<String, String> postValues, String filetag,
+	 * String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId)
+	 * throws IOException, WebconnectionException {
+	 * 
+	 * new File(filePath).renameTo(projectZipOnMockServer);
+	 * return "";
+	 * }
+	 * 
+	 * @Override
+	 * public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath,
+	 * ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
+	 * projectZipOnMockServer.renameTo(new File(filePath));
+	 * }
+	 * }
+	 */
 
 }

@@ -360,6 +360,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Original Project File does not exist.", downloadedProjectFile.exists());
 	}
 
+	@SuppressWarnings("unused")
 	private void downloadProject() {
 		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROID_EXTENTION;
 		downloadUrl += "?fname=" + newTestProject;
