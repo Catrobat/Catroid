@@ -106,6 +106,7 @@ public class ProjectDownloadService extends IntentService {
 		super.onDestroy();
 
 		if (result && showOverwriteDialog) {
+			//project name and zip file string are temporariliy saved in the StatusBarNotificationManager to create it later on in the right context  
 			StatusBarNotificationManager.INSTANCE.downloadProjectName.add(projectName);
 			StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.add(zipFileString);
 			try {

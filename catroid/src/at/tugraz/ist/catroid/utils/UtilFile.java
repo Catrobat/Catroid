@@ -40,7 +40,7 @@ public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
-	static public long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
+	static private long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
 		if (!fileOrDirectory.exists()) {
 			return 0;
 		}
@@ -54,6 +54,15 @@ public class UtilFile {
 			size += file.isDirectory() ? getSizeOfFileOrDirectoryInByte(file) : file.length();
 		}
 		return size;
+	}
+
+	static public Long getProgressFromBytes(String projectName, Long progress) {
+		Long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(Utils.buildProjectPath(projectName)));
+		if (fileByteSize == 0) {
+			return (long) 0;
+		}
+		Long progressValue = progress * 100 / fileByteSize;
+		return progressValue;
 	}
 
 	static public String getSizeAsString(File fileOrDirectory) {
