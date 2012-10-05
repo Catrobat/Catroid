@@ -57,14 +57,13 @@ public class ConnectionWrapper {
 	public static final int FILE_TYPE = org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE;
 	private FTPClient ftpClient = new FTPClient();
 
-	@SuppressWarnings("unused")
 	public String doFtpPostFileUpload(String urlString, HashMap<String, String> postValues, String fileTag,
 			String filePath, ResultReceiver receiver, String httpPostUrl, Integer notificationId) throws IOException,
 			WebconnectionException {
 		String answer = "";
 		try {
 			ftpClient.connect(urlString, ServerCalls.FTP_PORT);
-			boolean success = ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
+			ftpClient.login(FTP_USERNAME, FTP_PASSWORD);
 
 			int replyCode = ftpClient.getReplyCode();
 

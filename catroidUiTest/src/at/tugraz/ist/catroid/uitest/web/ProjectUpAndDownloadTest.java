@@ -255,7 +255,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		UiTestUtils.createValidUser(getActivity());
 		uploadProject(projectName, "");
-		//solo.waitForDialogToClose(30000);		
 
 		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
 		String DeserializedProjectName = uploadProject.getName();
@@ -263,7 +262,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 
 		downloadProjectAndReplace(projectName, true);
-		//solo.waitForDialogToClose(30000);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
 		String serverProjectName = downloadedProject.getName();
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
