@@ -1150,8 +1150,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			solo.goBack();
 			solo.clickOnText(buttonPositiveText);
 		}
-		solo.waitForDialogToClose(500);
-		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
+		solo.waitForDialogToClose(1000);
 		assertTrue("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME3));
 	}
 
