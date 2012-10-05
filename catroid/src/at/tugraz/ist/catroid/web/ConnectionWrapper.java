@@ -135,7 +135,7 @@ public class ConnectionWrapper {
 	void updateProgress(ResultReceiver receiver, long progress, boolean endOfFileReached, boolean unknown,
 			Integer notificationId, String projectName) {
 		//send for every 20 kilobytes read a message to update the progress
-		if ((!endOfFileReached) && ((progress % DATA_STREAM_UPDATE_SIZE) == 0)) {
+		if ((!endOfFileReached)) {
 			sendUpdateIntent(receiver, progress, false, unknown, notificationId, projectName);
 		} else if (endOfFileReached) {
 			sendUpdateIntent(receiver, progress, true, unknown, notificationId, projectName);
@@ -175,8 +175,10 @@ public class ConnectionWrapper {
 		while ((count = input.read(buffer)) != -1) {
 			bytesWritten += count;
 			if (fileLength != -1) {
-				long progress = bytesWritten * 100 / fileLength;
-				updateProgress(receiver, progress, false, false, notificationId, projectName);
+				if ((bytesWritten % DATA_STREAM_UPDATE_SIZE) == 0) {
+					long progress = bytesWritten * 100 / fileLength;
+					updateProgress(receiver, progress, false, false, notificationId, projectName);
+				}
 			} else {
 				//progress unknown
 				updateProgress(receiver, 0, false, true, notificationId, projectName);
