@@ -114,6 +114,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 
 		// Load external project from URL or local file system.
+		Intent i = getIntent(); //4 debug
 		Uri loadExternalProjectUri = getIntent().getData();
 		getIntent().setData(null);
 
