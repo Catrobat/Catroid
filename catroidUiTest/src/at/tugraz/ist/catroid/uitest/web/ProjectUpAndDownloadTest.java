@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.uitest.web;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,9 +34,11 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -47,6 +50,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
+	private static final int LONG_TEST_SOUND = at.tugraz.ist.catroid.uitest.R.raw.longsound;
 
 	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
@@ -141,7 +145,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 
 		//Download replaces project. Name and description should be testproject2 and testdescription2
-		downloadProjectAndReplace(newTestProject);
+		downloadProjectAndReplace(newTestProject, false);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(newTestProject);
 
 		String serverProjectName = downloadedProject.getName();
@@ -183,7 +187,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 
 		//Download replaces project. Name and description should be testproject1 and testdescription2
-		downloadProjectAndReplace(projectName);
+		downloadProjectAndReplace(projectName, false);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
 
 		String serverProjectName = downloadedProject.getName();
@@ -191,23 +195,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(projectName));
 		assertTrue("Project name on server was not correctly renamed",
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
-	}
-
-	public void testUpload() throws Throwable {
-		createTestProject(testProject);
-		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-		getActivity().startActivity(intent);
-		setServerURLToTestUrl();
-		UiTestUtils.createValidUser(getActivity());
-		uploadProject("Test132", "");
-		solo.sleep(5000);
-	}
-
-	public void testDownload() throws Throwable {
-		setServerURLToTestUrl();
-		UiTestUtils.createValidUser(getActivity());
-		//downloadProjectAndReplace("POC Moorhuhn");
-		solo.sleep(200000);
 	}
 
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
@@ -232,11 +219,53 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		UiTestUtils.clearAllUtilTestProjects();
 
-		downloadProjectAndReplace(testProject);
+		downloadProjectAndReplace(testProject, false);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
 
 		String serverProjectName = downloadedProject.getName();
 		assertTrue("Project name on server was changed", serverProjectName.equalsIgnoreCase(testProject));
+	}
+
+	public void testDownloadWithOrientationChange() throws Throwable {
+		setServerURLToTestUrl();
+
+		String projectName = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
+		UiTestUtils.createTestProject();
+
+		//Adds a sufficient number of media files so that the project is big enough (16 files ~1MB) for download-testing
+		int numberMediaFiles = 10;
+		String soundName = "testSound";
+
+		ArrayList<SoundInfo> soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		for (int number = 0; number < numberMediaFiles; number++) {
+			File soundFile = UiTestUtils.saveFileToProject(projectName,
+					"longsound" + Integer.toString(number) + ".mp3", LONG_TEST_SOUND,
+					getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
+			SoundInfo soundInfo = new SoundInfo();
+			soundInfo.setSoundFileName(soundFile.getName());
+			soundInfo.setTitle(soundName + Integer.toString(number));
+			soundInfoList.add(soundInfo);
+			ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
+					soundInfo.getAbsolutePath());
+		}
+		ProjectManager.INSTANCE.saveProject();
+		Project newProject = StorageHandler.getInstance().loadProject(projectName);
+		ProjectManager.INSTANCE.setProject(newProject);
+
+		UiTestUtils.createValidUser(getActivity());
+		uploadProject(projectName, "");
+		solo.waitForDialogToClose(30000);
+
+		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
+		String DeserializedProjectName = uploadProject.getName();
+		assertTrue("Project was successfully uploaded", DeserializedProjectName.equalsIgnoreCase(projectName));
+		UiTestUtils.clearAllUtilTestProjects();
+
+		downloadProjectAndReplace(projectName, true);
+		solo.waitForDialogToClose(30000);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
+		String serverProjectName = downloadedProject.getName();
+		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
 	}
 
 	private void createTestProject(String projectToCreate) {
@@ -275,30 +304,26 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnEditText(1);
 		solo.enterText(1, uploadProjectDescription);
 
-		//		solo.setActivityOrientation(Solo.LANDSCAPE);
-
+		//solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
-
 		solo.sleep(500);
 
 		try {
-			//solo.setActivityOrientation(Solo.LANDSCAPE);
-
-			solo.waitForDialogToClose(10000);
-			assertTrue("Upload failed. Internet connection?",
-					solo.searchText(getActivity().getString(R.string.success_project_upload)));
+			//solo.setActivityOrientation(Solo.PORTRAIT);
+			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload));
+			assertTrue("Upload failed. Internet connection?", success);
 			String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
+			Log.v("serverID=", "" + serverProjectId);
 
-			solo.clickOnButton(0);
 		} catch (JSONException e) {
 			fail("JSON exception orrured");
 		}
 	}
 
-	private void downloadProjectAndReplace(String projectName) {
+	private void downloadProjectAndReplace(String projectName, boolean testChangeOrientation) {
 		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROID_EXTENTION;
 		downloadUrl += "?fname=" + projectName;
 
@@ -306,17 +331,26 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
 		launchActivityWithIntent("at.tugraz.ist.catroid", MainMenuActivity.class, intent);
+		if (testChangeOrientation) {
+			solo.setActivityOrientation(Solo.LANDSCAPE);
+			solo.setActivityOrientation(Solo.PORTRAIT);
+		}
+
+		solo.sleep(5000);
+		if (testChangeOrientation) {
+			solo.setActivityOrientation(Solo.LANDSCAPE);
+			solo.setActivityOrientation(Solo.PORTRAIT);
+		}
+		assertTrue("OverwriteRenameDialog not shown.",
+				solo.searchText(getActivity().getString(R.string.overwrite_text)));
+		solo.clickOnText(getActivity().getString(R.string.overwrite_replace));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Testproject not loaded.", solo.searchText(projectName));
-		assertTrue("OverwriteRenameDialog not showed.",
-				solo.searchText(getActivity().getString(R.string.overwrite_text)));
-
-		solo.clickOnText(getActivity().getString(R.string.overwrite_replace));
-		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
+		assertTrue("Testproject not loaded.", solo.searchText(projectName));
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectName;
 		File downloadedDirectory = new File(projectPath);
@@ -334,23 +368,24 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		intent.setData(Uri.parse(downloadUrl));
 		launchActivityWithIntent("at.tugraz.ist.catroid", MainMenuActivity.class, intent);
 
-		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
-		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
-		assertTrue("OverwriteRenameDialog not showed.",
+		solo.sleep(5000);
+		assertTrue("OverwriteRenameDialog not shown.",
 				solo.searchText(getActivity().getString(R.string.overwrite_text)));
-
 		solo.clickOnText(getActivity().getString(R.string.overwrite_rename));
 		assertTrue("No text field to enter new name.", solo.searchEditText(newTestProject));
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		assertTrue("No error showed because of duplicate names.",
+		assertTrue("No error shown because of duplicate names.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 		solo.clickOnButton(getActivity().getString(R.string.close));
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
+
+		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
+		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
+		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + testProject;
 		File downloadedDirectory = new File(projectPath);

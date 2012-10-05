@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.io.File;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
@@ -79,8 +80,10 @@ public class UploadProjectDialog extends DialogFragment {
 				} else {
 					progressPercent = ProjectManager.INSTANCE.getProgressFromBytes(projectName, progress);
 				}
-				String notificationMessage = "upload " + progressPercent + "% completed:" + projectName;
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
+
+				String notificationMessage = "Upload " + progressPercent + "% "
+						+ activity.getString(R.string.completed) + ":" + projectName;
+				StatusBarNotificationManager.INSTANCE.updateNotification(notificationId, notificationMessage,
 						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
 			}
 		}
@@ -98,6 +101,7 @@ public class UploadProjectDialog extends DialogFragment {
 	private String currentProjectName;
 	private String currentProjectDescription;
 	private String newProjectName;
+	private Activity activity;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -238,23 +242,21 @@ public class UploadProjectDialog extends DialogFragment {
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = prefs.getString(Constants.TOKEN, "0");
-		//new ProjectUploadService(getActivity(), uploadName, projectDescription, projectPath, token).execute(); //getActivity() vs this.getActivity() --> the same??
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
-		//uploadIntent.putExtra("activity", (Parcelable) getActivity());
 		uploadIntent.putExtra("uploadName", uploadName);
 		uploadIntent.putExtra("projectDescription", projectDescription);
 		uploadIntent.putExtra("projectPath", projectPath);
 		uploadIntent.putExtra("token", token);
 		int notificationId = createNotification(uploadName);
 		uploadIntent.putExtra("notificationId", notificationId);
-		getActivity().startService(uploadIntent);
+		activity = getActivity();
+		activity.startService(uploadIntent);
 	}
 
 	public int createNotification(String uploadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createNotification(uploadName, getActivity(), ProjectUploadService.class,
-				Constants.UPLOAD_NOTIFICATION);
+		StatusBarNotificationManager manager = StatusBarNotificationManager.INSTANCE;
+		int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
 		return notificationId;
 	}
 
