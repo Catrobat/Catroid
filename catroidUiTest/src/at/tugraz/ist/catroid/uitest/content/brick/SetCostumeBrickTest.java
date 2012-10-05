@@ -116,6 +116,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 			costumeFile2.delete();
 		}
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testSelectCostumeAndPlay() {
@@ -151,7 +152,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
 		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.clickOnButton(getActivity().getString(R.string.delete_lowercase));
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.clickOnText(getActivity().getString(R.string.scripts));
 		solo.clickOnText(spinnerNothingText);

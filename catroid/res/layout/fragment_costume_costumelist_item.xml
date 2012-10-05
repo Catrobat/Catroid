@@ -134,7 +134,7 @@
             android:layout_gravity="right"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_menu_delete"
-            android:text="@string/sound_delete" />
+            android:text="@string/delete_lowercase" />
     </LinearLayout>
 
 </LinearLayout>

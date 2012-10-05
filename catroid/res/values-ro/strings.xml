@@ -33,6 +33,7 @@
     <string name="cancel_button">Anulare</string>
     <string name="rename">Redenumire</string>
     <string name="delete">Ștergere</string>
+    <string name="delete_lowercase">ștergere</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <!-- User interface -->
@@ -111,7 +112,6 @@
     <string name="soundname_invalid">Această denumire de sunet este nevalabilă</string>
     <string name="sound_play">redare</string>
     <string name="sound_pause">pauză </string>
-    <string name="sound_delete">ștergere</string>
     <string name="sound_rename">redenumire</string>
     <!-- Sprite dialog -->
     <!-- <string name="sprite_button_text">Creare</string> -->

@@ -73,6 +73,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

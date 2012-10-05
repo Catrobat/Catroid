@@ -31,13 +31,11 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ProjectTest extends AndroidTestCase {
 
-	public void testVersionNameAndNumber() throws NameNotFoundException {
+	public void testVersionName() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
-		assertEquals("Incorrect version name", packageInfo.versionName, (String) TestUtils.getPrivateField(
-				"catroidVersionName", project, false));
-		assertEquals("Incorrect version code", packageInfo.versionCode, TestUtils.getPrivateField("catroidVersionCode",
-				project, false));
+		assertEquals("Incorrect version name", packageInfo.versionName,
+				(String) TestUtils.getPrivateField("applicationVersion", project, false));
 	}
 
 	public void testAddRemoveSprite() {

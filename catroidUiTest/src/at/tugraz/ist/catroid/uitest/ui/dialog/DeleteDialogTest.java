@@ -79,13 +79,14 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testDeleteCostumes() throws Exception {
 		addCostumesToProject();
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
-		String deleteCostumeText = solo.getString(R.string.sound_delete);
+		String deleteCostumeText = solo.getString(R.string.delete_lowercase);
 		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 
 		solo.clickOnText(solo.getString(R.string.backgrounds));
@@ -117,7 +118,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		addSoundsToProject();
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
-		String deleteSoundText = solo.getString(R.string.sound_delete);
+		String deleteSoundText = solo.getString(R.string.delete_lowercase);
 		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 
 		solo.clickOnText(getActivity().getString(R.string.sounds));

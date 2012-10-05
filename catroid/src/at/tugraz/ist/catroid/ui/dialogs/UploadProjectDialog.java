@@ -24,11 +24,15 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.io.File;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -48,12 +52,42 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
-import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
+import at.tugraz.ist.catroid.transfers.ProjectUploadService;
 import at.tugraz.ist.catroid.utils.ErrorListenerInterface;
+import at.tugraz.ist.catroid.utils.StatusBarNotificationManager;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UploadProjectDialog extends DialogFragment {
+
+	private class UploadReceiver extends ResultReceiver {
+
+		public UploadReceiver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		protected void onReceiveResult(int resultCode, Bundle resultData) {
+			super.onReceiveResult(resultCode, resultData);
+			if (resultCode == Constants.UPDATE_UPLOAD_PROGRESS) {
+				long progress = resultData.getLong("currentUploadProgress");
+				boolean endOfFileReached = resultData.getBoolean("endOfFileReached");
+				Integer notificationId = resultData.getInt("notificationId");
+				String projectName = resultData.getString("projectName");
+				long progressPercent = 0;
+				if (endOfFileReached) {
+					progressPercent = 100;
+				} else {
+					progressPercent = UtilFile.getProgressFromBytes(projectName, progress);
+				}
+
+				String notificationMessage = "Upload " + progressPercent + "% "
+						+ activity.getString(R.string.notification_percent_completed) + ":" + projectName;
+				StatusBarNotificationManager.INSTANCE.updateNotification(notificationId, notificationMessage,
+						Constants.UPLOAD_NOTIFICATION, endOfFileReached);
+			}
+		}
+	}
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_upload_project";
 
@@ -67,6 +101,7 @@ public class UploadProjectDialog extends DialogFragment {
 	private String currentProjectName;
 	private String currentProjectDescription;
 	private String newProjectName;
+	private Activity activity;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -207,7 +242,22 @@ public class UploadProjectDialog extends DialogFragment {
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = prefs.getString(Constants.TOKEN, "0");
-		new ProjectUploadTask(getActivity(), uploadName, projectDescription, projectPath, token).execute();
+		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
+		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
+		uploadIntent.putExtra("uploadName", uploadName);
+		uploadIntent.putExtra("projectDescription", projectDescription);
+		uploadIntent.putExtra("projectPath", projectPath);
+		uploadIntent.putExtra("token", token);
+		int notificationId = createNotification(uploadName);
+		uploadIntent.putExtra("notificationId", notificationId);
+		activity = getActivity();
+		activity.startService(uploadIntent);
+	}
+
+	public int createNotification(String uploadName) {
+		StatusBarNotificationManager manager = StatusBarNotificationManager.INSTANCE;
+		int notificationId = manager.createNotification(uploadName, getActivity(), Constants.UPLOAD_NOTIFICATION);
+		return notificationId;
 	}
 
 	private void handleCancelButtonClick() {

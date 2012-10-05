@@ -70,6 +70,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testSwitchToCostumeCrashPNG() throws IOException {

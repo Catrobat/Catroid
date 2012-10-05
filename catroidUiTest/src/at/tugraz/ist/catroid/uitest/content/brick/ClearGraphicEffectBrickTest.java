@@ -62,6 +62,7 @@ public class ClearGraphicEffectBrickTest extends ActivityInstrumentationTestCase
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke

@@ -76,6 +76,7 @@ public class DeleteCostumeDialog extends DialogFragment {
 
 	private void handleDeleteCostume(int position) {
 		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+
 		StorageHandler.getInstance().deleteFile(costumeDataList.get(position).getAbsolutePath());
 		costumeDataList.remove(position);
 

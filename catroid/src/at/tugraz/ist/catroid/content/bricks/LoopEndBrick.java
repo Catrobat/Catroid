@@ -50,6 +50,10 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		loopStartingBrick.setLoopEndBrick(this);
 	}
 
+	public LoopEndBrick() {
+
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

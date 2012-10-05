@@ -60,7 +60,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
@@ -76,10 +76,10 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-		ProjectManager.getInstance().getFileChecksumContainer()
-				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
+		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
+				soundInfo.getAbsolutePath());
+		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(),
+				soundInfo2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -89,6 +89,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	public void testDeleteSound() {
@@ -96,7 +97,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		ListAdapter adapter = getSoundFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.clickOnButton(getActivity().getString(R.string.delete_lowercase));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);

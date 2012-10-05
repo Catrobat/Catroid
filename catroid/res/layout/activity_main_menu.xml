@@ -26,7 +26,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/website_blue"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/MainMenuActivityRoot" >
 
     <at.tugraz.ist.catroid.ui.widget.DashboardLayout
         android:layout_width="match_parent"
