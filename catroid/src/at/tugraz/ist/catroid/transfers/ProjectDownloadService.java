@@ -110,7 +110,7 @@ public class ProjectDownloadService extends IntentService {
 			StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.add(zipFileString);
 			try {
 				//The context of the calling activity is needed, otherwise an exception occurs
-				MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
+				MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
 				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString,
 						activity, activity);
 				renameDialog.show();
@@ -126,7 +126,7 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
-		MainMenuActivity activity = StatusBarNotificationManager.getInstance().getActivity(notificationId);
+		MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
 		if (projectManager.loadProject(projectName, activity, activity, true)) {
 			activity.writeProjectTitleInTextfield();
 		}
