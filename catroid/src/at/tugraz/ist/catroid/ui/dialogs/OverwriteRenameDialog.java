@@ -95,7 +95,7 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 				} else if (renameButton.isChecked()) {
 					String newProjectName = projectName + UUID.randomUUID();
 					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
-					//ProjectManager.INSTANCE.renameProject(newProjectName, context, errorListenerInterface);
+					ProjectManager.INSTANCE.renameProject(newProjectName, context, errorListenerInterface);
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
 					boolean error = !ProjectManager.INSTANCE.renameProject(projectText.getText().toString(), context,
