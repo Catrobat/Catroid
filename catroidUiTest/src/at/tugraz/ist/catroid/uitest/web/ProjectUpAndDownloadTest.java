@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -193,25 +194,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 				serverProjectDescription.equalsIgnoreCase(projectDescriptionSetWhenUploading));
 	}
 
-	public void testUpload() throws Throwable {
-		//createTestProject(testProject);
-		//Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-		//getActivity().startActivity(intent);
-		setServerURLToTestUrl();
-		UiTestUtils.createValidUser(getActivity());
-		uploadProject("Test132", "");
-		solo.sleep(5000);
-	}
-
-	public void testDownload() throws Throwable {
-		setServerURLToTestUrl();
-		UiTestUtils.createValidUser(getActivity());
-		for (int i = 0; i < 5; i++) {
-			downloadProjectAndReplace("bigFile");
-			solo.sleep(100000);
-		}
-	}
-
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
 		setServerURLToTestUrl();
 
@@ -232,7 +214,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		String DeserializedProjectName = uploadProject.getName();
 		assertTrue("Deserialized project name was changed", DeserializedProjectName.equalsIgnoreCase(testProject));
 
-		UiTestUtils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects(); //??
 
 		downloadProjectAndReplace(testProject);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
@@ -277,24 +259,23 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnEditText(1);
 		solo.enterText(1, uploadProjectDescription);
 
-		//		solo.setActivityOrientation(Solo.LANDSCAPE);
+		//solo.setActivityOrientation(Solo.LANDSCAPE);
 
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
 
 		solo.sleep(500);
 
 		try {
-			//solo.setActivityOrientation(Solo.LANDSCAPE);
+			//solo.setActivityOrientation(Solo.PORTRAIT);
 
-			//solo.waitForDialogToClose(10000);
-			//assertTrue("Upload failed. Internet connection?",
-			//solo.searchText(getActivity().getString(R.string.success_project_upload)));
+			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload));
+			assertTrue("Upload failed. Internet connection?", success);
 			String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
+			Log.v("serverID=", "" + serverProjectId);
 
-			solo.clickOnButton(0);
 		} catch (JSONException e) {
 			fail("JSON exception orrured");
 		}
@@ -309,16 +290,17 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		intent.setData(Uri.parse(downloadUrl));
 		launchActivityWithIntent("at.tugraz.ist.catroid", MainMenuActivity.class, intent);
 
-		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
-		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Testproject not loaded.", solo.searchText(projectName));
-		assertTrue("OverwriteRenameDialog not showed.",
+		solo.sleep(5000);
+		assertTrue("OverwriteRenameDialog not shown.",
 				solo.searchText(getActivity().getString(R.string.overwrite_text)));
-
 		solo.clickOnText(getActivity().getString(R.string.overwrite_replace));
 		solo.clickOnButton(getActivity().getString(R.string.ok));
+
+		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
+		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
+		assertTrue("Testproject not loaded.", solo.searchText(projectName));
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectName;
 		File downloadedDirectory = new File(projectPath);
@@ -330,29 +312,31 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void downloadProject() {
 		String downloadUrl = TEST_FILE_DOWNLOAD_URL + serverProjectId + Constants.CATROID_EXTENTION;
 		downloadUrl += "?fname=" + newTestProject;
+		//http://catroidtest.ist.tugraz.at/catroid/download/3018.catrobat?fname=testingproject1
 
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
 		launchActivityWithIntent("at.tugraz.ist.catroid", MainMenuActivity.class, intent);
 
-		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
-		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
-		assertTrue("OverwriteRenameDialog not showed.",
+		solo.sleep(5000);
+		assertTrue("OverwriteRenameDialog not shown.",
 				solo.searchText(getActivity().getString(R.string.overwrite_text)));
-
 		solo.clickOnText(getActivity().getString(R.string.overwrite_rename));
 		assertTrue("No text field to enter new name.", solo.searchEditText(newTestProject));
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		assertTrue("No error showed because of duplicate names.",
+		assertTrue("No error shown because of duplicate names.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 		solo.clickOnButton(getActivity().getString(R.string.close));
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
+
+		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
+		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
+		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + testProject;
 		File downloadedDirectory = new File(projectPath);

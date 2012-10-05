@@ -62,7 +62,7 @@ public class ProjectUploadService extends IntentService {
 		this.projectDescription = intent.getStringExtra("projectDescription");
 		this.token = intent.getStringExtra("token");
 		this.serverAnswer = "";
-		this.result = false;
+		this.result = true;
 		this.notificationId = intent.getIntExtra("notificationId", 0);
 
 		return returnCode;

@@ -50,7 +50,6 @@ public class ConnectionWrapper {
 
 	private final static String TAG = ConnectionWrapper.class.getSimpleName();
 	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 16; //16 KB
-	//private HttpURLConnection urlConnection;
 	private HttpURLConnection urlConnection;
 
 	public static final String FTP_USERNAME = "ftp-uploader";
@@ -114,9 +113,6 @@ public class ConnectionWrapper {
 		return answer;
 	}
 
-	/**
-	 * @param postValues
-	 */
 	private String sendUploadPost(String httpPostUrl, HashMap<String, String> postValues, String fileTag,
 			String filePath) throws IOException, WebconnectionException {
 
@@ -244,19 +240,15 @@ public class ConnectionWrapper {
 		URL url = new URL(urlString);
 
 		String boundary = MultiPartFormOutputStream.createBoundary();
-		//String boundary = HttpBuilder.createBoundary();
 		urlConnection = (HttpURLConnection) MultiPartFormOutputStream.createConnection(url);
-		//urlConnection = (HttpURLConnection) HttpBuilder.createConnection(url);
 
 		urlConnection.setRequestProperty("Accept", "*/*");
-		//urlConnection.setRequestProperty("Content-Type", HttpBuilder.getContentType(boundary));
 		urlConnection.setRequestProperty("Content-Type", MultiPartFormOutputStream.getContentType(boundary));
 
 		urlConnection.setRequestProperty("Connection", "Keep-Alive");
 		urlConnection.setRequestProperty("Cache-Control", "no-cache");
 
 		MultiPartFormOutputStream out = new MultiPartFormOutputStream(urlConnection.getOutputStream(), boundary);
-		//HttpBuilder out = new HttpBuilder(urlConnection.getOutputStream(), boundary);
 
 		Set<Entry<String, String>> entries = postValues.entrySet();
 		for (Entry<String, String> entry : entries) {
