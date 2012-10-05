@@ -81,7 +81,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				String notificationMessage = "Download " + progress + "% " + getString(R.string.completed) + ":"
 						+ projectName;
 
-				StatusBarNotificationManager.getInstance().updateNotification(notificationId, notificationMessage,
+				StatusBarNotificationManager.INSTANCE.updateNotification(notificationId, notificationMessage,
 						Constants.DOWNLOAD_NOTIFICATION, endOfFileReached);
 			}
 		}
@@ -156,7 +156,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	public int createNotification(String downloadName) {
-		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
+		StatusBarNotificationManager manager = StatusBarNotificationManager.INSTANCE;
 		int notificationId = manager.createNotification(downloadName, this, Constants.DOWNLOAD_NOTIFICATION);
 		return notificationId;
 	}
