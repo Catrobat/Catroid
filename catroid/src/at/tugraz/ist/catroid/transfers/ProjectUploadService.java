@@ -109,6 +109,7 @@ public class ProjectUploadService extends IntentService {
 			zipFile.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
+
 		} catch (WebconnectionException webException) {
 			serverAnswer = webException.getMessage();
 			result = false;
@@ -119,7 +120,7 @@ public class ProjectUploadService extends IntentService {
 	public void onDestroy() {
 		super.onDestroy();
 		if (!result) {
-			showDialog(serverAnswer);
+			showDialog(getString(R.string.error_project_upload));
 			return;
 		}
 		showDialog(getString(R.string.success_project_upload));
