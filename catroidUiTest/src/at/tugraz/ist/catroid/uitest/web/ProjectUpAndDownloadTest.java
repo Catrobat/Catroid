@@ -109,7 +109,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		UiTestUtils.clearAllUtilTestProjects();
 
-		downloadProject();
+		//TODO: refactor test method downloadProject()
+		//downloadProject();
 	}
 
 	public void testRenameProjectNameAndDescriptionWhenUploading() throws Throwable {
