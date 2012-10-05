@@ -115,39 +115,13 @@ public class ServerCalls {
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
 			}
+
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
 			String httpPostUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL_HTTP;
-
-			//just 4 testing:
-			//serverUrl = TEST_FILE_UPLOAD_URL;
-			//httpPostUrl = TEST_FILE_UPLOAD_URL_HTTP;
-			//
 
 			Log.v(TAG, "url to upload: " + serverUrl);
 			connection.doFtpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString, receiver,
 					httpPostUrl, notificationId);
-
-			/* resultString = */
-			/*
-			 * JSONObject jsonObject = null;
-			 * int statusCode = 0;
-			 * 
-			 * Log.v(TAG, "result string: " + resultString);
-			 * 
-			 * jsonObject = new JSONObject(resultString);
-			 * statusCode = jsonObject.getInt("statusCode");
-			 * String serverAnswer = jsonObject.getString("answer");
-			 * 
-			 * if (statusCode == 200) {
-			 * return serverAnswer;
-			 * } else {
-			 * throw new WebconnectionException(statusCode, serverAnswer);
-			 * }
-			 * 
-			 * } catch (JSONException e) {
-			 * e.printStackTrace();
-			 * throw new WebconnectionException(WebconnectionException.ERROR_JSON);
-			 */
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
@@ -156,19 +130,6 @@ public class ServerCalls {
 
 	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
 			Integer notificationId, String projectName) throws WebconnectionException {
-
-		/*
-		 * String serverUrl = useTestUrl ? BASE_URL_TEST_FTP : BASE_URL_FTP;
-		 * 
-		 * Log.v(TAG, "url to download: " + serverUrl);
-		 * try {
-		 * connection.doFtpPostFileDownload(serverUrl, null, zipFileString);
-		 * } catch (IOException e) {
-		 * e.printStackTrace();
-		 * throw new WebconnectionException(0);
-		 * }
-		 */
-
 		try {
 			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString, receiver, notificationId, projectName);
 		} catch (MalformedURLException e) {

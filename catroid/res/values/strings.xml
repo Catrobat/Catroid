@@ -279,6 +279,10 @@
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="size_of_project">Size of project:</string>
+    <string name="copy_process_canceled">Copy proecess cancelled</string>
+    <string name="completed">completed</string>
+    <string name="notification_upload_title">Uploading project</string>
+    <string name="notification_download_title">Downloading project</string>
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>

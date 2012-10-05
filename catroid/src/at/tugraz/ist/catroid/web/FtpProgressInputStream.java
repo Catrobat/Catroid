@@ -93,12 +93,6 @@ public class FtpProgressInputStream extends InputStream {
 		progressBundle.putInt("notificationId", notificationId);
 		progressBundle.putString("projectName", projectName);
 		receiver.send(Constants.UPDATE_UPLOAD_PROGRESS, progressBundle);
-
-		/*
-		 * Message progressMessage = Message.obtain();
-		 * progressMessage.setData(progressBundle);
-		 * handler.sendMessage(progressMessage);
-		 */
 	}
 
 }
