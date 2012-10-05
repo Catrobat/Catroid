@@ -28,6 +28,7 @@ import java.io.IOException;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.ResultReceiver;
+import android.util.Log;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Constants;
@@ -39,6 +40,7 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadService extends IntentService {
 
+	private final static String TAG = ProjectUploadService.class.getSimpleName();
 	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROID_EXTENTION;
 
 	private String projectPath;
@@ -112,6 +114,7 @@ public class ProjectUploadService extends IntentService {
 
 		} catch (WebconnectionException webException) {
 			serverAnswer = webException.getMessage();
+			Log.e(TAG, serverAnswer);
 			result = false;
 		}
 	}

@@ -31,7 +31,6 @@ import at.tugraz.ist.catroid.common.Constants;
 
 public class FtpProgressInputStream extends InputStream {
 
-	private final static String TAG = FtpProgressInputStream.class.getSimpleName();
 	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 20; //20 KB
 	private InputStream inputStream;
 	private ResultReceiver receiver;

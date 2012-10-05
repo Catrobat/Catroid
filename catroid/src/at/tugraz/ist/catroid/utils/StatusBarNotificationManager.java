@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -51,7 +52,8 @@ public class StatusBarNotificationManager {
 
 	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
-	private StatusBarNotificationManager() {
+	@SuppressLint("UseSparseArrays")
+    private StatusBarNotificationManager() {
 		this.uploadId = 0;
 		this.downloadId = 0;
 		this.uploadNotification = null;
@@ -83,6 +85,7 @@ public class StatusBarNotificationManager {
 		return id;
 	}
 
+	@SuppressWarnings("deprecation")
 	private Integer createUploadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
@@ -111,6 +114,7 @@ public class StatusBarNotificationManager {
 		return uploadId;
 	}
 
+	@SuppressWarnings("deprecation")
 	private Integer createDownloadNotification(String name, Context context, int notificationCode) {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Activity.NOTIFICATION_SERVICE);
@@ -147,6 +151,7 @@ public class StatusBarNotificationManager {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void updateUploadNotification(Integer id, String message, int notificationCode, boolean finished) {
 		Context context = uploadNotificationDataMap.get(id).getContext();
 		String notificationTitle = uploadNotificationDataMap.get(id).getNotificationTitle();
@@ -162,6 +167,7 @@ public class StatusBarNotificationManager {
 		uploadNotificationManager.notify(notificationCode, uploadNotification);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void updateDownloadNotification(Integer id, String message, int notificationCode, boolean finished) {
 		Context context = downloadNotificationDataMap.get(id).getContext();
 		String notificationTitle = downloadNotificationDataMap.get(id).getNotificationTitle();
