@@ -232,7 +232,6 @@ public class ConnectionWrapper {
 
 	private MultiPartFormOutputStream buildPost(String urlString, HashMap<String, String> postValues)
 			throws IOException {
-		//private HttpBuilder buildPost(String urlString, HashMap<String, String> postValues) throws IOException {
 		if (postValues == null) {
 			postValues = new HashMap<String, String>();
 		}

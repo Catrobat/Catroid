@@ -95,7 +95,7 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 				} else if (renameButton.isChecked()) {
 					String newProjectName = projectName + UUID.randomUUID();
 					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
-					ProjectManager.INSTANCE.renameProject(newProjectName, context, errorListenerInterface);
+					//ProjectManager.INSTANCE.renameProject(newProjectName, context, errorListenerInterface);
 					UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 					ProjectManager.INSTANCE.loadProject(projectName, context, errorListenerInterface, false);
 					boolean error = !ProjectManager.INSTANCE.renameProject(projectText.getText().toString(), context,
@@ -107,11 +107,10 @@ public class OverwriteRenameDialog extends Dialog implements OnClickListener {
 					ProjectManager.INSTANCE.renameProject(projectName, context, errorListenerInterface);
 					if (error) {
 						break;
-					} else {
-						ProjectManager.INSTANCE.loadProject(projectText.getText().toString(), context,
-								errorListenerInterface, false);
-						activity.writeProjectTitleInTextfield();
 					}
+					ProjectManager.INSTANCE.loadProject(projectText.getText().toString(), context,
+							errorListenerInterface, false);
+					activity.writeProjectTitleInTextfield();
 				}
 				Toast.makeText(context, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 				dismiss();
