@@ -116,6 +116,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	public void createNotification(String projectName) {
 		StatusBarNotificationManager copyManager = StatusBarNotificationManager.getInstance();
 		notificationId = copyManager.createNotification(projectName, parentActivity.getActivity(),
-				CopyProjectTask.class, Constants.COPY_NOTIFICATION);
+				Constants.COPY_NOTIFICATION);
 	}
 }
