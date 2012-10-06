@@ -32,6 +32,6 @@
         android:id="@+id/fr_projects_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="at.tugraz.ist.catroid.ui.fragment.ProjectsListFragment" />
+        class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />
 
 </LinearLayout>
