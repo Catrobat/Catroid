@@ -22,7 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="at.tugraz.ist.catroid"
+    package="org.catrobat.catroid"
     android:installLocation="auto"
     android:versionCode="2147483646"
     android:versionName="0.6.0beta" >
