@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2012 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -11,99 +11,96 @@
  *  
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
+ *  http://developer.catrobat.org/license_additional_term
  *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *   
+ *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
- 
- 
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="133dp"
-	android:layout_width="fill_parent"
-	android:background="@color/spritelist_item_background">
-	       
-    <ImageView 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="133dp"
+    android:background="@color/spritelist_item_background" >
+
+    <ImageView
         android:id="@+id/my_projects_activity_project_image"
-		android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true" 
-		android:layout_width="@dimen/project_thumbnail_width"
-		android:layout_height="@dimen/project_thumbnail_height" 
-		android:layout_marginRight="6dp" 
-		android:layout_marginLeft="5dp" />
-    
-    <TextView 
+        android:layout_width="@dimen/project_thumbnail_width"
+        android:layout_height="@dimen/project_thumbnail_height"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="6dp" />
+
+    <TextView
         android:id="@+id/my_projects_activity_project_title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" 
-        android:layout_toRightOf="@+id/my_projects_activity_project_image" 
-        android:gravity="center_vertical"
         android:layout_marginLeft="5dp"
-        android:textSize="18sp" 
-        android:textStyle="bold"
-        android:textColor="@color/solid_black"
+        android:layout_marginRight="6dp"
+        android:layout_toRightOf="@+id/my_projects_activity_project_image"
         android:ellipsize="end"
+        android:gravity="center_vertical"
         android:maxLines="2"
-        android:layout_marginRight="6dp"/>
-    
-    <TextView 
+        android:textColor="@color/solid_black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/my_projects_activity_project_changed_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/my_projects_activity_project_title"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/my_projects_activity_project_image"
-        android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
-        android:textStyle="bold" 
-        android:textSize="14sp" 
         android:text="@string/last_used"
-        android:layout_marginLeft="5dp" />
-    
-    <TextView 
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/my_projects_activity_size_of_project_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/my_projects_activity_project_changed_1"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/my_projects_activity_project_image"
-        android:layout_alignWithParentIfMissing="true" 
         android:gravity="center_vertical"
-        android:textStyle="bold" 
-        android:textSize="14sp" 
         android:text="@string/size_of_project"
-        android:layout_marginLeft="5dp" />
-    
-    <TextView 
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/my_projects_activity_project_changed_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/my_projects_activity_project_title"
         android:layout_alignTop="@+id/my_projects_activity_project_changed_1"
-        android:layout_alignWithParentIfMissing="true" 
-        android:gravity="center_vertical"
-        android:textSize="14sp"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@+id/my_projects_activity_project_title"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="6dp" />
-    
-    <TextView 
+        android:layout_marginRight="6dp"
+        android:gravity="center_vertical"
+        android:textSize="14sp" />
+
+    <TextView
         android:id="@+id/my_projects_activity_size_of_project_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/my_projects_activity_project_changed_2"
         android:layout_alignTop="@+id/my_projects_activity_size_of_project_1"
-        android:layout_alignWithParentIfMissing="true" 
-        android:gravity="center_vertical"
-        android:textSize="14sp"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@+id/my_projects_activity_project_changed_2"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="6dp" />
-</RelativeLayout>
+        android:layout_marginRight="6dp"
+        android:gravity="center_vertical"
+        android:textSize="14sp" />
 
+</RelativeLayout>
