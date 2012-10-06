@@ -65,7 +65,7 @@ public class ReflectionTest extends InstrumentationTestCase {
 
 		assertEquals("the Android version is wrong", 10, androidVersionResult);
 		assertEquals("catrobatlanguageversion wrong", 0.3f, catrobatLanguageVersionResult);
-		assertEquals("applicationVersion wrong", "0.6.0beta", catroidVersionNameResult);
+		assertEquals("applicationVersion wrong", "0.7.0beta", catroidVersionNameResult);
 		assertEquals("DeviceName wrong", "HTC Desire", deviceNameresult);
 		assertNotNull("createdProject is null", createdProject);
 		assertEquals("ProjectName tag not set", createdProject.getName(), "testProject");

@@ -73,7 +73,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 		assertEquals("catroidVersionCode tag not parsed",
 				values.get(HeaderTags.APPLICATIONBUILDNUMBER.getXmlTagString()), "980");
 		assertEquals("catroidVersionName tag not parsed", values.get(HeaderTags.APPLICATIONVERSION.getXmlTagString()),
-				"0.6.0beta");
+				"0.7.0beta");
 		assertEquals("deviceName tag not parsed", values.get(HeaderTags.DEVICENAME.getXmlTagString()), "GT-I9100");
 		assertEquals("ProjectName tag not parsed", values.get(HeaderTags.PROGRAMNAME.getXmlTagString()),
 				"standardProjekt");
@@ -130,7 +130,7 @@ public class SimpleXMLParserTest extends InstrumentationTestCase {
 		assertEquals("catroidVersionCode tag not parsed",
 				values.get(HeaderTags.APPLICATIONBUILDNUMBER.getXmlTagString()), "980");
 		assertEquals("catroidVersionName tag not parsed", values.get(HeaderTags.APPLICATIONVERSION.getXmlTagString()),
-				"0.6.0beta");
+				"0.7.0beta");
 		assertEquals("deviceName tag not parsed", values.get(HeaderTags.DEVICENAME.getXmlTagString()), "GT-I9100");
 		assertEquals("ProjectName tag not parsed", values.get(HeaderTags.PROGRAMNAME.getXmlTagString()),
 				"standardProjekt");
