@@ -23,7 +23,7 @@
  -->
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="at.tugraz.ist.catroid.uitest"
+	package="org.catrobat.catroid.uitest"
 	android:versionCode="2147483646"
 	android:versionName="0.6.0beta"
 >
@@ -36,12 +36,12 @@
 		<uses-library
 			android:name="android.test.runner" />
 		<activity
-			android:name="at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity"
+			android:name="org.catrobat.catroid.uitest.mockups.MockGalleryActivity"
 			android:exported="true"
 		>
 		</activity>
 		<activity
-			android:name="at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity"
+			android:name="org.catrobat.catroid.uitest.mockups.MockPaintroidActivity"
 			android:exported="true"
 		>
 		</activity>
@@ -51,10 +51,10 @@
 		android:minSdkVersion="8"
 		android:targetSdkVersion="15" />
 	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
+		android:targetPackage="org.catrobat.catroid"
 		android:name="android.test.InstrumentationTestRunner" />
 	<!-- this instrumentation is needed to run the tests from jenkins -->
 	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
+		android:targetPackage="org.catrobat.catroid"
 		android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner" />
 </manifest> 
