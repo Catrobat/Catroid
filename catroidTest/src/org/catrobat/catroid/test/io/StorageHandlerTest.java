@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.StandardProjectHandler;
@@ -56,7 +57,6 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.xml.serializer.XmlSerializer;
 
 import android.test.AndroidTestCase;
-import org.catrobat.catroid.R;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private StorageHandler storageHandler;
@@ -247,7 +247,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		storageHandler.saveProject(project);
 		String projectString = TestUtils.getProjectfileAsString(projectName);
-		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
+		assertFalse("project contains package information", projectString.contains("org.catrobat"));
 
 		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", new XmlSerializer(), false);
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));

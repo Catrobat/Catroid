@@ -28,7 +28,7 @@
     android:orientation="vertical"
     android:id="@+id/MainMenuActivityRoot" >
 
-    <at.tugraz.ist.catroid.ui.widget.DashboardLayout
+    <org.catrobat.catroid.ui.widget.DashboardLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -87,6 +87,6 @@
             android:drawableTop="@drawable/about_selector"
             android:onClick="handleAboutCatroidButton"
             android:text="@string/about" />
-    </at.tugraz.ist.catroid.ui.widget.DashboardLayout>
+    </org.catrobat.catroid.ui.widget.DashboardLayout>
 
 </LinearLayout>
