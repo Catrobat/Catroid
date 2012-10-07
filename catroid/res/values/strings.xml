@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2012 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -11,17 +11,18 @@
  *  
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
+ *  http://developer.catrobat.org/license_additional_term
  *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *   
+ *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ -->
 <resources>
+
     <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">project</string>
@@ -31,6 +32,7 @@
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
+    <string name="delete_lowercase">delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="copy">Copy</string>
@@ -104,7 +106,6 @@
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
-    <string name="sound_delete">delete</string>
     <string name="sound_select_source">Select a sound</string>
     <string name="delete_sound_dialog">Delete sound?</string>
     <string name="soundlist_footer_image_description">Tap to add new sound</string>
@@ -137,7 +138,7 @@
     <string name="new_project_description_dialog_hint">My Description</string>
     <string name="new_project_name">Project name:</string>
     <string name="new_project_description">Project description:</string>
-    
+
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Sprite</string>
@@ -281,6 +282,9 @@
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="size_of_project">Size of project:</string>
     <string name="copy_process_canceled">Copy proecess cancelled</string>
+    <string name="notification_percent_completed">completed</string>
+    <string name="notification_upload_title">Uploading project</string>
+    <string name="notification_download_title">Downloading project</string>
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
@@ -309,4 +313,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
+
 </resources>
