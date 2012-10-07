@@ -60,7 +60,7 @@
     <string name="about">About Catroid</string>
     <string name="upload_project">Upload Project</string>
     <!-- Settings activity -->
-    <string name="pref_category_mindstorm">Lego Mindstorms settings</string>
+    <string name="pref_category_mindstorm">Settings</string>
     <string name="pref_enable_ms_bricks">Enable Lego Mindstorms bricks</string>
     <string name="pref_descr_ms_bricks">These bricks are used to control Lego Mindstorms robots.</string>
     <!-- About Dialog -->
