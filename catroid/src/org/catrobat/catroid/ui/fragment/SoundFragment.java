@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptTabActivity;
@@ -60,7 +61,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -109,7 +109,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 	private static final int FOOTER_ADD_SOUND_ALPHA_VALUE = 35;
-	private final int REQUEST_SELECT_MUSIC = 0;
+	public static final int REQUEST_SELECT_MUSIC = 0;
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
