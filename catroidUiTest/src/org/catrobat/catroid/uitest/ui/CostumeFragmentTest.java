@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
@@ -44,7 +45,6 @@ import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -452,7 +452,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
 		bundleForGallery.putBoolean("returnNullData", true);
 		Intent intent = new Intent(getInstrumentation().getContext(),
-				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
+				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
