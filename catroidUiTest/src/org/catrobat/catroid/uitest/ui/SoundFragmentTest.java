@@ -113,8 +113,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		adapter = getSoundFragment().getListAdapter();
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not rigth", 2, oldCount);
-		assertEquals("the new count is not rigth - one costume should be deleted", 1, newCount);
-		assertEquals("the count of the costumeDataList is not right", 1, soundInfoList.size());
+		assertEquals("the new count is not rigth - one sound should be deleted", 1, newCount);
+		assertEquals("the count of the soundList is not right", 1, soundInfoList.size());
 	}
 
 	public void testRenameSound() {
@@ -273,8 +273,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.assertCurrentActivity("Test should not fail - should be in ScriptTabActivity",
 				ScriptTabActivity.class.getSimpleName());
 		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
-		int numberOfCostumeDatasAfterReturning = soundInfoList.size();
-		assertEquals("wrong size of soundInfoList", numberOfSoundsBeforeIntent, numberOfCostumeDatasAfterReturning);
+		int numberOfSoundsAfterReturning = soundInfoList.size();
+		assertEquals("wrong size of soundInfoList", numberOfSoundsBeforeIntent, numberOfSoundsAfterReturning);
 	}
 
 	private void renameSound(String currentSoundTitle, String newSoundTitle) {
