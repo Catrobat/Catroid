@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uitest.ui;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
@@ -31,7 +32,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -68,6 +68,10 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		//disable mindstorm bricks, if enabled at start
 		if (preferances.getBoolean("setting_mindstorm_bricks", false)) {
 			solo.clickOnText(settings);
+			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+
+			assertTrue("Wrong title", solo.searchText(solo.getString(R.string.pref_title)));
+
 			solo.clickOnText(prefMsBricks);
 			solo.goBack();
 		}
