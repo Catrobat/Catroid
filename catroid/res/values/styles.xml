@@ -61,7 +61,7 @@
         <item name="android:windowAnimationStyle">@style/slide_up_dialog_animation</item>
     </style>
 
-    <style name="settings_activity" parent="Theme.Sherlock.Light.ForceOverflow">
+    <style name="settings_activity" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:windowBackground">@color/website_blue</item>
