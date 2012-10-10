@@ -26,6 +26,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -34,10 +36,11 @@ import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.ListAdapter;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -50,6 +53,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	private String soundName2 = "testSound2";
 	private File soundFile;
 	private File soundFile2;
+	private File externalSoundFile;
 	private ArrayList<SoundInfo> soundInfoList;
 
 	public SoundFragmentTest() {
@@ -82,6 +86,9 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(),
 				soundInfo2.getAbsolutePath());
 
+		externalSoundFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/externalSoundFile.mp3",
+				RESOURCE_SOUND, getActivity());
+
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -89,6 +96,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
+		externalSoundFile.delete();
 		super.tearDown();
 		solo = null;
 	}
@@ -105,8 +113,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		adapter = getSoundFragment().getListAdapter();
 		int newCount = adapter.getCount();
 		assertEquals("the old count was not rigth", 2, oldCount);
-		assertEquals("the new count is not rigth - one costume should be deleted", 1, newCount);
-		assertEquals("the count of the costumeDataList is not right", 1, soundInfoList.size());
+		assertEquals("the new count is not rigth - one sound should be deleted", 1, newCount);
+		assertEquals("the count of the soundList is not right", 1, soundInfoList.size());
 	}
 
 	public void testRenameSound() {
@@ -243,6 +251,30 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		renameSound(soundName2, "sound");
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("sound not renamed correctly", "sound1", soundInfoList.get(1).getTitle());
+	}
+
+	public void testGetSoundFromExternalSourceNullData() {
+		// currently uses MockGalleryActivity
+		// a MockSoundActivity would have excactly the same code
+		// but a MockSoundActivity could make sense in the future
+		goToSoundsTab();
+		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		int numberOfSoundsBeforeIntent = soundInfoList.size();
+		Bundle bundleForExternalSource = new Bundle();
+		bundleForExternalSource.putString("filePath", externalSoundFile.getAbsolutePath());
+		bundleForExternalSource.putBoolean("returnNullData", true);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForExternalSource);
+
+		getSoundFragment().startActivityForResult(intent, SoundFragment.REQUEST_SELECT_MUSIC);
+		solo.sleep(2000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 2000);
+		solo.assertCurrentActivity("Test should not fail - should be in ScriptTabActivity",
+				ScriptTabActivity.class.getSimpleName());
+		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		int numberOfSoundsAfterReturning = soundInfoList.size();
+		assertEquals("wrong size of soundInfoList", numberOfSoundsBeforeIntent, numberOfSoundsAfterReturning);
 	}
 
 	private void renameSound(String currentSoundTitle, String newSoundTitle) {
