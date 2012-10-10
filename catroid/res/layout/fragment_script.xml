@@ -19,12 +19,12 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/website_blue"
+    android:background="@android:color/white"
     android:orientation="vertical" >
 
     <!-- Sprite list -->
@@ -50,16 +50,6 @@
                 android:drawSelectorOnTop="false"
                 android:drawingCacheQuality="high"
                 android:fastScrollEnabled="true" />
-
-            <ImageView
-                android:id="@+id/trash"
-                android:layout_width="51dip"
-                android:layout_height="97dip"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="-3dip"
-                android:src="@drawable/trash_green"
-                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 
