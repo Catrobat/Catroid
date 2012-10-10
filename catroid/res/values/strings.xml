@@ -19,8 +19,8 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
 
     <!-- General terms -->
@@ -48,19 +48,16 @@
     <string name="add">Add</string>
     <string name="start">Start</string>
     <!-- Main menu activity -->
-    <string name="resume">Resume</string>
-    <string name="current_project">Current project:</string>
-    <string name="current_project_button">Current Project</string>
-    <string name="my_projects">My Projects</string>
-    <string name="settings">Settings</string>
-    <string name="web_resources">Web Resources</string>
-    <string name="forum">Forum</string>
-    <string name="new_project">New Project</string>
-    <string name="load">Load</string>
-    <string name="about">About Catroid</string>
-    <string name="upload_project">Upload Project</string>
+    <string name="main_menu_new">New</string>
+    <string name="main_menu_continue">Continue</string>
+    <string name="main_menu_programs">Programs</string>
+    <string name="main_menu_forum">Forum</string>
+    <string name="main_menu_web">Web</string>
+    <string name="main_menu_upload">Upload</string>
+    <string name="main_menu_settings">Settings</string>
+    <string name="main_menu_about_catroid">About Catroid</string>
     <!-- Settings activity -->
-    <string name="pref_title">Settings</string>    
+    <string name="pref_title">Settings</string>
     <string name="pref_enable_ms_bricks">Enable Lego Mindstorms bricks</string>
     <string name="pref_descr_ms_bricks">These bricks are used to control Lego Mindstorms robots.</string>
     <!-- About Dialog -->
@@ -313,7 +310,7 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
-        <!-- Formula Editor Strings -->
+    <!-- Formula Editor Strings -->
     <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">Formula Editor</string>
     <string name="formula_editor_button_undo">Undo</string>
@@ -328,7 +325,7 @@
     <string name="formula_editor_function_cos">cos</string>
     <string name="formula_editor_function_tan">tan</string>
     <string name="formula_editor_function_ln">ln</string>
-    <string name="formula_editor_function_log">log</string>   
+    <string name="formula_editor_function_log">log</string>
     <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_sqrt">sqrt</string>
     <string name="formula_editor_function_e">e</string>
@@ -348,4 +345,5 @@
     <string name="formula_editor_costume_size">costume-size</string>
     <string name="formula_editor_costume_rotation">costume-rotation</string>
     <string name="formula_editor_costume_layer">costume-layer</string>
+
 </resources>
