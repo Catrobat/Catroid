@@ -26,12 +26,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
-import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
@@ -52,7 +53,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -192,6 +192,16 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 				}
 				return true;
 			}
+			case R.id.menu_settings: {
+				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
+			}
+			case R.id.menu_about: {
+				AboutDialogFragment aboutDialog = new AboutDialogFragment();
+				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				return true;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -310,19 +320,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		startActivity(browserIntent);
 	}
 
-	public void handleSettingsButton(View v) {
-		Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-		startActivity(intent);
-	}
-
 	public void handleForumButton(View v) {
 		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
 		startActivity(browerIntent);
-	}
-
-	public void handleAboutCatroidButton(View v) {
-		AboutDialogFragment aboutDialog = new AboutDialogFragment();
-		aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
