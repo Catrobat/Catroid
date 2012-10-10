@@ -23,8 +23,8 @@
  -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="@string/pref_category_mindstorm" >
-        <CheckBoxPreference
+    <PreferenceCategory>
+        <CheckBoxPreference            
             android:defaultValue="false"
             android:key="setting_mindstorm_bricks"
             android:summary="@string/pref_descr_ms_bricks"

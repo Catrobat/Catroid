@@ -57,7 +57,7 @@
     <string name="about">"キャットロイドについて"</string>
     <string name="upload_project">"アップロード"</string>
     <!-- Settings activity -->
-    <string name="pref_category_mindstorm">"レゴマインドストームの設定"</string>
+    <string name="pref_title">"設定"</string>
     <string name="pref_enable_ms_bricks">"レゴ ブロックを有効にする"</string>
     <string name="pref_descr_ms_bricks">"これらのブロックは、レゴマインドストームロボットを制御するために使用されています。"</string>
     <!-- About Dialog -->
