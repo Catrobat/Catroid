@@ -111,7 +111,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		Utils.loadProjectIfNeeded(this, this);
 
 		if (projectManager.getCurrentProject() == null) {
-			findViewById(R.id.current_project_button).setEnabled(false);
+			findViewById(R.id.main_menu_button_continue).setEnabled(false);
 		}
 
 		// Load external project from URL or local file system.
@@ -285,24 +285,24 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 	}
 
-	public void handleCurrentProjectButton(View v) {
+	public void handleContinueButton(View v) {
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
 	}
 
-	public void handleNewProjectButton(View v) {
+	public void handleNewButton(View v) {
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	public void handleLoadProjectButton(View v) {
+	public void handleProgramsButton(View v) {
 		Intent intent = new Intent(MainMenuActivity.this, MyProjectsActivity.class);
 		startActivity(intent);
 	}
 
-	public void handleUploadProjectButton(View v) {
+	public void handleUploadButton(View v) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = preferences.getString(Constants.TOKEN, null);
 
@@ -315,7 +315,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 	}
 
-	public void handleWebResourcesButton(View v) {
+	public void handleWebButton(View v) {
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
 		startActivity(browserIntent);
 	}

@@ -97,7 +97,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		script.addBrick(broadcastBrick);
 		String buttonNewText = solo.getString(R.string.new_broadcast_message);
 
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.clickOnText(spriteName);
 		solo.clickOnText(buttonNewText);
 		solo.goBack();
@@ -114,7 +114,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		script.addBrick(broadcastWaitBrick);
 		String buttonNewText = solo.getString(R.string.new_broadcast_message);
 
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.clickOnText(spriteName);
 		solo.clickOnText(buttonNewText);
 		solo.goBack();
@@ -212,7 +212,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(sprite);
 		script.addBrick(playSoundBrick);
 
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.clickOnText(spriteName);
 		solo.clickOnText(spinnerNothingSelectedText);
 		solo.goBack();
@@ -228,7 +228,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		script.addBrick(setCostumeBrick);
 
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.clickOnText(spriteName);
 		solo.clickOnText(spinnerNothingSelectedText);
 		solo.goBack();
@@ -243,7 +243,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		PointInDirectionBrick directionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
 		script.addBrick(directionBrick);
 
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.clickOnText(spriteName);
 		solo.clickOnText("90");
 		solo.goBack();
@@ -318,7 +318,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	}
 
 	public void clickEditTextGoBackAndClickAgain() {
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(spriteName);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());

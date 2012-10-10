@@ -98,7 +98,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testBackToPreviousActivity() throws NameNotFoundException, IOException {
 		createAndSaveTestProject(testProject);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
@@ -145,7 +145,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testRestartButtonActivityChain() throws NameNotFoundException, IOException {
 		createAndSaveTestProject(testProject);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
@@ -273,7 +273,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testAxesOnOff() throws NameNotFoundException, IOException {
 		createAndSaveTestProject(testProject);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
@@ -319,7 +319,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		project.virtualScreenHeight = 700;
 		project.setDeviceData(getActivity());
 		storageHandler.saveProject(project);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));

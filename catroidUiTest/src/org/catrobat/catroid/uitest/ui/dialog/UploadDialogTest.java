@@ -90,7 +90,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		createTestProject();
 		solo.sleep(200);
 		UiTestUtils.createValidUser(getActivity());
-		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
 		solo.waitForDialogToClose(5000);
 
 		View renameView = solo.getText(getActivity().getString(R.string.project_rename));
@@ -122,7 +122,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String testText1 = "testText1";
 		String testText2 = "testText2";
 		UiTestUtils.createValidUser(getActivity());
-		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
 		solo.sleep(200);
 		solo.clearEditText(0);
 		solo.enterText(0, testText1);
@@ -147,7 +147,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.createValidUser(getActivity());
 
 		solo.sleep(300);
-		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		UiTestUtils.longClickOnTextInList(solo, uploadProject.getName());
@@ -175,7 +175,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		solo.clickOnText(solo.getString(R.string.upload_project));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		assertTrue("upload project dialog not shown",
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
 		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
@@ -193,7 +193,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		setServerURLToTestURL();
 		UiTestUtils.createValidUser(getActivity());
 		solo.sleep(200);
-		solo.clickOnText(solo.getString(R.string.upload_project));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 
 		assertTrue("upload project dialog not shown",
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
@@ -227,7 +227,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
 		solo.enterText(0, testProject);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);

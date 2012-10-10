@@ -274,7 +274,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
 		solo.enterText(0, projectToCreate);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
@@ -290,7 +290,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
-		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
 		solo.sleep(500);
 
 		// enter a new title
