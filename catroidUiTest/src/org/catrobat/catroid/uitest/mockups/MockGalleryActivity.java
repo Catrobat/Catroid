@@ -34,14 +34,24 @@ public class MockGalleryActivity extends Activity {
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Bundle b = this.getIntent().getExtras();
+		Bundle bundle = this.getIntent().getExtras();
 
-		String filePath = b.getString("filePath");
+		String filePath = bundle.getString("filePath");
 
 		Uri imageUri = Uri.parse(filePath);
 
-		Intent resultIntent = new Intent();
-		resultIntent.setData(imageUri);
+		Intent resultIntent;
+		boolean returnNullData = false;
+		if (bundle.containsKey("returnNullData")) {
+			returnNullData = bundle.getBoolean("returnNullData");
+		}
+
+		if (returnNullData) {
+			resultIntent = null;
+		} else {
+			resultIntent = new Intent();
+			resultIntent.setData(imageUri);
+		}
 
 		setResult(RESULT_OK, resultIntent);
 		finish();
