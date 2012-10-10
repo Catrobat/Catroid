@@ -115,6 +115,8 @@
     <string name="rename_project">Rename Project</string>
     <string name="myprojectlist_footer_image_description">Tap to add new project</string>
     <string name="copy_project">Copy Project</string>
+    <string name="copy_project_finished"> copied</string>
+    <string name="notification_title_copy_project">Copy project</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>

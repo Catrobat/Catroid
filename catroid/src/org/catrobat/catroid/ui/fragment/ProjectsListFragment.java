@@ -30,6 +30,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
@@ -48,7 +49,6 @@ import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.R;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
