@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uitest.ui;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
@@ -31,7 +32,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -58,16 +58,18 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testToggleMindstormBricks() {
+		int actionBarIconIndex = 0;
 		String currentProject = solo.getString(R.string.current_project_button);
 		String background = solo.getString(R.string.background);
 		String settings = solo.getString(R.string.settings);
 		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
-		SharedPreferences preferances = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		//disable mindstorm bricks, if enabled at start
-		if (preferances.getBoolean("setting_mindstorm_bricks", false)) {
+		if (preferences.getBoolean("setting_mindstorm_bricks", false)) {
 			solo.clickOnText(settings);
+			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
 			solo.clickOnText(prefMsBricks);
 			solo.goBack();
 		}
@@ -83,8 +85,11 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnText(settings);
 		solo.waitForActivity(SettingsActivity.class.getSimpleName());
+
+		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.pref_title)));
+
 		solo.clickOnText(prefMsBricks);
-		solo.goBack();
+		solo.clickOnImage(actionBarIconIndex);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(currentProject);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
