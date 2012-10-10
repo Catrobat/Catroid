@@ -23,12 +23,12 @@
 package org.catrobat.catroid.uitest.ui.dialog;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -56,7 +56,7 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testAboutDialog() {
-		solo.clickOnButton(getActivity().getString(R.string.about));
+		solo.clickOnMenuItem(getActivity().getString(R.string.about));
 		assertTrue("AboutDialog title not found", solo.searchText(getActivity().getString(R.string.about_title)));
 		assertTrue("AboutDialog text not found", solo.searchText(getActivity().getString(R.string.about_text)));
 		assertTrue("AboutDialog linktext not found",

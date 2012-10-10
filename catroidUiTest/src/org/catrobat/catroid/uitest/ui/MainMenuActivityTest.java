@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
@@ -55,7 +56,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -297,7 +297,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testAboutCatroid() {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
-		solo.clickOnButton(getActivity().getString(R.string.about));
+		solo.clickOnMenuItem(getActivity().getString(R.string.about));
 		solo.sleep(200);
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
 
