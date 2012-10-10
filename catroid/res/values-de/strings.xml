@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2012 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -11,16 +11,16 @@
  *  
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
+ *  http://developer.catrobat.org/license_additional_term
  *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *   
+ *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ -->
 <resources>
 
     <!-- General terms -->
@@ -41,6 +41,7 @@
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
     <string name="loading">Laden…</string>
+    <string name="copying">Kopiere…</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">Ok</string>
@@ -122,8 +123,7 @@
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
     <string name="myprojectlist_footer_image_description">Hier drücken, um neues Projekt hinzuzufügen</string>
-    <string name="copy_project_finished"> kopiert</string>
-    <string name="notification_title_copy_project">Kopiere Projekt</string>
+    <string name="copy_project">Projekt kopieren</string>
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
     <!-- Brick context dialog -->
@@ -268,6 +268,7 @@
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
     <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
+    <string name="error_orientation_change_copy_project">Kopiervorgang abgebrochen.\nDas Gerät während des Kopiervorgangs nicht drehen!</string>
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>
@@ -276,7 +277,8 @@
     <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
     <string name="size_of_project">Größe des Projekts:</string>
-    <string name="completed">abgeschlossen</string>
+    <string name="copy_process_canceled">Kopiervorgang abgebrochen.</string>
+    <string name="notification_percent_completed">abgeschlossen</string>
     <string name="notification_upload_title">Projekt raufladen</string>
     <string name="notification_download_title">Projekt runterladen</string>
     <!-- Bluetooth Connection Strings -->
