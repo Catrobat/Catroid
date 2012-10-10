@@ -168,7 +168,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		createTestProject();
 		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());

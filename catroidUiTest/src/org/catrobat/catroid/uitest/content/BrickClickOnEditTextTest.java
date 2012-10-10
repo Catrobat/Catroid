@@ -239,7 +239,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickInList(0);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());

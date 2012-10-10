@@ -123,7 +123,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteDog);
 		addNewSprite(spriteBear);
@@ -153,7 +153,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	public void testTabImagesAndLabelColor() {
 		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("Sprite1");
 		solo.clickInList(0);

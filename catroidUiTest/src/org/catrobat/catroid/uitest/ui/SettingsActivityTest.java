@@ -59,9 +59,9 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testToggleMindstormBricks() {
 		int actionBarIconIndex = 0;
-		String currentProject = solo.getString(R.string.current_project_button);
+		String currentProject = solo.getString(R.string.main_menu_continue);
 		String background = solo.getString(R.string.background);
-		String settings = solo.getString(R.string.settings);
+		String settings = solo.getString(R.string.main_menu_settings);
 		String mindstormsPreferenceString = solo.getString(R.string.pref_enable_ms_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());

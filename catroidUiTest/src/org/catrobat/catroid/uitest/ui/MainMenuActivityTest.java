@@ -98,7 +98,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		String hintNewProjectText = solo.getString(R.string.new_project_dialog_hint);
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
 		solo.waitForText(hintNewProjectText);
 		EditText addNewProjectEditText = solo.getEditText(0);
 		//check if hint is set
@@ -124,7 +124,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testCreateNewProjectErrors() {
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.clearEditText(0);
@@ -188,7 +188,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		File directory = new File(directoryPath);
 		UtilFile.deleteDirectory(directory);
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.clearEditText(0);
@@ -211,7 +211,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		File directory = new File(directoryPath);
 		UtilFile.deleteDirectory(directory);
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.clearEditText(0);
@@ -230,7 +230,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testErrorDialogOrientationChange() {
-		solo.clickOnButton(solo.getString(R.string.new_project));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.clearEditText(0);
@@ -252,7 +252,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		createTestProject(testProject2);
 		solo.sleep(200);
 
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject2);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -274,13 +274,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		createTestProject(testProject3);
 		solo.sleep(200);
 
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject3);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -297,7 +297,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testAboutCatroid() {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
-		solo.clickOnMenuItem(getActivity().getString(R.string.about));
+		solo.clickOnMenuItem(getActivity().getString(R.string.main_menu_about_catroid));
 		solo.sleep(200);
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
 
@@ -313,7 +313,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testAboutDialogOrientationChange() {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.about));
+		solo.clickOnButton(solo.getString(R.string.main_menu_about_catroid));
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
@@ -356,7 +356,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	//	public void testRenameToExistingProject() {
 	//		createTestProject(existingProject);
-	//		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+	//		solo.clickOnButton(getActivity().getString(R.string.main_menu_upload));
 	//		solo.clickOnEditText(0);
 	//		solo.enterText(0, "");
 	//		solo.enterText(0, existingProject);
@@ -446,7 +446,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
-		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);

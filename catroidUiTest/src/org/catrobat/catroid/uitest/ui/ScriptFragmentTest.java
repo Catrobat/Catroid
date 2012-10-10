@@ -88,10 +88,10 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
 			UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
-			solo.clickOnText(getActivity().getString(R.string.settings));
+			solo.clickOnText(getActivity().getString(R.string.main_menu_settings));
 			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
 			solo.goBack();
-			solo.clickOnText(getActivity().getString(R.string.current_project_button));
+			solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
 			solo.clickOnText(getActivity().getString(R.string.background));
 		}
 
@@ -178,7 +178,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
-		String currentProject = getActivity().getString(R.string.current_project_button);
+		String currentProject = getActivity().getString(R.string.main_menu_continue);
 		String background = getActivity().getString(R.string.background);
 		String categoryLooks = getActivity().getString(R.string.category_looks);
 		String categoryMotion = getActivity().getString(R.string.category_motion);
