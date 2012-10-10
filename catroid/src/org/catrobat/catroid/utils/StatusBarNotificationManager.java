@@ -25,12 +25,12 @@ package org.catrobat.catroid.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 
-import android.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
@@ -89,6 +89,9 @@ public class StatusBarNotificationManager {
 		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
 			id = createDownloadNotification(name, context, notificationCode);
 			downloadId++;
+		} else if (notificationCode == Constants.COPY_NOTIFICATION) {
+			id = createCopyNotification(name, context, notificationCode);
+			copyId++;
 		}
 		return id;
 	}
