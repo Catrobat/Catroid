@@ -61,9 +61,10 @@
         <item name="android:windowAnimationStyle">@style/slide_up_dialog_animation</item>
     </style>
 
-    <style name="settings_activity" parent="android:Theme.Light">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:background">@color/website_blue</item>
+    <style name="settings_activity" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
+        <item name="android:windowBackground">@color/website_blue</item>
     </style>
 
     <style name="rotate_dialog_animation">
