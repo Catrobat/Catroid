@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2012 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -11,17 +11,18 @@
  *  
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
+ *  http://developer.catrobat.org/license_additional_term
  *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *   
+ *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ -->
 <resources>
+
     <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="project">project</string>
@@ -40,6 +41,7 @@
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
     <string name="loading">Loading…</string>
+    <string name="copying">Copying…</string>
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
@@ -113,8 +115,7 @@
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
     <string name="myprojectlist_footer_image_description">Tap to add new project</string>
-    <string name="copy_project_finished"> copied</string>
-    <string name="notification_title_copy_project">Copying project</string>
+    <string name="copy_project">Copy Project</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
@@ -137,7 +138,7 @@
     <string name="new_project_description_dialog_hint">My Description</string>
     <string name="new_project_name">Project name:</string>
     <string name="new_project_description">Project description:</string>
-    
+
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Sprite</string>
@@ -271,6 +272,7 @@
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatability">The project is not compatible with this version of catroid.</string>
     <string name="error_copy_project">An error occurred while copying the project.</string>
+    <string name="error_orientation_change_copy_project">Copy process Cancelled.\nDo not rotate the device during the copy process!</string>
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
@@ -279,7 +281,8 @@
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="size_of_project">Size of project:</string>
-    <string name="completed">completed</string>
+    <string name="copy_process_canceled">Copy proecess cancelled</string>
+    <string name="notification_percent_completed">completed</string>
     <string name="notification_upload_title">Uploading project</string>
     <string name="notification_download_title">Downloading project</string>
     <!-- Bluetooth, LegoNXT, Arduino -->
@@ -310,4 +313,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
+
 </resources>
