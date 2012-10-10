@@ -273,7 +273,6 @@
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatability">The project is not compatible with this version of catroid.</string>
     <string name="error_copy_project">An error occurred while copying the project.</string>
-    <string name="error_orientation_change_copy_project">Copy process Cancelled.\nDo not rotate the device during the copy process!</string>
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
@@ -282,7 +281,6 @@
     <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="size_of_project">Size of project:</string>
-    <string name="copy_process_canceled">Copy proecess cancelled</string>
     <string name="notification_percent_completed">completed</string>
     <string name="notification_upload_title">Uploading project</string>
     <string name="notification_download_title">Downloading project</string>
