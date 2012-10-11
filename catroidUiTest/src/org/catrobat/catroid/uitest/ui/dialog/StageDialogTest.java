@@ -35,8 +35,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -84,14 +82,16 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		Project project = createTestProject(testProject);
 		ProjectManager.getInstance().setProject(project);
 
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
 		solo.goBack();
 
 		solo.goBack();
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Program is not in stage activity", MainMenuActivity.class);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Program is not in stage activity", ProjectActivity.class);
 	}
 
 	public void testBackToPreviousActivity() {
@@ -113,33 +113,33 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertEquals("Not equal Activities", previousActivity, getActivity());
 	}
 
-	public void testPauseOnBackButton() {
-		double scale = 100.0;
+	//	public void testPauseOnBackButton() {
+	//		double scale = 100.0;
+	//
+	//		Project project = new Project(getActivity(), testProject);
+	//		Sprite sprite = new Sprite("testSprite");
+	//		Script script = new StartScript(sprite);
+	//		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
+	//		SetSizeToBrick scaleCostumeBrick = new SetSizeToBrick(sprite, scale);
+	//
+	//		script.addBrick(waitBrick);
+	//		script.addBrick(scaleCostumeBrick);
+	//		sprite.addScript(script);
+	//		project.addSprite(sprite);
+	//
+	//		storageHandler.saveProject(project);
+	//		ProjectManager.getInstance().setProject(project);
+	//
+	//		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 
-		Project project = new Project(getActivity(), testProject);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript(sprite);
-		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
-		SetSizeToBrick scaleCostumeBrick = new SetSizeToBrick(sprite, scale);
-
-		script.addBrick(waitBrick);
-		script.addBrick(scaleCostumeBrick);
-		sprite.addScript(script);
-		project.addSprite(sprite);
-
-		storageHandler.saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
-
-		//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-		//		solo.goBack();
-		//		solo.sleep(6000);
-		//		solo.goBack();
-		//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-		//		solo.sleep(4000);
-		//		assertEquals("Unexpected sprite size", scale, sprite.getSize());
-	}
+	//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
+	//		solo.goBack();
+	//		solo.sleep(6000);
+	//		solo.goBack();
+	//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
+	//		solo.sleep(4000);
+	//		assertEquals("Unexpected sprite size", scale, sprite.getSize());
+	//	}
 
 	public void testRestartButtonActivityChain() {
 		createAndSaveTestProject(testProject);
@@ -173,6 +173,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		scriptPositionsStart.clear();
 		scriptPositionsRestart.clear();
 
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
@@ -251,6 +253,9 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		storageHandler.saveProject(project);
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
