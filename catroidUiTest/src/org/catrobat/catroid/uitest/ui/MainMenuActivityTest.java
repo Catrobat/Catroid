@@ -313,7 +313,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testAboutDialogOrientationChange() {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.main_menu_about_catroid));
+		solo.clickOnMenuItem(getActivity().getString(R.string.main_menu_about_catroid));
 		solo.sleep(200);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);

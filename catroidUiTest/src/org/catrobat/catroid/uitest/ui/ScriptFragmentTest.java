@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -36,7 +37,6 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -88,7 +88,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
 			UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
-			solo.clickOnText(getActivity().getString(R.string.main_menu_settings));
+			solo.clickOnMenuItem(getActivity().getString(R.string.main_menu_settings));
 			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
 			solo.goBack();
 			solo.clickOnText(getActivity().getString(R.string.main_menu_continue));

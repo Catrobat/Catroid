@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.stage;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
 import org.catrobat.catroid.LegoNXT.LegoNXTCommunicator;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
@@ -44,6 +45,8 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.bluetooth.BluetoothAdapter;
@@ -51,7 +54,6 @@ import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -194,10 +196,10 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			solo.sleep(5000);
 		}
 
-		solo.clickOnButton(0);
-		solo.sleep(1000);
+		solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("sprite1");
-		solo.sleep(1000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add(KITTYROID_MAC_ADDRESS);
