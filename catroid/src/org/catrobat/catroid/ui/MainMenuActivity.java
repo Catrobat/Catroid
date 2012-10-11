@@ -148,10 +148,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
 				Utils.displayErrorMessageFragment(getSupportFragmentManager(),
 						getResources().getString(R.string.error_load_project));
-			} else {
-				if (projectManager.loadProject(projectName, this, this, true)) {
-					writeProjectTitleInTextfield();
-				}
 			}
 		}
 	}
@@ -168,10 +164,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		ignoreResume = false;
 		PreStageActivity.shutdownPersistentResources();
-
-		if (projectManager.getCurrentProject() != null) {
-			actionBar.setTitle(R.string.app_name);
-		}
 	}
 
 	@Override
@@ -220,15 +212,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		ignoreResume = false;
 
 		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, this, false);
-		writeProjectTitleInTextfield();
+		actionBar.setTitle(R.string.app_name);
 
 		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
-	}
-
-	public void writeProjectTitleInTextfield() {
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ projectManager.getCurrentProject().getName();
-		actionBar.setTitle(title);
 	}
 
 	@Override

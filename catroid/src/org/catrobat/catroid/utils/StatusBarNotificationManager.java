@@ -189,7 +189,7 @@ public class StatusBarNotificationManager {
 	public void displayDialogs(MainMenuActivity activity) {
 		for (int i = 0; i < downloadProjectName.size() && i < downloadProjectZipFileString.size(); i++) {
 			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, downloadProjectName.get(i),
-					downloadProjectZipFileString.get(i), activity, activity);
+					downloadProjectZipFileString.get(i), activity);
 			renameDialog.show();
 		}
 		downloadProjectName.clear();
