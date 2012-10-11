@@ -104,16 +104,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		//check if hint is set
 		assertEquals("Not the proper hint set", hintNewProjectText, addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, testProject);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -125,16 +115,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, "");
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(""));
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
 		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
 
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
@@ -143,17 +123,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
 		solo.sleep(50);
-
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, testProject);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
 		solo.clickOnButton(0);
 
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
@@ -161,19 +130,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 
 		directory = new File(Utils.buildProjectPath("te?st"));
-		String name = "te/st:";
 		directory.mkdirs();
 		solo.sleep(50);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, name);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(name));
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
 		solo.clickOnButton(0);
 
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
@@ -189,14 +147,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UtilFile.deleteDirectory(directory);
 
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, projectNameWithBlacklistedCharacters);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -212,14 +162,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UtilFile.deleteDirectory(directory);
 
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, projectNameWithWhitelistedCharacters);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -227,21 +169,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
 		assertTrue("Project file with whitelisted characters was not created!", file.exists());
-	}
-
-	public void testErrorDialogOrientationChange() {
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, " ");
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		String errorMessage = solo.getString(R.string.error_no_name_entered);
-		assertTrue("Error dialog dissapeared after orientation change", solo.searchText(errorMessage));
-		solo.goBack();
 	}
 
 	public void testLoadProject() {
@@ -307,21 +234,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				.getText().toString());
 		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_catroid_license_link_text),
 				textViewList.get(2).getText().toString());
-		solo.goBack();
-	}
-
-	public void testAboutDialogOrientationChange() {
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
-		solo.clickOnMenuItem(getActivity().getString(R.string.main_menu_about_catroid));
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		assertTrue("About dialog is not visible", solo.searchText(getActivity().getString(R.string.about_text)));
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("About dialog is not visible", solo.searchText(getActivity().getString(R.string.about_text)));
 		solo.goBack();
 	}
 
