@@ -170,8 +170,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		PreStageActivity.shutdownPersistentResources();
 
 		if (projectManager.getCurrentProject() != null) {
-			String title = getString(R.string.project_name) + " " + projectManager.getCurrentProject().getName();
-			actionBar.setTitle(title);
+			actionBar.setTitle(R.string.app_name);
 		}
 	}
 
@@ -184,14 +183,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_start: {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-					ignoreResume = true;
-					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				}
-				return true;
-			}
 			case R.id.menu_settings: {
 				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
 				startActivity(intent);
@@ -269,7 +260,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	protected void onDestroy() {
 		super.onDestroy();
 
-		unbindDrawables(findViewById(R.id.MainMenuActivityRoot));
+		unbindDrawables(findViewById(R.id.main_menu));
 		System.gc();
 	}
 
