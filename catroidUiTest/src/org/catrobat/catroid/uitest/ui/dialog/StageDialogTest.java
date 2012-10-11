@@ -113,6 +113,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertEquals("Not equal Activities", previousActivity, getActivity());
 	}
 
+	// TODO
 	//	public void testPauseOnBackButton() {
 	//		double scale = 100.0;
 	//
