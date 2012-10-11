@@ -23,11 +23,11 @@
 package org.catrobat.catroid.uitest.ui.dialog;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
@@ -47,10 +47,8 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -82,7 +80,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo = null;
 	}
 
-	public void testBackButtonPressedTwice() throws NameNotFoundException, IOException {
+	public void testBackButtonPressedTwice() {
 		Project project = createTestProject(testProject);
 		ProjectManager.getInstance().setProject(project);
 
@@ -96,7 +94,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.assertCurrentActivity("Program is not in stage activity", MainMenuActivity.class);
 	}
 
-	public void testBackToPreviousActivity() throws NameNotFoundException, IOException {
+	public void testBackToPreviousActivity() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -143,7 +141,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		//		assertEquals("Unexpected sprite size", scale, sprite.getSize());
 	}
 
-	public void testRestartButtonActivityChain() throws NameNotFoundException, IOException {
+	public void testRestartButtonActivityChain() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -271,7 +269,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
 	}
 
-	public void testAxesOnOff() throws NameNotFoundException, IOException {
+	public void testAxesOnOff() {
 		createAndSaveTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
@@ -313,7 +311,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 	}
 
-	public void testMaximizeStretch() throws NameNotFoundException, IOException {
+	public void testMaximizeStretch() {
 		Project project = createTestProject(testProject);
 		project.virtualScreenWidth = 480;
 		project.virtualScreenHeight = 700;
@@ -369,7 +367,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 	}
 
-	private Project createTestProject(String projectName) throws IOException, NameNotFoundException {
+	private Project createTestProject(String projectName) {
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
@@ -384,7 +382,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		return project;
 	}
 
-	private Project createAndSaveTestProject(String projectName) throws IOException, NameNotFoundException {
+	private Project createAndSaveTestProject(String projectName) {
 		Project project = createTestProject(projectName);
 		StorageHandler.getInstance().saveProject(project);
 		return project;
