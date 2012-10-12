@@ -117,6 +117,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		DeviceListActivity dla = new DeviceListActivity();
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 
 		solo.sleep(2000);
@@ -232,6 +234,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
@@ -259,6 +263,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			solo.sleep(5000);
 		}
 
+		solo.clickOnButton(getActivity().getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);

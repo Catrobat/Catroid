@@ -24,7 +24,10 @@ package org.catrobat.catroid.uitest.ui.dialog;
 
 import java.io.File;
 
+import junit.framework.AssertionFailedError;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -33,14 +36,12 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.web.ServerCalls;
 
-import junit.framework.AssertionFailedError;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -115,27 +116,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
 	}
 
-	public void testOrientationChange() throws Throwable {
-		setServerURLToTestURL();
-		createTestProject();
-		solo.sleep(200);
-		String testText1 = "testText1";
-		String testText2 = "testText2";
-		UiTestUtils.createValidUser(getActivity());
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
-		solo.sleep(200);
-		solo.clearEditText(0);
-		solo.enterText(0, testText1);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.enterText(1, testText2);
-
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
-	}
-
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
 		String testDescription = "Test description";
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
@@ -156,10 +136,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.clearEditText(0);
 		solo.enterText(0, testDescription);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.sleep(300);
 
