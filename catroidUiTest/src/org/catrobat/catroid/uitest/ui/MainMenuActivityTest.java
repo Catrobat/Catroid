@@ -131,17 +131,20 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
 		solo.sleep(50);
+		solo.clearEditText(0);
+		solo.enterText(0, testProject);
 		solo.clickOnButton(0);
-
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 		solo.clickOnButton(0);
 
 		directory = new File(Utils.buildProjectPath("te?st"));
 		directory.mkdirs();
+		String name = "te/st:";
 		solo.sleep(50);
+		solo.clearEditText(0);
+		solo.enterText(0, name);
 		solo.clickOnButton(0);
-
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 		solo.clickOnButton(getActivity().getString(R.string.close));
