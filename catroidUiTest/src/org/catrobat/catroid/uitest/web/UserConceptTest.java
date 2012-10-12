@@ -24,12 +24,12 @@ package org.catrobat.catroid.uitest.web;
 
 import java.util.ArrayList;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
 
-import junit.framework.AssertionFailedError;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
@@ -38,7 +38,6 @@ import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -147,38 +146,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(0);
 		assertNotNull("Login Dialog is not shown.",
 				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
-	}
-
-	public void testOrientationChange() throws Throwable {
-		setTestUrl();
-		String testText1 = "testText1";
-		String testText2 = "testText2";
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Constants.TOKEN, null).commit();
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
-		solo.sleep(500);
-		solo.clearEditText(0);
-		solo.enterText(0, testText1);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
-		EditText passwordField = (EditText) solo.getView(R.id.password);
-		// sometimes, the keyboard overlaps the password textview
-		// if the click cannot be performed, an AssertionFailedError is thrown
-		// goBack makes the keyboard disappear, and then the click should work
-		// could be a workaround for other unstable tests - then this would be moved to UiTestUitls
-		try {
-			solo.clickOnView(passwordField);
-		} catch (AssertionFailedError e) {
-			solo.goBack();
-			solo.clickOnView(passwordField);
-		}
-		solo.clearEditText(passwordField);
-		solo.enterText(1, testText2);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
 	}
 
 	private void setTestUrl() throws Throwable {

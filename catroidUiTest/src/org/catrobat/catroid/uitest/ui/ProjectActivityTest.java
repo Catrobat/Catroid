@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -49,7 +50,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -102,14 +102,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String sometext = "something" + System.currentTimeMillis();
 		solo.clickOnText(getActivity().getString(R.string.main_menu_new));
 		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clearEditText(0);
 		solo.enterText(0, sometext);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(sometext));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 

@@ -108,6 +108,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		//check if hint is set
 		assertEquals("Not the proper hint set", hintNewProjectText, addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
+		solo.clearEditText(0);
+		solo.enterText(0, testProject);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -119,6 +121,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clearEditText(0);
+		solo.enterText(0, "");
 		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
 
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
@@ -151,6 +155,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UtilFile.deleteDirectory(directory);
 
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameWithBlacklistedCharacters);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -166,6 +172,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		UtilFile.deleteDirectory(directory);
 
 		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameWithWhitelistedCharacters);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
@@ -177,7 +185,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
-		assertEquals(Configuration.ORIENTATION_PORTRAIT, getActivity().getResources().getConfiguration().orientation);
+		assertEquals("MainMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
+				.getResources().getConfiguration().orientation);
 
 		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
@@ -189,7 +198,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 
-		assertEquals(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
+		assertEquals(
+				MainMenuActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
+				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
 	public void testLoadProject() {
