@@ -244,7 +244,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
-		solo.assertCurrentActivity("I should be in the main menu, but am not!", MainMenuActivity.class);
+		solo.assertCurrentActivity("Incorrect Activity reached!", ProjectActivity.class);
 
 	}
 
