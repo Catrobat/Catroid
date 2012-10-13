@@ -78,24 +78,24 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, null).commit();
 
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
 
 		fillLoginDialog(true);
 
 		assertNotNull("Upload Dialog is not shown.",
-				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
+				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testRegisterWithValidTokenSaved() throws Throwable {
 		setTestUrl();
 		UiTestUtils.createValidUser(getActivity());
 
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(5000);
 
 		assertNotNull("Upload Dialog is not shown.",
-				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
+				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testTokenPersistance() throws Throwable {
@@ -104,18 +104,18 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, "").commit();
 
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
 		fillLoginDialog(true);
 
 		assertNotNull("Upload Dialog is not shown.",
-				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
+				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 		solo.goBack();
 
 		solo.waitForDialogToClose(10000);
 
 		assertNotNull("Upload Dialog is not shown.",
-				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
+				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testRegisterWithWrongToken() throws Throwable {
@@ -124,12 +124,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, "wrong_token").commit();
 
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(4000);
 		fillLoginDialog(true);
 
 		assertNotNull("Login Dialog is not shown.",
-				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
+				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testRegisterWithShortPassword() throws Throwable {
@@ -138,14 +138,14 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, null).commit();
 
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
 		fillLoginDialog(false);
 
-		assertNotNull("no error dialog is shown", solo.getText(getActivity().getString(R.string.register_error)));
+		assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
 		solo.clickOnButton(0);
 		assertNotNull("Login Dialog is not shown.",
-				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
+				solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
 	private void setTestUrl() throws Throwable {
@@ -158,7 +158,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	private void fillLoginDialog(boolean correct) {
 		assertNotNull("Login Dialog is not shown.",
-				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
+				solo.getText(solo.getString(R.string.login_register_dialog_title)));
 
 		// enter a username
 		String testUser = "testUser" + System.currentTimeMillis();

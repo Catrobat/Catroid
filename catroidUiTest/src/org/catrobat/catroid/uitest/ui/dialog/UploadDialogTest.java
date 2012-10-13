@@ -91,10 +91,10 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		createTestProject();
 		solo.sleep(200);
 		UiTestUtils.createValidUser(getActivity());
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForDialogToClose(5000);
 
-		View renameView = solo.getText(getActivity().getString(R.string.project_rename));
+		View renameView = solo.getText(solo.getString(R.string.project_rename));
 		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", renameView.getVisibility(), View.GONE);
 
@@ -113,7 +113,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.enterText(0, newTestProject);
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
-		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
+		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
 
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
@@ -203,7 +203,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, testProject);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);

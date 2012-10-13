@@ -274,7 +274,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, projectToCreate);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);
@@ -290,7 +290,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
-		solo.clickOnText(getActivity().getString(R.string.main_menu_upload));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(500);
 
 		// enter a new title
@@ -303,7 +303,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnEditText(1);
 		solo.enterText(1, uploadProjectDescription);
 
-		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+		solo.clickOnButton(solo.getString(R.string.upload_button));
 		solo.sleep(500);
 
 		try {
@@ -330,14 +330,14 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		launchActivityWithIntent("org.catrobat.catroid", MainMenuActivity.class, intent);
 		solo.sleep(500);
 		assertTrue("OverwriteRenameDialog not shown.",
-				solo.searchText(getActivity().getString(R.string.overwrite_text)));
-		solo.clickOnText(getActivity().getString(R.string.overwrite_replace));
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+				solo.searchText(solo.getString(R.string.overwrite_text)));
+		solo.clickOnText(solo.getString(R.string.overwrite_replace));
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Download not successful.",
-				solo.searchText(getActivity().getString(R.string.success_project_download)));
+				solo.searchText(solo.getString(R.string.success_project_download)));
 		assertEquals("Testproject not loaded.", projectName, ProjectManager.getInstance().getCurrentProject().getName());
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectName;
@@ -359,29 +359,29 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.sleep(5000);
 		assertTrue("OverwriteRenameDialog not shown.",
-				solo.searchText(getActivity().getString(R.string.overwrite_text)));
-		solo.clickOnText(getActivity().getString(R.string.overwrite_rename));
+				solo.searchText(solo.getString(R.string.overwrite_text)));
+		solo.clickOnText(solo.getString(R.string.overwrite_rename));
 		assertTrue("No text field to enter new name.", solo.searchEditText(newTestProject));
 
 		/*
 		 * TODO: Does not work when testing, but it works in practice
-		 * solo.clickOnButton(getActivity().getString(R.string.ok));
+		 * solo.clickOnButton(solo.getString(R.string.ok));
 		 * solo.sleep(500);
 		 * assertTrue("No error shown because of duplicate names.",
-		 * solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		 * solo.searchText(solo.getString(R.string.error_project_exists)));
 		 * solo.sleep(500);
-		 * solo.clickOnButton(getActivity().getString(R.string.close));
+		 * solo.clickOnButton(solo.getString(R.string.close));
 		 */
 
 		solo.sleep(500);
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.ok));
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Download not successful.",
-				solo.searchText(getActivity().getString(R.string.success_project_download)));
+				solo.searchText(solo.getString(R.string.success_project_download)));
 		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + testProject;

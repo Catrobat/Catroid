@@ -87,8 +87,8 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.",
-				solo.getText(getActivity().getString(R.string.brick_motor_turn_angle)));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_angle)));
+				solo.getText(solo.getString(R.string.brick_motor_turn_angle)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_angle)));
 		assertTrue("Unit missing for angle!", solo.searchText("°"));
 
 		EditText turnEditText = (EditText) solo.getView(R.id.motor_turn_angle_edit_text);

@@ -74,7 +74,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testPositiveButtonDisabledOnCreate() {
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(500);
 
 		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
@@ -82,7 +82,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testPositiveButtonChangesState() {
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(1000);
 
 		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
@@ -104,7 +104,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testProjectDescriptionNewProject() {
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.sleep(2000);
 
 		EditText newProjectName = (EditText) solo.getView(R.id.project_name_edittext);

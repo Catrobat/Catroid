@@ -477,7 +477,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	public void testDeleteProject() {
 		createProjects();
 		solo.sleep(200);
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
@@ -502,7 +502,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		createProjects();
 		solo.sleep(200);
 		//current project is UiTestUtils.DEFAULT_TEST_PROJECT_NAME
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
@@ -731,7 +731,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
-		solo.clickOnButton(getActivity().getString(R.string.close));
+		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
 	public void testRenameToExistingProjectMixedCase() {
@@ -851,13 +851,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		solo.sleep(200);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.sleep(100);
 		solo.clickOnButton(buttonCloseText);
 		solo.sleep(100);
 		solo.clickOnButton(buttonOkText);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(buttonCloseText);
 	}
 

@@ -102,7 +102,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		String hintNewProjectText = solo.getString(R.string.new_project_dialog_hint);
 
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.waitForText(hintNewProjectText);
 		EditText addNewProjectEditText = solo.getEditText(0);
 		//check if hint is set
@@ -120,7 +120,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testCreateNewProjectErrors() {
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
 		solo.enterText(0, "");
 		Button okButton = (Button) solo.getView(R.id.new_project_ok_button);
@@ -135,7 +135,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.enterText(0, testProject);
 		solo.clickOnButton(0);
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(0);
 
 		directory = new File(Utils.buildProjectPath("te?st"));
@@ -146,8 +146,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.enterText(0, name);
 		solo.clickOnButton(0);
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(getActivity().getString(R.string.error_project_exists)));
-		solo.clickOnButton(getActivity().getString(R.string.close));
+				solo.searchText(solo.getString(R.string.error_project_exists)));
+		solo.clickOnButton(solo.getString(R.string.close));
 
 		UtilFile.deleteDirectory(directory);
 	}
@@ -157,7 +157,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		File directory = new File(directoryPath);
 		UtilFile.deleteDirectory(directory);
 
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
 		solo.enterText(0, projectNameWithBlacklistedCharacters);
 		String buttonOKText = solo.getString(R.string.ok);
@@ -174,7 +174,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		File directory = new File(directoryPath);
 		UtilFile.deleteDirectory(directory);
 
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_new));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
 		solo.enterText(0, projectNameWithWhitelistedCharacters);
 		String buttonOKText = solo.getString(R.string.ok);
@@ -214,7 +214,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		createTestProject(testProject2);
 		solo.sleep(200);
 
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject2);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -236,13 +236,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		createTestProject(testProject3);
 		solo.sleep(200);
 
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_programs));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject3);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(getActivity().getString(R.string.main_menu_continue));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -259,15 +259,15 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testAboutCatroid() {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
-		solo.clickOnMenuItem(getActivity().getString(R.string.main_menu_about_catroid));
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_about_catroid));
 		solo.sleep(200);
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
 
-		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0)
+		assertEquals("Title is not correct!", solo.getString(R.string.about_title), textViewList.get(0)
 				.getText().toString());
-		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1)
+		assertEquals("About text not correct!", solo.getString(R.string.about_text), textViewList.get(1)
 				.getText().toString());
-		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_catroid_license_link_text),
+		assertEquals("Link text is not correct!", solo.getString(R.string.about_catroid_license_link_text),
 				textViewList.get(2).getText().toString());
 		solo.goBack();
 	}
@@ -303,20 +303,20 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	//	public void testRenameToExistingProject() {
 	//		createTestProject(existingProject);
-	//		solo.clickOnButton(getActivity().getString(R.string.main_menu_upload));
+	//		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 	//		solo.clickOnEditText(0);
 	//		solo.enterText(0, "");
 	//		solo.enterText(0, existingProject);
 	//		solo.goBack();
 	//		solo.clickOnEditText(1);
 	//		solo.goBack();
-	//		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+	//		solo.clickOnButton(solo.getString(R.string.upload_button));
 	//		assertTrue("No error message was displayed upon renaming the project to an existing one.",
-	//				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+	//				solo.searchText(solo.getString(R.string.error_project_exists)));
 	//	}
 
 	//	public void testDefaultProject() throws IOException {
-	//		File directory = new File(Constants.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+	//		File directory = new File(Constants.DEFAULT_ROOT + "/" + solo.getString(R.string.default_project_name));
 	//		UtilFile.deleteDirectory(directory);
 	//
 	//		StorageHandler handler = StorageHandler.getInstance();
@@ -328,7 +328,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	//		assertNotNull("Bitmap is null", bitmap);
 	//		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
 	//
-	//		directory = new File(Constants.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+	//		directory = new File(Constants.DEFAULT_ROOT + "/" + solo.getString(R.string.default_project_name));
 	//		UtilFile.deleteDirectory(directory);
 	//	}
 
