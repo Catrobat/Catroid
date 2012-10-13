@@ -63,11 +63,11 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 	protected void tearDown() throws Exception {
 		// workaround to disable mindstorm settings
 		// should be disabled no matter if test failed or succeeded
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// disable mindstorm bricks, if enabled at start
-		if (prefs.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			prefs.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
 
 		UiTestUtils.goBackToHome(getInstrumentation());
@@ -227,11 +227,11 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	private void getIntoActivity() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// enable mindstorm bricks, if disabled at start
-		if (!prefs.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			prefs.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
+		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
 
 		UiTestUtils.clearAllUtilTestProjects();
