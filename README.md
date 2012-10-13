@@ -35,4 +35,4 @@ Resources and links
 
 License
 =======
-[License](http://www.catroid.org/catroid/licenseofsystem) of our project (mainly AGPL v3).
+[License](http://developer.catrobat.org/licenses) of our project (mainly AGPL v3).
