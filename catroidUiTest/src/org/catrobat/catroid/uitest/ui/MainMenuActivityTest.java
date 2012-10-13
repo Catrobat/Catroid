@@ -263,10 +263,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(200);
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
 
-		assertEquals("Title is not correct!", solo.getString(R.string.about_title), textViewList.get(0)
-				.getText().toString());
-		assertEquals("About text not correct!", solo.getString(R.string.about_text), textViewList.get(1)
-				.getText().toString());
+		assertEquals("Title is not correct!", solo.getString(R.string.about_title), textViewList.get(0).getText()
+				.toString());
+		assertEquals("About text not correct!", solo.getString(R.string.about_text), textViewList.get(1).getText()
+				.toString());
 		assertEquals("Link text is not correct!", solo.getString(R.string.about_catroid_license_link_text),
 				textViewList.get(2).getText().toString());
 		solo.goBack();
@@ -292,45 +292,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 		solo.waitForDialogToClose(500);
 	}
-
-	public void testPlayButton() {
-		// FIXME
-		//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		//		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
-	}
-
-	// TODO edit this to work with login dialog
-
-	//	public void testRenameToExistingProject() {
-	//		createTestProject(existingProject);
-	//		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-	//		solo.clickOnEditText(0);
-	//		solo.enterText(0, "");
-	//		solo.enterText(0, existingProject);
-	//		solo.goBack();
-	//		solo.clickOnEditText(1);
-	//		solo.goBack();
-	//		solo.clickOnButton(solo.getString(R.string.upload_button));
-	//		assertTrue("No error message was displayed upon renaming the project to an existing one.",
-	//				solo.searchText(solo.getString(R.string.error_project_exists)));
-	//	}
-
-	//	public void testDefaultProject() throws IOException {
-	//		File directory = new File(Constants.DEFAULT_ROOT + "/" + solo.getString(R.string.default_project_name));
-	//		UtilFile.deleteDirectory(directory);
-	//
-	//		StorageHandler handler = StorageHandler.getInstance();
-	//		ProjectManager project = ProjectManager.getInstance();
-	//		project.setProject(handler.createDefaultProject(solo.getCurrentActivity()));
-	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-	//		solo.sleep(8000);
-	//		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
-	//		assertNotNull("Bitmap is null", bitmap);
-	//		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
-	//
-	//		directory = new File(Constants.DEFAULT_ROOT + "/" + solo.getString(R.string.default_project_name));
-	//		UtilFile.deleteDirectory(directory);
-	//	}
 
 	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
