@@ -262,10 +262,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		String newName = "newTestName";
 		goToCostumesTab();
 		solo.clickOnView(solo.getView(R.id.costume_name));
-		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(100);
-		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.clearEditText(0);
@@ -676,7 +676,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void goToCostumesTab() {
 		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.sleep(500);
 	}
 }

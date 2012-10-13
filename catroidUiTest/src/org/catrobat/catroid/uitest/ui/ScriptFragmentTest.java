@@ -72,10 +72,10 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		int brickCountInList = brickListToCheck.size();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		solo.sleep(100);
 
-		assertTrue("Wait brick is not in List", solo.searchText(getActivity().getString(R.string.brick_wait)));
+		assertTrue("Wait brick is not in List", solo.searchText(solo.getString(R.string.brick_wait)));
 
 		assertEquals("Brick count in list view not correct", brickCountInView + 1, solo.getCurrentListViews().get(0)
 				.getCount());
@@ -88,11 +88,11 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
 			UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
-			solo.clickOnMenuItem(getActivity().getString(R.string.main_menu_settings));
-			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
+			solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+			solo.clickOnText(solo.getString(R.string.pref_enable_ms_bricks));
 			solo.goBack();
-			solo.clickOnText(getActivity().getString(R.string.main_menu_continue));
-			solo.clickOnText(getActivity().getString(R.string.background));
+			solo.clickOnText(solo.getString(R.string.main_menu_continue));
+			solo.clickOnText(solo.getString(R.string.background));
 		}
 
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
@@ -101,9 +101,9 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String categoryControlLabel = solo.getString(R.string.category_control);
 
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
-				solo.searchText(getActivity().getString(R.string.category_motion)));
+				solo.searchText(solo.getString(R.string.category_motion)));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
-				solo.searchText(getActivity().getString(R.string.category_looks)));
+				solo.searchText(solo.getString(R.string.category_looks)));
 		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categorySoundLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryControlLabel));
@@ -111,16 +111,16 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryLegoNXTLabel));
 
-		solo.clickOnText(getActivity().getString(R.string.category_control));
+		solo.clickOnText(solo.getString(R.string.category_control));
 		assertTrue("AddBrickDialog was not opened after selecting a category",
-				solo.searchText(getActivity().getString(R.string.brick_wait)));
+				solo.searchText(solo.getString(R.string.brick_wait)));
 
 		solo.goBack();
 		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog", solo.searchText(categorySoundLabel));
 
 		solo.clickOnText(categoryLegoNXTLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
-				solo.searchText(getActivity().getString(R.string.brick_motor_action)));
+				solo.searchText(solo.getString(R.string.brick_motor_action)));
 
 		solo.goBack();
 		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
@@ -178,14 +178,14 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
-		String currentProject = getActivity().getString(R.string.main_menu_continue);
-		String background = getActivity().getString(R.string.background);
-		String categoryLooks = getActivity().getString(R.string.category_looks);
-		String categoryMotion = getActivity().getString(R.string.category_motion);
-		String setBackground = getActivity().getString(R.string.brick_set_background);
-		String nextBackground = getActivity().getString(R.string.brick_next_background);
-		String comeToFront = getActivity().getString(R.string.brick_come_to_front);
-		String goNStepsBack = getActivity().getString(R.string.brick_go_back_layers);
+		String currentProject = solo.getString(R.string.main_menu_continue);
+		String background = solo.getString(R.string.background);
+		String categoryLooks = solo.getString(R.string.category_looks);
+		String categoryMotion = solo.getString(R.string.category_motion);
+		String setBackground = solo.getString(R.string.brick_set_background);
+		String nextBackground = solo.getString(R.string.brick_next_background);
+		String comeToFront = solo.getString(R.string.brick_come_to_front);
+		String goNStepsBack = solo.getString(R.string.brick_go_back_layers);
 
 		UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
 
@@ -196,13 +196,13 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.clickOnText(categoryLooks);
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 		solo.clickOnText(nextBackground);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
@@ -245,7 +245,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
 
-		solo.clickOnText(getActivity().getString(R.string.category_motion));
+		solo.clickOnText(solo.getString(R.string.category_motion));
 
 		assertTrue("Not in AddBrickDialog - category motion", solo.searchText(brickPlaceAtText));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
@@ -255,21 +255,21 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.goBack();
 		solo.sleep(1000);
 
-		solo.clickOnText(getActivity().getString(R.string.category_looks));
+		solo.clickOnText(solo.getString(R.string.category_looks));
 		assertTrue("Not in AddBrickDialog - category looks", solo.searchText(brickSetCostume));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("dialog closed after orientation change", solo.searchText(brickSetCostume));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.goBack();
 
-		solo.clickOnText(getActivity().getString(R.string.category_sound));
+		solo.clickOnText(solo.getString(R.string.category_sound));
 		assertTrue("Not in AddBrickDialog - category motion", solo.searchText(brickPlaySound));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("dialog closed after orientation change", solo.searchText(brickPlaySound));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.goBack();
 
-		solo.clickOnText(getActivity().getString(R.string.category_control));
+		solo.clickOnText(solo.getString(R.string.category_control));
 		assertTrue("Not in AddBrickDialog - category motion", solo.searchText(brickWhenStarted));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("dialog closed after orientation change", solo.searchText(brickWhenStarted));

@@ -106,6 +106,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setTitle(R.string.app_name);
 
 		projectManager = ProjectManager.getInstance();
 		Utils.loadProjectIfNeeded(this, this);
@@ -168,7 +169,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_main, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -212,7 +213,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		ignoreResume = false;
 
 		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, this, false);
-		actionBar.setTitle(R.string.app_name);
 
 		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
 	}

@@ -106,7 +106,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		ListAdapter adapter = getSoundFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(getActivity().getString(R.string.delete_lowercase));
+		solo.clickOnButton(solo.getString(R.string.delete_lowercase));
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);
@@ -157,10 +157,10 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		goToSoundsTab();
 		SoundInfo soundInfo = soundInfoList.get(0);
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
-		solo.clickOnButton(getActivity().getString(R.string.sound_play));
+		solo.clickOnButton(solo.getString(R.string.sound_play));
 		solo.sleep(100);
 		assertTrue("Mediaplayer is not playing", soundInfo.isPlaying);
-		solo.clickOnButton(getActivity().getString(R.string.sound_pause));
+		solo.clickOnButton(solo.getString(R.string.sound_pause));
 		solo.sleep(100);
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 	}
@@ -297,7 +297,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickInList(0);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.sleep(500);
 	}
 

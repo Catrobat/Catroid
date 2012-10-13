@@ -89,7 +89,7 @@ public class LegoNxtPlayToneBrickTest extends ActivityInstrumentationTestCase2<S
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.nxt_play_tone)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_play_tone)));
 
 		String buttonPositiveText = solo.getString(R.string.ok);
 

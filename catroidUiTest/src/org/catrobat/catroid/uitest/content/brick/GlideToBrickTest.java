@@ -67,7 +67,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testNumberInput() {
 		String whenStartedText = solo.getString(R.string.brick_when_started);
 		solo.clickLongOnText(whenStartedText);
-		solo.clickOnText(getActivity().getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
 		solo.clickOnText(whenStartedText);

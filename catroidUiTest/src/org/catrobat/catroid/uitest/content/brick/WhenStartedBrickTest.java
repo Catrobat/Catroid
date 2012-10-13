@@ -81,7 +81,7 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when)));
+		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_when)));
 
 		solo.sleep(100);
 
