@@ -118,19 +118,23 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
 
 		solo.clickOnText(solo.getString(R.string.category_motion));
-		assertTrue("AddBrickDialog was not opened after selecting a category", solo.searchText(brickPlaceAtText));
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickPlaceAtText, 0, 2000));
 		solo.goBack();
 
 		solo.clickOnText(solo.getString(R.string.category_looks));
-		assertTrue("AddBrickDialog was not opened after selecting a category", solo.searchText(brickSetCostume));
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickSetCostume, 0, 2000));
 		solo.goBack();
 
 		solo.clickOnText(solo.getString(R.string.category_sound));
-		assertTrue("AddBrickDialog was not opened after selecting a category", solo.searchText(brickPlaySound));
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickPlaySound, 0, 2000));
 		solo.goBack();
 
 		solo.clickOnText(solo.getString(R.string.category_control));
-		assertTrue("AddBrickDialog was not opened after selecting a category", solo.searchText(brickWhenStarted));
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickWhenStarted, 0, 2000));
 	}
 
 	public void testSimpleDragNDrop() {
