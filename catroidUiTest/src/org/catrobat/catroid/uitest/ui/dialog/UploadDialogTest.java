@@ -24,8 +24,6 @@ package org.catrobat.catroid.uitest.ui.dialog;
 
 import java.io.File;
 
-import junit.framework.AssertionFailedError;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -139,14 +137,10 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.sleep(300);
 
-		String buttonPositiveText = solo.getString(R.string.ok);
-		// if keyboard is there, hide it and click ok
-		try {
-			solo.clickOnText(buttonPositiveText);
-		} catch (AssertionFailedError e) {
-			solo.goBack();
-			solo.clickOnText(buttonPositiveText);
-		}
+		// workaround - Ok button not clickable
+		solo.sendKey(Solo.ENTER);
+		solo.sendKey(Solo.ENTER);
+
 		solo.waitForDialogToClose(500);
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
