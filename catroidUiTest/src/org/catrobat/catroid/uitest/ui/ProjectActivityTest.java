@@ -44,7 +44,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -195,6 +194,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		String newSpriteName = "Koala";
 		addNewSprite(newSpriteName);
+		solo.waitForText(newSpriteName, 0, 2000);
 		assertTrue("Sprite Koala was not found - List did not move to last added sprite",
 				solo.searchText(newSpriteName, 0, false));
 	}
@@ -222,7 +222,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
-		Log.v("ProjectActivityTest", sprite.getName());
 		assertEquals("Sprite on position wasn't renamed correctly", newSpriteName, sprite.getName());
 
 		// Delete sprite
@@ -249,30 +248,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
 				solo.getCurrentActivity() instanceof MainMenuActivity);
-	}
-
-	public void testChangeOrientation() {
-		String spriteName = "testSprite";
-		String contextMenuRenameText = solo.getString(R.string.rename);
-		String buttonPositiveText = solo.getString(R.string.ok);
-
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-
-		addNewSprite(spriteName);
-		solo.clickLongOnText(spriteName); //opening context menu
-
-		String testText = "testText";
-		solo.sleep(100);
-		solo.clickOnText(contextMenuRenameText);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, testText);
-		solo.goBack();
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
-		solo.sleep(100);
-		assertTrue("Sprite wasnt renamed", solo.searchText(testText));
 	}
 
 	public void testCheckMaxTextLines() {
@@ -317,8 +292,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		openNewSpriteDialog();
 		UiTestUtils.enterText(solo, 0, spriteName);
-		solo.sleep(200);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(200);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
@@ -349,7 +322,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(buttonCloseText);
 
 		solo.sleep(100);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(200);
 		assertTrue("not in NewSpriteDialog", solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
@@ -371,7 +343,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		openRenameSpriteDialog(spriteName);
 		UiTestUtils.enterText(solo, 0, spriteName2);
 		solo.sleep(200);
-		solo.goBack();
 		sendKeys(KeyEvent.KEYCODE_ENTER);
 
 		solo.sleep(200);
