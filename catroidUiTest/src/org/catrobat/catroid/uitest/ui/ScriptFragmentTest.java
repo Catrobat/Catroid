@@ -44,6 +44,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 	private Solo solo;
 	private List<Brick> brickListToCheck;
+	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public ScriptFragmentTest() {
 		super(MainMenuActivity.class);
@@ -60,6 +61,12 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void tearDown() throws Exception {
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		// disable mindstorm bricks, if enabled in test
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		}
+
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
@@ -84,17 +91,12 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBrickCategoryDialog() {
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
-			UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
-			solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
-			solo.clickOnText(solo.getString(R.string.pref_enable_ms_bricks));
-			solo.goBack();
-			solo.clickOnText(solo.getString(R.string.main_menu_continue));
-			solo.clickOnText(solo.getString(R.string.background));
+		// enable mindstorm bricks, if disabled
+		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
-
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		String categorySoundLabel = solo.getString(R.string.category_sound);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
@@ -117,22 +119,22 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
 
-		solo.clickOnText(solo.getString(R.string.category_motion));
+		solo.clickOnText(categoryMotionLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickPlaceAtText, 0, 2000));
 		solo.goBack();
 
-		solo.clickOnText(solo.getString(R.string.category_looks));
+		solo.clickOnText(categoryLooksLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickSetCostume, 0, 2000));
 		solo.goBack();
 
-		solo.clickOnText(solo.getString(R.string.category_sound));
+		solo.clickOnText(categorySoundLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickPlaySound, 0, 2000));
 		solo.goBack();
 
-		solo.clickOnText(solo.getString(R.string.category_control));
+		solo.clickOnText(categoryControlLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickWhenStarted, 0, 2000));
 	}
