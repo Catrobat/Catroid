@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -43,13 +44,11 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -85,31 +84,20 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
 		//check if hint is set
-		assertEquals("Not the proper hint set",
-				getActivity().getString(R.string.new_sprite_dialog_default_sprite_name), addNewSpriteEditText.getHint());
+		assertEquals("Not the proper hint set", solo.getString(R.string.new_sprite_dialog_default_sprite_name),
+				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 	}
 
 	public void testBackgroundSprite() {
 		String sometext = "something" + System.currentTimeMillis();
-		solo.clickOnText(getActivity().getString(R.string.new_project));
+		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clearEditText(0);
 		solo.enterText(0, sometext);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(sometext));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
@@ -121,7 +109,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteName);
 
@@ -144,7 +132,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testAddNewSpriteUnderList() {
 		String spriteName = "testSprite";
 		String newSpriteDialogTitle = solo.getString(R.string.new_sprite_dialog_title);
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		solo.clickOnView(solo.getView(R.id.spritelist_footerview));
@@ -152,17 +140,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("New Sprite dialog did not appear", solo.searchText(newSpriteDialogTitle));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
-		assertEquals("Not the proper hint set",
-				getActivity().getString(R.string.new_sprite_dialog_default_sprite_name), addNewSpriteEditText.getHint());
+		assertEquals("Not the proper hint set", solo.getString(R.string.new_sprite_dialog_default_sprite_name),
+				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.clearEditText(0);
 		solo.enterText(0, spriteName);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(300);
 
@@ -204,7 +186,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		addSprite("snake", project);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(500);
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		assertTrue("Sprite cat is first in list - should be visible on initial start without scrolling",
@@ -212,12 +194,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		String newSpriteName = "Koala";
 		addNewSprite(newSpriteName);
+		solo.waitForText(newSpriteName, 0, 2000);
 		assertTrue("Sprite Koala was not found - List did not move to last added sprite",
 				solo.searchText(newSpriteName, 0, false));
 	}
 
 	public void testContextMenu() {
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		// Create sprites manually so we're able to check for equality
 		final String spriteName = "foo";
@@ -229,26 +212,21 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		// Rename sprite
 		final String newSpriteName = "baz";
 		solo.clickLongOnText(spriteName);
-		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.clickOnText(solo.getString(R.string.rename));
 		solo.sleep(50);
 
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, newSpriteName);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
-		Log.v("ProjectActivityTest", sprite.getName());
 		assertEquals("Sprite on position wasn't renamed correctly", newSpriteName, sprite.getName());
 
 		// Delete sprite
 		solo.clickLongOnText(newSpriteName);
-		solo.clickOnText(getActivity().getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
 
 		// Dialog is handled asynchronously, so we need to wait a while for it to finish
 		solo.sleep(300);
@@ -263,7 +241,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testMainMenuButton() {
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -272,48 +250,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.getCurrentActivity() instanceof MainMenuActivity);
 	}
 
-	public void testChangeOrientation() {
-		String spriteName = "testSprite";
-		String contextMenuRenameText = solo.getString(R.string.rename);
-		String buttonPositiveText = solo.getString(R.string.ok);
-
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-
-		addNewSprite(spriteName);
-		solo.clickLongOnText(spriteName); //opening context menu
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("Context menu dialog not visible after changing orientation", solo.searchText(contextMenuRenameText)
-				&& solo.searchText(getActivity().getString(R.string.delete)));
-
-		String testText = "testText";
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		solo.clickOnText(contextMenuRenameText);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, testText);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("Dialog is not visible after orientation change", solo.searchText(buttonPositiveText));
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testText));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
-		solo.waitForText(buttonPositiveText);
-		solo.clickOnButton(buttonPositiveText);
-		solo.sleep(100);
-		assertTrue("Sprite wasnt renamed", solo.searchText(testText));
-	}
-
 	public void testCheckMaxTextLines() {
 		String spriteName = "poor poor poor poor poor poor poor poor me me me me me me";
 		int expectedLineCount = 1;
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteName);
 		TextView textView = solo.getText(9);
@@ -328,18 +268,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		ProjectManager projectManager = ProjectManager.getInstance();
 		String spriteName1 = "sprite1";
 		String spriteName2 = "sprite2";
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		openNewSpriteDialog();
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, spriteName1);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName1));
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName1));
@@ -354,18 +287,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testNewSpriteDialogErrorMessages() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		String spriteName = "spriteError";
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		openNewSpriteDialog();
 		UiTestUtils.enterText(solo, 0, spriteName);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(200);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
@@ -373,10 +299,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		//trying to add sprite which already exists:
 		openNewSpriteDialog();
 		UiTestUtils.enterText(solo, 0, spriteName);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 
@@ -396,24 +318,19 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.enterText(solo, 0, "");
 		sendKeys(KeyEvent.KEYCODE_ENTER);
 		solo.sleep(200);
-		assertTrue("ErrorMessage not visible", solo.searchText(getActivity().getString(R.string.spritename_invalid)));
+		assertTrue("ErrorMessage not visible", solo.searchText(solo.getString(R.string.spritename_invalid)));
 		solo.clickOnButton(buttonCloseText);
 
 		solo.sleep(100);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(200);
-		assertTrue("not in NewSpriteDialog", solo.searchText(getActivity().getString(R.string.new_sprite_dialog_title)));
+		assertTrue("not in NewSpriteDialog", solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
 	}
 
 	public void testRenameSpriteDialog() {
 		String spriteName = "spriteRename";
 		String spriteName2 = "spriteRename2";
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteName);
 		addNewSprite(spriteName2);
@@ -425,12 +342,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String dialogRenameSpriteText = solo.getString(R.string.rename_sprite_dialog);
 		openRenameSpriteDialog(spriteName);
 		UiTestUtils.enterText(solo, 0, spriteName2);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
-		solo.goBack();
 		sendKeys(KeyEvent.KEYCODE_ENTER);
 
 		solo.sleep(200);
@@ -451,7 +363,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.enterText(solo, 0, "");
 		sendKeys(KeyEvent.KEYCODE_ENTER);
 		solo.sleep(200);
-		assertTrue("ErrorMessage not visible", solo.searchText(getActivity().getString(R.string.spritename_invalid)));
+		assertTrue("ErrorMessage not visible", solo.searchText(solo.getString(R.string.spritename_invalid)));
 		solo.clickOnButton(buttonCloseText);
 		solo.clickOnButton(0);
 		assertTrue("not in RenameSpriteDialog", solo.searchText(dialogRenameSpriteText));
@@ -461,7 +373,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String spriteName = "Sprite1";
 		String spriteName2 = "Sprite2";
 		String spriteName3 = "Sprite3";
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteName);
 		addNewSprite(spriteName2);
@@ -504,7 +416,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testSpriteListDetails() {
 		createProject();
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("testSprite");
 

@@ -112,7 +112,8 @@ public class StatusBarNotificationManager {
 		uploadNotificationDataMap.put(uploadId, data);
 
 		if (newUploadNotification) {
-			uploadNotification = new Notification(R.drawable.ic_upload, notificationTitle, System.currentTimeMillis());
+			uploadNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+					System.currentTimeMillis());
 			uploadNotification.flags = Notification.FLAG_AUTO_CANCEL;
 			uploadNotification.number += 1;
 			uploadNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
@@ -171,7 +172,8 @@ public class StatusBarNotificationManager {
 		downloadNotificationDataMap.put(downloadId, data);
 
 		if (newDownloadNotification) {
-			downloadNotification = new Notification(R.drawable.ic_upload, notificationTitle, System.currentTimeMillis());
+			downloadNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+					System.currentTimeMillis());
 			downloadNotification.flags = Notification.FLAG_AUTO_CANCEL;
 			downloadNotification.number += 1;
 			downloadNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
@@ -227,7 +229,7 @@ public class StatusBarNotificationManager {
 	public void displayDialogs(MainMenuActivity activity) {
 		for (int i = 0; i < downloadProjectName.size() && i < downloadProjectZipFileString.size(); i++) {
 			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, downloadProjectName.get(i),
-					downloadProjectZipFileString.get(i), activity, activity);
+					downloadProjectZipFileString.get(i), activity);
 			renameDialog.show();
 		}
 		downloadProjectName.clear();

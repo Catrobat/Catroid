@@ -123,7 +123,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteDog);
 		addNewSprite(spriteBear);
@@ -146,23 +146,23 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 			solo.clickOnText(spriteToTest);
 			solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 			assertTrue("Wrong label - Tab should be named \"Costumes\"",
-					solo.searchText(getActivity().getString(R.string.costumes)));
+					solo.searchText(solo.getString(R.string.costumes)));
 		}
 	}
 
 	public void testTabImagesAndLabelColor() {
 		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("Sprite1");
 		solo.clickInList(0);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
-		String scriptsLabel = getActivity().getString(R.string.scripts);
-		String backgroundsLabel = getActivity().getString(R.string.backgrounds);
-		String soundsLabel = getActivity().getString(R.string.sounds);
-		String costumesLabel = getActivity().getString(R.string.costumes);
+		String scriptsLabel = solo.getString(R.string.scripts);
+		String backgroundsLabel = solo.getString(R.string.backgrounds);
+		String soundsLabel = solo.getString(R.string.sounds);
+		String costumesLabel = solo.getString(R.string.costumes);
 
 		int scriptsSelector = R.drawable.ic_tab_scripts_selector;
 		int backgroundsSelector = R.drawable.ic_tab_background_selector;

@@ -9,7 +9,7 @@ For a download of the most recent beta, please go to the [Downloads](https://git
 
 More info
 =========
-[![Google Summer of Code 2012 logo](http://www.google-melange.com/soc/content/2-0-20120326/images/v2/gsoc/logo/banner-gsoc2012.png)](https://www.google-melange.com/gsoc/org/google/gsoc2012/catroidproject)
+
 The [Catrobat](https://github.com/Catrobat/) umbrella project was a mentoring organization for [Google Summer of Code 2012](https://www.google-melange.com/gsoc/org/google/gsoc2012/catroidproject) and [2011](https://www.google-melange.com/gsoc/org/google/gsoc2011/catroid)!
 
 [Paintroid](https://github.com/Catrobat/Paintroid) is an associated graphical paint editor program for the Android platform that, among others, allows setting parts of pictures to transparent.
@@ -35,4 +35,4 @@ Resources and links
 
 License
 =======
-[License](http://www.catroid.org/catroid/licenseofsystem) of our project (mainly AGPL v3).
+[License](http://developer.catrobat.org/licenses) of our project (mainly AGPL v3).

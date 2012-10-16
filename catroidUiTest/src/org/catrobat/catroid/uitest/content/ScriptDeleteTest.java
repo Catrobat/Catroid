@@ -71,7 +71,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testAddLooksCategoryBrick() {
 		String brickSetCostumeText = solo.getString(R.string.brick_set_costume);
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 
 		solo.clickOnScreen(200, 200);
 		assertTrue("Set costume brick was not added", solo.searchText(brickSetCostumeText));
@@ -79,7 +79,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_size_to);
 		solo.clickOnText(brickSetCostumeText);
 		assertTrue("Set size to brick was not added",
-				solo.searchText(getActivity().getString(R.string.brick_set_size_to)));
+				solo.searchText(solo.getString(R.string.brick_set_size_to)));
 	}
 
 	public void testDeleteScript() {
@@ -99,7 +99,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Incorrect number of elements in listView", 3 + 1, solo.getCurrentListViews().get(0)
 				.getChildCount()); // don't forget the footer
 
-		solo.clickLongOnText(getActivity().getString(R.string.brick_broadcast_receive));
+		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
 		solo.clickOnText(buttonDeleteText);
 		solo.sleep(200);
 

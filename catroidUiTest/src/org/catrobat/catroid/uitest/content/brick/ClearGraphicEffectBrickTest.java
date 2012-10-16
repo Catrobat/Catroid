@@ -82,7 +82,7 @@ public class ClearGraphicEffectBrickTest extends ActivityInstrumentationTestCase
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist",
-				solo.getText(getActivity().getString(R.string.brick_clear_graphic_effect)));
+				solo.getText(solo.getString(R.string.brick_clear_graphic_effect)));
 	}
 
 	private void createProject() {

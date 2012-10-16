@@ -85,7 +85,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist",
-				solo.getText(getActivity().getString(R.string.brick_point_in_direction)));
+				solo.getText(solo.getString(R.string.brick_point_in_direction)));
 
 		solo.pressSpinnerItem(0, 1);
 		solo.sleep(200);

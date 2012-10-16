@@ -195,7 +195,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 	private void prepareTest() {
 		createProject();
 		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.sleep(200);
 

@@ -67,7 +67,7 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 		storageHandler.saveProject(uploadProject);
 
 		solo.sleep(300);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		solo.clickLongOnText(testProject);

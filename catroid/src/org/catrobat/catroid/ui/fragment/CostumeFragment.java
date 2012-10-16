@@ -257,6 +257,9 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 		switch (requestCode) {
 			case REQUEST_SELECT_IMAGE:
+				if (data == null) {
+					break;
+				}
 				loadImageIntoCatroid(data);
 				break;
 			case REQUEST_PAINTROID_EDIT_IMAGE:
