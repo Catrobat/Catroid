@@ -430,7 +430,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		solo.clickLongOnText(spriteName);
 		solo.sleep(250);
-		solo.clickInList(1);
+		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(50);
 	}
 
