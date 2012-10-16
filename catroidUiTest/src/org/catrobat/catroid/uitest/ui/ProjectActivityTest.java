@@ -42,6 +42,10 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
@@ -79,7 +83,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -88,7 +92,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(200);
 	}
 
@@ -129,51 +133,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Sprite not shown in Adapter", solo.searchText(spriteName2));
 	}
 
-	public void testAddNewSpriteUnderList() {
-		String spriteName = "testSprite";
-		String newSpriteDialogTitle = solo.getString(R.string.new_sprite_dialog_title);
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-
-		solo.clickOnView(solo.getView(R.id.spritelist_footerview));
-		solo.waitForText(newSpriteDialogTitle, 0, 1000);
-		assertTrue("New Sprite dialog did not appear", solo.searchText(newSpriteDialogTitle));
-
-		EditText addNewSpriteEditText = solo.getEditText(0);
-		assertEquals("Not the proper hint set", solo.getString(R.string.new_sprite_dialog_default_sprite_name),
-				addNewSpriteEditText.getHint());
-		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
-		solo.clearEditText(0);
-		solo.enterText(0, spriteName);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-
-		ListView spriteList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
-		assertEquals("Sprite was not added", 3, spriteList.getCount());
-
-		spriteName = "testSprite2";
-		solo.clickOnView(solo.getView(R.id.spritelist_footerview_add_image));
-		solo.waitForText(newSpriteDialogTitle, 0, 1000);
-		assertTrue("New Sprite dialog did not appear", solo.searchText(newSpriteDialogTitle));
-		solo.clearEditText(0);
-		solo.enterText(0, spriteName);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-		spriteList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
-		assertEquals("Sprite was not added", 4, spriteList.getCount());
-
-		spriteName = "testSprite3";
-		solo.clickOnView(solo.getView(R.id.view_below_spritelist_non_scrollable));
-		solo.waitForText(newSpriteDialogTitle, 0, 1000);
-		assertTrue("New Sprite dialog did not appear", solo.searchText(newSpriteDialogTitle));
-		solo.clearEditText(0);
-		solo.enterText(0, spriteName);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(300);
-		spriteList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
-		assertEquals("Sprite was not added", 5, spriteList.getCount());
-	}
-
 	public void testAddedSpriteVisibleOnLongList() {
 		Project project = ProjectManager.INSTANCE.getCurrentProject();
 		addSprite("dog", project);
@@ -197,6 +156,26 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForText(newSpriteName, 0, 2000);
 		assertTrue("Sprite Koala was not found - List did not move to last added sprite",
 				solo.searchText(newSpriteName, 0, false));
+	}
+
+	public void testOrientation() throws NameNotFoundException {
+		/// Method 1: Assert it is currently in portrait mode.
+		assertEquals("MainMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
+				.getResources().getConfiguration().orientation);
+
+		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
+		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
+		PackageManager packageManager = getActivity().getPackageManager();
+		ActivityInfo activityInfo = packageManager.getActivityInfo(getActivity().getComponentName(),
+				PackageManager.GET_ACTIVITIES);
+
+		// Note that the activity is _indeed_ rotated on your device/emulator!
+		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+
+		assertEquals(
+				MainMenuActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
+				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
 	public void testContextMenu() {
@@ -258,10 +237,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		addNewSprite(spriteName);
 		TextView textView = solo.getText(9);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
-		solo.clickLongOnText(spriteName);
-		expectedLineCount = 2;
-		TextView textView2 = solo.getText(0);
-		assertEquals("linecount is wrong", expectedLineCount, textView2.getLineCount());
 	}
 
 	public void testNewSpriteDialog() {
@@ -447,7 +422,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 		solo.sleep(50);
 	}
 
