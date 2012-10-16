@@ -204,49 +204,6 @@ public class SpritesListFragment extends SherlockListFragment {
 		});
 	}
 
-	//	private void showEditSpriteContextDialog() {
-	//		FragmentTransaction ft = getFragmentManager().beginTransaction();
-	//		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
-	//		if (prev != null) {
-	//			ft.remove(prev);
-	//		}
-	//		ft.addToBackStack(null);
-	//
-	//		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(spriteToEdit.getName());
-	//		initCustomContextMenu(dialog);
-	//		dialog.show(ft, CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
-	//	}
-
-	//	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
-	//		Resources resources = getResources();
-	//
-	//		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
-	//		adapter.addItem(resources, getString(R.string.rename), R.drawable.ic_context_rename, CONTEXT_MENU_ITEM_RENAME);
-	//		adapter.addItem(resources, getString(R.string.delete), R.drawable.ic_context_delete, CONTEXT_MENU_ITEM_DELETE);
-	//		iconContextMenu.setAdapter(adapter);
-	//
-	//		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-	//			@Override
-	//			public void onClick(int menuId) {
-	//				switch (menuId) {
-	//					case CONTEXT_MENU_ITEM_RENAME:
-	//						RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
-	//						dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
-	//						break;
-	//					case CONTEXT_MENU_ITEM_DELETE:
-	//						ProjectManager projectManager = ProjectManager.getInstance();
-	//						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-	//						deleteSpriteFiles();
-	//						if (projectManager.getCurrentSprite() != null
-	//								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
-	//							projectManager.setCurrentSprite(null);
-	//						}
-	//						break;
-	//				}
-	//			}
-	//		});
-	//	}
-
 	private void deleteSpriteFiles() {
 		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
 		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
