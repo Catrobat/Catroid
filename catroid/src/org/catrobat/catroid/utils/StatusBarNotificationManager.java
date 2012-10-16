@@ -25,6 +25,7 @@ package org.catrobat.catroid.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
@@ -36,7 +37,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import org.catrobat.catroid.R;
 
 public class StatusBarNotificationManager {
 
@@ -54,7 +54,7 @@ public class StatusBarNotificationManager {
 	public static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
 	@SuppressLint("UseSparseArrays")
-    private StatusBarNotificationManager() {
+	private StatusBarNotificationManager() {
 		this.uploadId = 0;
 		this.downloadId = 0;
 		this.uploadNotification = null;
@@ -102,7 +102,8 @@ public class StatusBarNotificationManager {
 		uploadNotificationDataMap.put(uploadId, data);
 
 		if (newUploadNotification) {
-			uploadNotification = new Notification(R.drawable.ic_upload, notificationTitle, System.currentTimeMillis());
+			uploadNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+					System.currentTimeMillis());
 			uploadNotification.flags = Notification.FLAG_AUTO_CANCEL;
 			uploadNotification.number += 1;
 			uploadNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
@@ -131,7 +132,8 @@ public class StatusBarNotificationManager {
 		downloadNotificationDataMap.put(downloadId, data);
 
 		if (newDownloadNotification) {
-			downloadNotification = new Notification(R.drawable.ic_upload, notificationTitle, System.currentTimeMillis());
+			downloadNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+					System.currentTimeMillis());
 			downloadNotification.flags = Notification.FLAG_AUTO_CANCEL;
 			downloadNotification.number += 1;
 			downloadNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
@@ -187,7 +189,7 @@ public class StatusBarNotificationManager {
 	public void displayDialogs(MainMenuActivity activity) {
 		for (int i = 0; i < downloadProjectName.size() && i < downloadProjectZipFileString.size(); i++) {
 			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, downloadProjectName.get(i),
-					downloadProjectZipFileString.get(i), activity, activity);
+					downloadProjectZipFileString.get(i), activity);
 			renameDialog.show();
 		}
 		downloadProjectName.clear();

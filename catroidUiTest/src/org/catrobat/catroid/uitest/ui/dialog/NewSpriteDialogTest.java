@@ -71,7 +71,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testingproject);
 		solo.sleep(300);
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
@@ -90,7 +90,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testAddSpriteDialogNoName() {
 		createTestProject(testingproject);
-		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		UiTestUtils.clickOnTextInList(solo, testingproject);

@@ -52,21 +52,24 @@
     <!-- <string name="show">Показать</string> -->
     <!-- <string name="hide">Спрятать</string> -->
     <!-- Main menu activity -->
-    <string name="resume">Возобновить</string>
+    <!--
+         <string name="resume">Возобновить</string>
     <string name="current_project">Текущий проект:</string>
-    <!-- <string name="no_project">Нет зргуженных проектов</string> -->
+    <string name="no_project">Нет зргуженных проектов</string>
     <string name="current_project_button">Текущий проект</string>
     <string name="my_projects">Мои проекты</string>
-    <!-- <string name="create_new_project">Создать новый проект</string> -->
+    <string name="create_new_project">Создать новый проект</string>
     <string name="tutorial">Обучение</string>
     <string name="settings">Настройки</string>
     <string name="web_resources">Веб ресурсы</string>
-    <!-- <string name="reset">Обнулить строительную площадку</string> -->
+    <string name="reset">Обнулить строительную площадку</string>
     <string name="new_project">Новый проект</string>
     <string name="load">Загрузить</string>
-    <!-- <string name="change_project_name_main">Изменить имя проекта</string> -->
+    <string name="change_project_name_main">Изменить имя проекта</string>
     <string name="about">О Catroid</string>
     <string name="upload_project">Загрузить проект</string>
+    -->
+
     <!-- Settings activity -->
     <string name="pref_title">Настройки</string>
     <string name="pref_enable_ms_bricks">Включить блоки Mindstorm</string>

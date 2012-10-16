@@ -52,21 +52,24 @@
     <!-- <string name="show">Arată</string> -->
     <!-- <string name="hide">Ascunde</string> -->
     <!-- Main menu activity -->
-    <string name="resume">Reluare</string>
+    <!--
+         <string name="resume">Reluare</string>
     <string name="current_project">Proiectul curent:</string>
-    <!-- <string name="no_project">Nu sunt proiecte curent încărcate</string> -->
+    <string name="no_project">Nu sunt proiecte curent încărcate</string>
     <string name="current_project_button">Proiect curent</string>
     <string name="my_projects">Proiectele mele</string>
-    <!-- <string name="create_new_project">Crearea proiectului nou</string> -->
+    <string name="create_new_project">Crearea proiectului nou</string>
     <string name="tutorial">Tutorialul</string>
     <string name="settings">Setări</string>
     <string name="web_resources">Resurse web</string>
-    <!-- <string name="reset">Resetarea Terenului de Construcție</string> -->
+    <string name="reset">Resetarea Terenului de Construcție</string>
     <string name="new_project">Proiect nou</string>
     <string name="load">Incărcare</string>
-    <!-- <string name="change_project_name_main">Schimbarea numelui proiectului</string> -->
+    <string name="change_project_name_main">Schimbarea numelui proiectului</string>
     <string name="about">Despre Catroid</string>
     <string name="upload_project">Încărcarea proiectului</string>
+    -->
+
     <!-- Settings activity -->
     <string name="pref_title">Setări</string>
     <string name="pref_enable_ms_bricks">Permiterea blocurilor Mindstorm</string>

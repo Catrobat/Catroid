@@ -23,12 +23,12 @@
 package org.catrobat.catroid.uitest.ui.dialog;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -56,11 +56,11 @@ public class AboutDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testAboutDialog() {
-		solo.clickOnButton(getActivity().getString(R.string.about));
-		assertTrue("AboutDialog title not found", solo.searchText(getActivity().getString(R.string.about_title)));
-		assertTrue("AboutDialog text not found", solo.searchText(getActivity().getString(R.string.about_text)));
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_about_catroid));
+		assertTrue("AboutDialog title not found", solo.searchText(solo.getString(R.string.about_title)));
+		assertTrue("AboutDialog text not found", solo.searchText(solo.getString(R.string.about_text)));
 		assertTrue("AboutDialog linktext not found",
-				solo.searchText(getActivity().getString(R.string.about_catroid_license_link_text)));
+				solo.searchText(solo.getString(R.string.about_catroid_license_link_text)));
 		assertTrue("AboutDialog version not found", solo.searchText(Utils.getVersionName(solo.getCurrentActivity())));
 	}
 }

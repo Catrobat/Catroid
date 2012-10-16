@@ -59,18 +59,18 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testToggleMindstormBricks() {
 		int actionBarIconIndex = 0;
-		String currentProject = solo.getString(R.string.current_project_button);
+		String currentProject = solo.getString(R.string.main_menu_continue);
 		String background = solo.getString(R.string.background);
-		String settings = solo.getString(R.string.settings);
-		String prefMsBricks = solo.getString(R.string.pref_enable_ms_bricks);
+		String settings = solo.getString(R.string.main_menu_settings);
+		String mindstormsPreferenceString = solo.getString(R.string.pref_enable_ms_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		//disable mindstorm bricks, if enabled at start
 		if (preferences.getBoolean("setting_mindstorm_bricks", false)) {
-			solo.clickOnText(settings);
+			solo.clickOnMenuItem(settings);
 			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
-			solo.clickOnText(prefMsBricks);
+			solo.clickOnText(mindstormsPreferenceString);
 			solo.goBack();
 		}
 
@@ -83,12 +83,12 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		solo.clickOnText(settings);
+		solo.clickOnMenuItem(settings);
 		solo.waitForActivity(SettingsActivity.class.getSimpleName());
 
 		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.pref_title)));
 
-		solo.clickOnText(prefMsBricks);
+		solo.clickOnText(mindstormsPreferenceString);
 		solo.clickOnImage(actionBarIconIndex);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(currentProject);

@@ -76,15 +76,15 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	public void recordSoundWithChangingOrientation() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_start));
+		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_stop));
+		solo.clickOnText(solo.getString(R.string.soundrecorder_record_stop));
 	}
 
 	public void recordSoundGoBackWhileRecording() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
-		solo.clickOnText(getActivity().getString(R.string.soundrecorder_record_start));
+		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 
 		solo.goBack();
@@ -93,10 +93,10 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	private void prepareRecording() {
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.clickOnText(solo.getString(R.string.sounds));
 
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-		String soundRecorderText = getActivity().getString(R.string.soundrecorder_name);
+		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
 
@@ -105,13 +105,13 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	private void assertSoundRecording(int recordNumber) {
 		String recordPath = Utils.buildPath(Constants.TMP_PATH,
-				getActivity().getString(R.string.soundrecorder_recorded_filename) + Constants.RECORDING_EXTENTION);
+				solo.getString(R.string.soundrecorder_recorded_filename) + Constants.RECORDING_EXTENTION);
 		File recordedFile = new File(recordPath);
 		assertTrue("recorded sound file not found in file system", recordedFile.exists());
 
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
-		String recordTitle = getActivity().getString(R.string.soundrecorder_recorded_filename);
+		String recordTitle = solo.getString(R.string.soundrecorder_recorded_filename);
 		if (recordNumber > 1) {
 			recordTitle += (recordNumber - 1);
 		}

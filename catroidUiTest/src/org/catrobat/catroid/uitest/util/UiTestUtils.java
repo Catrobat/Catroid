@@ -779,7 +779,7 @@ public class UiTestUtils {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
 
-		solo.clickOnButton(solo.getString(R.string.current_project_button));
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		solo.sleep(200);

@@ -85,7 +85,7 @@ public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<S
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.",
-				solo.getText(getActivity().getString(R.string.brick_change_volume_by)));
+				solo.getText(solo.getString(R.string.brick_change_volume_by)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);

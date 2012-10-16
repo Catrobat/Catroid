@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -36,7 +37,6 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -44,6 +44,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 	private Solo solo;
 	private List<Brick> brickListToCheck;
+	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public ScriptFragmentTest() {
 		super(MainMenuActivity.class);
@@ -60,6 +61,12 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void tearDown() throws Exception {
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		// disable mindstorm bricks, if enabled in test
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		}
+
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
@@ -72,10 +79,10 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		int brickCountInList = brickListToCheck.size();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		solo.sleep(100);
 
-		assertTrue("Wait brick is not in List", solo.searchText(getActivity().getString(R.string.brick_wait)));
+		assertTrue("Wait brick is not in List", solo.searchText(solo.getString(R.string.brick_wait)));
 
 		assertEquals("Brick count in list view not correct", brickCountInView + 1, solo.getCurrentListViews().get(0)
 				.getCount());
@@ -84,47 +91,58 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBrickCategoryDialog() {
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
-			UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
-			solo.clickOnText(getActivity().getString(R.string.settings));
-			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
-			solo.goBack();
-			solo.clickOnText(getActivity().getString(R.string.current_project_button));
-			solo.clickOnText(getActivity().getString(R.string.background));
+		// enable mindstorm bricks, if disabled
+		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
-
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		String categorySoundLabel = solo.getString(R.string.category_sound);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		String categoryControlLabel = solo.getString(R.string.category_control);
+		String categoryLooksLabel = solo.getString(R.string.category_looks);
+		String categoryMotionLabel = solo.getString(R.string.category_motion);
 
-		assertTrue("A category was not visible after opening BrickCategoryDialog",
-				solo.searchText(getActivity().getString(R.string.category_motion)));
-		assertTrue("A category was not visible after opening BrickCategoryDialog",
-				solo.searchText(getActivity().getString(R.string.category_looks)));
+		// Test if all Categories are present
+		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categoryMotionLabel));
+		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categoryLooksLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categorySoundLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryControlLabel));
-
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryLegoNXTLabel));
 
-		solo.clickOnText(getActivity().getString(R.string.category_control));
-		assertTrue("AddBrickDialog was not opened after selecting a category",
-				solo.searchText(getActivity().getString(R.string.brick_wait)));
+		// Test if the correct category opens when clicked
+		String brickPlaceAtText = solo.getString(R.string.brick_place_at);
+		String brickSetCostume = solo.getString(R.string.brick_set_costume);
+		String brickPlaySound = solo.getString(R.string.brick_play_sound);
+		String brickWhenStarted = solo.getString(R.string.brick_when_started);
+		String brickLegoStopMotor = solo.getString(R.string.motor_stop);
 
+		solo.clickOnText(categoryMotionLabel);
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickPlaceAtText, 0, 2000));
 		solo.goBack();
-		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog", solo.searchText(categorySoundLabel));
+
+		solo.clickOnText(categoryLooksLabel);
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickSetCostume, 0, 2000));
+		solo.goBack();
+
+		solo.clickOnText(categorySoundLabel);
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickPlaySound, 0, 2000));
+		solo.goBack();
+
+		solo.clickOnText(categoryControlLabel);
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickWhenStarted, 0, 2000));
+		solo.goBack();
 
 		solo.clickOnText(categoryLegoNXTLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
-				solo.searchText(getActivity().getString(R.string.brick_motor_action)));
-
-		solo.goBack();
-		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
-				solo.searchText(categoryLegoNXTLabel));
+				solo.waitForText(brickLegoStopMotor, 0, 2000));
 	}
 
 	public void testSimpleDragNDrop() {
@@ -178,14 +196,14 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
-		String currentProject = getActivity().getString(R.string.current_project_button);
-		String background = getActivity().getString(R.string.background);
-		String categoryLooks = getActivity().getString(R.string.category_looks);
-		String categoryMotion = getActivity().getString(R.string.category_motion);
-		String setBackground = getActivity().getString(R.string.brick_set_background);
-		String nextBackground = getActivity().getString(R.string.brick_next_background);
-		String comeToFront = getActivity().getString(R.string.brick_come_to_front);
-		String goNStepsBack = getActivity().getString(R.string.brick_go_back_layers);
+		String currentProject = solo.getString(R.string.main_menu_continue);
+		String background = solo.getString(R.string.background);
+		String categoryLooks = solo.getString(R.string.category_looks);
+		String categoryMotion = solo.getString(R.string.category_motion);
+		String setBackground = solo.getString(R.string.brick_set_background);
+		String nextBackground = solo.getString(R.string.brick_next_background);
+		String comeToFront = solo.getString(R.string.brick_come_to_front);
+		String goNStepsBack = solo.getString(R.string.brick_go_back_layers);
 
 		UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
 
@@ -196,82 +214,18 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.clickOnText(categoryLooks);
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 		solo.clickOnText(nextBackground);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
-	}
-
-	public void testSelectCategoryDialogOnOrientationChange() {
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-		String categoryMotionLabel = solo.getString(R.string.category_motion);
-		String categoryLooksLabel = solo.getString(R.string.category_looks);
-		String categorySoundLabel = solo.getString(R.string.category_sound);
-		String categoryControlLabel = solo.getString(R.string.category_control);
-
-		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categoryMotionLabel));
-		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categoryLooksLabel));
-		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categorySoundLabel));
-		assertTrue("A category was not visible after opening BrickCategoryDialog",
-				solo.searchText(categoryControlLabel));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("A category was not visible after changing orientation", solo.searchText(categoryMotionLabel));
-		assertTrue("A category was not visible after changing orientation", solo.searchText(categoryLooksLabel));
-		assertTrue("A category was not visible after changing orientation", solo.searchText(categorySoundLabel));
-		assertTrue("A category was not visible after changing orientation", solo.searchText(categoryControlLabel));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		assertTrue("A category was not visible after changing orientation", solo.searchText(categoryMotionLabel));
-		assertTrue("A category was not visible after changing orientation", solo.searchText(categoryLooksLabel));
-		assertTrue("A category was not visible after changing orientation", solo.searchText(categorySoundLabel));
-		assertTrue("A category was not visible after changing orientation", solo.searchText(categoryControlLabel));
-	}
-
-	public void testAddBrickDialogOnOrientationChange() {
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-
-		String brickPlaceAtText = solo.getString(R.string.brick_place_at);
-		String brickSetCostume = solo.getString(R.string.brick_set_costume);
-		String brickPlaySound = solo.getString(R.string.brick_play_sound);
-		String brickWhenStarted = solo.getString(R.string.brick_when_started);
-
-		solo.clickOnText(getActivity().getString(R.string.category_motion));
-
-		assertTrue("Not in AddBrickDialog - category motion", solo.searchText(brickPlaceAtText));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		assertTrue("dialog closed after orientation change", solo.searchText(brickPlaceAtText));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(1000);
-		solo.goBack();
-		solo.sleep(1000);
-
-		solo.clickOnText(getActivity().getString(R.string.category_looks));
-		assertTrue("Not in AddBrickDialog - category looks", solo.searchText(brickSetCostume));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		assertTrue("dialog closed after orientation change", solo.searchText(brickSetCostume));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
-
-		solo.clickOnText(getActivity().getString(R.string.category_sound));
-		assertTrue("Not in AddBrickDialog - category motion", solo.searchText(brickPlaySound));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		assertTrue("dialog closed after orientation change", solo.searchText(brickPlaySound));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
-
-		solo.clickOnText(getActivity().getString(R.string.category_control));
-		assertTrue("Not in AddBrickDialog - category motion", solo.searchText(brickWhenStarted));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		assertTrue("dialog closed after orientation change", solo.searchText(brickWhenStarted));
 	}
 }

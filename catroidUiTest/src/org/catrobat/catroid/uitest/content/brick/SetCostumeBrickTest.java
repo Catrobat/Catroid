@@ -121,7 +121,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	}
 
 	public void testSelectCostumeAndPlay() {
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(costumeName);
 		assertTrue(costumeName + " is not selected in Spinner", solo.searchText(costumeName));
 
@@ -152,10 +152,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
-		solo.clickOnButton(getActivity().getString(R.string.delete_lowercase));
-		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.clickOnButton(solo.getString(R.string.delete_lowercase));
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.clickOnText(spinnerNothingText);
 		assertFalse(costumeName + " is still in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
@@ -169,13 +169,13 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.clickOnView(solo.getView(R.id.costume_name));
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.clickOnText(spinnerNothingText);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
@@ -184,7 +184,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	public void testAdapterUpdateInScriptActivity() {
 		String costume1ImagePath = costumeDataList.get(0).getAbsolutePath();
 		String costume2ImagePath = costumeDataList.get(1).getAbsolutePath();
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(costumeName);
 
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
