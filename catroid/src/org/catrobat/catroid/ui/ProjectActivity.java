@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
@@ -34,7 +35,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import org.catrobat.catroid.R;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -55,8 +56,7 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	protected void onStart() {
 		super.onStart();
 
-		String title = getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName();
+		String title = ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -98,17 +98,54 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				Intent intent = new Intent(this, MainMenuActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				return true;
+				break;
 			}
-			case R.id.menu_add: {
-				NewSpriteDialog dialog = new NewSpriteDialog();
-				dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-				return true;
+			case R.id.show_details: {
+				break;
 			}
-			case R.id.menu_start: {
-				Intent intent = new Intent(this, PreStageActivity.class);
-				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				return true;
+
+			case R.id.copy: {
+				break;
+			}
+
+			case R.id.cut: {
+				break;
+			}
+
+			case R.id.insert_below: {
+				break;
+			}
+
+			case R.id.move: {
+				break;
+			}
+
+			case R.id.rename: {
+				break;
+			}
+
+			case R.id.delete: {
+				break;
+			}
+
+			case R.id.settings: {
+				Intent intent = new Intent(ProjectActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				break;
+			}
+
+			case R.id.toggle_text: {
+				TextView tvAdd = (TextView) findViewById(R.id.add_label);
+				TextView tvPlay = (TextView) findViewById(R.id.play_label);
+
+				if (tvAdd.getVisibility() == View.GONE) {
+					tvAdd.setVisibility(View.VISIBLE);
+					tvPlay.setVisibility(View.VISIBLE);
+				} else {
+					tvAdd.setVisibility(View.GONE);
+					tvPlay.setVisibility(View.GONE);
+				}
+				break;
 			}
 		}
 		return super.onOptionsItemSelected(item);
@@ -139,6 +176,16 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	public void handleAddButton(View view) {
+		NewSpriteDialog dialog = new NewSpriteDialog();
+		dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	public void handlePlayButton(View view) {
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 
 	@Override

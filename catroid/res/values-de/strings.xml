@@ -36,6 +36,9 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="copy">Kopieren</string>
+    <string name="cut">Ausschneiden</string>
+    <string name="move">Verschieben</string>
+    <string name="play">Abspielen</string>
     <!-- General -->
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
@@ -73,6 +76,8 @@
     <string name="number_of_bricks">Bausteine:</string>
     <string name="number_of_costumes">Kostüme:</string>
     <string name="number_of_sounds">Klänge:</string>
+    <string name="show_details">Details anzeigen</string>
+    <string name="insert_below">Darunter einfügen</string>
     <!-- Sprite activity -->
     <string name="sprite_name">Objekt:</string>
     <string name="spritelist_footer_image_description">Hier drücken, um neues Objekt hinzuzufügen</string>
