@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
@@ -44,7 +45,6 @@ import android.view.Display;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -262,10 +262,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		String newName = "newTestName";
 		goToCostumesTab();
 		solo.clickOnView(solo.getView(R.id.costume_name));
-		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(100);
-		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.clearEditText(0);
@@ -442,6 +442,28 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		if (!isInCostumeDataList) {
 			fail("File not added in CostumeDataList");
 		}
+	}
+
+	public void testGetImageFromGalleryNullData() {
+		goToCostumesTab();
+		costumeDataList = ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList();
+		int numberOfCostumeDatasBeforeIntent = costumeDataList.size();
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
+		bundleForGallery.putBoolean("returnNullData", true);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+
+		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
+		solo.sleep(2000);
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 2000);
+		solo.assertCurrentActivity("Test should not fail - should be in ScriptTabActivity",
+				ScriptTabActivity.class.getSimpleName());
+		costumeDataList = ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList();
+		int numberOfCostumeDatasAfterReturning = costumeDataList.size();
+		assertEquals("wrong size of costumedatalist", numberOfCostumeDatasBeforeIntent,
+				numberOfCostumeDatasAfterReturning);
 	}
 
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
@@ -654,7 +676,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void goToCostumesTab() {
 		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
-		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.sleep(500);
 	}
 }

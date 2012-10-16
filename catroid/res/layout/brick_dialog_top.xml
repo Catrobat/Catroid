@@ -19,8 +19,8 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_height"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbar_height"
         android:layout_weight="0.1"
-        android:background="@drawable/actionbar_background" >
+        android:background="@color/actionbar_background" >
 
         <TextView
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -46,19 +46,13 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <ImageView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="2px"
-        android:layout_height="@dimen/actionbar_height"
-        android:background="@drawable/actionbar_separator" />
-
     <ImageButton
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/btn_close_dialog"
         android:layout_width="@dimen/actionbar_height"
         android:layout_height="@dimen/actionbar_height"
         android:layout_gravity="center"
-        android:background="@drawable/btn_close_dialog_selector"
+        android:background="@color/actionbar_background"
         android:src="@drawable/ic_close_black" />
 
 </LinearLayout>

@@ -26,12 +26,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
-import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
@@ -52,7 +53,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -106,12 +106,13 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setTitle(R.string.app_name);
 
 		projectManager = ProjectManager.getInstance();
 		Utils.loadProjectIfNeeded(this, this);
 
 		if (projectManager.getCurrentProject() == null) {
-			findViewById(R.id.current_project_button).setEnabled(false);
+			findViewById(R.id.main_menu_button_continue).setEnabled(false);
 		}
 
 		// Load external project from URL or local file system.
@@ -148,10 +149,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
 				Utils.displayErrorMessageFragment(getSupportFragmentManager(),
 						getResources().getString(R.string.error_load_project));
-			} else {
-				if (projectManager.loadProject(projectName, this, this, true)) {
-					writeProjectTitleInTextfield();
-				}
 			}
 		}
 	}
@@ -168,28 +165,25 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 		ignoreResume = false;
 		PreStageActivity.shutdownPersistentResources();
-
-		if (projectManager.getCurrentProject() != null) {
-			String title = getString(R.string.project_name) + " " + projectManager.getCurrentProject().getName();
-			actionBar.setTitle(title);
-		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_main, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_start: {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-					ignoreResume = true;
-					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				}
+			case R.id.menu_settings: {
+				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
+			}
+			case R.id.menu_about: {
+				AboutDialogFragment aboutDialog = new AboutDialogFragment();
+				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
 			}
 		}
@@ -219,15 +213,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		ignoreResume = false;
 
 		ProjectManager.INSTANCE.loadProject(ProjectManager.INSTANCE.getCurrentProject().getName(), this, this, false);
-		writeProjectTitleInTextfield();
 
 		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
-	}
-
-	public void writeProjectTitleInTextfield() {
-		String title = this.getResources().getString(R.string.project_name) + " "
-				+ projectManager.getCurrentProject().getName();
-		actionBar.setTitle(title);
 	}
 
 	@Override
@@ -259,7 +246,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	protected void onDestroy() {
 		super.onDestroy();
 
-		unbindDrawables(findViewById(R.id.MainMenuActivityRoot));
+		unbindDrawables(findViewById(R.id.main_menu));
 		System.gc();
 	}
 
@@ -275,24 +262,24 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 	}
 
-	public void handleCurrentProjectButton(View v) {
+	public void handleContinueButton(View v) {
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
 	}
 
-	public void handleNewProjectButton(View v) {
+	public void handleNewButton(View v) {
 		NewProjectDialog dialog = new NewProjectDialog();
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	public void handleLoadProjectButton(View v) {
+	public void handleProgramsButton(View v) {
 		Intent intent = new Intent(MainMenuActivity.this, MyProjectsActivity.class);
 		startActivity(intent);
 	}
 
-	public void handleUploadProjectButton(View v) {
+	public void handleUploadButton(View v) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = preferences.getString(Constants.TOKEN, null);
 
@@ -305,24 +292,14 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		}
 	}
 
-	public void handleWebResourcesButton(View v) {
+	public void handleWebButton(View v) {
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
 		startActivity(browserIntent);
-	}
-
-	public void handleSettingsButton(View v) {
-		Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-		startActivity(intent);
 	}
 
 	public void handleForumButton(View v) {
 		Intent browerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catrobat_forum).toString()));
 		startActivity(browerIntent);
-	}
-
-	public void handleAboutCatroidButton(View v) {
-		AboutDialogFragment aboutDialog = new AboutDialogFragment();
-		aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

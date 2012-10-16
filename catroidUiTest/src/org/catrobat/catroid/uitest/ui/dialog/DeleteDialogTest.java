@@ -122,7 +122,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String deleteSoundText = solo.getString(R.string.delete_lowercase);
 		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 
-		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.sleep(200);
 		solo.clickOnButton(deleteSoundText);
 

@@ -21,22 +21,15 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<!-- Strings that need no translation -->
-<resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- Language independent -->
-    <string name="percent">%</string>
-    <string name="catroid_extension_pathPattern">.*\\.catrobat</string>
+    <item
+        android:id="@+id/menu_settings"
+        android:showAsAction="withText"
+        android:title="@string/main_menu_settings"/>
+    <item
+        android:id="@+id/menu_about"
+        android:showAsAction="withText"
+        android:title="@string/main_menu_about_catroid"/>
 
-    <!-- Lego Mindstorms -->
-    <string name="minus_symbol">-</string>
-    <string name="plus_symbol">+</string>
-    <string name="degree">°</string>
-
-    <!-- Website URLs -->
-    <string name="catroid_website">http://www.catroid.org</string>
-    <string name="about_catroid_license_url">http://developer.catrobat.org/licenses</string>
-    <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
-    <string name="catrobat_forum">https://groups.google.com/group/catrobat</string>
-
-</resources>
+</menu>
