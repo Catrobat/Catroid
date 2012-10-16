@@ -29,7 +29,10 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.StandardProjectHandler;
@@ -45,14 +48,12 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
-import junit.framework.AssertionFailedError;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -267,7 +268,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.main_menu_programs);
 		solo.clickOnButton(myProjectsText);
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
 			fail("Edit-Dialog not shown in 5 secs!");
 		}
@@ -316,7 +317,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
 			fail("Edit-Dialog not shown in 5 secs!");
@@ -850,14 +851,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
-		assertTrue("No or wrong error message shown",
-				solo.searchText(solo.getString(R.string.error_project_exists)));
+		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.sleep(100);
 		solo.clickOnButton(buttonCloseText);
 		solo.sleep(100);
 		solo.clickOnButton(buttonOkText);
-		assertTrue("No or wrong error message shown",
-				solo.searchText(solo.getString(R.string.error_project_exists)));
+		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(buttonCloseText);
 	}
 
@@ -993,7 +992,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("click on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 		solo.clearEditText(0);
 		solo.enterText(0, "testSprite");

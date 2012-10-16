@@ -119,7 +119,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 
 		solo.sleep(2000);
 
@@ -236,7 +236,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
 		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
@@ -265,12 +265,12 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 		solo.goBack();
 		solo.sleep(1000);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 
