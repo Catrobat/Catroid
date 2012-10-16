@@ -25,10 +25,6 @@
 
     <!-- General terms -->
     <string name="app_name">Catroid</string>
-    <string name="project">Projekt</string>
-    <string name="sprite">Objekt</string>
-    <string name="script">Skript</string>
-    <string name="brick">Baustein</string>
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
@@ -36,6 +32,9 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="copy">Kopieren</string>
+    <!--  -->
+
+
     <!-- General -->
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
@@ -47,6 +46,9 @@
     <string name="ok">Ok</string>
     <string name="add">Neu</string>
     <string name="start">Starten</string>
+    <!--  -->
+
+
     <!-- Main menu activity -->
     <string name="main_menu_new">Neu</string>
     <string name="main_menu_continue">Fortsetzen</string>
@@ -56,6 +58,9 @@
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_catroid">Über Catroid</string>
+    <!--  -->
+
+
     <!-- Settings activity -->
     <string name="pref_title">Einstellungen</string>
     <string name="pref_enable_ms_bricks">Mindstorm Bausteine aktivieren</string>
@@ -83,7 +88,6 @@
     <string name="backgrounds">Hintergründe</string>
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Kostüm umbenennen</string>
-    <string name="edit_costume">editieren</string>
     <string name="edit_costume_paintroid">Paintroid</string>
     <string name="copy_costume">kopieren</string>
     <string name="costumename_invalid">Dieser Name ist nicht zulässig</string>
@@ -154,7 +158,6 @@
     <string name="username">Benutzername:</string>
     <string name="password">Passwort:</string>
     <string name="login_or_register">Einloggen/\nRegistrieren</string>
-    <string name="register">Registrieren</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
@@ -294,7 +297,6 @@
     <string name="none_paired">Keine verbundenen Geräte gefunden</string>
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT bewege Motor</string>
-    <string name="motor">Motor</string>
     <string name="motor_speed">Geschwindigkeit</string>
     <string name="brick_motor_turn_angle">NXT rotiere Motor</string>
     <string name="motor_angle">Winkel</string>
