@@ -118,6 +118,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String brickSetCostume = solo.getString(R.string.brick_set_costume);
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
+		String brickLegoStopMotor = solo.getString(R.string.motor_stop);
 
 		solo.clickOnText(categoryMotionLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
@@ -137,6 +138,10 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(categoryControlLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickWhenStarted, 0, 2000));
+
+		solo.clickOnText(categoryLegoNXTLabel);
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.waitForText(brickLegoStopMotor, 0, 2000));
 	}
 
 	public void testSimpleDragNDrop() {
