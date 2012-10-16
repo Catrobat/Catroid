@@ -23,18 +23,13 @@
 package org.catrobat.catroid.ui.fragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.CostumeData;
-import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptTabActivity;
-import org.catrobat.catroid.ui.adapter.IconMenuAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
-import org.catrobat.catroid.ui.dialogs.CustomIconContextMenu;
-import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
@@ -43,38 +38,31 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class SpritesListFragment extends SherlockListFragment implements OnClickListener {
+public class SpritesListFragment extends SherlockListFragment {
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
 
-	private static final int FOOTER_ADD_SPRITE_ALPHA_VALUE = 35;
-
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
-
-	private View viewBelowSpritelistNonScrollable;
-	private View spritelistFooterView;
 
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
@@ -96,20 +84,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		registerForContextMenu(getListView());
 		if (savedInstanceState != null) {
 			spriteToEdit = (Sprite) savedInstanceState.get(BUNDLE_ARGUMENTS_SPRITE_TO_EDIT);
 		}
-
-		viewBelowSpritelistNonScrollable = getActivity().findViewById(R.id.view_below_spritelist_non_scrollable);
-		viewBelowSpritelistNonScrollable.setOnClickListener(this);
-
-		View footerView = getActivity().getLayoutInflater().inflate(R.layout.activity_project_spritelist_footer,
-				getListView(), false);
-		spritelistFooterView = footerView.findViewById(R.id.spritelist_footerview);
-		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.spritelist_footerview_add_image);
-		footerAddImage.setAlpha(FOOTER_ADD_SPRITE_ALPHA_VALUE);
-		spritelistFooterView.setOnClickListener(this);
-		getListView().addFooterView(footerView);
 
 		try {
 			Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
@@ -184,21 +162,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		}
 	}
 
-	@Override
-	public void onClick(View v) {
-		NewSpriteDialog dialog = null;
-		switch (v.getId()) {
-			case R.id.view_below_spritelist_non_scrollable:
-				dialog = new NewSpriteDialog();
-				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-				break;
-			case R.id.spritelist_footerview:
-				dialog = new NewSpriteDialog();
-				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-				break;
-		}
-	}
-
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
@@ -225,76 +188,122 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			}
 		});
 
-		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				spriteToEdit = spriteList.get(position);
+		//		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+		//			@Override
+		//			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		//				spriteToEdit = spriteList.get(position);
+		//
+		//				// as long as background sprite is always the first one, we're fine
+		//				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
+		//					return true;
+		//				}
+		//
+		//				showEditSpriteContextDialog();
+		//				return true;
+		//			}
+		//		});
+	}
 
-				// as long as background sprite is always the first one, we're fine
-				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
-					return true;
+	//	private void showEditSpriteContextDialog() {
+	//		FragmentTransaction ft = getFragmentManager().beginTransaction();
+	//		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+	//		if (prev != null) {
+	//			ft.remove(prev);
+	//		}
+	//		ft.addToBackStack(null);
+	//
+	//		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(spriteToEdit.getName());
+	//		initCustomContextMenu(dialog);
+	//		dialog.show(ft, CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+	//	}
+
+	//	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
+	//		Resources resources = getResources();
+	//
+	//		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
+	//		adapter.addItem(resources, getString(R.string.rename), R.drawable.ic_context_rename, CONTEXT_MENU_ITEM_RENAME);
+	//		adapter.addItem(resources, getString(R.string.delete), R.drawable.ic_context_delete, CONTEXT_MENU_ITEM_DELETE);
+	//		iconContextMenu.setAdapter(adapter);
+	//
+	//		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+	//			@Override
+	//			public void onClick(int menuId) {
+	//				switch (menuId) {
+	//					case CONTEXT_MENU_ITEM_RENAME:
+	//						RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
+	//						dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
+	//						break;
+	//					case CONTEXT_MENU_ITEM_DELETE:
+	//						ProjectManager projectManager = ProjectManager.getInstance();
+	//						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+	//						deleteSpriteFiles();
+	//						if (projectManager.getCurrentSprite() != null
+	//								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
+	//							projectManager.setCurrentSprite(null);
+	//						}
+	//						break;
+	//				}
+	//			}
+	//		});
+	//	}
+
+	//	private void deleteSpriteFiles() {
+	//		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
+	//		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
+	//
+	//		for (CostumeData currentCostumeData : costumeDataList) {
+	//			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
+	//		}
+	//
+	//		for (SoundInfo currentSoundInfo : soundInfoList) {
+	//			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
+	//		}
+	//	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+		Adapter adapter = getListAdapter();
+
+		spriteToEdit = (Sprite) adapter.getItem(info.position);
+
+		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
+			return;
+		}
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_current_project, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.copy:
+				break;
+
+			case R.id.cut:
+				break;
+
+			case R.id.insert_below:
+				break;
+
+			case R.id.move:
+				break;
+
+			case R.id.rename:
+				RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
+				dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
+				break;
+
+			case R.id.delete:
+				ProjectManager projectManager = ProjectManager.getInstance();
+				projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+				if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
+					projectManager.setCurrentSprite(null);
 				}
+				break;
 
-				showEditSpriteContextDialog();
-				return true;
-			}
-		});
-	}
-
-	private void showEditSpriteContextDialog() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
-		if (prev != null) {
-			ft.remove(prev);
 		}
-		ft.addToBackStack(null);
-
-		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(spriteToEdit.getName());
-		initCustomContextMenu(dialog);
-		dialog.show(ft, CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
-	}
-
-	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
-		Resources resources = getResources();
-
-		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
-		adapter.addItem(resources, getString(R.string.rename), R.drawable.ic_context_rename, CONTEXT_MENU_ITEM_RENAME);
-		adapter.addItem(resources, getString(R.string.delete), R.drawable.ic_context_delete, CONTEXT_MENU_ITEM_DELETE);
-		iconContextMenu.setAdapter(adapter);
-
-		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-			@Override
-			public void onClick(int menuId) {
-				switch (menuId) {
-					case CONTEXT_MENU_ITEM_RENAME:
-						RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
-						dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
-						break;
-					case CONTEXT_MENU_ITEM_DELETE:
-						ProjectManager projectManager = ProjectManager.getInstance();
-						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-						deleteSpriteFiles();
-						if (projectManager.getCurrentSprite() != null
-								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
-							projectManager.setCurrentSprite(null);
-						}
-						break;
-				}
-			}
-		});
-	}
-
-	private void deleteSpriteFiles() {
-		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
-		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
-
-		for (CostumeData currentCostumeData : costumeDataList) {
-			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
-		}
-
-		for (SoundInfo currentSoundInfo : soundInfoList) {
-			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
-		}
+		return super.onContextItemSelected(item);
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {

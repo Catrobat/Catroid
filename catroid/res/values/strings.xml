@@ -36,6 +36,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="copy">Copy</string>
+    <string name="cut">Cut</string>
+    <string name="move">Move</string>
+    <string name="play">Play</string>
     <!-- General -->
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -74,6 +77,8 @@
     <string name="number_of_bricks">Bricks:</string>
     <string name="number_of_costumes">Costumes:</string>
     <string name="number_of_sounds">Sounds:</string>
+    <string name="show_details">Show Details</string>
+    <string name="insert_below">Insert Below</string>
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
     <string name="spritelist_footer_image_description">Tap to add new sprite</string>
