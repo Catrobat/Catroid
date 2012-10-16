@@ -142,7 +142,8 @@ public class StatusBarNotificationManager {
 		copyNotificationDataMap.put(copyId, data);
 
 		if (newCopyNotification) {
-			copyNotification = new Notification(R.drawable.ic_upload, notificationTitle, System.currentTimeMillis());
+			copyNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+					System.currentTimeMillis());
 			copyNotification.flags = Notification.FLAG_AUTO_CANCEL;
 			copyNotification.number += 1;
 			copyNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
