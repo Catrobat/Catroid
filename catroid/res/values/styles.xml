@@ -19,20 +19,18 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <!-- <item name="actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
-        <!-- <item name="android:actionBarItemBackground">@drawable/btn_actionbar_selector</item> -->
     </style>
 
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
-        <item name="background">@drawable/actionbar_background</item>
-        <item name="android:background">@drawable/actionbar_background</item>
+        <item name="background">@color/actionbar_background</item>
+        <item name="android:background">@color/actionbar_background</item>
         <item name="homeAsUpIndicator">@drawable/actionbar_ic_back</item>
         <item name="android:homeAsUpIndicator">@drawable/actionbar_ic_back</item>
         <item name="titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
@@ -64,7 +62,7 @@
     <style name="settings_activity" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:windowBackground">@color/website_blue</item>
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="rotate_dialog_animation">

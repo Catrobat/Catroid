@@ -73,7 +73,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	 * assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 	 * getActivity().getAdapter().getChild(groupCount - 1, 0));
 	 * assertNotNull("TextView does not exist.",
-	 * solo.getText(getActivity().getString(org.catrobat.catroid.R.string.brick_speak)));
+	 * solo.getText(solo.getString(org.catrobat.catroid.R.string.brick_speak)));
 	 * 
 	 * solo.clickOnEditText(0);
 	 * solo.enterText(0, testString);

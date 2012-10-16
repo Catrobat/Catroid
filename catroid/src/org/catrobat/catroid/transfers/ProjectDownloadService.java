@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.transfers;
 
-import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -40,7 +40,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.ResultReceiver;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class ProjectDownloadService extends IntentService {
 
@@ -50,7 +49,6 @@ public class ProjectDownloadService extends IntentService {
 	private String zipFileString;
 	private String url;
 	private boolean result, showOverwriteDialog;
-	private static ProjectManager projectManager = ProjectManager.getInstance();
 	Notification downloadNotification;
 	PendingIntent pendingDownload;
 	private Integer notificationId;
@@ -114,7 +112,7 @@ public class ProjectDownloadService extends IntentService {
 				//The context of the calling activity is needed, otherwise an exception occurs
 				MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
 				OverwriteRenameDialog renameDialog = new OverwriteRenameDialog(activity, projectName, zipFileString,
-						activity, activity);
+						activity);
 				renameDialog.show();
 			} catch (RuntimeException e) {
 				e.printStackTrace();
@@ -128,10 +126,6 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		Toast.makeText(this, R.string.success_project_download, Toast.LENGTH_SHORT).show();
-		MainMenuActivity activity = StatusBarNotificationManager.INSTANCE.getActivity(notificationId);
-		if (projectManager.loadProject(projectName, activity, activity, true)) {
-			activity.writeProjectTitleInTextfield();
-		}
 	}
 
 	private void showDialog(int messageId) {

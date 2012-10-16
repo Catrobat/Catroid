@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <resources>
 
     <!-- General terms -->
@@ -48,17 +48,14 @@
     <string name="add">Neu</string>
     <string name="start">Starten</string>
     <!-- Main menu activity -->
-    <string name="resume">Fortsetzen</string>
-    <string name="current_project">Aktuelles Projekt:</string>
-    <string name="current_project_button">Aktuelles Projekt</string>
-    <string name="my_projects">Meine Projekte</string>
-    <string name="settings">Einstellungen</string>
-    <string name="web_resources">Internet-Ressourcen</string>
-    <string name="forum">Forum</string>
-    <string name="new_project">Neues Projekt</string>
-    <string name="load">Laden</string>
-    <string name="about">Über Catroid</string>
-    <string name="upload_project">Projekt hochladen</string>
+    <string name="main_menu_new">Neu</string>
+    <string name="main_menu_continue">Fortsetzen</string>
+    <string name="main_menu_programs">Programme</string>
+    <string name="main_menu_forum">Forum</string>
+    <string name="main_menu_web">Web</string>
+    <string name="main_menu_upload">Hochladen</string>
+    <string name="main_menu_settings">Einstellungen</string>
+    <string name="main_menu_about_catroid">Über Catroid</string>
     <!-- Settings activity -->
     <string name="pref_title">Einstellungen</string>
     <string name="pref_enable_ms_bricks">Mindstorm Bausteine aktivieren</string>
@@ -323,7 +320,7 @@
     <string name="formula_editor_function_cos">cos</string>
     <string name="formula_editor_function_tan">tan</string>
     <string name="formula_editor_function_ln">ln</string>
-    <string name="formula_editor_function_log">log</string>   
+    <string name="formula_editor_function_log">log</string>
     <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_sqrt">wurzel</string>
     <string name="formula_editor_function_e">e</string>
@@ -343,4 +340,5 @@
     <string name="formula_editor_costume_size">kostüm-größe</string>
     <string name="formula_editor_costume_rotation">kostüm-rotation</string>
     <string name="formula_editor_costume_layer">kostüm-ebene</string>
+
 </resources>
