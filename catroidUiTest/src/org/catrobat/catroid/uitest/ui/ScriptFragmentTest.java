@@ -138,6 +138,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(categoryControlLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickWhenStarted, 0, 2000));
+		solo.goBack();
 
 		solo.clickOnText(categoryLegoNXTLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
