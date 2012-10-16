@@ -41,7 +41,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.content.Project;
@@ -65,7 +68,6 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-import junit.framework.Assert;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
@@ -90,7 +92,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
@@ -537,6 +538,12 @@ public class UiTestUtils {
 		} else {
 			solo.clickOnActionBarItem(imageButtonId);
 		}
+	}
+
+	public static void clickOnBottomBar(Solo solo, int buttonId) {
+		solo.waitForView(LinearLayout.class);
+		LinearLayout linearLayout = (LinearLayout) solo.getView(buttonId);
+		solo.clickOnView(linearLayout);
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
