@@ -20,73 +20,59 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/website_blue"
-    android:orientation="vertical"
-    android:id="@+id/MainMenuActivityRoot" >
+    android:background="@android:color/white"
+    android:orientation="vertical" >
 
     <org.catrobat.catroid.ui.widget.DashboardLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <Button
-            android:id="@+id/current_project_button"
+            android:id="@+id/main_menu_button_new"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/current_project_selector"
-            android:onClick="handleCurrentProjectButton"
-            android:text="@string/current_project_button" />
+            android:drawableTop="@drawable/main_menu_new"
+            android:onClick="handleNewButton"
+            android:text="@string/main_menu_new" />
 
         <Button
-            android:id="@+id/new_project_button"
+            android:id="@+id/main_menu_button_continue"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/new_project_selector"
-            android:onClick="handleNewProjectButton"
-            android:text="@string/new_project" />
+            android:drawableTop="@drawable/main_menu_continue"
+            android:onClick="handleContinueButton"
+            android:text="@string/main_menu_continue" />
 
         <Button
-            android:id="@+id/projects_on_phone_button"
+            android:id="@+id/main_menu_button_programs"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/projects_selector"
-            android:onClick="handleLoadProjectButton"
-            android:text="@string/my_projects" />
+            android:drawableTop="@drawable/main_menu_programs"
+            android:onClick="handleProgramsButton"
+            android:text="@string/main_menu_programs" />
 
         <Button
-            android:id="@+id/upload_project_button"
+            android:id="@+id/main_menu_button_forum"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/upload_selector"
-            android:onClick="handleUploadProjectButton"
-            android:text="@string/upload_project" />
-
-        <Button
-            android:id="@+id/web_button"
-            style="@style/DashboardButton"
-            android:drawableTop="@drawable/web_selector"
-            android:onClick="handleWebResourcesButton"
-            android:text="@string/web_resources" />
-
-        <Button
-            android:id="@+id/settings_button"
-            style="@style/DashboardButton"
-            android:drawableTop="@drawable/settings_selector"
-            android:onClick="handleSettingsButton"
-            android:text="@string/settings" />
-
-        <Button
-            android:id="@+id/forum_button"
-            style="@style/DashboardButton"
-            android:drawableTop="@drawable/forum_selector"
+            android:drawableTop="@drawable/main_menu_forum"
             android:onClick="handleForumButton"
-            android:text="@string/forum" />
+            android:text="@string/main_menu_forum" />
 
         <Button
-            android:id="@+id/about_catroid_button"
+            android:id="@+id/main_menu_button_web"
             style="@style/DashboardButton"
-            android:drawableTop="@drawable/about_selector"
-            android:onClick="handleAboutCatroidButton"
-            android:text="@string/about" />
+            android:drawableTop="@drawable/main_menu_web"
+            android:onClick="handleWebButton"
+            android:text="@string/main_menu_web" />
+
+        <Button
+            android:id="@+id/main_menu_button_upload"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/main_menu_upload"
+            android:onClick="handleUploadButton"
+            android:text="@string/main_menu_upload" />
     </org.catrobat.catroid.ui.widget.DashboardLayout>
 
 </LinearLayout>

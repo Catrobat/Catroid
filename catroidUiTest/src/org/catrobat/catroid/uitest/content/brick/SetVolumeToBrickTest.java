@@ -84,7 +84,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_set_volume_to)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_volume_to)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);

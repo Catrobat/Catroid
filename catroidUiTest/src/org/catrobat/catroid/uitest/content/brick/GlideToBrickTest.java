@@ -67,7 +67,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testNumberInput() {
 		String whenStartedText = solo.getString(R.string.brick_when_started);
 		solo.clickLongOnText(whenStartedText);
-		solo.clickOnText(getActivity().getString(R.string.delete));
+		solo.clickOnText(solo.getString(R.string.delete));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
 		solo.clickOnText(whenStartedText);
@@ -97,7 +97,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		createProject();
 		solo.sleep(200);
-		solo.clickOnText(solo.getString(R.string.current_project_button));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1);
 		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo

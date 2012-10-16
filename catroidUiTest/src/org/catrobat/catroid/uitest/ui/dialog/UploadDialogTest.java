@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.ui.dialog;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -33,14 +34,12 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.web.ServerCalls;
 
-import junit.framework.AssertionFailedError;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -90,10 +89,10 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		createTestProject();
 		solo.sleep(200);
 		UiTestUtils.createValidUser(getActivity());
-		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForDialogToClose(5000);
 
-		View renameView = solo.getText(getActivity().getString(R.string.project_rename));
+		View renameView = solo.getText(solo.getString(R.string.project_rename));
 		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", renameView.getVisibility(), View.GONE);
 
@@ -112,28 +111,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.enterText(0, newTestProject);
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
-		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
-	}
-
-	public void testOrientationChange() throws Throwable {
-		setServerURLToTestURL();
-		createTestProject();
-		solo.sleep(200);
-		String testText1 = "testText1";
-		String testText2 = "testText2";
-		UiTestUtils.createValidUser(getActivity());
-		solo.clickOnText(getActivity().getString(R.string.upload_project));
-		solo.sleep(200);
-		solo.clearEditText(0);
-		solo.enterText(0, testText1);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(200);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.enterText(1, testText2);
-
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
+		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
 
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
@@ -147,7 +125,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.createValidUser(getActivity());
 
 		solo.sleep(300);
-		solo.clickOnButton(solo.getString(R.string.my_projects));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		UiTestUtils.longClickOnTextInList(solo, uploadProject.getName());
@@ -156,26 +134,18 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.clearEditText(0);
 		solo.enterText(0, testDescription);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.sleep(300);
 
-		String buttonPositiveText = solo.getString(R.string.ok);
-		// if keyboard is there, hide it and click ok
-		try {
-			solo.clickOnText(buttonPositiveText);
-		} catch (AssertionFailedError e) {
-			solo.goBack();
-			solo.clickOnText(buttonPositiveText);
-		}
+		// workaround - Ok button not clickable
+		solo.sendKey(Solo.ENTER);
+		solo.sendKey(Solo.ENTER);
+
 		solo.waitForDialogToClose(500);
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
-		solo.clickOnText(solo.getString(R.string.upload_project));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		assertTrue("upload project dialog not shown",
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
 		EditText uploadDescriptionView = (EditText) solo.getView(R.id.project_description_upload);
@@ -193,7 +163,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		setServerURLToTestURL();
 		UiTestUtils.createValidUser(getActivity());
 		solo.sleep(200);
-		solo.clickOnText(solo.getString(R.string.upload_project));
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 
 		assertTrue("upload project dialog not shown",
 				solo.waitForText(solo.getString(R.string.upload_project_dialog_title), 0, 5000));
@@ -227,7 +197,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.enterText(0, testProject);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(2000);

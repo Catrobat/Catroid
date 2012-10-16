@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid"
     android:installLocation="auto"
@@ -47,7 +47,7 @@
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name=".ui.MainMenuActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -115,8 +115,9 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
-        <service android:name=".transfers.ProjectUploadService"/>
-        <service android:name=".transfers.ProjectDownloadService"/>
+
+        <service android:name=".transfers.ProjectUploadService" />
+        <service android:name=".transfers.ProjectDownloadService" />
     </application>
 
 </manifest>

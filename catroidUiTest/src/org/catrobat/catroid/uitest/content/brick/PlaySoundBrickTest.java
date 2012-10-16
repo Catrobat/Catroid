@@ -117,7 +117,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testSelectandPlaySoundFile() {
-		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.sleep(1000);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
@@ -151,11 +151,11 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.waitForText(buttonDeleteText);
 		solo.clickOnButton(buttonDeleteText);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.clickOnText(spinnerNothingText);
 		assertFalse(soundName + " is still in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
@@ -169,7 +169,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.clickOnView(solo.getView(R.id.sound_name));
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
@@ -181,7 +181,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.sendKey(Solo.ENTER);
 		solo.waitForDialogToClose(500);
 		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.clickOnText(spinnerNothingText);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
