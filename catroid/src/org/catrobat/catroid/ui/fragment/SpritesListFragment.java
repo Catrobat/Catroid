@@ -23,9 +23,12 @@
 package org.catrobat.catroid.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptTabActivity;
@@ -49,6 +52,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -56,9 +60,6 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class SpritesListFragment extends SherlockListFragment {
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
-
-	private static final int CONTEXT_MENU_ITEM_RENAME = 0; // or R.id.project_menu_rename
-	private static final int CONTEXT_MENU_ITEM_DELETE = 1; // or R.id.project_menu_delete
 
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
@@ -188,20 +189,19 @@ public class SpritesListFragment extends SherlockListFragment {
 			}
 		});
 
-		//		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-		//			@Override
-		//			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		//				spriteToEdit = spriteList.get(position);
-		//
-		//				// as long as background sprite is always the first one, we're fine
-		//				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
-		//					return true;
-		//				}
-		//
-		//				showEditSpriteContextDialog();
-		//				return true;
-		//			}
-		//		});
+		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				spriteToEdit = spriteList.get(position);
+
+				// as long as background sprite is always the first one, we're fine
+				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
 	}
 
 	//	private void showEditSpriteContextDialog() {
@@ -247,21 +247,22 @@ public class SpritesListFragment extends SherlockListFragment {
 	//		});
 	//	}
 
-	//	private void deleteSpriteFiles() {
-	//		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
-	//		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
-	//
-	//		for (CostumeData currentCostumeData : costumeDataList) {
-	//			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
-	//		}
-	//
-	//		for (SoundInfo currentSoundInfo : soundInfoList) {
-	//			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
-	//		}
-	//	}
+	private void deleteSpriteFiles() {
+		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
+		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
+
+		for (CostumeData currentCostumeData : costumeDataList) {
+			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
+		}
+
+		for (SoundInfo currentSoundInfo : soundInfoList) {
+			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
+		}
+	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 		Adapter adapter = getListAdapter();
 
@@ -270,7 +271,6 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 			return;
 		}
-		super.onCreateContextMenu(menu, v, menuInfo);
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_current_project, menu);
 	}
 
@@ -290,20 +290,29 @@ public class SpritesListFragment extends SherlockListFragment {
 				break;
 
 			case R.id.rename:
-				RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
-				dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
+				showRenameDialog();
 				break;
 
 			case R.id.delete:
-				ProjectManager projectManager = ProjectManager.getInstance();
-				projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-				if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-					projectManager.setCurrentSprite(null);
-				}
+				deleteSprite();
 				break;
 
 		}
 		return super.onContextItemSelected(item);
+	}
+
+	public void showRenameDialog() {
+		RenameSpriteDialog dialog = RenameSpriteDialog.newInstance(spriteToEdit.getName());
+		dialog.show(getFragmentManager(), RenameSpriteDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	public void deleteSprite() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+		deleteSpriteFiles();
+		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
+			projectManager.setCurrentSprite(null);
+		}
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
