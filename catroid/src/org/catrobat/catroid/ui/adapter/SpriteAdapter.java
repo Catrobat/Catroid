@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.util.List;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 
@@ -32,24 +33,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 	private static LayoutInflater inflater = null;
 	private Context context;
+	private boolean selectMode;
+	private boolean showDetails;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.context = context;
+		selectMode = false;
+		showDetails = false;
 	}
 
 	private static class ViewHolder {
+		private CheckBox checkbox;
 		private TextView text;
 		private ImageView image;
 		private View divider;
@@ -60,6 +66,22 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		//private TextView detail;
 	}
 
+	public void setSelectMode(boolean selectMode) {
+		this.selectMode = selectMode;
+	}
+
+	public boolean getSelectMode() {
+		return selectMode;
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View spriteView = convertView;
@@ -67,6 +89,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		if (convertView == null) {
 			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, null);
 			holder = new ViewHolder();
+			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.checkbox);
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
 			//holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
@@ -107,6 +130,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds) + " "
 				+ sprite.getSoundList().size());
 
+		if (!showDetails) {
+			holder.scripts.setVisibility(View.GONE);
+			holder.bricks.setVisibility(View.GONE);
+			holder.costumes.setVisibility(View.GONE);
+			holder.sounds.setVisibility(View.GONE);
+		} else {
+			holder.scripts.setVisibility(View.VISIBLE);
+			holder.bricks.setVisibility(View.VISIBLE);
+			holder.costumes.setVisibility(View.VISIBLE);
+			holder.sounds.setVisibility(View.VISIBLE);
+		}
+
 		if (position == 0) {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 4));
 			// normally a color would be enough in this case(R.color.gray)
@@ -114,9 +149,16 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			// should be #808080 for gray - but always was #848284
 			// with a shape gradient, I get the correct color in the testcase
 			holder.divider.setBackgroundResource(R.color.divider_background);
+			holder.checkbox.setVisibility(View.GONE);
 		} else {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2));
 			holder.divider.setBackgroundResource(R.color.divider);
+			if (selectMode) {
+				holder.checkbox.setVisibility(View.VISIBLE);
+			} else {
+				holder.checkbox.setVisibility(View.GONE);
+			}
+
 		}
 		return spriteView;
 	}

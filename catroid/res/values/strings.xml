@@ -78,6 +78,7 @@
     <string name="number_of_costumes">Costumes:</string>
     <string name="number_of_sounds">Sounds:</string>
     <string name="show_details">Show Details</string>
+    <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
