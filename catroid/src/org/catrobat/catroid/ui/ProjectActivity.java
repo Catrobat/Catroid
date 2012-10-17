@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
@@ -35,7 +36,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -45,6 +46,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class ProjectActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
 
 	private ActionBar actionBar;
+	private SpritesListFragment spritesListFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sprites_list);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -101,6 +104,13 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				break;
 			}
 			case R.id.show_details: {
+				if (spritesListFragment.getShowDetails()) {
+					spritesListFragment.setShowDetails(false);
+					item.setTitle(getString(R.string.show_details));
+				} else {
+					spritesListFragment.setShowDetails(true);
+					item.setTitle(getString(R.string.hide_details));
+				}
 				break;
 			}
 
@@ -134,17 +144,24 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				break;
 			}
 
-			case R.id.toggle_text: {
-				TextView tvAdd = (TextView) findViewById(R.id.add_label);
-				TextView tvPlay = (TextView) findViewById(R.id.play_label);
-
-				if (tvAdd.getVisibility() == View.GONE) {
-					tvAdd.setVisibility(View.VISIBLE);
-					tvPlay.setVisibility(View.VISIBLE);
+			case R.id.toggle_checkboxes: {
+				if (spritesListFragment.getSelectMode()) {
+					spritesListFragment.setSelectMode(false);
+					spritesListFragment.getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+					spritesListFragment.getListView().setItemChecked(1, true);
 				} else {
-					tvAdd.setVisibility(View.GONE);
-					tvPlay.setVisibility(View.GONE);
+					spritesListFragment.setSelectMode(true);
 				}
+				//				TextView tvAdd = (TextView) findViewById(R.id.add_label);
+				//				TextView tvPlay = (TextView) findViewById(R.id.play_label);
+				//
+				//				if (tvAdd.getVisibility() == View.GONE) {
+				//					tvAdd.setVisibility(View.VISIBLE);
+				//					tvPlay.setVisibility(View.VISIBLE);
+				//				} else {
+				//					tvAdd.setVisibility(View.GONE);
+				//					tvPlay.setVisibility(View.GONE);
+				//				}
 				break;
 			}
 		}
