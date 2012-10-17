@@ -29,7 +29,10 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.StandardProjectHandler;
@@ -45,14 +48,12 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
-import junit.framework.AssertionFailedError;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -850,14 +851,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
-		assertTrue("No or wrong error message shown",
-				solo.searchText(solo.getString(R.string.error_project_exists)));
+		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.sleep(100);
 		solo.clickOnButton(buttonCloseText);
 		solo.sleep(100);
 		solo.clickOnButton(buttonOkText);
-		assertTrue("No or wrong error message shown",
-				solo.searchText(solo.getString(R.string.error_project_exists)));
+		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(buttonCloseText);
 	}
 
@@ -1142,7 +1141,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			solo.clickOnText(buttonPositiveText);
 		}
 		solo.waitForDialogToClose(500);
-		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
+		//solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
 		assertTrue("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME3));
 	}
 
