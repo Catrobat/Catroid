@@ -205,7 +205,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
-		assertEquals("MainMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
+		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
 				.getResources().getConfiguration().orientation);
 
 		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
@@ -218,8 +218,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 
-		assertEquals(
-				MainMenuActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
+		assertEquals(ProjectActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
@@ -440,27 +439,60 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("testSprite");
 
+		TextView tvScriptCount = ((TextView) solo.getView(R.id.textView_number_of_scripts));
+		TextView tvBrickCount = ((TextView) solo.getView(R.id.textView_number_of_bricks));
+		TextView tvCostumeCount = ((TextView) solo.getView(R.id.textView_number_of_costumes));
+		TextView tvSoundCount = ((TextView) solo.getView(R.id.textView_number_of_sounds));
+		String scriptCountString = tvScriptCount.getText().toString();
+		String brickCountString = tvBrickCount.getText().toString();
+		String costumeCountString = tvCostumeCount.getText().toString();
+		String soundCountString = tvSoundCount.getText().toString();
+
+		boolean scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
+		boolean brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
+		boolean costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
+		boolean soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
+
+		assertFalse("Details are not hidden!", scriptCountShowing || brickCountShowing || costumeCountShowing
+				|| soundCountShowing);
+
+		solo.clickOnMenuItem(solo.getString(R.string.show_details));
+		solo.sleep(300);
+		scriptCountShowing = tvScriptCount.getVisibility() == View.VISIBLE ? true : false;
+		brickCountShowing = tvBrickCount.getVisibility() == View.VISIBLE ? true : false;
+		costumeCountShowing = tvCostumeCount.getVisibility() == View.VISIBLE ? true : false;
+		soundCountShowing = tvSoundCount.getVisibility() == View.VISIBLE ? true : false;
+
+		assertTrue("Details are not showing after being enabled!", scriptCountShowing && brickCountShowing
+				&& costumeCountShowing && soundCountShowing);
+
+		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
+		solo.sleep(300);
+		scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
+		brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
+		costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
+		soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
+
+		assertFalse("Details are not hidden!", scriptCountShowing || brickCountShowing || costumeCountShowing
+				|| soundCountShowing);
+
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = sprite.getNumberOfScripts();
 		int brickCount = sprite.getNumberOfBricks();
 		int costumeCount = sprite.getCostumeDataList().size();
 		int soundCount = sprite.getSoundList().size();
 
-		String scriptCountString = ((TextView) solo.getView(R.id.textView_number_of_scripts)).getText().toString();
 		int scriptCountActual = Integer.parseInt(scriptCountString.substring(scriptCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of scripts", scriptCount, scriptCountActual);
 
-		String brickCountString = ((TextView) solo.getView(R.id.textView_number_of_bricks)).getText().toString();
 		int brickCountActual = Integer.parseInt(brickCountString.substring(brickCountString.lastIndexOf(' ') + 1));
 		int brickCountExpected = scriptCount + brickCount;
 		assertEquals("Displayed the wrong number of bricks", brickCountExpected, brickCountActual);
 
-		String costumeCountString = ((TextView) solo.getView(R.id.textView_number_of_costumes)).getText().toString();
 		int costumeCountActual = Integer
 				.parseInt(costumeCountString.substring(costumeCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of costumes", costumeCount, costumeCountActual);
 
-		String soundCountString = ((TextView) solo.getView(R.id.textView_number_of_sounds)).getText().toString();
 		int soundCountActual = Integer.parseInt(soundCountString.substring(soundCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
