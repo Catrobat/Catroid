@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.Utils;
@@ -32,12 +33,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import org.catrobat.catroid.R;
 
-/**
- * @author
- * 
- */
 public class StageDialog extends Dialog {
 	private StageActivity stageActivity;
 	private StageListener stageListener;
