@@ -38,68 +38,43 @@
 
         <Button
             android:id="@+id/exit_stage_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
+            style="@style/StageButton"
             android:drawableTop="@drawable/back_selector"
-            android:paddingTop="10dip"
             android:text="@string/back" >
         </Button>
 
         <Button
             android:id="@+id/resume_current_project_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
+            style="@style/StageButton"
             android:drawableTop="@drawable/resume_selector"
-            android:paddingTop="20dip"
             android:text="@string/resume_current_project" >
         </Button>
 
         <Button
             android:id="@+id/restart_current_project_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
+            style="@style/StageButton"
             android:drawableTop="@drawable/restart_selector"
-            android:paddingTop="20dip"
             android:text="@string/restart_current_project" >
         </Button>
 
         <Button
             android:id="@+id/axes_toggle_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
+            style="@style/StageButton"
             android:drawableTop="@drawable/axes_selector"
-            android:paddingTop="20dip"
             android:text="@string/stagemenu_axes_on" >
         </Button>
 
         <Button
             android:id="@+id/maximize_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
+            style="@style/StageButton"
             android:drawableTop="@drawable/maximize_selector"
-            android:paddingTop="20dip"
             android:text="@string/stagemenu_screen_size" >
         </Button>
 
         <Button
             android:id="@+id/screenshot_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
+            style="@style/StageButton"
             android:drawableTop="@drawable/screenshot_selector"
-            android:paddingBottom="10dip"
-            android:paddingTop="20dip"
             android:text="@string/stagemenu_screenshot" >
         </Button>
     </LinearLayout>
