@@ -103,6 +103,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	@Override
 	public void onBackPressed() {
+		dismiss();
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
 
@@ -112,7 +113,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Log.e("CATROID", "Thread activated too early!", e);
 			}
 		}
 		stageActivity.pauseOrContinue();
