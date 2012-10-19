@@ -144,15 +144,20 @@
     <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
     <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
     <string name="rename_sprite_dialog">Objekt umbenennen</string>
+    <!--  -->
+
+
     <!-- Stage menu dialog -->
-    <string name="back">Zurück</string>
-    <string name="resume_current_project">Fortsetzen</string>
-    <string name="restart_current_project">Neu starten</string>
-    <string name="stage_dialog_title">Optionen</string>
-    <string name="stagemenu_screen_size">Maximieren/\nDehnen</string>
-    <string name="stagemenu_axes_on">Achsen Ein</string>
-    <string name="stagemenu_axes_off">Achsen Aus</string>
-    <string name="stagemenu_screenshot">Screenshot</string>
+    <string name="stage_dialog_back">Zurück</string>
+    <string name="stage_dialog_resume">Fortsetzen</string>
+    <string name="stage_dialog_restart">Neu starten</string>
+    <string name="stage_dialog_maximize">Maximieren/\nDehnen</string>
+    <string name="stage_dialog_axes_on">Achsen Ein</string>
+    <string name="stage_dialog_axes_off">Achsen Aus</string>
+    <string name="stage_dialog_screenshot">Screenshot</string>
+    <!--  -->
+
+
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">Einloggen</string>
     <string name="username">Benutzername:</string>

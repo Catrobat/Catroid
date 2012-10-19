@@ -131,7 +131,8 @@
     <string name="password_forgotten">"パスワードを忘れました"</string>
     <string name="new_user_registered">"新しいアカウントを作成"</string>
     <string name="register_error">"エラーが生じた場合"</string>
-    <!-- Stage menu dialog -->
+    <!--
+         Stage menu dialog
     <string name="back">"戻る"</string>
     <string name="resume_current_project">"再開"</string>
     <string name="restart_current_project">"再起動"</string>
@@ -140,6 +141,8 @@
     <string name="stagemenu_axes_on">"軸 オン"</string>
     <string name="stagemenu_axes_off">"軸 オフ"</string>
     <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
+    -->
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">"新しい…"</string>
     <string name="broadcast_nothing_selected">"何もない…"</string>

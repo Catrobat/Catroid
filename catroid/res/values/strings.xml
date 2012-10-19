@@ -160,15 +160,20 @@
     <string name="overwrite_text">Project with same name already exists!</string>
     <string name="overwrite_replace">replace existing Project</string>
     <string name="overwrite_rename">rename downloaded Project</string>
+    <!--  -->
+
+
     <!-- Stage menu dialog -->
-    <string name="back">Back</string>
-    <string name="resume_current_project">Resume</string>
-    <string name="restart_current_project">Restart</string>
-    <string name="stage_dialog_title">Stage Options</string>
-    <string name="stagemenu_screen_size">Maximize/\nStretch</string>
-    <string name="stagemenu_axes_on">Axes On</string>
-    <string name="stagemenu_axes_off">Axes Off</string>
-    <string name="stagemenu_screenshot">Screenshot</string>
+    <string name="stage_dialog_back">Back</string>
+    <string name="stage_dialog_resume">Resume</string>
+    <string name="stage_dialog_restart">Restart</string>
+    <string name="stage_dialog_maximize">Maximize/\nStretch</string>
+    <string name="stage_dialog_axes_on">Axes On</string>
+    <string name="stage_dialog_axes_off">Axes Off</string>
+    <string name="stage_dialog_screenshot">Screenshot</string>
+    <!--  -->
+
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">new…</string>
     <string name="broadcast_nothing_selected">Nothing…</string>
