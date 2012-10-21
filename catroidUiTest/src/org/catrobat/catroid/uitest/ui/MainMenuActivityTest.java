@@ -24,7 +24,6 @@ package org.catrobat.catroid.uitest.ui;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -59,7 +58,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -254,22 +252,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Sprite at index 3 is not \"horse\"!", "horse", third.getName());
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
-	}
-
-	public void testAboutCatroid() {
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
-		solo.clickOnMenuItem(solo.getString(R.string.main_menu_about_catroid));
-		solo.sleep(200);
-		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
-
-		assertEquals("Title is not correct!", solo.getString(R.string.about_title), textViewList.get(0).getText()
-				.toString());
-		assertEquals("About text not correct!", solo.getString(R.string.about_text), textViewList.get(1).getText()
-				.toString());
-		assertEquals("Link text is not correct!", solo.getString(R.string.about_catroid_license_link_text),
-				textViewList.get(2).getText().toString());
-		solo.goBack();
 	}
 
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
