@@ -51,23 +51,13 @@
     <item
         android:id="@+id/rename"
         android:showAsAction="never"
-        android:enabled="false"
         android:title="@string/rename"/>
     <item
         android:id="@+id/delete"
         android:showAsAction="never"
-        android:enabled="false"
         android:title="@string/delete"/>
     <item
         android:id="@+id/settings"
         android:showAsAction="never"
         android:title="@string/main_menu_settings"/>
-    
-    
-    <!-- Remove this later -->
-    <item
-        android:id="@+id/toggle_checkboxes"
-        android:showAsAction="never"
-        android:title="Toggle checkboxes"/>
-
 </menu>

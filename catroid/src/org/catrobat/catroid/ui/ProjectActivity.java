@@ -36,7 +36,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -131,10 +130,12 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 			}
 
 			case R.id.rename: {
+				spritesListFragment.startRenameActionMode();
 				break;
 			}
 
 			case R.id.delete: {
+				spritesListFragment.startDeleteActionMode();
 				break;
 			}
 
@@ -144,26 +145,6 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				break;
 			}
 
-			case R.id.toggle_checkboxes: {
-				if (spritesListFragment.getSelectMode()) {
-					spritesListFragment.setSelectMode(false);
-					spritesListFragment.getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-					spritesListFragment.getListView().setItemChecked(1, true);
-				} else {
-					spritesListFragment.setSelectMode(true);
-				}
-				//				TextView tvAdd = (TextView) findViewById(R.id.add_label);
-				//				TextView tvPlay = (TextView) findViewById(R.id.play_label);
-				//
-				//				if (tvAdd.getVisibility() == View.GONE) {
-				//					tvAdd.setVisibility(View.VISIBLE);
-				//					tvPlay.setVisibility(View.VISIBLE);
-				//				} else {
-				//					tvAdd.setVisibility(View.GONE);
-				//					tvPlay.setVisibility(View.GONE);
-				//				}
-				break;
-			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -193,6 +174,10 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	public void handleCheckBoxClick(View view) {
+		spritesListFragment.handleCheckBoxClick(view);
 	}
 
 	public void handleAddButton(View view) {
