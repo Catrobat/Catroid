@@ -22,23 +22,20 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.utils.Utils;
 
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import org.catrobat.catroid.R;
+import android.widget.Toast;
 
-/**
- * @author
- * 
- */
-public class StageDialog extends Dialog {
+public class StageDialog extends Dialog implements View.OnClickListener {
 	private StageActivity stageActivity;
 	private StageListener stageListener;
 
@@ -53,104 +50,87 @@ public class StageDialog extends Dialog {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_stage);
-		setTitle(R.string.stage_dialog_title);
 
 		getWindow().setGravity(Gravity.LEFT);
 
-		Button closeDialogButton = (Button) findViewById(R.id.exit_stage_button);
-		closeDialogButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				exitStage();
-			}
-		});
-
-		Button resumeCurrentProjectButton = (Button) findViewById(R.id.resume_current_project_button);
-		resumeCurrentProjectButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-				stageActivity.pauseOrContinue();
-			}
-		});
-
-		Button restartCurrentProjectButton = (Button) findViewById(R.id.restart_current_project_button);
-		restartCurrentProjectButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				restartProject();
-			}
-		});
-
-		Button axesToggleButton = (Button) findViewById(R.id.axes_toggle_button);
-		axesToggleButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleAxes();
-			}
-		});
-
-		Button maximizeButton = (Button) findViewById(R.id.maximize_button);
+		((Button) findViewById(R.id.stage_dialog_button_back)).setOnClickListener(this);
+		((Button) findViewById(R.id.stage_dialog_button_resume)).setOnClickListener(this);
+		((Button) findViewById(R.id.stage_dialog_button_restart)).setOnClickListener(this);
+		((Button) findViewById(R.id.stage_dialog_button_toggle_axes)).setOnClickListener(this);
 		if (stageActivity.getResizePossible()) {
-			maximizeButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					stageListener.changeScreenSize();
-				}
-			});
+			((Button) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
 		} else {
-			maximizeButton.setVisibility(View.GONE);
+			((Button) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
 		}
-
-		Button snapshotButton = (Button) findViewById(R.id.screenshot_button);
-		snapshotButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (stageListener.makeScreenshot()) {
-					Utils.displayToast(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok));
-				} else {
-					Utils.displayToast(stageActivity, stageActivity.getString(R.string.error_screenshot_failed));
-				}
-			}
-		});
+		((Button) findViewById(R.id.stage_dialog_button_screenshot)).setOnClickListener(this);
 	}
 
-	private void exitStage() {
-		this.dismiss();
-		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.stage_dialog_button_back:
+				dismiss();
+				new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
+				break;
+			case R.id.stage_dialog_button_resume:
+				dismiss();
+				stageActivity.pauseOrContinue();
+				break;
+			case R.id.stage_dialog_button_restart:
+				dismiss();
+				restartProject();
+				break;
+			case R.id.stage_dialog_button_toggle_axes:
+				toggleAxes();
+				break;
+			case R.id.stage_dialog_button_maximize:
+				stageListener.changeScreenSize();
+				break;
+			case R.id.stage_dialog_button_screenshot:
+				if (stageListener.makeScreenshot()) {
+					Toast.makeText(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok),
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(stageActivity, stageActivity.getString(R.string.error_screenshot_failed),
+							Toast.LENGTH_SHORT).show();
+				}
+				break;
+			default:
+				Log.w("CATROID", "Unimplemented button clicked! This shouldn't happen!");
+				break;
+		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		exitStage();
+		dismiss();
+		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
 
 	private void restartProject() {
-		dismiss();
 		stageListener.reloadProject(stageActivity, this);
 		synchronized (this) {
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Log.e("CATROID", "Thread activated too early!", e);
 			}
 		}
 		stageActivity.pauseOrContinue();
 	}
 
 	private void toggleAxes() {
-		Button axesToggleButton = (Button) findViewById(R.id.axes_toggle_button);
+		Button axesToggleButton = (Button) findViewById(R.id.stage_dialog_button_toggle_axes);
 		if (stageListener.axesOn) {
 			stageListener.axesOn = false;
-			axesToggleButton.setText(R.string.stagemenu_axes_on);
+			axesToggleButton.setText(R.string.stage_dialog_axes_on);
 		} else {
 			stageListener.axesOn = true;
-			axesToggleButton.setText(R.string.stagemenu_axes_off);
+			axesToggleButton.setText(R.string.stage_dialog_axes_off);
 		}
 	}
 
 	private class FinishThreadAndDisposeTexturesTask extends AsyncTask<Void, Void, Void> {
-
 		@Override
 		protected Void doInBackground(Void... params) {
 			stageActivity.manageLoadAndFinish();

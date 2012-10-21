@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <!-- Menu buttons -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,70 +37,45 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/exit_stage_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:drawableTop="@drawable/back_selector"
-            android:paddingTop="10dip"
-            android:text="@string/back" >
+            android:id="@+id/stage_dialog_button_back"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_back"
+            android:text="@string/stage_dialog_back" >
         </Button>
 
         <Button
-            android:id="@+id/resume_current_project_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:drawableTop="@drawable/resume_selector"
-            android:paddingTop="20dip"
-            android:text="@string/resume_current_project" >
+            android:id="@+id/stage_dialog_button_resume"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_resume"
+            android:text="@string/stage_dialog_resume" >
         </Button>
 
         <Button
-            android:id="@+id/restart_current_project_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:drawableTop="@drawable/restart_selector"
-            android:paddingTop="20dip"
-            android:text="@string/restart_current_project" >
+            android:id="@+id/stage_dialog_button_restart"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_restart"
+            android:text="@string/stage_dialog_restart" >
         </Button>
 
         <Button
-            android:id="@+id/axes_toggle_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:drawableTop="@drawable/axes_selector"
-            android:paddingTop="20dip"
-            android:text="@string/stagemenu_axes_on" >
+            android:id="@+id/stage_dialog_button_toggle_axes"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_toggle_axes"
+            android:text="@string/stage_dialog_axes_on" >
         </Button>
 
         <Button
-            android:id="@+id/maximize_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:drawableTop="@drawable/maximize_selector"
-            android:paddingTop="20dip"
-            android:text="@string/stagemenu_screen_size" >
+            android:id="@+id/stage_dialog_button_maximize"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_maximize"
+            android:text="@string/stage_dialog_maximize" >
         </Button>
 
         <Button
-            android:id="@+id/screenshot_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:drawableTop="@drawable/screenshot_selector"
-            android:paddingBottom="10dip"
-            android:paddingTop="20dip"
-            android:text="@string/stagemenu_screenshot" >
+            android:id="@+id/stage_dialog_button_screenshot"
+            style="@style/StageButton"
+            android:drawableTop="@drawable/stage_dialog_screenshot"
+            android:text="@string/stage_dialog_screenshot" >
         </Button>
     </LinearLayout>
 
