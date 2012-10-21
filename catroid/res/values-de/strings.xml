@@ -65,13 +65,19 @@
     <string name="pref_title">Einstellungen</string>
     <string name="pref_enable_ms_bricks">Mindstorm Bausteine aktivieren</string>
     <string name="pref_descr_ms_bricks">Diese Bausteine werden benötigt um Mindstorm Roboter zu steuern.</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
-    <string name="about_title">Über Catroid</string>
-    <string name="about_text">Catroid ist eine Programmierumgebung für Androidgeräte für die grafische
+    <string name="dialog_about_title">Über Catroid</string>
+    <string name="dialog_about_license_info">Catroid ist eine Programmierumgebung für Androidgeräte für die grafische
         Programmiersprache Catrobat.\n\n
         Der Großteil von Catroid steht unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
-    <string name="about_catroid_license_link_text">Catroid Lizenz</string>
+    <string name="dialog_about_catroid_license_link_text">Catroid Lizenz</string>
+    <!--  -->
+
+
     <!-- Project activity view -->
     <string name="project_name">Projekt:</string>
     <string name="number_of_scripts">Skripte:</string>
