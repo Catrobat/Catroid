@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,10 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/about_text" />
+        android:text="@string/dialog_about_license_info" />
 
     <TextView
-        android:id="@+id/dialog_about_url_text_view"
+        android:id="@+id/dialog_about_text_view_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -42,7 +42,7 @@
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/dialog_about_version_name_text_view"
+        android:id="@+id/dialog_about_text_view_version_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"

@@ -27,7 +27,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -50,20 +49,19 @@ public class AboutDialog extends Dialog {
 		setContentView(R.layout.dialog_about);
 		setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
 
-		setTitle(R.string.about_title);
+		setTitle(R.string.dialog_about_title);
 		setCanceledOnTouchOutside(true);
 
-		TextView aboutUrlTextView = (TextView) findViewById(R.id.dialog_about_url_text_view);
+		TextView aboutUrlTextView = (TextView) findViewById(R.id.dialog_about_text_view_url);
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		Resources resources = context.getResources();
-		String aboutUrl = String.format(resources.getString(R.string.about_link_template),
-				resources.getString(R.string.about_catroid_license_url),
-				resources.getString(R.string.about_catroid_license_link_text));
+		String aboutUrl = context.getString(R.string.about_link_template,
+				context.getString(R.string.about_catroid_license_url),
+				context.getString(R.string.dialog_about_catroid_license_link_text));
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 
-		TextView aboutVersionNameTextView = (TextView) findViewById(R.id.dialog_about_version_name_text_view);
+		TextView aboutVersionNameTextView = (TextView) findViewById(R.id.dialog_about_text_view_version_name);
 		String versionName = Utils.getVersionName(context);
 		aboutVersionNameTextView.setText(versionName);
 	}
