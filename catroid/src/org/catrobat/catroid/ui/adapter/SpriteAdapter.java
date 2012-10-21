@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
@@ -34,6 +36,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -43,14 +47,19 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 	private static LayoutInflater inflater = null;
 	private Context context;
-	private boolean selectMode;
+	private int selectMode;
 	private boolean showDetails;
+	private Set<Integer> checkedSprites = new HashSet<Integer>();
+
+	public static final int NONE = 0;
+	public static final int SINGLE_SELECT = 1;
+	public static final int MULTI_SELECT = 2;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.context = context;
-		selectMode = false;
+		selectMode = NONE;
 		showDetails = false;
 	}
 
@@ -66,11 +75,19 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		//private TextView detail;
 	}
 
-	public void setSelectMode(boolean selectMode) {
+	public Set<Integer> getCheckedSprites() {
+		return checkedSprites;
+	}
+
+	public void clearCheckedSprites() {
+		checkedSprites.clear();
+	}
+
+	public void setSelectMode(int selectMode) {
 		this.selectMode = selectMode;
 	}
 
-	public boolean getSelectMode() {
+	public int getSelectMode() {
 		return selectMode;
 	}
 
@@ -83,7 +100,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View spriteView = convertView;
 		ViewHolder holder;
 		if (convertView == null) {
@@ -103,6 +120,34 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder = (ViewHolder) spriteView.getTag();
 		}
 
+		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (selectMode == MULTI_SELECT) {
+					if (isChecked) {
+						checkedSprites.add(position);
+					} else {
+						checkedSprites.remove(position);
+					}
+				} else if (selectMode == SINGLE_SELECT) {
+					if (isChecked) {
+						clearCheckedSprites();
+						checkedSprites.add(position);
+					} else {
+						checkedSprites.remove(position);
+					}
+					notifyDataSetChanged();
+				}
+
+			}
+		});
+
+		if (checkedSprites.contains(position)) {
+			holder.checkbox.setChecked(true);
+		} else {
+			holder.checkbox.setChecked(false);
+		}
 		//------------------------------------------------------------
 		Sprite sprite = getItem(position);
 		CostumeData firstCostumeData = null;
@@ -153,10 +198,12 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		} else {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2));
 			holder.divider.setBackgroundResource(R.color.divider);
-			if (selectMode) {
+			if (selectMode != NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
+				holder.checkbox.setChecked(false);
+				clearCheckedSprites();
 			}
 
 		}

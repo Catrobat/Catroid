@@ -23,7 +23,9 @@
 package org.catrobat.catroid.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -55,10 +57,13 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
 
 public class SpritesListFragment extends SherlockListFragment implements OnClickListener {
 
@@ -76,6 +81,76 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
 	private SpritesListInitReceiver spritesListInitReceiver;
+
+	private ActionMode actionMode;
+
+	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
+			Iterator<Integer> iterator = checkedSprites.iterator();
+			int numDeleted = 0;
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
+				deleteSprite();
+				numDeleted++;
+			}
+			setSelectMode(SpriteAdapter.NONE);
+			spriteAdapter.clearCheckedSprites();
+			actionMode = null;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(SpriteAdapter.MULTI_SELECT);
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+	};
+
+	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
+			Iterator<Integer> iterator = checkedSprites.iterator();
+			if (iterator.hasNext()) {
+				int position = iterator.next();
+				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
+				showRenameDialog();
+			}
+			setSelectMode(SpriteAdapter.NONE);
+			spriteAdapter.clearCheckedSprites();
+			actionMode = null;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +206,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		if (actionMode != null) {
+			actionMode.finish();
+			actionMode = null;
+		}
 		if (!Utils.checkForSdCard(getActivity())) {
 			return;
 		}
@@ -197,11 +277,31 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		}
 	}
 
+	public void startDeleteActionMode() {
+		if (actionMode != null) {
+			return;
+		}
+		actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+	}
+
+	public void startRenameActionMode() {
+		if (actionMode != null) {
+			return;
+		}
+		actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+	}
+
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	public void handleCheckBoxClick(View view) {
+		int position = getListView().getPositionForView(view);
+		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.checkbox)).isChecked());
+
 	}
 
 	private void initListeners() {
@@ -306,12 +406,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		}
 	}
 
-	public void setSelectMode(boolean selectMode) {
+	public void setSelectMode(int selectMode) {
 		spriteAdapter.setSelectMode(selectMode);
 		spriteAdapter.notifyDataSetChanged();
 	}
 
-	public boolean getSelectMode() {
+	public int getSelectMode() {
 		return spriteAdapter.getSelectMode();
 	}
 
@@ -358,4 +458,5 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			}
 		}
 	}
+
 }
