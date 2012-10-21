@@ -171,11 +171,13 @@
     <string name="password_forgotten">Пароль забыт</string>
     <string name="new_user_registered">новый аккаунт создан</string>
     <string name="register_error">Произошла ошибка</string>
-    <!-- Stage menu dialog -->
+    <!--
+         Stage menu dialog
     <string name="resume_current_project">Возобновить</string>
     <string name="restart_current_project">Перезагрузить</string>
-    <!-- <string name="snapshot">Скриншот</string> -->
-    <string name="stage_dialog_title">Настройки сцены</string>
+    <string name="snapshot">Скриншот</string>
+    -->
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">новое…</string>
     <string name="broadcast_nothing_selected">Ничего…</string>

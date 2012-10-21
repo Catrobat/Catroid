@@ -20,16 +20,19 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<set xmlns:android="http://schemas.android.com/apk/res/android" >
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:useLevel="false" >
 
-    <rotate
-        android:duration="100"
-        android:fromDegrees="-90"
-        android:toDegrees="1" />
-    <rotate
-        android:duration="100"
-        android:fromDegrees="1"
-        android:toDegrees="0" />
+    <size
+        android:height="50dip"
+        android:width="50dip" />
 
-</set>
+    <gradient
+        android:endColor="#ffffd300"
+        android:startColor="#4c737373"
+        android:type="sweep"
+        android:useLevel="false" />
+
+</shape>

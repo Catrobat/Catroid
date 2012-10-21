@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2012 The Catrobat Team
@@ -20,26 +20,19 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:useLevel="false" >
 
-    <stroke
-        android:dashGap="0dp"
-        android:dashWidth="1dp"
-        android:width="1dp"
-        android:color="#000000" />
+    <size
+        android:height="50dip"
+        android:width="50dip" />
 
     <gradient
-        android:angle="0"
-        android:endColor="#f8af3c"
-        android:startColor="#ff8f18" />
-
-    <padding
-        android:bottom="12dp"
-        android:left="12dp"
-        android:right="12dp"
-        android:top="12dp" />
-
-    <corners android:radius="24dp" />
+        android:endColor="#ffffd300"
+        android:startColor="#4c737373"
+        android:type="sweep"
+        android:useLevel="false" />
 
 </shape>
