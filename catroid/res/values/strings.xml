@@ -65,14 +65,20 @@
     <string name="pref_title">Settings</string>
     <string name="pref_enable_ms_bricks">Enable Lego Mindstorms bricks</string>
     <string name="pref_descr_ms_bricks">These bricks are used to control Lego Mindstorms robots.</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
-    <string name="about_title">About Catroid</string>
-    <string name="about_text">Catroid is a programming 
+    <string name="dialog_about_title">About Catroid</string>
+    <string name="dialog_about_license_info">Catroid is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
         Catroid is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
-    <string name="about_catroid_license_link_text">Catroid License</string>
+    <string name="dialog_about_catroid_license_link_text">Catroid License</string>
+    <!--  -->
+
+
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
     <string name="number_of_scripts">Scripts:</string>
