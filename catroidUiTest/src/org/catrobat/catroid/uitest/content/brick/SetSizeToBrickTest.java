@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.Values;
@@ -53,7 +54,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -131,12 +131,12 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 
 		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.stagemenu_screenshot));
+		solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
 
 		assertTrue("Successful screenshot Toast not found!",
 				solo.searchText(solo.getString(R.string.notification_screenshot_ok)));
 
-		solo.clickOnText(solo.getString(R.string.resume_current_project));
+		solo.clickOnText(solo.getString(R.string.stage_dialog_resume));
 
 		// -------------------------------------------------------------------------------------------------------------
 		Bitmap screenshot = BitmapFactory.decodeFile(Constants.DEFAULT_ROOT + "/" + projectName + "/"
