@@ -497,6 +497,63 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
 
+	public void testOverFlowMenuDelete() {
+		createProject();
+		solo.sleep(500);
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		addNewSprite("sprite1");
+		addNewSprite("sprite2");
+		addNewSprite("sprite3");
+		addNewSprite("sprite4");
+
+		Sprite spriteOne = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(1);
+		Sprite spriteTwo = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(2);
+		Sprite spriteThree = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(3);
+		Sprite spriteFour = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(4);
+
+		solo.clickOnMenuItem(solo.getString(R.string.delete));
+
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+		solo.goBack();
+		solo.sleep(200);
+
+		assertTrue("sprite1 and sprite4 have been deleted!", ProjectManager.INSTANCE.getCurrentProject()
+				.getSpriteList().contains(spriteOne)
+				&& ProjectManager.INSTANCE.getCurrentProject().getSpriteList().contains(spriteFour));
+
+		assertFalse("sprite1 and sprite4 have been deleted!", ProjectManager.INSTANCE.getCurrentProject()
+				.getSpriteList().contains(spriteTwo)
+				|| ProjectManager.INSTANCE.getCurrentProject().getSpriteList().contains(spriteThree));
+
+		assertFalse("sprite2 and sprite3 have been deleted but are still showing!",
+				solo.searchText("sprite2") || solo.searchText("sprite3"));
+	}
+
+	public void testOverFlowMenuRename() {
+		createProject();
+		solo.sleep(500);
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		addNewSprite("sprite1");
+		addNewSprite("sprite2");
+
+		solo.clickOnMenuItem(solo.getString(R.string.rename));
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+
+		solo.goBack();
+		solo.clearEditText(0);
+		solo.enterText(0, "renamed");
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(100);
+		assertTrue("sprite2 was not renamed!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(2)
+				.getName().equalsIgnoreCase("renamed"));
+
+	}
+
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);

@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.ui.dialog;
 import java.io.IOException;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
@@ -37,7 +38,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -77,7 +77,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 		solo.waitForView(EditText.class);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
@@ -95,7 +95,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		UiTestUtils.clickOnTextInList(solo, testingproject);
 		solo.sleep(500);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 		solo.waitForView(EditText.class);
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, " ");
