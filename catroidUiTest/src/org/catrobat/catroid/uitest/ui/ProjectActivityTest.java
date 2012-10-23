@@ -205,13 +205,14 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
-		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
-				.getResources().getConfiguration().orientation);
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
+				.getCurrentActivity().getResources().getConfiguration().orientation);
 
 		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
-		PackageManager packageManager = getActivity().getPackageManager();
-		ActivityInfo activityInfo = packageManager.getActivityInfo(getActivity().getComponentName(),
+		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
+		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
 				PackageManager.GET_ACTIVITIES);
 
 		// Note that the activity is _indeed_ rotated on your device/emulator!
