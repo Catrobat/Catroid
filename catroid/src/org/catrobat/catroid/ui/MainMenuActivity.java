@@ -234,9 +234,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		// also when you switch activities
 		if (ProjectManager.INSTANCE.getCurrentProject() != null) {
 			ProjectManager.INSTANCE.saveProject();
-			if (ProjectManager.INSTANCE.getCurrentProject().getName() == null) {
-				System.out.println("############## Project name is null!!!");
-			}
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.INSTANCE.getCurrentProject()
 					.getName());
 		}
