@@ -2,6 +2,9 @@
 *.apk
 *.ap_
 
+# workspace settings
+*.metadata
+
 # files for the dex VM
 *.dex
 
