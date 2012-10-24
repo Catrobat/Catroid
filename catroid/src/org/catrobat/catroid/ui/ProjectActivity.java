@@ -22,18 +22,13 @@
  */
 package org.catrobat.catroid.ui;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
-import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
@@ -41,11 +36,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -54,56 +46,57 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 
 	private ActionBar actionBar;
 	private SpritesListFragment spritesListFragment;
-	private SpinnerAdapter spinnerAdapter;
-	private ArrayList<String> projectNameList;
+
+	//	private SpinnerAdapter spinnerAdapter;
+	//	private ArrayList<String> projectNameList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
-		File rootDirectory = new File(Constants.DEFAULT_ROOT);
-		projectNameList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
+		//		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		//		projectNameList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		//String title = ProjectManager.getInstance().getCurrentProject().getName();
-		//actionBar.setTitle(title);
 		actionBar = getSupportActionBar();
+
+		String title = ProjectManager.getInstance().getCurrentProject().getName();
+		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(false);
+		//		actionBar.setDisplayShowTitleEnabled(false);
 
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, projectNameList);
-		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
-
-			@Override
-			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-				String projectName = (String) spinnerAdapter.getItem(itemPosition);
-				loadProject(projectName);
-				return true;
-			}
-		});
-
-		int currentProjectIndex = 0;
-		String currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
-		for (int i = 0; i < projectNameList.size(); i++) {
-			if (projectNameList.get(i).equalsIgnoreCase(currentProjectName)) {
-				currentProjectIndex = i;
-			}
-		}
-
-		actionBar.setSelectedNavigationItem(currentProjectIndex);
+		//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		//		spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, projectNameList);
+		//		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
+		//
+		//			@Override
+		//			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		//				String projectName = (String) spinnerAdapter.getItem(itemPosition);
+		//				loadProject(projectName);
+		//				return true;
+		//			}
+		//		});
+		//
+		//		int currentProjectIndex = 0;
+		//		String currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
+		//		for (int i = 0; i < projectNameList.size(); i++) {
+		//			if (projectNameList.get(i).equalsIgnoreCase(currentProjectName)) {
+		//				currentProjectIndex = i;
+		//			}
+		//		}
+		//
+		//		actionBar.setSelectedNavigationItem(currentProjectIndex);
 
 		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sprites_list);
 	}
 
-	private void loadProject(String projectName) {
-		ProjectManager.INSTANCE.loadProject(projectName, this, this, true);
-		spritesListFragment.onStart();
-	}
+	//	private void loadProject(String projectName) {
+	//		ProjectManager.INSTANCE.loadProject(projectName, this, this, true);
+	//		spritesListFragment.onStart();
+	//	}
 
 	// Code from Stackoverflow to reduce memory problems
 	// onDestroy() and unbindDrawables() methods taken from
