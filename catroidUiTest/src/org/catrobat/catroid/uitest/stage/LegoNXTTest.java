@@ -24,6 +24,8 @@ package org.catrobat.catroid.uitest.stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
@@ -50,6 +52,7 @@ import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -197,6 +200,15 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			bluetoothAdapter.enable();
 			solo.sleep(5000);
 		}
+		Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
+		Iterator<BluetoothDevice> iterator = bondedDevices.iterator();
+		String deviceMacAdress = null;
+		while (iterator.hasNext()) {
+			BluetoothDevice device = iterator.next();
+			if (device.getName().startsWith("kitty")) {
+				deviceMacAdress = device.getAddress();
+			}
+		}
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -204,7 +216,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add(KITTYROID_MAC_ADDRESS);
+		autoConnectIDs.add(deviceMacAdress);
 		DeviceListActivity dla = new DeviceListActivity();
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
