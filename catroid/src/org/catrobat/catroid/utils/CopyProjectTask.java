@@ -57,18 +57,12 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 		newName = newProjectName;
 		createNotification(newProjectName);
 		String oldProjectName = projectNameArray[1];
-		if (isCancelled()) {
-			return false;
-		}
 
 		try {
 			File oldProjectRootDirectory = new File(Utils.buildProjectPath(oldProjectName));
 			File newProjectRootDirectory = new File(Utils.buildProjectPath(newProjectName));
 
 			copyDirectory(newProjectRootDirectory, oldProjectRootDirectory);
-			if (isCancelled()) {
-				return false;
-			}
 
 			Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);
 			copiedProject.setName(newProjectName);
@@ -100,9 +94,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	}
 
 	private void copyDirectory(File destinationFile, File sourceFile) throws IOException {
-		if (isCancelled()) {
-			throw new IOException();
-		}
 		if (sourceFile.isDirectory()) {
 
 			destinationFile.mkdirs();
