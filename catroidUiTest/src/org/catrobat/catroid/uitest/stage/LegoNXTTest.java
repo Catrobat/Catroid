@@ -252,7 +252,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
 		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
-				solo.searchText(KITTYROID_MAC_ADDRESS));
+				solo.searchText(deviceMacAdress));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
