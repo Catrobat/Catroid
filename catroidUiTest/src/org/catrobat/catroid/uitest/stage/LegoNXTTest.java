@@ -210,6 +210,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			}
 		}
 
+		System.out.println("############################## DEVICE: " + deviceMacAdress);
+
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("sprite1");
