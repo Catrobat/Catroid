@@ -210,8 +210,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			}
 		}
 
-		System.out.println("############################## DEVICE: " + deviceMacAdress);
-
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("sprite1");
@@ -232,7 +230,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(1000);
 		//Device is still connected (until visiting main menu or exiting program)!
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("BT connection was not there anymore!!!", StageActivity.class);
 
