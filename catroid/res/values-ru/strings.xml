@@ -19,8 +19,8 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
 
     <!-- General terms -->
@@ -67,21 +67,28 @@
     <string name="load">Загрузить</string>
     <string name="change_project_name_main">Изменить имя проекта</string>
     <string name="about">О Catroid</string>
-    <string name="upload_project">Загрузить проект</string>
+    <string name="upload_project">Загрузить проект</string>
     -->
+
 
     <!-- Settings activity -->
     <string name="pref_title">Настройки</string>
     <string name="pref_enable_ms_bricks">Включить блоки Mindstorm</string>
     <string name="pref_descr_ms_bricks">Эти блоки используются для контроля роботов Mindstorm.</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
-    <string name="about_title">О Catroid</string>
-    <string name="about_text">Catroid это графический язык программирования для Android,
+    <string name="dialog_about_title">О Catroid</string>
+    <string name="dialog_about_license_info">Catroid это графический язык программирования для Android,
         вдохновленный проектом Scratch из MIT.\n
         Catroid разрабатывается в Институте Технологий Программного Обеспечения в 
         Техническом Университете Граца в Австрии.\n\n
         Эта программа лицензированна под лицензией GNU GPL v3.\n\n</string>
-    <string name="about_catroid_license_link_text">О Catroid</string>
+    <string name="dialog_about_catroid_license_link_text">О Catroid</string>
+    <!--  -->
+
+
     <!-- Project activity view -->
     <string name="project_name">Проект:</string>
     <!-- <string name="sprite_list">Объекты</string> -->
@@ -164,11 +171,13 @@
     <string name="password_forgotten">Пароль забыт</string>
     <string name="new_user_registered">новый аккаунт создан</string>
     <string name="register_error">Произошла ошибка</string>
-    <!-- Stage menu dialog -->
+    <!--
+         Stage menu dialog
     <string name="resume_current_project">Возобновить</string>
     <string name="restart_current_project">Перезагрузить</string>
-    <!-- <string name="snapshot">Скриншот</string> -->
-    <string name="stage_dialog_title">Настройки сцены</string>
+    <string name="snapshot">Скриншот</string>
+    -->
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">новое…</string>
     <string name="broadcast_nothing_selected">Ничего…</string>

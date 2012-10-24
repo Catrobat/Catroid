@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <resources>
 
     <!-- General terms -->
@@ -67,21 +67,28 @@
     <string name="load">Incărcare</string>
     <string name="change_project_name_main">Schimbarea numelui proiectului</string>
     <string name="about">Despre Catroid</string>
-    <string name="upload_project">Încărcarea proiectului</string>
+    <string name="upload_project">Încărcarea proiectului</string>
     -->
+
 
     <!-- Settings activity -->
     <string name="pref_title">Setări</string>
     <string name="pref_enable_ms_bricks">Permiterea blocurilor Mindstorm</string>
     <string name="pref_descr_ms_bricks">Aceste blocuri sunt folosite pentru controlul roboților Mindstorm.</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
-    <string name="about_title">Despre Catroid</string>
-    <string name="about_text">Catroid este un limbaj grafic de programare pentru Android,
+    <string name="dialog_about_title">Despre Catroid</string>
+    <string name="dialog_about_license_info">Catroid este un limbaj grafic de programare pentru Android,
         inspirat de proiectul Scratch al MIT.\n
         Catroid este dezvoltat în Instituția Tehnologiilor Software la
         Universitatea Tehnologică din Graz în Austria.\n\n
         Această programă este licențiată sub licența GNU GPL v3.\n\n</string>
-    <string name="about_catroid_license_link_text">Despre Catroid</string>
+    <string name="dialog_about_catroid_license_link_text">Despre Catroid</string>
+    <!--  -->
+
+
     <!-- Project activity view -->
     <string name="project_name">Proiect:</string>
     <!-- <string name="sprite_list">Obiecte</string> -->
@@ -155,10 +162,13 @@
     <string name="new_user_registered">contul nou a fost creat</string>
     <string name="register_error">A avut loc o eroare</string>
     <!-- Stage menu dialog -->
-    <string name="resume_current_project">Reluare</string>
+    <!--
+         <string name="resume_current_project">Reluare</string>
     <string name="restart_current_project">Restartare</string>
-    <!-- <string name="snapshot">Screenshot</string> -->
-    <string name="stage_dialog_title">Setările scenei</string>
+    <string name="snapshot">Screenshot</string>
+    -->
+
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">nou…</string>
     <string name="broadcast_nothing_selected">Nimic…</string>

@@ -21,31 +21,18 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp" >
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:useLevel="false" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/dialog_about_license_info" />
+    <size
+        android:height="50dip"
+        android:width="50dip" />
 
-    <TextView
-        android:id="@+id/dialog_about_text_view_url"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColorLink="#E68B00"
-        android:textSize="20dp" />
+    <gradient
+        android:endColor="#ffffd300"
+        android:startColor="#4c737373"
+        android:type="sweep"
+        android:useLevel="false" />
 
-    <TextView
-        android:id="@+id/dialog_about_text_view_version_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:textSize="8dp" />
-
-</LinearLayout>
+</shape>
