@@ -107,7 +107,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.back));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_back));
 
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("Not equal Activities", previousActivity, getActivity());
@@ -156,14 +156,14 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
 		solo.sleep(100);
-		solo.clickOnButton(solo.getString(R.string.restart_current_project));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_restart));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Program is not in stage activity", StageActivity.class);
 
 		solo.sleep(500);
 		solo.goBack();
 		solo.sleep(100);
-		solo.clickOnButton(solo.getString(R.string.back));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_back));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("Returned to wrong Activity", currentActivity, solo.getCurrentActivity());
 	}
@@ -200,7 +200,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(200);
 		solo.goBack();
 		solo.sleep(100);
-		solo.clickOnButton(solo.getString(R.string.restart_current_project));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_restart));
 		solo.sleep(300);
 
 		//scriptPositions in between
@@ -265,7 +265,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.goBack();
 		solo.sleep(500);
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
-		solo.clickOnButton(solo.getString(R.string.restart_current_project));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_restart));
 		solo.sleep(300);
 		@SuppressWarnings("unchecked")
 		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) UiTestUtils.getPrivateField(
@@ -285,8 +285,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.stagemenu_axes_on));
-		solo.clickOnButton(solo.getString(R.string.resume_current_project));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_on));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
 		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
 		byte[] stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2, 1,
@@ -301,8 +301,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.stagemenu_axes_off));
-		solo.clickOnButton(solo.getString(R.string.resume_current_project));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_off));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2, 1, 1);
@@ -343,8 +343,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.stagemenu_screen_size));
-		solo.clickOnButton(solo.getString(R.string.resume_current_project));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
 		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
 		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
@@ -360,8 +360,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 
 		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.stagemenu_screen_size));
-		solo.clickOnButton(solo.getString(R.string.resume_current_project));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_maximize));
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
 		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);

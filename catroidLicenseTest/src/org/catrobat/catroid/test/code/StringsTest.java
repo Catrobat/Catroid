@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,7 +47,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
 /**
  * @author pete
  * 
@@ -57,7 +57,6 @@ public class StringsTest extends TestCase {
 	private static final String SOURCE_DIRECTORY = "../catroid/src";
 	private static final String RESOURCES_DIRECTORY = "../catroid/res";
 	private static final String ANDROID_MANIFEST = "../catroid/AndroidManifest.xml";
-	private static final String JAVA_STRING_PREFIX = "R.string.";
 	private static final String XML_STRING_PREFIX = "@string/";
 
 	private List<File> getStringFiles() throws IOException {
@@ -196,9 +195,11 @@ public class StringsTest extends TestCase {
 		Map<String, List<String>> languageStrings = getStringNamesPerLanguage();
 
 		for (String string : allStringNames) {
-			String stringReferenceJava = JAVA_STRING_PREFIX + string;
-			String stringReferenceXml = XML_STRING_PREFIX + string;
-			if (!javaSourceCode.contains(stringReferenceJava) && !xmlSourceCode.contains(stringReferenceXml)) {
+			Pattern javaReferencePattern = Pattern.compile("R\\.string\\." + string + "[^\\w]");
+			Pattern xmlReferencePattern = Pattern.compile("@string/" + string + "[^\\w]");
+
+			if (!javaReferencePattern.matcher(javaSourceCode).find()
+					&& !xmlReferencePattern.matcher(xmlSourceCode).find()) {
 				unusedStringsFound = true;
 
 				errorMessage.append("\nString with name " + string + " is unused (found in ");

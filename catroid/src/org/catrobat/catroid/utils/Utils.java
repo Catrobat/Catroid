@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -46,7 +47,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.ErrorDialogFragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -66,14 +66,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -177,21 +170,6 @@ public class Utils {
 	public static void displayErrorMessageFragment(FragmentManager fragmentManager, String errorMessage) {
 		DialogFragment errorDialog = ErrorDialogFragment.newInstance(errorMessage);
 		errorDialog.show(fragmentManager, ErrorDialogFragment.DIALOG_FRAGMENT_TAG);
-	}
-
-	public static void displayToast(Activity activity, String message/* , int duration */) {
-		LayoutInflater inflater = activity.getLayoutInflater();
-		View layout = inflater.inflate(R.layout.toast_settings,
-				(ViewGroup) activity.findViewById(R.id.toast_layout_root));
-
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		text.setText(message);
-
-		Toast toast = new Toast(activity.getApplicationContext());
-		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		toast.setDuration(Toast.LENGTH_SHORT);
-		toast.setView(layout);
-		toast.show();
 	}
 
 	public static String md5Checksum(File file) {

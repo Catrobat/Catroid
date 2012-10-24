@@ -20,20 +20,19 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/toast_layout_root"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/toast_background"
-    android:orientation="horizontal" >
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:useLevel="false" >
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:textColor="#000" />
+    <size
+        android:height="50dip"
+        android:width="50dip" />
 
-</LinearLayout>
+    <gradient
+        android:endColor="#ffffd300"
+        android:startColor="#4c737373"
+        android:type="sweep"
+        android:useLevel="false" />
+
+</shape>

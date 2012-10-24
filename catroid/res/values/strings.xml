@@ -25,10 +25,6 @@
 
     <!-- General terms -->
     <string name="app_name">Catroid</string>
-    <string name="project">project</string>
-    <string name="sprite">sprite</string>
-    <string name="script">script</string>
-    <string name="brick">brick</string>
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
@@ -36,6 +32,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="copy">Copy</string>
+    <!--  -->
+
+
     <!-- General -->
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -47,6 +46,9 @@
     <string name="ok">OK</string>
     <string name="add">Add</string>
     <string name="start">Start</string>
+    <!--  -->
+
+
     <!-- Main menu activity -->
     <string name="main_menu_new">New</string>
     <string name="main_menu_continue">Continue</string>
@@ -56,18 +58,27 @@
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_settings">Settings</string>
     <string name="main_menu_about_catroid">About Catroid</string>
+    <!--  -->
+
+
     <!-- Settings activity -->
     <string name="pref_title">Settings</string>
     <string name="pref_enable_ms_bricks">Enable Lego Mindstorms bricks</string>
     <string name="pref_descr_ms_bricks">These bricks are used to control Lego Mindstorms robots.</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
-    <string name="about_title">About Catroid</string>
-    <string name="about_text">Catroid is a programming 
+    <string name="dialog_about_title">About Catroid</string>
+    <string name="dialog_about_license_info">Catroid is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
         Catroid is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
-    <string name="about_catroid_license_link_text">Catroid License</string>
+    <string name="dialog_about_catroid_license_link_text">Catroid License</string>
+    <!--  -->
+
+
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
     <string name="number_of_scripts">Scripts:</string>
@@ -84,7 +95,6 @@
     <string name="backgrounds">Backgrounds</string>
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Rename costume</string>
-    <string name="edit_costume">edit</string>
     <string name="edit_costume_paintroid">Paintroid</string>
     <string name="copy_costume">copy</string>
     <string name="costumename_invalid">This costume\'s name is invalid</string>
@@ -113,8 +123,7 @@
     <string name="rename_project">Rename Project</string>
     <string name="myprojectlist_footer_image_description">Tap to add new project</string>
     <string name="copy_project">Copy Project</string>
-	<string name="notification_title_copy_project">Copy project</string>
-	<string name="copy_project_finished"> copied.</string>
+
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Start recording</string>
@@ -150,7 +159,6 @@
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="login_or_register">Login or Register</string>
-    <string name="register">Register</string>
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
@@ -158,15 +166,20 @@
     <string name="overwrite_text">Project with same name already exists!</string>
     <string name="overwrite_replace">replace existing Project</string>
     <string name="overwrite_rename">rename downloaded Project</string>
+    <!--  -->
+
+
     <!-- Stage menu dialog -->
-    <string name="back">Back</string>
-    <string name="resume_current_project">Resume</string>
-    <string name="restart_current_project">Restart</string>
-    <string name="stage_dialog_title">Stage Options</string>
-    <string name="stagemenu_screen_size">Maximize/\nStretch</string>
-    <string name="stagemenu_axes_on">Axes On</string>
-    <string name="stagemenu_axes_off">Axes Off</string>
-    <string name="stagemenu_screenshot">Screenshot</string>
+    <string name="stage_dialog_back">Back</string>
+    <string name="stage_dialog_resume">Resume</string>
+    <string name="stage_dialog_restart">Restart</string>
+    <string name="stage_dialog_maximize">Maximize/\nStretch</string>
+    <string name="stage_dialog_axes_on">Axes On</string>
+    <string name="stage_dialog_axes_off">Axes Off</string>
+    <string name="stage_dialog_screenshot">Screenshot</string>
+    <!--  -->
+
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">new…</string>
     <string name="broadcast_nothing_selected">Nothing…</string>
@@ -300,7 +313,6 @@
     <string name="none_paired">No paired devices found</string>
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT move motor</string>
-    <string name="motor">motor</string>
     <string name="motor_speed">Speed</string>
     <string name="brick_motor_turn_angle">NXT turn motor</string>
     <string name="motor_angle">Angle</string>
