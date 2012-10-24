@@ -37,13 +37,11 @@ import android.widget.Toast;
 
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
-	private Integer notificationId;
 	private ProjectsListFragment parentActivity;
 	private String newName;
 
 	public CopyProjectTask(ProjectsListFragment parentActivity) {
 		this.parentActivity = parentActivity;
-		this.notificationId = 0;
 	}
 
 	@Override
@@ -107,7 +105,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
 	public void createNotification(String projectName) {
 		StatusBarNotificationManager copyManager = StatusBarNotificationManager.getInstance();
-		notificationId = copyManager.createNotification(projectName, parentActivity.getActivity(),
-				Constants.COPY_NOTIFICATION);
+		copyManager.createNotification(projectName, parentActivity.getActivity(), Constants.COPY_NOTIFICATION);
 	}
 }
