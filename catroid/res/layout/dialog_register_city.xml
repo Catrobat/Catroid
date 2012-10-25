@@ -26,62 +26,44 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
+    
+    <TextView
+        android:id="@+id/step3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/registration_step2" />
 
     <TextView
-        android:id="@+id/username_text"
+        android:id="@+id/city_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="@string/username" >
+        android:text="@string/register_city" >
     </TextView>
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/username_text"
+        android:layout_below="@+id/city_text"
         android:inputType="text"
         android:maxLines="1"
         android:selectAllOnFocus="true" />
 
-    <TextView
-        android:id="@+id/password_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/username"
-        android:layout_marginLeft="10dp"
-        android:text="@string/password" >
-    </TextView>
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password_text"
-        android:gravity="top"
-        android:inputType="textPassword"
-        android:maxLines="1" >
-    </EditText>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
+        android:layout_below="@+id/city"
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/login_register_button"
+            android:id="@+id/next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:text="@string/login_or_register" />
-
-        <Button
-            android:id="@+id/password_forgotten_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/password_forgotten" />
+            android:text="@string/next_registration_step" />
     </LinearLayout>
 
 </RelativeLayout>
