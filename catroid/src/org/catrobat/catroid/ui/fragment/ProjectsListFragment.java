@@ -30,6 +30,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
@@ -37,12 +38,12 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.IconMenuAdapter;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
+import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
 import org.catrobat.catroid.ui.dialogs.CustomIconContextMenu;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
-import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
-import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
+import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.UtilFile;
@@ -62,7 +63,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -74,6 +74,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private List<ProjectData> projectList;
 	private ProjectData projectToEdit;
 	private ProjectAdapter adapter;
+	private ProjectsListFragment parentFragment = this;
 
 	private int activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 
@@ -190,7 +191,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 					activeFragmentDialog = getFragmentManager()
 							.findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG);
 					CopyProjectDialog displayingCopyProjectDialog = (CopyProjectDialog) activeFragmentDialog;
-					displayingCopyProjectDialog.setOnCopyProjectListener(ProjectsListFragment.this);
+					displayingCopyProjectDialog.setParentFragment(this);
 					break;
 			}
 		}
@@ -313,7 +314,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 						break;
 					case CONTEXT_MENU_ITEM_COPY:
 						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
-						dialogCopyProject.setOnCopyProjectListener(ProjectsListFragment.this);
+						dialogCopyProject.setParentFragment(parentFragment);
 						dialogCopyProject.show(getActivity().getSupportFragmentManager(),
 								CopyProjectDialog.DIALOG_FRAGMENT_TAG);
 						break;

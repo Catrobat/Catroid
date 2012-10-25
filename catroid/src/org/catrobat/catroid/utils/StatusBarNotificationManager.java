@@ -28,6 +28,7 @@ import java.util.HashMap;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
 
 import android.annotation.SuppressLint;
@@ -42,8 +43,11 @@ public class StatusBarNotificationManager {
 
 	private Integer uploadId;
 	private Integer downloadId;
+	private Integer copyId;
 	private HashMap<Integer, NotificationData> uploadNotificationDataMap;
 	private HashMap<Integer, NotificationData> downloadNotificationDataMap;
+	private HashMap<Integer, NotificationData> copyNotificationDataMap;
+	private Notification copyNotification;
 	private Notification uploadNotification;
 	private Notification downloadNotification;
 
@@ -57,8 +61,11 @@ public class StatusBarNotificationManager {
 	private StatusBarNotificationManager() {
 		this.uploadId = 0;
 		this.downloadId = 0;
+		this.copyId = 0;
 		this.uploadNotification = null;
 		this.downloadNotification = null;
+		this.copyNotification = null;
+		this.copyNotificationDataMap = new HashMap<Integer, NotificationData>();
 		this.uploadNotificationDataMap = new HashMap<Integer, NotificationData>();
 		this.downloadNotificationDataMap = new HashMap<Integer, NotificationData>();
 		this.downloadProjectName = new ArrayList<String>();
@@ -82,6 +89,9 @@ public class StatusBarNotificationManager {
 		} else if (notificationCode == Constants.DOWNLOAD_NOTIFICATION) {
 			id = createDownloadNotification(name, context, notificationCode);
 			downloadId++;
+		} else if (notificationCode == Constants.COPY_NOTIFICATION) {
+			id = createCopyNotification(name, context, notificationCode);
+			copyId++;
 		}
 		return id;
 	}
@@ -114,6 +124,37 @@ public class StatusBarNotificationManager {
 		}
 
 		return uploadId;
+	}
+
+	@SuppressWarnings("deprecation")
+	private Integer createCopyNotification(String name, Context context, int notificationCode) {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Activity.NOTIFICATION_SERVICE);
+		String notificationTitle = context.getString(R.string.notification_title_copy_project);
+		boolean newCopyNotification = copyNotificationDataMap.isEmpty();
+
+		Intent intent = new Intent(context, MyProjectsActivity.class);
+
+		intent.setAction(Intent.ACTION_MAIN);
+		intent = intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+		NotificationData data = new NotificationData(pendingIntent, context, name, notificationTitle, null);
+		copyNotificationDataMap.put(copyId, data);
+
+		if (newCopyNotification) {
+			copyNotification = new Notification(R.drawable.main_menu_upload, notificationTitle,
+					System.currentTimeMillis());
+			copyNotification.flags = Notification.FLAG_AUTO_CANCEL;
+			copyNotification.number += 1;
+			copyNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
+			notificationManager.notify(notificationCode, copyNotification);
+		} else {
+			copyNotification.number += 1;
+			copyNotification.setLatestEventInfo(context, notificationTitle, name, pendingIntent);
+			notificationManager.notify(notificationCode, copyNotification);
+		}
+
+		return copyId;
 	}
 
 	@SuppressWarnings("deprecation")
