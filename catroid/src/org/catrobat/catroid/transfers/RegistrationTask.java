@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.transfers;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.UtilToken;
@@ -36,10 +37,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
-	
+
 	private Context context;
 	private ProgressDialog progressDialog;
 	private String username;
@@ -49,7 +49,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private boolean userRegistered;
 
 	private OnRegistrationCompleteListener onRegistrationCompleteListener;
-	
+
 	public RegistrationTask(Context activity, String username, String password) {
 		this.context = activity;
 		this.username = username;
@@ -59,7 +59,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
 		onRegistrationCompleteListener = listener;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
@@ -77,8 +77,9 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			if (!Utils.isNetworkAvailable(context)) {
 				return false;
 			}
-
-			String email = UtilDeviceInfo.getUserEmail(context);
+			//TODO: email time just 4 testing
+			//String email = UtilDeviceInfo.getUserEmail(context);
+			String email = System.currentTimeMillis() + "@gmail.com";
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
 			String country = UtilDeviceInfo.getUserCountryCode(context);
 			String token = UtilToken.calculateToken(username, password);
@@ -119,7 +120,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		if (userRegistered) {
 			Toast.makeText(context, R.string.new_user_registered, Toast.LENGTH_SHORT).show();
 		}
-		
+
 		if (onRegistrationCompleteListener != null) {
 			onRegistrationCompleteListener.onRegistrationComplete();
 		}
@@ -139,8 +140,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	public interface OnRegistrationCompleteListener {
-		
+
 		public void onRegistrationComplete();
-		
+
 	}
 }

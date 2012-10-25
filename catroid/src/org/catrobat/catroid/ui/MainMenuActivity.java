@@ -34,8 +34,9 @@ import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
+import org.catrobat.catroid.ui.dialogs.LoginDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
+import org.catrobat.catroid.ui.dialogs.RegistrationDialogStepOne;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -284,7 +285,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		String token = preferences.getString(Constants.TOKEN, null);
 
 		if (token == null || token.length() == 0 || token.equals("0")) {
-			showLoginRegisterDialog();
+			//showLoginRegisterDialog();
+			showRegisterDialog();
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token);
 			checkTokenTask.setOnCheckTokenCompleteListener(this);
@@ -304,7 +306,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	@Override
 	public void onTokenNotValid() {
-		showLoginRegisterDialog();
+		//showLoginRegisterDialog();
+		showLoginDialog();
 	}
 
 	@Override
@@ -313,9 +316,14 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void showLoginRegisterDialog() {
-		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	private void showLoginDialog() {
+		LoginDialog loginDialog = new LoginDialog();
+		loginDialog.show(getSupportFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showRegisterDialog() {
+		RegistrationDialogStepOne registrationDialog = new RegistrationDialogStepOne();
+		registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOne.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
