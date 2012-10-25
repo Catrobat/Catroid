@@ -60,4 +60,5 @@ public final class Constants {
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
 	public static final int UPLOAD_NOTIFICATION = 102;
 	public static final int DOWNLOAD_NOTIFICATION = 103;
+	public static final int COPY_NOTIFICATION = 104;
 }
