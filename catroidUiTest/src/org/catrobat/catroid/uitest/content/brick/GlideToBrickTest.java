@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -37,7 +38,6 @@ import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -100,7 +100,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1);
 		solo.sleep(200);
-		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
