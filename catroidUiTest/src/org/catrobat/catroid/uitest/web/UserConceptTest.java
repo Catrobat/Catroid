@@ -152,8 +152,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
 		solo.sleep(1000);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
 		solo.clickOnButton(solo.getString(R.string.login));
 		solo.sleep(500);
