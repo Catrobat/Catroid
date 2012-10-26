@@ -285,7 +285,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 		String token = preferences.getString(Constants.TOKEN, null);
 
 		if (token == null || token.length() == 0 || token.equals("0")) {
-			//showLoginRegisterDialog();
 			showRegisterDialog();
 		} else {
 			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token);

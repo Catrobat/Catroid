@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.web.ServerCalls;
@@ -62,8 +63,8 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 		login = (Button) rootView.findViewById(R.id.login_register_button);
 		passwordForgotten = (Button) rootView.findViewById(R.id.password_forgotten_button);
 
-		usernameEditText.setText("");
-		passwordEditText.setText("");
+		usernameEditText.setText(RegistrationData.INSTANCE.getUserName());
+		passwordEditText.setText(RegistrationData.INSTANCE.getPassword());
 
 		login.setOnClickListener(new OnClickListener() {
 			@Override
@@ -78,7 +79,7 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 			}
 		});
 
-		getDialog().setTitle(R.string.login_register_dialog_title);
+		getDialog().setTitle(R.string.login_dialog_title);
 		getDialog().setCanceledOnTouchOutside(true);
 		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
