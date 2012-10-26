@@ -192,7 +192,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testRegisterErrors() throws Throwable {
-		//TODO: test all errors that can occur when registering (e.g. no city, gender, password 2 times inc. etc.)
 		setTestUrl();
 		clearSharedPreferences();
 
@@ -203,10 +202,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		RadioButton male = (RadioButton) solo.getView(R.id.gender_male);
 		RadioButton female = (RadioButton) solo.getView(R.id.gender_female);
 		assertTrue("Male radio button is not checked", male.isChecked());
-		solo.clickOnRadioButton(R.id.gender_female);
+		solo.clickOnRadioButton(1);
+		solo.sleep(50);
 		assertTrue("Female radio button is not checked", female.isChecked());
 		assertFalse("Male radio button is still checked after selecting female", male.isChecked());
-		solo.clickOnRadioButton(R.id.gender_male);
+		solo.clickOnRadioButton(0);
+		solo.sleep(50);
 		assertTrue("Male radio button is not checked", female.isChecked());
 		assertFalse("Female radio button is still checked after selecting male", female.isChecked());
 		solo.clickOnButton(R.id.next_button);
@@ -285,7 +286,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		EditText passwordEditText = (EditText) solo.getView(R.id.password);
 		solo.enterText(usernameEditText, username);
 		solo.enterText(passwordEditText, password);
-		solo.clickOnButton(solo.getString(R.string.login_or_register));
+		solo.clickOnButton(solo.getString(R.string.register));
 		solo.sleep(5000);
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
