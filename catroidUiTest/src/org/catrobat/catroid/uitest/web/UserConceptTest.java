@@ -39,6 +39,7 @@ import android.test.UiThreadTest;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -86,7 +87,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
 
-		fillLoginDialogs(true);
+		fillRegistrationDialogs(true);
 
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
@@ -104,12 +105,13 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	public void testTokenPersistance() throws Throwable {
 		setTestUrl();
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Constants.TOKEN, "").commit();
-
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
-		fillLoginDialogs(true);
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Constants.TOKEN, "").commit();
+		solo.sleep(500);
+		fillLoginDialog(true);
 
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 		solo.goBack();
@@ -127,9 +129,34 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(4000);
-		fillLoginDialogs(true);
+		fillLoginDialog(true);
 
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
+	}
+
+	private void fillLoginDialog(boolean correctPassword) {
+		String testUser = "testUser" + System.currentTimeMillis();
+		EditText username = (EditText) solo.getView(R.id.username);
+		EditText password = (EditText) solo.getView(R.id.password);
+		solo.clearEditText(username);
+		solo.enterText(username, testUser);
+		String testPassword;
+		if (correctPassword) {
+			testPassword = "blubblub";
+		} else {
+			testPassword = "short";
+		}
+		solo.clearEditText(password);
+		solo.enterText(password, testPassword);
+
+		// set the email to use. we need a random email because the server does not allow same email with different users 
+		String testEmail = testUser + "@gmail.com";
+		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
+		solo.sleep(1000);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
+		solo.clickOnButton(solo.getString(R.string.login));
+		solo.sleep(500);
 	}
 
 	public void testRegisterWithShortPassword() throws Throwable {
@@ -140,55 +167,11 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
-		fillLoginDialogs(false);
+		fillRegistrationDialogs(false);
 
 		assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
 		solo.clickOnButton(0);
-		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-	}
-
-	private void setTestUrl() throws Throwable {
-		runTestOnUiThread(new Runnable() {
-			public void run() {
-				ServerCalls.useTestUrl = true;
-			}
-		});
-	}
-
-	private void fillLoginDialogs(boolean correctPassword) {
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
-
-		// select gender
-		solo.clickOnRadioButton(R.id.gender_male);
-
-		// enter a city
-
-		// enter birthday
-
-		// enter a username
-		String testUser = "testUser" + System.currentTimeMillis();
-		solo.clearEditText(0);
-		solo.enterText(0, testUser);
-		// enter a password
-		String testPassword;
-		if (correctPassword) {
-			testPassword = "blubblub";
-		} else {
-			testPassword = "short";
-		}
-		solo.clearEditText(1);
-		solo.clickOnEditText(1);
-		solo.enterText(1, testPassword);
-
-		// set the email to use. we need a random email because the server does not allow same email with different users 
-		String testEmail = testUser + "@gmail.com";
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
-		solo.sleep(1000);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-
-		solo.clickOnButton(0);
 	}
 
 	public void testRegisterErrors() throws Throwable {
@@ -208,66 +191,83 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertFalse("Male radio button is still checked after selecting female", male.isChecked());
 		solo.clickOnRadioButton(0);
 		solo.sleep(50);
-		assertTrue("Male radio button is not checked", female.isChecked());
+		assertTrue("Male radio button is not checked", male.isChecked());
 		assertFalse("Female radio button is still checked after selecting male", female.isChecked());
-		solo.clickOnButton(R.id.next_button);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
 		Button nextButton = (Button) solo.getView(R.id.next_button);
 		assertFalse("Next button is enabled!", nextButton.isEnabled());
-		solo.enterText(R.id.city, "Graz");
-		solo.clickOnButton(R.id.next_button);
+		EditText city = (EditText) solo.getView(R.id.city);
+		solo.enterText(city, "Graz");
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
 		DatePicker datePicker = (DatePicker) solo.getView(R.id.date_picker);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-
-		assertEquals("Date picker day is not set to current day", datePicker.getDayOfMonth(),
-				calendar.get(Calendar.HOUR_OF_DAY));
-		assertEquals("Date picker month is not set to current month", datePicker.getMonth(),
-				calendar.get(Calendar.MONTH));
-		assertEquals("Date picker year is not set to current year", datePicker.getYear(), calendar.get(Calendar.YEAR));
-		solo.setDatePicker(datePicker, 1990, 1, 1);
-		assertEquals("Date picker day was not updated", datePicker.getDayOfMonth(), 1);
-		assertEquals("Date picker month was not updated", datePicker.getMonth(), 1);
-		assertEquals("Date picker year was not updated", datePicker.getYear(), 1990);
-		solo.clickOnButton(R.id.next_button);
+		assertEquals("Date picker day is not set to current day", calendar.get(Calendar.DAY_OF_MONTH),
+				datePicker.getDayOfMonth());
+		assertEquals("Date picker month is not set to current month", calendar.get(Calendar.MONTH),
+				datePicker.getMonth());
+		assertEquals("Date picker year is not set to current year", calendar.get(Calendar.YEAR), datePicker.getYear());
+		solo.setDatePicker(datePicker, 1990, 0, 1);
+		solo.sleep(500);
+		assertEquals("Date picker day was not updated", 1, datePicker.getDayOfMonth());
+		assertEquals("Date picker month was not updated", 0, datePicker.getMonth());
+		assertEquals("Date picker year was not updated", 1990, datePicker.getYear());
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
 		String testUser = "testUser" + System.currentTimeMillis();
-		solo.clearEditText(R.id.username);
-		solo.enterText(R.id.username, testUser);
+		EditText username = (EditText) solo.getView(R.id.username);
+		EditText password = (EditText) solo.getView(R.id.password);
+		EditText passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
+		solo.clearEditText(username);
+		solo.enterText(username, testUser);
 		String testPassword = "testpassword";
-		solo.enterText(R.id.password, testPassword);
-		solo.enterText(R.id.password_confirmation, testPassword + "wrong");
+		solo.clearEditText(password);
+		solo.clearEditText(passwordConfirmation);
+		//solo.clickOnEditText(password);
+		solo.enterText(password, testPassword);
+		solo.enterText(passwordConfirmation, testPassword + "wrong");
+
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
-		solo.clickOnButton(R.id.register_button);
+		solo.clickOnButton(solo.getString(R.string.register));
 		assertTrue("Wrong password confirmation was accepted",
 				solo.waitForText(solo.getString(R.string.register_password_mismatch)));
 		solo.clickOnButton(0);
-		EditText password = (EditText) solo.getView(R.id.password);
-		EditText passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
-		assertTrue("Password should be hidden",
+		solo.clearEditText(passwordConfirmation);
+		solo.enterText(passwordConfirmation, testPassword);
+
+		//Check show password is checked and unchecked because solo automatically shows hidden password
+		CheckBox showPassword = (CheckBox) solo.getView(R.id.show_password);
+		solo.clickOnView(showPassword);
+		//solo.clickOnCheckBox(R.string.show_password);
+		solo.sleep(300);
+		solo.clickOnView(showPassword);
+		solo.sleep(300);
+		assertTrue("Password should be hidden" + "inputtype:" + password.getInputType(),
 				password.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD));
 		assertTrue(
 				"Password confirmation should be hidden",
 				passwordConfirmation.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD));
-		solo.clickOnCheckBox(R.id.show_password);
+		solo.clickOnView(showPassword);
 		assertTrue("Password should be visible", password.getInputType() == InputType.TYPE_CLASS_TEXT);
 		assertTrue("Password confirmation should be visible",
 				passwordConfirmation.getInputType() == InputType.TYPE_CLASS_TEXT);
-		solo.clickOnButton(R.id.register_button);
+		solo.clickOnButton(solo.getString(R.string.register));
 		solo.sleep(1000);
 
 		assertTrue("No registration completed text shown",
-				solo.waitForText(solo.getString(R.id.registration_completed_text)));
-		solo.clickOnButton(R.id.upload_button);
-		solo.sleep(2000);
+				solo.waitForText(solo.getString(R.string.registration_completed)));
+		solo.clickOnButton(solo.getString(R.string.upload_button));
+		solo.sleep(500);
 
-		assertTrue("Upload dialog not displayed", solo.waitForText(solo.getString(R.id.upload_button)));
+		assertTrue("Upload dialog not displayed",
+				solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testLoginWhenUploading() throws Throwable {
@@ -276,7 +276,9 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
-		solo.sleep(4000);
+		solo.sleep(500);
+		fillRegistrationDialogsUntilStepFour();
+		solo.sleep(500);
 
 		String username = "MAXmustermann"; //real username is MaxMustermann
 		String password = "password";
@@ -284,14 +286,34 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
 		EditText usernameEditText = (EditText) solo.getView(R.id.username);
 		EditText passwordEditText = (EditText) solo.getView(R.id.password);
+		EditText passwordConfirmationEditText = (EditText) solo.getView(R.id.password_confirmation);
+		solo.clearEditText(usernameEditText);
+
 		solo.enterText(usernameEditText, username);
 		solo.enterText(passwordEditText, password);
+		solo.enterText(passwordConfirmationEditText, password);
 		solo.clickOnButton(solo.getString(R.string.register));
-		solo.sleep(5000);
+		solo.sleep(2000);
+
+		assertTrue("No registration completed text shown",
+				solo.waitForText(solo.getString(R.string.registration_completed)));
+		solo.clickOnButton(solo.getString(R.string.upload_button));
+		solo.sleep(500);
+
+		assertTrue("Upload dialog not displayed",
+				solo.waitForText(solo.getString(R.string.upload_project_dialog_title)));
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
 		ArrayList<View> currentViews = solo.getCurrentViews();
 		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
+	}
+
+	private void setTestUrl() throws Throwable {
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				ServerCalls.useTestUrl = true;
+			}
+		});
 	}
 
 	private void clearSharedPreferences() {
@@ -300,5 +322,67 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		Editor edit = defaultSharedPreferences.edit();
 		edit.clear();
 		edit.commit();
+	}
+
+	private void fillRegistrationDialogsUntilStepFour() {
+		assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+
+		solo.sleep(300);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(500);
+
+		EditText city = (EditText) solo.getView(R.id.city);
+		solo.enterText(city, "Graz");
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(500);
+
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(300);
+	}
+
+	private void fillRegistrationDialogs(boolean correctPassword) {
+		assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+
+		solo.sleep(300);
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(500);
+
+		EditText city = (EditText) solo.getView(R.id.city);
+		solo.enterText(city, "Graz");
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(500);
+
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(300);
+
+		// enter a username
+		String testUser = "testUser" + System.currentTimeMillis();
+		EditText username = (EditText) solo.getView(R.id.username);
+		EditText password = (EditText) solo.getView(R.id.password);
+		EditText passwordConfirmation = (EditText) solo.getView(R.id.password_confirmation);
+		solo.clearEditText(username);
+		solo.enterText(username, testUser);
+		// enter a password
+		String testPassword;
+		if (correctPassword) {
+			testPassword = "blubblub";
+		} else {
+			testPassword = "short";
+		}
+		solo.clearEditText(password);
+		solo.clearEditText(passwordConfirmation);
+		//solo.clickOnEditText(password);
+		solo.enterText(password, testPassword);
+		solo.enterText(passwordConfirmation, testPassword);
+
+		// set the email to use. we need a random email because the server does not allow same email with different users 
+		String testEmail = testUser + "@gmail.com";
+		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
+		solo.sleep(1000);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
+		//solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(solo.getString(R.string.register));
+		solo.sleep(500);
 	}
 }
