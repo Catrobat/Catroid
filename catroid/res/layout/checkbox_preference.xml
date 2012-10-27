@@ -8,20 +8,20 @@
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ -->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
@@ -39,22 +39,25 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:ellipsize="marquee" />
 
-    <TextView android:id="@+android:id/summary"
-        android:layout_width="275dp"
+    <TableRow 
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@android:id/title"
-        android:layout_alignLeft="@android:id/title"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:maxLines="4" />
+        android:gravity="center" >
+        
+        <TextView android:id="@+android:id/summary"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:maxLines="4" />
 
-	<CheckBox
-	    android:id="@+android:id/checkbox"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignTop="@+android:id/summary"
-	    android:layout_toRightOf="@+android:id/summary"
-	    android:layout_margin="8dp"
-	    android:clickable="false"
-	    android:focusable="false" />
+		<CheckBox
+		    android:id="@+android:id/checkbox"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:clickable="false"
+		    android:focusable="false" />
+        
+    </TableRow>
 
-</RelativeLayout>
+</TableLayout>
