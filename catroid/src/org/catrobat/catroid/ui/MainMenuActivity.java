@@ -36,7 +36,7 @@ import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.LoginDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
-import org.catrobat.catroid.ui.dialogs.RegistrationDialogStepOne;
+import org.catrobat.catroid.ui.dialogs.RegistrationDialogStepOneDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -321,8 +321,8 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	}
 
 	private void showRegisterDialog() {
-		RegistrationDialogStepOne registrationDialog = new RegistrationDialogStepOne();
-		registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOne.DIALOG_FRAGMENT_TAG);
+		RegistrationDialogStepOneDialog registrationDialog = new RegistrationDialogStepOneDialog();
+		registrationDialog.show(getSupportFragmentManager(), RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

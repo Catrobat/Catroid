@@ -40,7 +40,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-public class RegistrationDialogStepThree extends DialogFragment implements OnRegistrationCompleteListener,
+public class RegistrationDialogStepThreeDialog extends DialogFragment implements OnRegistrationCompleteListener,
 		DatePickerDialog.OnDateSetListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
@@ -140,9 +140,9 @@ public class RegistrationDialogStepThree extends DialogFragment implements OnReg
 	private void handleNextButtonClick() {
 		RegistrationData.INSTANCE.setBirthday(birthdayDay + "." + birthdayMonth + "." + birthdayYear);
 
-		RegistrationDialogStepFour registerStepFourDialog = new RegistrationDialogStepFour();
+		RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
 		dismiss();
 		registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
-				RegistrationDialogStepFour.DIALOG_FRAGMENT_TAG);
+				RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
 	}
 }
