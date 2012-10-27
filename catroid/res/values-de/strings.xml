@@ -176,6 +176,8 @@
     <string name="change_date">Datum ändern</string>
     <string name="show_password">Zeige Passwort</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
+    <string name="password_recover">Password wiederherstellen</string>
+    <string name="email">E-Mail-Addresse:</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
     <string name="register_password_mismatch">Fehler: Passwörter passen nicht zusammen</string>
@@ -190,6 +192,8 @@
     <string name="registration_step4">4/5</string>
     <string name="registration_step5">5/5</string>
     <string name="registration_completed">Danke für deine Registrierung. Bitte klicke auf die Schaltfläche um den Upload zu starten.</string>
+    <!-- Password recovery dialog -->
+    <string name="password_recovery_dialog_title">Passwortwiederherstellung</string>
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
     <string name="overwrite_replace">ersetze bestehendes Projekt</string>

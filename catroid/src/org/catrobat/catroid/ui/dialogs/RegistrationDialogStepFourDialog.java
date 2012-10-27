@@ -44,7 +44,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class RegistrationDialogStepFour extends DialogFragment implements OnRegistrationCompleteListener {
+public class RegistrationDialogStepFourDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step4";
 
@@ -130,9 +130,9 @@ public class RegistrationDialogStepFour extends DialogFragment implements OnRegi
 		RegistrationData.INSTANCE.setUserName(username);
 		RegistrationData.INSTANCE.setPassword(password);
 
-		RegistrationDialogStepFive registerStepFiveDialog = new RegistrationDialogStepFive();
+		RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
 		dismiss();
 		registerStepFiveDialog.show(getActivity().getSupportFragmentManager(),
-				RegistrationDialogStepOne.DIALOG_FRAGMENT_TAG);
+				RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
 	}
 }

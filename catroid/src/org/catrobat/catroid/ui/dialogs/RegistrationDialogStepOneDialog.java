@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
 import android.os.Bundle;
@@ -33,37 +34,69 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.RadioButton;
 
-public class RegistrationDialogStepFive extends DialogFragment implements OnRegistrationCompleteListener {
+public class RegistrationDialogStepOneDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step5";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step1";
 
-	private Button uploadButton;
+	private RadioButton maleRadioButton;
+	private RadioButton femaleRadioButton;
+	private Button nextButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_register_completed, container);
+		View rootView = inflater.inflate(R.layout.dialog_register_gender, container);
 
-		uploadButton = (Button) rootView.findViewById(R.id.upload_button);
+		maleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_male);
+		femaleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_female);
+		nextButton = (Button) rootView.findViewById(R.id.next_button);
 
-		uploadButton.setOnClickListener(new OnClickListener() {
+		maleRadioButton.setChecked(true);
+		femaleRadioButton.setChecked(false);
+
+		maleRadioButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				handleUploadButtonClick();
+				femaleRadioButton.setChecked(false);
 			}
 		});
 
-		getDialog().setTitle(R.string.upload_project_dialog_title);
+		femaleRadioButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				maleRadioButton.setChecked(false);
+			}
+		});
+
+		nextButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleNextButtonClick();
+			}
+		});
+
+		getDialog().setTitle(R.string.register_dialog_title);
 		getDialog().setCanceledOnTouchOutside(true);
 		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return rootView;
 	}
 
-	private void handleUploadButtonClick() {
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+	private void handleNextButtonClick() {
+
+		boolean isMale = maleRadioButton.isChecked();
+
+		if (isMale) {
+			RegistrationData.INSTANCE.setGender("male");
+		} else {
+			RegistrationData.INSTANCE.setGender("female");
+		}
+
+		RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
 		dismiss();
+		registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

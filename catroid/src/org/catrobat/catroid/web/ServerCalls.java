@@ -45,7 +45,7 @@ public class ServerCalls {
 	private static final String REG_USER_EMAIL = "registrationEmail";
 	private static final String REG_USER_GENDER = "registrationGender";
 	private static final String REG_USER_BIRTHDAY = "registrationBirthday";
-	private static final String REG_USER_CITY = "registrationBirthday";
+	private static final String REG_USER_CITY = "registrationCity";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -75,6 +75,8 @@ public class ServerCalls {
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP;
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
+
+	private static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
 
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
@@ -234,4 +236,21 @@ public class ServerCalls {
 		}
 	}
 
+	public void recoverPassword(String username, String email) {
+		if (emailForUiTests != null) {
+			email = emailForUiTests;
+		}
+
+		HashMap<String, String> postValues = new HashMap<String, String>();
+		postValues.put(REG_USER_NAME, username);
+		postValues.put(REG_USER_EMAIL, email);
+		String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
+
+		Log.v(TAG, "url to use: " + serverUrl);
+		try {
+			resultString = connection.doHttpPost(serverUrl, postValues);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
