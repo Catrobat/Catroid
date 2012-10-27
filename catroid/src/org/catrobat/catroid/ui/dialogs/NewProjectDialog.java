@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import java.io.IOException;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
@@ -47,7 +48,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
 
 public class NewProjectDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -156,6 +156,7 @@ public class NewProjectDialog extends DialogFragment implements OnRegistrationCo
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
 		getActivity().startActivity(intent);
 
+		dismiss();
 		return true;
 	}
 
