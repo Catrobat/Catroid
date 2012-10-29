@@ -105,6 +105,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(SpriteAdapter.MULTI_SELECT);
+			mode.setTitle(getString(R.string.delete));
 			return true;
 		}
 
@@ -138,6 +139,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.rename));
 			return true;
 		}
 
