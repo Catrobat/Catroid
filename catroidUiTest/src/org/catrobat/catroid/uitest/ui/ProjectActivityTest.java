@@ -514,6 +514,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite spriteFour = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(4);
 
 		solo.clickOnMenuItem(solo.getString(R.string.delete));
+		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.delete)));
 
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
@@ -541,6 +542,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		addNewSprite("sprite2");
 
 		solo.clickOnMenuItem(solo.getString(R.string.rename));
+		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.rename)));
 
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
