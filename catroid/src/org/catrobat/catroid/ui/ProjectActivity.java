@@ -47,15 +47,10 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	private ActionBar actionBar;
 	private SpritesListFragment spritesListFragment;
 
-	//	private SpinnerAdapter spinnerAdapter;
-	//	private ArrayList<String> projectNameList;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
-		//		File rootDirectory = new File(Constants.DEFAULT_ROOT);
-		//		projectNameList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
 	}
 
 	@Override
@@ -66,37 +61,9 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 		String title = ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		//		actionBar.setDisplayShowTitleEnabled(false);
-
-		//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		//		spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, projectNameList);
-		//		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
-		//
-		//			@Override
-		//			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		//				String projectName = (String) spinnerAdapter.getItem(itemPosition);
-		//				loadProject(projectName);
-		//				return true;
-		//			}
-		//		});
-		//
-		//		int currentProjectIndex = 0;
-		//		String currentProjectName = ProjectManager.INSTANCE.getCurrentProject().getName();
-		//		for (int i = 0; i < projectNameList.size(); i++) {
-		//			if (projectNameList.get(i).equalsIgnoreCase(currentProjectName)) {
-		//				currentProjectIndex = i;
-		//			}
-		//		}
-		//
-		//		actionBar.setSelectedNavigationItem(currentProjectIndex);
 
 		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sprites_list);
 	}
-
-	//	private void loadProject(String projectName) {
-	//		ProjectManager.INSTANCE.loadProject(projectName, this, this, true);
-	//		spritesListFragment.onStart();
-	//	}
 
 	// Code from Stackoverflow to reduce memory problems
 	// onDestroy() and unbindDrawables() methods taken from
