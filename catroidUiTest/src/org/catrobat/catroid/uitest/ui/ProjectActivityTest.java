@@ -521,12 +521,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.goBack();
 		solo.sleep(200);
 
-		assertTrue("sprite1 and sprite4 have been deleted!", ProjectManager.INSTANCE.getCurrentProject()
-				.getSpriteList().contains(spriteOne)
+		assertTrue("Unselected sprites have been deleted!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList()
+				.contains(spriteOne)
 				&& ProjectManager.INSTANCE.getCurrentProject().getSpriteList().contains(spriteFour));
 
-		assertFalse("sprite1 and sprite4 have been deleted!", ProjectManager.INSTANCE.getCurrentProject()
-				.getSpriteList().contains(spriteTwo)
+		assertFalse("Selected sprites were not deleted!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList()
+				.contains(spriteTwo)
 				|| ProjectManager.INSTANCE.getCurrentProject().getSpriteList().contains(spriteThree));
 
 		assertFalse("sprite2 and sprite3 have been deleted but are still showing!",
