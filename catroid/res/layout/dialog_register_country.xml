@@ -21,49 +21,49 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
+ 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:theme="@android:style/Theme.Light" >
-    
+
     <TextView
-        android:id="@+id/step3"
+        android:id="@+id/step2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/registration_step3" />
+        android:text="@string/registration_step2" />
 
     <TextView
-        android:id="@+id/city_text"
+        android:id="@+id/country_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="@string/register_city" >
-    </TextView>
-
-    <EditText
-        android:id="@+id/city"
-        android:layout_width="match_parent"
+        android:text="@string/register_country" />
+    
+    <Spinner
+        android:id="@+id/country"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/city_text"
-        android:inputType="text"
-        android:maxLines="1"
-        android:selectAllOnFocus="true" />
-
+        android:layout_below="@+id/country_text"
+         />
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/city"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_below="@+id/country" >
 
-        <Button
+      
+       <Button
             android:id="@+id/next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:text="@string/next_registration_step" />
     </LinearLayout>
+
 
 </RelativeLayout>

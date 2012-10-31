@@ -22,72 +22,51 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
-import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
-import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.Spinner;
 
 public class RegistrationDialogStepFourDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step4";
 
-	private EditText usernameEditText;
-	private EditText passwordEditText;
-	private EditText passwordConfirmationEditText;
-	private CheckBox showPassword;
-	private Button registerButton;
+	int birthdayDay = 0;
+	int birthdayMonth = 0;
+	int birthdayYear = 0;
+
+	private Spinner monthSpinner;
+	private Spinner yearSpinner;
+	private Button nextButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_register_username_password, container);
+		View rootView = inflater.inflate(R.layout.dialog_register_birthday, container);
 
-		usernameEditText = (EditText) rootView.findViewById(R.id.username);
-		passwordEditText = (EditText) rootView.findViewById(R.id.password);
-		passwordConfirmationEditText = (EditText) rootView.findViewById(R.id.password_confirmation);
-		showPassword = (CheckBox) rootView.findViewById(R.id.show_password);
-		registerButton = (Button) rootView.findViewById(R.id.register_button);
+		monthSpinner = (Spinner) rootView.findViewById(R.id.birthday_month);
+		yearSpinner = (Spinner) rootView.findViewById(R.id.birthday_year);
+		nextButton = (Button) rootView.findViewById(R.id.next_button);
 
-		usernameEditText.setText("");
-		passwordEditText.setText("");
-		passwordConfirmationEditText.setText("");
-		showPassword.setChecked(false);
+		addItemsOnYearSpinner();
+		addItemsOnMonthSpinner();
 
-		showPassword.setOnClickListener(new OnClickListener() {
-
+		nextButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (showPassword.isChecked()) {
-					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-					passwordConfirmationEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-				} else {
-					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-					passwordConfirmationEditText.setInputType(InputType.TYPE_CLASS_TEXT
-							| InputType.TYPE_TEXT_VARIATION_PASSWORD);
-				}
-			}
-		});
-
-		registerButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				handleRegisterButtonClick();
+				handleNextButtonClick();
 			}
 		});
 
@@ -95,44 +74,38 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 		getDialog().setCanceledOnTouchOutside(true);
 		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-		getDialog().setOnShowListener(new OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(usernameEditText, InputMethodManager.SHOW_IMPLICIT);
-			}
-		});
-
 		return rootView;
 	}
 
-	private void handleRegisterButtonClick() {
-
-		String username = usernameEditText.getText().toString();
-		String password = passwordEditText.getText().toString();
-		String passwordConfirmation = passwordConfirmationEditText.getText().toString();
-
-		if (!password.equals(passwordConfirmation)) {
-			new Builder(getActivity()).setTitle(R.string.register_error)
-					.setMessage(R.string.register_password_mismatch).setPositiveButton("OK", null).show();
-			return;
+	private void addItemsOnYearSpinner() {
+		List<String> list = new ArrayList<String>();
+		for (int start = 1900; start <= Calendar.getInstance().get(Calendar.YEAR); start++) {
+			list.add("" + start);
 		}
-		RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password);
-		registrationTask.setOnRegistrationCompleteListener(this);
-		registrationTask.execute();
+	}
+
+	private void addItemsOnMonthSpinner() {
+		List<String> list = new ArrayList<String>();
+		String[] months = getResources().getStringArray(R.array.months_array);
+		for (int position = 0; position < months.length; position++) {
+			list.add(months[position]);
+		}
 	}
 
 	@Override
 	public void onRegistrationComplete() {
-		String username = usernameEditText.getText().toString();
-		String password = passwordEditText.getText().toString();
-		RegistrationData.INSTANCE.setUserName(username);
-		RegistrationData.INSTANCE.setPassword(password);
+		dismiss();
+	}
+
+	private void handleNextButtonClick() {
+		String monthString = monthSpinner.getSelectedItem().toString();
+		String yearString = yearSpinner.getSelectedItem().toString();
+		RegistrationData.INSTANCE.setBirthdayMonth(monthString);
+		RegistrationData.INSTANCE.setBirthdayYear(yearString);
 
 		RegistrationDialogStepFiveDialog registerStepFiveDialog = new RegistrationDialogStepFiveDialog();
 		dismiss();
 		registerStepFiveDialog.show(getActivity().getSupportFragmentManager(),
-				RegistrationDialogStepOneDialog.DIALOG_FRAGMENT_TAG);
+				RegistrationDialogStepFiveDialog.DIALOG_FRAGMENT_TAG);
 	}
 }

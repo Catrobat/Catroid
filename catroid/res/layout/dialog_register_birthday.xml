@@ -29,12 +29,12 @@
     android:theme="@android:style/Theme.Light" >
 
     <TextView
-        android:id="@+id/step3"
+        android:id="@+id/step4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/registration_step3" />
+        android:text="@string/registration_step4" />
 
     <TextView
         android:id="@+id/birthday_text"

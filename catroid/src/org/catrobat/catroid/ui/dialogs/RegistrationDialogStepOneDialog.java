@@ -93,10 +93,10 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 			RegistrationData.INSTANCE.setGender("female");
 		}
 
-		RegistrationDialogStepTwoDialog registerStepTwoDialog = new RegistrationDialogStepTwoDialog();
+		RegistrationDialogStepThreeDialog registerStepTwoDialog = new RegistrationDialogStepThreeDialog();
 		dismiss();
 		registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
-				RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
+				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

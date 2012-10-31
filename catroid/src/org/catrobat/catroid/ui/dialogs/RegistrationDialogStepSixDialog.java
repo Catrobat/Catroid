@@ -23,79 +23,46 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
 
-public class RegistrationDialogStepThreeDialog extends DialogFragment implements OnRegistrationCompleteListener {
+public class RegistrationDialogStepSixDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step6";
 
-	private EditText city;
-	private Button nextButton;
+	private Button uploadButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_register_city, container);
+		View rootView = inflater.inflate(R.layout.dialog_register_completed, container);
 
-		city = (EditText) rootView.findViewById(R.id.city);
-		nextButton = (Button) rootView.findViewById(R.id.next_button);
-		nextButton.setEnabled(false);
-
-		city.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (city.length() == 0) {
-					nextButton.setEnabled(false);
-				} else {
-					nextButton.setEnabled(true);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-		});
-
-		nextButton.setOnClickListener(new OnClickListener() {
+		uploadButton = (Button) rootView.findViewById(R.id.upload_button);
+		uploadButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				handleNextButtonClick();
+				handleUploadButtonClick();
 			}
 		});
 
-		getDialog().setTitle(R.string.register_dialog_title);
+		getDialog().setTitle(R.string.upload_project_dialog_title);
 		getDialog().setCanceledOnTouchOutside(true);
 		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		return rootView;
 	}
 
-	private void handleNextButtonClick() {
-
-		String cityString = city.getText().toString();
-		RegistrationData.INSTANCE.setCity(cityString);
-
-		RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
+	private void handleUploadButtonClick() {
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		uploadProjectDialog.show(getFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
 		dismiss();
-		registerStepFourDialog.show(getActivity().getSupportFragmentManager(),
-				RegistrationDialogStepFourDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

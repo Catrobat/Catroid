@@ -22,56 +22,38 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Spinner;
 
 public class RegistrationDialogStepTwoDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step2";
 
-	private EditText city;
+	private Spinner countrySpinner;
 	private Button nextButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_register_city, container);
+		View rootView = inflater.inflate(R.layout.dialog_register_country, container);
 
-		city = (EditText) rootView.findViewById(R.id.city);
+		countrySpinner = (Spinner) rootView.findViewById(R.id.country);
 		nextButton = (Button) rootView.findViewById(R.id.next_button);
-		nextButton.setEnabled(false);
 
-		city.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (city.length() == 0) {
-					nextButton.setEnabled(false);
-				} else {
-					nextButton.setEnabled(true);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-		});
+		addItemsOnCountrySpinner();
 
 		nextButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -87,19 +69,26 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 		return rootView;
 	}
 
-	private void handleNextButtonClick() {
-
-		String cityString = city.getText().toString();
-		RegistrationData.INSTANCE.setCity(cityString);
-
-		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
-		dismiss();
-		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
-				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+	private void addItemsOnCountrySpinner() {
+		List<String> list = new ArrayList<String>();
+		String[] countries = getResources().getStringArray(R.array.countries_array);
+		for (int position = 0; position < countries.length; position++) {
+			list.add(countries[position]);
+		}
 	}
 
 	@Override
 	public void onRegistrationComplete() {
 		dismiss();
+	}
+
+	private void handleNextButtonClick() {
+		String countryString = countrySpinner.getSelectedItem().toString();
+		RegistrationData.INSTANCE.setBirthdayYear(countryString);
+
+		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
+		dismiss();
+		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
+				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
 	}
 }
