@@ -83,7 +83,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -559,7 +559,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.sleep(50);
 	}
 
