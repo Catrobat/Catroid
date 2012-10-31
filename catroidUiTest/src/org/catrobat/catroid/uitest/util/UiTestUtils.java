@@ -573,7 +573,7 @@ public class UiTestUtils {
 
 			String token = UtilToken.calculateToken(testUser, testPassword);
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token, "male", "01.01.1970", "Graz");
+					"de", "at", token, "male", "January", "2000", "Graz");
 
 			assert (userRegistered);
 
