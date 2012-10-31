@@ -186,6 +186,8 @@
     <string name="register_female">Weiblich</string>
     <string name="register_city">Stadt:</string>
     <string name="register_birthday">Geburtstag:</string>
+    <string name="register_birthday_month">Monat:</string>
+    <string name="register_birthday_year">Jahr:</string>
     <string name="registration_step1">1/5</string>
     <string name="registration_step2">2/5</string>
     <string name="registration_step3">3/5</string>

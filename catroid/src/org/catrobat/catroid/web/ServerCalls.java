@@ -44,7 +44,8 @@ public class ServerCalls {
 	private static final String REG_USER_LANGUAGE = "registrationLanguage";
 	private static final String REG_USER_EMAIL = "registrationEmail";
 	private static final String REG_USER_GENDER = "registrationGender";
-	private static final String REG_USER_BIRTHDAY = "registrationBirthday";
+	private static final String REG_USER_BIRTHDAY_MONTH = "registrationMonth";
+	private static final String REG_USER_BIRTHDAY_YEAR = "registrationYear";
 	private static final String REG_USER_CITY = "registrationCity";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
@@ -75,8 +76,6 @@ public class ServerCalls {
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST_FTP;
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/checkTokenOrRegister/check.json";
-
-	private static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
 
 	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
@@ -183,7 +182,8 @@ public class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-			String country, String token, String gender, String birthday, String city) throws WebconnectionException {
+			String country, String token, String gender, String birthdayMonth, String birthdayYear, String city)
+			throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
@@ -195,7 +195,8 @@ public class ServerCalls {
 			postValues.put(REG_USER_EMAIL, userEmail);
 			postValues.put(Constants.TOKEN, token);
 			postValues.put(REG_USER_GENDER, gender);
-			postValues.put(REG_USER_BIRTHDAY, birthday);
+			postValues.put(REG_USER_BIRTHDAY_MONTH, birthdayMonth);
+			postValues.put(REG_USER_BIRTHDAY_YEAR, birthdayYear);
 			postValues.put(REG_USER_CITY, city);
 
 			if (country != null) {
@@ -233,24 +234,6 @@ public class ServerCalls {
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
-		}
-	}
-
-	public void recoverPassword(String username, String email) {
-		if (emailForUiTests != null) {
-			email = emailForUiTests;
-		}
-
-		HashMap<String, String> postValues = new HashMap<String, String>();
-		postValues.put(REG_USER_NAME, username);
-		postValues.put(REG_USER_EMAIL, email);
-		String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
-
-		Log.v(TAG, "url to use: " + serverUrl);
-		try {
-			resultString = connection.doHttpPost(serverUrl, postValues);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

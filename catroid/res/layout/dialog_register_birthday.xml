@@ -41,47 +41,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="@string/register_birthday" >
-    </TextView>
+        android:text="@string/register_birthday" />
     
     <TextView
-        android:id="@+id/birthday_date"
+        android:id="@+id/birthday_month_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/birthday_text"
+        android:text="@string/register_birthday_month" />
+    
+    <Spinner
+        android:id="@+id/birthday_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/birthday_text"
+        android:layout_toRightOf="@+id/birthday_month_text" />
+    
+    <TextView
+        android:id="@+id/birthday_year_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/birthday_month"
         android:layout_marginLeft="10dp"
-        android:text="01.01.2012" >
+        android:text="@string/register_birthday_year" >
     </TextView>
-    
-    <DatePicker
-            android:id="@+id/date_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/birthday_date"
-            android:text=".." />
-    
+
+    <Spinner
+        android:id="@+id/birthday_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/birthday_month"
+        android:layout_toRightOf="@+id/birthday_month_text" />
+    
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/date_picker"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_below="@+id/birthday_year" >
 
-        <Button
-            android:id="@+id/change_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/change_date"
-            android:onClick="showDatePickerDialog"  />
-        
-        <Button
+      
+       <Button
             android:id="@+id/next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/change_button"
             android:layout_weight=".5"
             android:text="@string/next_registration_step" />
     </LinearLayout>
+
 
 </RelativeLayout>

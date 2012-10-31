@@ -22,13 +22,14 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -37,11 +38,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.TextView;
+import android.widget.Spinner;
 
-public class RegistrationDialogStepThreeDialog extends DialogFragment implements OnRegistrationCompleteListener,
-		DatePickerDialog.OnDateSetListener {
+public class RegistrationDialogStepThreeDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_register_step3";
 
@@ -49,19 +48,20 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 	int birthdayMonth = 0;
 	int birthdayYear = 0;
 
-	private TextView birthday;
-	private DatePicker datePicker;
-	private Button changeButton;
+	private Spinner monthSpinner;
+	private Spinner yearSpinner;
 	private Button nextButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.dialog_register_birthday, container);
 
-		birthday = (TextView) rootView.findViewById(R.id.birthday_date);
+		monthSpinner = (Spinner) rootView.findViewById(R.id.birthday_month);
+		yearSpinner = (Spinner) rootView.findViewById(R.id.birthday_year);
 		nextButton = (Button) rootView.findViewById(R.id.next_button);
-		changeButton = (Button) rootView.findViewById(R.id.change_button);
-		datePicker = (DatePicker) rootView.findViewById(R.id.date_picker);
+
+		addItemsOnMonthSpinner();
+		addItemsOnYearSpinner();
 
 		nextButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -70,15 +70,6 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 			}
 		});
 
-		changeButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//getActivity().showDialog(DATE_DIALOG_ID);
-			}
-		});
-
-		updateCalendar();
-
 		getDialog().setTitle(R.string.register_dialog_title);
 		getDialog().setCanceledOnTouchOutside(true);
 		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -86,59 +77,28 @@ public class RegistrationDialogStepThreeDialog extends DialogFragment implements
 		return rootView;
 	}
 
+	private void addItemsOnYearSpinner() {
+		List<String> list = new ArrayList<String>();
+		for (int start = 1900; start <= Calendar.getInstance().get(Calendar.YEAR); start++) {
+			list.add(getString(start));
+		}
+	}
+
+	private void addItemsOnMonthSpinner() {
+		List<String> list = new ArrayList<String>();
+		list.add(getString(R.array.months_array));
+	}
+
 	@Override
 	public void onRegistrationComplete() {
 		dismiss();
 	}
 
-	private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
-
-		@Override
-		public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
-			birthdayYear = selectedYear;
-			birthdayMonth = selectedMonth;
-			birthdayDay = selectedDay;
-
-			// set selected date into textview
-			birthday.setText(new StringBuilder().append(birthdayDay).append(".").append(birthdayMonth + 1).append(".")
-					.append(birthdayYear));
-
-			// set selected date into datepicker also
-			datePicker.init(birthdayYear, birthdayMonth, birthdayDay, null);
-
-		}
-	};
-
-	//@Override
-	//public Dialog onCreateDialog(Bundle savedInstanceState) {
-	//return new DatePickerDialog(getActivity(), datePickerListener, birthdayDay, birthdayDay, birthdayDay);
-	//}
-
-	@Override
-	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-	};
-
-	public void setCurrentDateOnView() {
-		final Calendar c = Calendar.getInstance();
-		birthdayYear = c.get(Calendar.YEAR);
-		birthdayMonth = c.get(Calendar.MONTH);
-		birthdayDay = c.get(Calendar.DAY_OF_MONTH);
-
-		// set current date into textview
-		birthday.setText(new StringBuilder().append(birthdayDay).append(".").append(birthdayMonth + 1).append(".")
-				.append(birthdayYear));
-
-		// set current date into datepicker
-		datePicker.init(birthdayYear, birthdayMonth, birthdayDay, null);
-
-	}
-
-	private void updateCalendar() {
-		birthday.setText(birthdayDay + "." + (birthdayMonth) + "." + birthdayYear);
-	}
-
 	private void handleNextButtonClick() {
-		RegistrationData.INSTANCE.setBirthday(birthdayDay + "." + birthdayMonth + "." + birthdayYear);
+		String monthString = monthSpinner.getSelectedItem().toString();
+		String yearString = yearSpinner.getSelectedItem().toString();
+		RegistrationData.INSTANCE.setBirthdayMonth(monthString);
+		RegistrationData.INSTANCE.setBirthdayYear(yearString);
 
 		RegistrationDialogStepFourDialog registerStepFourDialog = new RegistrationDialogStepFourDialog();
 		dismiss();

@@ -26,10 +26,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -43,6 +46,7 @@ import android.widget.EditText;
 
 public class LoginDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
+	private static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_login_register";
 
 	private EditText usernameEditText;
@@ -109,6 +113,10 @@ public class LoginDialog extends DialogFragment implements OnRegistrationComplet
 	}
 
 	private void handlePasswordForgottenButtonClick() {
-		new PasswordRecoveryDialog().show(getFragmentManager(), getTag());
+		String username = usernameEditText.getText().toString();
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTP : ServerCalls.BASE_URL_HTTP;
+
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + PASSWORD_FORGOTTEN_PATH + username));
+		getActivity().startActivity(browserIntent);
 	}
 }

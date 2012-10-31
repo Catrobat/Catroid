@@ -28,7 +28,9 @@ public class RegistrationData {
 	private String password;
 	private String gender;
 	private String city;
-	private String birthday;
+	private String country;
+	private String birthdayMonth;
+	private String birthdayYear;
 
 	public static final RegistrationData INSTANCE = new RegistrationData();
 
@@ -37,7 +39,9 @@ public class RegistrationData {
 		this.password = null;
 		this.gender = null;
 		this.city = null;
-		this.birthday = null;
+		this.country = null;
+		this.birthdayMonth = null;
+		this.birthdayYear = null;
 	}
 
 	public static RegistrationData getInstance() {
@@ -76,11 +80,27 @@ public class RegistrationData {
 		this.city = city;
 	}
 
-	public String getBirthday() {
-		return birthday;
+	public String getBirthdayMonth() {
+		return birthdayMonth;
 	}
 
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
+	public void setBirthdayMonth(String birthdayMonth) {
+		this.birthdayMonth = birthdayMonth;
+	}
+
+	public String getBirthdayYear() {
+		return birthdayYear;
+	}
+
+	public void setBirthdayYear(String birthdayYear) {
+		this.birthdayYear = birthdayYear;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 }
