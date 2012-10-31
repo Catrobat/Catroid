@@ -197,11 +197,9 @@ public class ServerCalls {
 			postValues.put(REG_USER_GENDER, gender);
 			postValues.put(REG_USER_BIRTHDAY_MONTH, birthdayMonth);
 			postValues.put(REG_USER_BIRTHDAY_YEAR, birthdayYear);
+			postValues.put(REG_USER_COUNTRY, country);
 			postValues.put(REG_USER_CITY, city);
 
-			if (country != null) {
-				postValues.put(REG_USER_COUNTRY, country);
-			}
 			if (language != null) {
 				postValues.put(REG_USER_LANGUAGE, language);
 			}
