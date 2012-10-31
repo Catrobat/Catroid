@@ -175,15 +175,17 @@
     <string name="register_gender">Gender:</string>
     <string name="register_male">Male</string>
     <string name="register_female">Female</string>
+    <string name="register_country">Country:</string>
     <string name="register_city">City:</string>
     <string name="register_birthday">Birthday:</string>
     <string name="register_birthday_month">Month:</string>
     <string name="register_birthday_year">Year:</string>
-    <string name="registration_step1">1/5</string>
-    <string name="registration_step2">2/5</string>
-    <string name="registration_step3">3/5</string>
-    <string name="registration_step4">4/5</string>
-    <string name="registration_step5">5/5</string>
+    <string name="registration_step1">1/6</string>
+    <string name="registration_step2">2/6</string>
+    <string name="registration_step3">3/6</string>
+    <string name="registration_step4">4/6</string>
+    <string name="registration_step5">5/6</string>
+    <string name="registration_step6">6/6</string>
     <string name="registration_completed">Thank you for registering. Please click on the button to start the upload.</string>
     <!-- Password recovery dialog -->
     <string name="password_recovery_dialog_title">Password recovery</string>

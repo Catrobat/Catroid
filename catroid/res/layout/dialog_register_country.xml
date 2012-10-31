@@ -29,56 +29,32 @@
     android:theme="@android:style/Theme.Light" >
 
     <TextView
-        android:id="@+id/step4"
+        android:id="@+id/step2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/registration_step4" />
+        android:text="@string/registration_step2" />
 
     <TextView
-        android:id="@+id/birthday_text"
+        android:id="@+id/country_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="@string/register_birthday" />
-    
-    <TextView
-        android:id="@+id/birthday_month_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_text"
-        android:text="@string/register_birthday_month" />
+        android:text="@string/register_country" />
     
     <Spinner
-        android:id="@+id/birthday_month"
+        android:id="@+id/country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_text"
-        android:layout_toRightOf="@+id/birthday_month_text" />
-    
-    <TextView
-        android:id="@+id/birthday_year_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_month"
-        android:layout_marginLeft="10dp"
-        android:text="@string/register_birthday_year" >
-    </TextView>
-
-    <Spinner
-        android:id="@+id/birthday_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_month"
-        android:layout_toRightOf="@+id/birthday_month_text" />
-    
+        android:layout_below="@+id/country_text"
+         />
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/birthday_year" >
+        android:layout_below="@+id/country" >
 
       
        <Button
