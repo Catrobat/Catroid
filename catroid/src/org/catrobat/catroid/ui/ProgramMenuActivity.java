@@ -39,6 +39,7 @@ import android.widget.Button;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class ProgramMenuActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
@@ -92,6 +93,12 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_program_menu_activity, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home: {
@@ -99,6 +106,10 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
+			}
+			case R.id.settings: {
+				Intent intent = new Intent(this, SettingsActivity.class);
+				startActivity(intent);
 			}
 		}
 		return super.onOptionsItemSelected(item);
