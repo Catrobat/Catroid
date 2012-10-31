@@ -81,14 +81,15 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			//String email = UtilDeviceInfo.getUserEmail(context);
 			String email = System.currentTimeMillis() + "@gmail.com";
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
-			String country = UtilDeviceInfo.getUserCountryCode(context);
+			String country = RegistrationData.INSTANCE.getCountry();
 			String token = UtilToken.calculateToken(username, password);
 			String gender = RegistrationData.INSTANCE.getGender();
-			String birthday = RegistrationData.INSTANCE.getBirthday();
+			String birthdayMonth = RegistrationData.INSTANCE.getBirthdayMonth();
+			String birthdayYear = RegistrationData.INSTANCE.getBirthdayYear();
 			String city = RegistrationData.INSTANCE.getCity();
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
-					country, token, gender, birthday, city);
+					country, token, gender, birthdayMonth, birthdayYear, city);
 
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 			prefs.edit().putString(Constants.TOKEN, token).commit();
