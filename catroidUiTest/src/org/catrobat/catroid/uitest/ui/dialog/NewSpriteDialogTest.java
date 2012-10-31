@@ -77,7 +77,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.waitForView(EditText.class);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
@@ -95,7 +95,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForFragmentById(R.id.fr_projects_list);
 		UiTestUtils.clickOnTextInList(solo, testingproject);
 		solo.sleep(500);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.waitForView(EditText.class);
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, " ");

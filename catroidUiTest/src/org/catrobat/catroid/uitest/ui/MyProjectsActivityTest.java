@@ -268,7 +268,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String myProjectsText = solo.getString(R.string.main_menu_programs);
 		solo.clickOnButton(myProjectsText);
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
 			fail("Edit-Dialog not shown in 5 secs!");
 		}
@@ -317,7 +317,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
 			fail("Edit-Dialog not shown in 5 secs!");
@@ -992,7 +992,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("click on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 		solo.clearEditText(0);
 		solo.enterText(0, "testSprite");
