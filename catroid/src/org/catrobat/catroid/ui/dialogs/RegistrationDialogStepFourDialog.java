@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
@@ -37,6 +35,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -78,18 +77,22 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 	}
 
 	private void addItemsOnYearSpinner() {
-		List<String> list = new ArrayList<String>();
-		for (int start = 1900; start <= Calendar.getInstance().get(Calendar.YEAR); start++) {
-			list.add("" + start);
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		String[] yearList = new String[currentYear - 1900];
+		int position = 0;
+		for (int start = 1900; start < currentYear; start++) {
+			yearList[position] = Integer.toString(start);
+			position++;
 		}
+		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(),
+				android.R.layout.simple_spinner_item, yearList);
+		yearSpinner.setAdapter(adapter);
 	}
 
 	private void addItemsOnMonthSpinner() {
-		List<String> list = new ArrayList<String>();
-		String[] months = getResources().getStringArray(R.array.months_array);
-		for (int position = 0; position < months.length; position++) {
-			list.add(months[position]);
-		}
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.months_array,
+				android.R.layout.simple_spinner_item);
+		monthSpinner.setAdapter(adapter);
 	}
 
 	@Override

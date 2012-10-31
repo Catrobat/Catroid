@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.web;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -40,9 +39,9 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -196,6 +195,14 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
+		Spinner countrySpinner = (Spinner) solo.getView(R.id.country);
+		solo.pressSpinnerItem(0, 14);
+		solo.sleep(300);
+		//String selectedItem = countrySpinner.getSelectedItem().;
+		//assertEquals("Wrong value selected in country spinner");
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(300);
+
 		Button nextButton = (Button) solo.getView(R.id.next_button);
 		assertFalse("Next button is enabled!", nextButton.isEnabled());
 		EditText city = (EditText) solo.getView(R.id.city);
@@ -203,19 +210,16 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
-		DatePicker datePicker = (DatePicker) solo.getView(R.id.date_picker);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		assertEquals("Date picker day is not set to current day", calendar.get(Calendar.DAY_OF_MONTH),
-				datePicker.getDayOfMonth());
-		assertEquals("Date picker month is not set to current month", calendar.get(Calendar.MONTH),
-				datePicker.getMonth());
-		assertEquals("Date picker year is not set to current year", calendar.get(Calendar.YEAR), datePicker.getYear());
-		solo.setDatePicker(datePicker, 1990, 0, 1);
+		Spinner monthSpinner = (Spinner) solo.getView(R.id.birthday_month);
+		Spinner yearSpinner = (Spinner) solo.getView(R.id.birthday_year);
+
+		//Calendar calendar = Calendar.getInstance();
+		//calendar.setTimeInMillis(System.currentTimeMillis());
+		//assertEquals("Month spinner is not set to January", "January", monthSpinner.getSelectedItem().toString());
+		assertEquals("Year spinner is not set to 1900", "1900", yearSpinner.getSelectedItem().toString());
 		solo.sleep(500);
-		assertEquals("Date picker day was not updated", 1, datePicker.getDayOfMonth());
-		assertEquals("Date picker month was not updated", 0, datePicker.getMonth());
-		assertEquals("Date picker year was not updated", 1990, datePicker.getYear());
+		//assertEquals("Date picker month was not updated", 0, datePicker.getMonth());
+		//assertEquals("Date picker year was not updated", 1990, datePicker.getYear());
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 

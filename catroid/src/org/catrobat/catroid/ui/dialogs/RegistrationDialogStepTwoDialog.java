@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
@@ -36,6 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -70,11 +68,9 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	}
 
 	private void addItemsOnCountrySpinner() {
-		List<String> list = new ArrayList<String>();
-		String[] countries = getResources().getStringArray(R.array.countries_array);
-		for (int position = 0; position < countries.length; position++) {
-			list.add(countries[position]);
-		}
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.countries_array,
+				android.R.layout.simple_spinner_item);
+		countrySpinner.setAdapter(adapter);
 	}
 
 	@Override
@@ -84,7 +80,7 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 
 	private void handleNextButtonClick() {
 		String countryString = countrySpinner.getSelectedItem().toString();
-		RegistrationData.INSTANCE.setBirthdayYear(countryString);
+		RegistrationData.INSTANCE.setCountry(countryString);
 
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
 		dismiss();
