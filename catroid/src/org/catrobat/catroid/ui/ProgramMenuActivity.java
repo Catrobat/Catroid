@@ -94,7 +94,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_program_menu_activity, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_program_activity, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
