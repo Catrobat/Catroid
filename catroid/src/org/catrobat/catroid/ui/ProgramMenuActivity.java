@@ -128,8 +128,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	}
 
 	public void handleSoundsButton(View v) {
-		//TODO: start SoundActivity
-		Intent intent = new Intent(this, ScriptTabActivity.class);
+		Intent intent = new Intent(this, SoundActivity.class);
 		startActivity(intent);
 	}
 
