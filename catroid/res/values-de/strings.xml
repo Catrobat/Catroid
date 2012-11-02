@@ -185,9 +185,12 @@
     <string name="register_male">Männlich</string>
     <string name="register_female">Weiblich</string>
     <string name="register_country">Land:</string>
+    <string name="register_country_austria">Österreich</string>
     <string name="register_city">Stadt:</string>
     <string name="register_birthday">Geburtstag:</string>
     <string name="register_birthday_month">Monat:</string>
+    <string name="register_birthday_month_january">Jänner</string>
+    <string name="register_birthday_month_february">Februar</string>
     <string name="register_birthday_year">Jahr:</string>
     <string name="registration_step1">1/6</string>
     <string name="registration_step2">2/6</string>
