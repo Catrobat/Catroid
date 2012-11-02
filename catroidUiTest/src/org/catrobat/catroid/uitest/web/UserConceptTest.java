@@ -196,10 +196,11 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(300);
 
 		Spinner countrySpinner = (Spinner) solo.getView(R.id.country);
-		solo.pressSpinnerItem(0, 14);
-		solo.sleep(300);
-		//String selectedItem = countrySpinner.getSelectedItem().;
-		//assertEquals("Wrong value selected in country spinner");
+		solo.pressSpinnerItem(0, 13);
+		solo.sleep(1000);
+		String selectedItem = countrySpinner.getSelectedItem().toString();
+		assertEquals("Wrong value selected in country spinner", solo.getString(R.string.register_country_austria),
+				selectedItem);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
@@ -212,14 +213,20 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		Spinner monthSpinner = (Spinner) solo.getView(R.id.birthday_month);
 		Spinner yearSpinner = (Spinner) solo.getView(R.id.birthday_year);
-
-		//Calendar calendar = Calendar.getInstance();
-		//calendar.setTimeInMillis(System.currentTimeMillis());
-		//assertEquals("Month spinner is not set to January", "January", monthSpinner.getSelectedItem().toString());
-		assertEquals("Year spinner is not set to 1900", "1900", yearSpinner.getSelectedItem().toString());
+		String selectedMonth = monthSpinner.getSelectedItem().toString();
+		String selectedYear = yearSpinner.getSelectedItem().toString();
+		assertEquals("Month spinner initialized with wrong value",
+				solo.getString(R.string.register_birthday_month_january), selectedMonth);
+		assertEquals("Year spinner initialized with wrong value", "1900", selectedYear);
+		solo.pressSpinnerItem(0, 1);
 		solo.sleep(500);
-		//assertEquals("Date picker month was not updated", 0, datePicker.getMonth());
-		//assertEquals("Date picker year was not updated", 1990, datePicker.getYear());
+		solo.pressSpinnerItem(1, 2);
+		solo.sleep(500);
+		selectedMonth = monthSpinner.getSelectedItem().toString();
+		selectedYear = yearSpinner.getSelectedItem().toString();
+		assertEquals("Wrong value selected in month spinner",
+				solo.getString(R.string.register_birthday_month_february), selectedMonth);
+		assertEquals("Wrong value selected in year spinner", "1902", selectedYear);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
@@ -232,10 +239,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		String testPassword = "testpassword";
 		solo.clearEditText(password);
 		solo.clearEditText(passwordConfirmation);
-		//solo.clickOnEditText(password);
 		solo.enterText(password, testPassword);
 		solo.enterText(passwordConfirmation, testPassword + "wrong");
-
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
@@ -245,7 +250,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(0);
 		solo.clearEditText(passwordConfirmation);
 		solo.enterText(passwordConfirmation, testPassword);
-
 		//Check show password is checked and unchecked because solo automatically shows hidden password
 		CheckBox showPassword = (CheckBox) solo.getView(R.id.show_password);
 		solo.clickOnView(showPassword);
@@ -281,7 +285,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 		solo.sleep(500);
-		fillRegistrationDialogsUntilStepFour();
+		fillRegistrationDialogsUntilStepFive();
 		solo.sleep(500);
 
 		String username = "MAXmustermann"; //real username is MaxMustermann
@@ -328,12 +332,15 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		edit.commit();
 	}
 
-	private void fillRegistrationDialogsUntilStepFour() {
+	private void fillRegistrationDialogsUntilStepFive() {
 		assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
 
 		solo.sleep(300);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(500);
+
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(300);
 
 		EditText city = (EditText) solo.getView(R.id.city);
 		solo.enterText(city, "Graz");
@@ -350,6 +357,9 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(300);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(500);
+
+		solo.clickOnButton(solo.getString(R.string.next_registration_step));
+		solo.sleep(300);
 
 		EditText city = (EditText) solo.getView(R.id.city);
 		solo.enterText(city, "Graz");
