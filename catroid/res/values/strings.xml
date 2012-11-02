@@ -120,6 +120,7 @@
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
     <string name="sound_select_source">Select a sound</string>
+    <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Delete sound?</string>
     <string name="soundlist_footer_image_description">Tap to add new sound</string>
     <!-- My Projects activity -->

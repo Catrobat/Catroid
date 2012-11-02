@@ -74,28 +74,30 @@
                 android:textStyle="bold"
                 android:text="Ein ziemlich langer komischer unnützer Titel" />
 
-            <TextView
+            <TextView style="@style/sound_time"
+                android:id="@+id/sound_time_played"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:visibility="gone"
+                android:textColor="@color/backbrown" />
+            
+            <TextView style="@style/sound_time"
+                android:id="@+id/sound_time_seperator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/sound_time_seperator" />
+            
+            <TextView style="@style/sound_time"
                 android:id="@+id/sound_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:clickable="false"
-                android:focusable="false"
                 android:gravity="right|center_vertical"
-                android:longClickable="false"
-                android:singleLine="true"
-                android:textColor="@color/backbrown"
-                android:textSize="14sp"
-                android:text="00:02/00:31" />
+                android:text="00:31" />
 
         </TableRow>
-
-        <View
-	        android:id="@+id/sound_divider"
-	        android:layout_width="match_parent"
-	        android:layout_height="1dp"
-	        android:paddingTop="2dp"
-	        android:background="@color/divider"
-	        android:visibility="visible" />
 
 </TableLayout>
