@@ -31,10 +31,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.SoundActivity;
+import org.catrobat.catroid.ui.adapter.IconMenuAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
+import org.catrobat.catroid.ui.dialogs.CustomIconContextMenu;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
+import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
@@ -43,6 +46,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -51,6 +55,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -59,6 +65,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -106,6 +114,15 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 	private static final int FOOTER_ADD_SOUND_ALPHA_VALUE = 35;
+
+	private static final int NO_DIALOG_FRAGMENT_ACTIVE = -1;
+	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
+	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
+	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
+	private static final int CONTEXT_MENU_ITEM_COPY = 3;
+
+	private int activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
+
 	public static final int REQUEST_SELECT_MUSIC = 0;
 
 	private MediaPlayer mediaPlayer;
@@ -119,6 +136,8 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
+
+	private int currentSoundPosition = -1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -155,7 +174,58 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
+
+		checkForCanceledFragment();
+		//reattachDialogFragmentListener();
+		initClickListener();
 	}
+
+	private void checkForCanceledFragment() {
+		boolean canceledDialog = false;
+
+		if (getFragmentManager().findFragmentByTag(RenameSoundDialog.DIALOG_FRAGMENT_TAG) == null
+				&& activeDialogId == CONTEXT_MENU_ITEM_RENAME) {
+			canceledDialog = true;
+		} else if (getFragmentManager().findFragmentByTag(SetDescriptionDialog.DIALOG_FRAGMENT_TAG) == null
+				&& activeDialogId == CONTEXT_MENU_ITEM_DESCRIPTION) {
+			canceledDialog = true;
+		}
+		//		else if (getFragmentManager().findFragmentByTag(CopySoundDialog.DIALOG_FRAGMENT_TAG) == null
+		//				&& activeDialogId == CONTEXT_MENU_ITEM_COPY) {
+		//			canceledDialog = true;
+		//		}
+		if (canceledDialog) {
+			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
+		}
+	}
+
+	//TODO USE RECEIVER INSTEAD!!!!
+	//	private void reattachDialogFragmentListener() {
+	//		Fragment activeFragmentDialog;
+	//
+	//		if (activeDialogId != NO_DIALOG_FRAGMENT_ACTIVE) {
+	//			switch (activeDialogId) {
+	//				case CONTEXT_MENU_ITEM_RENAME:
+	//					activeFragmentDialog = getFragmentManager()
+	//							.findFragmentByTag(RenameSoundDialog.DIALOG_FRAGMENT_TAG);
+	//					RenameSoundDialog displayingRenameSoundDialog = (RenameSoundDialog) activeFragmentDialog;
+	//					//displayingRenameSoundDialog.setOnProjectRenameListener(SoundFragment.this);
+	//					break;
+	//				case CONTEXT_MENU_ITEM_DESCRIPTION:
+	//					activeFragmentDialog = getFragmentManager().findFragmentByTag(
+	//							SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+	//					SetDescriptionDialog displayingSetDescriptionSoundDialog = (SetDescriptionDialog) activeFragmentDialog;
+	//					//displayingSetDescriptionSoundDialog.setOnUpdateSoundDescriptionListener(SoundFragment.this);
+	//					break;
+	//			//				case CONTEXT_MENU_ITEM_COPY:
+	//			//					activeFragmentDialog = getFragmentManager()
+	//			//							.findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+	//			//					CopyProjectDialog displayingCopyProjectDialog = (CopyProjectDialog) activeFragmentDialog;
+	//			//					displayingCopyProjectDialog.setParentFragment(this);
+	//			//					break;
+	//			}
+	//		}
+	//	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -166,6 +236,9 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void startSelectSoundIntent() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
+
+		Log.d("Catroid", "SoundFragmend: startSelectSoundIntent()");
+
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				REQUEST_SELECT_MUSIC);
 	}
@@ -232,15 +305,22 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		Log.d("Catroid", "SoundFragmend: onActivityResult() OK:" + resultCode + " request:" + requestCode);
+
 		super.onActivityResult(requestCode, resultCode, data);
+
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
 			arguments.putParcelable(BUNDLE_ARGUMENTS_SELECTED_SOUND, data.getData());
+
 			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
 				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
+				Log.d("Catroid", "SoundFragmend: onActivityResult() -> INIT!");
 			} else {
 				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
+				Log.d("Catroid", "SoundFragmend: onActivityResult() -> RESTART!");
 			}
 		}
 	}
@@ -423,6 +503,86 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 				Log.e("CATROID", "Cannot start sound.", e);
 			}
 		}
+	}
+
+	private void initClickListener() {
+		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				selectedSoundInfo = soundInfoList.get(position);
+				currentSoundPosition = position;
+
+				if (selectedSoundInfo != null) {
+					showEditSoundContextDialog();
+				}
+
+				return true;
+			}
+		});
+	}
+
+	private void showEditSoundContextDialog() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag(CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		CustomIconContextMenu dialog = CustomIconContextMenu.newInstance(selectedSoundInfo.getTitle());
+		initCustomContextMenu(dialog);
+		dialog.show(getFragmentManager(), CustomIconContextMenu.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void initCustomContextMenu(CustomIconContextMenu iconContextMenu) {
+		Resources resources = getResources();
+
+		IconMenuAdapter adapter = new IconMenuAdapter(getActivity());
+		adapter.addItem(resources, this.getString(R.string.copy), R.drawable.ic_context_copy, CONTEXT_MENU_ITEM_COPY);
+		//		adapter.addItem(resources, this.getString(R.string.cut), R.drawable.ic_context_cut,
+		//				CONTEXT_MENU_ITEM_CUT);
+		//		adapter.addItem(resources, this.getString(R.string.insert_below), R.drawable.ic_context_insert_below,
+		//				CONTEXT_MENU_ITEM_INSERT_BELOW);
+		//		adapter.addItem(resources, this.getString(R.string.move), R.drawable.ic_context_move,
+		//				CONTEXT_MENU_ITEM_MOVE);
+		adapter.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
+				CONTEXT_MENU_ITEM_RENAME);
+		adapter.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
+				CONTEXT_MENU_ITEM_DELETE);
+
+		iconContextMenu.setAdapter(adapter);
+
+		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+			@Override
+			public void onClick(int menuId) {
+				activeDialogId = menuId;
+				switch (menuId) {
+					case CONTEXT_MENU_ITEM_COPY:
+						//						CopyProjectDialog dialogCopyProject = CopyProjectDialog.newInstance(projectToEdit.projectName);
+						//						dialogCopyProject.setParentFragment(parentFragment);
+						//						dialogCopyProject.show(getActivity().getSupportFragmentManager(),
+						//								CopyProjectDialog.DIALOG_FRAGMENT_TAG);
+						break;
+					case CONTEXT_MENU_ITEM_RENAME:
+						RenameSoundDialog dialogRenameSound = RenameSoundDialog.newInstance(selectedSoundInfo
+								.getTitle());
+						dialogRenameSound.show(getActivity().getSupportFragmentManager(),
+								RenameSoundDialog.DIALOG_FRAGMENT_TAG);
+						break;
+					case CONTEXT_MENU_ITEM_DELETE:
+						if (currentSoundPosition != -1) {
+							DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(currentSoundPosition);
+							deleteSoundDialog.show(getActivity().getSupportFragmentManager(),
+									DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
+						} else {
+							//TODO ERROR-HANDLING
+							Log.d("CATROID", "NO SOUND SELECTED!!!");
+						}
+
+						break;
+				}
+			}
+		});
 	}
 
 	private class SoundDeletedReceiver extends BroadcastReceiver {
