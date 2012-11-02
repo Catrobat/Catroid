@@ -154,6 +154,8 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(SoundActivity.this, StageActivity.class);
 			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
@@ -165,14 +167,6 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, this, false);
 			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 			projectManager.setCurrentScriptWithPosition(currentScriptPos);
-		}
-	}
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) {
-			//TODO sendBroadcast(new Intent(ScriptTabActivity.ACTION_SPRITES_LIST_INIT));
 		}
 	}
 
