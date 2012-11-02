@@ -26,8 +26,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.utils.UtilFile;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -37,9 +37,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
@@ -70,23 +69,19 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		convertView.findViewById(R.id.sound_name).setTag(position);
 		convertView.findViewById(R.id.btn_sound_play).setTag(position);
 		convertView.findViewById(R.id.btn_sound_pause).setTag(position);
-		convertView.findViewById(R.id.btn_sound_delete).setTag(position);
 
 		if (soundInfo != null) {
-			ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 			TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
-			Button pauseSoundButton = (Button) convertView.findViewById(R.id.btn_sound_pause);
-			Button playSoundButton = (Button) convertView.findViewById(R.id.btn_sound_play);
-			Button deleteSoundButton = (Button) convertView.findViewById(R.id.btn_sound_delete);
-			TextView soundFileSize = (TextView) convertView.findViewById(R.id.sound_size);
 			TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
+			ImageButton pauseSoundButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
+			ImageButton playSoundButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
+
+			soundNameTextView.setText(soundInfo.getTitle());
 
 			if (soundInfo.isPlaying) {
-				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker_playing));
 				playSoundButton.setVisibility(Button.GONE);
 				pauseSoundButton.setVisibility(Button.VISIBLE);
 			} else {
-				soundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.speaker));
 				playSoundButton.setVisibility(Button.VISIBLE);
 				pauseSoundButton.setVisibility(Button.GONE);
 			}
@@ -101,25 +96,19 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				int minutes = (int) ((milliseconds / 1000) / 60);
 				int hours = (int) ((milliseconds / 1000) / 3600);
 
-				soundDuration.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
-				soundFileSize.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+				if (hours == 0) {
+					soundDuration.setText(String.format("%02d:%02d", minutes, seconds));
+				} else {
+					soundDuration.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+				}
+				//soundFileSize.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+				new File(soundInfo.getAbsolutePath());
 
 				tempPlayer.reset();
 				tempPlayer.release();
 			} catch (IOException e) {
 				Log.e("CATROID", "Cannot get view.", e);
 			}
-
-			soundNameTextView.setText(soundInfo.getTitle());
-
-			soundNameTextView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundRename(v);
-					}
-				}
-			});
 
 			playSoundButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -135,15 +124,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				public void onClick(View v) {
 					if (onSoundEditListener != null) {
 						onSoundEditListener.onSoundPause(v);
-					}
-				}
-			});
-
-			deleteSoundButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundDelete(v);
 					}
 				}
 			});

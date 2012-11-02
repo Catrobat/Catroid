@@ -30,7 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.SoundActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
@@ -63,9 +63,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class SoundFragment extends SherlockListFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
@@ -126,7 +123,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -155,6 +151,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		getListView().addFooterView(footerView);
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
@@ -166,22 +163,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		super.onSaveInstanceState(outState);
 	}
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		final MenuItem addItem = menu.findItem(R.id.menu_add);
-		addItem.setIcon(R.drawable.ic_music);
-		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				startSelectSoundIntent();
-				return true;
-			}
-		});
-	}
-
-	private void startSelectSoundIntent() {
+	public void startSelectSoundIntent() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
@@ -204,10 +186,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			soundRenamedReceiver = new SoundRenamedReceiver();
 		}
 
-		IntentFilter intentFilterDeleteSound = new IntentFilter(ScriptTabActivity.ACTION_SOUND_DELETED);
+		IntentFilter intentFilterDeleteSound = new IntentFilter(SoundActivity.ACTION_SOUND_DELETED);
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
 
-		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptTabActivity.ACTION_SOUND_RENAMED);
+		IntentFilter intentFilterRenameSound = new IntentFilter(SoundActivity.ACTION_SOUND_RENAMED);
 		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
 
 		stopSound();
@@ -369,7 +351,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	}
 
 	// Does not rename the actual file, only the title in the SoundInfo
-	private void handleSoundRenameButton(View v) {
+	public void handleSoundRenameButton(View v) {
 		int position = (Integer) v.getTag();
 		selectedSoundInfo = soundInfoList.get(position);
 
@@ -397,13 +379,13 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
-	private void handlePauseSoundButton(View v) {
+	public void handlePauseSoundButton(View v) {
 		final int position = (Integer) v.getTag();
 		pauseSound(soundInfoList.get(position));
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
-	private void handleDeleteSoundButton(View v) {
+	public void handleDeleteSoundButton(View v) {
 		final int position = (Integer) v.getTag();
 		stopSound();
 		selectedSoundInfo = soundInfoList.get(position);
@@ -412,12 +394,12 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void pauseSound(SoundInfo soundInfo) {
+	public void pauseSound(SoundInfo soundInfo) {
 		mediaPlayer.pause();
 		soundInfo.isPlaying = false;
 	}
 
-	private void stopSound() {
+	public void stopSound() {
 		if (mediaPlayer.isPlaying()) {
 			mediaPlayer.stop();
 		}
@@ -427,26 +409,26 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 	}
 
-	private void startSound(SoundInfo soundInfo) {
-		if (soundInfo.isPlaying) {
-			return;
-		}
-		try {
-			mediaPlayer.reset();
-			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
-			mediaPlayer.prepare();
-			mediaPlayer.start();
-			soundInfo.isPlaying = true;
-		} catch (IOException e) {
-			Log.e("CATROID", "Cannot start sound.", e);
+	public void startSound(SoundInfo soundInfo) {
+		if (!soundInfo.isPlaying) {
+			try {
+				mediaPlayer.reset();
+				mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+				mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+
+				soundInfo.isPlaying = true;
+			} catch (IOException e) {
+				Log.e("CATROID", "Cannot start sound.", e);
+			}
 		}
 	}
 
 	private class SoundDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_DELETED)) {
+			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_DELETED)) {
 				reloadAdapter();
 			}
 		}
@@ -455,7 +437,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	private class SoundRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SOUND_RENAMED)) {
+			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_RENAMED)) {
 				String newSoundTitle = intent.getExtras().getString(RenameSoundDialog.EXTRA_NEW_SOUND_TITLE);
 
 				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
