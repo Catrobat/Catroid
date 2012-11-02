@@ -43,6 +43,9 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class SoundActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
 
+	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
+	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
+
 	private ActionBar actionBar;
 	private SoundFragment soundFragment;
 
