@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
@@ -35,8 +36,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -53,11 +57,6 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sound);
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
 
 		actionBar = getSupportActionBar();
 
@@ -65,6 +64,32 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
+		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(
+						R.array.sprite_activity_spinner_items));
+
+		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
+			@Override
+			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+				switch (itemPosition) {
+					case Constants.SCRIPTS_ITEM_POSITION:
+						//TODO
+						Toast.makeText(getApplicationContext(), "startScriptActivity", Toast.LENGTH_SHORT).show();
+						break;
+					case Constants.COSTUMES_ITEM_POSITION:
+						//TODO
+						Toast.makeText(getApplicationContext(), "startCostumeActivity", Toast.LENGTH_SHORT).show();
+						break;
+				}
+				return true;
+			}
+		});
+		actionBar.setSelectedNavigationItem(Constants.SOUNDS_ITEM_POSITION);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 		soundFragment = (SoundFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sound);
 	}
 
