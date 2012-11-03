@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 public class RegistrationDialogStepOneDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -43,6 +44,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 	private RadioButton maleRadioButton;
 	private RadioButton femaleRadioButton;
 	private Button nextButton;
+	private TextView alreadyRegisteredTextView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 		maleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_male);
 		femaleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_female);
 		nextButton = (Button) rootView.findViewById(R.id.next_button);
+		alreadyRegisteredTextView = (TextView) rootView.findViewById(R.id.already_registered_button);
 
 		maleRadioButton.setChecked(true);
 		femaleRadioButton.setChecked(false);
@@ -76,6 +79,14 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 			}
 		});
 
+		alreadyRegisteredTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				handleAlreadyRegisteredClick();
+			}
+		});
+
 		getDialog().setTitle(R.string.register_dialog_title);
 		getDialog().setCanceledOnTouchOutside(true);
 		getDialog().getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -97,6 +108,12 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 		dismiss();
 		registerStepTwoDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepTwoDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void handleAlreadyRegisteredClick() {
+		LoginDialog login = new LoginDialog();
+		dismiss();
+		login.show(getActivity().getSupportFragmentManager(), LoginDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

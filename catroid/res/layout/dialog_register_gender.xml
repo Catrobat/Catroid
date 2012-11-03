@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -42,8 +42,8 @@
         android:layout_marginLeft="10dp"
         android:text="@string/register_gender" >
     </TextView>
-    
-     <RadioButton
+
+    <RadioButton
         android:id="@+id/gender_male"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,5 +71,13 @@
             android:layout_weight=".5"
             android:text="@string/next_registration_step" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/already_registered_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/linearLayout1"
+        android:text="@string/already_registered" />
 
 </RelativeLayout>
