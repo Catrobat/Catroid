@@ -170,7 +170,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.sounds));
-		solo.clickOnView(solo.getView(R.id.sound_name));
+		solo.clickOnView(solo.getView(R.id.sound_title));
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);

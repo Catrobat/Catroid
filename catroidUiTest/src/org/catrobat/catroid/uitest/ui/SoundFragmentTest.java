@@ -120,7 +120,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testRenameSound() {
 		goToSoundsTab();
 		String newName = "newSoundName";
-		solo.clickOnView(solo.getView(R.id.sound_name));
+		solo.clickOnView(solo.getView(R.id.sound_title));
 		assertTrue("Wrong title of dialog", solo.searchText(soundName));
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
@@ -134,7 +134,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testRenameSoundMixedCase() {
 		goToSoundsTab();
 		String newNameMixedCase = "TeStSoUNd1";
-		solo.clickOnView(solo.getView(R.id.sound_name));
+		solo.clickOnView(solo.getView(R.id.sound_title));
 		solo.sleep(300);
 		solo.clearEditText(0);
 		solo.enterText(0, newNameMixedCase);

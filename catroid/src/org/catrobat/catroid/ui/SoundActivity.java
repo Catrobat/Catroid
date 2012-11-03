@@ -155,6 +155,15 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 		}
 	}
 
+	public void handleAddButton(View view) {
+		soundFragment.startSelectSoundIntent();
+	}
+
+	public void handlePlayButton(View view) {
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+	}
+
 	@Override
 	public void showErrorDialog(String errorMessage) {
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
