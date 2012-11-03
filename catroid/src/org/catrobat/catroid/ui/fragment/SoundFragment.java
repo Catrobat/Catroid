@@ -490,6 +490,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_DELETED)) {
+				StorageHandler.getInstance().deleteFile(selectedSoundInfo.getAbsolutePath());
 				reloadAdapter();
 			}
 		}
