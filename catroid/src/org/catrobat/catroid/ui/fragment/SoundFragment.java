@@ -36,6 +36,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.SoundActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -259,6 +260,41 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		mediaPlayer = null;
 	}
 
+	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.rename));
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSounds = adapter.getCheckedSounds();
+			Iterator<Integer> iterator = checkedSounds.iterator();
+
+			if (iterator.hasNext()) {
+				int position = iterator.next();
+				selectedSoundInfo = (SoundInfo) getListView().getItemAtPosition(position);
+				showRenameDialog();
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedSounds();
+			actionMode = null;
+		}
+	};
+
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -301,11 +337,16 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 	};
 
-	public void startDeleteActionMode() {
-		if (actionMode != null) {
-			return;
+	public void startRenameActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 		}
-		actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+	}
+
+	public void startDeleteActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+		}
 	}
 
 	@Override
@@ -529,20 +570,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		return super.onContextItemSelected(item);
 	}
 
-	private void showRenameDialog() {
-		RenameSoundDialog renameSoundDialog = RenameSoundDialog.newInstance(selectedSoundInfo.getTitle());
-		renameSoundDialog.show(getFragmentManager(), RenameSoundDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private void showDeleteDialog() {
-		if (currentSoundPosition != NO_SOUND_SELECTED) {
-			DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(currentSoundPosition);
-			deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
-		} else {
-			Log.e("CATROID", "No sound selected!");
-		}
-	}
-
 	public void setSelectMode(int selectMode) {
 		adapter.setSelectMode(selectMode);
 		adapter.notifyDataSetChanged();
@@ -563,19 +590,24 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	private void deleteSound(int position) {
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
-		soundInfoList.remove(position);
 
+		soundInfoList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
 
 		getActivity().sendBroadcast(new Intent(SoundActivity.ACTION_SOUND_DELETED));
 	}
 
-	private class SoundDeletedReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_DELETED)) {
-				reloadAdapter();
-			}
+	private void showRenameDialog() {
+		RenameSoundDialog renameSoundDialog = RenameSoundDialog.newInstance(selectedSoundInfo.getTitle());
+		renameSoundDialog.show(getFragmentManager(), RenameSoundDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showDeleteDialog() {
+		if (currentSoundPosition != NO_SOUND_SELECTED) {
+			DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(currentSoundPosition);
+			deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
+		} else {
+			Log.e("CATROID", "No sound selected!");
 		}
 	}
 
@@ -589,6 +621,15 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 					selectedSoundInfo.setTitle(newSoundTitle);
 					adapter.notifyDataSetChanged();
 				}
+			}
+		}
+	}
+
+	private class SoundDeletedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_DELETED)) {
+				reloadAdapter();
 			}
 		}
 	}

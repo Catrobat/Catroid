@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -46,7 +47,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -62,8 +62,6 @@ public class ScriptTabActivity extends SherlockFragmentActivity implements Error
 	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_COSTUME_DELETED = "org.catrobat.catroid.COSTUME_DELETED";
 	public static final String ACTION_COSTUME_RENAMED = "org.catrobat.catroid.COSTUME_RENAMED";
-	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
-	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 
 	public static final int INDEX_TAB_SCRIPTS = 0;
 	public static final int INDEX_TAB_COSTUMES = 1;

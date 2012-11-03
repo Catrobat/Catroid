@@ -122,7 +122,7 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 				break;
 
 			case R.id.rename:
-				//soundFragment.startRenameActionMode();
+				soundFragment.startRenameActionMode();
 				break;
 
 			case R.id.delete:
