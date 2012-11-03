@@ -21,83 +21,84 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:longClickable="true"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp" >
 
-        <TableRow 
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:longClickable="true"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp" >
+            android:visibility="gone" />
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="2dp" >
+
+            <ImageButton
+                android:id="@+id/btn_sound_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="2dp" >
+                android:src="@drawable/ic_media_play"
+                android:contentDescription="@string/sound_play" />
 
-                <ImageButton
-                    android:id="@+id/btn_sound_play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_media_play"
-                    android:contentDescription="@string/sound_play" />
-
-                <ImageButton
-                    android:id="@+id/btn_sound_pause"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_media_pause"
-                    android:contentDescription="@string/sound_pause" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/sound_name"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:ellipsize="end"
-                android:clickable="false"
-                android:focusable="false"
-                android:gravity="center_vertical"
-                android:longClickable="false"
-                android:singleLine="true"
-                android:textColor="@color/solid_black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="Ein ziemlich langer komischer unnützer Titel" />
-
-            <TextView style="@style/sound_time"
-                android:id="@+id/sound_time_played"
+            <ImageButton
+                android:id="@+id/btn_sound_pause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right|center_vertical"
-                android:visibility="gone"
-                android:textColor="@color/backbrown" />
-            
-            <TextView style="@style/sound_time"
-                android:id="@+id/sound_time_seperator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:visibility="gone"
-                android:text="@string/sound_time_seperator" />
-            
-            <TextView style="@style/sound_time"
-                android:id="@+id/sound_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:gravity="right|center_vertical"
-                android:text="00:31" />
+                android:src="@drawable/ic_media_pause"
+                android:contentDescription="@string/sound_pause" />
 
-        </TableRow>
+        </LinearLayout>
 
-</TableLayout>
+        <TextView
+            android:id="@+id/sound_name"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:longClickable="false"
+            android:singleLine="true"
+            android:textColor="@color/solid_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Ein ziemlich langer komischer unnützer Titel" />
+
+        <TextView style="@style/sound_time"
+            android:id="@+id/sound_time_played"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:visibility="gone"
+            android:textColor="@color/backbrown" />
+
+        <TextView style="@style/sound_time"
+            android:id="@+id/sound_time_seperator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/sound_time_seperator" />
+
+        <TextView style="@style/sound_time"
+            android:id="@+id/sound_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:gravity="right|center_vertical"
+            android:text="00:31" />
+
+</LinearLayout>
