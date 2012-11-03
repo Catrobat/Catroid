@@ -64,7 +64,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
@@ -113,6 +112,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
+	private static final int NO_SOUND_SELECTED = -1;
 
 	public static final int REQUEST_SELECT_MUSIC = 0;
 
@@ -122,7 +122,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	private SoundInfo selectedSoundInfo;
 
-	private int currentSoundPosition = -1;
+	private static int currentSoundPosition = NO_SOUND_SELECTED;
 
 	private View viewBelowSoundlistNonScrollable;
 	private View soundlistFooterView;
@@ -147,7 +147,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		super.onActivityCreated(savedInstanceState);
 
 		ListView listView = getListView();
-
 		registerForContextMenu(listView);
 
 		if (savedInstanceState != null) {
@@ -186,8 +185,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void startSelectSoundIntent() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
-
-		Log.d("Catroid", "SoundFragmend: startSelectSoundIntent()");
 
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				REQUEST_SELECT_MUSIC);
@@ -256,9 +253,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-		Log.d("Catroid", "SoundFragmend: onActivityResult() result:" + resultCode + " request:" + requestCode);
-
 		super.onActivityResult(requestCode, resultCode, data);
 
 		//when new sound title is selected and ready to be added to the catroid project
@@ -430,16 +424,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	}
 
 	private void initClickListener() {
-
-		Log.d("Catroid", "SoundFragmend: initClickListener()");
-
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				currentSoundPosition = position;
-				selectedSoundInfo = soundInfoList.get(currentSoundPosition);
-
-				// return false to open contexMenu
 				return false;
 			}
 		});
@@ -452,12 +440,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		if (currentPlayingView != null) {
 			handlePauseSoundButton(currentPlayingView);
 		}
-
-		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-
-		Adapter contextAdapter = getListAdapter();
-		selectedSoundInfo = (SoundInfo) contextAdapter.getItem(info.position);
-
+		selectedSoundInfo = adapter.getItem(currentSoundPosition);
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
@@ -495,7 +478,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	}
 
 	private void showDeleteDialog() {
-		if (currentSoundPosition != -1) {
+		if (currentSoundPosition != NO_SOUND_SELECTED) {
 			DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(currentSoundPosition);
 			deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
 		} else {
