@@ -132,6 +132,13 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 				break;
 
 			case R.id.show_details:
+				if (soundFragment.getShowDetails()) {
+					soundFragment.setShowDetails(false);
+					item.setTitle(getString(R.string.show_details));
+				} else {
+					soundFragment.setShowDetails(true);
+					item.setTitle(getString(R.string.hide_details));
+				}
 				break;
 
 			case R.id.copy:

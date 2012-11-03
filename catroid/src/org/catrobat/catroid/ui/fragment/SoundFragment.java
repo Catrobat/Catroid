@@ -175,7 +175,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
+		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
 		setListAdapter(adapter);
 
 		try {
@@ -434,7 +434,8 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	private void reloadAdapter() {
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList);
+		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList,
+				this.getShowDetails());
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();

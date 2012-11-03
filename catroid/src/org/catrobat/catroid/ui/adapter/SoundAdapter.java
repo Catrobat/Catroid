@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import java.util.Set;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.utils.UtilFile;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -58,12 +60,12 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	private boolean showDetails;
 	private Set<Integer> checkedSounds = new HashSet<Integer>();
 
-	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
+	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items, boolean showDetails) {
 		super(context, textViewResourceId, items);
 		this.context = context;
+		this.showDetails = showDetails;
 		soundInfoItems = items;
 		selectMode = Constants.SELECT_NONE;
-		showDetails = false;
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
@@ -80,6 +82,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		if (soundInfo != null) {
 			TextView titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
 			TextView durationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
+			TextView soundFileSizeTextView = (TextView) convertView.findViewById(R.id.sound_size);
 
 			ImageButton playButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
 			ImageButton pauseButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
@@ -135,6 +138,12 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				pauseButton.setVisibility(Button.GONE);
 			}
 
+			if (showDetails) {
+				soundFileSizeTextView.setVisibility(TextView.VISIBLE);
+			} else {
+				soundFileSizeTextView.setVisibility(TextView.GONE);
+			}
+
 			try {
 				MediaPlayer tempPlayer = new MediaPlayer();
 				tempPlayer.setDataSource(soundInfo.getAbsolutePath());
@@ -150,8 +159,11 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				} else {
 					durationTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 				}
-				//soundFileSize.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
-				//new File(soundInfo.getAbsolutePath());
+
+				if (showDetails) {
+					soundFileSizeTextView.setText(getContext().getString(R.string.sound_size)
+							+ UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+				}
 
 				tempPlayer.reset();
 				tempPlayer.release();
