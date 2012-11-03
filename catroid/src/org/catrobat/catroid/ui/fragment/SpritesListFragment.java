@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
@@ -69,8 +70,6 @@ import com.actionbarsherlock.view.Menu;
 public class SpritesListFragment extends SherlockListFragment implements OnClickListener {
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
-
-	private static final int FOOTER_ADD_SPRITE_ALPHA_VALUE = 35;
 
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
@@ -183,7 +182,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 				getListView(), false);
 		spritelistFooterView = footerView.findViewById(R.id.spritelist_footerview);
 		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.spritelist_footerview_add_image);
-		footerAddImage.setAlpha(FOOTER_ADD_SPRITE_ALPHA_VALUE);
+		footerAddImage.setAlpha(Constants.FOOTER_ADD_ALPHA_VALUE);
 		spritelistFooterView.setOnClickListener(this);
 		getListView().addFooterView(footerView);
 
@@ -366,7 +365,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 			return;
 		}
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_current_project, menu);
+		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 	}
 
 	@Override

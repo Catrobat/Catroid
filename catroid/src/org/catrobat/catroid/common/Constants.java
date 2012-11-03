@@ -41,6 +41,8 @@ public final class Constants {
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
+	public static final int FOOTER_ADD_ALPHA_VALUE = 35;
+
 	//Web:
 	public static final String TOKEN = "token";
 

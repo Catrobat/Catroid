@@ -134,13 +134,8 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 	public interface OnSoundEditListener {
 
-		public void onSoundRename(View v);
-
 		public void onSoundPlay(View v);
 
 		public void onSoundPause(View v);
-
-		public void onSoundDelete(View v);
-
 	}
 }
