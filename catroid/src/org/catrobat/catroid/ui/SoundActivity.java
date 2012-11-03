@@ -100,57 +100,39 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home: {
+			case android.R.id.home:
 				Intent intent = new Intent(this, MainMenuActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
-			}
 
-			//			case R.id.show_details: {
-			//				if (soundFragment.getShowDetails()) {
-			//					soundFragment.setShowDetails(false);
-			//					item.setTitle(getString(R.string.show_details));
-			//				} else {
-			//					soundFragment.setShowDetails(true);
-			//					item.setTitle(getString(R.string.hide_details));
-			//				}
-			//				//TODO
-			//				break;
-			//			}
-
-			case R.id.copy: {
+			case R.id.show_details:
 				break;
-			}
 
-			case R.id.cut: {
+			case R.id.copy:
 				break;
-			}
 
-			case R.id.insert_below: {
+			case R.id.cut:
 				break;
-			}
 
-			case R.id.move: {
+			case R.id.insert_below:
 				break;
-			}
 
-			case R.id.rename: {
-				//TODO startRenameActionMode();
+			case R.id.move:
 				break;
-			}
 
-			case R.id.delete: {
-				//TODO startDeleteActionMode();
+			case R.id.rename:
+				//soundFragment.startRenameActionMode();
 				break;
-			}
 
-			case R.id.settings: {
-				Intent intent = new Intent(SoundActivity.this, SettingsActivity.class);
+			case R.id.delete:
+				soundFragment.startDeleteActionMode();
+				break;
+
+			case R.id.settings:
+				intent = new Intent(SoundActivity.this, SettingsActivity.class);
 				startActivity(intent);
 				break;
-			}
-
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -171,23 +153,6 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 			projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		}
-	}
-
-	public void handleProjectActivityItemLongClick(View view) {
-		//TODO
-	}
-
-	public void handleCheckBoxClick(View view) {
-		//TODO soundFragment.handleCheckBoxClick(view);
-	}
-
-	public void handleAddButton(View view) {
-		soundFragment.startSelectSoundIntent();
-	}
-
-	public void handlePlayButton(View view) {
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 
 	@Override

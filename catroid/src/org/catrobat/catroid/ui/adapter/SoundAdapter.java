@@ -22,11 +22,13 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 
 import android.content.Context;
@@ -37,6 +39,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -45,12 +50,20 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	protected ArrayList<SoundInfo> soundInfoItems;
 	protected Context context;
 
+	private CheckBox checkbox;
+
 	private OnSoundEditListener onSoundEditListener;
+
+	private int selectMode;
+	private boolean showDetails;
+	private Set<Integer> checkedSounds = new HashSet<Integer>();
 
 	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
 		super(context, textViewResourceId, items);
 		this.context = context;
 		soundInfoItems = items;
+		selectMode = Constants.SELECT_NONE;
+		showDetails = false;
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
@@ -59,31 +72,67 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-
 		if (convertView == null) {
 			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
 		}
-
 		final SoundInfo soundInfo = soundInfoItems.get(position);
 
-		convertView.findViewById(R.id.sound_name).setTag(position);
-		convertView.findViewById(R.id.btn_sound_play).setTag(position);
-		convertView.findViewById(R.id.btn_sound_pause).setTag(position);
-
 		if (soundInfo != null) {
-			TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
-			TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
-			ImageButton pauseSoundButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
-			ImageButton playSoundButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
+			TextView titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
+			TextView durationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
 
-			soundNameTextView.setText(soundInfo.getTitle());
+			ImageButton playButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
+			ImageButton pauseButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
+
+			titleTextView.setTag(position);
+			playButton.setTag(position);
+			pauseButton.setTag(position);
+
+			titleTextView.setText(soundInfo.getTitle());
+
+			checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
+
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if (selectMode == Constants.MULTI_SELECT) {
+						if (isChecked) {
+							checkedSounds.add(position);
+						} else {
+							checkedSounds.remove(position);
+						}
+					} else if (selectMode == Constants.SINGLE_SELECT) {
+						if (isChecked) {
+							clearCheckedSounds();
+							checkedSounds.add(position);
+						} else {
+							checkedSounds.remove(position);
+						}
+						notifyDataSetChanged();
+					}
+				}
+			});
+
+			if (selectMode != Constants.SELECT_NONE) {
+				checkbox.setVisibility(View.VISIBLE);
+			} else {
+				checkbox.setVisibility(View.GONE);
+				checkbox.setChecked(false);
+				clearCheckedSounds();
+			}
+
+			if (checkedSounds.contains(position)) {
+				checkbox.setChecked(true);
+			} else {
+				checkbox.setChecked(false);
+			}
 
 			if (soundInfo.isPlaying) {
-				playSoundButton.setVisibility(Button.GONE);
-				pauseSoundButton.setVisibility(Button.VISIBLE);
+				playButton.setVisibility(Button.GONE);
+				pauseButton.setVisibility(Button.VISIBLE);
 			} else {
-				playSoundButton.setVisibility(Button.VISIBLE);
-				pauseSoundButton.setVisibility(Button.GONE);
+				playButton.setVisibility(Button.VISIBLE);
+				pauseButton.setVisibility(Button.GONE);
 			}
 
 			try {
@@ -97,12 +146,12 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				int hours = (int) ((milliseconds / 1000) / 3600);
 
 				if (hours == 0) {
-					soundDuration.setText(String.format("%02d:%02d", minutes, seconds));
+					durationTextView.setText(String.format("%02d:%02d", minutes, seconds));
 				} else {
-					soundDuration.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+					durationTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 				}
 				//soundFileSize.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
-				new File(soundInfo.getAbsolutePath());
+				//new File(soundInfo.getAbsolutePath());
 
 				tempPlayer.reset();
 				tempPlayer.release();
@@ -110,7 +159,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				Log.e("CATROID", "Cannot get view.", e);
 			}
 
-			playSoundButton.setOnClickListener(new OnClickListener() {
+			playButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onSoundEditListener != null) {
@@ -119,7 +168,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				}
 			});
 
-			pauseSoundButton.setOnClickListener(new OnClickListener() {
+			pauseButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onSoundEditListener != null) {
@@ -128,8 +177,31 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				}
 			});
 		}
-
 		return convertView;
+	}
+
+	public Set<Integer> getCheckedSounds() {
+		return checkedSounds;
+	}
+
+	public void clearCheckedSounds() {
+		checkedSounds.clear();
+	}
+
+	public void setSelectMode(int mode) {
+		selectMode = mode;
+	}
+
+	public int getSelectMode() {
+		return selectMode;
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
 	}
 
 	public interface OnSoundEditListener {

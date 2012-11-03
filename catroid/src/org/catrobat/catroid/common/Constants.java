@@ -43,6 +43,10 @@ public final class Constants {
 
 	public static final int FOOTER_ADD_ALPHA_VALUE = 35;
 
+	public static final int SELECT_NONE = 0;
+	public static final int SINGLE_SELECT = 1;
+	public static final int MULTI_SELECT = 2;
+
 	//Web:
 	public static final String TOKEN = "token";
 

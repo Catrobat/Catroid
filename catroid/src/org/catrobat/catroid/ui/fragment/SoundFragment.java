@@ -25,6 +25,8 @@ package org.catrobat.catroid.ui.fragment;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -70,6 +72,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
 
 public class SoundFragment extends SherlockListFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
@@ -128,8 +132,12 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	private View soundlistFooterView;
 	private View currentPlayingView = null;
 
+	private ListView listView;
+
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
+
+	private ActionMode actionMode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -146,7 +154,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		ListView listView = getListView();
+		listView = getListView();
 		registerForContextMenu(listView);
 
 		if (savedInstanceState != null) {
@@ -249,6 +257,55 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		mediaPlayer.reset();
 		mediaPlayer.release();
 		mediaPlayer = null;
+	}
+
+	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.MULTI_SELECT);
+			mode.setTitle(getString(R.string.delete));
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSounds = adapter.getCheckedSounds();
+			Iterator<Integer> iterator = checkedSounds.iterator();
+
+			Log.d("CATROID", checkedSounds.size() + " sounds to delete!");
+
+			int numberDeleted = 0;
+
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+
+				Log.d("CATROID", "Delete: Sound[" + position + "]");
+
+				deleteSound(position - numberDeleted);
+				++numberDeleted;
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedSounds();
+			actionMode = null;
+		}
+	};
+
+	public void startDeleteActionMode() {
+		if (actionMode != null) {
+			return;
+		}
+		actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 	}
 
 	@Override
@@ -424,7 +481,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	}
 
 	private void initClickListener() {
-		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				currentSoundPosition = position;
@@ -486,11 +543,37 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 	}
 
+	public void setSelectMode(int selectMode) {
+		adapter.setSelectMode(selectMode);
+		adapter.notifyDataSetChanged();
+	}
+
+	public int getSelectMode() {
+		return adapter.getSelectMode();
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		adapter.setShowDetails(showDetails);
+		adapter.notifyDataSetChanged();
+	}
+
+	public boolean getShowDetails() {
+		return adapter.getShowDetails();
+	}
+
+	private void deleteSound(int position) {
+		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
+		soundInfoList.remove(position);
+
+		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
+
+		getActivity().sendBroadcast(new Intent(SoundActivity.ACTION_SOUND_DELETED));
+	}
+
 	private class SoundDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_DELETED)) {
-				StorageHandler.getInstance().deleteFile(selectedSoundInfo.getAbsolutePath());
 				reloadAdapter();
 			}
 		}

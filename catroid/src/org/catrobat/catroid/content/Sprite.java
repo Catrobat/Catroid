@@ -37,7 +37,6 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 
-
 public class Sprite implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -288,6 +287,10 @@ public class Sprite implements Serializable {
 
 	public ArrayList<SoundInfo> getSoundList() {
 		return soundList;
+	}
+
+	public void setSoundList(ArrayList<SoundInfo> list) {
+		soundList = list;
 	}
 
 	public int getRequiredResources() {

@@ -60,7 +60,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/sound_name"
+            android:id="@+id/sound_title"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
