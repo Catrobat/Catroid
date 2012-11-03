@@ -133,31 +133,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
-	private void fillLoginDialog(boolean correctPassword) {
-		String testUser = "testUser" + System.currentTimeMillis();
-		EditText username = (EditText) solo.getView(R.id.username);
-		EditText password = (EditText) solo.getView(R.id.password);
-		solo.clearEditText(username);
-		solo.enterText(username, testUser);
-		String testPassword;
-		if (correctPassword) {
-			testPassword = "blubblub";
-		} else {
-			testPassword = "short";
-		}
-		solo.clearEditText(password);
-		solo.enterText(password, testPassword);
-
-		// set the email to use. we need a random email because the server does not allow same email with different users 
-		String testEmail = testUser + "@gmail.com";
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
-		solo.sleep(1000);
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
-		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
-		solo.clickOnButton(solo.getString(R.string.login));
-		solo.sleep(500);
-	}
-
 	public void testRegisterWithShortPassword() throws Throwable {
 		setTestUrl();
 
@@ -170,7 +145,21 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
 		solo.clickOnButton(0);
-		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+		assertNotNull("Register Dialog is not shown.", solo.getText(solo.getString(R.string.register_dialog_title)));
+	}
+
+	public void testAlreadyRegistered() throws Throwable {
+		setTestUrl();
+		clearSharedPreferences();
+
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.sleep(1000);
+
+		assertTrue("Registration dialog not shown", solo.searchText(solo.getString(R.string.register_dialog_title)));
+		TextView alreadyRegisteredView = (TextView) solo.getView((R.id.already_registered_button));
+		solo.clickOnView(alreadyRegisteredView);
+		solo.sleep(300);
+		assertTrue("Login dialog not shown", solo.searchText(solo.getString(R.string.login_dialog_title)));
 	}
 
 	public void testRegisterErrors() throws Throwable {
@@ -330,6 +319,31 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		Editor edit = defaultSharedPreferences.edit();
 		edit.clear();
 		edit.commit();
+	}
+
+	private void fillLoginDialog(boolean correctPassword) {
+		String testUser = "testUser" + System.currentTimeMillis();
+		EditText username = (EditText) solo.getView(R.id.username);
+		EditText password = (EditText) solo.getView(R.id.password);
+		solo.clearEditText(username);
+		solo.enterText(username, testUser);
+		String testPassword;
+		if (correctPassword) {
+			testPassword = "blubblub";
+		} else {
+			testPassword = "short";
+		}
+		solo.clearEditText(password);
+		solo.enterText(password, testPassword);
+
+		// set the email to use. we need a random email because the server does not allow same email with different users 
+		String testEmail = testUser + "@gmail.com";
+		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
+		solo.sleep(1000);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
+		solo.clickOnButton(solo.getString(R.string.login));
+		solo.sleep(500);
 	}
 
 	private void fillRegistrationDialogsUntilStepFive() {
