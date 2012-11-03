@@ -126,7 +126,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	private View viewBelowSoundlistNonScrollable;
 	private View soundlistFooterView;
-	private View currentPlayingView;
+	private View currentPlayingView = null;
 
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
@@ -376,6 +376,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		stopSound();
 		if (!soundInfo.isPlaying) {
 			startSound(soundInfo);
+			currentPlayingView = v;
 		}
 
 		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
@@ -383,6 +384,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			public void onCompletion(MediaPlayer mp) {
 				soundInfo.isPlaying = false;
 				((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+				currentPlayingView = null;
 			}
 		});
 
@@ -393,6 +395,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		final int position = (Integer) v.getTag();
 		pauseSound(soundInfoList.get(position));
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+		currentPlayingView = null;
 	}
 
 	public void pauseSound(SoundInfo soundInfo) {
@@ -446,7 +449,9 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
-		//handlePauseSoundButton(v);
+		if (currentPlayingView != null) {
+			handlePauseSoundButton(currentPlayingView);
+		}
 
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
