@@ -161,7 +161,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				}
 
 				if (showDetails) {
-					soundFileSizeTextView.setText(getContext().getString(R.string.sound_size)
+					soundFileSizeTextView.setText(getContext().getString(R.string.sound_size) + " "
 							+ UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
 				}
 

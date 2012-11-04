@@ -118,6 +118,7 @@
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
     <string name="sound_select_source">Klang auswählen</string>
+    <string name="sound_size">Größe:</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
     <string name="soundlist_footer_image_description">Hier drücken, um neuen Klang hinzuzufügen</string>
     <!-- Soundrecorder activity -->

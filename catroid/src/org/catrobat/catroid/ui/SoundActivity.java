@@ -76,9 +76,9 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 						//TODO
 						Toast.makeText(getApplicationContext(), "startScriptActivity", Toast.LENGTH_SHORT).show();
 						break;
-					case Constants.COSTUMES_ITEM_POSITION:
+					case Constants.LOOKS_ITEM_POSITION:
 						//TODO
-						Toast.makeText(getApplicationContext(), "startCostumeActivity", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), "startLookActivity", Toast.LENGTH_SHORT).show();
 						break;
 				}
 				return true;
