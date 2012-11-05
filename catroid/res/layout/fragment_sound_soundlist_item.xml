@@ -83,27 +83,24 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/sound_time_played"
-        style="@style/sound_time"
+    <Chronometer style="@style/sound_time"
+        android:id="@+id/sound_chronometer_time_played"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right|center_vertical"
+        android:layout_gravity="right|center_vertical"
         android:textColor="@color/backbrown"
         android:visibility="gone" />
 
-    <TextView
+    <TextView style="@style/sound_time"
         android:id="@+id/sound_time_seperator"
-        style="@style/sound_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/sound_time_seperator"
         android:visibility="gone" />
 
-    <TextView
+    <TextView style="@style/sound_time"
         android:id="@+id/sound_duration"
-        style="@style/sound_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="6dp"

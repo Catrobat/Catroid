@@ -35,6 +35,7 @@ import org.catrobat.catroid.utils.UtilFile;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +43,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
@@ -81,8 +83,12 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 		if (soundInfo != null) {
 			TextView titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
-			TextView durationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
+			TextView timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);
+			TextView timeDurationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
 			TextView soundFileSizeTextView = (TextView) convertView.findViewById(R.id.sound_size);
+
+			Chronometer timePlayedChronometer = (Chronometer) convertView
+					.findViewById(R.id.sound_chronometer_time_played);
 
 			ImageButton playButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
 			ImageButton pauseButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
@@ -130,20 +136,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				checkbox.setChecked(false);
 			}
 
-			if (soundInfo.isPlaying) {
-				playButton.setVisibility(Button.GONE);
-				pauseButton.setVisibility(Button.VISIBLE);
-			} else {
-				playButton.setVisibility(Button.VISIBLE);
-				pauseButton.setVisibility(Button.GONE);
-			}
-
-			if (showDetails) {
-				soundFileSizeTextView.setVisibility(TextView.VISIBLE);
-			} else {
-				soundFileSizeTextView.setVisibility(TextView.GONE);
-			}
-
 			try {
 				MediaPlayer tempPlayer = new MediaPlayer();
 				tempPlayer.setDataSource(soundInfo.getAbsolutePath());
@@ -154,15 +146,56 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				int minutes = (int) ((milliseconds / 1000) / 60);
 				int hours = (int) ((milliseconds / 1000) / 3600);
 
+				String duration = "";
+
 				if (hours == 0) {
-					durationTextView.setText(String.format("%02d:%02d", minutes, seconds));
+					duration = String.format("%02d:%02d", minutes, seconds);
 				} else {
-					durationTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+					duration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+				}
+				timeDurationTextView.setText(duration);
+
+				if (soundInfo.isPlaying) {
+					playButton.setVisibility(Button.GONE);
+					pauseButton.setVisibility(Button.VISIBLE);
+
+					if (timePlayedChronometer.getText().equals("00:00")) {
+						timeSeperatorTextView.setVisibility(TextView.VISIBLE);
+
+						timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
+						timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
+						timePlayedChronometer.start();
+
+						Log.d("CATROID", "-----START----- ");
+						Log.d("CATROID", "time after start: " + timePlayedChronometer.getText());
+					} else if (timePlayedChronometer.getText().equals(duration)) {
+						Log.d("CATROID", "NORMAL END!");
+						timeSeperatorTextView.setVisibility(TextView.GONE);
+						timePlayedChronometer.setVisibility(Chronometer.GONE);
+						timePlayedChronometer.stop();
+						timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
+					}
+				} else {
+					playButton.setVisibility(Button.VISIBLE);
+					pauseButton.setVisibility(Button.GONE);
+
+					if (!timePlayedChronometer.getText().equals("00:00")) {
+						timeSeperatorTextView.setVisibility(TextView.GONE);
+						timePlayedChronometer.setVisibility(Chronometer.GONE);
+						timePlayedChronometer.stop();
+						timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
+
+						Log.d("CATROID", "------STOP----- ");
+						Log.d("CATROID", "time after stop: " + timePlayedChronometer.getText());
+					}
 				}
 
 				if (showDetails) {
 					soundFileSizeTextView.setText(getContext().getString(R.string.sound_size) + " "
 							+ UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+					soundFileSizeTextView.setVisibility(TextView.VISIBLE);
+				} else {
+					soundFileSizeTextView.setVisibility(TextView.GONE);
 				}
 
 				tempPlayer.reset();
