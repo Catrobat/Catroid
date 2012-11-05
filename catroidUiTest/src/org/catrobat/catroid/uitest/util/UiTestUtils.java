@@ -793,9 +793,9 @@ public class UiTestUtils {
 		solo.sleep(200);
 
 		solo.clickInList(spriteIndex);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
 	}
