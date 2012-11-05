@@ -54,13 +54,17 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	protected ArrayList<SoundInfo> soundInfoItems;
 	protected Context context;
 
-	private CheckBox checkbox;
-
 	private OnSoundEditListener onSoundEditListener;
 
 	private int selectMode;
+	private static int elapsedSeconds;
+	private static long elapsedMilliSeconds;
+	private static long currentPlayingBase;
 	private boolean showDetails;
+	private boolean initializedChronometer = false;
 	private Set<Integer> checkedSounds = new HashSet<Integer>();
+
+	private int currentPlayingPosition = -1;
 
 	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items, boolean showDetails) {
 		super(context, textViewResourceId, items);
@@ -74,34 +78,58 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		onSoundEditListener = listener;
 	}
 
+	private static class ViewHolder {
+		private ImageButton playButton;
+		private ImageButton pauseButton;
+		private CheckBox checkbox;
+		private TextView titleTextView;
+		private TextView timeSeperatorTextView;
+		private TextView timeDurationTextView;
+		private TextView soundFileSizeTextView;
+		private Chronometer timePlayedChronometer;
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		ViewHolder holder;
+
 		if (convertView == null) {
+			Log.d("CATROID", "Initialize HOLDER!!!");
+
 			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
+
+			holder = new ViewHolder();
+
+			holder.playButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
+			holder.pauseButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
+
+			holder.playButton.setVisibility(Button.VISIBLE);
+			holder.pauseButton.setVisibility(Button.GONE);
+
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
+
+			holder.titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
+			holder.timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);
+			holder.timeDurationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
+			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.sound_size);
+
+			holder.timePlayedChronometer = (Chronometer) convertView.findViewById(R.id.sound_chronometer_time_played);
+
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
 		}
+
 		final SoundInfo soundInfo = soundInfoItems.get(position);
 
 		if (soundInfo != null) {
-			TextView titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
-			TextView timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);
-			TextView timeDurationTextView = (TextView) convertView.findViewById(R.id.sound_duration);
-			TextView soundFileSizeTextView = (TextView) convertView.findViewById(R.id.sound_size);
+			holder.titleTextView.setTag(position);
+			holder.playButton.setTag(position);
+			holder.pauseButton.setTag(position);
 
-			Chronometer timePlayedChronometer = (Chronometer) convertView
-					.findViewById(R.id.sound_chronometer_time_played);
+			holder.titleTextView.setText(soundInfo.getTitle());
 
-			ImageButton playButton = (ImageButton) convertView.findViewById(R.id.btn_sound_play);
-			ImageButton pauseButton = (ImageButton) convertView.findViewById(R.id.btn_sound_pause);
-
-			titleTextView.setTag(position);
-			playButton.setTag(position);
-			pauseButton.setTag(position);
-
-			titleTextView.setText(soundInfo.getTitle());
-
-			checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (selectMode == Constants.MULTI_SELECT) {
@@ -123,17 +151,17 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			});
 
 			if (selectMode != Constants.SELECT_NONE) {
-				checkbox.setVisibility(View.VISIBLE);
+				holder.checkbox.setVisibility(View.VISIBLE);
 			} else {
-				checkbox.setVisibility(View.GONE);
-				checkbox.setChecked(false);
+				holder.checkbox.setVisibility(View.GONE);
+				holder.checkbox.setChecked(false);
 				clearCheckedSounds();
 			}
 
 			if (checkedSounds.contains(position)) {
-				checkbox.setChecked(true);
+				holder.checkbox.setChecked(true);
 			} else {
-				checkbox.setChecked(false);
+				holder.checkbox.setChecked(false);
 			}
 
 			try {
@@ -153,49 +181,74 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				} else {
 					duration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
 				}
-				timeDurationTextView.setText(duration);
+				holder.timeDurationTextView.setText(duration);
+
+				if (initializedChronometer == false) {
+					elapsedMilliSeconds = 0;
+					initializedChronometer = true;
+				} else if (currentPlayingPosition != -1) {
+					elapsedMilliSeconds = SystemClock.elapsedRealtime() - currentPlayingBase;
+				}
 
 				if (soundInfo.isPlaying) {
-					playButton.setVisibility(Button.GONE);
-					pauseButton.setVisibility(Button.VISIBLE);
+					holder.playButton.setVisibility(Button.GONE);
+					holder.pauseButton.setVisibility(Button.VISIBLE);
 
-					if (timePlayedChronometer.getText().equals("00:00")) {
-						timeSeperatorTextView.setVisibility(TextView.VISIBLE);
+					holder.timeSeperatorTextView.setVisibility(TextView.VISIBLE);
+					holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
 
-						timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
-						timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
-						timePlayedChronometer.start();
+					if ((currentPlayingPosition == -1) && (elapsedMilliSeconds == 0)) {
+						Log.d("CATROID", "-----START-----");
+						currentPlayingPosition = position;
+						currentPlayingBase = SystemClock.elapsedRealtime();
+						holder.timePlayedChronometer.setBase(currentPlayingBase);
+						holder.timePlayedChronometer.start();
+					} else if ((position == currentPlayingPosition) && (elapsedMilliSeconds > (milliseconds - 1000))) {
+						Log.d("CATROID", "STOP BEFORE!");
+						holder.timePlayedChronometer.stop();
+						holder.timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
 
-						Log.d("CATROID", "-----START----- ");
-						Log.d("CATROID", "time after start: " + timePlayedChronometer.getText());
-					} else if (timePlayedChronometer.getText().equals(duration)) {
-						Log.d("CATROID", "NORMAL END!");
-						timeSeperatorTextView.setVisibility(TextView.GONE);
-						timePlayedChronometer.setVisibility(Chronometer.GONE);
-						timePlayedChronometer.stop();
-						timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
+						initializedChronometer = false;
+						elapsedMilliSeconds = 0;
+						currentPlayingPosition = -1;
+
+						soundInfo.isPlaying = false;
+					} else {
+						holder.timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
+						holder.timePlayedChronometer.start();
 					}
 				} else {
-					playButton.setVisibility(Button.VISIBLE);
-					pauseButton.setVisibility(Button.GONE);
+					Log.d("CATROID", "NOT PLAYING -> elapsed:" + elapsedMilliSeconds);
 
-					if (!timePlayedChronometer.getText().equals("00:00")) {
-						timeSeperatorTextView.setVisibility(TextView.GONE);
-						timePlayedChronometer.setVisibility(Chronometer.GONE);
-						timePlayedChronometer.stop();
-						timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
+					holder.playButton.setVisibility(Button.VISIBLE);
+					holder.pauseButton.setVisibility(Button.GONE);
 
-						Log.d("CATROID", "------STOP----- ");
-						Log.d("CATROID", "time after stop: " + timePlayedChronometer.getText());
+					holder.timeSeperatorTextView.setVisibility(TextView.GONE);
+					holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
+
+					if ((position == currentPlayingPosition)
+							&& ((elapsedSeconds > (seconds - 2)) || (elapsedMilliSeconds != 0))) {
+
+						if ((elapsedSeconds > (seconds - 2)) && elapsedMilliSeconds == 0) {
+							Log.d("CATROID", "should stop now!!! (no normal stop)");
+						}
+						Log.d("CATROID", "------STOP-----: ellapsed: " + elapsedSeconds + " Seconds");
+
+						holder.timePlayedChronometer.stop();
+						holder.timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
+
+						initializedChronometer = false;
+						elapsedMilliSeconds = 0;
+						currentPlayingPosition = -1;
 					}
 				}
 
 				if (showDetails) {
-					soundFileSizeTextView.setText(getContext().getString(R.string.sound_size) + " "
+					holder.soundFileSizeTextView.setText(getContext().getString(R.string.sound_size) + " "
 							+ UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
-					soundFileSizeTextView.setVisibility(TextView.VISIBLE);
+					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
 				} else {
-					soundFileSizeTextView.setVisibility(TextView.GONE);
+					holder.soundFileSizeTextView.setVisibility(TextView.GONE);
 				}
 
 				tempPlayer.reset();
@@ -204,7 +257,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				Log.e("CATROID", "Cannot get view.", e);
 			}
 
-			playButton.setOnClickListener(new OnClickListener() {
+			holder.playButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onSoundEditListener != null) {
@@ -213,7 +266,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				}
 			});
 
-			pauseButton.setOnClickListener(new OnClickListener() {
+			holder.pauseButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onSoundEditListener != null) {

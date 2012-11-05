@@ -49,7 +49,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
@@ -510,7 +509,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		if (!soundInfo.isPlaying) {
 			try {
 				mediaPlayer.reset();
-				mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 				mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
 				mediaPlayer.prepare();
 				mediaPlayer.start();
