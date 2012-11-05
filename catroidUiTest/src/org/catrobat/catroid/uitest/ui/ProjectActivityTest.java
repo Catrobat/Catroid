@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.ActivityInfo;
@@ -73,17 +74,17 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	@Override
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -557,9 +558,17 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	}
 
+	public void testOverFlowMenuSettings() {
+		createProject();
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
+	}
+
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.sleep(50);
 	}
 

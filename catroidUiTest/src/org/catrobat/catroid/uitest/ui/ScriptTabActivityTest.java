@@ -196,7 +196,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(300);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.sleep(200);
 		solo.enterText(0, spriteName);
 		solo.clickOnButton(solo.getString(R.string.ok));
