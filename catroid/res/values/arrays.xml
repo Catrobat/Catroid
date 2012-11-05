@@ -70,7 +70,7 @@
 
     <string-array name="sprite_activity_spinner_items">
         <item>Scripts</item>
-        <item>Costumes</item>
+        <item>Looks</item>
         <item>Sounds</item>
     </string-array>
 

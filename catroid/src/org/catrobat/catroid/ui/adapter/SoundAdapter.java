@@ -57,11 +57,9 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	private OnSoundEditListener onSoundEditListener;
 
 	private int selectMode;
-	private static int elapsedSeconds;
 	private static long elapsedMilliSeconds;
 	private static long currentPlayingBase;
 	private boolean showDetails;
-	private boolean initializedChronometer = false;
 	private Set<Integer> checkedSounds = new HashSet<Integer>();
 
 	private int currentPlayingPosition = -1;
@@ -123,10 +121,9 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		final SoundInfo soundInfo = soundInfoItems.get(position);
 
 		if (soundInfo != null) {
-			holder.titleTextView.setTag(position);
 			holder.playButton.setTag(position);
 			holder.pauseButton.setTag(position);
-
+			holder.titleTextView.setTag(position);
 			holder.titleTextView.setText(soundInfo.getTitle());
 
 			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -174,19 +171,15 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				int minutes = (int) ((milliseconds / 1000) / 60);
 				int hours = (int) ((milliseconds / 1000) / 3600);
 
-				String duration = "";
-
 				if (hours == 0) {
-					duration = String.format("%02d:%02d", minutes, seconds);
+					holder.timeDurationTextView.setText(String.format("%02d:%02d", minutes, seconds));
 				} else {
-					duration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+					holder.timeDurationTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 				}
-				holder.timeDurationTextView.setText(duration);
 
-				if (initializedChronometer == false) {
+				if (currentPlayingPosition == -1) {
 					elapsedMilliSeconds = 0;
-					initializedChronometer = true;
-				} else if (currentPlayingPosition != -1) {
+				} else {
 					elapsedMilliSeconds = SystemClock.elapsedRealtime() - currentPlayingBase;
 				}
 
@@ -197,10 +190,11 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 					holder.timeSeperatorTextView.setVisibility(TextView.VISIBLE);
 					holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
 
-					if ((currentPlayingPosition == -1) && (elapsedMilliSeconds == 0)) {
+					if (currentPlayingPosition == -1) {
 						Log.d("CATROID", "-----START-----");
 						currentPlayingPosition = position;
 						currentPlayingBase = SystemClock.elapsedRealtime();
+
 						holder.timePlayedChronometer.setBase(currentPlayingBase);
 						holder.timePlayedChronometer.start();
 					} else if ((position == currentPlayingPosition) && (elapsedMilliSeconds > (milliseconds - 1000))) {
@@ -208,8 +202,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 						holder.timePlayedChronometer.stop();
 						holder.timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
 
-						initializedChronometer = false;
-						elapsedMilliSeconds = 0;
 						currentPlayingPosition = -1;
 
 						soundInfo.isPlaying = false;
@@ -226,18 +218,13 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 					holder.timeSeperatorTextView.setVisibility(TextView.GONE);
 					holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
 
-					if ((position == currentPlayingPosition)
-							&& ((elapsedSeconds > (seconds - 2)) || (elapsedMilliSeconds != 0))) {
-
-						if ((elapsedSeconds > (seconds - 2)) && elapsedMilliSeconds == 0) {
-							Log.d("CATROID", "should stop now!!! (no normal stop)");
-						}
-						Log.d("CATROID", "------STOP-----: ellapsed: " + elapsedSeconds + " Seconds");
+					if (position == currentPlayingPosition) {
+						Log.d("CATROID", "------STOP-----: ellapsed: " + (int) ((elapsedMilliSeconds / 1000) % 60)
+								+ " Seconds");
 
 						holder.timePlayedChronometer.stop();
 						holder.timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
 
-						initializedChronometer = false;
 						elapsedMilliSeconds = 0;
 						currentPlayingPosition = -1;
 					}
