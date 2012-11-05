@@ -60,6 +60,7 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.utils.UtilFile;
@@ -793,6 +794,8 @@ public class UiTestUtils {
 
 		solo.clickInList(spriteIndex);
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.scripts));
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
 	}
