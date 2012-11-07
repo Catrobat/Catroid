@@ -28,7 +28,7 @@ public class RegistrationData {
 	private String password;
 	private String gender;
 	private String city;
-	private String country;
+	private String countryCode;
 	private String birthdayMonth;
 	private String birthdayYear;
 
@@ -39,7 +39,7 @@ public class RegistrationData {
 		this.password = null;
 		this.gender = null;
 		this.city = null;
-		this.country = null;
+		this.countryCode = null;
 		this.birthdayMonth = null;
 		this.birthdayYear = null;
 	}
@@ -96,11 +96,11 @@ public class RegistrationData {
 		this.birthdayYear = birthdayYear;
 	}
 
-	public String getCountry() {
-		return country;
+	public String getCountryCode() {
+		return countryCode;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 }
