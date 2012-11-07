@@ -68,9 +68,18 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	}
 
 	private void addItemsOnCountrySpinner() {
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.countries_array,
-				android.R.layout.simple_spinner_item);
-		countrySpinner.setAdapter(adapter);
+		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
+
+		for (int position = countryList.length - 1; position >= 0; position--) {
+			String currentItem = countryList[position];
+			int countryPosition = currentItem.indexOf("/") + 1;
+			String newCountryString = currentItem.substring(countryPosition, currentItem.length());
+			countryList[position] = newCountryString;
+		}
+
+		ArrayAdapter<CharSequence> countryAdapter = new ArrayAdapter<CharSequence>(getActivity(),
+				android.R.layout.simple_spinner_item, countryList);
+		countrySpinner.setAdapter(countryAdapter);
 	}
 
 	@Override
@@ -79,12 +88,21 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 	}
 
 	private void handleNextButtonClick() {
-		String countryString = countrySpinner.getSelectedItem().toString();
-		RegistrationData.INSTANCE.setCountry(countryString);
+		int countryPosition = countrySpinner.getSelectedItemPosition();
+		String countryCodeString = getCountryCodeFromCountryId(countryPosition);
+		RegistrationData.INSTANCE.setCountryCode(countryCodeString);
 
 		RegistrationDialogStepThreeDialog registerStepThreeDialog = new RegistrationDialogStepThreeDialog();
 		dismiss();
 		registerStepThreeDialog.show(getActivity().getSupportFragmentManager(),
 				RegistrationDialogStepThreeDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private String getCountryCodeFromCountryId(int position) {
+		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
+		String country = countryList[position];
+		int countryPosition = country.indexOf("/");
+		String countryCode = country.substring(0, countryPosition);
+		return countryCode;
 	}
 }

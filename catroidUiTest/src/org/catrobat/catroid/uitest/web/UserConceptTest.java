@@ -187,9 +187,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		Spinner countrySpinner = (Spinner) solo.getView(R.id.country);
 		solo.pressSpinnerItem(0, 13);
 		solo.sleep(1000);
-		String selectedItem = countrySpinner.getSelectedItem().toString();
-		assertEquals("Wrong value selected in country spinner", solo.getString(R.string.register_country_austria),
-				selectedItem);
+		int selectedItemPosition = countrySpinner.getSelectedItemPosition();
+		assertEquals("Wrong value selected in country spinner", 13, selectedItemPosition);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 

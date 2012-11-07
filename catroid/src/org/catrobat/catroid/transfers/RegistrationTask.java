@@ -81,7 +81,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			//String email = UtilDeviceInfo.getUserEmail(context);
 			String email = System.currentTimeMillis() + "@gmail.com";
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
-			String country = RegistrationData.INSTANCE.getCountry();
+			String country = RegistrationData.INSTANCE.getCountryCode();
 			String token = UtilToken.calculateToken(username, password);
 			String gender = RegistrationData.INSTANCE.getGender();
 			String birthdayMonth = RegistrationData.INSTANCE.getBirthdayMonth();

@@ -39,7 +39,7 @@
         android:id="@+id/registration_completed_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/step5"
+        android:layout_below="@+id/step6"
         android:layout_marginLeft="10dp"
         android:text="@string/registration_completed" >
     </TextView>
