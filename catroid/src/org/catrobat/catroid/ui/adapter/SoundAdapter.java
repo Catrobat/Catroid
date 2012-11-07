@@ -62,7 +62,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	private boolean showDetails;
 	private Set<Integer> checkedSounds = new HashSet<Integer>();
 
-	private int currentPlayingPosition = -1;
+	private int currentPlayingPosition = Constants.NO_POSITION;
 
 	public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items, boolean showDetails) {
 		super(context, textViewResourceId, items);
@@ -92,8 +92,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		ViewHolder holder;
 
 		if (convertView == null) {
-			Log.d("CATROID", "Initialize HOLDER!!!");
-
 			convertView = View.inflate(context, R.layout.fragment_sound_soundlist_item, null);
 
 			holder = new ViewHolder();
@@ -177,7 +175,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 					holder.timeDurationTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 				}
 
-				if (currentPlayingPosition == -1) {
+				if (currentPlayingPosition == Constants.NO_POSITION) {
 					elapsedMilliSeconds = 0;
 				} else {
 					elapsedMilliSeconds = SystemClock.elapsedRealtime() - currentPlayingBase;
@@ -190,28 +188,14 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 					holder.timeSeperatorTextView.setVisibility(TextView.VISIBLE);
 					holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
 
-					if (currentPlayingPosition == -1) {
-						Log.d("CATROID", "-----START-----");
-						currentPlayingPosition = position;
-						currentPlayingBase = SystemClock.elapsedRealtime();
-
-						holder.timePlayedChronometer.setBase(currentPlayingBase);
-						holder.timePlayedChronometer.start();
+					if (currentPlayingPosition == Constants.NO_POSITION) {
+						startPlayingSound(holder.timePlayedChronometer, position);
 					} else if ((position == currentPlayingPosition) && (elapsedMilliSeconds > (milliseconds - 1000))) {
-						Log.d("CATROID", "STOP BEFORE!");
-						holder.timePlayedChronometer.stop();
-						holder.timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
-
-						currentPlayingPosition = -1;
-
-						soundInfo.isPlaying = false;
+						stopPlayingSound(soundInfo, holder.timePlayedChronometer);
 					} else {
-						holder.timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
-						holder.timePlayedChronometer.start();
+						continuePlayingSound(holder.timePlayedChronometer, SystemClock.elapsedRealtime());
 					}
 				} else {
-					Log.d("CATROID", "NOT PLAYING -> elapsed:" + elapsedMilliSeconds);
-
 					holder.playButton.setVisibility(Button.VISIBLE);
 					holder.pauseButton.setVisibility(Button.GONE);
 
@@ -219,14 +203,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 					holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
 
 					if (position == currentPlayingPosition) {
-						Log.d("CATROID", "------STOP-----: ellapsed: " + (int) ((elapsedMilliSeconds / 1000) % 60)
-								+ " Seconds");
-
-						holder.timePlayedChronometer.stop();
-						holder.timePlayedChronometer.setBase(SystemClock.elapsedRealtime());
-
-						elapsedMilliSeconds = 0;
-						currentPlayingPosition = -1;
+						stopPlayingSound(soundInfo, holder.timePlayedChronometer);
 					}
 				}
 
@@ -263,6 +240,27 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			});
 		}
 		return convertView;
+	}
+
+	private void startPlayingSound(Chronometer chronometer, int position) {
+		currentPlayingPosition = position;
+		currentPlayingBase = SystemClock.elapsedRealtime();
+
+		continuePlayingSound(chronometer, currentPlayingBase);
+	}
+
+	private void continuePlayingSound(Chronometer chronometer, long base) {
+		chronometer.setBase(base);
+		chronometer.start();
+	}
+
+	private void stopPlayingSound(SoundInfo soundInfo, Chronometer chronometer) {
+		chronometer.stop();
+		chronometer.setBase(SystemClock.elapsedRealtime());
+
+		currentPlayingPosition = Constants.NO_POSITION;
+
+		soundInfo.isPlaying = false;
 	}
 
 	public Set<Integer> getCheckedSounds() {

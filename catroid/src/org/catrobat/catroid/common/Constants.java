@@ -47,6 +47,7 @@ public final class Constants {
 	public static final int SINGLE_SELECT = 1;
 	public static final int MULTI_SELECT = 2;
 
+	public static final int NO_POSITION = -1;
 	public static final int SCRIPTS_ITEM_POSITION = 0;
 	public static final int LOOKS_ITEM_POSITION = 1;
 	public static final int SOUNDS_ITEM_POSITION = 2;
