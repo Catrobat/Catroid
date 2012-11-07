@@ -27,12 +27,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -199,5 +201,17 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	@Override
 	public void showErrorDialog(String errorMessage) {
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		// Dismiss ActionMode without effecting sounds
+		if (soundFragment.getActionModeActive()) {
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				SoundAdapter adapter = (SoundAdapter) soundFragment.getListAdapter();
+				adapter.clearCheckedSounds();
+			}
+		}
+		return super.dispatchKeyEvent(event);
 	}
 }

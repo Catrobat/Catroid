@@ -114,9 +114,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 	}
 
+	private boolean actionModeActive = false;
+
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
-	private static final int NO_SOUND_SELECTED = -1;
 
 	public static final int REQUEST_SELECT_MUSIC = 0;
 
@@ -126,7 +127,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 
 	private SoundInfo selectedSoundInfo;
 
-	private static int currentSoundPosition = NO_SOUND_SELECTED;
+	private static int currentSoundPosition = Constants.NO_POSITION;
 
 	private View viewBelowSoundlistNonScrollable;
 	private View soundlistFooterView;
@@ -270,6 +271,9 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(SpriteAdapter.SINGLE_SELECT);
 			mode.setTitle(getString(R.string.rename));
+
+			actionModeActive = true;
+
 			return true;
 		}
 
@@ -291,6 +295,8 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			setSelectMode(Constants.SELECT_NONE);
 			adapter.clearCheckedSounds();
 			actionMode = null;
+
+			actionModeActive = false;
 		}
 	};
 
@@ -305,6 +311,9 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(Constants.MULTI_SELECT);
 			mode.setTitle(getString(R.string.delete));
+
+			actionModeActive = true;
+
 			return true;
 		}
 
@@ -318,21 +327,18 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			Set<Integer> checkedSounds = adapter.getCheckedSounds();
 			Iterator<Integer> iterator = checkedSounds.iterator();
 
-			Log.d("CATROID", checkedSounds.size() + " sounds to delete!");
-
 			int numberDeleted = 0;
 
 			while (iterator.hasNext()) {
 				int position = iterator.next();
-
-				Log.d("CATROID", "Delete: Sound[" + position + "]");
-
 				deleteSound(position - numberDeleted);
 				++numberDeleted;
 			}
 			setSelectMode(Constants.SELECT_NONE);
 			adapter.clearCheckedSounds();
 			actionMode = null;
+
+			actionModeActive = false;
 		}
 	};
 
@@ -587,6 +593,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		return adapter.getShowDetails();
 	}
 
+	public boolean getActionModeActive() {
+		return actionModeActive;
+	}
+
 	private void deleteSound(int position) {
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 
@@ -602,7 +612,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	}
 
 	private void showDeleteDialog() {
-		if (currentSoundPosition != NO_SOUND_SELECTED) {
+		if (currentSoundPosition != Constants.NO_POSITION) {
 			DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(currentSoundPosition);
 			deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
 		} else {
