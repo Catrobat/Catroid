@@ -89,6 +89,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+
 		ViewHolder holder;
 
 		if (convertView == null) {

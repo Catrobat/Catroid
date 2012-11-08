@@ -176,6 +176,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
+		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 
 		try {
@@ -229,7 +230,8 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
 
 		stopSound();
-		reloadAdapter();
+		adapter.notifyDataSetChanged();
+
 		addSoundViewsSetClickableFlag(true);
 	}
 
@@ -242,6 +244,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			projectManager.saveProject();
 		}
 		stopSound();
+		adapter.notifyDataSetChanged();
 
 		if (soundRenamedReceiver != null) {
 			getActivity().unregisterReceiver(soundRenamedReceiver);
@@ -437,15 +440,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		soundlistFooterView.setClickable(setClickableFlag);
 	}
 
-	private void reloadAdapter() {
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList,
-				this.getShowDetails());
-		adapter.setOnSoundEditListener(this);
-		setListAdapter(adapter);
-		adapter.notifyDataSetChanged();
-	}
-
 	private void updateSoundAdapter(String title, String fileName) {
 		title = Utils.getUniqueSoundName(title);
 
@@ -475,24 +469,23 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		if (!soundInfo.isPlaying) {
 			startSound(soundInfo);
 			currentPlayingView = v;
+			adapter.notifyDataSetChanged();
 		}
 
 		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
 				soundInfo.isPlaying = false;
-				((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+				adapter.notifyDataSetChanged();
 				currentPlayingView = null;
 			}
 		});
-
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
 	public void handlePauseSoundButton(View v) {
 		final int position = (Integer) v.getTag();
 		pauseSound(soundInfoList.get(position));
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+		adapter.notifyDataSetChanged();
 		currentPlayingView = null;
 	}
 
@@ -638,7 +631,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_DELETED)) {
-				reloadAdapter();
+				adapter.notifyDataSetChanged();
 			}
 		}
 	}
