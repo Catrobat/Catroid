@@ -242,6 +242,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(1000);
 		solo.goBack();
+		solo.sleep(1000);
+		solo.goBack();
 		solo.sleep(2000);
 		//main menu => device disconnected!
 
