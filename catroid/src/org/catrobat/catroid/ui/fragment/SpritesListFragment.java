@@ -83,8 +83,29 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	private SpritesListInitReceiver spritesListInitReceiver;
 
 	private ActionMode actionMode;
+	private boolean actionModeActive = false;
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(SpriteAdapter.MULTI_SELECT);
+			mode.setTitle(getString(R.string.delete));
+
+			actionModeActive = true;
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
@@ -100,14 +121,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			setSelectMode(SpriteAdapter.NONE);
 			spriteAdapter.clearCheckedSprites();
 			actionMode = null;
-		}
 
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.MULTI_SELECT);
-			mode.setTitle(getString(R.string.delete));
-			return true;
+			actionModeActive = false;
 		}
+	};
+
+	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -115,12 +134,19 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		}
 
 		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.rename));
+
+			actionModeActive = true;
+
+			return true;
+		}
+
+		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
 			return false;
 		}
-	};
-
-	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
@@ -134,23 +160,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			setSelectMode(SpriteAdapter.NONE);
 			spriteAdapter.clearCheckedSprites();
 			actionMode = null;
-		}
 
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.SINGLE_SELECT);
-			mode.setTitle(getString(R.string.rename));
-			return true;
-		}
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			return false;
+			actionModeActive = false;
 		}
 	};
 
@@ -425,6 +436,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 
 	public boolean getShowDetails() {
 		return spriteAdapter.getShowDetails();
+	}
+
+	public boolean getActionModeActive() {
+		return actionModeActive;
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {

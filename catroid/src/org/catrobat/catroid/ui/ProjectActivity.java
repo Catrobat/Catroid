@@ -26,6 +26,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -33,6 +34,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -194,5 +196,17 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	@Override
 	public void showErrorDialog(String errorMessage) {
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		// Dismiss ActionMode without effecting sounds
+		if (spritesListFragment.getActionModeActive()) {
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				SpriteAdapter adapter = (SpriteAdapter) spritesListFragment.getListAdapter();
+				adapter.clearCheckedSprites();
+			}
+		}
+		return super.dispatchKeyEvent(event);
 	}
 }
