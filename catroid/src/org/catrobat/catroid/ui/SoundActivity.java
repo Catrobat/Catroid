@@ -33,6 +33,7 @@ import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -59,6 +60,8 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sound);
+
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		actionBar = getSupportActionBar();
 
