@@ -73,14 +73,20 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+				Intent intent;
+
 				switch (itemPosition) {
 					case Constants.SCRIPTS_ITEM_POSITION:
 						//TODO
 						Toast.makeText(getApplicationContext(), "startScriptActivity", Toast.LENGTH_SHORT).show();
+						intent = new Intent(SoundActivity.this, ScriptTabActivity.class);
+						startActivity(intent);
 						break;
 					case Constants.LOOKS_ITEM_POSITION:
 						//TODO
 						Toast.makeText(getApplicationContext(), "startLookActivity", Toast.LENGTH_SHORT).show();
+						intent = new Intent(SoundActivity.this, ScriptTabActivity.class);
+						startActivity(intent);
 						break;
 				}
 				return true;
@@ -93,6 +99,12 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	protected void onStart() {
 		super.onStart();
 		soundFragment = (SoundFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sound);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		actionBar.setSelectedNavigationItem(Constants.SOUNDS_ITEM_POSITION);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
