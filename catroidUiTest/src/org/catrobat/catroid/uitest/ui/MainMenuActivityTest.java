@@ -115,6 +115,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
+
+		solo.goBack();
+		assertFalse("New project dialog shouldn't show up again!",
+				solo.searchText(solo.getString(R.string.new_project_dialog_title)));
 	}
 
 	public void testCreateNewProjectErrors() {

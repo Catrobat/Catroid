@@ -23,9 +23,11 @@
 package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
@@ -34,7 +36,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -44,6 +45,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class ProjectActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
 
 	private ActionBar actionBar;
+	private SpritesListFragment spritesListFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,12 +56,13 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		String title = getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar = getSupportActionBar();
+
+		String title = ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sprites_list);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -98,18 +101,51 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				Intent intent = new Intent(this, MainMenuActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				return true;
+				break;
 			}
-			case R.id.menu_add: {
-				NewSpriteDialog dialog = new NewSpriteDialog();
-				dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-				return true;
+			case R.id.show_details: {
+				if (spritesListFragment.getShowDetails()) {
+					spritesListFragment.setShowDetails(false);
+					item.setTitle(getString(R.string.show_details));
+				} else {
+					spritesListFragment.setShowDetails(true);
+					item.setTitle(getString(R.string.hide_details));
+				}
+				break;
 			}
-			case R.id.menu_start: {
-				Intent intent = new Intent(this, PreStageActivity.class);
-				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				return true;
+
+			case R.id.copy: {
+				break;
 			}
+
+			case R.id.cut: {
+				break;
+			}
+
+			case R.id.insert_below: {
+				break;
+			}
+
+			case R.id.move: {
+				break;
+			}
+
+			case R.id.rename: {
+				spritesListFragment.startRenameActionMode();
+				break;
+			}
+
+			case R.id.delete: {
+				spritesListFragment.startDeleteActionMode();
+				break;
+			}
+
+			case R.id.settings: {
+				Intent intent = new Intent(ProjectActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				break;
+			}
+
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -139,6 +175,20 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	}
 
 	public void handleProjectActivityItemLongClick(View view) {
+	}
+
+	public void handleCheckBoxClick(View view) {
+		spritesListFragment.handleCheckBoxClick(view);
+	}
+
+	public void handleAddButton(View view) {
+		NewSpriteDialog dialog = new NewSpriteDialog();
+		dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	public void handlePlayButton(View view) {
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 
 	@Override

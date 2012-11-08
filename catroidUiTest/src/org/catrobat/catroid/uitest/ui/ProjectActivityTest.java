@@ -42,6 +42,10 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
@@ -79,7 +83,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -88,7 +92,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(200);
 	}
 
@@ -199,6 +203,26 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.searchText(newSpriteName, 0, false));
 	}
 
+	public void testOrientation() throws NameNotFoundException {
+		/// Method 1: Assert it is currently in portrait mode.
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
+				.getCurrentActivity().getResources().getConfiguration().orientation);
+
+		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
+		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
+		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
+		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
+				PackageManager.GET_ACTIVITIES);
+
+		// Note that the activity is _indeed_ rotated on your device/emulator!
+		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+
+		assertEquals(ProjectActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
+				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
+	}
+
 	public void testContextMenu() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -256,12 +280,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite(spriteName);
-		TextView textView = solo.getText(9);
+		TextView textView = solo.getText(2);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
-		solo.clickLongOnText(spriteName);
-		expectedLineCount = 2;
-		TextView textView2 = solo.getText(0);
-		assertEquals("linecount is wrong", expectedLineCount, textView2.getLineCount());
 	}
 
 	public void testNewSpriteDialog() {
@@ -420,34 +440,126 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("testSprite");
 
+		TextView tvScriptCount = ((TextView) solo.getView(R.id.textView_number_of_scripts));
+		TextView tvBrickCount = ((TextView) solo.getView(R.id.textView_number_of_bricks));
+		TextView tvCostumeCount = ((TextView) solo.getView(R.id.textView_number_of_costumes));
+		TextView tvSoundCount = ((TextView) solo.getView(R.id.textView_number_of_sounds));
+		String scriptCountString = tvScriptCount.getText().toString();
+		String brickCountString = tvBrickCount.getText().toString();
+		String costumeCountString = tvCostumeCount.getText().toString();
+		String soundCountString = tvSoundCount.getText().toString();
+
+		boolean scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
+		boolean brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
+		boolean costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
+		boolean soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
+
+		assertFalse("Details are not hidden!", scriptCountShowing || brickCountShowing || costumeCountShowing
+				|| soundCountShowing);
+
+		solo.clickOnMenuItem(solo.getString(R.string.show_details));
+		solo.sleep(300);
+		scriptCountShowing = tvScriptCount.getVisibility() == View.VISIBLE ? true : false;
+		brickCountShowing = tvBrickCount.getVisibility() == View.VISIBLE ? true : false;
+		costumeCountShowing = tvCostumeCount.getVisibility() == View.VISIBLE ? true : false;
+		soundCountShowing = tvSoundCount.getVisibility() == View.VISIBLE ? true : false;
+
+		assertTrue("Details are not showing after being enabled!", scriptCountShowing && brickCountShowing
+				&& costumeCountShowing && soundCountShowing);
+
+		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
+		solo.sleep(300);
+		scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
+		brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
+		costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
+		soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
+
+		assertFalse("Details are not hidden!", scriptCountShowing || brickCountShowing || costumeCountShowing
+				|| soundCountShowing);
+
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = sprite.getNumberOfScripts();
 		int brickCount = sprite.getNumberOfBricks();
 		int costumeCount = sprite.getCostumeDataList().size();
 		int soundCount = sprite.getSoundList().size();
 
-		String scriptCountString = ((TextView) solo.getView(R.id.textView_number_of_scripts)).getText().toString();
 		int scriptCountActual = Integer.parseInt(scriptCountString.substring(scriptCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of scripts", scriptCount, scriptCountActual);
 
-		String brickCountString = ((TextView) solo.getView(R.id.textView_number_of_bricks)).getText().toString();
 		int brickCountActual = Integer.parseInt(brickCountString.substring(brickCountString.lastIndexOf(' ') + 1));
 		int brickCountExpected = scriptCount + brickCount;
 		assertEquals("Displayed the wrong number of bricks", brickCountExpected, brickCountActual);
 
-		String costumeCountString = ((TextView) solo.getView(R.id.textView_number_of_costumes)).getText().toString();
 		int costumeCountActual = Integer
 				.parseInt(costumeCountString.substring(costumeCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of costumes", costumeCount, costumeCountActual);
 
-		String soundCountString = ((TextView) solo.getView(R.id.textView_number_of_sounds)).getText().toString();
 		int soundCountActual = Integer.parseInt(soundCountString.substring(soundCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
 
+	public void testOverFlowMenuDelete() {
+		createProject();
+		solo.sleep(500);
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		addNewSprite("sprite1");
+		addNewSprite("sprite2");
+		addNewSprite("sprite3");
+		addNewSprite("sprite4");
+
+		Sprite spriteOne = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(1);
+		Sprite spriteTwo = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(2);
+		Sprite spriteThree = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(3);
+		Sprite spriteFour = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(4);
+
+		solo.clickOnMenuItem(solo.getString(R.string.delete));
+		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.delete)));
+
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+		solo.goBack();
+		solo.sleep(200);
+
+		assertTrue("Unselected sprites have been deleted!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList()
+				.contains(spriteOne)
+				&& ProjectManager.INSTANCE.getCurrentProject().getSpriteList().contains(spriteFour));
+
+		assertFalse("Selected sprites were not deleted!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList()
+				.contains(spriteTwo)
+				|| ProjectManager.INSTANCE.getCurrentProject().getSpriteList().contains(spriteThree));
+
+		assertFalse("sprite2 and sprite3 have been deleted but are still showing!",
+				solo.searchText("sprite2") || solo.searchText("sprite3"));
+	}
+
+	public void testOverFlowMenuRename() {
+		createProject();
+		solo.sleep(500);
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		addNewSprite("sprite1");
+		addNewSprite("sprite2");
+
+		solo.clickOnMenuItem(solo.getString(R.string.rename));
+		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.rename)));
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+
+		solo.goBack();
+		solo.clearEditText(0);
+		solo.enterText(0, "renamed");
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(100);
+		assertTrue("sprite2 was not renamed!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(2)
+				.getName().equalsIgnoreCase("renamed"));
+
+	}
+
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
 		solo.sleep(50);
 	}
 
@@ -455,7 +567,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		solo.clickLongOnText(spriteName);
 		solo.sleep(250);
-		solo.clickInList(1);
+		solo.clickOnText(getActivity().getString(R.string.rename));
 		solo.sleep(50);
 	}
 

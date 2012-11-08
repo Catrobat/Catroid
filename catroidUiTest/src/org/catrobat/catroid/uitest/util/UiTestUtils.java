@@ -540,6 +540,12 @@ public class UiTestUtils {
 		}
 	}
 
+	public static void clickOnBottomBar(Solo solo, int buttonId) {
+		solo.waitForView(LinearLayout.class);
+		LinearLayout linearLayout = (LinearLayout) solo.getView(buttonId);
+		solo.clickOnView(linearLayout);
+	}
+
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
 
 		File testImage = new File(filePath);

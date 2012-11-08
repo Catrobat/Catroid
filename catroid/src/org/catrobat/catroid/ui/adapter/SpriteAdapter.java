@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 
@@ -32,24 +35,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 	private static LayoutInflater inflater = null;
 	private Context context;
+	private int selectMode;
+	private boolean showDetails;
+	private Set<Integer> checkedSprites = new HashSet<Integer>();
+
+	public static final int NONE = 0;
+	public static final int SINGLE_SELECT = 1;
+	public static final int MULTI_SELECT = 2;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.context = context;
+		selectMode = NONE;
+		showDetails = false;
 	}
 
 	private static class ViewHolder {
+		private CheckBox checkbox;
 		private TextView text;
 		private ImageView image;
 		private View divider;
@@ -60,13 +75,38 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		//private TextView detail;
 	}
 
+	public Set<Integer> getCheckedSprites() {
+		return checkedSprites;
+	}
+
+	public void clearCheckedSprites() {
+		checkedSprites.clear();
+	}
+
+	public void setSelectMode(int selectMode) {
+		this.selectMode = selectMode;
+	}
+
+	public int getSelectMode() {
+		return selectMode;
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
+	}
+
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View spriteView = convertView;
 		ViewHolder holder;
 		if (convertView == null) {
 			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, null);
 			holder = new ViewHolder();
+			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.checkbox);
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
 			//holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
@@ -80,6 +120,34 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder = (ViewHolder) spriteView.getTag();
 		}
 
+		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (selectMode == MULTI_SELECT) {
+					if (isChecked) {
+						checkedSprites.add(position);
+					} else {
+						checkedSprites.remove(position);
+					}
+				} else if (selectMode == SINGLE_SELECT) {
+					if (isChecked) {
+						clearCheckedSprites();
+						checkedSprites.add(position);
+					} else {
+						checkedSprites.remove(position);
+					}
+					notifyDataSetChanged();
+				}
+
+			}
+		});
+
+		if (checkedSprites.contains(position)) {
+			holder.checkbox.setChecked(true);
+		} else {
+			holder.checkbox.setChecked(false);
+		}
 		//------------------------------------------------------------
 		Sprite sprite = getItem(position);
 		CostumeData firstCostumeData = null;
@@ -107,6 +175,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		holder.sounds.setText(context.getResources().getString(R.string.number_of_sounds) + " "
 				+ sprite.getSoundList().size());
 
+		if (!showDetails) {
+			holder.scripts.setVisibility(View.GONE);
+			holder.bricks.setVisibility(View.GONE);
+			holder.costumes.setVisibility(View.GONE);
+			holder.sounds.setVisibility(View.GONE);
+		} else {
+			holder.scripts.setVisibility(View.VISIBLE);
+			holder.bricks.setVisibility(View.VISIBLE);
+			holder.costumes.setVisibility(View.VISIBLE);
+			holder.sounds.setVisibility(View.VISIBLE);
+		}
+
 		if (position == 0) {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 4));
 			// normally a color would be enough in this case(R.color.gray)
@@ -114,9 +194,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			// should be #808080 for gray - but always was #848284
 			// with a shape gradient, I get the correct color in the testcase
 			holder.divider.setBackgroundResource(R.color.divider_background);
+			holder.checkbox.setVisibility(View.GONE);
 		} else {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2));
 			holder.divider.setBackgroundResource(R.color.divider);
+			if (selectMode != NONE) {
+				holder.checkbox.setVisibility(View.VISIBLE);
+			} else {
+				holder.checkbox.setVisibility(View.GONE);
+				holder.checkbox.setChecked(false);
+				clearCheckedSprites();
+			}
+
 		}
 		return spriteView;
 	}
