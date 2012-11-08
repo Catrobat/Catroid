@@ -32,6 +32,9 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="copy">Kopieren</string>
+    <string name="cut">Ausschneiden</string>
+    <string name="move">Verschieben</string>
+    <string name="play">Play</string>
     <!--  -->
 
 
@@ -62,8 +65,8 @@
 
     <!-- Settings activity -->
     <string name="pref_title">Einstellungen</string>
-    <string name="pref_enable_ms_bricks">Mindstorm Bausteine aktivieren</string>
-    <string name="pref_descr_ms_bricks">Diese Bausteine werden benötigt um Mindstorm Roboter zu steuern.</string>
+    <string name="pref_enable_ms_bricks">Lego Mindstorm Bausteine</string>
+    <string name="pref_descr_ms_bricks">Erlaube Steuerung eines Lego Mindstorm Roboters</string>
     <!--  -->
 
 
@@ -83,6 +86,9 @@
     <string name="number_of_bricks">Bausteine:</string>
     <string name="number_of_costumes">Kostüme:</string>
     <string name="number_of_sounds">Klänge:</string>
+    <string name="show_details">Details anzeigen</string>
+    <string name="hide_details">Details verbergen</string>
+    <string name="insert_below">Darunter einfügen</string>
     <!-- Sprite activity -->
     <string name="sprite_name">Objekt:</string>
     <string name="spritelist_footer_image_description">Hier drücken, um neues Objekt hinzuzufügen</string>

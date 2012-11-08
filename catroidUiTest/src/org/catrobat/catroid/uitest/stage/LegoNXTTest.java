@@ -24,6 +24,8 @@ package org.catrobat.catroid.uitest.stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
@@ -50,6 +52,7 @@ import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -119,7 +122,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 
 		solo.sleep(2000);
 
@@ -197,6 +200,15 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			bluetoothAdapter.enable();
 			solo.sleep(5000);
 		}
+		Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
+		Iterator<BluetoothDevice> iterator = bondedDevices.iterator();
+		String deviceMacAdress = null;
+		while (iterator.hasNext()) {
+			BluetoothDevice device = iterator.next();
+			if (device.getName().startsWith("kitty")) {
+				deviceMacAdress = device.getAddress();
+			}
+		}
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -204,7 +216,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add(KITTYROID_MAC_ADDRESS);
+		autoConnectIDs.add(deviceMacAdress);
 		DeviceListActivity dla = new DeviceListActivity();
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
@@ -218,7 +230,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(1000);
 		//Device is still connected (until visiting main menu or exiting program)!
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("BT connection was not there anymore!!!", StageActivity.class);
 
@@ -236,11 +248,11 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
 		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
-				solo.searchText(KITTYROID_MAC_ADDRESS));
+				solo.searchText(deviceMacAdress));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
@@ -265,12 +277,12 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 		solo.goBack();
 		solo.sleep(1000);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 
