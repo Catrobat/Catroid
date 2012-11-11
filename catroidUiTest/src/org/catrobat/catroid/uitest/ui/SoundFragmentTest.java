@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SoundActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
@@ -106,6 +107,29 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
 	}
 
+	public void testMainMenuButton() {
+		int upImageIndex = 0;
+		solo.clickOnImage(upImageIndex);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
+	}
+
+	//	public void testPlayProgramButton() {
+	//		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+	//		solo.waitForActivity(StageActivity.class.getSimpleName());
+	//		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
+	//
+	//		solo.goBack();
+	//		solo.goBack();
+	//
+	//		solo.waitForActivity(SoundActivity.class.getSimpleName());
+	//		solo.assertCurrentActivity("Not in SoundActivity", SoundActivity.class);
+	//
+	//		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+	//		assertEquals("Size of the soundlist has changed", 2, soundInfoList.size());
+	//	}
+
 	public void testDeleteSound() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
@@ -126,19 +150,20 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 
 	public void testRenameSound() {
 		String newSoundName = "TeStSoUNd1";
-
-		clickOnContextMenuItem(soundName, solo.getString(R.string.rename));
-		assertTrue("Wrong title of dialog", solo.searchText(solo.getString(R.string.rename_sound_dialog)));
-		assertTrue("No EditText with actual soundname", solo.searchEditText(soundName));
-
-		solo.clearEditText(0);
-		solo.enterText(0, newSoundName);
-		solo.sendKey(Solo.ENTER);
+		renameSound(soundName, newSoundName);
 		solo.sleep(200);
 
 		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
 		assertEquals("Sound is not renamed in SoundList", newSoundName, soundInfoList.get(0).getTitle());
 		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
+	}
+
+	public void testEqualSoundNames() {
+		String name = "sound";
+		renameSound(soundName, name);
+		renameSound(soundName2, name);
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		assertEquals("Sound not renamed correctly", name + "1", soundInfoList.get(1).getTitle());
 	}
 
 	public void testPlayAndStopSound() {
@@ -159,6 +184,49 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
+	}
+
+	public void testAddNewSound() {
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+
+		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
+		solo.waitForText(addSoundDialogTitle);
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
+
+		int soundAmountBefore = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+
+		String newSoundName = "Added Sound";
+		addNewSound(newSoundName);
+		solo.goBack();
+
+		int soundAmountAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		assertEquals("No sound was added", soundAmountBefore + 1, soundAmountAfter);
+		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
+	}
+
+	private void addNewSound(String title) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(title);
+
+		soundInfoList.add(soundInfo);
+		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		projectManager.saveProject();
+	}
+
+	private void renameSound(String soundToRename, String newSoundName) {
+		clickOnContextMenuItem(soundToRename, solo.getString(R.string.rename));
+		assertTrue("Wrong title of dialog", solo.searchText(solo.getString(R.string.rename_sound_dialog)));
+		assertTrue("No EditText with actual soundname", solo.searchEditText(soundToRename));
+
+		solo.clearEditText(0);
+		solo.enterText(0, newSoundName);
+		solo.sendKey(Solo.ENTER);
 	}
 
 	private SoundAdapter getSoundAdapter() {
