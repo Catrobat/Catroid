@@ -87,7 +87,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		assertEquals("ProgramMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
 
-		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
+		/// Method 2: Retrieve info about Activity as collected from AndroidManifest.xml
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
 		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
 		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
