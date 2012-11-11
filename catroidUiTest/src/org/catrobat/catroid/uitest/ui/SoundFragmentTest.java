@@ -37,7 +37,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.ImageButton;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -53,6 +52,9 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 	private File soundFile2;
 	private File externalSoundFile;
 	private ArrayList<SoundInfo> soundInfoList;
+
+	private static final int VISIBLE = View.VISIBLE;
+	private static final int GONE = View.GONE;
 
 	public SoundFragmentTest() {
 		super(SoundActivity.class);
@@ -100,22 +102,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 	}
 
 	public void testInitialLayout() {
-		assertTrue("Play button not visible", solo.getView(R.id.btn_sound_play).getVisibility() == View.VISIBLE);
-		assertTrue("Pause button not gone although not playing",
-				solo.getView(R.id.btn_sound_pause).getVisibility() == View.GONE);
-		assertTrue("Sound name not visible", solo.getView(R.id.sound_title).getVisibility() == View.VISIBLE);
-		assertTrue("Sound duration not visible", solo.getView(R.id.sound_duration).getVisibility() == View.VISIBLE);
-		assertTrue("Chronometer not gone although not playing", solo.getView(R.id.sound_chronometer_time_played)
-				.getVisibility() == View.GONE);
 		assertFalse("Initially showing details", getSoundAdapter().getShowDetails());
-		assertTrue("Size not gone although no details should be displayed", solo.getView(R.id.sound_size)
-				.getVisibility() == View.GONE);
-	}
-
-	private SoundAdapter getSoundAdapter() {
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		SoundFragment soundFragment = (SoundFragment) fragmentManager.findFragmentById(R.id.fr_sound);
-		return (SoundAdapter) soundFragment.getListAdapter();
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
 	}
 
 	public void testDeleteSound() {
@@ -159,24 +147,55 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 
 		ImageButton playImageButton = (ImageButton) solo.getView(R.id.btn_sound_play);
 		ImageButton pauseImageButton = (ImageButton) solo.getView(R.id.btn_sound_pause);
-		Chronometer timePlayedChronometer = (Chronometer) solo.getView(R.id.sound_chronometer_time_played);
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(100);
 
-		assertTrue("Play button not gone although playing", playImageButton.getVisibility() == View.GONE);
-		assertTrue("Pause button not visible although playing", pauseImageButton.getVisibility() == View.VISIBLE);
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
-		assertTrue("Chronometer not visible although playing", timePlayedChronometer.getVisibility() == View.VISIBLE);
+		checkVisabilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE);
 
 		solo.clickOnView(pauseImageButton);
 		solo.sleep(100);
 
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
-		assertTrue("Play button not visible although stopped playing", playImageButton.getVisibility() == View.VISIBLE);
-		assertTrue("Pause button not gone although not playing anymore", pauseImageButton.getVisibility() == View.GONE);
-		assertTrue("Chronometer not gone although not playing anymore",
-				timePlayedChronometer.getVisibility() == View.GONE);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
+	}
+
+	private SoundAdapter getSoundAdapter() {
+		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		SoundFragment soundFragment = (SoundFragment) fragmentManager.findFragmentById(R.id.fr_sound);
+		return (SoundAdapter) soundFragment.getListAdapter();
+	}
+
+	private void checkVisabilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,
+			int timePlayedVisibility, int soundDurationVisibility, int soundSizeVisibility) {
+		assertTrue("Play button " + getAssertMessageAffix(playButtonVisibility), solo.getView(R.id.btn_sound_play)
+				.getVisibility() == playButtonVisibility);
+		assertTrue("Pause button " + getAssertMessageAffix(pauseButtonVisibility), solo.getView(R.id.btn_sound_pause)
+				.getVisibility() == pauseButtonVisibility);
+		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility), solo.getView(R.id.sound_title)
+				.getVisibility() == soundNameVisibility);
+		assertTrue("Chronometer " + getAssertMessageAffix(timePlayedVisibility),
+				solo.getView(R.id.sound_chronometer_time_played).getVisibility() == timePlayedVisibility);
+		assertTrue("Sound duration " + getAssertMessageAffix(soundDurationVisibility), solo
+				.getView(R.id.sound_duration).getVisibility() == soundDurationVisibility);
+		assertTrue("Sound size " + getAssertMessageAffix(soundSizeVisibility), solo.getView(R.id.sound_size)
+				.getVisibility() == soundSizeVisibility);
+	}
+
+	private String getAssertMessageAffix(int visibility) {
+		String assertMessageAffix = "";
+		switch (visibility) {
+			case View.VISIBLE:
+				assertMessageAffix = "not visible";
+				break;
+			case View.GONE:
+				assertMessageAffix = "not gone";
+				break;
+			default:
+				break;
+		}
+		return assertMessageAffix;
 	}
 
 	private void clickOnContextMenuItem(String soundName, String itemName) {
