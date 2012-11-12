@@ -33,8 +33,11 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SoundActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
@@ -193,15 +196,36 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.waitForText(addSoundDialogTitle);
 		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
 
-		int soundAmountBefore = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		int numberOfSoundsBeforeAdding = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
 
 		String newSoundName = "Added Sound";
 		addNewSound(newSoundName);
 		solo.goBack();
 
-		int soundAmountAfter = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
-		assertEquals("No sound was added", soundAmountBefore + 1, soundAmountAfter);
+		int numberOfSoundsAfterAdding = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		assertEquals("No sound was added", numberOfSoundsBeforeAdding + 1, numberOfSoundsAfterAdding);
 		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
+	}
+
+	public void testGetSoundFromExternalSource() {
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		int numberOfSoundsBeforeIntent = soundInfoList.size();
+
+		// Use of MockSoundActivity
+		Bundle bundleForExternalSource = new Bundle();
+		bundleForExternalSource.putString("filePath", externalSoundFile.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(), MockSoundActivity.class);
+		intent.putExtras(bundleForExternalSource);
+
+		getSoundFragment().startActivityForResult(intent, SoundFragment.REQUEST_SELECT_MUSIC);
+		solo.sleep(1000);
+		solo.waitForActivity(SoundActivity.class.getSimpleName(), 2000);
+		solo.assertCurrentActivity("Should be in SoundActivity", SoundActivity.class.getSimpleName());
+
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		int numberOfSoundsAfterReturning = soundInfoList.size();
+		assertEquals("No sound was added to the soundlist", numberOfSoundsBeforeIntent + 1,
+				numberOfSoundsAfterReturning);
 	}
 
 	private void addNewSound(String title) {
@@ -229,10 +253,13 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.sendKey(Solo.ENTER);
 	}
 
-	private SoundAdapter getSoundAdapter() {
+	private SoundFragment getSoundFragment() {
 		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		SoundFragment soundFragment = (SoundFragment) fragmentManager.findFragmentById(R.id.fr_sound);
-		return (SoundAdapter) soundFragment.getListAdapter();
+		return (SoundFragment) fragmentManager.findFragmentById(R.id.fr_sound);
+	}
+
+	private SoundAdapter getSoundAdapter() {
+		return (SoundAdapter) getSoundFragment().getListAdapter();
 	}
 
 	private void checkVisabilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,

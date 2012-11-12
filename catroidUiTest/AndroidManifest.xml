@@ -41,6 +41,10 @@
             android:name="org.catrobat.catroid.uitest.mockups.MockPaintroidActivity"
             android:exported="true" >
         </activity>
+        <activity
+            android:name="org.catrobat.catroid.uitest.mockups.MockSoundActivity"
+            android:exported="true" >
+        </activity>
     </application>
 
     <uses-sdk
