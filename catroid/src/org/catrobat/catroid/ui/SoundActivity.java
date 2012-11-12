@@ -33,8 +33,10 @@ import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,8 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 
 	private ActionBar actionBar;
 	private SoundFragment soundFragment;
+
+	private boolean showDetails = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,9 +109,26 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	}
 
 	@Override
+	protected void onPause() {
+		super.onPause();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = settings.edit();
+
+		// Necessary to clear first if we save preferences onPause
+		editor.clear();
+		editor.putBoolean("showDetails", soundFragment.getShowDetails());
+		editor.commit();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		actionBar.setSelectedNavigationItem(Constants.SOUNDS_ITEM_POSITION);
+
+		// Restore preferences
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		showDetails = settings.getBoolean("showDetails", false);
+		soundFragment.setShowDetails(showDetails);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -116,7 +137,6 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
 		unbindDrawables(findViewById(R.id.SoundActivityRoot));
 		System.gc();
 	}
@@ -136,6 +156,7 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_sound_activity, menu);
+		handleShowDetails(showDetails, menu.getItem(0));
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -149,13 +170,7 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 				break;
 
 			case R.id.show_details:
-				if (soundFragment.getShowDetails()) {
-					soundFragment.setShowDetails(false);
-					item.setTitle(getString(R.string.show_details));
-				} else {
-					soundFragment.setShowDetails(true);
-					item.setTitle(getString(R.string.hide_details));
-				}
+				handleShowDetails(!soundFragment.getShowDetails(), item);
 				break;
 
 			case R.id.copy:
@@ -228,5 +243,17 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 			}
 		}
 		return super.dispatchKeyEvent(event);
+	}
+
+	private void handleShowDetails(boolean showDetails, MenuItem item) {
+		soundFragment.setShowDetails(showDetails);
+
+		String menuItemText = "";
+		if (showDetails) {
+			menuItemText = getString(R.string.hide_details);
+		} else {
+			menuItemText = getString(R.string.show_details);
+		}
+		item.setTitle(menuItemText);
 	}
 }
