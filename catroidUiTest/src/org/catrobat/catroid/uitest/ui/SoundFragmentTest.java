@@ -29,7 +29,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.SoundActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
@@ -37,6 +36,7 @@ import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -61,6 +61,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
 
+	private ProjectManager projectManager = ProjectManager.getInstance();
+
 	public SoundFragmentTest() {
 		super(SoundActivity.class);
 	}
@@ -70,7 +72,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
@@ -86,10 +88,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
-		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(),
-				soundInfo.getAbsolutePath());
-		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(),
-				soundInfo2.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 
 		externalSoundFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/externalSoundFile.mp3",
 				RESOURCE_SOUND, getActivity());
@@ -117,29 +117,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
 	}
 
-	public void testMainMenuButton() {
-		int upImageIndex = 0;
-		solo.clickOnImage(upImageIndex);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-				MainMenuActivity.class);
-	}
-
-	//	public void testPlayProgramButton() {
-	//		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
-	//		solo.waitForActivity(StageActivity.class.getSimpleName());
-	//		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
-	//
-	//		solo.goBack();
-	//		solo.goBack();
-	//
-	//		solo.waitForActivity(SoundActivity.class.getSimpleName());
-	//		solo.assertCurrentActivity("Not in SoundActivity", SoundActivity.class);
-	//
-	//		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-	//		assertEquals("Size of the soundlist has changed", 2, soundInfoList.size());
-	//	}
-
 	public void testDeleteSound() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
@@ -163,7 +140,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		renameSound(soundName, newSoundName);
 		solo.sleep(200);
 
-		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		assertEquals("Sound is not renamed in SoundList", newSoundName, soundInfoList.get(0).getTitle());
 		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
 	}
@@ -172,26 +149,25 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		String name = "sound";
 		renameSound(soundName, name);
 		renameSound(soundName2, name);
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		assertEquals("Sound not renamed correctly", name + "1", soundInfoList.get(1).getTitle());
 	}
 
 	public void testShowAndHideDetails() {
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
 		clickOnOverflowMenuItem(solo.getString(R.string.show_details));
-		solo.sleep(200);
+		solo.sleep(300);
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE);
-		solo.sleep(200);
 
 		// Test if showDetails is remembered after pressing back
 		goToProgramMenuActivity();
 		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE);
-		solo.sleep(200);
+		solo.sleep(300);
 
 		clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
-		solo.sleep(200);
+		solo.sleep(300);
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
 	}
 
@@ -222,19 +198,19 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.waitForText(addSoundDialogTitle);
 		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
 
-		int numberOfSoundsBeforeAdding = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		int numberOfSoundsBeforeAdding = projectManager.getCurrentSprite().getSoundList().size();
 
 		String newSoundName = "Added Sound";
 		addNewSound(newSoundName);
 		solo.goBack();
 
-		int numberOfSoundsAfterAdding = ProjectManager.getInstance().getCurrentSprite().getSoundList().size();
+		int numberOfSoundsAfterAdding = projectManager.getCurrentSprite().getSoundList().size();
 		assertEquals("No sound was added", numberOfSoundsBeforeAdding + 1, numberOfSoundsAfterAdding);
 		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
 	}
 
 	public void testGetSoundFromExternalSource() {
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		int numberOfSoundsBeforeIntent = soundInfoList.size();
 
 		// Use of MockSoundActivity
@@ -248,14 +224,13 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.waitForActivity(SoundActivity.class.getSimpleName(), 2000);
 		solo.assertCurrentActivity("Should be in SoundActivity", SoundActivity.class.getSimpleName());
 
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		int numberOfSoundsAfterReturning = soundInfoList.size();
 		assertEquals("No sound was added to the soundlist", numberOfSoundsBeforeIntent + 1,
 				numberOfSoundsAfterReturning);
 	}
 
 	private void addNewSound(String title) {
-		ProjectManager projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
@@ -332,16 +307,9 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 	}
 
 	private void goToProgramMenuActivity() {
-		solo.clickOnImage(0);
-
-		String continueString = solo.getString(R.string.main_menu_continue);
-		solo.waitForText(continueString);
-		solo.clickOnText(continueString);
-
-		String spriteName = "Background";
-		solo.waitForText(spriteName);
-		solo.clickOnText(spriteName);
-
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		Activity activity = getActivity();
+		Intent intent = new Intent(activity, ProgramMenuActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		activity.startActivity(intent);
 	}
 }
