@@ -114,52 +114,51 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 	}
 
 	public void testChangeViaSpinner() {
+		int expectedNumberOfSpinnerItems = 3;
+		int actualNumberOfSpinnerItems = solo.getCurrentSpinners().get(0).getAdapter().getCount();
+		assertEquals("There should be " + expectedNumberOfSpinnerItems + " spinner items",
+				expectedNumberOfSpinnerItems, actualNumberOfSpinnerItems);
+
 		int numberOfSoundsBeforeSpinning = soundInfoList.size();
 
 		String sounds = solo.getString(R.string.sounds);
 		clickOnSpinnerItem(sounds);
-		solo.sleep(1000);
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
 
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Number of sounds has changed after clicking on Sounds", numberOfSoundsBeforeSpinning,
-				soundInfoList.size());
+		checkIfNumberOfSoundsNotChanged(sounds, numberOfSoundsBeforeSpinning);
 
 		String scripts = solo.getString(R.string.scripts);
 		clickOnSpinnerItem(scripts);
-		solo.sleep(1000);
 
 		//TODO CHANGE TO SCRIPTACTIVITY!
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
-		solo.waitForText(scripts);
+		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
 
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Number of sounds has changed after clicking on Scripts", numberOfSoundsBeforeSpinning,
-				soundInfoList.size());
+		checkIfNumberOfSoundsNotChanged(scripts, numberOfSoundsBeforeSpinning);
 
 		String looks = solo.getString(R.string.category_looks);
 		clickOnSpinnerItem(looks);
-		solo.sleep(1000);
 
 		//TODO CHANGE TO LOOKACTIVITY!
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
-		solo.waitForText(scripts);
+		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
 
+		checkIfNumberOfSoundsNotChanged(looks, numberOfSoundsBeforeSpinning);
+	}
+
+	private void checkIfNumberOfSoundsNotChanged(String assertMessageAffix, int numberToCompare) {
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Number of sounds has changed after clicking on Scripts", numberOfSoundsBeforeSpinning,
+		assertEquals("Number of sounds has changed after clicking on " + assertMessageAffix, numberToCompare,
 				soundInfoList.size());
 	}
 
 	private void clickOnSpinnerItem(String itemName) {
 		String sounds = solo.getString(R.string.sounds);
-		solo.waitForText(sounds);
 		solo.clickOnText(sounds);
-		solo.sleep(200);
-		solo.waitForText(itemName);
 		solo.clickOnText(itemName);
 	}
 }
