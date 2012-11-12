@@ -30,6 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.SoundActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
@@ -69,7 +70,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
-		soundInfoList = ProjectManager.INSTANCE.getCurrentSprite().getSoundList();
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
@@ -94,6 +95,12 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 				RESOURCE_SOUND, getActivity());
 
 		solo = new Solo(getInstrumentation(), getActivity());
+
+		boolean showDetails = getSoundAdapter().getShowDetails();
+		if (showDetails) {
+			clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
+			solo.sleep(300);
+		}
 	}
 
 	@Override
@@ -167,6 +174,25 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		renameSound(soundName2, name);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("Sound not renamed correctly", name + "1", soundInfoList.get(1).getTitle());
+	}
+
+	public void testShowAndHideDetails() {
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
+		clickOnOverflowMenuItem(solo.getString(R.string.show_details));
+		solo.sleep(200);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE);
+		solo.sleep(200);
+
+		// Test if showDetails is remembered after pressing back
+		goToProgramMenuActivity();
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE);
+		solo.sleep(200);
+
+		clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
+		solo.sleep(200);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
 	}
 
 	public void testPlayAndStopSound() {
@@ -297,5 +323,25 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.clickLongOnText(soundName);
 		solo.waitForText(itemName);
 		solo.clickOnText(itemName);
+	}
+
+	private void clickOnOverflowMenuItem(String itemName) {
+		solo.clickOnImageButton(0);
+		solo.waitForText(itemName);
+		solo.clickOnText(itemName);
+	}
+
+	private void goToProgramMenuActivity() {
+		solo.clickOnImage(0);
+
+		String continueString = solo.getString(R.string.main_menu_continue);
+		solo.waitForText(continueString);
+		solo.clickOnText(continueString);
+
+		String spriteName = "Background";
+		solo.waitForText(spriteName);
+		solo.clickOnText(spriteName);
+
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 	}
 }

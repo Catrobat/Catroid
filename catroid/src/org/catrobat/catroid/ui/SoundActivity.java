@@ -245,7 +245,7 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 		return super.dispatchKeyEvent(event);
 	}
 
-	private void handleShowDetails(boolean showDetails, MenuItem item) {
+	public void handleShowDetails(boolean showDetails, MenuItem item) {
 		soundFragment.setShowDetails(showDetails);
 
 		String menuItemText = "";
