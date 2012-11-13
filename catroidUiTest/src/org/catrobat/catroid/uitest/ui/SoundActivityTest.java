@@ -93,6 +93,30 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 				MainMenuActivity.class);
 	}
 
+	public void testAddSoundButton() {
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		int numberOfSoundsBeforeAdding = soundInfoList.size();
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle, true));
+
+		int soundRecorderIndex = 0;
+		solo.clickOnImage(soundRecorderIndex);
+		solo.sleep(1000);
+		String startRecording = solo.getString(R.string.soundrecorder_record_start);
+		assertTrue("No button to start recording", solo.searchText(startRecording, true));
+		solo.sleep(1000);
+		solo.clickOnText(startRecording);
+		solo.sleep(1000);
+		String stopRecording = solo.getString(R.string.soundrecorder_record_stop);
+		solo.clickOnText(stopRecording);
+
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		String assertAffix = "add button";
+		checkIfNumberOfSoundsNotChanged(assertAffix, numberOfSoundsBeforeAdding + 1);
+	}
+
 	public void testPlayProgramButton() {
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		int numberOfSoundsBeforePlayingProgram = soundInfoList.size();

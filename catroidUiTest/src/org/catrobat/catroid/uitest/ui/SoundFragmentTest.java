@@ -192,12 +192,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 	}
 
 	public void testAddNewSound() {
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
-
-		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
-		solo.waitForText(addSoundDialogTitle);
-		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle));
-
 		int numberOfSoundsBeforeAdding = projectManager.getCurrentSprite().getSoundList().size();
 
 		String newSoundName = "Added Sound";
