@@ -18,7 +18,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -42,16 +41,11 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 
-		if (soundFile == null) {
-			Log.d("CATROID", "File NULL!!!");
-		} else {
-			Log.d("CATROID", "not null :)");
-			SoundInfo soundInfo = new SoundInfo();
-			soundInfo.setSoundFileName(soundFile.getName());
-			soundInfo.setTitle("Test Sound");
-			soundInfoList.add(soundInfo);
-			projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-		}
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle("Test Sound");
+		soundInfoList.add(soundInfo);
+		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -63,7 +57,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
-		//		projectManager.deleteCurrentProject();
+		// projectManager.deleteCurrentProject();
 	}
 
 	public void testOrientation() throws NameNotFoundException {
@@ -103,16 +97,17 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 
 		int soundRecorderIndex = 0;
 		solo.clickOnImage(soundRecorderIndex);
-		solo.sleep(1000);
-		String startRecording = solo.getString(R.string.soundrecorder_record_start);
-		assertTrue("No button to start recording", solo.searchText(startRecording, true));
-		solo.sleep(1000);
+
+		String startRecording = "Start recording";
+		assertTrue("No button to start recording", solo.waitForText(startRecording, 0, 100));
 		solo.clickOnText(startRecording);
-		solo.sleep(1000);
-		String stopRecording = solo.getString(R.string.soundrecorder_record_stop);
+
+		String stopRecording = "Stop recording";
+		assertTrue("No button to stop recording", solo.waitForText(stopRecording, 0, 100));
 		solo.clickOnText(stopRecording);
 
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.sleep(200);
 		String assertAffix = "add button";
 		checkIfNumberOfSoundsNotChanged(assertAffix, numberOfSoundsBeforeAdding + 1);
 	}
