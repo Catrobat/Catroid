@@ -248,27 +248,8 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 	public void testRenameActionModeEqualSoundNames() {
 		openRenameActionMode();
 
-		solo.clickOnCheckBox(0);
-		checkIfCheckboxesAreCorrectlyChecked(true, false);
-		acceptAndCloseActionMode();
-
-		String newSoundName = "Renamed Sound";
+		String newSoundName = soundName;
 		String renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
-
-		assertTrue("Rename dialog didn't show up", solo.searchText(renameDialogTitle));
-		assertTrue("No EditText with actual soundname", solo.searchEditText(soundName));
-
-		solo.clearEditText(0);
-		solo.enterText(0, newSoundName);
-		solo.sendKey(Solo.ENTER);
-
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Sound is not renamed in SoundList", newSoundName, soundInfoList.get(0).getTitle());
-		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
-
-		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
-
-		openRenameActionMode();
 
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
@@ -283,6 +264,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
+		// If an already existing name was entered a counter should be appended
 		String expectedNewSoundName = newSoundName + "1";
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		assertEquals("Sound is not correctly renamed in SoundList (1 should be appended)", expectedNewSoundName,
