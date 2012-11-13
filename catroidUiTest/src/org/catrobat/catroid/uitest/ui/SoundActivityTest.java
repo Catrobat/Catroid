@@ -140,8 +140,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 	}
 
 	public void testAddSoundButton() {
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		int numberOfSoundsBeforeAdding = soundInfoList.size();
+		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
@@ -159,13 +158,13 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.clickOnText(stopRecording);
 
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
-		solo.sleep(TIME_TO_WAIT);
-		checkIfNumberOfSoundsIsEqual("clicking on add button", numberOfSoundsBeforeAdding + 1);
+		solo.sleep(200);
+
+		checkIfNumberOfSoundsIsEqual("clicking on add button", expectedNumberOfSounds);
 	}
 
 	public void testPlayProgramButton() {
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		int numberOfSoundsBeforePlayingProgram = soundInfoList.size();
+		int expectedNumberOfSounds = getActualNumberOfSounds();
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -177,7 +176,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in SoundActivity", SoundActivity.class);
 
-		checkIfNumberOfSoundsIsEqual("clicking on play button", numberOfSoundsBeforePlayingProgram);
+		checkIfNumberOfSoundsIsEqual("clicking on play button", expectedNumberOfSounds);
 	}
 
 	public void testChangeViaSpinner() {
@@ -186,13 +185,13 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		assertEquals("There should be " + expectedNumberOfSpinnerItems + " spinner items",
 				expectedNumberOfSpinnerItems, actualNumberOfSpinnerItems);
 
-		int numberOfSoundsBeforeSpinning = soundInfoList.size();
+		int expectedNumberOfSounds = getActualNumberOfSounds();
 
 		String sounds = solo.getString(R.string.sounds);
 		clickOnSpinnerItem(sounds);
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
 
-		checkIfNumberOfSoundsIsEqual("clicking on " + sounds, numberOfSoundsBeforeSpinning);
+		checkIfNumberOfSoundsIsEqual("clicking on " + sounds, expectedNumberOfSounds);
 
 		String scripts = solo.getString(R.string.scripts);
 		clickOnSpinnerItem(scripts);
@@ -203,7 +202,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
 
-		checkIfNumberOfSoundsIsEqual("clicking on " + scripts, numberOfSoundsBeforeSpinning);
+		checkIfNumberOfSoundsIsEqual("clicking on " + scripts, expectedNumberOfSounds);
 
 		String looks = solo.getString(R.string.category_looks);
 		clickOnSpinnerItem(looks);
@@ -214,7 +213,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
 
-		checkIfNumberOfSoundsIsEqual("clicking on " + looks, numberOfSoundsBeforeSpinning);
+		checkIfNumberOfSoundsIsEqual("clicking on " + looks, expectedNumberOfSounds);
 	}
 
 	public void testRenameActionModeChecking() {
@@ -302,7 +301,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 	}
 
 	public void testDeleteActionModeIfNothingSelected() {
-		int numberOfSoundsBeforeActionMode = soundInfoList.size();
+		int expectedNumberOfSounds = getActualNumberOfSounds();
 
 		openActionMode(delete);
 
@@ -312,11 +311,11 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
-		checkIfNumberOfSoundsIsEqual("clicking on back button", numberOfSoundsBeforeActionMode);
+		checkIfNumberOfSoundsIsEqual("clicking on back button", expectedNumberOfSounds);
 	}
 
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
-		int numberOfSoundsBeforeActionMode = soundInfoList.size();
+		int expectedNumberOfSounds = getActualNumberOfSounds();
 
 		openActionMode(delete);
 		solo.clickOnCheckBox(0);
@@ -330,11 +329,11 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
-		checkIfNumberOfSoundsIsEqual("clicking on back button", numberOfSoundsBeforeActionMode);
+		checkIfNumberOfSoundsIsEqual("clicking on back button", expectedNumberOfSounds);
 	}
 
 	public void testDeleteActionMode() {
-		int numberOfSoundsBeforeActionMode = soundInfoList.size();
+		int expectedNumberOfSounds = getActualNumberOfSounds() - 1;
 
 		openActionMode(delete);
 		solo.clickOnCheckBox(1);
@@ -343,8 +342,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		acceptAndCloseActionMode();
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
-		int expectedNumberOfSoundsAfterActionMode = numberOfSoundsBeforeActionMode - 1;
-		checkIfNumberOfSoundsIsEqual("delete ActionMode", expectedNumberOfSoundsAfterActionMode);
+		checkIfNumberOfSoundsIsEqual("delete ActionMode", expectedNumberOfSounds);
 	}
 
 	public void testOverflowMenuItemSettings() {
@@ -418,5 +416,10 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 
 	private void acceptAndCloseActionMode() {
 		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+	}
+
+	private int getActualNumberOfSounds() {
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		return soundInfoList.size();
 	}
 }

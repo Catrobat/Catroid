@@ -61,7 +61,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
 
-	private ProjectManager projectManager = ProjectManager.getInstance();
+	private ProjectManager projectManager;
 
 	public SoundFragmentTest() {
 		super(SoundActivity.class);
@@ -72,6 +72,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
+		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
@@ -99,7 +100,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		boolean showDetails = getSoundAdapter().getShowDetails();
 		if (showDetails) {
 			clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
-			solo.sleep(300);
+			solo.sleep(50);
 		}
 	}
 
@@ -114,7 +115,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 
 	public void testInitialLayout() {
 		assertFalse("Initially showing details", getSoundAdapter().getShowDetails());
-		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 	}
 
 	public void testDeleteSound() {
@@ -126,52 +127,57 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		clickOnContextMenuItem(soundName2, solo.getString(R.string.delete));
 		solo.waitForText(solo.getString(R.string.delete_sound_dialog));
 		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(500);
+		solo.sleep(50);
 
 		int newCount = adapter.getCount();
 
 		assertEquals("Old count is not correct", 2, oldCount);
 		assertEquals("New count is not correct - one sound should be deleted", 1, newCount);
-		assertEquals("Count of the soundList is not right", 1, soundInfoList.size());
+		assertEquals("Count of the soundList is not right", 1, getActualNumberOfSounds());
 	}
 
 	public void testRenameSound() {
 		String newSoundName = "TeStSoUNd1";
 		renameSound(soundName, newSoundName);
-		solo.sleep(200);
+		solo.sleep(50);
 
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Sound is not renamed in SoundList", newSoundName, soundInfoList.get(0).getTitle());
+		assertEquals("Sound is not renamed in SoundList", newSoundName, getSoundTitle(0));
 		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
 	}
 
 	public void testEqualSoundNames() {
-		String name = "sound";
-		renameSound(soundName, name);
-		renameSound(soundName2, name);
+		renameSound(soundName2, soundName);
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Sound not renamed correctly", name + "1", soundInfoList.get(1).getTitle());
+
+		String expectedSoundName = soundName + "1";
+		String actualSoundName = getSoundTitle(1);
+		assertEquals("Sound not renamed correctly", expectedSoundName, actualSoundName);
 	}
 
 	public void testShowAndHideDetails() {
-		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
+		int timeToWait = 200;
+
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 		clickOnOverflowMenuItem(solo.getString(R.string.show_details));
-		solo.sleep(300);
-		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE);
+		solo.sleep(timeToWait);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
 
 		// Test if showDetails is remembered after pressing back
 		goToProgramMenuActivity();
 		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
-		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE);
-		solo.sleep(300);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
+		solo.sleep(timeToWait);
 
 		clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
-		solo.sleep(300);
-		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
+		solo.sleep(timeToWait);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 	}
 
 	public void testPlayAndStopSound() {
+		int timeToWait = 100;
+
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = soundInfoList.get(0);
 		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
 
@@ -179,33 +185,30 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		ImageButton pauseImageButton = (ImageButton) solo.getView(R.id.btn_sound_pause);
 
 		solo.clickOnView(playImageButton);
-		solo.sleep(100);
+		solo.sleep(timeToWait);
 
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
-		checkVisabilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE);
+		checkVisabilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
 
 		solo.clickOnView(pauseImageButton);
-		solo.sleep(100);
+		solo.sleep(timeToWait);
 
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
-		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 	}
 
 	public void testAddNewSound() {
-		int numberOfSoundsBeforeAdding = projectManager.getCurrentSprite().getSoundList().size();
+		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
 
 		String newSoundName = "Added Sound";
 		addNewSound(newSoundName);
-		solo.goBack();
 
-		int numberOfSoundsAfterAdding = projectManager.getCurrentSprite().getSoundList().size();
-		assertEquals("No sound was added", numberOfSoundsBeforeAdding + 1, numberOfSoundsAfterAdding);
+		assertEquals("No sound was added", expectedNumberOfSounds, getActualNumberOfSounds());
 		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
 	}
 
 	public void testGetSoundFromExternalSource() {
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		int numberOfSoundsBeforeIntent = soundInfoList.size();
+		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
 
 		// Use of MockSoundActivity
 		Bundle bundleForExternalSource = new Bundle();
@@ -214,19 +217,14 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		intent.putExtras(bundleForExternalSource);
 
 		getSoundFragment().startActivityForResult(intent, SoundFragment.REQUEST_SELECT_MUSIC);
-		solo.sleep(1000);
-		solo.waitForActivity(SoundActivity.class.getSimpleName(), 2000);
+		solo.sleep(500);
+		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Should be in SoundActivity", SoundActivity.class.getSimpleName());
 
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		int numberOfSoundsAfterReturning = soundInfoList.size();
-		assertEquals("No sound was added to the soundlist", numberOfSoundsBeforeIntent + 1,
-				numberOfSoundsAfterReturning);
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
 
 	private void addNewSound(String title) {
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
@@ -243,8 +241,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		assertTrue("Wrong title of dialog", solo.searchText(solo.getString(R.string.rename_sound_dialog)));
 		assertTrue("No EditText with actual soundname", solo.searchEditText(soundToRename));
 
-		solo.clearEditText(0);
-		solo.enterText(0, newSoundName);
+		UiTestUtils.enterText(solo, 0, newSoundName);
 		solo.sendKey(Solo.ENTER);
 	}
 
@@ -258,7 +255,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 	}
 
 	private void checkVisabilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,
-			int timePlayedVisibility, int soundDurationVisibility, int soundSizeVisibility) {
+			int timePlayedVisibility, int soundDurationVisibility, int soundSizeVisibility, int checkBoxVisibility) {
 		assertTrue("Play button " + getAssertMessageAffix(playButtonVisibility), solo.getView(R.id.btn_sound_play)
 				.getVisibility() == playButtonVisibility);
 		assertTrue("Pause button " + getAssertMessageAffix(pauseButtonVisibility), solo.getView(R.id.btn_sound_pause)
@@ -271,6 +268,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 				.getView(R.id.sound_duration).getVisibility() == soundDurationVisibility);
 		assertTrue("Sound size " + getAssertMessageAffix(soundSizeVisibility), solo.getView(R.id.sound_size)
 				.getVisibility() == soundSizeVisibility);
+		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility), solo.getView(R.id.checkbox)
+				.getVisibility() == checkBoxVisibility);
 	}
 
 	private String getAssertMessageAffix(int visibility) {
@@ -305,5 +304,20 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		Intent intent = new Intent(activity, ProgramMenuActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		activity.startActivity(intent);
+	}
+
+	private void checkIfNumberOfSoundsIsEqual(int numberToCompare) {
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		assertEquals("Number of sounds is not as expected", numberToCompare, soundInfoList.size());
+	}
+
+	private int getActualNumberOfSounds() {
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		return soundInfoList.size();
+	}
+
+	private String getSoundTitle(int soundIndex) {
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		return soundInfoList.get(soundIndex).getTitle();
 	}
 }
