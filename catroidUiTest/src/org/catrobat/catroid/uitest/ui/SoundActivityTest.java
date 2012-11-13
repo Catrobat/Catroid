@@ -23,11 +23,16 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundActivity> {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
+	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 
 	private Solo solo = null;
 	private ArrayList<SoundInfo> soundInfoList;
 	private ProjectManager projectManager = ProjectManager.getInstance();
+
+	private String soundName = "testSound1";
+	private String soundName2 = "testSound2";
 	private File soundFile;
+	private File soundFile2;
 
 	public SoundActivityTest() {
 		super(SoundActivity.class);
@@ -38,14 +43,25 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		super.setUp();
 		UiTestUtils.createTestProject();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
-		soundInfo.setTitle("Test Sound");
+		soundInfo.setTitle(soundName);
+
+		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
+				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
+
+		SoundInfo soundInfo2 = new SoundInfo();
+		soundInfo2.setSoundFileName(soundFile2.getName());
+		soundInfo2.setTitle(soundName2);
+
 		soundInfoList.add(soundInfo);
+		soundInfoList.add(soundInfo2);
 		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+		projectManager.getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
