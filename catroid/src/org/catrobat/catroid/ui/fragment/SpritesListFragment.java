@@ -331,7 +331,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				//Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
 				Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
 				startActivity(intent);
 			}
