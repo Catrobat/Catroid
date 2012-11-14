@@ -35,6 +35,7 @@ import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -209,6 +210,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 
 	public void testGetSoundFromExternalSource() {
 		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
+		String checksumExternalSoundFile = Utils.md5Checksum(externalSoundFile);
 
 		// Use of MockSoundActivity
 		Bundle bundleForExternalSource = new Bundle();
@@ -217,9 +219,23 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		intent.putExtras(bundleForExternalSource);
 
 		getSoundFragment().startActivityForResult(intent, SoundFragment.REQUEST_SELECT_MUSIC);
-		solo.sleep(500);
+		solo.sleep(1000);
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Should be in SoundActivity", SoundActivity.class.getSimpleName());
+
+		assertTrue("External file not added from mockActivity", solo.searchText("externalSoundFile"));
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.getFileChecksumContainer().containsChecksum(checksumExternalSoundFile));
+
+		boolean isInSoundInfoList = false;
+		for (SoundInfo soundInfo : projectManager.getCurrentSprite().getSoundList()) {
+			if (soundInfo.getChecksum().equalsIgnoreCase(checksumExternalSoundFile)) {
+				isInSoundInfoList = true;
+			}
+		}
+		if (!isInSoundInfoList) {
+			fail("File not added in SoundInfoList");
+		}
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
