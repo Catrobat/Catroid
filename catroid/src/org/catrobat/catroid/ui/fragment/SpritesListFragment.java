@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
@@ -320,7 +321,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+				Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
 				startActivity(intent);
 			}
 		});

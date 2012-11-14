@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
@@ -133,6 +134,8 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		ListView spriteList = listViews.get(0);
 		spriteToTest = spriteList.getItemAtPosition(0).toString();
 		solo.clickOnText(spriteToTest);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"", solo.searchText(backgroundTabLabel));
 		solo.clickOnText(backgroundTabLabel);
@@ -142,8 +145,12 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		for (int i = 1; i < 3; i++) {
 			solo.goBack();
 			solo.sleep(100);
+			solo.goBack();
+			solo.sleep(100);
 			spriteToTest = spriteList.getItemAtPosition(i).toString();
 			solo.clickOnText(spriteToTest);
+			solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+			solo.clickOnText(solo.getString(R.string.scripts));
 			solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 			assertTrue("Wrong label - Tab should be named \"Costumes\"",
 					solo.searchText(solo.getString(R.string.costumes)));
@@ -157,6 +164,8 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("Sprite1");
 		solo.clickInList(0);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		String scriptsLabel = solo.getString(R.string.scripts);
@@ -184,7 +193,10 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 		solo.sleep(100);
 		solo.goBack();
+		solo.goBack();
 		solo.clickInList(2);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.scripts));
 		testTabText(new String[] { scriptsLabel, costumesLabel, soundsLabel });
 		testTabIcons(new int[] { scriptsSelector, costumesSelector, soundsSelector });
 
@@ -196,7 +208,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(300);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add_sprite);
+		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.sleep(200);
 		solo.enterText(0, spriteName);
 		solo.clickOnButton(solo.getString(R.string.ok));
