@@ -167,8 +167,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		goToProgramMenuActivity();
 		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.waitForActivity(SoundActivity.class.getSimpleName());
-		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
 		solo.sleep(timeToWait);
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
 
 		clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
 		solo.sleep(timeToWait);
