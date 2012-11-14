@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -213,6 +214,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("sprite1");
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
@@ -239,6 +242,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(1000);
 		solo.goBack();
+		solo.sleep(1000);
+		solo.goBack();
 		solo.sleep(2000);
 		//main menu => device disconnected!
 
@@ -251,8 +256,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
-		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
-				solo.searchText(deviceMacAdress));
+		assertTrue("I should be on the bluetooth device choosing screen, but am not!", solo.searchText(deviceMacAdress));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
