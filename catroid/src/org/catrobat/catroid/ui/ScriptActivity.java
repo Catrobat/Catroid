@@ -27,7 +27,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.adapter.SoundAdapter;
+import org.catrobat.catroid.ui.fragment.CostumeFragment;
+import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
@@ -37,12 +39,14 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
@@ -50,23 +54,55 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class SoundActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
-
+public class ScriptActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
+	public static final String ACTION_SPRITE_RENAMED = "org.catrobat.catroid.SPRITE_RENAMED";
+	public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
+	public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
+	public static final String ACTION_NEW_BRICK_ADDED = "org.catrobat.catroid.NEW_BRICK_ADDED";
+	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
+	public static final String ACTION_COSTUME_DELETED = "org.catrobat.catroid.COSTUME_DELETED";
+	public static final String ACTION_COSTUME_RENAMED = "org.catrobat.catroid.COSTUME_RENAMED";
 	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 
 	private ActionBar actionBar;
-	private SoundFragment soundFragment;
+	private FragmentManager fragmentManager = getSupportFragmentManager();
+
+	private ScriptFragment scriptFragment = null;
+	private CostumeFragment costumeFragment = null;
+	private SoundFragment soundFragment = null;
+
+	private ScriptActivityFragment currentFragment = null;
+
+	private static int currentFragmentPosition;
 
 	private boolean showDetails = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sound);
+
+		setContentView(R.layout.activity_script);
 
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+		if (savedInstanceState == null) {
+			Log.d("TEST", "----------------");
+			Log.d("TEST", "-----CREATE-----");
+
+			Bundle bundle = this.getIntent().getExtras();
+
+			int fragmentPosition = Constants.FRAGMENT_SCRIPTS;
+
+			if (bundle != null) {
+				fragmentPosition = bundle.getInt("fragment", Constants.FRAGMENT_SCRIPTS);
+			} else {
+				Log.d("CATROID", "No given bundle to determine fragment");
+			}
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			updateCurrentFragment(fragmentPosition, fragmentTransaction);
+			fragmentTransaction.commit();
+		}
 		actionBar = getSupportActionBar();
 
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -80,32 +116,83 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-				Intent intent;
+				if (itemPosition != currentFragmentPosition) {
+					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-				switch (itemPosition) {
-					case Constants.SCRIPTS_ITEM_POSITION:
-						//TODO
-						Toast.makeText(getApplicationContext(), "startScriptActivity", Toast.LENGTH_SHORT).show();
-						intent = new Intent(SoundActivity.this, ScriptTabActivity.class);
-						startActivity(intent);
-						break;
-					case Constants.LOOKS_ITEM_POSITION:
-						//TODO
-						Toast.makeText(getApplicationContext(), "startLookActivity", Toast.LENGTH_SHORT).show();
-						intent = new Intent(SoundActivity.this, ScriptTabActivity.class);
-						startActivity(intent);
-						break;
+					hideFragment(currentFragmentPosition, fragmentTransaction);
+					updateCurrentFragment(itemPosition, fragmentTransaction);
+
+					fragmentTransaction.commit();
 				}
 				return true;
 			}
 		});
-		actionBar.setSelectedNavigationItem(Constants.SOUNDS_ITEM_POSITION);
+		actionBar.setSelectedNavigationItem(currentFragmentPosition);
+	}
+
+	private void hideFragment(int fragment, FragmentTransaction fragmentTransaction) {
+		Log.d("TEST", "      HIDE      ");
+
+		switch (fragment) {
+			case Constants.FRAGMENT_SCRIPTS:
+				fragmentTransaction.hide(scriptFragment);
+				break;
+			case Constants.FRAGMENT_COSTUMES:
+				fragmentTransaction.hide(costumeFragment);
+				break;
+			case Constants.FRAGMENT_SOUNDS:
+				fragmentTransaction.hide(soundFragment);
+				break;
+		}
+	}
+
+	private void updateCurrentFragment(int fragment, FragmentTransaction fragmentTransaction) {
+		boolean fragmentDoesNotExist = false;
+
+		switch (fragment) {
+			case Constants.FRAGMENT_SCRIPTS:
+				Log.d("TEST", "SCRIPT");
+
+				if (scriptFragment == null) {
+					scriptFragment = new ScriptFragment();
+					fragmentDoesNotExist = true;
+				}
+				currentFragment = scriptFragment;
+				currentFragmentPosition = Constants.FRAGMENT_SCRIPTS;
+				break;
+			case Constants.FRAGMENT_COSTUMES:
+				Log.d("TEST", "LOOKS");
+
+				if (costumeFragment == null) {
+					costumeFragment = new CostumeFragment();
+					fragmentDoesNotExist = true;
+				}
+				currentFragment = costumeFragment;
+				currentFragmentPosition = Constants.FRAGMENT_COSTUMES;
+				break;
+			case Constants.FRAGMENT_SOUNDS:
+				Log.d("TEST", "SOUND");
+
+				if (soundFragment == null) {
+					soundFragment = new SoundFragment();
+					fragmentDoesNotExist = true;
+				}
+				currentFragment = soundFragment;
+				currentFragmentPosition = Constants.FRAGMENT_SOUNDS;
+				break;
+		}
+		if (fragmentDoesNotExist) {
+			Log.d("TEST", "------INIT------");
+			fragmentTransaction.add(R.id.script_fragment_container, currentFragment);
+		} else {
+			Log.d("TEST", "------SHOW------");
+			fragmentTransaction.show(currentFragment);
+		}
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		soundFragment = (SoundFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sound);
 	}
 
 	@Override
@@ -116,19 +203,19 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 
 		// Necessary to clear first if we save preferences onPause
 		editor.clear();
-		editor.putBoolean("showDetails", soundFragment.getShowDetails());
+		editor.putBoolean("showDetails", currentFragment.getShowDetails());
 		editor.commit();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		actionBar.setSelectedNavigationItem(Constants.SOUNDS_ITEM_POSITION);
 
 		// Restore preferences
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
 		showDetails = settings.getBoolean("showDetails", false);
-		soundFragment.setShowDetails(showDetails);
+		currentFragment.setShowDetails(showDetails);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -137,6 +224,7 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		setVolumeControlStream(AudioManager.STREAM_RING);
 		unbindDrawables(findViewById(R.id.SoundActivityRoot));
 		System.gc();
 	}
@@ -155,7 +243,7 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_sound_activity, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_script_activity, menu);
 		handleShowDetails(showDetails, menu.getItem(0));
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -170,7 +258,8 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 				break;
 
 			case R.id.show_details:
-				handleShowDetails(!soundFragment.getShowDetails(), item);
+				boolean newShowDetailsValue = !currentFragment.getShowDetails();
+				handleShowDetails(newShowDetailsValue, item);
 				break;
 
 			case R.id.copy:
@@ -186,15 +275,15 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 				break;
 
 			case R.id.rename:
-				soundFragment.startRenameActionMode();
+				currentFragment.startRenameActionMode();
 				break;
 
 			case R.id.delete:
-				soundFragment.startDeleteActionMode();
+				currentFragment.startDeleteActionMode();
 				break;
 
 			case R.id.settings:
-				intent = new Intent(SoundActivity.this, SettingsActivity.class);
+				intent = new Intent(ScriptActivity.this, SettingsActivity.class);
 				startActivity(intent);
 				break;
 		}
@@ -206,7 +295,7 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			Intent intent = new Intent(SoundActivity.this, StageActivity.class);
+			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
 			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
@@ -220,7 +309,7 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 	}
 
 	public void handleAddButton(View view) {
-		soundFragment.startSelectSoundIntent();
+		currentFragment.handleAddButton();
 	}
 
 	public void handlePlayButton(View view) {
@@ -235,18 +324,18 @@ public class SoundActivity extends SherlockFragmentActivity implements ErrorList
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		// Dismiss ActionMode without effecting sounds
-		if (soundFragment.getActionModeActive()) {
-			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-				SoundAdapter adapter = (SoundAdapter) soundFragment.getListAdapter();
-				adapter.clearCheckedSounds();
-			}
-		}
+		//Dismiss ActionMode without effecting sounds
+		//		if (currentFragment.getActionModeActive()) {
+		//			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+		//				//				currentFragment.getListAdapter();
+		//				//				adapter.clearCheckedSounds();
+		//			}
+		//		}
 		return super.dispatchKeyEvent(event);
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
-		soundFragment.setShowDetails(showDetails);
+		currentFragment.setShowDetails(showDetails);
 
 		String menuItemText = "";
 		if (showDetails) {

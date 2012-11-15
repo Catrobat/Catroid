@@ -11,7 +11,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.SoundActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -27,7 +27,7 @@ import android.widget.CheckBox;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundActivity> {
+public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 
@@ -55,7 +55,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 	private String deleteDialogTitle;
 
 	public SoundActivityTest() {
-		super(SoundActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		assertTrue("No button to stop recording", solo.waitForText(stopRecording, 0, TIME_TO_WAIT));
 		solo.clickOnText(stopRecording);
 
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(200);
 
 		checkIfNumberOfSoundsIsEqual("clicking on add button", expectedNumberOfSounds);
@@ -173,8 +173,8 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		solo.goBack();
 		solo.goBack();
 
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Not in SoundActivity", SoundActivity.class);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
 
 		checkIfNumberOfSoundsIsEqual("clicking on play button", expectedNumberOfSounds);
 	}
@@ -189,7 +189,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 
 		String sounds = solo.getString(R.string.sounds);
 		clickOnSpinnerItem(sounds);
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		checkIfNumberOfSoundsIsEqual("clicking on " + sounds, expectedNumberOfSounds);
 
@@ -199,7 +199,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		//TODO CHANGE TO SCRIPTACTIVITY!
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
 
 		checkIfNumberOfSoundsIsEqual("clicking on " + scripts, expectedNumberOfSounds);
@@ -210,7 +210,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		//TODO CHANGE TO LOOKACTIVITY!
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 		solo.goBack();
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
 
 		checkIfNumberOfSoundsIsEqual("clicking on " + looks, expectedNumberOfSounds);
@@ -350,7 +350,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<SoundAct
 		clickOnOverflowMenuItem(settings);
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 		solo.goBack();
-		solo.assertCurrentActivity("Not in SoundActivity", SoundActivity.class);
+		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
 	}
 
 	private void checkIfNumberOfSoundsIsEqual(String assertMessageAffix, int numberToCompare) {

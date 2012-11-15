@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2012 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,24 +19,26 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.catrobat.catroid.ui.fragment;
 
+import com.actionbarsherlock.app.SherlockListFragment;
 
--->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/SoundActivityRoot"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white" >
+/**
+ * @author Daniel
+ * 
+ */
+public abstract class ScriptActivityFragment extends SherlockListFragment {
 
-    <include
-        android:id="@+id/bottom_bar"
-        layout="@layout/bottom_bar" />
+	public abstract void setShowDetails(boolean showDetails);
 
-    <fragment
-        android:id="@+id/fr_sound"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.SoundFragment" />
+	public abstract boolean getShowDetails();
 
-</RelativeLayout>
+	public abstract void startRenameActionMode();
+
+	public abstract void startDeleteActionMode();
+
+	public abstract boolean getActionModeActive();
+
+	public abstract void handleAddButton();
+}

@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -116,20 +117,15 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	}
 
 	public void handleScriptsButton(View v) {
-		//TODO: start ScriptActivity
-		Intent intent = new Intent(this, ScriptTabActivity.class);
-		startActivity(intent);
+		startScriptActivity(Constants.FRAGMENT_SCRIPTS);
 	}
 
 	public void handleCostumesButton(View v) {
-		//TODO: start LookActivity
-		Intent intent = new Intent(this, ScriptTabActivity.class);
-		startActivity(intent);
+		startScriptActivity(Constants.FRAGMENT_COSTUMES);
 	}
 
 	public void handleSoundsButton(View v) {
-		Intent intent = new Intent(this, SoundActivity.class);
-		startActivity(intent);
+		startScriptActivity(Constants.FRAGMENT_SOUNDS);
 	}
 
 	public void handlePlayButton(View view) {
@@ -142,4 +138,12 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 
+	private void startScriptActivity(int fragment) {
+		Bundle bundle = new Bundle();
+		bundle.putInt("fragment", fragment);
+
+		Intent intent = new Intent(this, ScriptActivity.class);
+		intent.putExtras(bundle);
+		startActivity(intent);
+	}
 }

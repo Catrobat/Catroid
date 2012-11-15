@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -50,14 +51,10 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import org.catrobat.catroid.R;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class ScriptFragment extends SherlockFragment implements OnCategorySelectedListener,
+public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
@@ -172,20 +169,20 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
-		final MenuItem addItem = menu.findItem(R.id.menu_add);
-		addItem.setIcon(R.drawable.ic_plus_black);
-		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				if (listView.setHoveringBrick()) {
-					return false;
-				}
-
-				showCategoryDialog();
-
-				return true;
-			}
-		});
+		//		final MenuItem addItem = menu.findItem(R.id.menu_add);
+		//		addItem.setIcon(R.drawable.ic_plus_black);
+		//		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+		//			@Override
+		//			public boolean onMenuItemClick(MenuItem item) {
+		//				if (listView.setHoveringBrick()) {
+		//					return false;
+		//				}
+		//
+		//				showCategoryDialog();
+		//
+		//				return true;
+		//			}
+		//		});
 	}
 
 	public void showCategoryDialog() {
@@ -247,6 +244,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		return adapter;
 	}
 
+	@Override
 	public DragAndDropListView getListView() {
 		return listView;
 	}
@@ -344,5 +342,41 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 				adapter.updateProjectBrickList();
 			}
 		}
+	}
+
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean getShowDetails() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void startRenameActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handleAddButton() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean getActionModeActive() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

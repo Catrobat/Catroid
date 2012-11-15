@@ -33,7 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.SoundActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
@@ -71,11 +71,10 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
-public class SoundFragment extends SherlockListFragment implements OnSoundEditListener,
+public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
 
 	private class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
@@ -192,14 +191,6 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		super.onSaveInstanceState(outState);
 	}
 
-	public void startSelectSoundIntent() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("audio/*");
-
-		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
-				REQUEST_SELECT_MUSIC);
-	}
-
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -223,10 +214,10 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 			soundDeletedReceiver = new SoundDeletedReceiver();
 		}
 
-		IntentFilter intentFilterRenameSound = new IntentFilter(SoundActivity.ACTION_SOUND_RENAMED);
+		IntentFilter intentFilterRenameSound = new IntentFilter(ScriptActivity.ACTION_SOUND_RENAMED);
 		getActivity().registerReceiver(soundRenamedReceiver, intentFilterRenameSound);
 
-		IntentFilter intentFilterDeleteSound = new IntentFilter(SoundActivity.ACTION_SOUND_DELETED);
+		IntentFilter intentFilterDeleteSound = new IntentFilter(ScriptActivity.ACTION_SOUND_DELETED);
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
 
 		stopSound();
@@ -345,12 +336,14 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		}
 	};
 
+	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 		}
 	}
 
+	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
@@ -426,11 +419,11 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		switch (v.getId()) {
 			case R.id.view_below_soundlist_non_scrollable:
 				addSoundViewsSetClickableFlag(false);
-				startSelectSoundIntent();
+				handleAddButton();
 				break;
 			case R.id.soundlist_footerview:
 				addSoundViewsSetClickableFlag(false);
-				startSelectSoundIntent();
+				handleAddButton();
 				break;
 		}
 	}
@@ -577,15 +570,18 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		return adapter.getSelectMode();
 	}
 
+	@Override
 	public void setShowDetails(boolean showDetails) {
 		adapter.setShowDetails(showDetails);
 		adapter.notifyDataSetChanged();
 	}
 
+	@Override
 	public boolean getShowDetails() {
 		return adapter.getShowDetails();
 	}
 
+	@Override
 	public boolean getActionModeActive() {
 		return actionModeActive;
 	}
@@ -596,7 +592,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 		soundInfoList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
 
-		getActivity().sendBroadcast(new Intent(SoundActivity.ACTION_SOUND_DELETED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
 
 	private void showRenameDialog() {
@@ -616,7 +612,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	private class SoundRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_RENAMED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SOUND_RENAMED)) {
 				String newSoundTitle = intent.getExtras().getString(RenameSoundDialog.EXTRA_NEW_SOUND_TITLE);
 
 				if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
@@ -630,9 +626,18 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	private class SoundDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(SoundActivity.ACTION_SOUND_DELETED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SOUND_DELETED)) {
 				adapter.notifyDataSetChanged();
 			}
 		}
+	}
+
+	@Override
+	public void handleAddButton() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("audio/*");
+
+		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+				REQUEST_SELECT_MUSIC);
 	}
 }

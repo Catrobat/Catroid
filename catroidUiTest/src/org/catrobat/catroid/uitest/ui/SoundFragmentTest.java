@@ -30,7 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.SoundActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
@@ -47,7 +47,7 @@ import android.widget.ImageButton;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundActivity> {
+public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 
@@ -65,7 +65,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 	private ProjectManager projectManager;
 
 	public SoundFragmentTest() {
-		super(SoundActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -166,7 +166,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 		// Test if showDetails is remembered after pressing back
 		goToProgramMenuActivity();
 		solo.clickOnText(solo.getString(R.string.sounds));
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(timeToWait);
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
 
@@ -220,8 +220,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 
 		getSoundFragment().startActivityForResult(intent, SoundFragment.REQUEST_SELECT_MUSIC);
 		solo.sleep(1000);
-		solo.waitForActivity(SoundActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Should be in SoundActivity", SoundActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Should be in SoundActivity", ScriptActivity.class.getSimpleName());
 
 		assertTrue("External file not added from mockActivity", solo.searchText("externalSoundFile"));
 		assertTrue("Checksum not in checksumcontainer",
@@ -263,7 +263,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<SoundAct
 
 	private SoundFragment getSoundFragment() {
 		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		return (SoundFragment) fragmentManager.findFragmentById(R.id.fr_sound);
+		return (SoundFragment) fragmentManager.findFragmentById(R.id.fr_script);
 	}
 
 	private SoundAdapter getSoundAdapter() {

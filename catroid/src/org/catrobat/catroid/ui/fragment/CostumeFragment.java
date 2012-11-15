@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
@@ -65,15 +66,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
-import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.graphics.Pixmap;
 
-public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener,
+public class CostumeFragment extends ScriptActivityFragment implements OnCostumeEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_COSTUME = "selected_costume";
@@ -205,23 +204,23 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_scripttab_costumes, menu);
+		//inflater.inflate(R.menu.menu_scripttab_costumes, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.menu_scripttab_costumes, menu);
-
-		int addButtonIcon;
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
-			addButtonIcon = R.drawable.ic_background;
-		} else {
-			addButtonIcon = R.drawable.ic_actionbar_shirt;
-		}
-		menu.findItem(R.id.menu_add).setIcon(addButtonIcon);
+		//		menu.clear();
+		//		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.menu_scripttab_costumes, menu);
+		//
+		//		int addButtonIcon;
+		//		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		//		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
+		//			addButtonIcon = R.drawable.ic_background;
+		//		} else {
+		//			addButtonIcon = R.drawable.ic_actionbar_shirt;
+		//		}
+		//		menu.findItem(R.id.menu_add).setIcon(addButtonIcon);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -631,5 +630,41 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				}
 			}
 		}
+	}
+
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean getShowDetails() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void startRenameActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handleAddButton() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean getActionModeActive() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

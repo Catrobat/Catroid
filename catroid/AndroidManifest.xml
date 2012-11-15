@@ -96,7 +96,7 @@
             android:theme="@style/Theme.Catroid" 
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.SoundActivity"
+            android:name=".ui.ScriptActivity"
             android:theme="@style/Theme.Catroid"
             android:screenOrientation="portrait" />
         <activity

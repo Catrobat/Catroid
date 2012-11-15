@@ -28,7 +28,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.SoundActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -80,6 +80,6 @@ public class DeleteSoundDialog extends DialogFragment {
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 		soundInfoList.remove(position);
 
-		getActivity().sendBroadcast(new Intent(SoundActivity.ACTION_SOUND_DELETED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
 }
