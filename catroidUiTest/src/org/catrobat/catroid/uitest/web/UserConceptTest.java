@@ -111,7 +111,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, "").commit();
-		solo.sleep(500);
+		solo.sleep(1500);
 		fillLoginDialog(true);
 
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
@@ -129,8 +129,9 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		prefs.edit().putString(Constants.TOKEN, "wrong_token").commit();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
-		solo.sleep(4000);
+		solo.sleep(3000);
 		fillLoginDialog(true);
+		solo.sleep(1000);
 
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
@@ -144,6 +145,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
 		fillRegistrationDialogs(false);
+		solo.sleep(1000);
 
 		assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
 		solo.clickOnButton(0);
