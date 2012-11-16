@@ -305,7 +305,6 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 
 	@Override
 	public void onTokenNotValid() {
-		//showLoginRegisterDialog();
 		showLoginDialog();
 	}
 
