@@ -172,11 +172,8 @@
     <string name="register">Register</string>
     <string name="next_registration_step">Next</string>
     <string name="already_registered">Already registered? Login here</string>
-    <string name="change_date">Change date</string>
     <string name="show_password">Show password</string>
     <string name="password_forgotten">Password forgotten</string>
-    <string name="password_recover">Recover password</string>
-    <string name="email">E-Mail address:</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
     <string name="register_password_mismatch">Error: Passwords do not match</string>
