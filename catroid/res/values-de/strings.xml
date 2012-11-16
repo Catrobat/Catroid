@@ -180,11 +180,8 @@
     <string name="register">Registrieren</string>
     <string name="next_registration_step">Weiter</string>
     <string name="already_registered">Bereits registriert? Hier einloggen</string>
-    <string name="change_date">Datum ändern</string>
     <string name="show_password">Zeige Passwort</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
-    <string name="password_recover">Password wiederherstellen</string>
-    <string name="email">E-Mail-Addresse:</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
     <string name="register_password_mismatch">Fehler: Passwörter passen nicht zusammen</string>

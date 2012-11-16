@@ -47,7 +47,7 @@ import android.widget.EditText;
 public class LoginDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
 	private static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_login_register";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_login";
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
