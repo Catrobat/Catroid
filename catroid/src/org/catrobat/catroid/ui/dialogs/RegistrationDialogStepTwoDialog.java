@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.transfers.RegistrationData;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -80,6 +81,27 @@ public class RegistrationDialogStepTwoDialog extends DialogFragment implements O
 		ArrayAdapter<CharSequence> countryAdapter = new ArrayAdapter<CharSequence>(getActivity(),
 				android.R.layout.simple_spinner_item, countryList);
 		countrySpinner.setAdapter(countryAdapter);
+		String userCountry = UtilDeviceInfo.getUserCountryCode(getActivity());
+		int localCountryPosition = 0;
+		if (!userCountry.equals("")) {
+			localCountryPosition = findSpinnerValuePosition(userCountry);
+			countrySpinner.setSelection(localCountryPosition);
+		}
+	}
+
+	private int findSpinnerValuePosition(String value) {
+		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
+		int position = 0;
+		for (int stringArrayPosition = 0; stringArrayPosition <= countryList.length; stringArrayPosition++) {
+			String currentItem = countryList[position];
+			int countryPosition = currentItem.indexOf("/");
+			String countryCode = currentItem.substring(0, countryPosition);
+			if (countryCode.equals(value.toLowerCase())) {
+				return position;
+			}
+			position++;
+		}
+		return 0;
 	}
 
 	@Override

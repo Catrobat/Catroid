@@ -23,11 +23,13 @@
 package org.catrobat.catroid.uitest.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.web.ServerCalls;
 
 import android.content.SharedPreferences;
@@ -182,13 +184,29 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertTrue("Male radio button is not checked", male.isChecked());
 		assertFalse("Female radio button is still checked after selecting male", female.isChecked());
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
-		solo.sleep(300);
+		solo.sleep(500);
 
 		Spinner countrySpinner = (Spinner) solo.getView(R.id.country);
-		solo.pressSpinnerItem(0, 13);
-		solo.sleep(1000);
 		int selectedItemPosition = countrySpinner.getSelectedItemPosition();
-		assertEquals("Wrong value selected in country spinner", 13, selectedItemPosition);
+
+		String[] countryList = getActivity().getResources().getStringArray(R.array.countries_array);
+		String userCountry = UtilDeviceInfo.getUserCountryCode(getActivity());
+		int position = 0;
+		for (int stringArrayPosition = 0; stringArrayPosition <= countryList.length; stringArrayPosition++) {
+			String currentItem = countryList[position];
+			int countryPosition = currentItem.indexOf("/");
+			String countryCode = currentItem.substring(0, countryPosition);
+			if (countryCode.equals(userCountry.toLowerCase())) {
+				break;
+			}
+			position++;
+		}
+		assertEquals("Wrong default value selected in country spinner", selectedItemPosition, position);
+
+		solo.pressSpinnerItem(0, 3);
+		solo.sleep(1000);
+		int newSelectedItemPosition = countrySpinner.getSelectedItemPosition();
+		assertEquals("Wrong value selected in country spinner", selectedItemPosition + 3, newSelectedItemPosition);
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
@@ -205,7 +223,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		String selectedYear = yearSpinner.getSelectedItem().toString();
 		assertEquals("Month spinner initialized with wrong value",
 				solo.getString(R.string.register_birthday_month_january), selectedMonth);
-		assertEquals("Year spinner initialized with wrong value", "1900", selectedYear);
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		assertEquals("Year spinner initialized with wrong value", currentYear - 10, Integer.parseInt(selectedYear));
 		solo.pressSpinnerItem(0, 1);
 		solo.sleep(500);
 		solo.pressSpinnerItem(1, 2);
@@ -214,7 +233,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		selectedYear = yearSpinner.getSelectedItem().toString();
 		assertEquals("Wrong value selected in month spinner",
 				solo.getString(R.string.register_birthday_month_february), selectedMonth);
-		assertEquals("Wrong value selected in year spinner", "1902", selectedYear);
+		assertEquals("Wrong value selected in year spinner", currentYear - 10 + 2, Integer.parseInt(selectedYear));
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
 
@@ -258,7 +277,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(1000);
 
 		assertTrue("No registration completed text shown",
-				solo.waitForText(solo.getString(R.string.registration_completed)));
+				solo.waitForText(solo.getString(R.string.registration_completed), 1, 30000));
 		solo.clickOnButton(solo.getString(R.string.upload_button));
 		solo.sleep(500);
 

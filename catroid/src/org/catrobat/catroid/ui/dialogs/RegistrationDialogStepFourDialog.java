@@ -87,6 +87,8 @@ public class RegistrationDialogStepFourDialog extends DialogFragment implements 
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(),
 				android.R.layout.simple_spinner_item, yearList);
 		yearSpinner.setAdapter(adapter);
+		//select now minus 10 years as default
+		yearSpinner.setSelection(position - 10);
 	}
 
 	private void addItemsOnMonthSpinner() {
