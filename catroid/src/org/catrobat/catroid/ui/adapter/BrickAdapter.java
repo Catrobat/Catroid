@@ -812,7 +812,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void onClick(final View view) {
 		if (view instanceof FrameLayout) {
 			ScriptActivity activity = (ScriptActivity) context;
-			ScriptFragment fragment = (ScriptFragment) activity.getFragment(Constants.FRAGMENT_SCRIPTS);
+			ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 			if (fragment != null) {
 				fragment.handleAddButton();
 			}

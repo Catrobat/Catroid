@@ -119,7 +119,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 		mViewPager.setCurrentItem(position);
 
 		ScriptActivity activity = (ScriptActivity) mContext;
-		ScriptFragment fragment = (ScriptFragment) activity.getFragment(Constants.FRAGMENT_SCRIPTS);
+		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		if (fragment != null) {
 			DragAndDropListView listView = fragment.getListView();
 			if (listView != null) {

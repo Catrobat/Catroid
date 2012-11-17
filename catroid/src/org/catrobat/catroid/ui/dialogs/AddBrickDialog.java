@@ -207,7 +207,7 @@ public class AddBrickDialog extends DialogFragment {
 
 	private ScriptFragment getScriptFragment() {
 		ScriptActivity scriptActivity = ((ScriptActivity) getActivity());
-		return (ScriptFragment) scriptActivity.getFragment(Constants.FRAGMENT_SCRIPTS);
+		return (ScriptFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	private static boolean isBackground(Sprite sprite) {

@@ -160,7 +160,7 @@ public class BrickCategoryDialog extends DialogFragment {
 
 	private void abort() {
 		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		ScriptFragment scriptFragment = (ScriptFragment) scriptActivity.getFragment(Constants.FRAGMENT_SCRIPTS);
+		ScriptFragment scriptFragment = (ScriptFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		scriptFragment.setCreateNewBrick(false);
 	}
 

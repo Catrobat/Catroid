@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
@@ -55,6 +54,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class ScriptActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
+	public static final int FRAGMENT_SCRIPTS = 0;
+	public static final int FRAGMENT_COSTUMES = 1;
+	public static final int FRAGMENT_SOUNDS = 2;
+
 	public static final String ACTION_SPRITE_RENAMED = "org.catrobat.catroid.SPRITE_RENAMED";
 	public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
 	public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
@@ -91,10 +94,10 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 			Bundle bundle = this.getIntent().getExtras();
 
-			int fragmentPosition = Constants.FRAGMENT_SCRIPTS;
+			int fragmentPosition = FRAGMENT_SCRIPTS;
 
 			if (bundle != null) {
-				fragmentPosition = bundle.getInt("fragment", Constants.FRAGMENT_SCRIPTS);
+				fragmentPosition = bundle.getInt("fragment", FRAGMENT_SCRIPTS);
 			} else {
 				Log.d("CATROID", "No given bundle to determine fragment");
 			}
@@ -132,48 +135,46 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	private void hideFragment(int fragment, FragmentTransaction fragmentTransaction) {
 		switch (fragment) {
-			case Constants.FRAGMENT_SCRIPTS:
+			case FRAGMENT_SCRIPTS:
 				fragmentTransaction.hide(scriptFragment);
 				Log.d("TEST", "______HIDE______ScriptFragment");
 				break;
-			case Constants.FRAGMENT_COSTUMES:
+			case FRAGMENT_COSTUMES:
 				fragmentTransaction.hide(costumeFragment);
 				Log.d("TEST", "______HIDE______CostumeFragment");
 				break;
-			case Constants.FRAGMENT_SOUNDS:
+			case FRAGMENT_SOUNDS:
 				fragmentTransaction.hide(soundFragment);
 				Log.d("TEST", "______HIDE______SoundFragment");
 				break;
 		}
 	}
 
-	private void updateCurrentFragment(int fragment, FragmentTransaction fragmentTransaction) {
+	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
 		boolean fragmentDoesNotExist = false;
+		currentFragmentPosition = fragmentPosition;
 
-		switch (fragment) {
-			case Constants.FRAGMENT_SCRIPTS:
+		switch (currentFragmentPosition) {
+			case FRAGMENT_SCRIPTS:
 				if (scriptFragment == null) {
 					scriptFragment = new ScriptFragment();
 					fragmentDoesNotExist = true;
 				}
 				currentFragment = scriptFragment;
-				currentFragmentPosition = Constants.FRAGMENT_SCRIPTS;
 				break;
-			case Constants.FRAGMENT_COSTUMES:
+			case FRAGMENT_COSTUMES:
 				if (costumeFragment == null) {
 					costumeFragment = new CostumeFragment();
 					fragmentDoesNotExist = true;
 				}
 				currentFragment = costumeFragment;
-				currentFragmentPosition = Constants.FRAGMENT_COSTUMES;
 				break;
-			case Constants.FRAGMENT_SOUNDS:
+			case FRAGMENT_SOUNDS:
 				if (soundFragment == null) {
 					soundFragment = new SoundFragment();
 					fragmentDoesNotExist = true;
 				}
 				currentFragment = soundFragment;
-				currentFragmentPosition = Constants.FRAGMENT_SOUNDS;
 				break;
 		}
 		if (fragmentDoesNotExist) {
@@ -345,13 +346,13 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		ScriptActivityFragment fragment = null;
 
 		switch (fragmentPosition) {
-			case Constants.FRAGMENT_SCRIPTS:
+			case FRAGMENT_SCRIPTS:
 				fragment = scriptFragment;
 				break;
-			case Constants.FRAGMENT_COSTUMES:
+			case FRAGMENT_COSTUMES:
 				fragment = costumeFragment;
 				break;
-			case Constants.FRAGMENT_SOUNDS:
+			case FRAGMENT_SOUNDS:
 				fragment = soundFragment;
 				break;
 		}
