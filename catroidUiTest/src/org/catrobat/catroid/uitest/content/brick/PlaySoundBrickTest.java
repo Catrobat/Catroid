@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.media.MediaPlayer;
@@ -43,7 +43,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 
@@ -55,7 +55,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	private ArrayList<SoundInfo> soundInfoList;
 
 	public PlaySoundBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.goBack();
 		solo.goBack();
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnText(soundName);
 		solo.clickOnText(soundName2);
 		assertTrue(soundName2 + " is not selected in Spinner", solo.searchText(soundName2));

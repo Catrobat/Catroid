@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -47,7 +47,7 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final int STEPS_TO_GO_BACK = 17;
 
 	private Solo solo;
@@ -55,7 +55,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private GoNStepsBackBrick goNStepsBackBrick;
 
 	public GoNStepsBackTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -75,8 +75,8 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Smoke
 	public void testGoNStepsBackBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();

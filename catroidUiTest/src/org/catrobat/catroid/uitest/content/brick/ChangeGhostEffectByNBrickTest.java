@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -42,7 +42,7 @@ import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final double EFFECT_TO_CHANGE = 11.2;
 
 	private Solo solo;
@@ -50,7 +50,7 @@ public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCa
 	private ChangeGhostEffectByNBrick changeGhostEffectByNBrick;
 
 	public ChangeGhostEffectByNBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -70,8 +70,8 @@ public class ChangeGhostEffectByNBrickTest extends ActivityInstrumentationTestCa
 
 	@Smoke
 	public void testChangeGhostEffectByNBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();

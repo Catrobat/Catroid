@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -43,7 +43,7 @@ import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final int SET_SPEED = 30;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int MAX_SPEED = 100;
@@ -54,7 +54,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 	private LegoNxtMotorActionBrick motorBrick;
 
 	public LegoNxtMotorActionBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -74,8 +74,8 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 
 	@Smoke
 	public void testNXTMotorActionBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
@@ -147,16 +147,16 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 
 		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
 		solo.pressSpinnerItem(0, 0);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
 	}
 

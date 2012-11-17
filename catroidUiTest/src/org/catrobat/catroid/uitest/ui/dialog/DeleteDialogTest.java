@@ -26,10 +26,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -37,7 +38,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -88,7 +88,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
 		String deleteCostumeText = solo.getString(R.string.delete_lowercase);
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.sleep(200);
@@ -97,8 +97,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		CostumeFragment fragment = (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		CostumeFragment fragment = (CostumeFragment) activity.getFragment(ScriptActivity.FRAGMENT_COSTUMES);
 		ListAdapter adapter = fragment.getListAdapter();
 
 		int oldCount = adapter.getCount();
@@ -120,7 +120,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
 		String deleteSoundText = solo.getString(R.string.delete_lowercase);
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.sleep(200);
@@ -129,8 +129,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		SoundFragment fragment = (SoundFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SOUNDS);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		SoundFragment fragment = (SoundFragment) activity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
 		ListAdapter adapter = fragment.getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(buttonCancelText);

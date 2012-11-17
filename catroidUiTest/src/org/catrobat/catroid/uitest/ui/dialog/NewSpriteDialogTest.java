@@ -33,7 +33,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -87,8 +87,8 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(testingsprite);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptTabActivity.class);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptActivity.class);
 	}
 
 	public void testAddSpriteDialogNoName() {

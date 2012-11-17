@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -40,7 +41,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -48,7 +49,6 @@ import org.catrobat.catroid.utils.Utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -200,7 +200,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(200);
 
 		solo.clickInList(0);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 	}
 
@@ -224,7 +224,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	private CostumeFragment getCostumeFragment() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		return (CostumeFragment) activity.getFragment(ScriptActivity.FRAGMENT_COSTUMES);
 	}
 }

@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -52,14 +52,14 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 
 	public PlaceAtBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -79,8 +79,8 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Smoke
 	public void testPlaceAtBrick() throws InterruptedException {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
@@ -128,8 +128,8 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testResizeInputFields() {
 		ProjectManager.getInstance().deleteCurrentProject();
 		createTestProject();
-		Intent intent = new Intent(ScriptTabActivity.ACTION_NEW_BRICK_ADDED);
-		intent.setAction(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
+		Intent intent = new Intent(ScriptActivity.ACTION_NEW_BRICK_ADDED);
+		intent.setAction(ScriptActivity.ACTION_BRICK_LIST_CHANGED);
 		solo.getCurrentActivity().sendBroadcast(intent);
 
 		for (int i = 0; i < 2; i++) {

@@ -235,6 +235,6 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createEmptyProject();
 
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 }

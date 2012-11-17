@@ -9,9 +9,8 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -20,7 +19,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.CheckBox;
@@ -94,8 +92,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
 
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		SoundFragment soundFragment = (SoundFragment) fragmentManager.findFragmentById(R.id.fr_sound);
+		SoundFragment soundFragment = (SoundFragment) getActivity().getFragment(ScriptActivity.FRAGMENT_SOUNDS);
 		SoundAdapter soundAdapter = (SoundAdapter) soundFragment.getListAdapter();
 
 		if (soundAdapter.getShowDetails()) {
@@ -197,7 +194,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 		clickOnSpinnerItem(scripts);
 
 		//TODO CHANGE TO SCRIPTACTIVITY!
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
@@ -208,7 +205,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 		clickOnSpinnerItem(looks);
 
 		//TODO CHANGE TO LOOKACTIVITY!
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));

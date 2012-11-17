@@ -28,6 +28,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -136,7 +137,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.clickOnText(spriteToTest);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Wrong label - Tab should be named \"Backgrounds\"", solo.searchText(backgroundTabLabel));
 		solo.clickOnText(backgroundTabLabel);
 		solo.sleep(500);
@@ -151,7 +152,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 			solo.clickOnText(spriteToTest);
 			solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 			solo.clickOnText(solo.getString(R.string.scripts));
-			solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+			solo.waitForActivity(ScriptActivity.class.getSimpleName());
 			assertTrue("Wrong label - Tab should be named \"Costumes\"",
 					solo.searchText(solo.getString(R.string.costumes)));
 		}
@@ -166,7 +167,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		solo.clickInList(0);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		String scriptsLabel = solo.getString(R.string.scripts);
 		String backgroundsLabel = solo.getString(R.string.backgrounds);

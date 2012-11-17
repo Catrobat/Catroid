@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.Intent;
@@ -43,7 +43,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private final int RESOURCE_COSTUME = org.catrobat.catroid.uitest.R.raw.icon;
 	private final int RESOURCE_COSTUME2 = org.catrobat.catroid.uitest.R.raw.icon2;
 
@@ -55,7 +55,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	private ArrayList<CostumeData> costumeDataList;
 
 	public SetCostumeBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		solo = new Solo(getInstrumentation(), getActivity());
 
-		Intent intent = new Intent(getActivity(), ScriptTabActivity.class);
+		Intent intent = new Intent(getActivity(), ScriptActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		getActivity().startActivity(intent);
 	}
@@ -134,7 +134,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(0).getAbsolutePath());
 		solo.goBack();
 		solo.goBack();
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		solo.clickOnText(costumeName);
 		solo.clickOnText(costumeName2);

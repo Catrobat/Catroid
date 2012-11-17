@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -42,7 +42,7 @@ import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final float VOLUME_TO_CHANGE = 50.0f;
 
 	private Solo solo;
@@ -50,7 +50,7 @@ public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<S
 	private ChangeVolumeByNBrick changeVolumeByNBrick;
 
 	public ChangeVolumeByNBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -70,8 +70,8 @@ public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<S
 
 	@Smoke
 	public void testChangeVolumeByNBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		BrickAdapter adapter = fragment.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();

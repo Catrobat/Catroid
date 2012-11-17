@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -38,12 +38,12 @@ import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 
 	public SoundRecorderTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		File recordedFile = new File(recordPath);
 		assertTrue("recorded sound file not found in file system", recordedFile.exists());
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		String recordTitle = solo.getString(R.string.soundrecorder_recorded_filename);
 		if (recordNumber > 1) {

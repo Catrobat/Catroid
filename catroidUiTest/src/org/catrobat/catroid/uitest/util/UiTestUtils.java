@@ -62,7 +62,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilToken;
 import org.catrobat.catroid.utils.Utils;
@@ -779,11 +779,11 @@ public class UiTestUtils {
 		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 	}
 
-	public static void getIntoScriptTabActivityFromMainMenu(Solo solo) {
-		getIntoScriptTabActivityFromMainMenu(solo, 0);
+	public static void getIntoScriptActivityFromMainMenu(Solo solo) {
+		getIntoScriptActivityFromMainMenu(solo, 0);
 	}
 
-	public static void getIntoScriptTabActivityFromMainMenu(Solo solo, int spriteIndex) {
+	public static void getIntoScriptActivityFromMainMenu(Solo solo, int spriteIndex) {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
 
@@ -795,7 +795,7 @@ public class UiTestUtils {
 		solo.clickInList(spriteIndex);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
 	}

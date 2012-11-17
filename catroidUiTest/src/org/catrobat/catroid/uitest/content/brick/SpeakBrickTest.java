@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 
@@ -40,7 +40,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	//	private String testString2 = "";
 
 	public SpeakBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override

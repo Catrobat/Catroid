@@ -40,7 +40,6 @@ import org.catrobat.catroid.utils.Utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ImageButton;
@@ -262,8 +261,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptAc
 	}
 
 	private SoundFragment getSoundFragment() {
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		return (SoundFragment) fragmentManager.findFragmentById(R.id.fr_script);
+		return (SoundFragment) getActivity().getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	private SoundAdapter getSoundAdapter() {

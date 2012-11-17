@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -293,7 +293,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 		assertTrue("Checksum not in checksumcontainer",
@@ -328,7 +328,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 
 		solo.sleep(5000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5PaintroidImage);
@@ -361,7 +361,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
@@ -386,7 +386,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
@@ -408,7 +408,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		int numberOfCostumeDatas = costumeDataList.size();
@@ -426,7 +426,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
@@ -457,9 +457,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(2000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 2000);
-		solo.assertCurrentActivity("Test should not fail - should be in ScriptTabActivity",
-				ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName(), 2000);
+		solo.assertCurrentActivity("Test should not fail - should be in ScriptActivity",
+				ScriptActivity.class.getSimpleName());
 		costumeDataList = ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList();
 		int numberOfCostumeDatasAfterReturning = costumeDataList.size();
 		assertEquals("wrong size of costumedatalist", numberOfCostumeDatasBeforeIntent,
@@ -484,7 +484,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertNotSame("Picture did not change", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5ImageFile);
@@ -525,7 +525,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertEquals("wrong number of costumedatas", 3, costumeDataList.size());
 		assertTrue("new added image has been deleted", tempImageFile.exists());
@@ -575,7 +575,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
 		expectedCostumeName = defaultCostumeName + "3";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(4).getCostumeName());
@@ -601,7 +601,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
 		expectedCostumeName = defaultCostumeName + "4";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(5).getCostumeName());
@@ -670,12 +670,12 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private CostumeFragment getCostumeFragment() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		return (CostumeFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	private void goToCostumesTab() {
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		solo.sleep(500);
 	}
