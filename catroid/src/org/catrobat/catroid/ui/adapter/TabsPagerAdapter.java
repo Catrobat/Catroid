@@ -24,7 +24,8 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.util.ArrayList;
 
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
@@ -117,8 +118,8 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements TabHost.On
 		int position = mTabHost.getCurrentTab();
 		mViewPager.setCurrentItem(position);
 
-		ScriptTabActivity activity = (ScriptTabActivity) mContext;
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		ScriptActivity activity = (ScriptActivity) mContext;
+		ScriptFragment fragment = (ScriptFragment) activity.getFragment(Constants.FRAGMENT_SCRIPTS);
 		if (fragment != null) {
 			DragAndDropListView listView = fragment.getListView();
 			if (listView != null) {

@@ -87,7 +87,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		if (savedInstanceState == null) {
-			Log.d("TEST", "----------------");
 			Log.d("TEST", "-----CREATE-----");
 
 			Bundle bundle = this.getIntent().getExtras();
@@ -117,6 +116,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 				if (itemPosition != currentFragmentPosition) {
+					Log.d("TEST", "____NAVIGATE____");
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 					hideFragment(currentFragmentPosition, fragmentTransaction);
@@ -131,17 +131,18 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	private void hideFragment(int fragment, FragmentTransaction fragmentTransaction) {
-		Log.d("TEST", "      HIDE      ");
-
 		switch (fragment) {
 			case Constants.FRAGMENT_SCRIPTS:
 				fragmentTransaction.hide(scriptFragment);
+				Log.d("TEST", "______HIDE______ScriptFragment");
 				break;
 			case Constants.FRAGMENT_COSTUMES:
 				fragmentTransaction.hide(costumeFragment);
+				Log.d("TEST", "______HIDE______CostumeFragment");
 				break;
 			case Constants.FRAGMENT_SOUNDS:
 				fragmentTransaction.hide(soundFragment);
+				Log.d("TEST", "______HIDE______SoundFragment");
 				break;
 		}
 	}
@@ -151,8 +152,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 		switch (fragment) {
 			case Constants.FRAGMENT_SCRIPTS:
-				Log.d("TEST", "SCRIPT");
-
 				if (scriptFragment == null) {
 					scriptFragment = new ScriptFragment();
 					fragmentDoesNotExist = true;
@@ -161,8 +160,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				currentFragmentPosition = Constants.FRAGMENT_SCRIPTS;
 				break;
 			case Constants.FRAGMENT_COSTUMES:
-				Log.d("TEST", "LOOKS");
-
 				if (costumeFragment == null) {
 					costumeFragment = new CostumeFragment();
 					fragmentDoesNotExist = true;
@@ -171,8 +168,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				currentFragmentPosition = Constants.FRAGMENT_COSTUMES;
 				break;
 			case Constants.FRAGMENT_SOUNDS:
-				Log.d("TEST", "SOUND");
-
 				if (soundFragment == null) {
 					soundFragment = new SoundFragment();
 					fragmentDoesNotExist = true;
@@ -182,10 +177,10 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 		}
 		if (fragmentDoesNotExist) {
-			Log.d("TEST", "------INIT------");
+			Log.d("TEST", "------INIT------" + currentFragment.getClass().getSimpleName());
 			fragmentTransaction.add(R.id.script_fragment_container, currentFragment);
 		} else {
-			Log.d("TEST", "------SHOW------");
+			Log.d("TEST", "------SHOW------" + currentFragment.getClass().getSimpleName());
 			fragmentTransaction.show(currentFragment);
 		}
 	}
@@ -344,5 +339,22 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			menuItemText = getString(R.string.show_details);
 		}
 		item.setTitle(menuItemText);
+	}
+
+	public ScriptActivityFragment getFragment(int fragmentPosition) {
+		ScriptActivityFragment fragment = null;
+
+		switch (fragmentPosition) {
+			case Constants.FRAGMENT_SCRIPTS:
+				fragment = scriptFragment;
+				break;
+			case Constants.FRAGMENT_COSTUMES:
+				fragment = costumeFragment;
+				break;
+			case Constants.FRAGMENT_SOUNDS:
+				fragment = soundFragment;
+				break;
+		}
+		return fragment;
 	}
 }

@@ -185,15 +185,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		//		});
 	}
 
-	public void showCategoryDialog() {
-		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
-		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
-		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
-		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
-
-		adapter.notifyDataSetChanged();
-	}
-
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brick_list_view) {
@@ -370,8 +361,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void handleAddButton() {
-		// TODO Auto-generated method stub
+		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
+		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
+		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
+		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
 
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
