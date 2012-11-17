@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,6 +56,6 @@ public abstract class BrickTextDialog extends TextDialog {
 	@Override
 	protected void onOkButtonHandled() {
 		super.onOkButtonHandled();
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 }

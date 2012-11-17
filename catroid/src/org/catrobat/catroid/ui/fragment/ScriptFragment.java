@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
 import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog;
@@ -156,10 +156,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			brickListChangedReceiver = new BrickListChangedReceiver();
 		}
 
-		IntentFilter filterBrickAdded = new IntentFilter(ScriptTabActivity.ACTION_NEW_BRICK_ADDED);
+		IntentFilter filterBrickAdded = new IntentFilter(ScriptActivity.ACTION_NEW_BRICK_ADDED);
 		getActivity().registerReceiver(brickAddedReceiver, filterBrickAdded);
 
-		IntentFilter filterBrickListChanged = new IntentFilter(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
+		IntentFilter filterBrickListChanged = new IntentFilter(ScriptActivity.ACTION_BRICK_LIST_CHANGED);
 		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
 
 		initListeners();
@@ -310,7 +310,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private class NewBrickAddedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_NEW_BRICK_ADDED)) {
 				Brick brickToBeAdded = null;
 				Object tempObject = intent.getExtras().get("added_brick");
 				if (tempObject instanceof Brick) {
@@ -329,7 +329,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private class BrickListChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_BRICK_LIST_CHANGED)) {
 				adapter.updateProjectBrickList();
 			}
 		}

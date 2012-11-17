@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.CostumeAdapter;
 import org.catrobat.catroid.ui.adapter.CostumeAdapter.OnCostumeEditListener;
 import org.catrobat.catroid.ui.dialogs.DeleteCostumeDialog;
@@ -174,10 +174,10 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 			costumeRenamedReceiver = new CostumeRenamedReceiver();
 		}
 
-		IntentFilter intentFilterDeleteCostume = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_DELETED);
+		IntentFilter intentFilterDeleteCostume = new IntentFilter(ScriptActivity.ACTION_COSTUME_DELETED);
 		getActivity().registerReceiver(costumeDeletedReceiver, intentFilterDeleteCostume);
 
-		IntentFilter intentFilterRenameCostume = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_RENAMED);
+		IntentFilter intentFilterRenameCostume = new IntentFilter(ScriptActivity.ACTION_COSTUME_RENAMED);
 		getActivity().registerReceiver(costumeRenamedReceiver, intentFilterRenameCostume);
 
 		reloadAdapter();
@@ -461,7 +461,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 		}
 
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	private void loadImageIntoCatroid(Intent intent) {
@@ -561,7 +561,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 			e.printStackTrace();
 		}
 
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	private void handleEditCostumeButton(View v) {
@@ -610,10 +610,10 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 	private class CostumeDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_DELETED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_COSTUME_DELETED)) {
 				reloadAdapter();
 				adapter.notifyDataSetChanged();
-				getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 			}
 		}
 	}
@@ -621,7 +621,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 	private class CostumeRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_RENAMED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_COSTUME_RENAMED)) {
 				String newCostumeName = intent.getExtras().getString(RenameCostumeDialog.EXTRA_NEW_COSTUME_NAME);
 
 				if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {

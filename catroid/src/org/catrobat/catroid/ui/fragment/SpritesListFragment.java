@@ -35,7 +35,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
@@ -242,13 +242,13 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			spritesListInitReceiver = new SpritesListInitReceiver();
 		}
 
-		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptTabActivity.ACTION_SPRITE_RENAMED);
+		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptActivity.ACTION_SPRITE_RENAMED);
 		getActivity().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
 
-		IntentFilter intentFilterSpriteListChanged = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED);
+		IntentFilter intentFilterSpriteListChanged = new IntentFilter(ScriptActivity.ACTION_SPRITES_LIST_CHANGED);
 		getActivity().registerReceiver(spritesListChangedReceiver, intentFilterSpriteListChanged);
 
-		IntentFilter intentFilterSpriteListInit = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_INIT);
+		IntentFilter intentFilterSpriteListInit = new IntentFilter(ScriptActivity.ACTION_SPRITES_LIST_INIT);
 		getActivity().registerReceiver(spritesListInitReceiver, intentFilterSpriteListInit);
 
 		spriteAdapter.notifyDataSetChanged();
@@ -444,7 +444,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITE_RENAMED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
 				spriteToEdit.setName(newSpriteName);
 			}
@@ -454,7 +454,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	private class SpritesListChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_CHANGED)) {
 				spriteAdapter.notifyDataSetChanged();
 				final ListView listView = getListView();
 				listView.post(new Runnable() {
@@ -470,7 +470,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	private class SpritesListInitReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_INIT)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_INIT)) {
 				spriteAdapter.notifyDataSetChanged();
 			}
 		}
