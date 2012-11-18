@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -101,6 +102,8 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1);
 		solo.sleep(200);
 		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 60, true);
