@@ -192,8 +192,6 @@
     <string name="register_city">Stadt:</string>
     <string name="register_birthday">Geburtstag:</string>
     <string name="register_birthday_month">Monat:</string>
-    <string name="register_birthday_month_january">Jänner</string>
-    <string name="register_birthday_month_february">Februar</string>
     <string name="register_birthday_year">Jahr:</string>
     <string name="registration_step1">1/6</string>
     <string name="registration_step2">2/6</string>
@@ -202,8 +200,6 @@
     <string name="registration_step5">5/6</string>
     <string name="registration_step6">6/6</string>
     <string name="registration_completed">Danke für deine Registrierung. Bitte klicke auf die Schaltfläche um den Upload zu starten.</string>
-    <!-- Password recovery dialog -->
-    <string name="password_recovery_dialog_title">Passwortwiederherstellung</string>
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
     <string name="overwrite_replace">ersetze bestehendes Projekt</string>
