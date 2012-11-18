@@ -108,6 +108,9 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
+		TextView alreadyRegisteredView = (TextView) solo.getView((R.id.already_registered_button));
+		solo.clickOnView(alreadyRegisteredView);
+		solo.sleep(1000);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, "").commit();
@@ -223,8 +226,18 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		Spinner yearSpinner = (Spinner) solo.getView(R.id.birthday_year);
 		String selectedMonth = monthSpinner.getSelectedItem().toString();
 		String selectedYear = yearSpinner.getSelectedItem().toString();
-		assertEquals("Month spinner initialized with wrong value",
-				solo.getString(R.string.register_birthday_month_january), selectedMonth);
+
+		String monthJanuary = "";
+		String monthFebruary = "";
+		if (userCountry.equals("de")) {
+			monthJanuary = "Jänner";
+			monthFebruary = "Februar";
+		} else {
+			monthJanuary = "January";
+			monthFebruary = "February";
+		}
+
+		assertEquals("Month spinner initialized with wrong value", monthJanuary, selectedMonth);
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 		assertEquals("Year spinner initialized with wrong value", currentYear - 10, Integer.parseInt(selectedYear));
 		solo.pressSpinnerItem(0, 1);
@@ -233,8 +246,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(500);
 		selectedMonth = monthSpinner.getSelectedItem().toString();
 		selectedYear = yearSpinner.getSelectedItem().toString();
-		assertEquals("Wrong value selected in month spinner",
-				solo.getString(R.string.register_birthday_month_february), selectedMonth);
+
+		assertEquals("Wrong value selected in month spinner", monthFebruary, selectedMonth);
 		assertEquals("Wrong value selected in year spinner", currentYear - 10 + 2, Integer.parseInt(selectedYear));
 		solo.clickOnButton(solo.getString(R.string.next_registration_step));
 		solo.sleep(300);
