@@ -72,7 +72,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	public void testChangeScript() {
-		ListView parent = solo.getCurrentListViews().get(0);
+		ListView parent = UiTestUtils.getScriptListView(solo);
 		View testScriptBrick = parent.getChildAt(0);
 
 		solo.clickOnView(testScriptBrick);

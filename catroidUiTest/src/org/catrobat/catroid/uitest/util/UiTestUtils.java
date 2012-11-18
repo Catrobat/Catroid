@@ -248,7 +248,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId, int nThElement) {
-		clickOnActionBar(solo, R.id.menu_add);
+		clickOnBottomBar(solo, R.id.btn_add);
 		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), 0, 5000)) {
 			fail("Text not shown in 5 secs!");
 		}
@@ -656,7 +656,7 @@ public class UiTestUtils {
 			fail("ListView not shown in 10 secs!");
 		}
 
-		ListView listView = solo.getCurrentListViews().get(0);
+		ListView listView = solo.getCurrentListViews().get(1);
 
 		for (int i = 0; i < listView.getChildCount(); ++i) {
 			View currentViewInList = listView.getChildAt(i);
@@ -852,4 +852,7 @@ public class UiTestUtils {
 		StorageHandler.saveBitmapToImageFile(imageFile, imageBitmap);
 	}
 
+	public static ListView getScriptListView(Solo solo) {
+		return solo.getCurrentListViews().get(1);
+	}
 }
