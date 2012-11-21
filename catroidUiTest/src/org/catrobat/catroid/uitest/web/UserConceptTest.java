@@ -108,8 +108,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(1000);
-		TextView alreadyRegisteredView = (TextView) solo.getView((R.id.already_registered_button));
-		solo.clickOnView(alreadyRegisteredView);
+		solo.clickOnButton(solo.getString(R.string.already_registered_login));
 		solo.sleep(1000);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -163,8 +162,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(1000);
 
 		assertTrue("Registration dialog not shown", solo.searchText(solo.getString(R.string.register_dialog_title)));
-		TextView alreadyRegisteredView = (TextView) solo.getView((R.id.already_registered_button));
-		solo.clickOnView(alreadyRegisteredView);
+		solo.clickOnButton(solo.getString(R.string.already_registered_login));
 		solo.sleep(300);
 		assertTrue("Login dialog not shown", solo.searchText(solo.getString(R.string.login_dialog_title)));
 	}
@@ -229,7 +227,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		String monthJanuary = "";
 		String monthFebruary = "";
-		if (userCountry.equals("de")) {
+		if (userCountry.toLowerCase().equals("de")) {
 			monthJanuary = "Jänner";
 			monthFebruary = "Februar";
 		} else {

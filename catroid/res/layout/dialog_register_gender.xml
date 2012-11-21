@@ -73,11 +73,19 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/already_registered_button"
+        android:id="@+id/already_registered_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_below="@+id/linearLayout1"
         android:text="@string/already_registered" />
+    
+    <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:layout_below="@+id/already_registered_view"
+            android:text="@string/already_registered_login" />
 
 </RelativeLayout>
