@@ -77,9 +77,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			if (!Utils.isNetworkAvailable(context)) {
 				return false;
 			}
-			//TODO: email time just 4 testing
-			//String email = UtilDeviceInfo.getUserEmail(context);
-			String email = System.currentTimeMillis() + "@gmail.com";
+			String email = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
 			String country = RegistrationData.INSTANCE.getCountryCode();
 			String token = UtilToken.calculateToken(username, password);

@@ -35,7 +35,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 public class RegistrationDialogStepOneDialog extends DialogFragment implements OnRegistrationCompleteListener {
 
@@ -44,7 +43,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 	private RadioButton maleRadioButton;
 	private RadioButton femaleRadioButton;
 	private Button nextButton;
-	private TextView alreadyRegisteredTextView;
+	private Button alreadyRegisteredButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 		maleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_male);
 		femaleRadioButton = (RadioButton) rootView.findViewById(R.id.gender_female);
 		nextButton = (Button) rootView.findViewById(R.id.next_button);
-		alreadyRegisteredTextView = (TextView) rootView.findViewById(R.id.already_registered_button);
+		alreadyRegisteredButton = (Button) rootView.findViewById(R.id.login_button);
 
 		maleRadioButton.setChecked(true);
 		femaleRadioButton.setChecked(false);
@@ -79,7 +78,7 @@ public class RegistrationDialogStepOneDialog extends DialogFragment implements O
 			}
 		});
 
-		alreadyRegisteredTextView.setOnClickListener(new OnClickListener() {
+		alreadyRegisteredButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {

@@ -179,7 +179,8 @@
     <string name="login">Einloggen</string>
     <string name="register">Registrieren</string>
     <string name="next_registration_step">Weiter</string>
-    <string name="already_registered">Bereits registriert? Hier einloggen</string>
+    <string name="already_registered">Bereits registriert?</string>
+    <string name="already_registered_login">Hier einloggen</string>
     <string name="show_password">Zeige Passwort</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
