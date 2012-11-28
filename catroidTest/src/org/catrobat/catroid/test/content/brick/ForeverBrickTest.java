@@ -135,7 +135,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		Thread.sleep(expectedDelay / 5);
 
-		assertEquals("Executed the wrong number of times!", deltaY,
+		assertEquals("There was an unexpected delay at the begin of the loop!", deltaY,
 				(int) testSprite.costume.getYPosition());
 	}
 }
