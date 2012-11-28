@@ -1,0 +1,25 @@
+The purpose of this directory is to run Cucumber tests on Catroid.
+
+SETUP:
+-------------------------------------------------------------------------------
+
+You can use RVM with the .rvmrc provided in this directory.
+
+Install Ruby (http://www.ruby-lang.org).
+Install RVM (optional, https://rvm.io).
+Install Cucumber (http://cukes.info).
+Install Calabash-Android (https://github.com/calabash/calabash-android).
+Install Python (for the run-script, http://www.python.org)
+
+RUNNING TESTS:
+-------------------------------------------------------------------------------
+
+python run.py --help
+
+
+CHANGELOG:
+-------------------------------------------------------------------------------
+
+2012-11-28
+Initial commit. Added calabash-android skeleton and run-script.
+There is only a dummy-test for now.
