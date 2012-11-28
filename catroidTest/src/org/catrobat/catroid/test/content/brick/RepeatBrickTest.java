@@ -167,4 +167,29 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
 				(int) testSprite.costume.getYPosition());
 	}
+	
+	@FlakyTest(tolerance = 3)
+	public void testNoDelayAtBeginOfLoop() throws InterruptedException {
+		testSprite.removeAllScripts();
+		testScript = new StartScript(testSprite);
+
+		repeatBrick = new RepeatBrick(testSprite, 1);
+		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.startStartScripts();
+	
+		Thread.sleep(expectedDelay / 5);
+
+		assertEquals("There was an unexpected delay at the begin of the loop!", deltaY,
+				(int) testSprite.costume.getYPosition());
+	}
 }
