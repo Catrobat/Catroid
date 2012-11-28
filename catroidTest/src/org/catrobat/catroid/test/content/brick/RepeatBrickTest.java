@@ -68,7 +68,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		 * Let's wait even longer than necessary, then check if we only executed N times, not N+1 times
 		 * http://code.google.com/p/catroid/issues/detail?id=24
 		 */
-		Thread.sleep(expectedDelay * REPEAT_TIMES * 2);
+		Thread.sleep(expectedDelay * (REPEAT_TIMES + 1));
 
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY,
 				(int) testSprite.costume.getYPosition());
