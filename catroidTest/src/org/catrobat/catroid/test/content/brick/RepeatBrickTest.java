@@ -37,7 +37,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private StartScript testScript;
-	private static final int REPEAT_TIMES = 10;
+	private static final int REPEAT_TIMES = 4;
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick repeatBrick;
 
