@@ -44,7 +44,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
 	}
-
+	
 	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
 		final int fiveIsAlmostForever = 5;
@@ -111,5 +111,31 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		 */
 		final long delayByContract = 20;
 		assertEquals("Loop delay was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
+	}
+	
+	@FlakyTest(tolerance = 3)
+	public void testNoDelayAtBeginOfLoop() throws InterruptedException {
+
+		testSprite.removeAllScripts();
+		testScript = new StartScript(testSprite);
+
+		foreverBrick = new ForeverBrick(testSprite);
+		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		foreverBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(foreverBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.startStartScripts();
+
+		Thread.sleep(expectedDelay / 5);
+
+		assertEquals("Executed the wrong number of times!", deltaY,
+				(int) testSprite.costume.getYPosition());
 	}
 }
