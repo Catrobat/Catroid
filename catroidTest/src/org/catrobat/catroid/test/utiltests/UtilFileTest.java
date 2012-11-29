@@ -92,7 +92,10 @@ public class UtilFileTest extends InstrumentationTestCase {
 					org.catrobat.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		assertEquals("not the expected string", "84.2 KB", UtilFile.getSizeAsString(testDirectory));
+
+		double expectedSizeInKilobytes = 84.2;
+		assertEquals("Unexpected file size String", String.format("%.1f KB", expectedSizeInKilobytes),
+				UtilFile.getSizeAsString(testDirectory));
 
 		for (int i = 2; i < 48; i++) {
 			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
@@ -101,7 +104,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		}
 		DecimalFormat decimalFormat = new DecimalFormat("#.0");
 		String expected = decimalFormat.format(2.0) + " MB";
-		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
+		assertEquals("Unexpected file size String", expected, UtilFile.getSizeAsString(testDirectory));
 
 		PrintWriter printWriter = null;
 
