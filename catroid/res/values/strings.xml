@@ -329,40 +329,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
-    <!-- Formula Editor Strings -->
-    <string name="formula_editor_decimal_mark">.</string>
-    <string name="formula_editor_title">Formula Editor</string>
-    <string name="formula_editor_button_undo">Undo</string>
-    <string name="formula_editor_button_redo">Redo</string>
-    <string name="formula_editor_changes_saved">Changes saved!</string>
-    <string name="formula_editor_changes_discarded">Changes discarded!</string>
-    <string name="formula_editor_parse_fail">Error in the input! Fix or press again to discard.</string>
-    <string name="formula_nothing_selected">Define the brick´s input value</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formula too long! Fix or press again to discard.</string>
-    <string name="formula_editor_choose_costume_variable">Choose your Costume Variable:</string>
-    <string name="formula_editor_function_sin">sin</string>
-    <string name="formula_editor_function_cos">cos</string>
-    <string name="formula_editor_function_tan">tan</string>
-    <string name="formula_editor_function_ln">ln</string>
-    <string name="formula_editor_function_log">log</string>
-    <string name="formula_editor_function_pi">pi</string>
-    <string name="formula_editor_function_sqrt">sqrt</string>
-    <string name="formula_editor_function_e">e</string>
-    <string name="formula_editor_function_rand">rand</string>
-    <string name="formula_editor_function_abs">abs</string>
-    <string name="formula_editor_function_round">round</string>
-    <string name="formula_editor_sensor_x_acceleration">x-acceleration</string>
-    <string name="formula_editor_sensor_y_acceleration">y-acceleration</string>
-    <string name="formula_editor_sensor_z_acceleration">z-acceleration</string>
-    <string name="formula_editor_sensor_azimuth_orientation">azimuth-orientation</string>
-    <string name="formula_editor_sensor_pitch_orientation">pitch-orientation</string>
-    <string name="formula_editor_sensor_roll_orientation">roll-orientation</string>
-    <string name="formula_editor_costume_x">costume-x</string>
-    <string name="formula_editor_costume_y">costume-y</string>
-    <string name="formula_editor_costume_ghosteffect">costume-ghosteffect</string>
-    <string name="formula_editor_costume_brightness">costume-brightness</string>
-    <string name="formula_editor_costume_size">costume-size</string>
-    <string name="formula_editor_costume_rotation">costume-rotation</string>
-    <string name="formula_editor_costume_layer">costume-layer</string>
 
 </resources>
