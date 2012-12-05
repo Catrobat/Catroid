@@ -102,6 +102,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (savedInstanceState != null) {
 			selectedCategory = savedInstanceState.getString(ARGUMENTS_SELECTED_CATEGORY);
 		}
+
+		initListeners();
 	}
 
 	@Override
@@ -289,6 +291,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void initListeners() {
+
+		Log.d("TEST", "INIT LISTENERS");
+
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		if (sprite == null) {
 			return;
@@ -302,7 +307,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
-
 		registerForContextMenu(listView);
 		addNewScript = false;
 	}
@@ -337,14 +341,18 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void setShowDetails(boolean showDetails) {
-		// TODO Auto-generated method stub
-
+		if (adapter != null) {
+			Log.d("TEST", "SET_SHOW_DETAILS " + adapter.getClass().getSimpleName());
+			adapter.setShowDetails(showDetails);
+			adapter.notifyDataSetChanged();
+		} else {
+			Log.d("TEST", "NO CURRENT ADAPTER");
+		}
 	}
 
 	@Override
 	public boolean getShowDetails() {
-		// TODO Auto-generated method stub
-		return false;
+		return adapter.getShowDetails();
 	}
 
 	@Override

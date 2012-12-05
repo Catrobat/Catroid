@@ -634,14 +634,13 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 
 	@Override
 	public void setShowDetails(boolean showDetails) {
-		// TODO Auto-generated method stub
-
+		adapter.setShowDetails(showDetails);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public boolean getShowDetails() {
-		// TODO Auto-generated method stub
-		return false;
+		return adapter.getShowDetails();
 	}
 
 	@Override

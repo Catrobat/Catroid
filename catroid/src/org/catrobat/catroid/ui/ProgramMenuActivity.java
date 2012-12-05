@@ -137,12 +137,9 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 
-	private void startScriptActivity(int fragment) {
-		Bundle bundle = new Bundle();
-		bundle.putInt("fragment", fragment);
-
+	private void startScriptActivity(int fragmentPosition) {
 		Intent intent = new Intent(this, ScriptActivity.class);
-		intent.putExtras(bundle);
+		intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
 		startActivity(intent);
 	}
 }

@@ -58,6 +58,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	public static final int FRAGMENT_COSTUMES = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
 
+	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
+
 	public static final String ACTION_SPRITE_RENAMED = "org.catrobat.catroid.SPRITE_RENAMED";
 	public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
 	public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
@@ -90,21 +92,27 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		if (savedInstanceState == null) {
-			Log.d("TEST", "-----CREATE-----");
+			Log.d("TEST", "-------CREATE-------");
 
 			Bundle bundle = this.getIntent().getExtras();
 
 			int fragmentPosition = FRAGMENT_SCRIPTS;
 
 			if (bundle != null) {
-				fragmentPosition = bundle.getInt("fragment", FRAGMENT_SCRIPTS);
+				fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 			} else {
-				Log.d("CATROID", "No given bundle to determine fragment");
+				Log.d("TEST", "No given bundle to determine fragment");
 			}
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			updateCurrentFragment(fragmentPosition, fragmentTransaction);
 			fragmentTransaction.commit();
 		}
+		//		else {
+		//			Log.d("TEST", "No saved Instance");
+		//			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		//			updateCurrentFragment(FRAGMENT_SCRIPTS, fragmentTransaction);
+		//			fragmentTransaction.commit();
+		//		}
 		actionBar = getSupportActionBar();
 
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -119,7 +127,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 				if (itemPosition != currentFragmentPosition) {
-					Log.d("TEST", "____NAVIGATE____");
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 					hideFragment(currentFragmentPosition, fragmentTransaction);
@@ -137,15 +144,12 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		switch (fragment) {
 			case FRAGMENT_SCRIPTS:
 				fragmentTransaction.hide(scriptFragment);
-				Log.d("TEST", "______HIDE______ScriptFragment");
 				break;
 			case FRAGMENT_COSTUMES:
 				fragmentTransaction.hide(costumeFragment);
-				Log.d("TEST", "______HIDE______CostumeFragment");
 				break;
 			case FRAGMENT_SOUNDS:
 				fragmentTransaction.hide(soundFragment);
-				Log.d("TEST", "______HIDE______SoundFragment");
 				break;
 		}
 	}
@@ -178,10 +182,10 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 		}
 		if (fragmentDoesNotExist) {
-			Log.d("TEST", "------INIT------" + currentFragment.getClass().getSimpleName());
+			Log.d("TEST", "[INIT] " + currentFragment.getClass().getSimpleName());
 			fragmentTransaction.add(R.id.script_fragment_container, currentFragment);
 		} else {
-			Log.d("TEST", "------SHOW------" + currentFragment.getClass().getSimpleName());
+			Log.d("TEST", "[SHOW] " + currentFragment.getClass().getSimpleName());
 			fragmentTransaction.show(currentFragment);
 		}
 	}
@@ -194,13 +198,22 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	@Override
 	protected void onPause() {
 		super.onPause();
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor editor = settings.edit();
 
-		// Necessary to clear first if we save preferences onPause
-		editor.clear();
-		editor.putBoolean("showDetails", currentFragment.getShowDetails());
-		editor.commit();
+		if (currentFragment != null) {
+			Log.d("TEST", "ON_PAUSE " + currentFragment.getClass().getSimpleName());
+
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+			SharedPreferences.Editor editor = settings.edit();
+
+			// Necessary to clear first if we save preferences onPause
+			editor.clear();
+			// currentFragment.getShowDetails()
+			editor.putBoolean("showDetails", false);
+			editor.commit();
+		} else {
+			Log.d("TEST", "ON_PAUSE -> NO CURRENT FRAGMENT");
+		}
+
 	}
 
 	@Override
@@ -211,7 +224,13 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
 		showDetails = settings.getBoolean("showDetails", false);
-		currentFragment.setShowDetails(showDetails);
+
+		if (currentFragment != null) {
+			Log.d("TEST", "ON_RESUME " + currentFragment.getClass().getSimpleName());
+			currentFragment.setShowDetails(showDetails);
+		} else {
+			Log.d("TEST", "ON_RESUME -> NO CURRENT FRAGMENT");
+		}
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -331,7 +350,12 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
-		currentFragment.setShowDetails(showDetails);
+		if (currentFragment != null) {
+			Log.d("TEST", "HANDLE_SHOW_DETAILS " + currentFragment.getClass().getSimpleName());
+			currentFragment.setShowDetails(showDetails);
+		} else {
+			Log.d("TEST", "HANDLE_SHOW_DETAILS -> NO CURRENT FRAGMENT");
+		}
 
 		String menuItemText = "";
 		if (showDetails) {

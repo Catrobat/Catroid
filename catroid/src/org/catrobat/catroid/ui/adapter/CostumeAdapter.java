@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.adapter;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -36,7 +37,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 
@@ -44,6 +44,8 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	protected Context context;
 
 	private OnCostumeEditListener onCostumeEditListener;
+
+	private boolean showDetails;
 
 	public CostumeAdapter(final Context context, int textViewResourceId, ArrayList<CostumeData> items) {
 		super(context, textViewResourceId, items);
@@ -140,6 +142,14 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 		}
 
 		return convertView;
+	}
+
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
 	}
 
 	public interface OnCostumeEditListener {

@@ -52,7 +52,6 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.createEmptyProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		getIntoActivity();
 	}

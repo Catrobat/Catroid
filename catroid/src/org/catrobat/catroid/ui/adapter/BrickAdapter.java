@@ -27,7 +27,6 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -83,6 +82,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private boolean firstDrag;
 	private int fromBeginDrag, toEndDrag;
 	private boolean retryScriptDragging;
+	private boolean showDetails = false;
 
 	private List<Brick> brickList;
 	private List<Brick> animatedBricks;
@@ -876,4 +876,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return itemPosition;
 	}
 
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
+	}
 }

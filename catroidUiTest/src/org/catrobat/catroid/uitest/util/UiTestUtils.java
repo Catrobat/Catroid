@@ -542,9 +542,19 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
-		solo.waitForView(LinearLayout.class);
-		LinearLayout linearLayout = (LinearLayout) solo.getView(buttonId);
-		solo.clickOnView(linearLayout);
+		solo.sleep(1000);
+		final View view = solo.getCurrentActivity().findViewById(R.id.btn_add);
+		assertTrue("Is null", view != null);
+
+		Log.d("TEST", "ButtonIDCorrect?: " + (buttonId == R.id.btn_add));
+		solo.waitForFragmentById(R.id.fr_sprites_list);
+
+		solo.getCurrentActivity().runOnUiThread(new Runnable() {
+
+			public void run() {
+				view.performClick();
+			}
+		});
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
@@ -784,10 +794,25 @@ public class UiTestUtils {
 	}
 
 	public static void getIntoScriptActivityFromMainMenu(Solo solo, int spriteIndex) {
+		solo.sleep(300);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
+		solo.sleep(300);
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.clickOnScreen(200, 200);
+
+		String continueString = solo.getString(R.string.main_menu_continue);
+		solo.waitForText(continueString);
+
+		//		final Button continueButton = (Button) solo.getCurrentActivity().findViewById(R.id.main_menu_button_continue);
+		//
+		//		solo.getCurrentActivity().runOnUiThread(new Runnable() {
+		//
+		//			public void run() {
+		//				continueButton.performClick();
+		//			}
+		//		});
+
+		solo.clickOnButton(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
