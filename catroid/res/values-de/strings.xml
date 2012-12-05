@@ -345,40 +345,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Wert ist zu klein!</string>
     <string name="number_to_big">Wert ist zu groß!</string>
-    <!-- Formula Editor Strings -->
-    <string name="formula_editor_decimal_mark">,</string>
-    <string name="formula_editor_title">Formel Editor</string>
-    <string name="formula_editor_button_undo">Rückgängig</string>
-    <string name="formula_editor_button_redo">Wiederholen</string>
-    <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
-    <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
-    <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
-    <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
-    <string name="formula_editor_choose_costume_variable">Kostüm Variable auswählen:</string>
-    <string name="formula_editor_function_sin">sin</string>
-    <string name="formula_editor_function_cos">cos</string>
-    <string name="formula_editor_function_tan">tan</string>
-    <string name="formula_editor_function_ln">ln</string>
-    <string name="formula_editor_function_log">log</string>
-    <string name="formula_editor_function_pi">pi</string>
-    <string name="formula_editor_function_sqrt">wurzel</string>
-    <string name="formula_editor_function_e">e</string>
-    <string name="formula_editor_function_rand">zufall</string>
-    <string name="formula_editor_function_abs">abs</string>
-    <string name="formula_editor_function_round">round</string>
-    <string name="formula_editor_sensor_x_acceleration">x-beschleunigung</string>
-    <string name="formula_editor_sensor_y_acceleration">y-beschleunigung</string>
-    <string name="formula_editor_sensor_z_acceleration">z-beschleunigung</string>
-    <string name="formula_editor_sensor_azimuth_orientation">azimuth-orientierung</string>
-    <string name="formula_editor_sensor_pitch_orientation">pitch-orientierung</string>
-    <string name="formula_editor_sensor_roll_orientation">roll-orientierung</string>
-    <string name="formula_editor_costume_x">kostüm-x</string>
-    <string name="formula_editor_costume_y">kostüm-y</string>
-    <string name="formula_editor_costume_ghosteffect">kostüm-durchsichtigkeits-effekt</string>
-    <string name="formula_editor_costume_brightness">kostüm-helligkeit</string>
-    <string name="formula_editor_costume_size">kostüm-größe</string>
-    <string name="formula_editor_costume_rotation">kostüm-rotation</string>
-    <string name="formula_editor_costume_layer">kostüm-ebene</string>
 
 </resources>
