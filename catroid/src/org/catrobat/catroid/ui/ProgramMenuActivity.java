@@ -56,6 +56,12 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
 		final ArrayAdapter<Sprite> spinnerAdapter = new ArrayAdapter<Sprite>(this,
 				android.R.layout.simple_dropdown_item_1line, ProjectManager.INSTANCE.getCurrentProject()
 						.getSpriteList());
