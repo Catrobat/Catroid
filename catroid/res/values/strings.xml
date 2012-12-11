@@ -22,7 +22,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-
     <!-- General terms -->
     <string name="app_name">Catroid</string>
     <string name="cancel_button">Cancel</string>
@@ -37,7 +36,6 @@
     <string name="play">Play</string>
     <!--  -->
 
-
     <!-- General -->
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -50,7 +48,6 @@
     <string name="start">Start</string>
     <!--  -->
 
-
     <!-- Main menu activity -->
     <string name="main_menu_new">New</string>
     <string name="main_menu_continue">Continue</string>
@@ -62,13 +59,11 @@
     <string name="main_menu_about_catroid">About Catroid</string>
     <!--  -->
 
-
     <!-- Settings activity -->
     <string name="pref_title">Settings</string>
     <string name="pref_enable_ms_bricks">Lego Mindstorms bricks</string>
     <string name="pref_descr_ms_bricks">Allow to control Lego Mindstorms robots</string>
     <!--  -->
-
 
     <!-- About Dialog -->
     <string name="dialog_about_title">About Catroid</string>
@@ -80,7 +75,6 @@
     <string name="dialog_about_catroid_license_link_text">Catroid License</string>
     <!--  -->
 
-
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
     <string name="number_of_scripts">Scripts:</string>
@@ -90,14 +84,21 @@
     <string name="show_details">Show Details</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
+    <!--  -->
+
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
     <string name="spritelist_footer_image_description">Tap to add new sprite</string>
-    <!-- ScriptTab activity -->
+    <!--  -->
+
+    <!-- Script activity -->
     <string name="scripts">Scripts</string>
     <string name="costumes">Costumes</string>
     <string name="sounds">Sounds</string>
     <string name="backgrounds">Backgrounds</string>
+    <string name="spinner">Spinner</string>
+    <!--  -->
+
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Rename costume</string>
     <string name="edit_costume_paintroid">Paintroid</string>
@@ -113,6 +114,8 @@
     <string name="select_costume_from_camera">Select photo</string>
     <string name="costumelist_footer_image_description_for_camera">Tap to add new photo</string>
     <string name="costumelist_footer_image_description_for_gallery">Tap to add new image</string>
+    <!--  -->
+
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
@@ -123,15 +126,17 @@
     <string name="sound_size">Size:</string>
     <string name="delete_sound_dialog">Delete sound?</string>
     <string name="soundlist_footer_image_description">Tap to add new sound</string>
+    <!--  -->
+
     <!-- My Projects activity -->
     <string name="last_used">Last used:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
     <string name="myprojectlist_footer_image_description">Tap to add new project</string>
-    
     <string name="notification_title_copy_project">Copy project</string>
 	<string name="copy_project_finished"> copied.</string>
+	<!--  -->
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
@@ -140,28 +145,37 @@
     <string name="soundrecorder_recording">recording in progress…</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
+    <!--  -->
+
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+    <!--  -->
+
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
+    <!--  -->
+    
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move Brick</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
+    <!--  -->
+
     <!-- New project dialog -->
     <string name="new_project_dialog_title">New project</string>
     <string name="new_project_dialog_hint">My Project</string>
     <string name="new_project_description_dialog_hint">My Description</string>
     <string name="new_project_name">Project name:</string>
     <string name="new_project_description">Project description:</string>
+    <!--  -->
 
-    <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Sprite</string>
     <string name="new_sprite_dialog_title">Name of new Sprite</string>
     <string name="spritename_already_exists">This spritename already exists</string>
     <string name="rename_sprite_dialog">Rename Sprite</string>
     <string name="spritename_invalid">This spritename is invalid</string>
+    <!--  -->
 
     <!-- Login Register dialog -->
     <string name="login_register_dialog_title">Login</string>
@@ -171,12 +185,13 @@
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
+    <!--  -->
+
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Project with same name already exists!</string>
     <string name="overwrite_replace">replace existing Project</string>
     <string name="overwrite_rename">rename downloaded Project</string>
     <!--  -->
-
 
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Back</string>
@@ -188,10 +203,11 @@
     <string name="stage_dialog_screenshot">Screenshot</string>
     <!--  -->
 
-
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">new…</string>
     <string name="broadcast_nothing_selected">Nothing…</string>
+    <!--  -->
+    
     <!-- Brick categories -->
     <string name="categories">Categories</string>
     <string name="category_motion">Motion</string>
@@ -199,6 +215,8 @@
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <!--  -->
+
     <!-- Motion bricks -->
     <string name="brick_place_at">Place at</string>
     <string name="x_label">X:</string>
@@ -221,6 +239,8 @@
     <string name="brick_point_to">Point towards</string>
     <string name="brick_glide">Glide</string>
     <string name="brick_glide_to">to</string>
+    <!--  -->
+
     <!-- Looks bricks -->
     <string name="brick_set_costume">Switch to costume</string>
     <string name="brick_set_background">Set background</string>
@@ -237,12 +257,16 @@
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
     <string name="brick_next_costume">Next costume</string>
     <string name="brick_next_background">Next background</string>
+    <!--  -->
+
     <!-- Sound bricks -->
     <string name="brick_play_sound">Start sound</string>
     <string name="brick_stop_all_sounds">Stop all sounds</string>
     <string name="brick_set_volume_to">Set volume to</string>
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
+    <!--  -->
+
     <!-- Control bricks -->
     <string name="brick_when_started">When project starts</string>
     <string name="brick_when">When</string>
@@ -256,6 +280,8 @@
     <string name="brick_repeat">Repeat</string>
     <string name="times_label">times</string>
     <string name="brick_loop_end">End of loop</string>
+    <!--  -->
+
     <!-- Actions -->
     <string name="action_tapped">tapped</string>
     <string name="action_doubleTapped">double tapped</string>
@@ -264,6 +290,8 @@
     <string name="action_swipeRight">swipe right</string>
     <string name="action_swipeUp">swipe up</string>
     <string name="action_swipeDown">swipe down</string>
+    <!--  -->
+
     <!-- defaultValues -->
     <string name="default_project_name">My first project</string>
     <string name="default_project_sprites_catroid_name">Catroid</string>
@@ -272,10 +300,14 @@
     <string name="default_project_sprites_catroid_cheshirecat">cheshireCat</string>
     <string name="default_project_backgroundname">background</string>
     <string name="default_project_backgroundcolor">#604fff</string>
+    <!--  -->
+
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
     <string name="notification_screenshot_ok">Screenshot saved</string>
     <string name="notification_load_project_cancel">Canceled loading project</string>
+    <!--  -->
+
     <!-- Error messages -->
     <string name="error_no_sd_card">Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
@@ -291,7 +323,9 @@
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatability">The project is not compatible with this version of catroid.</string>
-        <string name="error_copy_project">An error occurred while copying the project.</string>
+    <string name="error_copy_project">An error occurred while copying the project.</string>
+    <!--  -->
+
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
@@ -303,6 +337,8 @@
     <string name="notification_percent_completed">completed</string>
     <string name="notification_upload_title">Uploading project</string>
     <string name="notification_download_title">Downloading project</string>
+    <!--  -->
+
     <!-- Bluetooth, LegoNXT, Arduino -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
@@ -318,6 +354,8 @@
     <string name="no_paired_nxt">No paired NXT found</string>
     <string name="none_found">No unpaired devices found</string>
     <string name="none_paired">No paired devices found</string>
+    <!--  -->
+
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT move motor</string>
     <string name="motor_speed">Speed</string>
@@ -330,5 +368,5 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Value is too small!</string>
     <string name="number_to_big">Value is too big!</string>
-
+    <!--  -->
 </resources>

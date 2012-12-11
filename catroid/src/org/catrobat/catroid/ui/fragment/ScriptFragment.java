@@ -52,8 +52,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.view.Menu;
-
 public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
 
@@ -78,7 +76,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+		//		setHasOptionsMenu(true);
 		setRetainInstance(true);
 	}
 
@@ -167,25 +165,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		initListeners();
 	}
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		//		final MenuItem addItem = menu.findItem(R.id.menu_add);
-		//		addItem.setIcon(R.drawable.ic_plus_black);
-		//		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-		//			@Override
-		//			public boolean onMenuItemClick(MenuItem item) {
-		//				if (listView.setHoveringBrick()) {
-		//					return false;
-		//				}
-		//
-		//				showCategoryDialog();
-		//
-		//				return true;
-		//			}
-		//		});
-	}
+	//	@Override
+	//	public void onPrepareOptionsMenu(Menu menu) {
+	//		if (getListView().setHoveringBrick()) {
+	//			Log.d("TEST", "SCRIPTFRAGMENT! -> FALSE");
+	//		} else {
+	//			super.onPrepareOptionsMenu(menu);
+	//		}
+	//	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
@@ -339,6 +326,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 	}
 
+	private void showCategoryDialog() {
+		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
+		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
+		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
+		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
+
+		adapter.notifyDataSetChanged();
+	}
+
 	@Override
 	public void setShowDetails(boolean showDetails) {
 		if (adapter != null) {
@@ -369,12 +365,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void handleAddButton() {
-		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
-		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
-		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
-		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
-
-		adapter.notifyDataSetChanged();
+		if (listView.setHoveringBrick()) {
+			return;
+		}
+		showCategoryDialog();
 	}
 
 	@Override

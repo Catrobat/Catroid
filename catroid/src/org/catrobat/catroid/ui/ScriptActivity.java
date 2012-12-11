@@ -42,13 +42,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -82,6 +83,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	private static int currentFragmentPosition;
 
 	private boolean showDetails = false;
+	private boolean spinnerDisabled = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -117,27 +119,29 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(
-						R.array.sprite_activity_spinner_items));
+		//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
-			@Override
-			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-				if (itemPosition != currentFragmentPosition) {
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-					hideFragment(currentFragmentPosition, fragmentTransaction);
-					updateCurrentFragment(itemPosition, fragmentTransaction);
-
-					fragmentTransaction.commit();
-				}
-				return true;
-			}
-		});
-		actionBar.setSelectedNavigationItem(currentFragmentPosition);
+		//		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
+		//				android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(
+		//						R.array.sprite_activity_spinner_items));
+		//
+		//		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
+		//			@Override
+		//			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		//				Log.d("TEST", "spinner clicked!");
+		//				if (itemPosition != currentFragmentPosition) {
+		//					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		//
+		//					hideFragment(currentFragmentPosition, fragmentTransaction);
+		//					updateCurrentFragment(itemPosition, fragmentTransaction);
+		//
+		//					fragmentTransaction.commit();
+		//				}
+		//				return true;
+		//			}
+		//		});
+		//		actionBar.setSelectedNavigationItem(currentFragmentPosition);
 	}
 
 	private void hideFragment(int fragment, FragmentTransaction fragmentTransaction) {
@@ -213,7 +217,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		} else {
 			Log.d("TEST", "ON_PAUSE -> NO CURRENT FRAGMENT");
 		}
-
 	}
 
 	@Override
@@ -257,9 +260,60 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (isHoveringActive()) {
+			Log.d("TEST", "PREPARATION! -> FALSE");
+			return false;
+		} else {
+			return super.onPrepareOptionsMenu(menu);
+		}
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_script_activity, menu);
 		handleShowDetails(showDetails, menu.getItem(0));
+
+		MenuItem item = menu.findItem(R.id.spinner);
+		final Spinner spinner = (Spinner) item.getActionView();
+
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (position != currentFragmentPosition) {
+					Log.d("TEST", "spinner clicked!");
+					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+					hideFragment(currentFragmentPosition, fragmentTransaction);
+					updateCurrentFragment(position, fragmentTransaction);
+
+					fragmentTransaction.commit();
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
+			}
+		});
+		spinner.setSelection(currentFragmentPosition);
+
+		spinner.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					if (isHoveringActive()) {
+						spinner.setClickable(false);
+						spinnerDisabled = true;
+					} else if (spinnerDisabled) {
+						spinner.setClickable(true);
+						spinnerDisabled = false;
+					}
+				}
+				return false;
+			}
+		});
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -267,9 +321,11 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
+				if (!isHoveringActive()) {
+					Intent intent = new Intent(this, MainMenuActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+				}
 				break;
 
 			case R.id.show_details:
@@ -298,7 +354,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 
 			case R.id.settings:
-				intent = new Intent(ScriptActivity.this, SettingsActivity.class);
+				Intent intent = new Intent(ScriptActivity.this, SettingsActivity.class);
 				startActivity(intent);
 				break;
 		}
@@ -328,8 +384,10 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	public void handlePlayButton(View view) {
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+		if (!isHoveringActive()) {
+			Intent intent = new Intent(this, PreStageActivity.class);
+			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+		}
 	}
 
 	@Override
@@ -347,6 +405,15 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		//			}
 		//		}
 		return super.dispatchKeyEvent(event);
+	}
+
+	public boolean isHoveringActive() {
+		if (currentFragmentPosition == FRAGMENT_SCRIPTS
+				&& ((ScriptFragment) currentFragment).getListView().setHoveringBrick()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
