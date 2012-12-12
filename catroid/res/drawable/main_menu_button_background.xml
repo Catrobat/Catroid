@@ -21,26 +21,29 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <color name="solid_red">#f00</color>
-    <color name="solid_blue">#0000ff</color>
-    <color name="solid_green">#f0f0</color>
-    <color name="solid_black">#000</color>
-    <color name="solid_white">#FFFFFF</color>
-    <color name="backbrown">#59361b</color>
-    <color name="white">#FFFFFF</color>
-    <color name="darkblue">#011526</color>
-    <color name="egg_yellow">#FA0</color>
-    <color name="silver">#CDCDCD</color>
-    <color name="light_black">#A000</color>
-    <color name="dark_gray">#5a5858</color>
-    <color name="gray">#808080</color>
-    <color name="tab_backgound_gray">#3a3a3a</color>
-    <color name="tab_text_unselected_light_gray">#999999</color>
-    <color name="actionbar_background">#002534</color>
-    <color name="actionbar_title_color">#FCBB20</color>
-    <color name="main_menu_button_text_color">#A8DFF4</color>
-    <color name="main_menu_button_text_shadow_color">#7F000000</color>
+    <item>
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle" >
+            <stroke
+                android:width="1.3dp"
+                android:color="#4D7F8F" />
+        </shape>
+    </item>
+    <item android:top="1.3dp">
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle" >
+            <gradient
+                android:angle="270.0"
+                android:centerColor="#00475E"
+                android:centerY="0.67"
+                android:endColor="#003F54"
+                android:startColor="#00475E"
+                android:type="linear" />
+        </shape>
+    </item>
 
-</resources>
+</layer-list>

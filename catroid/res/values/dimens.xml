@@ -19,7 +19,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <resources>
 
     <dimen name="actionbar_height">48dip</dimen>
@@ -31,5 +31,6 @@
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_xlarge">20sp</dimen>
+    <dimen name="text_size_xxlarge">26sp</dimen>
 
 </resources>
