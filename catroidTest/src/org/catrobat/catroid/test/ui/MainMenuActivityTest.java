@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.ui;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -49,5 +50,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		ProjectManager.getInstance().setProject(null);
 		getInstrumentation().callActivityOnPostCreate(getActivity(), null);
 		assertTrue("Test failed!", true);
+	}
+
+	public void testContinueButtonIsBiggerThanOthers() {
+		float continueButtonHeight = getActivity().findViewById(R.id.main_menu_button_continue).getHeight();
+		float newButtonHeight = getActivity().findViewById(R.id.main_menu_button_new).getHeight();
+		assertEquals(1.5, continueButtonHeight / newButtonHeight, 0.1);
 	}
 }
