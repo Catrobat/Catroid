@@ -39,7 +39,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class XMLValidationUtil {
-	private static final String XML_VALIDATING_URL = "http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/catrobatXmlSchema.xsd";
+	private static final String XML_VALIDATING_URL = "http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/validateXmlVersion3.php";
 	private static final String LOG_TAG = XMLValidationUtil.class.getSimpleName();
 
 	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException, JSONException {
