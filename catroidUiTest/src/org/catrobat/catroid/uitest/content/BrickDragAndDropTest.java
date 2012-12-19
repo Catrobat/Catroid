@@ -74,7 +74,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testPutHoveringBrickDown() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
-		String spriteName = solo.getString(R.string.sprite_name);
+		String scriptsName = solo.getString(R.string.scripts);
 
 		ListView view = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
@@ -84,11 +84,11 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.sleep(200);
-		assertFalse("Wrong number of Bricks", solo.searchText(solo.getString(R.string.categories)));
+		assertFalse("Categories shouldn't be shown", solo.searchText(solo.getString(R.string.categories)));
 		solo.clickOnScreen(200, 200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
-		solo.clickOnText(spriteName);
+		solo.clickOnText(scriptsName);
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
@@ -111,7 +111,6 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnScreen(200, 200);
 
 		yPositionList = UiTestUtils.getListItemYPositions(solo);
-		solo.clickOnScreen(20, yPositionList.get(0));
 		solo.clickOnScreen(20, yPositionList.get(1));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
 
@@ -120,8 +119,8 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		@SuppressWarnings("deprecation")
 		int height = display.getHeight();
 
-		solo.sleep(200);
-		solo.drag(20, 20, 200, height - 20, 100);
+		solo.sleep(300);
+		solo.drag(20, 20, yPositionList.get(1), height - 20, 100);
 		solo.sleep(200);
 
 		assertTrue("Last Brick should now be BroadcastBrick", adapter.getItem(3) instanceof BroadcastBrick);
