@@ -101,7 +101,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		solo.clickOnText(testBroadcastWaitMessage);
 		solo.clickOnText(spinnerNothingSelectedText);
 
-		assertTrue(testBroadcastMessage + " Mesage is not selected", solo.searchText(testBroadcastMessage));
+		assertTrue(testBroadcastMessage + " Message is not selected", solo.searchText(testBroadcastMessage));
 		solo.clickOnText(testBroadcastMessage);
 		solo.clickOnText(spinnerNothingSelectedText);
 
