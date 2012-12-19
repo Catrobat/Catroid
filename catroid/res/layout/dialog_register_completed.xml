@@ -33,20 +33,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
         android:text="@string/registration_step6" />
 
     <TextView
         android:id="@+id/registration_completed_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/step6"
+        android:layout_toLeftOf="@id/step6"
         android:layout_marginLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
         android:text="@string/registration_completed" >
     </TextView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/registration_completed_text"
+        android:layout_below="@id/registration_completed_text"
         android:orientation="horizontal" >
 
         <Button

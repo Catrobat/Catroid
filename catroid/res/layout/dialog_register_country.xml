@@ -34,6 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
         android:text="@string/registration_step2" />
 
     <TextView
@@ -41,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:paddingTop="10dp"
         android:text="@string/register_country" />
     
     <Spinner
@@ -49,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/country_text"
          />
+
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
