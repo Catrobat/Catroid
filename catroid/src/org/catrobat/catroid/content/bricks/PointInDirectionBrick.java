@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -30,8 +31,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Spinner;
-import org.catrobat.catroid.R;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
@@ -59,6 +60,9 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	private double degrees;
 
 	private transient Direction direction;
+
+	private Button setAngleButton;
+	private EditText setAngleEditText;
 
 	protected Object readResolve() {
 		for (Direction direction : Direction.values()) {
@@ -96,19 +100,26 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		View view = View.inflate(context, R.layout.brick_point_in_direction, null);
+
+		setAngleButton = (Button) view.findViewById(R.id.brick_pointing_direction_button_set_angle);
+		setAngleEditText = (EditText) view.findViewById(R.id.brick_pointing_direction_edit_text_set_angle);
+
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
-				R.array.point_in_direction_strings, android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				R.array.point_in_direction_strings, R.id.brick_pointing_direction_edit_text_set_angle);
 
-		Spinner spinner = (Spinner) view.findViewById(R.id.point_in_direction_spinner);
-		spinner.setAdapter(arrayAdapter);
+		setAngleEditText.setText(arrayAdapter.getItem(0));
 
-		spinner.setClickable(true);
-		spinner.setFocusable(true);
+		//arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		spinner.setOnItemSelectedListener(this);
-
-		spinner.setSelection(direction.ordinal());
+		//Spinner spinner = (Spinner) view.findViewById(R.id.point_in_direction_spinner);
+		//		spinner.setAdapter(arrayAdapter);
+		//
+		//		spinner.setClickable(true);
+		//		spinner.setFocusable(true);
+		//
+		//		spinner.setOnItemSelectedListener(this);
+		//
+		//		spinner.setSelection(direction.ordinal());
 
 		return view;
 	}
