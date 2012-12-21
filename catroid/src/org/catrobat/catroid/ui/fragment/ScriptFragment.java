@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -50,7 +51,6 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -291,7 +291,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		} else {
 			int firstVisibleBrick = listView.getFirstVisiblePosition();
 			int lastVisibleBrick = listView.getLastVisiblePosition();
-			int position = ((lastVisibleBrick - firstVisibleBrick) / 2);
+			int position = ((1 + lastVisibleBrick - firstVisibleBrick) / 2);
 			position += firstVisibleBrick;
 			adapter.addNewBrick(position, brickToBeAdded);
 		}
