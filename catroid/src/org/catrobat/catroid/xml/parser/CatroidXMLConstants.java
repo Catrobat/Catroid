@@ -29,8 +29,8 @@ public class CatroidXMLConstants {
 
 	public static final String PROJECT_ELEMENT_NAME_OPTIONAL_STARTTAG = " xmlns:xsi= " + "\""
 			+ "http://www.w3.org/2001/XMLSchema-instance" + "\"" + " xsi:noNamespaceSchemaLocation=" + "\""
-			+ "http://catroidtestserver.ist.tugraz.at/xmlSchema/version-0.3/catrobatXmlSchema.xsd" + "\"";
-	public static final String PROJECT_ELEMENT_NAME = "CatrobatProgram";// + OPTIONAL_HEADER;// xmlns:xsi= \"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://catroidtestserver.ist.tugraz.at/xmlSchema/version-0.3/catrobatXmlSchema.xsd\"";
+			+ "http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/catrobatXmlSchema.xsd" + "\"";
+	public static final String PROJECT_ELEMENT_NAME = "CatrobatProgram";// + OPTIONAL_HEADER;// xmlns:xsi= \"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/catrobatXmlSchema.xsd\"";
 	public static final String PROJECT_HEADER_NAME = "Header";
 
 	public static final String CONTENT_PACKAGE = "org.catrobat.catroid.content.";
