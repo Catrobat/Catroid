@@ -27,6 +27,9 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -54,9 +57,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		brickListToCheck = UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -75,7 +75,20 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo = null;
 	}
 
+	private void initTestProject() {
+		brickListToCheck = UiTestUtils.createTestProject();
+		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+	}
+
+	private void initEmptyProject() {
+		UiTestUtils.createEmptyProject();
+		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+	}
+
 	public void testCreateNewBrickButton() {
+		initTestProject();
 		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
 		int brickCountInList = brickListToCheck.size();
 
@@ -92,6 +105,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBrickCategoryDialog() {
+		initTestProject();
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// enable mindstorm bricks, if disabled
@@ -146,7 +160,26 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.waitForText(brickLegoStopMotor, 0, 2000));
 	}
 
+	public void testOnlyAddControlBricks() {
+		initEmptyProject();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		assertEquals(1, sprite.getNumberOfScripts());
+
+		Script script = sprite.getScript(0);
+		assertTrue(script instanceof StartScript);
+		assertTrue(script.getBrickList().isEmpty());
+
+		try {
+			List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+			UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
+			solo.clickLongOnScreen(0, yPositionList.get(1));
+		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+			fail();
+		}
+	}
+
 	public void testSimpleDragNDrop() {
+		initTestProject();
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -163,6 +196,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testDeleteItem() {
+		initTestProject();
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -197,6 +231,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
+		initTestProject();
 		String currentProject = solo.getString(R.string.main_menu_continue);
 		String background = solo.getString(R.string.background);
 		String categoryLooks = solo.getString(R.string.category_looks);
