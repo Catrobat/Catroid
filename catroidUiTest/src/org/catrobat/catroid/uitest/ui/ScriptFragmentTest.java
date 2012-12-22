@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -160,22 +161,25 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.waitForText(brickLegoStopMotor, 0, 2000));
 	}
 
+	/**
+	 * Tests issue#54.
+	 */
 	public void testOnlyAddControlBricks() {
 		initEmptyProject();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		assertEquals(1, sprite.getNumberOfScripts());
+		assertEquals("Project should contain only one script.", 1, sprite.getNumberOfScripts());
 
 		Script script = sprite.getScript(0);
-		assertTrue(script instanceof StartScript);
-		assertTrue(script.getBrickList().isEmpty());
+		assertTrue("Single script isn't empty.", script.getBrickList().isEmpty());
 
-		try {
-			List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
-			UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-			solo.clickLongOnScreen(0, yPositionList.get(1));
-		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-			fail();
-		}
+		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
+		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.sleep(200);
+
+		assertEquals("Two controll bricks should be added.", 2, sprite.getNumberOfScripts());
+		assertTrue("First script isn't a start script.", sprite.getScript(0) instanceof StartScript);
+		assertTrue("Second script isn't a broadcast script.", sprite.getScript(1) instanceof BroadcastScript);
 	}
 
 	public void testSimpleDragNDrop() {
