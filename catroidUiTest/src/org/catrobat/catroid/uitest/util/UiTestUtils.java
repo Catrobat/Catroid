@@ -672,7 +672,7 @@ public class UiTestUtils {
 
 	public static int getAddedListItemYPosition(Solo solo) {
 		ArrayList<Integer> yPositionList = getListItemYPositions(solo);
-		int pos = (yPositionList.size() - 1) / 2;
+		int pos = yPositionList.size() / 2;
 
 		return yPositionList.get(pos);
 	}
