@@ -32,17 +32,17 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final float VOLUME_TO_CHANGE = 50.0f;
 
 	private Solo solo;
@@ -50,13 +50,14 @@ public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<S
 	private ChangeVolumeByNBrick changeVolumeByNBrick;
 
 	public ChangeVolumeByNBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -70,9 +71,8 @@ public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<S
 
 	@Smoke
 	public void testChangeVolumeByNBrick() {
-		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView view = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
@@ -86,10 +86,7 @@ public class ChangeVolumeByNBrickTest extends ActivityInstrumentationTestCase2<S
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_change_volume_by)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, VOLUME_TO_CHANGE + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.clickEnterClose(solo, 0, VOLUME_TO_CHANGE + "");
 
 		assertEquals("Text not updated", VOLUME_TO_CHANGE, Float.parseFloat(solo.getEditText(0).getText().toString()));
 	}

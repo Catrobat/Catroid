@@ -25,26 +25,26 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final int SET_ANGLE = 135;
 
 	private Solo solo;
@@ -52,13 +52,14 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 	private LegoNxtMotorTurnAngleBrick motorBrick;
 
 	public LegoNxtMotorTurnAngleBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -72,22 +73,20 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 
 	@Smoke
 	public void testMotorTurnAngleBrick() {
-		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView view = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.",
-				solo.getText(solo.getString(R.string.brick_motor_turn_angle)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_motor_turn_angle)));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_angle)));
 		assertTrue("Unit missing for angle!", solo.searchText("°"));
 
@@ -107,10 +106,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		solo.clickInList(5);
 		assertEquals("Wrong value in field!", "180", solo.getEditText(0).getText().toString());
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, SET_ANGLE + "");
-		solo.clickOnButton(0);
+		UiTestUtils.clickEnterClose(solo, 0, SET_ANGLE + "");
 
 		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
 		assertEquals("Wrong text in field.", SET_ANGLE, angle);
@@ -119,9 +115,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		solo.sleep(200);
 		solo.clickOnView(solo.getView(R.id.directions_btn));
 		try {
-			solo.clickOnEditText(0);
-			solo.clearEditText(0);
-			solo.clickOnButton(0);
+			UiTestUtils.clickEnterClose(solo, 0, "");
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			fail("Numberformat Exception should not occur");
@@ -133,14 +127,16 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", array.length == 4);
 
-		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
-		solo.pressSpinnerItem(0, 0);
+		int LegoSpinnerIndex = 1;
+
+		Spinner currentSpinner = solo.getCurrentSpinners().get(LegoSpinnerIndex);
+		solo.pressSpinnerItem(LegoSpinnerIndex, 0);
 		assertEquals("Wrong item in spinner!", array[0], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
+		solo.pressSpinnerItem(LegoSpinnerIndex, 1);
 		assertEquals("Wrong item in spinner!", array[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
+		solo.pressSpinnerItem(LegoSpinnerIndex, 1);
 		assertEquals("Wrong item in spinner!", array[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
+		solo.pressSpinnerItem(LegoSpinnerIndex, 1);
 		assertEquals("Wrong item in spinner!", array[3], currentSpinner.getSelectedItem());
 	}
 

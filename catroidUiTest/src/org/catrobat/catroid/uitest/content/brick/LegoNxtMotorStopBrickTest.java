@@ -25,38 +25,39 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 import android.widget.Spinner;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LegoNxtMotorStopBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class LegoNxtMotorStopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
 	private Project project;
 	private LegoNxtMotorStopBrick motorStopBrick;
 
 	public LegoNxtMotorStopBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -70,14 +71,13 @@ public class LegoNxtMotorStopBrickTest extends ActivityInstrumentationTestCase2<
 
 	@Smoke
 	public void testMotorActionBrick() {
-		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView view = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -89,16 +89,18 @@ public class LegoNxtMotorStopBrickTest extends ActivityInstrumentationTestCase2<
 		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_stop_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 5);
 
-		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
-		solo.pressSpinnerItem(0, 5);
+		int LegoSpinnerIndex = 1;
+
+		Spinner currentSpinner = solo.getCurrentSpinners().get(LegoSpinnerIndex);
+		solo.pressSpinnerItem(LegoSpinnerIndex, 5);
 		assertEquals("Wrong item in spinner!", motors[4], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
+		solo.pressSpinnerItem(LegoSpinnerIndex, -1);
 		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
+		solo.pressSpinnerItem(LegoSpinnerIndex, -1);
 		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
+		solo.pressSpinnerItem(LegoSpinnerIndex, -1);
 		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
+		solo.pressSpinnerItem(LegoSpinnerIndex, -1);
 		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
 	}
 

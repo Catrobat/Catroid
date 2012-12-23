@@ -25,20 +25,20 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import org.catrobat.catroid.R;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -47,7 +47,7 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final int STEPS_TO_GO_BACK = 17;
 
 	private Solo solo;
@@ -55,13 +55,14 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private GoNStepsBackBrick goNStepsBackBrick;
 
 	public GoNStepsBackTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -75,14 +76,13 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Smoke
 	public void testGoNStepsBackBrick() {
-		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView view = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -91,10 +91,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_go_back)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, STEPS_TO_GO_BACK + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.clickEnterClose(solo, 0, STEPS_TO_GO_BACK + "");
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_GO_BACK + "", solo.getEditText(0).getText().toString());

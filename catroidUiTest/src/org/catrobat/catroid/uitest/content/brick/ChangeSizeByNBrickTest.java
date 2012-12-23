@@ -25,24 +25,24 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import org.catrobat.catroid.R;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final double SIZE_TO_CHANGE = 25;
 
 	private Solo solo;
@@ -50,13 +50,14 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 	private ChangeSizeByNBrick changeSizeByNBrick;
 
 	public ChangeSizeByNBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -70,13 +71,12 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Smoke
 	public void testChangeSizeByNBrick() {
-		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView view = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -85,10 +85,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_size_by)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, SIZE_TO_CHANGE + "");
-		solo.clickOnButton(0);
+		UiTestUtils.clickEnterClose(solo, 0, SIZE_TO_CHANGE + "");
 
 		double actualSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);
 		assertEquals("Wrong text in field", SIZE_TO_CHANGE, actualSize);

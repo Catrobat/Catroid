@@ -42,18 +42,19 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
 
 	public GlideToBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
