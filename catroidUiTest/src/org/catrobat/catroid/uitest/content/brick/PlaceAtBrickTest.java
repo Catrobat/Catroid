@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -35,15 +36,15 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import org.catrobat.catroid.R;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -52,20 +53,21 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 
 	public PlaceAtBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -79,14 +81,13 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Smoke
 	public void testPlaceAtBrick() throws InterruptedException {
-		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView view = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 5 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 5 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -103,22 +104,14 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		int xPosition = 987;
 		int yPosition = 654;
-		String buttonPositiveText = solo.getString(R.string.ok);
 
-		solo.clickOnEditText(0);
-		solo.waitForText(buttonPositiveText);
-		solo.clearEditText(0);
-		solo.enterText(0, xPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.clickEnterClose(solo, 0, xPosition + "");
 
 		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
 		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
 
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, yPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.clickEnterClose(solo, 1, yPosition + "");
 
 		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());

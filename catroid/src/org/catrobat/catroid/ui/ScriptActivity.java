@@ -379,6 +379,24 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		}
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (currentFragmentPosition == FRAGMENT_SCRIPTS) {
+				DragAndDropListView listView = ((ScriptFragment) currentFragment).getListView();
+				if (listView.isCurrentlyDragging()) {
+					listView.resetDraggingScreen();
+
+					BrickAdapter adapter = scriptFragment.getAdapter();
+					adapter.removeDraggedBrick();
+
+					return true;
+				}
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
 	public void handleAddButton(View view) {
 		currentFragment.handleAddButton();
 	}

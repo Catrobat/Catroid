@@ -76,7 +76,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//		setHasOptionsMenu(true);
 		setRetainInstance(true);
 	}
 
@@ -164,15 +163,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		initListeners();
 	}
-
-	//	@Override
-	//	public void onPrepareOptionsMenu(Menu menu) {
-	//		if (getListView().setHoveringBrick()) {
-	//			Log.d("TEST", "SCRIPTFRAGMENT! -> FALSE");
-	//		} else {
-	//			super.onPrepareOptionsMenu(menu);
-	//		}
-	//	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
@@ -272,8 +262,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			int position = ((lastVisibleBrick - firstVisibleBrick) / 2);
 			position += firstVisibleBrick;
 			adapter.addNewBrick(position, brickToBeAdded);
-		}
 
+			//			// TODO REMEMBER
+			//			Log.d("TEST", "HIDE ACTIONBAR!!!");
+			//			((SherlockFragmentActivity) getActivity()).getSupportActionBar().hide();
+		}
 		adapter.notifyDataSetChanged();
 	}
 

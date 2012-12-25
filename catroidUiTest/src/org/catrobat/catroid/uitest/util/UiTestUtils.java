@@ -542,11 +542,10 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
-		solo.sleep(1000);
-		final View view = solo.getCurrentActivity().findViewById(R.id.btn_add);
+		solo.sleep(500);
+		final View view = solo.getCurrentActivity().findViewById(buttonId);
 		assertTrue("Is null", view != null);
 
-		Log.d("TEST", "ButtonIDCorrect?: " + (buttonId == R.id.btn_add));
 		solo.waitForFragmentById(R.id.fr_sprites_list);
 
 		solo.getCurrentActivity().runOnUiThread(new Runnable() {
@@ -802,15 +801,6 @@ public class UiTestUtils {
 
 		String continueString = solo.getString(R.string.main_menu_continue);
 		solo.waitForText(continueString);
-
-		//		final Button continueButton = (Button) solo.getCurrentActivity().findViewById(R.id.main_menu_button_continue);
-		//
-		//		solo.getCurrentActivity().runOnUiThread(new Runnable() {
-		//
-		//			public void run() {
-		//				continueButton.performClick();
-		//			}
-		//		});
 
 		solo.clickOnButton(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
