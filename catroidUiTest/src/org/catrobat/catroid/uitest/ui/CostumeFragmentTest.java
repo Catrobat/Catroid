@@ -114,8 +114,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		assertFalse("Menu to add costume from camera should not be visible", solo.searchText(addCostumeFromCameraText));
 		assertFalse("Menu to add costume from gallery should not be visible",
 				solo.searchText(addCostumeFromGalleryText));
+
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
-		assertTrue("Menu to add costume from camera was not visible visible", solo.searchText(addCostumeFromCameraText));
+
+		assertTrue("Menu to add costume from camera was not visible", solo.searchText(addCostumeFromCameraText));
 		assertTrue("Menu to add costume from gallery was not visible", solo.searchText(addCostumeFromGalleryText));
 		solo.goBack();
 	}
@@ -675,8 +677,6 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private void goToCostumesTab() {
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.sleep(500);
+		UiTestUtils.getIntoCostumesFromMainMenu(solo, true);
 	}
 }

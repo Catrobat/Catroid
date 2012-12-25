@@ -788,11 +788,7 @@ public class UiTestUtils {
 		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 	}
 
-	public static void getIntoScriptActivityFromMainMenu(Solo solo) {
-		getIntoScriptActivityFromMainMenu(solo, 0);
-	}
-
-	public static void getIntoScriptActivityFromMainMenu(Solo solo, int spriteIndex) {
+	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
 		solo.sleep(300);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
@@ -809,6 +805,39 @@ public class UiTestUtils {
 
 		solo.clickInList(spriteIndex);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+	}
+
+	public static void getIntoCostumesFromMainMenu(Solo solo) {
+		getIntoCostumesFromMainMenu(solo, 0, false);
+	}
+
+	public static void getIntoCostumesFromMainMenu(Solo solo, boolean isBackground) {
+		getIntoCostumesFromMainMenu(solo, 0, isBackground);
+	}
+
+	public static void getIntoCostumesFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+
+		String textToClickOn = "";
+
+		if (isBackground) {
+			textToClickOn = solo.getString(R.string.backgrounds);
+		} else {
+			textToClickOn = solo.getString(R.string.costumes);
+		}
+		solo.clickOnText(textToClickOn);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
+	}
+
+	public static void getIntoScriptActivityFromMainMenu(Solo solo) {
+		getIntoScriptActivityFromMainMenu(solo, 0);
+	}
+
+	public static void getIntoScriptActivityFromMainMenu(Solo solo, int spriteIndex) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
