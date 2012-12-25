@@ -25,14 +25,7 @@ package org.catrobat.catroid.xml.parser;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PROJECT_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PROJECT_HEADER_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.*;
 
 import java.io.File;
 import java.io.IOException;

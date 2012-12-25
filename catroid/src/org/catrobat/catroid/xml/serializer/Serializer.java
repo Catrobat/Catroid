@@ -22,14 +22,7 @@
  */
 package org.catrobat.catroid.xml.serializer;
 
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.BRICK_CLASS_SUFFIX;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUMEREFERENCE_FROM_BRICK;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_DATA_CLASS_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SCRIPTCLASS_SUFFIX;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUNDREFERENCE_FROM_BRICK;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUND_INFO_CLASS_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITEREFERENCE_FROM_BRICK;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
