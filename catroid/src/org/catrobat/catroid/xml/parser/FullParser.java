@@ -22,6 +22,18 @@
  */
 package org.catrobat.catroid.xml.parser;
 
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PROJECT_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PROJECT_HEADER_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_NAME;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,12 +60,12 @@ import org.w3c.dom.NodeList;
 
 public class FullParser {
 
-	Map<String, Object> referencedObjects = new HashMap<String, Object>();
-	List<ForwardReference> forwardReferences = new ArrayList<ForwardReference>();
-	ObjectCreator objectGetter = new ObjectCreator();
-	CostumeParser costumeParser = new CostumeParser();
-	SoundInfoParser soundParser = new SoundInfoParser();
-	ScriptParser scriptParser = new ScriptParser();
+	private Map<String, Object> referencedObjects = new HashMap<String, Object>();
+	private List<ForwardReference> forwardReferences = new ArrayList<ForwardReference>();
+	private ObjectCreator objectGetter = new ObjectCreator();
+	private CostumeParser costumeParser = new CostumeParser();
+	private SoundInfoParser soundParser = new SoundInfoParser();
+	private ScriptParser scriptParser = new ScriptParser();
 
 	public Project fullParser(String xmlFile) throws ParseException {
 
@@ -90,35 +102,32 @@ public class FullParser {
 			Document document = documentBuilderBuilder.parse(xmlInputStream);
 			document.getDocumentElement().normalize();
 
-			NodeList spriteNodes = document.getElementsByTagName(CatroidXMLConstants.SPRITE_ELEMENT_NAME);
+			NodeList spriteNodes = document.getElementsByTagName(SPRITE_ELEMENT_NAME);
 			for (int i = 0; i < spriteNodes.getLength(); i++) {
 				Element spriteElement = (Element) spriteNodes.item(i);
 				String spriteName = getSpriteName(spriteElement);
 				Sprite foundSprite = new Sprite(spriteName);
 
-				Node costumeListItem = spriteElement
-						.getElementsByTagName(CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME).item(0);
+				Node costumeListItem = spriteElement.getElementsByTagName(COSTUME_LIST_ELEMENT_NAME).item(0);
 				if (costumeListItem != null) {
 					NodeList costumeNodes = costumeListItem.getChildNodes();
 					costumeParser.parseCostumeList(costumeNodes, foundSprite, referencedObjects);
 				}
 
-				Node scriptListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME)
-						.item(0);
+				Node scriptListItem = spriteElement.getElementsByTagName(SCRIPT_LIST_ELEMENT_NAME).item(0);
 				if (scriptListItem != null) {
 					NodeList scriptNodes = scriptListItem.getChildNodes();
 					scriptParser.parseScripts(scriptNodes, foundSprite, referencedObjects, forwardReferences);
 				}
 
-				Node soundListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME)
-						.item(0);
+				Node soundListItem = spriteElement.getElementsByTagName(SOUND_LIST_ELEMENT_NAME).item(0);
 				if (soundListItem != null) {
 					NodeList soundNodes = soundListItem.getChildNodes();
 					soundParser.parseSoundInfo(soundNodes, foundSprite, referencedObjects, forwardReferences);
 				}
 
-				String spriteXpath = ParserUtil.getElementXPath(spriteElement);
-				referencedObjects.put(spriteXpath, foundSprite);
+				String spriteXPath = ParserUtil.getElementXPath(spriteElement);
+				referencedObjects.put(spriteXPath, foundSprite);
 				sprites.add(foundSprite);
 			}
 			References references = new References();
@@ -131,21 +140,21 @@ public class FullParser {
 			throw new ParseException(e);
 		}
 
-		setCheckSumsOnProjectManager(parsedProject);
+		setChecksumsOnProjectManager(parsedProject);
 		return parsedProject;
 	}
 
-	private void setCheckSumsOnProjectManager(Project project) {
+	private void setChecksumsOnProjectManager(Project project) {
 		FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName()) + "/images");
-		File projectSoundDirectory = new File(Utils.buildProjectPath(project.getName()) + "/sounds");
+		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName() + IMAGE_DIRECTORY));
+		File projectSoundDirectory = new File(Utils.buildProjectPath(project.getName() + SOUND_DIRECTORY));
 		File[] imageFiles = projectImageDirectory.listFiles();
 		File[] soundFiles = projectSoundDirectory.listFiles();
 
 		if (imageFiles != null) {
 			for (File projectFile : imageFiles) {
 				String checksums = Utils.md5Checksum(projectFile);
-				if (!(projectFile.getName().equals(".nomedia"))) {
+				if (!(projectFile.getName().equals(NO_MEDIA_FILE))) {
 					checksumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
 				}
 			}
@@ -153,7 +162,7 @@ public class FullParser {
 		if (soundFiles != null) {
 			for (File projectFile : soundFiles) {
 				String checksums = Utils.md5Checksum(projectFile);
-				if (!(projectFile.getName().equals(".nomedia"))) {
+				if (!(projectFile.getName().equals(NO_MEDIA_FILE))) {
 					checksumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
 				}
 			}
@@ -166,7 +175,7 @@ public class FullParser {
 		for (int i = 0; i < spriteChildren.getLength(); i++) {
 			if (spriteChildren.item(i).getNodeType() != Node.TEXT_NODE) {
 				Element childElement = (Element) spriteChildren.item(i);
-				if (childElement.getNodeName().equals(CatroidXMLConstants.SPRITE_NAME)) {
+				if (childElement.getNodeName().equals(SPRITE_NAME)) {
 					spriteName = childElement.getChildNodes().item(0).getNodeValue();
 					break;
 				}
@@ -176,12 +185,11 @@ public class FullParser {
 	}
 
 	private Project getProjectObject(Document document, List<Sprite> sprites) throws IllegalArgumentException,
-			SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException,
-			NoSuchMethodException, ParseException {
+			InstantiationException, IllegalAccessException, InvocationTargetException, ParseException {
 		Node rootNode = document.getDocumentElement();
 		String nameOfRoot = rootNode.getNodeName();
 		Class<?> projectClass = null;
-		if (!nameOfRoot.equals(CatroidXMLConstants.PROJECT_ELEMENT_NAME)) {
+		if (!nameOfRoot.equals(PROJECT_ELEMENT_NAME)) {
 			String classNameOriginal = nameOfRoot.replace("_-", "$");
 			try {
 				projectClass = Class.forName(classNameOriginal);
@@ -197,13 +205,13 @@ public class FullParser {
 
 		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(projectClass);
 
-		Element headerElement = (Element) document.getElementsByTagName("Header").item(0);
+		Element headerElement = (Element) document.getElementsByTagName(PROJECT_HEADER_NAME).item(0);
 		NodeList projectHeaderChildren = headerElement.getChildNodes();
 		for (int i = 0; i < projectHeaderChildren.getLength(); i++) {
 			if (projectHeaderChildren.item(i).getNodeType() != Node.TEXT_NODE) {
 				Element projectChildElement = (Element) projectHeaderChildren.item(i);
 				Field projectField = projectFieldsToSet.get(projectChildElement.getNodeName());
-				if (projectChildElement.getNodeName().equals("SpriteList")) {
+				if (projectChildElement.getNodeName().equals(SPRITE_LIST_ELEMENT_NAME)) {
 					objectGetter.setFieldOfObject(projectField, newProject, sprites);
 					continue;
 				}
@@ -220,7 +228,7 @@ public class FullParser {
 				}
 			}
 		}
-		objectGetter.setFieldOfObject(projectFieldsToSet.get("SpriteList"), newProject, sprites);
+		objectGetter.setFieldOfObject(projectFieldsToSet.get(SPRITE_LIST_ELEMENT_NAME), newProject, sprites);
 		return newProject;
 	}
 

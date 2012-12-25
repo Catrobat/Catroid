@@ -22,6 +22,11 @@
  */
 package org.catrobat.catroid.xml.parser;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.FILE_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +41,12 @@ import org.w3c.dom.NodeList;
 
 public class SoundInfoParser {
 	References references = new References();
-	List<SoundInfo> soundList;
 	ObjectCreator objectGetter = new ObjectCreator();
 
 	public void parseSoundInfo(NodeList soundNodes, Sprite sprite, Map<String, Object> referencedObjects,
 			List<ForwardReference> forwardReferences) throws Throwable {
-		soundList = new ArrayList<SoundInfo>();
+
+		List<SoundInfo> soundInfos = new ArrayList<SoundInfo>();
 		for (int n = 0; n < soundNodes.getLength(); n++) {
 			Node soundNode = soundNodes.item(n);
 			if (soundNode.getNodeType() != Node.TEXT_NODE) {
@@ -49,8 +54,7 @@ public class SoundInfoParser {
 				SoundInfo foundSoundInfo = new SoundInfo();
 				String soundReference = References.getReferenceAttribute(soundNode);
 				if (soundReference != null) {
-					String suffix = soundReference.substring(soundReference
-							.lastIndexOf(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
+					String suffix = soundReference.substring(soundReference.lastIndexOf(SCRIPT_LIST_ELEMENT_NAME));
 
 					if (referencedObjects.containsKey(suffix)) {
 						foundSoundInfo = (SoundInfo) referencedObjects.get(suffix);
@@ -60,12 +64,12 @@ public class SoundInfoParser {
 								soundReference, referencedObjects, forwardReferences);
 					}
 				} else {
-					Node soundFileNameNode = soundElement.getElementsByTagName(CatroidXMLConstants.FILE_NAME).item(0);
+					Node soundFileNameNode = soundElement.getElementsByTagName(FILE_NAME).item(0);
 					String soundFileName = null;
 					if (soundFileNameNode != null) {
 						soundFileName = soundFileNameNode.getChildNodes().item(0).getNodeValue();
 					}
-					Node soundNameNode = soundElement.getElementsByTagName(CatroidXMLConstants.NAME).item(0);
+					Node soundNameNode = soundElement.getElementsByTagName(NAME).item(0);
 					String soundName = null;
 					if (soundNameNode != null) {
 						soundName = soundNameNode.getChildNodes().item(0).getNodeValue();
@@ -74,11 +78,10 @@ public class SoundInfoParser {
 					foundSoundInfo.setSoundFileName(soundFileName);
 					foundSoundInfo.setTitle(soundName);
 				}
-				soundList.add(foundSoundInfo);
+				soundInfos.add(foundSoundInfo);
 				String soundInfoXPath = ParserUtil.getElementXPath(soundElement);
 				referencedObjects.put(soundInfoXPath, foundSoundInfo);
-				String playSoundQuery = soundInfoXPath.substring(soundInfoXPath
-						.lastIndexOf(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME));
+				String playSoundQuery = soundInfoXPath.substring(soundInfoXPath.lastIndexOf(SOUND_LIST_ELEMENT_NAME));
 				PlaySoundBrick playSoundBrickWithReference = (PlaySoundBrick) referencedObjects
 						.get("PlaySounfRef../../../../../" + playSoundQuery);
 				if (playSoundBrickWithReference != null) {
@@ -87,6 +90,6 @@ public class SoundInfoParser {
 			}
 		}
 		Field soundListField = sprite.getClass().getDeclaredField("soundList");
-		objectGetter.setFieldOfObject(soundListField, sprite, soundList);
+		objectGetter.setFieldOfObject(soundListField, sprite, soundInfos);
 	}
 }

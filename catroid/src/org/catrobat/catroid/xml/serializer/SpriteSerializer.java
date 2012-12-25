@@ -22,12 +22,16 @@
  */
 package org.catrobat.catroid.xml.serializer;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_NAME;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.xml.parser.CatroidXMLConstants;
 
 public class SpriteSerializer extends Serializer {
 
@@ -41,7 +45,7 @@ public class SpriteSerializer extends Serializer {
 		Sprite sprite = (Sprite) object;
 		List<String> spriteStrings = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = TAB + TAB + getStartTag(CatroidXMLConstants.SPRITE_ELEMENT_NAME);
+		xmlElementString = TAB + TAB + getStartTag(SPRITE_ELEMENT_NAME);
 		spriteStrings.add(xmlElementString);
 
 		if (sprite.getCostumeDataList().size() > 0) {
@@ -52,11 +56,11 @@ public class SpriteSerializer extends Serializer {
 
 		if (sprite.getNumberOfScripts() > 0) {
 			ScriptSerializer scriptSerializer = new ScriptSerializer(sprite, serializedProject);
-			spriteStrings.add(TAB + TAB + TAB + getStartTag(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
+			spriteStrings.add(TAB + TAB + TAB + getStartTag(SCRIPT_LIST_ELEMENT_NAME));
 			for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
 				spriteStrings.addAll(scriptSerializer.serialize(sprite.getScript(i)));
 			}
-			spriteStrings.add(TAB + TAB + TAB + getEndTag(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
+			spriteStrings.add(TAB + TAB + TAB + getEndTag(SCRIPT_LIST_ELEMENT_NAME));
 		}
 
 		if (sprite.getSoundList().size() > 0) {
@@ -64,13 +68,13 @@ public class SpriteSerializer extends Serializer {
 			spriteStrings.addAll(soundSerializer.serializeSoundList(sprite.getSoundList()));
 		}
 
-		spriteStrings.add(TAB + TAB + getEndTag(CatroidXMLConstants.SPRITE_ELEMENT_NAME));
+		spriteStrings.add(TAB + TAB + getEndTag(SPRITE_ELEMENT_NAME));
 
 		return spriteStrings;
 	}
 
 	private String getSpriteNameElement(Sprite sprite) {
-		return getElementString(CatroidXMLConstants.SPRITE_NAME, sprite.getName());
+		return getElementString(SPRITE_NAME, sprite.getName());
 	}
 
 	public List<String> serializeList() throws IllegalArgumentException, SecurityException, IllegalAccessException,
@@ -82,11 +86,11 @@ public class SpriteSerializer extends Serializer {
 			spriteElements.addAll(serialize(projectSprite));
 		}
 		if (spriteElements.isEmpty()) {
-			spriteListStrings.add(getEmptyTag(CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME));
+			spriteListStrings.add(getEmptyTag(SPRITE_LIST_ELEMENT_NAME));
 		} else {
-			spriteListStrings.add(TAB + getStartTag(CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME));
+			spriteListStrings.add(TAB + getStartTag(SPRITE_LIST_ELEMENT_NAME));
 			spriteListStrings.addAll(spriteElements);
-			spriteListStrings.add(TAB + getEndTag(CatroidXMLConstants.SPRITE_LIST_ELEMENT_NAME));
+			spriteListStrings.add(TAB + getEndTag(SPRITE_LIST_ELEMENT_NAME));
 		}
 		return spriteListStrings;
 	}

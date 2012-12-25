@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.xml.serializer;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +32,6 @@ import java.util.List;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.xml.parser.CatroidXMLConstants;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
 
 public class ScriptSerializer extends Serializer {
@@ -78,7 +79,7 @@ public class ScriptSerializer extends Serializer {
 			if (!scriptClassField.getType().isPrimitive()) {
 				if (fieldName.equals("Sprite")) {
 					// sprites are not serialized
-				} else if (fieldName.equals(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME)) {
+				} else if (fieldName.equals(BRICK_LIST_ELEMENT_NAME)) {
 					if (serializedScript.getBrickList().size() > 0) {
 						BrickSerializer brickSerializer = new BrickSerializer(serializedSprite, (Script) object,
 								serializedProject);

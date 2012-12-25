@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.xml.parser;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.REFERENCE_ATTRIBUTE;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -48,13 +51,13 @@ public class References {
 	public static String getReferenceAttribute(Node brickValue) {
 		Element brickElement = (Element) brickValue;
 		String attributeString = null;
-		if (brickValue.getNodeName().equals(CatroidXMLConstants.SPRITE)) {
+		if (brickValue.getNodeName().equals(SPRITE)) {
 			return null;
 		}
 		if (brickElement != null) {
 			NamedNodeMap attributes = brickElement.getAttributes();
 			if (attributes != null) {
-				Node referenceNode = attributes.getNamedItem(CatroidXMLConstants.REFERENCE_ATTRIBUTE);
+				Node referenceNode = attributes.getNamedItem(REFERENCE_ATTRIBUTE);
 				if (referenceNode != null) {
 					attributeString = referenceNode.getTextContent();
 				}
@@ -68,7 +71,7 @@ public class References {
 			throws XPathExpressionException, IllegalArgumentException, InstantiationException, IllegalAccessException,
 			InvocationTargetException, ParseException {
 		XPathExpression xPathExpression = xPath.compile(referenceString);
-		Log.i("resolveRef", "xpath evaluated for :" + referenceString);
+		Log.i("resolveRef", "XPath evaluated for :" + referenceString);
 		Element referredElement = (Element) xPathExpression.evaluate(elementWithReference, XPathConstants.NODE);
 		if (referredElement == null) {
 			throw new ParseException("Element by reference not found");
