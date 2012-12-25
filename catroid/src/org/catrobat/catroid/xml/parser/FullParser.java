@@ -139,8 +139,8 @@ public class FullParser {
 
 	private void setChecksumsOnProjectManager(Project project) {
 		FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName() + IMAGE_DIRECTORY));
-		File projectSoundDirectory = new File(Utils.buildProjectPath(project.getName() + SOUND_DIRECTORY));
+		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName()) + "/" + IMAGE_DIRECTORY);
+		File projectSoundDirectory = new File(Utils.buildProjectPath(project.getName()) + "/" + SOUND_DIRECTORY);
 		File[] imageFiles = projectImageDirectory.listFiles();
 		File[] soundFiles = projectSoundDirectory.listFiles();
 
