@@ -153,7 +153,7 @@ public class Utils {
 	}
 
 	static public String buildProjectPath(String projectName) {
-		return Constants.DEFAULT_ROOT + "/" + deleteSpecialCharactersInString(projectName);
+		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
 
 	/**
