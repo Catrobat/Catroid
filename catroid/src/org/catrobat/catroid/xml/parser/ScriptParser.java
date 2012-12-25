@@ -22,6 +22,10 @@
  */
 package org.catrobat.catroid.xml.parser;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.CONTENT_PACKAGE;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -52,8 +56,7 @@ public class ScriptParser {
 			if (scriptListNodes.item(j).getNodeType() != Node.TEXT_NODE) {
 				Element scriptElement = (Element) scriptListNodes.item(j);
 				foundScript = getPopulatedScript(scriptElement, foundSprite);
-				Node brickListNode = scriptElement.getElementsByTagName(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME)
-						.item(0);
+				Node brickListNode = scriptElement.getElementsByTagName(BRICK_LIST_ELEMENT_NAME).item(0);
 				if (brickListNode != null) {
 					brickParser.parseBricks(foundSprite, foundScript, scriptElement, brickListNode, referencedObjects,
 							forwardReferences);
@@ -71,7 +74,7 @@ public class ScriptParser {
 			NoSuchMethodException, ClassNotFoundException, ParseException {
 		String scriptClassName = element.getNodeName();
 
-		Class<?> scriptClass = Class.forName(CatroidXMLConstants.CONTENT_PACKAGE + scriptClassName);
+		Class<?> scriptClass = Class.forName(CONTENT_PACKAGE + scriptClassName);
 		Script newScript = objectGetter.getScriptObject(scriptClassName, sprite);
 
 		Map<String, Field> scriptClassFieldMap = objectGetter.getFieldMap(scriptClass);
@@ -81,17 +84,16 @@ public class ScriptParser {
 			Node child = scriptChildren.item(o);
 			if (child.getNodeType() != Node.TEXT_NODE) {
 				String childNodeName = child.getNodeName();
-				if (childNodeName.equals(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME)) {
+				if (childNodeName.equals(BRICK_LIST_ELEMENT_NAME)) {
 					continue;
 				}
-				if (childNodeName.equals(CatroidXMLConstants.SPRITE)) {
+				if (childNodeName.equals(SPRITE)) {
 					continue;
 				}
 				Field scriptClassField = scriptClassFieldMap.get(childNodeName);
 
 				valueInString = child.getChildNodes().item(0).getNodeValue();
 				if (valueInString != null) {
-
 					Object fieldValue = objectGetter.getObjectOfClass(scriptClassField.getType(), valueInString);
 					objectGetter.setFieldOfObject(scriptClassField, newScript, fieldValue);
 				}

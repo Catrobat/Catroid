@@ -22,6 +22,15 @@
  */
 package org.catrobat.catroid.xml.serializer;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.BRICK_CLASS_SUFFIX;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUMEREFERENCE_FROM_BRICK;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_DATA_CLASS_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SCRIPTCLASS_SUFFIX;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUNDREFERENCE_FROM_BRICK;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUND_INFO_CLASS_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITEREFERENCE_FROM_BRICK;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_ELEMENT_NAME;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +42,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.xml.parser.CatroidXMLConstants;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
 
 public abstract class Serializer {
@@ -61,8 +69,8 @@ public abstract class Serializer {
 		Object referencedObject = fieldNeedingReference.get(objectWithField);
 		if (referencedObject != null) {
 			String referencedObjectName = referencedObject.getClass().getSimpleName();
-			if (objectWithField.getClass().getSimpleName().endsWith(CatroidXMLConstants.BRICK_CLASS_SUFFIX)) {
-				if (referencedObjectName.endsWith(CatroidXMLConstants.BRICK_CLASS_SUFFIX)) {
+			if (objectWithField.getClass().getSimpleName().endsWith(BRICK_CLASS_SUFFIX)) {
+				if (referencedObjectName.endsWith(BRICK_CLASS_SUFFIX)) {
 					if (brickList.contains(referencedObject)) {
 						reference = "../../" + referencedObjectName;
 
@@ -79,15 +87,12 @@ public abstract class Serializer {
 					} else {
 						reference = "TODO for bricks of other scripts";
 					}
-				} else if (referencedObjectName.equals(CatroidXMLConstants.COSTUME_DATA_CLASS_NAME)) {
-					reference = CatroidXMLConstants.COSTUMEREFERENCE_FROM_BRICK;
-					reference = getReferenceIndexSuffix(reference, referencedObject, costumeList);
-				} else if (referencedObjectName.equals(CatroidXMLConstants.SPRITE_ELEMENT_NAME)) {
-					reference = CatroidXMLConstants.SPRITEREFERENCE_FROM_BRICK;
-					reference = getReferenceIndexSuffix(reference, referencedObject, spriteList);
-				} else if (referencedObjectName.equals(CatroidXMLConstants.SOUND_INFO_CLASS_NAME)) {
-					reference = CatroidXMLConstants.SOUNDREFERENCE_FROM_BRICK;
-					reference = getReferenceIndexSuffix(reference, referencedObject, soundList);
+				} else if (referencedObjectName.equals(COSTUME_DATA_CLASS_NAME)) {
+					reference = getReferenceIndexSuffix(COSTUMEREFERENCE_FROM_BRICK, referencedObject, costumeList);
+				} else if (referencedObjectName.equals(SPRITE_ELEMENT_NAME)) {
+					reference = getReferenceIndexSuffix(SPRITEREFERENCE_FROM_BRICK, referencedObject, spriteList);
+				} else if (referencedObjectName.equals(SOUND_INFO_CLASS_NAME)) {
+					reference = getReferenceIndexSuffix(SOUNDREFERENCE_FROM_BRICK, referencedObject, soundList);
 				} else if (referencedObjectName.endsWith("Script")) {
 					reference = "../../../../" + referencedObjectName;
 					List<Script> sameScripts = new ArrayList<Script>();
@@ -100,7 +105,7 @@ public abstract class Serializer {
 						reference = getReferenceIndexSuffix(reference, referencedObject, sameScripts);
 					}
 				}
-			} else if (objectWithField.getClass().getSimpleName().endsWith(CatroidXMLConstants.SCRIPTCLASS_SUFFIX)) {
+			} else if (objectWithField.getClass().getSimpleName().endsWith(SCRIPTCLASS_SUFFIX)) {
 				reference = "TODO for scripts";
 			}
 		}

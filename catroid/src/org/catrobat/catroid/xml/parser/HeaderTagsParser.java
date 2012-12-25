@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.xml.parser;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PROJECT_HEADER_NAME;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -77,7 +79,7 @@ public class HeaderTagsParser extends DefaultHandler {
 
 	@Override
 	public void endElement(String uri, String localName, String tagName) throws SAXException {
-		if (tagName != CatroidXMLConstants.PROJECT_HEADER_NAME) {
+		if (tagName != PROJECT_HEADER_NAME) {
 			parsedStrings.put(tagName, tempValue);
 		}
 	}
