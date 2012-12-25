@@ -22,18 +22,7 @@
  */
 package org.catrobat.catroid.xml.parser;
 
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.BRICK_CLASS_SUFFIX;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.BRICK_PACKAGE;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.LOOP_BEGIN_BRICK;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.LOOP_END_BRICK;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.LOOP_END_BRICKREFERENCE;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PARENT_ELEMENT;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUND_INFO;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUND_INFO_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
