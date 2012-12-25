@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.xml.parser.CatroidXMLConstants;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
 
-
 public class ProjectSerializer extends Serializer {
 
 	public ProjectSerializer() {
@@ -49,16 +48,17 @@ public class ProjectSerializer extends Serializer {
 			className = className.replace("$", "_-");
 			xmlElementString = getStartTag(className);
 		} else {
-
 			xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME
 					+ CatroidXMLConstants.PROJECT_ELEMENT_NAME_OPTIONAL_STARTTAG);
 		}
+
 		projectStringList.add(xmlElementString);
 		xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_HEADER_NAME);
 		projectStringList.add(xmlElementString);
 		if (!(object.getClass().getSuperclass().equals(Object.class))) {
 			getProjectStringsofClass(object, project, projectStringList, object.getClass().getSuperclass());
 		}
+
 		getProjectStringsofClass(object, project, projectStringList, object.getClass());
 		xmlElementString = getEndTag(CatroidXMLConstants.PROJECT_HEADER_NAME);
 		projectStringList.add(xmlElementString);
@@ -69,10 +69,9 @@ public class ProjectSerializer extends Serializer {
 			className = className.replace("$", "_-");
 			xmlElementString = getEndTag(className);
 		} else {
-
 			xmlElementString = getEndTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME);
-
 		}
+
 		projectStringList.add(xmlElementString);
 		return projectStringList;
 	}
@@ -86,10 +85,9 @@ public class ProjectSerializer extends Serializer {
 			String fieldName = objectCreator.extractTagName(projectField);
 			projectField.setAccessible(true);
 			Object fieldValue = projectField.get(object);
-			//if (fieldValue != null) {
 			if (!projectField.getType().isPrimitive()) {
 				if (projectField.getType().equals(String.class)) {
-					xmlElementString = tab + getElementString(fieldName, (String) fieldValue);
+					xmlElementString = TAB + getElementString(fieldName, (String) fieldValue);
 					projectStringList.add(xmlElementString);
 				} else if (projectField.getName().equals("spriteList")) {
 					//						SpriteSerializer spriteSerializer = new SpriteSerializer(project);
@@ -98,10 +96,9 @@ public class ProjectSerializer extends Serializer {
 					throw new SerializeException("unknown field found in Project class");
 				}
 			} else {
-				xmlElementString = tab + getElementString(fieldName, fieldValue.toString());
+				xmlElementString = TAB + getElementString(fieldName, fieldValue.toString());
 				projectStringList.add(xmlElementString);
 			}
-			//}
 		}
 	}
 

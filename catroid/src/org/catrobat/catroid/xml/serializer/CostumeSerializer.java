@@ -28,10 +28,9 @@ import java.util.List;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.xml.parser.CatroidXMLConstants;
 
-
 public class CostumeSerializer extends Serializer {
 
-	private final String costumeTabs = tab + tab + tab;
+	private final String costumeTabs = TAB + TAB + TAB;
 
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
@@ -41,13 +40,13 @@ public class CostumeSerializer extends Serializer {
 		String costumeName = costumedata.getCostumeName();
 		List<String> costumeStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = costumeTabs + tab + getStartTag(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME);
+		xmlElementString = costumeTabs + TAB + getStartTag(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + tab + getElementString(CatroidXMLConstants.FILE_NAME, costumeFileName);
+		xmlElementString = costumeTabs + TAB + TAB + getElementString(CatroidXMLConstants.FILE_NAME, costumeFileName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + tab + getElementString(CatroidXMLConstants.NAME, costumeName);
+		xmlElementString = costumeTabs + TAB + TAB + getElementString(CatroidXMLConstants.NAME, costumeName);
 		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + tab + getEndTag(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME);
+		xmlElementString = costumeTabs + TAB + getEndTag(CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME);
 		costumeStringList.add(xmlElementString);
 
 		return costumeStringList;

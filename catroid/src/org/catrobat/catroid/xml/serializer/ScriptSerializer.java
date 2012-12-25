@@ -33,10 +33,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.xml.parser.CatroidXMLConstants;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
 
-
 public class ScriptSerializer extends Serializer {
 
-	private final String scriptTabs = tab + tab + tab + tab;
+	private final String scriptTabs = TAB + TAB + TAB + TAB;
 
 	public ScriptSerializer(Sprite serializedSprite, Project serializedProject) {
 		super.serializedSprite = serializedSprite;
@@ -50,7 +49,7 @@ public class ScriptSerializer extends Serializer {
 		List<String> scriptStringList = new ArrayList<String>();
 		serializedScript = (Script) object;
 		String xmlElementString = "";
-		xmlElementString = scriptTabs + getStartTag(/* scriptTagPrefix + */object.getClass().getSimpleName());
+		xmlElementString = scriptTabs + getStartTag(object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 
 		//		if (!(object.getClass().getSuperclass().equals(Object.class))) {
@@ -58,7 +57,7 @@ public class ScriptSerializer extends Serializer {
 		//		}
 		getScriptFieldsAsElements(object, scriptStringList, object.getClass());
 
-		xmlElementString = scriptTabs + getEndTag(/* scriptTagPrefix + */object.getClass().getSimpleName());
+		xmlElementString = scriptTabs + getEndTag(object.getClass().getSimpleName());
 		scriptStringList.add(xmlElementString);
 		if (scriptStringList.size() <= 2) {
 			scriptStringList.clear();
@@ -67,11 +66,11 @@ public class ScriptSerializer extends Serializer {
 		return scriptStringList;
 	}
 
-	private void getScriptFieldsAsElements(Object object, List<String> scriptStringList, Class<?> cls)
+	private void getScriptFieldsAsElements(Object object, List<String> scriptStringList, Class<?> clazz)
 			throws IllegalAccessException {
 		String xmlElementString;
 		//		fieldMap = objectCreator.getFieldMapOfThisClass(cls);
-		fieldMap = objectCreator.getFieldMap(cls);
+		fieldMap = objectCreator.getFieldMap(clazz);
 		Collection<Field> fields = fieldMap.values();
 		for (Field scriptClassField : fields) {
 			String fieldName = objectCreator.extractTagName(scriptClassField);
@@ -87,12 +86,12 @@ public class ScriptSerializer extends Serializer {
 						scriptStringList.addAll(brickStrings);
 					}
 				} else if (scriptClassField.getType().equals(String.class)) {
-					xmlElementString = scriptTabs + tab
+					xmlElementString = scriptTabs + TAB
 							+ getElementString(fieldName, (String) scriptClassField.get(object));
 					scriptStringList.add(xmlElementString);
 				} else {
 					String referenceString = getReference(scriptClassField, object);
-					xmlElementString = scriptTabs + tab + "<" + fieldName + " reference=\"" + referenceString + "\"/>"
+					xmlElementString = scriptTabs + TAB + "<" + fieldName + " reference=\"" + referenceString + "\"/>"
 							+ "\n";
 					scriptStringList.add(xmlElementString);
 				}

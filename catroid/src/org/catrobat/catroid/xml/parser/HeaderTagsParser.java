@@ -31,6 +31,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -39,7 +40,7 @@ import android.util.Log;
 public class HeaderTagsParser extends DefaultHandler {
 
 	private Map<String, String> parsedStrings;
-	private String tempVal;
+	private String tempValue;
 
 	public Map<String, String> parseHeader(InputStream xmlFileStream) throws ParseException {
 		parsedStrings = new HashMap<String, String>();
@@ -60,36 +61,30 @@ public class HeaderTagsParser extends DefaultHandler {
 		}
 
 		return parsedStrings;
-
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String tagName, org.xml.sax.Attributes attributes)
-			throws SAXException {
+	public void startElement(String uri, String localName, String tagName, Attributes attributes) throws SAXException {
 		if (HeaderStarterAndEndTags.SPRITELIST.getOtherXMLTagString().contains(tagName)) {
 			throw new SAXException("Header parsing done!");
 		}
-
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		tempVal = new String(ch, start, length);
-
+		tempValue = new String(ch, start, length);
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String tagName) throws SAXException {
 		if (tagName != CatroidXMLConstants.PROJECT_HEADER_NAME) {
-			parsedStrings.put(tagName, tempVal);
+			parsedStrings.put(tagName, tempValue);
 		}
-
 	}
 
 	public String getvalueof(HeaderTags tag, InputStream XMLFile) throws ParseException {
 		Map<String, String> parsedValues = this.parseHeader(XMLFile);
 		return parsedValues.get(tag.getXmlTagString());
-
 	}
 
 }

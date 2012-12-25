@@ -46,11 +46,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 public class FullParser {
 
 	Map<String, Object> referencedObjects = new HashMap<String, Object>();
-	List<ForwardReferences> forwardRefs = new ArrayList<ForwardReferences>();
+	List<ForwardReference> forwardReferences = new ArrayList<ForwardReference>();
 	ObjectCreator objectGetter = new ObjectCreator();
 	CostumeParser costumeParser = new CostumeParser();
 	SoundInfoParser soundParser = new SoundInfoParser();
@@ -61,7 +60,6 @@ public class FullParser {
 		Project parsedProject = null;
 
 		try {
-
 			InputStream inputStreamForSprites = NativeAppActivity.getContext().getAssets().open(xmlFile);
 
 			parsedProject = this.parseSpritesWithProject(inputStreamForSprites);
@@ -73,12 +71,7 @@ public class FullParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new ParseException("IO exception in full parser", e);
-		} catch (NoSuchFieldException e) {
-			throw new ParseException("Field exception, Sound handling", e);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			throw new ParseException("Field exception, Sound handling", e);
-		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			throw new ParseException("Field exception, Sound handling", e);
 		}
@@ -86,19 +79,18 @@ public class FullParser {
 
 	}
 
-	public Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException, NoSuchFieldException,
-			IllegalArgumentException, IllegalAccessException {
+	public Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException {
 
-		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder;
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilderBuilder;
 		Project parsedProject = null;
 		List<Sprite> sprites = new ArrayList<Sprite>();
 		try {
-			docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(xmlInputStream);
-			doc.getDocumentElement().normalize();
+			documentBuilderBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document document = documentBuilderBuilder.parse(xmlInputStream);
+			document.getDocumentElement().normalize();
 
-			NodeList spriteNodes = doc.getElementsByTagName(CatroidXMLConstants.SPRITE_ELEMENT_NAME);
+			NodeList spriteNodes = document.getElementsByTagName(CatroidXMLConstants.SPRITE_ELEMENT_NAME);
 			for (int i = 0; i < spriteNodes.getLength(); i++) {
 				Element spriteElement = (Element) spriteNodes.item(i);
 				String spriteName = getSpriteName(spriteElement);
@@ -115,25 +107,24 @@ public class FullParser {
 						.item(0);
 				if (scriptListItem != null) {
 					NodeList scriptNodes = scriptListItem.getChildNodes();
-					scriptParser.parseScripts(scriptNodes, foundSprite, referencedObjects, forwardRefs);
+					scriptParser.parseScripts(scriptNodes, foundSprite, referencedObjects, forwardReferences);
 				}
 
 				Node soundListItem = spriteElement.getElementsByTagName(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME)
 						.item(0);
 				if (soundListItem != null) {
 					NodeList soundNodes = soundListItem.getChildNodes();
-					soundParser.parseSoundInfo(soundNodes, foundSprite, referencedObjects, forwardRefs);
-
+					soundParser.parseSoundInfo(soundNodes, foundSprite, referencedObjects, forwardReferences);
 				}
 
-				String spriteXpath = ParserUtil.getElementXpath(spriteElement);
+				String spriteXpath = ParserUtil.getElementXPath(spriteElement);
 				referencedObjects.put(spriteXpath, foundSprite);
 				sprites.add(foundSprite);
 			}
 			References references = new References();
-			references.resolveForwardReferences(referencedObjects, forwardRefs);
-			parsedProject = getProjectObject(doc, sprites);
-			doc = null;
+			references.resolveForwardReferences(referencedObjects, forwardReferences);
+			parsedProject = getProjectObject(document, sprites);
+			document = null;
 			xmlInputStream.close();
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -142,11 +133,10 @@ public class FullParser {
 
 		setCheckSumsOnProjectManager(parsedProject);
 		return parsedProject;
-
 	}
 
 	private void setCheckSumsOnProjectManager(Project project) {
-		FileChecksumContainer checkSumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+		FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName()) + "/images");
 		File projectSoundDirectory = new File(Utils.buildProjectPath(project.getName()) + "/sounds");
 		File[] imageFiles = projectImageDirectory.listFiles();
@@ -156,7 +146,7 @@ public class FullParser {
 			for (File projectFile : imageFiles) {
 				String checksums = Utils.md5Checksum(projectFile);
 				if (!(projectFile.getName().equals(".nomedia"))) {
-					checkSumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
+					checksumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
 				}
 			}
 		}
@@ -164,7 +154,7 @@ public class FullParser {
 			for (File projectFile : soundFiles) {
 				String checksums = Utils.md5Checksum(projectFile);
 				if (!(projectFile.getName().equals(".nomedia"))) {
-					checkSumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
+					checksumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
 				}
 			}
 		}
@@ -185,10 +175,10 @@ public class FullParser {
 		return spriteName;
 	}
 
-	private Project getProjectObject(Document doc, List<Sprite> sprites2) throws IllegalArgumentException,
+	private Project getProjectObject(Document document, List<Sprite> sprites) throws IllegalArgumentException,
 			SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException,
 			NoSuchMethodException, ParseException {
-		Node rootNode = doc.getDocumentElement();
+		Node rootNode = document.getDocumentElement();
 		String nameOfRoot = rootNode.getNodeName();
 		Class<?> projectClass = null;
 		if (!nameOfRoot.equals(CatroidXMLConstants.PROJECT_ELEMENT_NAME)) {
@@ -203,19 +193,18 @@ public class FullParser {
 			projectClass = Project.class;
 		}
 
-		Project newProject = (Project) objectGetter.getobjectOfClass(projectClass, "0");
+		Project newProject = (Project) objectGetter.getObjectOfClass(projectClass, "0");
 
 		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(projectClass);
 
-		//NodeList projectNodes = doc.getElementsByTagName(nameOfRoot);
-		Element headerElement = (Element) doc.getElementsByTagName("Header").item(0);
+		Element headerElement = (Element) document.getElementsByTagName("Header").item(0);
 		NodeList projectHeaderChildren = headerElement.getChildNodes();
 		for (int i = 0; i < projectHeaderChildren.getLength(); i++) {
 			if (projectHeaderChildren.item(i).getNodeType() != Node.TEXT_NODE) {
 				Element projectChildElement = (Element) projectHeaderChildren.item(i);
 				Field projectField = projectFieldsToSet.get(projectChildElement.getNodeName());
 				if (projectChildElement.getNodeName().equals("SpriteList")) {
-					objectGetter.setFieldOfObject(projectField, newProject, sprites2);
+					objectGetter.setFieldOfObject(projectField, newProject, sprites);
 					continue;
 				}
 
@@ -223,7 +212,7 @@ public class FullParser {
 					NodeList childNodes = projectChildElement.getChildNodes();
 					if (childNodes.getLength() > 0) {
 						String valueInString = childNodes.item(0).getNodeValue();
-						Object valueObject = objectGetter.getobjectOfClass(projectField.getType(), valueInString);
+						Object valueObject = objectGetter.getObjectOfClass(projectField.getType(), valueInString);
 						objectGetter.setFieldOfObject(projectField, newProject, valueObject);
 					} else {
 						objectGetter.setFieldOfObject(projectField, newProject, null);
@@ -231,7 +220,7 @@ public class FullParser {
 				}
 			}
 		}
-		objectGetter.setFieldOfObject(projectFieldsToSet.get("SpriteList"), newProject, sprites2);
+		objectGetter.setFieldOfObject(projectFieldsToSet.get("SpriteList"), newProject, sprites);
 		return newProject;
 	}
 
