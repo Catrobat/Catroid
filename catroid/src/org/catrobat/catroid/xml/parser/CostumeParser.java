@@ -34,7 +34,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 public class CostumeParser {
 	ObjectCreator objectGetter = new ObjectCreator();
 	List<CostumeData> costumeList;
@@ -42,6 +41,7 @@ public class CostumeParser {
 
 	public void parseCostumeList(NodeList costumeNodes, Sprite sprite, Map<String, Object> referencedObjects)
 			throws SecurityException, NoSuchFieldException, IllegalAccessException {
+
 		costumeList = new ArrayList<CostumeData>();
 		int costumeIndex = 1;
 		for (int m = 0; m < costumeNodes.getLength(); m++) {
@@ -71,11 +71,10 @@ public class CostumeParser {
 		}
 		Field costumeListField = sprite.getClass().getDeclaredField(CatroidXMLConstants.COSTUME_LIST_FIELD_NAME);
 		objectGetter.setFieldOfObject(costumeListField, sprite, costumeList);
-
 	}
 
-	public Boolean setCostumedataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
-			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs) throws IllegalAccessException {
+	public Boolean setCostumeDataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
+			Map<String, Object> referencedObjects) throws IllegalAccessException {
 		int lastIndex = referenceAttribute.lastIndexOf('[');
 		String query = CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME;
 		String suffix = "";

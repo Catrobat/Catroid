@@ -35,15 +35,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 public class ScriptParser {
 	ObjectCreator objectGetter = new ObjectCreator();
 	BrickParser brickParser;
 
 	public void parseScripts(NodeList scriptListNodes, Sprite foundSprite, Map<String, Object> referencedObjects,
-			List<ForwardReferences> forwardRefs) throws IllegalAccessException, InstantiationException,
+			List<ForwardReference> forwardReferences) throws IllegalAccessException, InstantiationException,
 			InvocationTargetException, NoSuchMethodException, ClassNotFoundException, XPathExpressionException,
 			ParseException, SecurityException, NoSuchFieldException {
+
 		brickParser = new BrickParser();
 		for (int j = 0; j < scriptListNodes.getLength(); j++) {
 
@@ -51,14 +51,14 @@ public class ScriptParser {
 
 			if (scriptListNodes.item(j).getNodeType() != Node.TEXT_NODE) {
 				Element scriptElement = (Element) scriptListNodes.item(j);
-				foundScript = getpopulatedScript(scriptElement, foundSprite);
-				Node brickListNode = scriptElement.getElementsByTagName(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME).item(
-						0);
+				foundScript = getPopulatedScript(scriptElement, foundSprite);
+				Node brickListNode = scriptElement.getElementsByTagName(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME)
+						.item(0);
 				if (brickListNode != null) {
 					brickParser.parseBricks(foundSprite, foundScript, scriptElement, brickListNode, referencedObjects,
-							forwardRefs);
+							forwardReferences);
 				}
-				String scriptXPath = ParserUtil.getElementXpath(scriptElement);
+				String scriptXPath = ParserUtil.getElementXPath(scriptElement);
 				referencedObjects.put(scriptXPath, foundScript);
 				foundSprite.addScript(foundScript);
 			}
@@ -66,7 +66,7 @@ public class ScriptParser {
 		}
 	}
 
-	private Script getpopulatedScript(Element element, Sprite sprite) throws IllegalArgumentException,
+	private Script getPopulatedScript(Element element, Sprite sprite) throws IllegalArgumentException,
 			IllegalAccessException, SecurityException, InstantiationException, InvocationTargetException,
 			NoSuchMethodException, ClassNotFoundException, ParseException {
 		String scriptClassName = element.getNodeName();
@@ -92,7 +92,7 @@ public class ScriptParser {
 				valueInString = child.getChildNodes().item(0).getNodeValue();
 				if (valueInString != null) {
 
-					Object fieldValue = objectGetter.getobjectOfClass(scriptClassField.getType(), valueInString);
+					Object fieldValue = objectGetter.getObjectOfClass(scriptClassField.getType(), valueInString);
 					objectGetter.setFieldOfObject(scriptClassField, newScript, fieldValue);
 				}
 

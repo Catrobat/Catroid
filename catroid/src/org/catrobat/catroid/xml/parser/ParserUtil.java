@@ -26,13 +26,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class ParserUtil {
-	public static String getElementXpath(Element elt) {
+	public static String getElementXPath(Element element) {
 		String path = "";
 
 		try {
-			for (; elt != null; elt = (Element) elt.getParentNode()) {
-				int idx = getElementIdx(elt);
-				String xname = elt.getTagName().toString();
+			for (; element != null; element = (Element) element.getParentNode()) {
+				int idx = getElementIndex(element);
+				String xname = element.getTagName().toString();
 
 				if (idx > 1) {
 					xname += "[" + idx + "]";
@@ -44,7 +44,7 @@ public class ParserUtil {
 		return path;
 	}
 
-	public static int getElementIdx(Element original) {
+	public static int getElementIndex(Element original) {
 		int count = 1;
 
 		for (Node node = original.getPreviousSibling(); node != null; node = node.getPreviousSibling()) {

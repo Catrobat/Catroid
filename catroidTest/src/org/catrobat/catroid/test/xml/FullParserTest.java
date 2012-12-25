@@ -37,12 +37,12 @@ import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.stage.NativeAppActivity;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.xml.parser.FullParser;
@@ -76,7 +76,6 @@ public class FullParserTest extends InstrumentationTestCase {
 		try {
 			xmlFileStream = androidContext.getAssets().open("test_project.xml");
 		} catch (IOException e) {
-
 			e.printStackTrace();
 			fail("Exception caught at getting filestream");
 		}
@@ -91,12 +90,6 @@ public class FullParserTest extends InstrumentationTestCase {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			fail("Exception when parsing the headers");
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-			fail("Exception when parsing the headers");
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			fail("Exception when parsing the headers");
 		}
 		assertNotNull("Values are null", values);
 		assertEquals("All the sprites are not captures or incorrect", 3, values.size());
@@ -107,20 +100,19 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertEquals("Script number of brick incorrect", 6, testScript.getBrickList().size());
 		SetSizeToBrick testBrick = (SetSizeToBrick) testScript.getBrick(2);
 		double sizeFormBrick = (Double) TestUtils.getPrivateField("size", testBrick, false);
-		assertEquals("SETSizetoBrick size incorrect", 0.8, sizeFormBrick);
+		assertEquals("SetSizetoBrick size incorrect", 0.8, sizeFormBrick);
 
-		WhenScript testWhnScript = (WhenScript) values.get(1).getScript(1);
-		assertEquals("WhenScript action incorrect", "Tapped", testWhnScript.getAction());
+		WhenScript testWhenScript = (WhenScript) values.get(1).getScript(1);
+		assertEquals("WhenScript action incorrect", "Tapped", testWhenScript.getAction());
 
 		StartScript testScript2 = (StartScript) values.get(2).getScript(0);
 		GlideToBrick testBrick2 = (GlideToBrick) testScript2.getBrick(5);
-		int xpos = (Integer) TestUtils.getPrivateField("xDestination", testBrick2, false);
-		int ypos = (Integer) TestUtils.getPrivateField("xDestination", testBrick2, false);
-		int dur = (Integer) TestUtils.getPrivateField("durationInMilliSeconds", testBrick2, false);
-		assertEquals("place at position x wrong", 500, xpos);
-		assertEquals("place at position y wrong", 500, ypos);
-		assertEquals("place at position y wrong", 3000, dur);
-
+		int xPosition = (Integer) TestUtils.getPrivateField("xDestination", testBrick2, false);
+		int yPosition = (Integer) TestUtils.getPrivateField("xDestination", testBrick2, false);
+		int duration = (Integer) TestUtils.getPrivateField("durationInMilliSeconds", testBrick2, false);
+		assertEquals("place at position x wrong", 500, xPosition);
+		assertEquals("place at position y wrong", 500, yPosition);
+		assertEquals("place at position y wrong", 3000, duration);
 	}
 
 	public void testParsingFullProject() {
@@ -148,8 +140,8 @@ public class FullParserTest extends InstrumentationTestCase {
 		assertNotNull("pointTowards null", pointBrick);
 		double directionDegrees = (Double) TestUtils.getPrivateField("degrees", pointBrick, false);
 		assertEquals("direction wrong", -90.0, directionDegrees);
-		Direction dir = (Direction) TestUtils.getPrivateField("direction", pointBrick, false);
-		assertNotNull("direction is null, read resolve not run", dir);
+		Direction direction = (Direction) TestUtils.getPrivateField("direction", pointBrick, false);
+		assertNotNull("direction is null, read resolve not run", direction);
 	}
 
 	public void testCostumeListParsing() {
@@ -173,27 +165,26 @@ public class FullParserTest extends InstrumentationTestCase {
 
 		assertEquals("costumes number wrong", 3, givenCostumes.size());
 		CostumeData testData = givenCostumes.get(1);
-		String testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
-		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
+		String testFileName = (String) TestUtils.getPrivateField("fileName", testData, false);
+		assertEquals("Costume file name wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testFileName);
 		WhenScript script = (WhenScript) testSprite.getScript(1);
 		SetCostumeBrick costumeBrick = (SetCostumeBrick) script.getBrick(0);
 		assertNotNull("brick sprite is null", costumeBrick.getSprite());
 		testData = (CostumeData) TestUtils.getPrivateField("costume", costumeBrick, false);
-		testfileName = (String) TestUtils.getPrivateField("fileName", testData, false);
-		assertEquals("costume data wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testfileName);
+		testFileName = (String) TestUtils.getPrivateField("fileName", testData, false);
+		assertEquals("costume data wrong", "FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat", testFileName);
 		StartScript startScript = (StartScript) testSprite.getScript(0);
 		RepeatBrick repeatBrick = (RepeatBrick) startScript.getBrick(1);
 
 		assertNotNull("repeat brick is null", repeatBrick);
-		int timestoRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", repeatBrick, false);
-		assertEquals("repeat brick times to repeat incorrect", 3, timestoRepeat);
+		int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", repeatBrick, false);
+		assertEquals("repeat brick times to repeat incorrect", 3, timesToRepeat);
 		LoopEndBrick loopEndBrick = repeatBrick.getLoopEndBrick();
 		assertNotNull("Costume data null", loopEndBrick);
 		LoopEndBrick lebFromXML = (LoopEndBrick) startScript.getBrick(3);
 		assertNotNull("The LoopEndBrick is null", lebFromXML);
 		LoopBeginBrick repeatBrickFromLoopEnd = lebFromXML.getLoopBeginBrick();
 		assertNotNull("The LoopBeginBrick is null", repeatBrickFromLoopEnd);
-
 	}
 
 	public void testSoundListParsing() {
@@ -286,12 +277,6 @@ public class FullParserTest extends InstrumentationTestCase {
 			fail("Unexpected parse exception");
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			fail("Exception when parsing the headers");
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-			fail("Exception when parsing the headers");
-		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			fail("Exception when parsing the headers");
 		}

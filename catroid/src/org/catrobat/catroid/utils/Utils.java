@@ -273,16 +273,16 @@ public class Utils {
 	}
 
 	public static void saveToPreferences(Context context, String key, String message) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		Editor edit = prefs.edit();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = sharedPreferences.edit();
 		edit.putString(key, message);
 		edit.commit();
 	}
 
 	public static void loadProjectIfNeeded(Context context, ErrorListenerInterface errorListener) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			String projectName = prefs.getString(Constants.PREF_PROJECTNAME_KEY, null);
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, errorListener, false);

@@ -241,8 +241,8 @@ public class UploadProjectDialog extends DialogFragment {
 		dismiss();
 		String projectPath = Constants.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String token = prefs.getString(Constants.TOKEN, "0");
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String token = sharedPreferences.getString(Constants.TOKEN, "0");
 		Intent uploadIntent = new Intent(getActivity(), ProjectUploadService.class);
 		uploadIntent.putExtra("receiver", new UploadReceiver(new Handler()));
 		uploadIntent.putExtra("uploadName", uploadName);
