@@ -55,6 +55,16 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testContinueButtonIsBiggerThanOthers() {
 		float continueButtonHeight = getActivity().findViewById(R.id.main_menu_button_continue).getHeight();
 		float newButtonHeight = getActivity().findViewById(R.id.main_menu_button_new).getHeight();
-		assertEquals(1.5, continueButtonHeight / newButtonHeight, 0.1);
+		float programsButtonHeight = getActivity().findViewById(R.id.main_menu_button_programs).getHeight();
+		float forumButtonHeight = getActivity().findViewById(R.id.main_menu_button_forum).getHeight();
+		float communityButtonHeight = getActivity().findViewById(R.id.main_menu_button_web).getHeight();
+		float uploadButtonHeight = getActivity().findViewById(R.id.main_menu_button_upload).getHeight();
+
+		final String message = "Button heights are not in the correct relation to each other!";
+		assertEquals(message, 1.5, continueButtonHeight / newButtonHeight, 0.05);
+		assertEquals(message, 1.5, continueButtonHeight / programsButtonHeight, 0.05);
+		assertEquals(message, 1.5, continueButtonHeight / forumButtonHeight, 0.05);
+		assertEquals(message, 1.5, continueButtonHeight / communityButtonHeight, 0.05);
+		assertEquals(message, 1.5, continueButtonHeight / uploadButtonHeight, 0.05);
 	}
 }

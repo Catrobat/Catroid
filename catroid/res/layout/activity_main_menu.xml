@@ -62,7 +62,7 @@
     <Button
         android:id="@+id/main_menu_button_web"
         style="@style/MainMenuButton"
-        android:drawableLeft="@drawable/main_menu_web"
+        android:drawableLeft="@drawable/main_menu_community"
         android:onClick="handleWebButton"
         android:text="@string/main_menu_web" />
 
