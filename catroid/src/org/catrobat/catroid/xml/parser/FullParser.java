@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.xml.parser;
 
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
 import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.*;
 
 import java.io.File;
@@ -41,6 +38,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -139,15 +137,17 @@ public class FullParser {
 
 	private void setChecksumsOnProjectManager(Project project) {
 		FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName()) + "/" + IMAGE_DIRECTORY);
-		File projectSoundDirectory = new File(Utils.buildProjectPath(project.getName()) + "/" + SOUND_DIRECTORY);
+		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName()) + "/"
+				+ Constants.IMAGE_DIRECTORY);
+		File projectSoundDirectory = new File(Utils.buildProjectPath(project.getName()) + "/"
+				+ Constants.SOUND_DIRECTORY);
 		File[] imageFiles = projectImageDirectory.listFiles();
 		File[] soundFiles = projectSoundDirectory.listFiles();
 
 		if (imageFiles != null) {
 			for (File projectFile : imageFiles) {
 				String checksums = Utils.md5Checksum(projectFile);
-				if (!(projectFile.getName().equals(NO_MEDIA_FILE))) {
+				if (!(projectFile.getName().equals(Constants.NO_MEDIA_FILE))) {
 					checksumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
 				}
 			}
@@ -155,7 +155,7 @@ public class FullParser {
 		if (soundFiles != null) {
 			for (File projectFile : soundFiles) {
 				String checksums = Utils.md5Checksum(projectFile);
-				if (!(projectFile.getName().equals(NO_MEDIA_FILE))) {
+				if (!(projectFile.getName().equals(Constants.NO_MEDIA_FILE))) {
 					checksumContainer.addChecksum(checksums, projectFile.getAbsolutePath());
 				}
 			}
