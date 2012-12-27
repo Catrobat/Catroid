@@ -86,7 +86,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	private static int currentFragmentPosition;
 
-	private boolean showDetails = false;
 	private boolean spinnerDisabled = false;
 
 	@Override
@@ -214,8 +213,14 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 		// Necessary to clear first if we save preferences onPause
 		editor.clear();
-		// currentFragment.getShowDetails()
-		editor.putBoolean("showDetails", false);
+
+		boolean showDetails = currentFragment.getShowDetails();
+
+		String sharedPreferenceName = "showDetails" + getCurrentPreferenceAffix();
+		Log.d("TEST", "ON_PAUSE  " + currentFragment.getClass().getSimpleName() + " showDetails: " + showDetails);
+		Log.d("TEST", "          " + sharedPreferenceName);
+
+		editor.putBoolean(sharedPreferenceName, showDetails);
 		editor.commit();
 	}
 
@@ -226,9 +231,11 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		// Restore preferences
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-		showDetails = settings.getBoolean("showDetails", false);
+		String sharedPreferenceName = "showDetails" + getCurrentPreferenceAffix();
+		boolean showDetails = settings.getBoolean(sharedPreferenceName, false);
 
-		Log.d("TEST", "ON_RESUME " + currentFragment.getClass().getSimpleName());
+		Log.d("TEST", "ON_RESUME " + currentFragment.getClass().getSimpleName() + " showDetails: " + showDetails);
+		Log.d("TEST", "          " + sharedPreferenceName);
 		currentFragment.setShowDetails(showDetails);
 	}
 
@@ -257,13 +264,15 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		Log.d("TEST", "----------------------PREPARE-------------------");
+		handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		Log.d("TEST", "----------------------CREATE-------------------");
 		getSupportMenuInflater().inflate(R.menu.menu_script_activity, menu);
-		handleShowDetails(showDetails, menu.getItem(0));
 
 		MenuItem item = menu.findItem(R.id.spinner);
 		final Spinner spinner = (Spinner) item.getActionView();
@@ -426,7 +435,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
-		Log.d("TEST", "HANDLE_SHOW_DETAILS " + currentFragment.getClass().getSimpleName());
+		Log.d("TEST", "HANDLE_SHOW_DETAILS " + currentFragment.getClass().getSimpleName() + " showDetails: "
+				+ showDetails);
 		currentFragment.setShowDetails(showDetails);
 
 		String menuItemText = "";
@@ -435,7 +445,9 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		} else {
 			menuItemText = getString(R.string.show_details);
 		}
+		Log.d("TEST", "before -> " + item.getTitle());
 		item.setTitle(menuItemText);
+		Log.d("TEST", "after  -> " + item.getTitle());
 	}
 
 	public ScriptActivityFragment getFragment(int fragmentPosition) {
@@ -453,5 +465,22 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 		}
 		return fragment;
+	}
+
+	private String getCurrentPreferenceAffix() {
+		String preferenceAffix = "";
+
+		switch (currentFragmentPosition) {
+			case FRAGMENT_SCRIPTS:
+				preferenceAffix = "Scripts";
+				break;
+			case FRAGMENT_COSTUMES:
+				preferenceAffix = "Costumes";
+				break;
+			case FRAGMENT_SOUNDS:
+				preferenceAffix = "Sounds";
+				break;
+		}
+		return preferenceAffix;
 	}
 }
