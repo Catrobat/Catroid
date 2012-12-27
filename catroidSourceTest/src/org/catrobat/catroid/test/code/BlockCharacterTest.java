@@ -28,9 +28,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import org.catrobat.catroid.test.utils.Utils;
-
 import junit.framework.TestCase;
+
+import org.catrobat.catroid.test.utils.Utils;
 
 public class BlockCharacterTest extends TestCase {
 
@@ -38,7 +38,7 @@ public class BlockCharacterTest extends TestCase {
 	private boolean errorFound;
 
 	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest", "../catroid",
-			"../catroidLicenseTest" };
+			"../catroidSourceTest" };
 
 	private void checkFileForBlockCharacters(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
