@@ -39,7 +39,6 @@ public class ParseException extends Exception {
 	public ParseException(Throwable e) {
 		super(e);
 		thrown = e;
-
 	}
 
 	public ParseException(String message) {
@@ -47,7 +46,6 @@ public class ParseException extends Exception {
 	}
 
 	public ParseException(String message, Throwable e) {
-
 		super(message);
 		thrown = e;
 	}

@@ -22,15 +22,18 @@
  */
 package org.catrobat.catroid.xml.serializer;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PROJECT_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PROJECT_ELEMENT_NAME_OPTIONAL_STARTTAG;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.PROJECT_HEADER_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE_LIST_FIELD_NAME;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.xml.parser.CatroidXMLConstants;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
-
 
 public class ProjectSerializer extends Serializer {
 
@@ -49,18 +52,18 @@ public class ProjectSerializer extends Serializer {
 			className = className.replace("$", "_-");
 			xmlElementString = getStartTag(className);
 		} else {
-
-			xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME
-					+ CatroidXMLConstants.PROJECT_ELEMENT_NAME_OPTIONAL_STARTTAG);
+			xmlElementString = getStartTag(PROJECT_ELEMENT_NAME + PROJECT_ELEMENT_NAME_OPTIONAL_STARTTAG);
 		}
+
 		projectStringList.add(xmlElementString);
-		xmlElementString = getStartTag(CatroidXMLConstants.PROJECT_HEADER_NAME);
+		xmlElementString = getStartTag(PROJECT_HEADER_NAME);
 		projectStringList.add(xmlElementString);
 		if (!(object.getClass().getSuperclass().equals(Object.class))) {
 			getProjectStringsofClass(object, project, projectStringList, object.getClass().getSuperclass());
 		}
+
 		getProjectStringsofClass(object, project, projectStringList, object.getClass());
-		xmlElementString = getEndTag(CatroidXMLConstants.PROJECT_HEADER_NAME);
+		xmlElementString = getEndTag(PROJECT_HEADER_NAME);
 		projectStringList.add(xmlElementString);
 		SpriteSerializer spriteSerializer = new SpriteSerializer(project);
 		projectStringList.addAll(spriteSerializer.serializeList());
@@ -69,10 +72,9 @@ public class ProjectSerializer extends Serializer {
 			className = className.replace("$", "_-");
 			xmlElementString = getEndTag(className);
 		} else {
-
-			xmlElementString = getEndTag(CatroidXMLConstants.PROJECT_ELEMENT_NAME);
-
+			xmlElementString = getEndTag(PROJECT_ELEMENT_NAME);
 		}
+
 		projectStringList.add(xmlElementString);
 		return projectStringList;
 	}
@@ -86,22 +88,20 @@ public class ProjectSerializer extends Serializer {
 			String fieldName = objectCreator.extractTagName(projectField);
 			projectField.setAccessible(true);
 			Object fieldValue = projectField.get(object);
-			//if (fieldValue != null) {
 			if (!projectField.getType().isPrimitive()) {
 				if (projectField.getType().equals(String.class)) {
-					xmlElementString = tab + getElementString(fieldName, (String) fieldValue);
+					xmlElementString = TAB + getElementString(fieldName, (String) fieldValue);
 					projectStringList.add(xmlElementString);
-				} else if (projectField.getName().equals("spriteList")) {
+				} else if (projectField.getName().equals(SPRITE_LIST_FIELD_NAME)) {
 					//						SpriteSerializer spriteSerializer = new SpriteSerializer(project);
 					//						projectStringList.addAll(spriteSerializer.serializeList());
 				} else {
 					throw new SerializeException("unknown field found in Project class");
 				}
 			} else {
-				xmlElementString = tab + getElementString(fieldName, fieldValue.toString());
+				xmlElementString = TAB + getElementString(fieldName, fieldValue.toString());
 				projectStringList.add(xmlElementString);
 			}
-			//}
 		}
 	}
 
