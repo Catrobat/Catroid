@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2012 The Catrobat Team
@@ -20,17 +21,26 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <dimen name="actionbar_height">48dip</dimen>
-    <dimen name="actionbar_catroid_logo">110dip</dimen>
-    <dimen name="project_thumbnail_height">133dip</dimen>
-    <dimen name="project_thumbnail_width">80dip</dimen>
-    <dimen name="tab_widget_height">40dip</dimen>
-    <dimen name="text_size_small">13sp</dimen>
-    <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_large">18sp</dimen>
-    <dimen name="text_size_xlarge">20sp</dimen>
-    <dimen name="text_size_xxlarge">26sp</dimen>
+    <item>
+        <shape android:shape="rectangle" >
+            <stroke
+                android:width="1.3dp"
+                android:color="@color/main_menu_button_background_top_border_color" >
+            </stroke>
+        </shape>
+    </item>
+    <item android:top="1.3dp">
+        <shape android:shape="rectangle" >
+            <gradient
+                android:angle="270.0"
+                android:centerColor="@color/main_menu_button_background_gradient_start_color"
+                android:centerY="0.67"
+                android:endColor="@color/main_menu_button_background_gradient_end_color"
+                android:startColor="@color/main_menu_button_background_gradient_start_color"
+                android:type="linear" />
+        </shape>
+    </item>
 
-</resources>
+</layer-list>
