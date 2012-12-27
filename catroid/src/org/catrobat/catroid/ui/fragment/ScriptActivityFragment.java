@@ -30,15 +30,31 @@ import com.actionbarsherlock.app.SherlockListFragment;
  */
 public abstract class ScriptActivityFragment extends SherlockListFragment {
 
-	public abstract void setShowDetails(boolean showDetails);
+	protected boolean actionModeActive = false;
+
+	public boolean getActionModeActive() {
+		return actionModeActive;
+	}
+
+	public void setActionModeActive(boolean actionModeActive) {
+		this.actionModeActive = actionModeActive;
+	}
 
 	public abstract boolean getShowDetails();
+
+	public abstract void setShowDetails(boolean showDetails);
+
+	public abstract void setSelectMode(int selectMode);
+
+	public abstract int getSelectMode();
 
 	public abstract void startRenameActionMode();
 
 	public abstract void startDeleteActionMode();
 
-	public abstract boolean getActionModeActive();
-
 	public abstract void handleAddButton();
+
+	protected abstract void showRenameDialog();
+
+	protected abstract void showDeleteDialog();
 }

@@ -113,8 +113,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 	}
 
-	private boolean actionModeActive = false;
-
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
@@ -266,7 +264,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setSelectMode(SpriteAdapter.SINGLE_SELECT);
 			mode.setTitle(getString(R.string.rename));
 
-			actionModeActive = true;
+			setActionModeActive(true);
 
 			return true;
 		}
@@ -290,7 +288,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			adapter.clearCheckedItems();
 			actionMode = null;
 
-			actionModeActive = false;
+			setActionModeActive(false);
 		}
 	};
 
@@ -306,7 +304,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setSelectMode(Constants.MULTI_SELECT);
 			mode.setTitle(getString(R.string.delete));
 
-			actionModeActive = true;
+			setActionModeActive(true);
 
 			return true;
 		}
@@ -332,7 +330,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			adapter.clearCheckedItems();
 			actionMode = null;
 
-			actionModeActive = false;
+			setActionModeActive(false);
 		}
 	};
 
@@ -561,11 +559,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		return super.onContextItemSelected(item);
 	}
 
+	@Override
 	public void setSelectMode(int selectMode) {
 		adapter.setSelectMode(selectMode);
 		adapter.notifyDataSetChanged();
 	}
 
+	@Override
 	public int getSelectMode() {
 		return adapter.getSelectMode();
 	}
@@ -581,11 +581,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		return adapter.getShowDetails();
 	}
 
-	@Override
-	public boolean getActionModeActive() {
-		return actionModeActive;
-	}
-
 	private void deleteSound(int position) {
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
 
@@ -595,12 +590,14 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
 
-	private void showRenameDialog() {
+	@Override
+	protected void showRenameDialog() {
 		RenameSoundDialog renameSoundDialog = RenameSoundDialog.newInstance(selectedSoundInfo.getTitle());
 		renameSoundDialog.show(getFragmentManager(), RenameSoundDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void showDeleteDialog() {
+	@Override
+	protected void showDeleteDialog() {
 		if (currentSoundPosition != Constants.NO_POSITION) {
 			DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(currentSoundPosition);
 			deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);

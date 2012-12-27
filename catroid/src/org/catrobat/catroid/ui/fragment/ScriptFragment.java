@@ -369,4 +369,48 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#setSelectMode(int)
+	 */
+	@Override
+	public void setSelectMode(int selectMode) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#getSelectMode()
+	 */
+	@Override
+	public int getSelectMode() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#showRenameDialog()
+	 */
+	@Override
+	protected void showRenameDialog() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#showDeleteDialog()
+	 */
+	@Override
+	protected void showDeleteDialog() {
+		// TODO Auto-generated method stub
+
+	}
 }
