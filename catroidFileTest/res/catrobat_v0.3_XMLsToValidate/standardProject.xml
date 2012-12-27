@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!--
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2012 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<CatrobatProgram xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/catrobatXmlSchema.xsd">
+    <Header>
+      <ApplicationBuildName>CatroidRelease</ApplicationBuildName>
+      <ApplicationBuildNumber>980</ApplicationBuildNumber>
+      <ApplicationName>Catroid</ApplicationName>
+      <ApplicationVersion>0.7.0beta</ApplicationVersion>
+      <CatrobatLanguageVersion>0.3</CatrobatLanguageVersion>
+      <DateTimeUpload/>
+      <Description/>
+      <DeviceName>GT-I9100</DeviceName>
+      <MediaLicense/>
+      <Platform>Android</Platform>
+      <PlatformVersion>10</PlatformVersion>
+      <ProgramLicense/>
+      <ProgramName>standardProjekt</ProgramName>
+      <RemixOf/>
+      <ScreenHeight>800</ScreenHeight>
+      <ScreenWidth>480</ScreenWidth>
+      <URL/>
+      <UserHandle/>
+    </Header>  
+	<SpriteList>
+		<Sprite>
+			<CostumeList>
+				<Costume>
+					<FileName>B978398F6E8D16B857AA81618F3EF879_background</FileName>
+					<Name>background</Name>
+				</Costume>
+			</CostumeList>
+			<Name>Hintergrund</Name>
+			<ScriptList>
+				<StartScript>
+					<BrickList>
+						<SetCostumeBrick>
+							<Costume reference="../../../../../CostumeList/Costume"/>
+						</SetCostumeBrick>
+					</BrickList>
+				</StartScript>
+			</ScriptList>
+		</Sprite>
+		<Sprite>
+			<CostumeList>
+				<Costume>
+					<FileName>143780EBC24495149123CCAF3A1CDC35_normalCat</FileName>
+					<Name>normalCat</Name>
+				</Costume>
+				<Costume>
+					<FileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</FileName>
+					<Name>banzaiCat</Name>
+				</Costume>
+				<Costume>
+					<FileName>3673EC84679EE425A215B86B085EC292_cheshireCat</FileName>
+					<Name>cheshireCat</Name>
+				</Costume>
+			</CostumeList>
+			<Name>Catroid</Name>
+			<ScriptList>
+				<StartScript>
+					<BrickList>
+						<SetCostumeBrick>
+							<Costume reference="../../../../../CostumeList/Costume"/>
+						</SetCostumeBrick>
+						<RepeatBrick>
+							<LoopEndBrick reference="../../LoopEndBrick"/>
+							<TimesToRepeat>3</TimesToRepeat>
+						</RepeatBrick>
+						<ShowBrick/>
+						<LoopEndBrick>
+							<LoopBeginBrick reference="../../RepeatBrick"/>
+						</LoopEndBrick>
+					</BrickList>
+				</StartScript>
+				<WhenScript>
+        <Action>Tapped</Action>
+					<BrickList>
+          	
+						<SetCostumeBrick>
+							<Costume reference="../../../../../CostumeList/Costume[2]"/>
+						</SetCostumeBrick>
+						<WaitBrick>
+							<TimeToWaitInMilliSeconds>500</TimeToWaitInMilliSeconds>
+						</WaitBrick>
+						<SetCostumeBrick>
+							<Costume reference="../../../../../CostumeList/Costume[3]"/>
+						</SetCostumeBrick>
+						<WaitBrick>
+							<TimeToWaitInMilliSeconds>500</TimeToWaitInMilliSeconds>
+						</WaitBrick>
+						<SetCostumeBrick>
+							<Costume reference="../../../../../CostumeList/Costume"/>
+						</SetCostumeBrick>
+					</BrickList>
+				</WhenScript>
+			</ScriptList>
+		</Sprite>
+	</SpriteList>
+</CatrobatProgram>
