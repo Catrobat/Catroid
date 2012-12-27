@@ -216,12 +216,10 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 		boolean showDetails = currentFragment.getShowDetails();
 
-		String sharedPreferenceName = "showDetails" + getCurrentPreferenceAffix();
-		Log.d("TEST", "ON_PAUSE  " + currentFragment.getClass().getSimpleName() + " showDetails: " + showDetails);
-		Log.d("TEST", "          " + sharedPreferenceName);
-
-		editor.putBoolean(sharedPreferenceName, showDetails);
+		editor.putBoolean("showDetails" + getCurrentPreferenceAffix(), showDetails);
 		editor.commit();
+
+		Log.d("TEST", "ON_PAUSE  " + currentFragment.getClass().getSimpleName() + " showDetails: " + showDetails);
 	}
 
 	@Override
@@ -231,12 +229,10 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		// Restore preferences
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-		String sharedPreferenceName = "showDetails" + getCurrentPreferenceAffix();
-		boolean showDetails = settings.getBoolean(sharedPreferenceName, false);
+		boolean showDetails = settings.getBoolean("showDetails" + getCurrentPreferenceAffix(), false);
+		currentFragment.setShowDetails(showDetails);
 
 		Log.d("TEST", "ON_RESUME " + currentFragment.getClass().getSimpleName() + " showDetails: " + showDetails);
-		Log.d("TEST", "          " + sharedPreferenceName);
-		currentFragment.setShowDetails(showDetails);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -264,14 +260,12 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		Log.d("TEST", "----------------------PREPARE-------------------");
 		handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.d("TEST", "----------------------CREATE-------------------");
 		getSupportMenuInflater().inflate(R.menu.menu_script_activity, menu);
 
 		MenuItem item = menu.findItem(R.id.spinner);
@@ -281,7 +275,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position != currentFragmentPosition) {
-					Log.d("TEST", "spinner clicked!");
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 					hideFragment(currentFragmentPosition, fragmentTransaction);
@@ -435,8 +428,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
-		Log.d("TEST", "HANDLE_SHOW_DETAILS " + currentFragment.getClass().getSimpleName() + " showDetails: "
-				+ showDetails);
 		currentFragment.setShowDetails(showDetails);
 
 		String menuItemText = "";
@@ -445,9 +436,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		} else {
 			menuItemText = getString(R.string.show_details);
 		}
-		Log.d("TEST", "before -> " + item.getTitle());
 		item.setTitle(menuItemText);
-		Log.d("TEST", "after  -> " + item.getTitle());
 	}
 
 	public ScriptActivityFragment getFragment(int fragmentPosition) {
