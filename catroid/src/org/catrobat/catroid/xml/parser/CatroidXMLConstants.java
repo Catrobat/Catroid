@@ -38,6 +38,7 @@ public class CatroidXMLConstants {
 	public static final String SPRITE_ELEMENT_NAME = "Sprite";
 	public static final String SPRITE_NAME = "Name";
 	public static final String SPRITE_LIST_ELEMENT_NAME = "SpriteList";
+	public static final String SPRITE_LIST_FIELD_NAME = "spriteList";
 	public static final String SPRITE = "Sprite";
 
 	public static final String SCRIPT_LIST_ELEMENT_NAME = "ScriptList";

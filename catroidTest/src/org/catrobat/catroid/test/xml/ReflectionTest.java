@@ -61,17 +61,16 @@ public class ReflectionTest extends InstrumentationTestCase {
 				createdProject, false);
 		String catroidVersionNameResult = (String) TestUtils.getPrivateField("applicationVersion", createdProject,
 				false);
-		String deviceNameresult = (String) TestUtils.getPrivateField("deviceName", createdProject, false);
+		String deviceNameResult = (String) TestUtils.getPrivateField("deviceName", createdProject, false);
 
 		assertEquals("the Android version is wrong", 10, androidVersionResult);
 		assertEquals("catrobatlanguageversion wrong", 0.3f, catrobatLanguageVersionResult);
 		assertEquals("applicationVersion wrong", "0.7.0beta", catroidVersionNameResult);
-		assertEquals("DeviceName wrong", "HTC Desire", deviceNameresult);
+		assertEquals("DeviceName wrong", "HTC Desire", deviceNameResult);
 		assertNotNull("createdProject is null", createdProject);
 		assertEquals("ProjectName tag not set", createdProject.getName(), "testProject");
 		assertEquals("screenHeight tag not set", createdProject.virtualScreenHeight, 800);
 		assertEquals("screenWidth tag not set", createdProject.virtualScreenWidth, 480);
-
 	}
 
 }

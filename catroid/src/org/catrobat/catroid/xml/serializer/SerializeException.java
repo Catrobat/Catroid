@@ -39,7 +39,6 @@ public class SerializeException extends Exception {
 	public SerializeException(Throwable e) {
 		super(e);
 		thrown = e;
-
 	}
 
 	public SerializeException(String message) {
@@ -47,7 +46,6 @@ public class SerializeException extends Exception {
 	}
 
 	public SerializeException(String message, Throwable e) {
-
 		super(message);
 		thrown = e;
 	}
