@@ -85,12 +85,12 @@ public class FullParser {
 	public Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException {
 
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilderBuilder;
+		DocumentBuilder documentBuilder;
 		Project parsedProject = null;
 		List<Sprite> sprites = new ArrayList<Sprite>();
 		try {
-			documentBuilderBuilder = documentBuilderFactory.newDocumentBuilder();
-			Document document = documentBuilderBuilder.parse(xmlInputStream);
+			documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document document = documentBuilder.parse(xmlInputStream);
 			document.getDocumentElement().normalize();
 
 			NodeList spriteNodes = document.getElementsByTagName(SPRITE_ELEMENT_NAME);
