@@ -25,9 +25,9 @@
     android:shape="oval" >
 
     <size
-        android:height="75dp"
-        android:width="75dp" />
+        android:height="60dp"
+        android:width="60dp" />
 
-    <solid android:color="#B3B3B3" />
+    <solid android:color="@color/main_menu_button_text_color" />
 
 </shape>
