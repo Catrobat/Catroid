@@ -27,17 +27,18 @@
         <shape android:shape="rectangle" >
             <stroke
                 android:width="1.3dp"
-                android:color="#4D7F8F" />
+                android:color="@color/main_menu_button_background_top_border_color" >
+            </stroke>
         </shape>
     </item>
     <item android:top="1.3dp">
         <shape android:shape="rectangle" >
             <gradient
                 android:angle="270.0"
-                android:centerColor="#00475E"
+                android:centerColor="@color/main_menu_button_background_gradient_start_color"
                 android:centerY="0.67"
-                android:endColor="#003F54"
-                android:startColor="#00475E"
+                android:endColor="@color/main_menu_button_background_gradient_end_color"
+                android:startColor="@color/main_menu_button_background_gradient_start_color"
                 android:type="linear" />
         </shape>
     </item>
