@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -38,6 +38,14 @@
     <color name="gray">#808080</color>
     <color name="tab_backgound_gray">#3a3a3a</color>
     <color name="tab_text_unselected_light_gray">#999999</color>
-    <color name="actionbar_background">#B3B3B3</color>
+    <color name="actionbar_background">#002534</color>
+    <color name="actionbar_title_color">#FCBB20</color>
+
+    <!-- Main Menu Colors -->
+    <color name="main_menu_button_text_color">#A8DFF4</color>
+    <color name="main_menu_button_text_shadow_color">#7F000000</color>
+    <color name="main_menu_button_background_gradient_start_color">#00475E</color>
+    <color name="main_menu_button_background_gradient_end_color">#003F54</color>
+    <color name="main_menu_button_background_top_border_color">#4D7F8F</color>
 
 </resources>
