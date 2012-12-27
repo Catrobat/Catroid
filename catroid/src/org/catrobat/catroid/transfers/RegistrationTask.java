@@ -86,8 +86,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
 					country, token);
 
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			prefs.edit().putString(Constants.TOKEN, token).commit();
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
 
 			return true;
 
