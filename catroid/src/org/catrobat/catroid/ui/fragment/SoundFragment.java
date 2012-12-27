@@ -278,7 +278,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSounds = adapter.getCheckedSounds();
+			Set<Integer> checkedSounds = adapter.getCheckedItems();
 			Iterator<Integer> iterator = checkedSounds.iterator();
 
 			if (iterator.hasNext()) {
@@ -287,7 +287,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				showRenameDialog();
 			}
 			setSelectMode(Constants.SELECT_NONE);
-			adapter.clearCheckedSounds();
+			adapter.clearCheckedItems();
 			actionMode = null;
 
 			actionModeActive = false;
@@ -318,7 +318,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSounds = adapter.getCheckedSounds();
+			Set<Integer> checkedSounds = adapter.getCheckedItems();
 			Iterator<Integer> iterator = checkedSounds.iterator();
 
 			int numberDeleted = 0;
@@ -329,7 +329,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				++numberDeleted;
 			}
 			setSelectMode(Constants.SELECT_NONE);
-			adapter.clearCheckedSounds();
+			adapter.clearCheckedItems();
 			actionMode = null;
 
 			actionModeActive = false;

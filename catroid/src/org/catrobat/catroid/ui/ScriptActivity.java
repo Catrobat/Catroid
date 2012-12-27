@@ -26,6 +26,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -47,6 +50,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -203,20 +207,16 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	protected void onPause() {
 		super.onPause();
 
-		if (currentFragment != null) {
-			Log.d("TEST", "ON_PAUSE " + currentFragment.getClass().getSimpleName());
+		Log.d("TEST", "ON_PAUSE " + currentFragment.getClass().getSimpleName());
 
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-			SharedPreferences.Editor editor = settings.edit();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = settings.edit();
 
-			// Necessary to clear first if we save preferences onPause
-			editor.clear();
-			// currentFragment.getShowDetails()
-			editor.putBoolean("showDetails", false);
-			editor.commit();
-		} else {
-			Log.d("TEST", "ON_PAUSE -> NO CURRENT FRAGMENT");
-		}
+		// Necessary to clear first if we save preferences onPause
+		editor.clear();
+		// currentFragment.getShowDetails()
+		editor.putBoolean("showDetails", false);
+		editor.commit();
 	}
 
 	@Override
@@ -228,12 +228,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 		showDetails = settings.getBoolean("showDetails", false);
 
-		if (currentFragment != null) {
-			Log.d("TEST", "ON_RESUME " + currentFragment.getClass().getSimpleName());
-			currentFragment.setShowDetails(showDetails);
-		} else {
-			Log.d("TEST", "ON_RESUME -> NO CURRENT FRAGMENT");
-		}
+		Log.d("TEST", "ON_RESUME " + currentFragment.getClass().getSimpleName());
+		currentFragment.setShowDetails(showDetails);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -261,12 +257,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (isHoveringActive()) {
-			Log.d("TEST", "PREPARATION! -> FALSE");
-			return false;
-		} else {
-			return super.onPrepareOptionsMenu(menu);
-		}
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -416,12 +407,12 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		//Dismiss ActionMode without effecting sounds
-		//		if (currentFragment.getActionModeActive()) {
-		//			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-		//				//				currentFragment.getListAdapter();
-		//				//				adapter.clearCheckedSounds();
-		//			}
-		//		}
+		if (currentFragment.getActionModeActive()) {
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				ListAdapter adapter = currentFragment.getListAdapter();
+				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+			}
+		}
 		return super.dispatchKeyEvent(event);
 	}
 
@@ -435,12 +426,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
-		if (currentFragment != null) {
-			Log.d("TEST", "HANDLE_SHOW_DETAILS " + currentFragment.getClass().getSimpleName());
-			currentFragment.setShowDetails(showDetails);
-		} else {
-			Log.d("TEST", "HANDLE_SHOW_DETAILS -> NO CURRENT FRAGMENT");
-		}
+		Log.d("TEST", "HANDLE_SHOW_DETAILS " + currentFragment.getClass().getSimpleName());
+		currentFragment.setShowDetails(showDetails);
 
 		String menuItemText = "";
 		if (showDetails) {

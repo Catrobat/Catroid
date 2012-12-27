@@ -49,7 +49,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class SoundAdapter extends ArrayAdapter<SoundInfo> {
+public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActivityAdapterInterface {
 
 	protected ArrayList<SoundInfo> soundInfoItems;
 	protected Context context;
@@ -136,7 +136,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 						}
 					} else if (selectMode == Constants.SINGLE_SELECT) {
 						if (isChecked) {
-							clearCheckedSounds();
+							clearCheckedItems();
 							checkedSounds.add(position);
 						} else {
 							checkedSounds.remove(position);
@@ -151,7 +151,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
-				clearCheckedSounds();
+				clearCheckedItems();
 			}
 
 			if (checkedSounds.contains(position)) {
@@ -264,26 +264,32 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 		soundInfo.isPlaying = false;
 	}
 
-	public Set<Integer> getCheckedSounds() {
+	@Override
+	public Set<Integer> getCheckedItems() {
 		return checkedSounds;
 	}
 
-	public void clearCheckedSounds() {
+	@Override
+	public void clearCheckedItems() {
 		checkedSounds.clear();
 	}
 
+	@Override
 	public void setSelectMode(int mode) {
 		selectMode = mode;
 	}
 
+	@Override
 	public int getSelectMode() {
 		return selectMode;
 	}
 
+	@Override
 	public void setShowDetails(boolean showDetails) {
 		this.showDetails = showDetails;
 	}
 
+	@Override
 	public boolean getShowDetails() {
 		return showDetails;
 	}
