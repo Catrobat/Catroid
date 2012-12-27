@@ -83,8 +83,8 @@ public class CostumeParser {
 		String query = COSTUME_DATA_ELEMENT_NAME;
 		String suffix = "";
 		if (lastIndex != -1) {
-			char referenceNo = referenceAttribute.charAt(referenceAttribute.lastIndexOf('[') + 1);
-			suffix = "[" + referenceNo + "]";
+			char referenceIndex = referenceAttribute.charAt(referenceAttribute.lastIndexOf('[') + 1);
+			suffix = "[" + referenceIndex + "]";
 		}
 		CostumeData referencedCostume = (CostumeData) referencedObjects.get(query + suffix);
 		if (referencedCostume == null) {

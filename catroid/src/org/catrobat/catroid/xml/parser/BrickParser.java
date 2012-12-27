@@ -205,8 +205,8 @@ public class BrickParser {
 						if (valueObject != null) {
 							valueField.set(brickObject, valueObject);
 						} else {
-							ForwardReference forwardRef = new ForwardReference(brickObject, xPath, valueField);
-							forwardReferences.add(forwardRef);
+							ForwardReference forwardReference = new ForwardReference(brickObject, xPath, valueField);
+							forwardReferences.add(forwardReference);
 						}
 						continue;
 					} else {
@@ -234,8 +234,8 @@ public class BrickParser {
 							}
 						}
 
-						Character bickvalueStartCharacter = (brickValueName.toUpperCase(Locale.getDefault()).charAt(0));
-						brickValueName = bickvalueStartCharacter.toString().concat(brickValueName.substring(1));
+						Character brickValueStartCharacter = (brickValueName.toUpperCase(Locale.getDefault()).charAt(0));
+						brickValueName = brickValueStartCharacter.toString().concat(brickValueName.substring(1));
 						Brick valueBrick = getBrickObject(brickValueName, foundSprite, brickValue.getChildNodes(),
 								(Element) brickValue, referencedObjects, forwardReferences);
 						valueField.set(brickObject, valueBrick);
@@ -289,9 +289,9 @@ public class BrickParser {
 						fieldWithNodeName.setAccessible(true);
 						String referenceString = References.getReferenceAttribute(child);
 						if (referenceString != null) {
-							XPathExpression expression = xPath.compile(referenceString);
+							XPathExpression xPathExpression = xPath.compile(referenceString);
 							Log.i("parsing get value object method", "XPath evaluated");
-							Element referencedElement = (Element) expression.evaluate(child, XPathConstants.NODE);
+							Element referencedElement = (Element) xPathExpression.evaluate(child, XPathConstants.NODE);
 							if (referencedElement == null) {
 								throw new ParseException("referenced element not found at value object parsing");
 							}
