@@ -24,16 +24,16 @@ package org.catrobat.catroid.xml.parser;
 
 import java.lang.reflect.Field;
 
-public class ForwardReferences {
+public class ForwardReference {
 
 	private Object objectWithReferencedField;
 	private String referenceString;
 	private Field fieldWithReference;
 
-	public ForwardReferences(Object obj, String ref, Field valField) {
-		objectWithReferencedField = obj;
-		referenceString = ref;
-		fieldWithReference = valField;
+	public ForwardReference(Object object, String reference, Field valueField) {
+		objectWithReferencedField = object;
+		referenceString = reference;
+		fieldWithReference = valueField;
 	}
 
 	public Object getObjectWithReferencedField() {

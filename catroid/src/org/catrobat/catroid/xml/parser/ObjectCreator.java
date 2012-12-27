@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
-
 public class ObjectCreator {
 
 	public Project getProjectWithHeaderValues(InputStream XMLFile) throws ParseException {
@@ -61,7 +60,7 @@ public class ObjectCreator {
 				String valueInString = headerValues.get(tagName);
 
 				if (valueInString != null) {
-					Object finalObject = getobjectOfClass(fieldinProject.getType(), valueInString);
+					Object finalObject = getObjectOfClass(fieldinProject.getType(), valueInString);
 					fieldinProject.setAccessible(true);
 					fieldinProject.set(project, finalObject);
 				}
@@ -84,9 +83,9 @@ public class ObjectCreator {
 		return allFieldsMap;
 	}
 
-	public Map<String, Field> getFieldMapOfThisClass(Class<?> cls) {
+	public Map<String, Field> getFieldMapOfThisClass(Class<?> clazz) {
 		Map<String, Field> fieldsToSetofClass = new TreeMap<String, Field>();
-		Field[] classFields = cls.getDeclaredFields();
+		Field[] classFields = clazz.getDeclaredFields();
 		for (Field field : classFields) {
 			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
 			boolean isCurrentFieldStatic = Modifier.isStatic(field.getModifiers());
@@ -102,9 +101,9 @@ public class ObjectCreator {
 		return fieldsToSetofClass;
 	}
 
-	public Map<String, Field> getFieldMapOfSuperClass(Class<?> cls) {
+	public Map<String, Field> getFieldMapOfSuperClass(Class<?> clazz) {
 		Map<String, Field> fieldsToSetofSuperClass = new TreeMap<String, Field>();
-		Field[] superClassFields = cls.getSuperclass().getDeclaredFields();
+		Field[] superClassFields = clazz.getSuperclass().getDeclaredFields();
 		for (Field field : superClassFields) {
 			boolean isCurrentFieldTransient = Modifier.isTransient(field.getModifiers());
 			boolean isCurrentFieldStatic = Modifier.isStatic(field.getModifiers());
@@ -115,7 +114,6 @@ public class ObjectCreator {
 			String tagName = extractTagName(field);
 
 			fieldsToSetofSuperClass.put(tagName, field);
-
 		}
 		return fieldsToSetofSuperClass;
 	}
@@ -124,8 +122,8 @@ public class ObjectCreator {
 			IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
 		Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
 		newInstance.setAccessible(true);
-		return newInstance.invoke(null, clazz, Object.class);
 
+		return newInstance.invoke(null, clazz, Object.class);
 	}
 
 	public String extractTagName(Field field) {
@@ -154,58 +152,57 @@ public class ObjectCreator {
 		Class<?> scriptClass = Class.forName("org.catrobat.catroid.content." + scriptImplName);
 		Constructor<?> scriptConstructor = scriptClass.getConstructor(Sprite.class);
 		if (scriptConstructor == null) {
-			return (Script) getobjectOfClass(scriptClass, "0");
+			return (Script) getObjectOfClass(scriptClass, "0");
 		}
 		scriptObject = (Script) scriptConstructor.newInstance(foundSprite);
 
 		return scriptObject;
 	}
 
-	public Object getobjectOfClass(Class<?> cls, String val) throws IllegalArgumentException, SecurityException,
+	public Object getObjectOfClass(Class<?> clazz, String value) throws IllegalArgumentException,
 			InstantiationException, IllegalAccessException, InvocationTargetException, ParseException {
-		Constructor<?> clsConstructor = null;
-		Object obj = null;
+		Constructor<?> classConstructor = null;
+		Object object = null;
 		try {
-			if (cls == int.class) {
-				cls = Integer.class;
-			} else if (cls == float.class) {
-				cls = Float.class;
-			} else if (cls == double.class) {
-				cls = Double.class;
-			} else if (cls == boolean.class) {
-				cls = Boolean.class;
-			} else if (cls == byte.class) {
-				cls = Byte.class;
-			} else if (cls == short.class) {
-				cls = Short.class;
-			} else if (cls == long.class) {
-				cls = Long.class;
-			} else if (cls == char.class) {
-				cls = Character.class;
-				obj = cls.getConstructor(char.class).newInstance(val.charAt(0));
-				return obj;
-			} else if (cls == String.class) {
-				return new String(val);
+			if (clazz == int.class) {
+				clazz = Integer.class;
+			} else if (clazz == float.class) {
+				clazz = Float.class;
+			} else if (clazz == double.class) {
+				clazz = Double.class;
+			} else if (clazz == boolean.class) {
+				clazz = Boolean.class;
+			} else if (clazz == byte.class) {
+				clazz = Byte.class;
+			} else if (clazz == short.class) {
+				clazz = Short.class;
+			} else if (clazz == long.class) {
+				clazz = Long.class;
+			} else if (clazz == char.class) {
+				clazz = Character.class;
+				object = clazz.getConstructor(char.class).newInstance(value.charAt(0));
+				return object;
+			} else if (clazz == String.class) {
+				return new String(value);
 			} else {
 
 				Method newInstance = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
 				newInstance.setAccessible(true);
-				return newInstance.invoke(null, cls, Object.class);
+				return newInstance.invoke(null, clazz, Object.class);
 			}
-			clsConstructor = cls.getConstructor(String.class);
+			classConstructor = clazz.getConstructor(String.class);
 		} catch (NoSuchMethodException ex) {
 			try {
-				Constructor<?> defaultConstructor = cls.getDeclaredConstructor();
+				Constructor<?> defaultConstructor = clazz.getDeclaredConstructor();
 				defaultConstructor.setAccessible(true);
 				return defaultConstructor.newInstance();
 			} catch (NoSuchMethodException e) {
-				throw new ParseException("Cant create object, not default constructor at class " + cls.getName());
+				throw new ParseException("Cant create object, not default constructor at class " + clazz.getName());
 			}
 		}
 
-		obj = clsConstructor.newInstance(val);
-		return obj;
-
+		object = classConstructor.newInstance(value);
+		return object;
 	}
 
 	public void setFieldOfObject(Field field, Object ObjectWithField, Object objectOfField)
