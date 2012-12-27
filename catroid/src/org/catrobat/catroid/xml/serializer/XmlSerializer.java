@@ -28,7 +28,6 @@ import java.util.List;
 
 import org.catrobat.catroid.content.Project;
 
-
 public class XmlSerializer {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>";
 
