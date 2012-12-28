@@ -89,6 +89,12 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -104,13 +110,7 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				break;
 			}
 			case R.id.show_details: {
-				if (spritesListFragment.getShowDetails()) {
-					spritesListFragment.setShowDetails(false);
-					item.setTitle(getString(R.string.show_details));
-				} else {
-					spritesListFragment.setShowDetails(true);
-					item.setTitle(getString(R.string.hide_details));
-				}
+				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;
 			}
 
@@ -194,5 +194,17 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	@Override
 	public void showErrorDialog(String errorMessage) {
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
+	}
+
+	public void handleShowDetails(boolean showDetails, MenuItem item) {
+		spritesListFragment.setShowDetails(showDetails);
+
+		String menuItemText = "";
+		if (showDetails) {
+			menuItemText = getString(R.string.hide_details);
+		} else {
+			menuItemText = getString(R.string.show_details);
+		}
+		item.setTitle(menuItemText);
 	}
 }

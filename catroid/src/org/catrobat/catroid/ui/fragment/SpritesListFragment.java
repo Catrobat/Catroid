@@ -45,7 +45,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -84,6 +86,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 	private SpritesListInitReceiver spritesListInitReceiver;
 
 	private ActionMode actionMode;
+
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
@@ -241,7 +245,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		IntentFilter intentFilterSpriteListInit = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_INIT);
 		getActivity().registerReceiver(spritesListInitReceiver, intentFilterSpriteListInit);
 
-		spriteAdapter.notifyDataSetChanged();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+
+		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 	}
 
 	@Override
@@ -263,6 +270,13 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 		if (spritesListInitReceiver != null) {
 			getActivity().unregisterReceiver(spritesListInitReceiver);
 		}
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+		SharedPreferences.Editor editor = settings.edit();
+
+		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
+		editor.commit();
 	}
 
 	@Override
