@@ -104,8 +104,6 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		solo.sleep(200);
 
-		//EditText editTextSetAngle = (EditText) 
-
 		assertTrue("Wrong selection", solo.searchEditText("100"));
 	}
 
