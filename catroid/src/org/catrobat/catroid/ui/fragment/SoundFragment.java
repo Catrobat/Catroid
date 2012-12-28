@@ -48,12 +48,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -219,9 +221,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
 
 		stopSound();
-		adapter.notifyDataSetChanged();
 
 		addSoundViewsSetClickableFlag(true);
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+
+		setShowDetails(settings.getBoolean("showDetailsSound", false));
 	}
 
 	@Override
@@ -242,6 +248,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (soundDeletedReceiver != null) {
 			getActivity().unregisterReceiver(soundDeletedReceiver);
 		}
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+		SharedPreferences.Editor editor = settings.edit();
+
+		editor.putBoolean("showDetailsSound", getShowDetails());
+		editor.commit();
 	}
 
 	@Override

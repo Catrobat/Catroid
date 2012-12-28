@@ -37,10 +37,8 @@ import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -84,7 +82,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	private ScriptActivityFragment currentFragment = null;
 
-	private static int currentFragmentPosition;
+	private static int currentFragmentPosition = FRAGMENT_SCRIPTS;
 
 	private boolean spinnerDisabled = false;
 
@@ -97,19 +95,17 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		if (savedInstanceState == null) {
-			Log.d("TEST", "-------CREATE-------");
+			Log.d("TEST", "-----CREATE");
 
 			Bundle bundle = this.getIntent().getExtras();
 
-			int fragmentPosition = FRAGMENT_SCRIPTS;
-
 			if (bundle != null) {
-				fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
+				currentFragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 			} else {
 				Log.d("TEST", "No given bundle to determine fragment");
 			}
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			updateCurrentFragment(fragmentPosition, fragmentTransaction);
+			updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 			fragmentTransaction.commit();
 		}
 		//		else {
@@ -205,34 +201,11 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		Log.d("TEST", "ON_PAUSE " + currentFragment.getClass().getSimpleName());
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor editor = settings.edit();
-
-		// Necessary to clear first if we save preferences onPause
-		editor.clear();
-
-		boolean showDetails = currentFragment.getShowDetails();
-
-		editor.putBoolean("showDetails" + getCurrentPreferenceAffix(), showDetails);
-		editor.commit();
-
-		Log.d("TEST", "ON_PAUSE  " + currentFragment.getClass().getSimpleName() + " showDetails: " + showDetails);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		// Restore preferences
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-		boolean showDetails = settings.getBoolean("showDetails" + getCurrentPreferenceAffix(), false);
-		currentFragment.setShowDetails(showDetails);
-
-		Log.d("TEST", "ON_RESUME " + currentFragment.getClass().getSimpleName() + " showDetails: " + showDetails);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -322,8 +295,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 
 			case R.id.show_details:
-				boolean newShowDetailsValue = !currentFragment.getShowDetails();
-				handleShowDetails(newShowDetailsValue, item);
+				handleShowDetails(!currentFragment.getShowDetails(), item);
 				break;
 
 			case R.id.copy:
@@ -454,22 +426,5 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 		}
 		return fragment;
-	}
-
-	private String getCurrentPreferenceAffix() {
-		String preferenceAffix = "";
-
-		switch (currentFragmentPosition) {
-			case FRAGMENT_SCRIPTS:
-				preferenceAffix = "Scripts";
-				break;
-			case FRAGMENT_COSTUMES:
-				preferenceAffix = "Costumes";
-				break;
-			case FRAGMENT_SOUNDS:
-				preferenceAffix = "Sounds";
-				break;
-		}
-		return preferenceAffix;
 	}
 }

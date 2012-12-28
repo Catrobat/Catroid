@@ -41,7 +41,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -125,6 +127,13 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (brickListChangedReceiver != null) {
 			getActivity().unregisterReceiver(brickListChangedReceiver);
 		}
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+		SharedPreferences.Editor editor = settings.edit();
+
+		editor.putBoolean("showDetailsScript", getShowDetails());
+		editor.commit();
 	}
 
 	@Override
@@ -162,6 +171,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
 
 		initListeners();
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+
+		setShowDetails(settings.getBoolean("showDetailsScript", false));
 	}
 
 	@Override
@@ -330,13 +344,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void setShowDetails(boolean showDetails) {
-		if (adapter != null) {
-			Log.d("TEST", "SET_SHOW_DETAILS " + adapter.getClass().getSimpleName());
-			adapter.setShowDetails(showDetails);
-			adapter.notifyDataSetChanged();
-		} else {
-			Log.d("TEST", "NO CURRENT ADAPTER");
-		}
+		adapter.setShowDetails(showDetails);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
