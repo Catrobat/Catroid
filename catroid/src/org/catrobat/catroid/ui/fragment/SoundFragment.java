@@ -116,6 +116,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	public static final int REQUEST_SELECT_MUSIC = 0;
@@ -227,7 +228,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 
-		setShowDetails(settings.getBoolean("showDetailsSound", false));
+		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 	}
 
 	@Override
@@ -253,7 +254,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
 
-		editor.putBoolean("showDetailsSound", getShowDetails());
+		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
 	}
 

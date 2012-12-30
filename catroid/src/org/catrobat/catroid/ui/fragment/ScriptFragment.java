@@ -59,6 +59,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	private static final String TAG = ScriptFragment.class.getSimpleName();
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsScripts";
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
@@ -132,7 +133,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
 
-		editor.putBoolean("showDetailsScript", getShowDetails());
+		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
 	}
 
@@ -175,7 +176,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 
-		setShowDetails(settings.getBoolean("showDetailsScript", false));
+		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 	}
 
 	@Override

@@ -80,6 +80,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 	private static final String BUNDLE_ARGUMENTS_SELECTED_COSTUME = "selected_costume";
 	private static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
 	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsCostumes";
 	private static final int FOOTER_ADD_COSTUME_ALPHA_VALUE = 35;
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
@@ -189,7 +190,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
 
-		setShowDetails(settings.getBoolean("showDetailsCostume", false));
+		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 	}
 
 	@Override
@@ -213,7 +214,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 				.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
 
-		editor.putBoolean("showDetailsCostume", getShowDetails());
+		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
 	}
 
