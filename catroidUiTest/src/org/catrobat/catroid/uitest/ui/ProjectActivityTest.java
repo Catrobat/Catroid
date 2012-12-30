@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -488,11 +489,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
 		solo.goBack();
 
-		//		solo.clickOnText(TEST_SPRITE_NAME);
-		//		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		//		solo.goBack();
-		//
-		//		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.clickOnText(TEST_SPRITE_NAME);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.goBack();
+
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_sprites_list);
 
 		solo.clickOnImageButton(0);
 		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
@@ -503,8 +505,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
 		soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
 
-		assertTrue("Details are not showing after being enabled!", scriptCountShowing && brickCountShowing
-				&& costumeCountShowing && soundCountShowing);
+		assertTrue("Details are not showing!", scriptCountShowing && brickCountShowing && costumeCountShowing
+				&& soundCountShowing);
 
 		solo.clickOnMenuItem(hideDetailsText);
 		solo.sleep(300);
