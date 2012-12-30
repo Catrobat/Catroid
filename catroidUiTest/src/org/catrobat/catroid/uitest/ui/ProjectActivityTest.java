@@ -60,6 +60,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
+	private static final String TEST_SPRITE_NAME = "cat";
 
 	public ProjectActivityTest() {
 		super(MainMenuActivity.class);
@@ -445,6 +446,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		TextView tvBrickCount = ((TextView) solo.getView(R.id.textView_number_of_bricks));
 		TextView tvCostumeCount = ((TextView) solo.getView(R.id.textView_number_of_costumes));
 		TextView tvSoundCount = ((TextView) solo.getView(R.id.textView_number_of_sounds));
+
 		String scriptCountString = tvScriptCount.getText().toString();
 		String brickCountString = tvBrickCount.getText().toString();
 		String costumeCountString = tvCostumeCount.getText().toString();
@@ -455,21 +457,58 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		boolean costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
 		boolean soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
 
+		String showDetailsText = solo.getString(R.string.show_details);
+		String hideDetailsText = solo.getString(R.string.hide_details);
+
+		if (scriptCountShowing || brickCountShowing || costumeCountShowing || soundCountShowing) {
+			solo.clickOnMenuItem(hideDetailsText);
+			solo.sleep(300);
+
+			scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
+			brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
+			costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
+			soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
+		}
+
 		assertFalse("Details are not hidden!", scriptCountShowing || brickCountShowing || costumeCountShowing
 				|| soundCountShowing);
 
-		solo.clickOnMenuItem(solo.getString(R.string.show_details));
+		solo.clickOnMenuItem(showDetailsText);
 		solo.sleep(300);
-		scriptCountShowing = tvScriptCount.getVisibility() == View.VISIBLE ? true : false;
-		brickCountShowing = tvBrickCount.getVisibility() == View.VISIBLE ? true : false;
-		costumeCountShowing = tvCostumeCount.getVisibility() == View.VISIBLE ? true : false;
-		soundCountShowing = tvSoundCount.getVisibility() == View.VISIBLE ? true : false;
+
+		scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
+		brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
+		costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
+		soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
 
 		assertTrue("Details are not showing after being enabled!", scriptCountShowing && brickCountShowing
 				&& costumeCountShowing && soundCountShowing);
 
-		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
+		solo.clickOnImageButton(0);
+		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
+		solo.goBack();
+
+		//		solo.clickOnText(TEST_SPRITE_NAME);
+		//		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		//		solo.goBack();
+		//
+		//		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+
+		solo.clickOnImageButton(0);
+		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
+		solo.goBack();
+
+		scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
+		brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
+		costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
+		soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
+
+		assertTrue("Details are not showing after being enabled!", scriptCountShowing && brickCountShowing
+				&& costumeCountShowing && soundCountShowing);
+
+		solo.clickOnMenuItem(hideDetailsText);
 		solo.sleep(300);
+
 		scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
 		brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
 		costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
@@ -477,6 +516,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertFalse("Details are not hidden!", scriptCountShowing || brickCountShowing || costumeCountShowing
 				|| soundCountShowing);
+
+		solo.clickOnImageButton(0);
+		assertTrue("Show details should be shown!", solo.waitForText(showDetailsText));
+		solo.goBack();
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		int scriptCount = sprite.getNumberOfScripts();
@@ -583,7 +626,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	private void createProject() {
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 
-		Sprite spriteCat = new Sprite("cat");
+		Sprite spriteCat = new Sprite(TEST_SPRITE_NAME);
 		Script startScriptCat = new StartScript(spriteCat);
 		Script scriptTappedCat = new WhenScript(spriteCat);
 		Brick setXBrick = new SetXBrick(spriteCat, 50);
