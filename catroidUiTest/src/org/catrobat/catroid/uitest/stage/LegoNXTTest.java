@@ -140,6 +140,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.clickOnText(fullConnectionString);
 		solo.sleep(8000);
+		solo.assertCurrentActivity("Not in stage - connection to bt-device failed", StageActivity.class);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.sleep(10000);
