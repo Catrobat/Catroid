@@ -215,7 +215,7 @@ public class UtilsTest extends AndroidTestCase {
 		}
 		String projectName = "test?Projekt\"1";
 		File externalStoreDirectory = Environment.getExternalStorageDirectory();
-		String expectedPath = externalStoreDirectory.getAbsolutePath() + "/catroid/testProjekt1";
+		String expectedPath = Constants.DEFAULT_ROOT + "/testProjekt1";
 		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
 	}
 
