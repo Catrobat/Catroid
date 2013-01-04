@@ -33,14 +33,12 @@
 
     <TextView
         android:id="@+id/brick_place_at_prototype_text_view_x"
-        style="@style/BrickEditTextAndPrototypeTextView" />
+        style="@style/BrickPrototypeTextView" />
 
     <EditText
         android:id="@+id/brick_place_at_edit_text_x"
-        style="@style/BrickEditTextAndPrototypeTextView"
-        android:inputType="number|numberDecimal|numberSigned"
-        android:maxLines="1"
-        android:visibility="gone" >
+        style="@style/BrickEditText"
+        android:inputType="number|numberDecimal|numberSigned" >
     </EditText>
 
     <TextView
@@ -50,14 +48,12 @@
 
     <TextView
         android:id="@+id/brick_place_at_prototype_text_view_y"
-        style="@style/BrickEditTextAndPrototypeTextView" />
+        style="@style/BrickPrototypeTextView" />
 
     <EditText
         android:id="@+id/brick_place_at_edit_text_y"
-        style="@style/BrickEditTextAndPrototypeTextView"
-        android:inputType="number|numberDecimal|numberSigned"
-        android:maxLines="1"
-        android:visibility="gone" >
+        style="@style/BrickEditText"
+        android:inputType="number|numberDecimal|numberSigned" >
     </EditText>
 
 </LinearLayout>
