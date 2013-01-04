@@ -33,7 +33,6 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.os.Environment;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.Log;
@@ -214,7 +213,6 @@ public class UtilsTest extends AndroidTestCase {
 			fail("No SD card present");
 		}
 		String projectName = "test?Projekt\"1";
-		File externalStoreDirectory = Environment.getExternalStorageDirectory();
 		String expectedPath = Constants.DEFAULT_ROOT + "/testProjekt1";
 		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
 	}
