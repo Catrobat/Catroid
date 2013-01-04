@@ -26,15 +26,8 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -93,46 +86,4 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 				UiTestUtils.getPrivateField("yDestination", glideToBrick));
 	}
 
-	public void testResizeInputFields() {
-		UiTestUtils.goToHomeActivity(getActivity());
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		createProject();
-		solo.sleep(200);
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName(), 1);
-		solo.sleep(200);
-		solo.clickOnText(solo.getCurrentListViews().get(0).getItemAtPosition(0).toString());
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-
-		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.67, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -1, 60, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.678, 60, false);
-
-		for (int i = 1; i < 3; i++) {
-			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 1234567, 60, false);
-		}
-	}
-
-	private void createProject() {
-		int xValue = 800;
-		int yValue = 0;
-		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		Brick glideToBrick = new GlideToBrick(sprite, xValue, yValue, 1000);
-		script.addBrick(glideToBrick);
-
-		sprite.addScript(script);
-		project.addSprite(sprite);
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
-	}
 }

@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -40,10 +41,8 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -125,21 +124,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
 	}
 
-	public void testResizeInputFields() {
-		ProjectManager.getInstance().deleteCurrentProject();
-		createTestProject();
-		Intent intent = new Intent(ScriptTabActivity.ACTION_NEW_BRICK_ADDED);
-		intent.setAction(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
-		solo.getCurrentActivity().sendBroadcast(intent);
-
-		for (int i = 0; i < 2; i++) {
-			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 12345, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, false);
-		}
-	}
-
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
@@ -164,18 +148,4 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
-	private void createTestProject() {
-		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
-		script.addBrick(placeAtBrick);
-
-		sprite.addScript(script);
-		project.addSprite(sprite);
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
-	}
 }

@@ -23,8 +23,6 @@
 package org.catrobat.catroid.uitest.util;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 import java.io.BufferedInputStream;
@@ -615,34 +613,6 @@ public class UiTestUtils {
 		assertEquals("Pixels don't have same content.", pixelArray[1], screenPixel[1], 10);
 		assertEquals("Pixels don't have same content.", pixelArray[2], screenPixel[2], 10);
 		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], 10);
-	}
-
-	public static void testIntegerEditText(Solo solo, int editTextIndex, int value, int editTextMinWidth,
-			boolean assertMode) {
-		insertIntegerIntoEditText(solo, editTextIndex, value);
-		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
-	}
-
-	public static void testDoubleEditText(Solo solo, int editTextIndex, double value, int editTextMinWidth,
-			boolean assertMode) {
-		insertDoubleIntoEditText(solo, editTextIndex, value);
-		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
-	}
-
-	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth,
-			boolean assertMode) {
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(400);
-		int width = 0;
-		if (assertMode) {
-			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(value));
-			width = solo.getEditText(editTextIndex).getWidth();
-			assertTrue("Minwidth of EditText should be " + editTextMinWidth + " dpi",
-					width >= Utils.getPhysicalPixels(editTextMinWidth, solo.getCurrentActivity().getBaseContext()));
-		} else {
-			assertFalse("Number too long - should not be resized and fully visible", solo.searchText(value));
-		}
 	}
 
 	/**
