@@ -98,7 +98,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertEquals("Wrong Brick instance.", projectBrickList.get(2), adapter.getChild(groupCount - 1, 2));
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(3), adapter.getChild(groupCount - 1, 3));
-		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_place_at)));
+		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_place_at_x)));
 
 		int xPosition = 987;
 		int yPosition = 654;
