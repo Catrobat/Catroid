@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/ChangeGhostEffectTextView"
-            style="@style/brick_text_style"
+            style="@style/BrickText"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:text="@string/brick_change_ghost_effect" >
@@ -47,7 +47,7 @@
 
             <TextView
                 android:id="@+id/ChangeGhostEffectTextView"
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingRight="5dp"

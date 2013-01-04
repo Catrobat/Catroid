@@ -29,14 +29,14 @@
 
     <TextView
         android:id="@+id/WhenBrick"
-        style="@style/brick_text_style"
+        style="@style/BrickText"
         android:layout_gravity="center_vertical"
         android:text="@string/brick_when" >
     </TextView>
 
     <TextView
         android:id="@+id/WhenBrickActionTapped"
-        style="@style/brick_text_style"
+        style="@style/BrickText"
         android:layout_gravity="center_vertical"
         android:text="@string/action_tapped" />
 

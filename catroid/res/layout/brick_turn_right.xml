@@ -20,65 +20,33 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout01"
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_blue"
-    android:focusable="false"
-    android:focusableInTouchMode="false" >
+    android:layout_height="@dimen/brick_single_line_height"
+    android:background="@drawable/brick_blue" >
 
     <TextView
-        android:id="@+id/ValueTextView"
-        style="@style/brick_text_style"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
+        style="@style/BrickText.SingleLine"
         android:text="@string/brick_turn_right" >
     </TextView>
 
     <TextView
-        android:id="@+id/LabelTextView"
-        style="@style/brick_text_style"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:text="@string/brick_turn_right_n_degrees" >
-    </TextView>
-
-    <TextView
         android:id="@+id/brick_turn_right_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dip"
-        android:layout_toLeftOf="@id/LabelTextView"
-        android:background="@color/white"
-        android:gravity="right"
-        android:minHeight="30dip"
-        android:minWidth="50dip"
-        android:paddingRight="5dip"
-        android:text="15"
-        android:textSize="20dip" >
+        style="@style/BrickEditTextAndPrototypeTextView" >
     </TextView>
 
     <EditText
         android:id="@+id/brick_turn_right_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/LabelTextView"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:gravity="right"
+        style="@style/BrickEditTextAndPrototypeTextView"
         android:inputType="number|numberDecimal"
-        android:maxLength="7"
         android:maxLines="1"
-        android:minWidth="75dip"
-        android:text="15"
         android:visibility="gone" >
     </EditText>
 
-</RelativeLayout>
+    <TextView
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_turn_right_degrees" >
+    </TextView>
+
+</LinearLayout>
