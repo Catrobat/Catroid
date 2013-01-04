@@ -67,12 +67,9 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	private static final int MOTOR_STOP = 1;
 	private static final int MOTOR_TURN = 2;
 
-	public static final String LEGO_NXT_NAME = "NXT";
-	public static final String TEST_SERVER_NAME = "kitty";
-	public static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
-	public static final String KITTYROID_MAC_ADDRESS = "00:15:83:3F:E3:2C";
-	public static final String SOME_OTHER_MAC = "00:0D:F0:48:01:93";
-	public static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
+	private static final String TEST_SERVER_NAME = "kitty";
+	private static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
+	private static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
 
 	private Solo solo;
 	private StorageHandler storageHandler;
