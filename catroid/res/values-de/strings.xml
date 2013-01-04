@@ -192,9 +192,11 @@
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <!--  -->
+
+
     <!-- Motion bricks -->
     <string name="brick_place_at_x">Setze Position X:</string>
-    <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Setze X auf:</string>
     <string name="brick_set_y">Setze Y auf:</string>
@@ -214,6 +216,9 @@
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
     <string name="brick_glide_to_x">zu X:</string>
+    <!--  -->
+
+
     <!-- Looks bricks -->
     <string name="brick_set_costume">Setze Kostüm</string>
     <string name="brick_set_background">Setze Hintergrund</string>
