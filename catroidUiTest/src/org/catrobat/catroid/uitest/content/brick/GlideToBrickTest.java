@@ -28,25 +28,27 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
 
 	public GlideToBrickTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		UiTestUtils.createTestProject();
+		super.setUp();
+		UiTestUtils.createEmptyProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -60,8 +62,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	public void testNumberInput() {
 		String whenStartedText = solo.getString(R.string.brick_when_started);
-		solo.clickLongOnText(whenStartedText);
-		solo.clickOnText(solo.getString(R.string.delete));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_glide);
 		solo.clickOnText(whenStartedText);
