@@ -67,22 +67,24 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	private static final int MOTOR_STOP = 1;
 	private static final int MOTOR_TURN = 2;
 
-	private static final String TEST_SERVER_NAME = "kitty";
+	// needed for testdevices
+	// Bluetooth server is running with a name that starts with 'kitty'
+	// e.g. kittyroid-0, kittyslave-0
+	private static final String PAIRED_BlUETOOTH_SERVER_DEVICE_NAME = "kitty";
+
+	// needed for testdevices
+	// unavailable device is paired with a name that starts with 'SWEET'
+	// e.g. SWEETHEART
 	private static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
 	private static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
 
 	private Solo solo;
-	private StorageHandler storageHandler;
 	private final String projectName = UiTestUtils.PROJECTNAME1;
-
-	private File image1;
-	private String imageName1 = "image1";
 
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
 	public LegoNXTTest() {
 		super(MainMenuActivity.class);
-		storageHandler = StorageHandler.getInstance();
 	}
 
 	@Override
@@ -129,7 +131,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		for (int i = 0; i < solo.getCurrentListViews().get(0).getCount(); i++) {
 
 			String current = (String) list.getItemAtPosition(i);
-			if (current.startsWith(TEST_SERVER_NAME)) {
+			if (current.startsWith(PAIRED_BlUETOOTH_SERVER_DEVICE_NAME)) {
 				fullConnectionString = current;
 				break;
 			}
@@ -331,18 +333,19 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		spriteList.add(firstSprite);
 		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
-		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+		String imageName = "image";
+		File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(image1.getAbsolutePath(), o);
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(image.getAbsolutePath(), bitmapOptions);
 
 		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(image1.getName());
-		costumeData.setCostumeName("image1");
+		costumeData.setCostumeFilename(image.getName());
+		costumeData.setCostumeName(imageName);
 		setCostumeBrick.setCostume(costumeData);
 		firstSprite.getCostumeDataList().add(costumeData);
 
-		storageHandler.saveProject(project);
+		StorageHandler.getInstance().saveProject(project);
 	}
 }
