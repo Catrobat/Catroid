@@ -32,16 +32,14 @@
     </TextView>
 
     <TextView
-        android:id="@+id/brick_go_back_n_text_view"
-        style="@style/BrickEditTextAndPrototypeTextView" >
+        android:id="@+id/brick_go_back_text_view"
+        style="@style/BrickPrototypeTextView" >
     </TextView>
 
     <EditText
         android:id="@+id/brick_go_back_edit_text"
-        style="@style/BrickEditTextAndPrototypeTextView"
-        android:inputType="number"
-        android:maxLines="1"
-        android:visibility="gone" >
+        style="@style/BrickEditText"
+        android:inputType="number" >
     </EditText>
 
     <TextView

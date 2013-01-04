@@ -213,7 +213,7 @@
     <string name="brick_point_in_direction">Zeige in Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
-    <string name="brick_glide_to">zu</string>
+    <string name="brick_glide_to_x">zu X:</string>
     <!-- Looks bricks -->
     <string name="brick_set_costume">Setze Kostüm</string>
     <string name="brick_set_background">Setze Hintergrund</string>

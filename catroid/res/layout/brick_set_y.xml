@@ -33,15 +33,13 @@
 
     <TextView
         android:id="@+id/brick_set_y_text_view"
-        style="@style/BrickEditTextAndPrototypeTextView" >
+        style="@style/BrickPrototypeTextView" >
     </TextView>
 
     <EditText
         android:id="@+id/brick_set_y_edit_text"
-        style="@style/BrickEditTextAndPrototypeTextView"
-        android:inputType="number|numberDecimal|numberSigned"
-        android:maxLines="1"
-        android:visibility="gone" >
+        style="@style/BrickEditText"
+        android:inputType="number|numberDecimal|numberSigned" >
     </EditText>
 
 </LinearLayout>
