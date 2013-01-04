@@ -22,31 +22,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/brick_single_line_height"
     android:background="@drawable/brick_blue" >
 
     <TextView
         style="@style/BrickText.SingleLine"
-        android:text="@string/brick_turn_left" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/brick_turn_left_text_view"
-        style="@style/BrickEditTextAndPrototypeTextView" >
-    </TextView>
-
-    <EditText
-        android:id="@+id/brick_turn_left_edit_text"
-        style="@style/BrickEditTextAndPrototypeTextView"
-        android:inputType="number|numberDecimal"
-        android:maxLines="1"
-        android:visibility="gone" >
-    </EditText>
-
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_turn_left_degrees" >
+        android:text="@string/brick_come_to_front" >
     </TextView>
 
 </LinearLayout>

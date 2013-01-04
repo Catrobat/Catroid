@@ -33,7 +33,7 @@
         android:layout_centerVertical="true" >
 
         <TextView
-            style="@style/brick_text_style"
+            style="@style/BrickText"
             android:layout_centerVertical="true"
             android:paddingRight="10dip"
             android:text="@string/brick_glide" >
@@ -77,7 +77,7 @@
             </EditText>
 
             <TextView
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip"
                 android:text="@string/seconds" >
@@ -91,7 +91,7 @@
         android:layout_centerVertical="true" >
 
         <TextView
-            style="@style/brick_text_style"
+            style="@style/BrickText"
             android:layout_centerVertical="true"
             android:paddingRight="10dip"
             android:text="@string/brick_glide_to" >
@@ -105,7 +105,7 @@
             android:paddingTop="5dip" >
 
             <TextView
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:paddingRight="10dip"
                 android:text="@string/x_label" >
             </TextView>
@@ -142,7 +142,7 @@
             </EditText>
 
             <TextView
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip"
                 android:text="@string/y_label" >

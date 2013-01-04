@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <resources>
 
     <!-- General terms -->
@@ -193,7 +193,7 @@
     <string name="category_control">Steuerung</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <!-- Motion bricks -->
-    <string name="brick_place_at">Setze Position</string>
+    <string name="brick_place_at_x">Setze Position X:</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Setze X auf:</string>
@@ -207,9 +207,9 @@
     <string name="brick_move">Gehe</string>
     <string name="brick_move_n_steps">Schritte</string>
     <string name="brick_turn_left">Drehe links</string>
-    <string name="brick_turn_left_n_degrees">Grad</string>
+    <string name="brick_turn_left_degrees">Grad</string>
     <string name="brick_turn_right">Drehe rechts</string>
-    <string name="brick_turn_right_n_degrees">Grad</string>
+    <string name="brick_turn_right_degrees">Grad</string>
     <string name="brick_point_in_direction">Zeige in Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
