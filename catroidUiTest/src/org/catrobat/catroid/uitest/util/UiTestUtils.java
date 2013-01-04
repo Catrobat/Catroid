@@ -175,7 +175,7 @@ public class UiTestUtils {
 	private static void initBrickCategoryMap() {
 		brickCategoryMap = new SparseIntArray();
 
-		brickCategoryMap.put(R.string.brick_place_at, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_place_at_x, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_x, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_y, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_change_x_by, R.string.category_motion);
