@@ -54,7 +54,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.widget.ListView;
@@ -333,9 +332,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		String imageName = "image";
 		File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.FileTypes.IMAGE);
-		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		bitmapOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(image.getAbsolutePath(), bitmapOptions);
 
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image.getName());
