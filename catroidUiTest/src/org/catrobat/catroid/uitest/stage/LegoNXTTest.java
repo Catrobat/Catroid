@@ -199,11 +199,11 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		}
 		Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
 		Iterator<BluetoothDevice> iterator = bondedDevices.iterator();
-		String deviceMacAdress = null;
+		String connectedDeviceMacAdress = null;
 		while (iterator.hasNext()) {
 			BluetoothDevice device = iterator.next();
 			if (device.getName().startsWith(PAIRED_BlUETOOTH_SERVER_DEVICE_NAME)) {
-				deviceMacAdress = device.getAddress();
+				connectedDeviceMacAdress = device.getAddress();
 			}
 		}
 
@@ -215,9 +215,9 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
 
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add(deviceMacAdress);
-		DeviceListActivity dla = new DeviceListActivity();
-		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
+		autoConnectIDs.add(connectedDeviceMacAdress);
+		DeviceListActivity deviceListActivity = new DeviceListActivity();
+		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
 
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.sleep(6500);// increase this sleep if probs!
@@ -245,19 +245,19 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
-		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
+		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
-		assertTrue("I should be on the bluetooth device choosing screen, but am not!", solo.searchText(deviceMacAdress));
+		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
+				solo.searchText(connectedDeviceMacAdress));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
 		solo.assertCurrentActivity("Incorrect Activity reached!", ProjectActivity.class);
-
 	}
 
 	public void testNXTConnectionDialogGoBack() {
@@ -294,13 +294,14 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Script whenScript = new WhenScript(firstSprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
-		LegoNxtMotorActionBrick legoMotorActionBrick = new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A_C,
-				100);
+		LegoNxtMotorActionBrick legoMotorActionBrick = new LegoNxtMotorActionBrick(firstSprite,
+				LegoNxtMotorActionBrick.Motor.MOTOR_A_C, 100);
 		commands.add(new int[] { MOTOR_ACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
 		commands.add(new int[] { MOTOR_ACTION, 2, 100 });
 		WaitBrick firstWaitBrick = new WaitBrick(firstSprite, 500);
 
-		LegoNxtMotorStopBrick legoMotorStopBrick = new LegoNxtMotorStopBrick(firstSprite, LegoNxtMotorStopBrick.Motor.MOTOR_A_C);
+		LegoNxtMotorStopBrick legoMotorStopBrick = new LegoNxtMotorStopBrick(firstSprite,
+				LegoNxtMotorStopBrick.Motor.MOTOR_A_C);
 		commands.add(new int[] { MOTOR_STOP, 0 });
 		commands.add(new int[] { MOTOR_STOP, 2 });
 		WaitBrick secondWaitBrick = new WaitBrick(firstSprite, 500);
