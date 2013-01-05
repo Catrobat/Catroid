@@ -70,6 +70,9 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int xPosition = 123;
 		int yPosition = 567;
 
+		// This is a hack. On my device and on Jenkins, the click on the first EditText could not be completed.
+		// Doing it manually here
+		solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
 		UiTestUtils.clickEnterClose(solo, 0, String.valueOf(duration));
 		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
 		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
@@ -77,13 +80,12 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentSprite().getScript(0).getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
+
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
 				glideToBrick.getDurationInMilliSeconds());
-
 		assertEquals("Wrong x input in Glide to brick", xPosition,
 				UiTestUtils.getPrivateField("xDestination", glideToBrick));
 		assertEquals("Wrong y input in Glide to brick", yPosition,
 				UiTestUtils.getPrivateField("yDestination", glideToBrick));
 	}
-
 }
