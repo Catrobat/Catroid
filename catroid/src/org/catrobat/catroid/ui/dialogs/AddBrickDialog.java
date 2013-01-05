@@ -130,11 +130,11 @@ public class AddBrickDialog extends DialogFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_add_brick, null);
+		View rootView = inflater.inflate(R.layout.dialog_brick_add, null);
 
-		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.btn_close_dialog);
-		TextView textView = (TextView) rootView.findViewById(R.id.tv_dialog_title);
-		listView = (ListView) rootView.findViewById(R.id.addBrickDialogListView);
+		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.dialog_brick_title_button_close);
+		TextView textView = (TextView) rootView.findViewById(R.id.dialog_brick_title_text_view_title);
+		listView = (ListView) rootView.findViewById(R.id.dialog_brick_add_list_view);
 
 		closeButton.setOnClickListener(new View.OnClickListener() {
 			@Override

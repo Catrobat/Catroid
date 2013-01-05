@@ -27,18 +27,17 @@
     android:background="@color/actionbar_background" >
 
     <TextView
-        android:id="@+id/tv_dialog_title"
+        android:id="@+id/dialog_brick_title_text_view_title"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="If you see this, something went wrong."
         android:textColor="@color/actionbar_title_color"
         android:textSize="@dimen/text_size_medium"
         android:textStyle="bold" />
 
     <ImageButton
-        android:id="@+id/btn_close_dialog"
+        android:id="@+id/dialog_brick_title_button_close"
         android:layout_width="@dimen/actionbar_height"
         android:layout_height="match_parent"
         android:background="@color/actionbar_background"

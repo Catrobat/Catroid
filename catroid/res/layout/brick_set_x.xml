@@ -32,7 +32,7 @@
     </TextView>
 
     <TextView
-        android:id="@+id/brick_set_x_text_view"
+        android:id="@+id/brick_set_x_prototype_text_view"
         style="@style/BrickPrototypeTextView" >
     </TextView>
 
