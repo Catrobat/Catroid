@@ -149,6 +149,22 @@
         <item name="android:visibility">gone</item>
     </style>
 
+    <style name="BrickContainer">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="BrickContainer.Motion">
+        <item name="android:background">@drawable/brick_blue</item>
+    </style>
+
+    <style name="BrickContainer.Motion.SingleLine">
+        <item name="android:minHeight">@dimen/brick_single_line_height</item>
+    </style>
+
+    <style name="BrickContainer.Motion.TwoLines">
+        <item name="android:minHeight">@dimen/brick_two_lines_height</item>
+    </style>
+
     <style name="brick_new">
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
     </style>
