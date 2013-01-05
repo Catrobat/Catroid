@@ -294,32 +294,32 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Script whenScript = new WhenScript(firstSprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
-		LegoNxtMotorActionBrick nxt = new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A_C,
+		LegoNxtMotorActionBrick legoMotorActionBrick = new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A_C,
 				100);
 		commands.add(new int[] { MOTOR_ACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
 		commands.add(new int[] { MOTOR_ACTION, 2, 100 });
-		WaitBrick wait = new WaitBrick(firstSprite, 500);
+		WaitBrick firstWaitBrick = new WaitBrick(firstSprite, 500);
 
-		LegoNxtMotorStopBrick nxtStop = new LegoNxtMotorStopBrick(firstSprite, LegoNxtMotorStopBrick.Motor.MOTOR_A_C);
+		LegoNxtMotorStopBrick legoMotorStopBrick = new LegoNxtMotorStopBrick(firstSprite, LegoNxtMotorStopBrick.Motor.MOTOR_A_C);
 		commands.add(new int[] { MOTOR_STOP, 0 });
 		commands.add(new int[] { MOTOR_STOP, 2 });
-		WaitBrick wait2 = new WaitBrick(firstSprite, 500);
+		WaitBrick secondWaitBrick = new WaitBrick(firstSprite, 500);
 
-		LegoNxtMotorTurnAngleBrick nxtTurn = new LegoNxtMotorTurnAngleBrick(firstSprite,
+		LegoNxtMotorTurnAngleBrick legoMotorTurnAngleBrick = new LegoNxtMotorTurnAngleBrick(firstSprite,
 				LegoNxtMotorTurnAngleBrick.Motor.MOTOR_C, 515);
 		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
-		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
-		LegoNxtPlayToneBrick nxtTone = new LegoNxtPlayToneBrick(firstSprite, 5000, 1000);
+		WaitBrick thirdWaitBrick = new WaitBrick(firstSprite, 500);
+		LegoNxtPlayToneBrick legoPlayToneBrick = new LegoNxtPlayToneBrick(firstSprite, 5000, 1000);
 		//Tone does not return a command
 
-		whenScript.addBrick(nxt);
-		whenScript.addBrick(wait);
-		whenScript.addBrick(nxtStop);
-		whenScript.addBrick(wait2);
-		whenScript.addBrick(nxtTurn);
-		whenScript.addBrick(wait3);
-		whenScript.addBrick(nxtTone);
+		whenScript.addBrick(legoMotorActionBrick);
+		whenScript.addBrick(firstWaitBrick);
+		whenScript.addBrick(legoMotorStopBrick);
+		whenScript.addBrick(secondWaitBrick);
+		whenScript.addBrick(legoMotorTurnAngleBrick);
+		whenScript.addBrick(thirdWaitBrick);
+		whenScript.addBrick(legoPlayToneBrick);
 
 		startScript.addBrick(setCostumeBrick);
 		firstSprite.addScript(startScript);
