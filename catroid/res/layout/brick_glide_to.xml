@@ -45,7 +45,7 @@
         <EditText
             android:id="@+id/brick_glide_to_edit_text_duration"
             style="@style/BrickEditText"
-            android:inputType="number" >
+            android:inputType="number|numberDecimal" >
         </EditText>
 
         <TextView

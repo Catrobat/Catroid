@@ -149,17 +149,17 @@ public class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 * 
-	 * @param editTextId
+	 * @param editTextIndex
 	 *            The ID of the EditText to click on
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertDoubleIntoEditText(Solo solo, int editTextId, double value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertDoubleIntoEditText(Solo solo, int editTextIndex, double value) {
+		insertValue(solo, editTextIndex, value + "");
 	}
 
-	private static void insertValue(Solo solo, int editTextId, String value) {
-		solo.clickOnEditText(editTextId);
+	private static void insertValue(Solo solo, int editTextIndex, String value) {
+		solo.clickOnEditText(editTextIndex);
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
@@ -167,7 +167,8 @@ public class UiTestUtils {
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
-		enterText(solo, 0, value);
+		solo.clearEditText(0);
+		solo.enterText(0, value);
 		solo.clickOnButton(0);
 		solo.sleep(50);
 	}
