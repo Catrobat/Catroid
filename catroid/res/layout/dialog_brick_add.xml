@@ -31,14 +31,14 @@
     <!-- Top bar -->
 
     <include
-        android:id="@+id/layout_brick_dialog_top"
-        layout="@layout/brick_dialog_top" />
+        android:id="@+id/brick_dialog_add_title_view"
+        layout="@layout/dialog_brick_title" />
 
     <ListView
-        android:id="@+id/addBrickDialogListView"
+        android:id="@+id/dialog_brick_add_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_brick_dialog_top"
+        android:layout_below="@id/brick_dialog_add_title_view"
         android:clickable="true"
         android:divider="#00000000"
         android:dividerHeight="10dip"

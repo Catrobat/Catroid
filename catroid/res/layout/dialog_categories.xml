@@ -19,9 +19,9 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -31,14 +31,13 @@
 
     <include
         android:id="@+id/layout_brick_dialog_top"
-        layout="@layout/brick_dialog_top" />
+        layout="@layout/dialog_brick_title" />
 
     <ListView
-        android:id="@+id/categoriesListView"
+        android:id="@+id/dialog_categories_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layout_brick_dialog_top"
         android:clickable="true"
         android:dividerHeight="-5dip" />
 
-</RelativeLayout>
+</LinearLayout>

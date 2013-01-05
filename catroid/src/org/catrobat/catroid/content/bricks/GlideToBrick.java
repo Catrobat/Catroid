@@ -142,17 +142,17 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_text_view_x);
+		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
 		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		editX.setText(String.valueOf(xDestination));
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_text_view_y);
+		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
 		editY.setText(String.valueOf(yDestination));
 		editY.setOnClickListener(this);
 
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_text_view_duration);
+		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 

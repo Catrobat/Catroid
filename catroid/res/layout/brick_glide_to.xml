@@ -38,7 +38,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/brick_glide_to_text_view_duration"
+            android:id="@+id/brick_glide_to_prototype_text_view_duration"
             style="@style/BrickPrototypeTextView" >
         </TextView>
 
@@ -64,7 +64,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/brick_glide_to_text_view_x"
+            android:id="@+id/brick_glide_to_prototype_text_view_x"
             style="@style/BrickPrototypeTextView" >
         </TextView>
 
@@ -80,7 +80,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/brick_glide_to_text_view_y"
+            android:id="@+id/brick_glide_to_prototype_text_view_y"
             style="@style/BrickPrototypeTextView" >
         </TextView>
 
