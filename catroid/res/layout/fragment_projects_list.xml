@@ -37,10 +37,4 @@
         android:dividerHeight="2dp"
         android:fadingEdge="none" />
 
-    <View
-        android:id="@+id/view_below_myprojectlist_non_scrollable"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true" />
-
 </LinearLayout>
