@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -34,7 +35,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class PlaceAtBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -75,16 +75,16 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
-		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_x_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_x_edit_text);
+		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
+		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
 		editX.setText(String.valueOf(xPosition));
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_y_text_view);
-		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_y_edit_text);
+		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
+		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
 		editY.setText(String.valueOf(yPosition));
 
 		textY.setVisibility(View.GONE);
@@ -111,9 +111,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				if (view.getId() == R.id.brick_place_at_x_edit_text) {
+				if (view.getId() == R.id.brick_place_at_edit_text_x) {
 					input.setText(String.valueOf(xPosition));
-				} else if (view.getId() == R.id.brick_place_at_y_edit_text) {
+				} else if (view.getId() == R.id.brick_place_at_edit_text_y) {
 					input.setText(String.valueOf(yPosition));
 				}
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
@@ -123,9 +123,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					if (view.getId() == R.id.brick_place_at_x_edit_text) {
+					if (view.getId() == R.id.brick_place_at_edit_text_x) {
 						xPosition = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_place_at_y_edit_text) {
+					} else if (view.getId() == R.id.brick_place_at_edit_text_y) {
 						yPosition = Integer.parseInt(input.getText().toString());
 					}
 				} catch (NumberFormatException exception) {
