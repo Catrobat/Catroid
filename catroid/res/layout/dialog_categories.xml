@@ -21,11 +21,10 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:background="@android:color/white" >
 
     <!-- Top bar -->
 
@@ -37,7 +36,8 @@
         android:id="@+id/dialog_categories_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/layout_brick_dialog_top"
         android:clickable="true"
         android:dividerHeight="-5dip" />
 
-</LinearLayout>
+</RelativeLayout>
