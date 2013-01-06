@@ -279,7 +279,7 @@
     <string name="notification_screenshot_ok">Screenshot saved</string>
     <string name="notification_load_project_cancel">Canceled loading project</string>
     <!-- Error messages -->
-    <string name="error_no_sd_card">Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
+    <string name="error_no_writiable_external_storage_available">Catroid requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
     <string name="error_project_exists">A project with the same name already exists.\nPlease choose a different name.</string>
     <string name="error_project_upload">An error occurred while uploading the project.</string>

@@ -224,7 +224,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			return;
 		}
 	}
@@ -232,6 +232,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public void onPause() {
 		super.onPause();
+		if (!Utils.externalStorageAvailable()) {
+			return;
+		}
+
 		// onPause is sufficient --> gets called before "process_killed",
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
@@ -248,7 +252,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
+		if (!Utils.externalStorageAvailable()) {
+			return;
+		}
 		unbindDrawables(findViewById(R.id.main_menu));
 		System.gc();
 	}
