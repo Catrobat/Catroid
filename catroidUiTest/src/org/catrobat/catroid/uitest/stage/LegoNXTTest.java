@@ -55,7 +55,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -142,9 +141,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.sleep(10000);
 
-		Log.i("bt", "" + LegoNXTCommunicator.getReceivedMessageList().size());
-		solo.sleep(2000);
-
 		ArrayList<byte[]> executedCommands = LegoNXTCommunicator.getReceivedMessageList();
 		assertEquals("Commands seem to have not been executed! Connected to correct device??", commands.size(),
 				executedCommands.size());
@@ -161,9 +157,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 					assertEquals("Motor didnt actually stop!", 0, executedCommands.get(i)[4]);
 					break;
 				case MOTOR_TURN:
-					for (int j = 0; j < executedCommands.get(i).length; j++) {
-						Log.i("bt", "i" + j + ": " + (int) executedCommands.get(i)[j]);
-					}
 					assertEquals("Wrong motor was used!", item[1], executedCommands.get(i)[3]);
 					int turnValue = 0;
 					turnValue = (0x000000FF & executedCommands.get(i)[9]); //unsigned types would be too smart for java, sorry no chance mate!
