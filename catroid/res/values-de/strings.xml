@@ -275,7 +275,7 @@
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
     <string name="notification_load_project_cancel">Projekt laden abgebrochen</string>
     <!-- Error messages -->
-    <string name="error_no_sd_card">Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
+    <string name="error_no_writiable_external_storage_available">Um Catroid zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
     <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
     <string name="error_project_exists">Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
     <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>

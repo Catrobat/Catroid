@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -67,7 +67,7 @@
     <string name="load">Incărcare</string>
     <string name="change_project_name_main">Schimbarea numelui proiectului</string>
     <string name="about">Despre Catroid</string>
-    <string name="upload_project">Încărcarea proiectului</string>
+    <string name="upload_project">Încărcarea proiectului</string>
     -->
 
 
@@ -165,7 +165,7 @@
     <!--
          <string name="resume_current_project">Reluare</string>
     <string name="restart_current_project">Restartare</string>
-    <string name="snapshot">Screenshot</string>
+    <string name="snapshot">Screenshot</string>
     -->
 
 
@@ -251,7 +251,7 @@
     <!-- Vă rugăm să introduceți numele -->
     <!-- </string> -->
     <!-- Error messages -->
-    <string name="error_no_sd_card">Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.</string>
+    <string name="error_no_writiable_external_storage_available">Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.</string>
     <string name="error_no_name_entered">Introduceți denumirea, vă rog</string>
     <string name="error_project_exists">Un proiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog</string>
     <!-- <string name="error_create_project"> -->

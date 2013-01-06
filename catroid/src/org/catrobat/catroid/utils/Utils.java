@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.ErrorDialogFragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -92,11 +93,11 @@ public class Utils {
 			Builder builder = new AlertDialog.Builder(context);
 
 			builder.setTitle(context.getString(R.string.error));
-			builder.setMessage(context.getString(R.string.error_no_sd_card));
+			builder.setMessage(context.getString(R.string.error_no_writiable_external_storage_available));
 			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					System.exit(0);
+					((Activity) context).moveTaskToBack(true);
 				}
 			});
 			builder.show();
