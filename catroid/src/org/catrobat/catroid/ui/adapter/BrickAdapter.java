@@ -654,10 +654,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		}
 
-		Rect rectgle = new Rect();
+		Rect rectangle = new Rect();
 		Window window = ((Activity) context).getWindow();
-		window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
-		int statusBarHeight = rectgle.top;
+		window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+		int statusBarHeight = rectangle.top;
 
 		footerHeight = Values.SCREEN_HEIGHT - height - statusBarHeight
 				- (int) context.getResources().getDimension(R.dimen.actionbar_height)

@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -57,7 +57,7 @@
     <string name="new_project">"新規プロジェクト"</string>
     <string name="load">"読み込む"</string>
     <string name="about">"キャットロイドについて"</string>
-    <string name="upload_project">"アップロード"</string>
+    <string name="upload_project">"アップロード"</string>
     -->
 
 
@@ -148,8 +148,9 @@
     <string name="stagemenu_screen_size">"最大/\nストレッチ"</string>
     <string name="stagemenu_axes_on">"軸 オン"</string>
     <string name="stagemenu_axes_off">"軸 オフ"</string>
-    <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
+    <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
     -->
+
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">"新しい…"</string>
@@ -162,8 +163,7 @@
     <string name="category_control">"制御"</string>
     <string name="category_lego_nxt">レゴマインドストームNXT</string>
     <!-- Motion bricks -->
-    <string name="brick_place_at">"場所を設定"</string>
-    <string name="x_label">"X:"</string>
+    <string name="brick_place_at_x">"場所を設定 X:"</string>
     <string name="y_label">"Y:"</string>
     <string name="brick_set_x">"Xを設定:"</string>
     <string name="brick_set_y">"Yを設定:"</string>
@@ -182,7 +182,6 @@
     <string name="brick_point_in_direction">"方向（左右上下）："</string>
     <string name="brick_point_to">"方向（スプライト）："</string>
     <string name="brick_glide">"滑る："</string>
-    <string name="brick_glide_to">"方向："</string>
     <!-- Looks bricks -->
     <string name="brick_set_costume">"コスチュームに切り替える："</string>
     <string name="brick_set_background">"背景を設定する"</string>

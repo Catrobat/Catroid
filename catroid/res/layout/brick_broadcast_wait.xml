@@ -33,7 +33,7 @@
         android:orientation="vertical" >
 
         <TextView
-            style="@style/brick_text_style"
+            style="@style/BrickText"
             android:text="@string/brick_broadcast_wait" />
 
         <LinearLayout

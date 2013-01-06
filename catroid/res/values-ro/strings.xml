@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -67,7 +67,7 @@
     <string name="load">Incărcare</string>
     <string name="change_project_name_main">Schimbarea numelui proiectului</string>
     <string name="about">Despre Catroid</string>
-    <string name="upload_project">Încărcarea proiectului</string>
+    <string name="upload_project">Încărcarea proiectului</string>
     -->
 
 
@@ -165,7 +165,7 @@
     <!--
          <string name="resume_current_project">Reluare</string>
     <string name="restart_current_project">Restartare</string>
-    <string name="snapshot">Screenshot</string>
+    <string name="snapshot">Screenshot</string>
     -->
 
 
@@ -188,8 +188,7 @@
     <string name="seconds">Secunde</string>
     <string name="brick_hide">Ascunde</string>
     <string name="brick_show">Arată</string>
-    <string name="brick_place_at">Plasează la</string>
-    <string name="x_label">X:</string>
+    <string name="brick_place_at_x">Plasează la X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_costume">Setează costumul</string>
     <string name="brick_set_size_to">Setează mărimea la</string>
@@ -202,7 +201,6 @@
     <string name="brick_set_x">Setează X la:</string>
     <string name="brick_set_y">Setează Y la:</string>
     <string name="brick_glide">Alunecă</string>
-    <string name="brick_glide_to">spre</string>
     <string name="brick_when">Cînd</string>
     <string name="brick_set_ghost_effect">Setează transparența</string>
     <string name="brick_change_ghost_effect">Schimbă transparența</string>
