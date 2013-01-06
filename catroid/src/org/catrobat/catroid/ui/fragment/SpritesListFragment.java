@@ -214,7 +214,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnClick
 			actionMode.finish();
 			actionMode = null;
 		}
-		if (!Utils.checkForSdCard(getActivity())) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
 		}
 
