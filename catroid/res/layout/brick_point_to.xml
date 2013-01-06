@@ -22,7 +22,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Motion.SingleLine" >
+    style="@style/BrickContainer.Motion.Medium"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
 
     <TextView
         style="@style/BrickText.SingleLine"
@@ -30,9 +32,8 @@
 
     <Spinner
         android:id="@+id/brick_point_to_spinner"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:clickable="false"
         android:focusable="false" />
 

@@ -34,7 +34,8 @@
     <dimen name="text_size_xlarge">20sp</dimen>
     <dimen name="text_size_xxlarge">26sp</dimen>
     <dimen name="brick_edit_text_and_prototype_text_view_minimum_width">48dp</dimen>
-    <dimen name="brick_single_line_height">72dp</dimen>
-    <dimen name="brick_two_lines_height">120dp</dimen>
+    <dimen name="brick_height_small">72dp</dimen>
+    <dimen name="brick_height_medium">96dp</dimen>
+    <dimen name="brick_height_big">120dp</dimen>
 
 </resources>
