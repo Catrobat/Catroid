@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -50,7 +51,6 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -255,15 +255,15 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	public void onCategorySelected(String category) {
 		selectedCategory = category;
 
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment prev = getFragmentManager().findFragmentByTag("dialog_add_brick");
-		if (prev != null) {
-			ft.remove(prev);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		Fragment previousFragment = getFragmentManager().findFragmentByTag(AddBrickDialog.DIALOG_FRAGMENT_TAG);
+		if (previousFragment != null) {
+			fragmentTransaction.remove(previousFragment);
 		}
-		ft.addToBackStack(null);
+		fragmentTransaction.addToBackStack(null);
 
 		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory, this);
-		addBrickDialog.show(ft, AddBrickDialog.DIALOG_FRAGMENT_TAG);
+		addBrickDialog.show(fragmentTransaction, AddBrickDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override

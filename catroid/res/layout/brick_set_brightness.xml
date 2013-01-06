@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/SetBrightnessTextView"
-            style="@style/brick_text_style"
+            style="@style/BrickText"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:paddingRight="5dip"
@@ -48,7 +48,7 @@
 
             <TextView
                 android:id="@+id/SetBrightnessTextView"
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingRight="5dip"
@@ -90,7 +90,7 @@
 
             <TextView
                 android:id="@+id/SetBrightnessTextView"
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/brick_set_brightness_edit_text"
                 android:paddingLeft="5dip"
