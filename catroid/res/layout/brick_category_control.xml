@@ -27,7 +27,7 @@
     android:background="@drawable/brick_yellow" >
 
     <TextView
-        style="@style/brick_text_style"
+        style="@style/BrickText"
         android:paddingBottom="15dip"
         android:paddingTop="15dip"
         android:text="@string/category_control" >
