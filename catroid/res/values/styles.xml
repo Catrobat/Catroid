@@ -157,12 +157,16 @@
         <item name="android:background">@drawable/brick_blue</item>
     </style>
 
-    <style name="BrickContainer.Motion.SingleLine">
-        <item name="android:minHeight">@dimen/brick_single_line_height</item>
+    <style name="BrickContainer.Motion.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
     </style>
 
-    <style name="BrickContainer.Motion.TwoLines">
-        <item name="android:minHeight">@dimen/brick_two_lines_height</item>
+    <style name="BrickContainer.Motion.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+    </style>
+
+    <style name="BrickContainer.Motion.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
     </style>
 
     <style name="brick_new">

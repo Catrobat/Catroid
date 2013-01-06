@@ -22,7 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Motion.TwoLines"
+    style="@style/BrickContainer.Motion.Big"
     android:gravity="center_vertical"
     android:orientation="vertical" >
 
