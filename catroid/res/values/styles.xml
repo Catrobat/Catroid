@@ -119,12 +119,54 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="brick_text_style">
+    <style name="BrickText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BrickText.SingleLine">
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText">
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:clickable">false</item>
+        <item name="android:minWidth">@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item>
+        <item name="android:gravity">right</item>
+        <item name="android:maxEms">5</item>
+        <item name="android:minEms">3</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
+        <item name="android:maxLines">1</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="BrickContainer">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="BrickContainer.Motion">
+        <item name="android:background">@drawable/brick_blue</item>
+    </style>
+
+    <style name="BrickContainer.Motion.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+    </style>
+
+    <style name="BrickContainer.Motion.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+    </style>
+
+    <style name="BrickContainer.Motion.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
     </style>
 
     <style name="brick_new">

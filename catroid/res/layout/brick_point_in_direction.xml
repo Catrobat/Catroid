@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/ValueTextView"
-        style="@style/brick_text_style"
+        style="@style/BrickText"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:paddingRight="10dip"

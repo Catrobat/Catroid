@@ -20,165 +20,73 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_blue"
+    style="@style/BrickContainer.Motion.Big"
+    android:gravity="center_vertical"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true" >
+        android:layout_height="wrap_content" >
 
         <TextView
-            style="@style/brick_text_style"
-            android:layout_centerVertical="true"
-            android:paddingRight="10dip"
+            style="@style/BrickText.SingleLine"
             android:text="@string/brick_glide" >
         </TextView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" >
-
-            <TextView
-                android:id="@+id/brick_glide_to_duration_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip"
-                android:background="@color/white"
-                android:gravity="right"
-                android:minHeight="30dip"
-                android:minWidth="50dip"
-                android:paddingRight="5dip"
-                android:text="3"
-                android:textSize="20dip" >
-            </TextView>
-
-            <EditText
-                android:id="@+id/brick_glide_to_duration_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:gravity="right"
-                android:inputType="number"
-                android:maxLength="8"
-                android:maxLines="1"
-                android:minWidth="60dip"
-                android:text="3"
-                android:visibility="gone" >
-            </EditText>
-
-            <TextView
-                style="@style/brick_text_style"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:text="@string/seconds" >
-            </TextView>
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true" >
-
         <TextView
-            style="@style/brick_text_style"
-            android:layout_centerVertical="true"
-            android:paddingRight="10dip"
-            android:text="@string/brick_glide_to" >
+            android:id="@+id/brick_glide_to_prototype_text_view_duration"
+            style="@style/BrickPrototypeTextView" >
         </TextView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingTop="5dip" >
+        <EditText
+            android:id="@+id/brick_glide_to_edit_text_duration"
+            style="@style/BrickEditText"
+            android:inputType="number|numberDecimal" >
+        </EditText>
 
-            <TextView
-                style="@style/brick_text_style"
-                android:paddingRight="10dip"
-                android:text="@string/x_label" >
-            </TextView>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/seconds" >
+        </TextView>
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/brick_glide_to_x_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip"
-                android:background="@color/white"
-                android:gravity="right"
-                android:minHeight="30dip"
-                android:minWidth="50dip"
-                android:paddingRight="5dip"
-                android:text="0"
-                android:textSize="20dip" >
-            </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-            <EditText
-                android:id="@+id/brick_glide_to_x_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:gravity="right"
-                android:inputType="number|numberDecimal|numberSigned"
-                android:maxLength="6"
-                android:maxLines="1"
-                android:minWidth="60dip"
-                android:text="0"
-                android:visibility="gone" >
-            </EditText>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_glide_to_x" >
+        </TextView>
 
-            <TextView
-                style="@style/brick_text_style"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:text="@string/y_label" >
-            </TextView>
+        <TextView
+            android:id="@+id/brick_glide_to_prototype_text_view_x"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_glide_to_y_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip"
-                android:background="@color/white"
-                android:gravity="right"
-                android:minHeight="30dip"
-                android:minWidth="50dip"
-                android:paddingRight="5dip"
-                android:text="0"
-                android:textSize="20dip" >
-            </TextView>
+        <EditText
+            android:id="@+id/brick_glide_to_edit_text_x"
+            style="@style/BrickEditText"
+            android:inputType="number|numberDecimal|numberSigned" >
+        </EditText>
 
-            <EditText
-                android:id="@+id/brick_glide_to_y_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:gravity="right"
-                android:inputType="number|numberDecimal|numberSigned"
-                android:maxLength="6"
-                android:maxLines="1"
-                android:minWidth="60dip"
-                android:text="0"
-                android:visibility="gone" >
-            </EditText>
-        </LinearLayout>
-    </RelativeLayout>
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/y_label" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/brick_glide_to_prototype_text_view_y"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/brick_glide_to_edit_text_y"
+            style="@style/BrickEditText"
+            android:inputType="number|numberDecimal|numberSigned" >
+        </EditText>
+    </LinearLayout>
 
 </LinearLayout>

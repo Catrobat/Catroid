@@ -39,7 +39,7 @@
             android:layout_centerVertical="true" >
 
             <TextView
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:layout_centerVertical="true"
                 android:paddingRight="10dip"
                 android:text="@string/brick_motor_action" >
@@ -70,7 +70,7 @@
             android:layout_centerVertical="true" >
 
             <TextView
-                style="@style/brick_text_style"
+                style="@style/BrickText"
                 android:layout_centerVertical="true"
                 android:paddingRight="10dip"
                 android:text="@string/motor_speed" >
@@ -113,7 +113,7 @@
                 </EditText>
 
                 <TextView
-                    style="@style/brick_text_style"
+                    style="@style/BrickText"
                     android:layout_centerVertical="true"
                     android:paddingRight="10dip"
                     android:text="@string/percent" >
