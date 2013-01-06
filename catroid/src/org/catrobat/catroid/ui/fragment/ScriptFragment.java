@@ -147,7 +147,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	public void onResume() {
 		super.onResume();
 
-		if (!Utils.checkForSdCard(getActivity())) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
 		}
 

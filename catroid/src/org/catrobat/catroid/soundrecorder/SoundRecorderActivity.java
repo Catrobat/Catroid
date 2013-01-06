@@ -71,7 +71,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 			setViewsToRecordingState();
 		}
 
-		Utils.checkForSdCard(this);
+		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
 
 	// Code from Stackoverflow to reduce memory problems

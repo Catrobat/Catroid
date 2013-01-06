@@ -100,6 +100,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
+			return;
+		}
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
@@ -201,7 +204,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
 		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
