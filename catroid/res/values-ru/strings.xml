@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -67,7 +67,7 @@
     <string name="load">Загрузить</string>
     <string name="change_project_name_main">Изменить имя проекта</string>
     <string name="about">О Catroid</string>
-    <string name="upload_project">Загрузить проект</string>
+    <string name="upload_project">Загрузить проект</string>
     -->
 
 
@@ -175,7 +175,7 @@
          Stage menu dialog
     <string name="resume_current_project">Возобновить</string>
     <string name="restart_current_project">Перезагрузить</string>
-    <string name="snapshot">Скриншот</string>
+    <string name="snapshot">Скриншот</string>
     -->
 
 
@@ -261,7 +261,7 @@
     <!-- Пожалуйста, введите имя -->
     <!-- </string> -->
     <!-- Error messages -->
-    <string name="error_no_sd_card">Catroid требует наличие SD карты.
+    <string name="error_no_writiable_external_storage_available">Catroid требует наличие SD карты.
         \nПожалуйста введите SD карту и попробуйте еще раз.</string>
     <string name="error_no_name_entered">Пожалуйста, введите название.</string>
     <string name="error_project_exists">Проект с таким названием уже существуетю\nПожалуйста, выберите другое название.</string>
