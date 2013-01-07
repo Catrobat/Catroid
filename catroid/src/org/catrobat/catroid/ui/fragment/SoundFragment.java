@@ -192,7 +192,7 @@ public class SoundFragment extends SherlockListFragment implements OnSoundEditLi
 	public void onResume() {
 		super.onResume();
 
-		if (!Utils.checkForSdCard(getActivity())) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
 		}
 
