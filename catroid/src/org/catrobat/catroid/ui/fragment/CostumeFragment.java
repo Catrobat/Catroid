@@ -163,7 +163,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (!Utils.checkForSdCard(getActivity())) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
 		}
 

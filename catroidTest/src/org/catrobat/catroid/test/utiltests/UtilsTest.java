@@ -209,7 +209,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	public void testBuildProjectPath() {
-		if (!Utils.hasSdCard()) {
+		if (!Utils.externalStorageAvailable()) {
 			fail("No SD card present");
 		}
 		String projectName = "test?Projekt\"1";
