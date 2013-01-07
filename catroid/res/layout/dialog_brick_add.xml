@@ -21,23 +21,29 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dip" >
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:scrollbarDefaultDelayBeforeFade="2000" >
 
-    <View
-        android:id="@+id/spritelist_footerview"
+    <!-- Top bar -->
+
+    <include
+        android:id="@+id/brick_dialog_add_title_view"
+        layout="@layout/dialog_brick_title" />
+
+    <ListView
+        android:id="@+id/dialog_brick_add_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:clickable="true" />
-
-    <ImageView
-        android:id="@+id/spritelist_footerview_add_image"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@string/spritelist_footer_image_description"
-        android:src="@android:drawable/ic_menu_add" />
+        android:layout_below="@id/brick_dialog_add_title_view"
+        android:clickable="true"
+        android:divider="#00000000"
+        android:dividerHeight="10dip"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="50.0dp"
+        android:scrollbarFadeDuration="2000" />
 
-</FrameLayout>
+</RelativeLayout>

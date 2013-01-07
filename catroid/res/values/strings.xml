@@ -35,7 +35,6 @@
     <string name="cut">Cut</string>
     <string name="move">Move</string>
     <string name="play">Play</string>
-
     <!--  -->
 
 
@@ -93,7 +92,6 @@
     <string name="insert_below">Insert Below</string>
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
-    <string name="spritelist_footer_image_description">Tap to add new sprite</string>
     <!-- ScriptTab activity -->
     <string name="scripts">Scripts</string>
     <string name="costumes">Costumes</string>
@@ -127,7 +125,6 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
-    <string name="myprojectlist_footer_image_description">Tap to add new project</string>
     <string name="notification_title_copy_project">Copy project</string>
     <string name="copy_project_finished"> copied.</string>
 
@@ -197,9 +194,11 @@
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <!--  -->
+
+
     <!-- Motion bricks -->
-    <string name="brick_place_at">Place at</string>
-    <string name="x_label">X:</string>
+    <string name="brick_place_at_x">Place at X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Set X to:</string>
     <string name="brick_set_y">Set Y to:</string>
@@ -212,13 +211,16 @@
     <string name="brick_move">Move</string>
     <string name="brick_move_n_steps">steps</string>
     <string name="brick_turn_left">Turn left</string>
-    <string name="brick_turn_left_n_degrees">degrees</string>
+    <string name="brick_turn_left_degrees">degrees</string>
     <string name="brick_turn_right">Turn right</string>
-    <string name="brick_turn_right_n_degrees">degrees</string>
+    <string name="brick_turn_right_degrees">degrees</string>
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_to">Point towards</string>
     <string name="brick_glide">Glide</string>
-    <string name="brick_glide_to">to</string>
+    <string name="brick_glide_to_x">to X:</string>
+    <!--  -->
+
+
     <!-- Looks bricks -->
     <string name="brick_set_costume">Switch to costume</string>
     <string name="brick_set_background">Set background</string>
