@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/textview_next_costume"
-        style="@style/brick_text_style"
+        style="@style/BrickText"
         android:text="@string/brick_next_costume" />
 
 </LinearLayout>

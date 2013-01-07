@@ -209,9 +209,12 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	public void testBuildProjectPath() {
-		String projectName1 = "test?Projekt\"1";
-		String result1 = "/mnt/sdcard/catroid/testProjekt1";
-		assertEquals("Paths are different!", result1, Utils.buildProjectPath(projectName1));
+		if (!Utils.hasSdCard()) {
+			fail("No SD card present");
+		}
+		String projectName = "test?Projekt\"1";
+		String expectedPath = Constants.DEFAULT_ROOT + "/testProjekt1";
+		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
 	}
 
 	@Smoke
