@@ -61,7 +61,7 @@ public class StorageHandler {
 
 		fullParser = new FullParser();
 		serializer = new XmlSerializer();
-		if (!Utils.hasSdCard()) {
+		if (!Utils.externalStorageAvailable()) {
 			throw new IOException("Could not read external storage");
 		}
 		createCatroidRoot();

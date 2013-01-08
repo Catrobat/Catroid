@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -57,7 +57,7 @@
     <string name="new_project">"新規プロジェクト"</string>
     <string name="load">"読み込む"</string>
     <string name="about">"キャットロイドについて"</string>
-    <string name="upload_project">"アップロード"</string>
+    <string name="upload_project">"アップロード"</string>
     -->
 
 
@@ -148,7 +148,7 @@
     <string name="stagemenu_screen_size">"最大/\nストレッチ"</string>
     <string name="stagemenu_axes_on">"軸 オン"</string>
     <string name="stagemenu_axes_off">"軸 オフ"</string>
-    <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
+    <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
     -->
 
 
@@ -237,7 +237,7 @@
     <string name="notification_invalid_text_entered">"値を入力してください"</string>
     <string name="notification_screenshot_ok">"スクリーン ショットが保存した"</string>
     <!-- Error messages -->
-    <string name="error_no_sd_card">"キャットロイドを実行するためにSDカードが必要ですが、どれも見つかりませんでした\nSDカードを挿入して再試行してください"</string>
+    <string name="error_no_writiable_external_storage_available">"キャットロイドを実行するためにSDカードが必要ですが、どれも見つかりませんでした\nSDカードを挿入して再試行してください"</string>
     <string name="error_no_name_entered">"名前を入力してください"</string>
     <string name="error_project_exists">"同じ名前のプロジェクトが既に存在しています\n別の名前を選択してください"</string>
     <string name="error_project_upload">"アップロード中にエラーが発生しました"</string>

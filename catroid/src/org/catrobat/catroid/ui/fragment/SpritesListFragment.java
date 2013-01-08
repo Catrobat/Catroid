@@ -193,7 +193,7 @@ public class SpritesListFragment extends SherlockListFragment {
 			actionMode.finish();
 			actionMode = null;
 		}
-		if (!Utils.checkForSdCard(getActivity())) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
 		}
 

@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.ErrorDialogFragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -81,30 +82,22 @@ public class Utils {
 	public static final int FILE_INTENT = 2;
 	private static boolean isUnderTest;
 
-	public static boolean hasSdCard() {
-		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+	public static boolean externalStorageAvailable() {
+		String externalStorageState = Environment.getExternalStorageState();
+		return externalStorageState.equals(Environment.MEDIA_MOUNTED)
+				&& !externalStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
 	}
 
-	/**
-	 * Checks whether the current device has an SD card. If it has none an error
-	 * message is displayed and the calling activity is finished. A
-	 * RuntimeException is thrown after the call to Activity.finish; find out
-	 * why!
-	 * 
-	 * @param context
-	 */
-	public static boolean checkForSdCard(final Context context) {
-		if (!hasSdCard()) {
+	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context context) {
+		if (!externalStorageAvailable()) {
 			Builder builder = new AlertDialog.Builder(context);
 
 			builder.setTitle(context.getString(R.string.error));
-			builder.setMessage(context.getString(R.string.error_no_sd_card));
+			builder.setMessage(context.getString(R.string.error_no_writiable_external_storage_available));
 			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// finish parent activity
-					// parentActivity.finish();
-					System.exit(0);
+					((Activity) context).moveTaskToBack(true);
 				}
 			});
 			builder.show();
