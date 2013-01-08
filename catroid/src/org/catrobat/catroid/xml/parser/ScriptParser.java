@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,10 @@
  */
 package org.catrobat.catroid.xml.parser;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.CONTENT_PACKAGE;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -35,15 +39,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 public class ScriptParser {
 	ObjectCreator objectGetter = new ObjectCreator();
 	BrickParser brickParser;
 
 	public void parseScripts(NodeList scriptListNodes, Sprite foundSprite, Map<String, Object> referencedObjects,
-			List<ForwardReferences> forwardRefs) throws IllegalAccessException, InstantiationException,
+			List<ForwardReference> forwardReferences) throws IllegalAccessException, InstantiationException,
 			InvocationTargetException, NoSuchMethodException, ClassNotFoundException, XPathExpressionException,
 			ParseException, SecurityException, NoSuchFieldException {
+
 		brickParser = new BrickParser();
 		for (int j = 0; j < scriptListNodes.getLength(); j++) {
 
@@ -51,14 +55,13 @@ public class ScriptParser {
 
 			if (scriptListNodes.item(j).getNodeType() != Node.TEXT_NODE) {
 				Element scriptElement = (Element) scriptListNodes.item(j);
-				foundScript = getpopulatedScript(scriptElement, foundSprite);
-				Node brickListNode = scriptElement.getElementsByTagName(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME).item(
-						0);
+				foundScript = getPopulatedScript(scriptElement, foundSprite);
+				Node brickListNode = scriptElement.getElementsByTagName(BRICK_LIST_ELEMENT_NAME).item(0);
 				if (brickListNode != null) {
 					brickParser.parseBricks(foundSprite, foundScript, scriptElement, brickListNode, referencedObjects,
-							forwardRefs);
+							forwardReferences);
 				}
-				String scriptXPath = ParserUtil.getElementXpath(scriptElement);
+				String scriptXPath = ParserUtil.getElementXPath(scriptElement);
 				referencedObjects.put(scriptXPath, foundScript);
 				foundSprite.addScript(foundScript);
 			}
@@ -66,12 +69,12 @@ public class ScriptParser {
 		}
 	}
 
-	private Script getpopulatedScript(Element element, Sprite sprite) throws IllegalArgumentException,
+	private Script getPopulatedScript(Element element, Sprite sprite) throws IllegalArgumentException,
 			IllegalAccessException, SecurityException, InstantiationException, InvocationTargetException,
 			NoSuchMethodException, ClassNotFoundException, ParseException {
 		String scriptClassName = element.getNodeName();
 
-		Class<?> scriptClass = Class.forName(CatroidXMLConstants.CONTENT_PACKAGE + scriptClassName);
+		Class<?> scriptClass = Class.forName(CONTENT_PACKAGE + scriptClassName);
 		Script newScript = objectGetter.getScriptObject(scriptClassName, sprite);
 
 		Map<String, Field> scriptClassFieldMap = objectGetter.getFieldMap(scriptClass);
@@ -81,18 +84,17 @@ public class ScriptParser {
 			Node child = scriptChildren.item(o);
 			if (child.getNodeType() != Node.TEXT_NODE) {
 				String childNodeName = child.getNodeName();
-				if (childNodeName.equals(CatroidXMLConstants.BRICK_LIST_ELEMENT_NAME)) {
+				if (childNodeName.equals(BRICK_LIST_ELEMENT_NAME)) {
 					continue;
 				}
-				if (childNodeName.equals(CatroidXMLConstants.SPRITE)) {
+				if (childNodeName.equals(SPRITE)) {
 					continue;
 				}
 				Field scriptClassField = scriptClassFieldMap.get(childNodeName);
 
 				valueInString = child.getChildNodes().item(0).getNodeValue();
 				if (valueInString != null) {
-
-					Object fieldValue = objectGetter.getobjectOfClass(scriptClassField.getType(), valueInString);
+					Object fieldValue = objectGetter.getObjectOfClass(scriptClassField.getType(), valueInString);
 					objectGetter.setFieldOfObject(scriptClassField, newScript, fieldValue);
 				}
 

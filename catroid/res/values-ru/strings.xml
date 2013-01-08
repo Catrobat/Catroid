@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -67,7 +67,7 @@
     <string name="load">Загрузить</string>
     <string name="change_project_name_main">Изменить имя проекта</string>
     <string name="about">О Catroid</string>
-    <string name="upload_project">Загрузить проект</string>
+    <string name="upload_project">Загрузить проект</string>
     -->
 
 
@@ -178,6 +178,7 @@
     <string name="snapshot">Скриншот</string>
     -->
 
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">новое…</string>
     <string name="broadcast_nothing_selected">Ничего…</string>
@@ -197,8 +198,7 @@
     <string name="seconds">Секунд</string>
     <string name="brick_hide">Спрятать</string>
     <string name="brick_show">Показать</string>
-    <string name="brick_place_at">Поместить на</string>
-    <string name="x_label">X:</string>
+    <string name="brick_place_at_x">Поместить на X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_costume">Задать костюм</string>
     <string name="brick_set_size_to">Установить размер на</string>
@@ -211,7 +211,6 @@
     <string name="brick_set_x">Установить X к:</string>
     <string name="brick_set_y">Установить Y к:</string>
     <string name="brick_glide">Скользить</string>
-    <string name="brick_glide_to">к</string>
     <string name="brick_when">Когда</string>
     <string name="brick_set_ghost_effect">Установить прозрачность</string>
     <string name="brick_change_ghost_effect">Изменить прозрачность</string>
@@ -262,7 +261,7 @@
     <!-- Пожалуйста, введите имя -->
     <!-- </string> -->
     <!-- Error messages -->
-    <string name="error_no_sd_card">Catroid требует наличие SD карты.
+    <string name="error_no_writiable_external_storage_available">Catroid требует наличие SD карты.
         \nПожалуйста введите SD карту и попробуйте еще раз.</string>
     <string name="error_no_name_entered">Пожалуйста, введите название.</string>
     <string name="error_project_exists">Проект с таким названием уже существуетю\nПожалуйста, выберите другое название.</string>

@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -34,7 +35,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class GlideToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -142,26 +142,26 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_x_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_x_edit_text);
+		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
+		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		editX.setText(String.valueOf(xDestination));
 		editX.setOnClickListener(this);
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_y_text_view);
-		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_y_edit_text);
+		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
+		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
 		editY.setText(String.valueOf(yDestination));
 		editY.setOnClickListener(this);
 
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_duration_text_view);
-		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_duration_edit_text);
+		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
+		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 
+		textDuration.setVisibility(View.GONE);
+		editDuration.setVisibility(View.VISIBLE);
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
-		textDuration.setVisibility(View.GONE);
-		editDuration.setVisibility(View.VISIBLE);
 
 		editDuration.setOnClickListener(this);
 
@@ -185,13 +185,13 @@ public class GlideToBrick implements Brick, OnClickListener {
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override
 			protected void initialize() {
-				if (view.getId() == R.id.brick_glide_to_x_edit_text) {
+				if (view.getId() == R.id.brick_glide_to_edit_text_x) {
 					input.setText(String.valueOf(xDestination));
 					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
+				} else if (view.getId() == R.id.brick_glide_to_edit_text_y) {
 					input.setText(String.valueOf(yDestination));
 					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
+				} else if (view.getId() == R.id.brick_glide_to_edit_text_duration) {
 					input.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
 							| InputType.TYPE_NUMBER_FLAG_SIGNED);
@@ -203,11 +203,11 @@ public class GlideToBrick implements Brick, OnClickListener {
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					if (view.getId() == R.id.brick_glide_to_x_edit_text) {
+					if (view.getId() == R.id.brick_glide_to_edit_text_x) {
 						xDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_glide_to_y_edit_text) {
+					} else if (view.getId() == R.id.brick_glide_to_edit_text_y) {
 						yDestination = Integer.parseInt(input.getText().toString());
-					} else if (view.getId() == R.id.brick_glide_to_duration_edit_text) {
+					} else if (view.getId() == R.id.brick_glide_to_edit_text_duration) {
 						durationInMilliSeconds = (int) Math
 								.round(Double.parseDouble(input.getText().toString()) * 1000);
 					}
@@ -218,7 +218,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 				return true;
 			}
 		};
-		
+
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_glide_to_brick");
 	}
 }

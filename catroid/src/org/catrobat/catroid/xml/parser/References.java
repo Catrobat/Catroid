@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.xml.parser;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.REFERENCE_ATTRIBUTE;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -41,23 +44,22 @@ import android.util.Log;
 
 public class References {
 
-	XPathFactory xpathFactory = XPathFactory.newInstance();
-	XPath xpath = xpathFactory.newXPath();
+	XPathFactory xPathFactory = XPathFactory.newInstance();
+	XPath xPath = xPathFactory.newXPath();
 	ObjectCreator objectGetter = new ObjectCreator();
 
 	public static String getReferenceAttribute(Node brickValue) {
 		Element brickElement = (Element) brickValue;
 		String attributeString = null;
-		if (brickValue.getNodeName().equals(CatroidXMLConstants.SPRITE)) {
+		if (brickValue.getNodeName().equals(SPRITE)) {
 			return null;
 		}
 		if (brickElement != null) {
 			NamedNodeMap attributes = brickElement.getAttributes();
 			if (attributes != null) {
-				Node referenceNode = attributes.getNamedItem(CatroidXMLConstants.REFERENCE_ATTRIBUTE);
+				Node referenceNode = attributes.getNamedItem(REFERENCE_ATTRIBUTE);
 				if (referenceNode != null) {
 					attributeString = referenceNode.getTextContent();
-
 				}
 			}
 		}
@@ -65,42 +67,40 @@ public class References {
 	}
 
 	public Object resolveReference(Object referencedObject, Node elementWithReference, String referenceString,
-			Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs)
-			throws XPathExpressionException, IllegalArgumentException, SecurityException, InstantiationException,
-			IllegalAccessException, InvocationTargetException, NoSuchMethodException, ParseException {
-		XPathExpression exp = xpath.compile(referenceString);
-		Log.i("resolveRef", "xpath evaluated for :" + referenceString);
-		Element refferredElement = (Element) exp.evaluate(elementWithReference, XPathConstants.NODE);
-		if (refferredElement == null) {
+			Map<String, Object> referencedObjects, List<ForwardReference> forwardReferences)
+			throws XPathExpressionException, IllegalArgumentException, InstantiationException, IllegalAccessException,
+			InvocationTargetException, ParseException {
+		XPathExpression xPathExpression = xPath.compile(referenceString);
+		Log.i("resolveRef", "XPath evaluated for :" + referenceString);
+		Element referredElement = (Element) xPathExpression.evaluate(elementWithReference, XPathConstants.NODE);
+		if (referredElement == null) {
 			throw new ParseException("Element by reference not found");
 		}
-		String xpathFromRoot = ParserUtil.getElementXpath(refferredElement);
-		Object object = referencedObjects.get(xpathFromRoot);
+		String xPathFromRoot = ParserUtil.getElementXPath(referredElement);
+		Object object = referencedObjects.get(xPathFromRoot);
 		if (object == null) {
-			referencedObject = objectGetter.getobjectOfClass(referencedObject.getClass(), "");
-			ForwardReferences forwardRef = new ForwardReferences(referencedObject, xpathFromRoot, null);
-			forwardRefs.add(forwardRef);
-
+			referencedObject = objectGetter.getObjectOfClass(referencedObject.getClass(), "");
+			ForwardReference forwardReference = new ForwardReference(referencedObject, xPathFromRoot, null);
+			forwardReferences.add(forwardReference);
 		} else {
 			referencedObject = object;
 		}
 		return referencedObject;
-
 	}
 
-	public void resolveForwardReferences(Map<String, Object> referencedObjects, List<ForwardReferences> forwardRefs)
+	public void resolveForwardReferences(Map<String, Object> referencedObjects, List<ForwardReference> forwardReferences)
 			throws IllegalArgumentException, IllegalAccessException {
-		for (ForwardReferences reference : forwardRefs) {
-			Field refField = reference.getFieldWithReference();
+		for (ForwardReference reference : forwardReferences) {
+			Field referenceField = reference.getFieldWithReference();
 			String referenceString = reference.getReferenceString();
 			if (!referencedObjects.containsKey(referenceString)) {
 				Log.i("Forward referencing", "reference for " + referenceString + " not found");
 			}
-			if (refField != null) {
-				Object parentObj = reference.getObjectWithReferencedField();
-				Object valueObj = referencedObjects.get(reference.getReferenceString());
-				if (!(valueObj.equals(refField.get(parentObj)))) {
-					refField.set(parentObj, valueObj);
+			if (referenceField != null) {
+				Object parentObject = reference.getObjectWithReferencedField();
+				Object valueObject = referencedObjects.get(reference.getReferenceString());
+				if (!(valueObject.equals(referenceField.get(parentObject)))) {
+					referenceField.set(parentObject, valueObject);
 				}
 			}
 		}

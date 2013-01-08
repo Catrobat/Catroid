@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -115,7 +115,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.searchText(categoryLegoNXTLabel));
 
 		// Test if the correct category opens when clicked
-		String brickPlaceAtText = solo.getString(R.string.brick_place_at);
+		String brickPlaceAtText = solo.getString(R.string.brick_place_at_x);
 		String brickSetCostume = solo.getString(R.string.brick_set_costume);
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
