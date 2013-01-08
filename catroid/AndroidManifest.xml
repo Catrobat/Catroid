@@ -114,6 +114,7 @@
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:label="@string/soundrecorder_name"
             android:theme="@style/Theme.Catroid" >
             <intent-filter>
