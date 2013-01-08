@@ -72,6 +72,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	public void testOrientation() throws NameNotFoundException {
 		prepareRecording();
+		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
 		/// Method 1: Assert it is currently in portrait mode.
 		assertEquals("SoundRecorderActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
@@ -85,6 +86,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
 
 		assertEquals(SoundRecorderActivity.class.getSimpleName()
 				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
