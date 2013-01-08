@@ -84,6 +84,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		createProject();
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText("Background");
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertEquals("ProgramMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
 
@@ -96,6 +97,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
 
 		assertEquals(ProgramMenuActivity.class.getSimpleName()
 				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
