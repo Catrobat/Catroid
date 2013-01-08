@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ public class CatroidXMLConstants {
 	public static final String SPRITE_ELEMENT_NAME = "Sprite";
 	public static final String SPRITE_NAME = "Name";
 	public static final String SPRITE_LIST_ELEMENT_NAME = "SpriteList";
+	public static final String SPRITE_LIST_FIELD_NAME = "spriteList";
 	public static final String SPRITE = "Sprite";
 
 	public static final String SCRIPT_LIST_ELEMENT_NAME = "ScriptList";

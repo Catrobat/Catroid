@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -184,75 +184,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		}
 	}
 
-	public void testAddNewProjectUnderList() {
-		unzip = true;
-		saveProjectsToZip();
-		try {
-			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail("Standard Project not created");
-		}
-
-		String myProjectsButton = solo.getString(R.string.main_menu_programs);
-
-		solo.clickOnButton(myProjectsButton);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_projects_list);
-
-		String projectName = UiTestUtils.PROJECTNAME1;
-		String newProjectDialogTitle = solo.getString(R.string.new_project_dialog_title);
-		String buttonPositiveText = solo.getString(R.string.ok);
-
-		solo.clickOnView(solo.getView(R.id.view_below_myprojectlist_non_scrollable));
-		solo.waitForText(newProjectDialogTitle, 0, 2000);
-		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
-		solo.clearEditText(0);
-		solo.enterText(0, projectName);
-		solo.sleep(200);
-		solo.clickOnText(buttonPositiveText);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(myProjectsButton);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-
-		ListView projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
-		assertEquals("Project was not added", 3, projectList.getCount());
-
-		projectName = UiTestUtils.PROJECTNAME2;
-		solo.clickOnView(solo.getView(R.id.myprojectlist_footerview));
-		solo.waitForText(newProjectDialogTitle, 0, 2000);
-		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
-		solo.clearEditText(0);
-		solo.enterText(0, projectName);
-		solo.sleep(200);
-		solo.clickOnText(buttonPositiveText);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(myProjectsButton);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
-		assertEquals("Project was not added", 4, projectList.getCount());
-
-		projectName = UiTestUtils.PROJECTNAME3;
-		solo.clickOnView(solo.getView(R.id.myprojectlist_footerview_add_image));
-		solo.waitForText(newProjectDialogTitle, 0, 2000);
-		assertTrue("New Project dialog did not appear", solo.searchText(newProjectDialogTitle));
-		solo.clearEditText(0);
-		solo.enterText(0, projectName);
-		solo.sleep(200);
-		solo.clickOnText(buttonPositiveText);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(myProjectsButton);
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		projectList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
-		assertEquals("Project was not added", 5, projectList.getCount());
-	}
-
 	public void testInvalidProject() {
 		unzip = true;
 		saveProjectsToZip();
@@ -317,6 +248,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("click on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, standardProjectName));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_sprites_list);
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 
 		if (!solo.waitForText(solo.getString(R.string.new_sprite_dialog_default_sprite_name), 0, 5000)) {
@@ -992,6 +924,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("click on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_sprites_list);
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 		solo.clearEditText(0);
@@ -1024,6 +957,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("click on project '" + UiTestUtils.COPIED_PROJECT_NAME + "' in list not successful",
 				UiTestUtils.clickOnTextInList(solo, UiTestUtils.COPIED_PROJECT_NAME));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fr_sprites_list);
 
 		assertTrue("project " + UiTestUtils.COPIED_PROJECT_NAME + " was not added",
 				solo.searchText(UiTestUtils.COPIED_PROJECT_NAME, 1, true));

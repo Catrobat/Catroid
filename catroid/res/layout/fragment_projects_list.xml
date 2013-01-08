@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -36,11 +36,5 @@
         android:divider="@color/divider"
         android:dividerHeight="2dp"
         android:fadingEdge="none" />
-
-    <View
-        android:id="@+id/view_below_myprojectlist_non_scrollable"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true" />
 
 </LinearLayout>

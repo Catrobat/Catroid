@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,9 @@
     android:shape="oval" >
 
     <size
-        android:height="75dp"
-        android:width="75dp" />
+        android:height="60dp"
+        android:width="60dp" />
 
-    <solid android:color="#B3B3B3" />
+    <solid android:color="@color/main_menu_button_text_color" />
 
 </shape>

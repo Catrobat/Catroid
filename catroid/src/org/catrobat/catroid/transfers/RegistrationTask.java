@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -89,8 +89,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
 					country, token, gender, birthdayMonth, birthdayYear, city);
 
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			prefs.edit().putString(Constants.TOKEN, token).commit();
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
 
 			return true;
 
