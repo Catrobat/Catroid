@@ -59,10 +59,10 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 
 		setContentView(R.layout.activity_soundrecorder);
 
-		recordLayout = (LinearLayout) findViewById(R.id.recordLayout);
-		recordButton = (ImageView) findViewById(R.id.recordButton);
-		recordText = (TextView) findViewById(R.id.recordText);
-		recordingIndicationText = (TextView) findViewById(R.id.recording);
+		recordLayout = (LinearLayout) findViewById(R.id.soundrecorder_linearlayout_record);
+		recordButton = (ImageView) findViewById(R.id.soundrecorder_imageview_record);
+		recordText = (TextView) findViewById(R.id.soundrecorder_textview_record_start_stop);
+		recordingIndicationText = (TextView) findViewById(R.id.soundrecorder_textview_recording_hint);
 
 		recordLayout.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
@@ -75,7 +75,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	protected void onDestroy() {
 		super.onDestroy();
 
-		unbindDrawables(findViewById(R.id.SoundrecorderActivityRoot));
+		unbindDrawables(findViewById(R.id.soundrecorder));
 		System.gc();
 	}
 
@@ -93,7 +93,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.recordLayout) {
+		if (v.getId() == R.id.soundrecorder_linearlayout_record) {
 			if (soundRecorder != null && soundRecorder.isRecording()) {
 				stopRecording();
 				finish();
