@@ -19,10 +19,10 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/SoundrecorderActivityRoot"
+    android:id="@+id/soundrecorder"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -38,7 +38,7 @@
         android:textColor="@color/dark_gray" />
 
     <ImageView
-        android:id="@+id/recordButton"
+        android:id="@+id/soundrecorder_imageview_record"
         android:layout_width="wrap_content"
         android:layout_height="80dip"
         android:layout_gravity="center_horizontal"
@@ -46,18 +46,18 @@
         android:src="@drawable/ic_record_inactive" />
 
     <TextView
-        android:id="@+id/recording"
+        android:id="@+id/soundrecorder_textview_recording_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingTop="30dip"
         android:text="@string/soundrecorder_recording"
         android:textColor="#000000"
-        android:textSize="25dip"
+        android:textSize="25sp"
         android:visibility="invisible" />
 
     <LinearLayout
-        android:id="@+id/recordLayout"
+        android:id="@+id/soundrecorder_linearlayout_record"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -71,7 +71,7 @@
         android:shadowRadius="4" >
 
         <TextView
-            android:id="@+id/recordText"
+            android:id="@+id/soundrecorder_textview_record_start_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -79,15 +79,5 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
     </LinearLayout>
-
-    <!--
-         <Button
-        android:id="@+id/buttonRecord"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:drawableLeft="@drawable/ic_record_inactive_button"
-        android:text="@string/soundrecorder_record_start" />
-    -->
 
 </LinearLayout>
