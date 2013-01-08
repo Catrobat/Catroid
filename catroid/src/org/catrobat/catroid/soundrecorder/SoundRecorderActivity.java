@@ -24,6 +24,7 @@ package org.catrobat.catroid.soundrecorder;
 
 import java.io.IOException;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
 
@@ -40,7 +41,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -65,12 +65,6 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		recordingIndicationText = (TextView) findViewById(R.id.recording);
 
 		recordLayout.setOnClickListener(this);
-
-		soundRecorder = (SoundRecorder) getLastCustomNonConfigurationInstance();
-		if (soundRecorder != null && soundRecorder.isRecording()) {
-			setViewsToRecordingState();
-		}
-
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
 
@@ -113,11 +107,6 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	public void onBackPressed() {
 		stopRecording();
 		super.onBackPressed();
-	}
-
-	@Override
-	public Object onRetainCustomNonConfigurationInstance() {
-		return soundRecorder;
 	}
 
 	private synchronized void startRecording() {
