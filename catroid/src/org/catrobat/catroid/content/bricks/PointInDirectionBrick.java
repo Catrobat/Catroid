@@ -95,8 +95,8 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void execute() {
-		double degreeOffset = 90f;
-		sprite.costume.rotation = (float) (-degrees + degreeOffset);
+		int degreeOffset = 90;
+		sprite.costume.rotation = (-degrees + degreeOffset);
 	}
 
 	@Override
