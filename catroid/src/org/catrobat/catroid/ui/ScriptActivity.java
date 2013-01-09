@@ -43,15 +43,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.Spinner;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -119,28 +118,28 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 
-		//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		//		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
-		//				android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(
-		//						R.array.sprite_activity_spinner_items));
-		//
-		//		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
-		//			@Override
-		//			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		//				Log.d("TEST", "spinner clicked!");
-		//				if (itemPosition != currentFragmentPosition) {
-		//					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		//
-		//					hideFragment(currentFragmentPosition, fragmentTransaction);
-		//					updateCurrentFragment(itemPosition, fragmentTransaction);
-		//
-		//					fragmentTransaction.commit();
-		//				}
-		//				return true;
-		//			}
-		//		});
-		//		actionBar.setSelectedNavigationItem(currentFragmentPosition);
+		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(
+						R.array.script_activity_spinner_items));
+
+		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
+			@Override
+			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+				Log.d("TEST", "spinner clicked!");
+				if (itemPosition != currentFragmentPosition) {
+					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+					hideFragment(currentFragmentPosition, fragmentTransaction);
+					updateCurrentFragment(itemPosition, fragmentTransaction);
+
+					fragmentTransaction.commit();
+				}
+				return true;
+			}
+		});
+		actionBar.setSelectedNavigationItem(currentFragmentPosition);
 	}
 
 	private void hideFragment(int fragment, FragmentTransaction fragmentTransaction) {
@@ -240,46 +239,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_script_activity, menu);
-
-		MenuItem item = menu.findItem(R.id.spinner);
-		final Spinner spinner = (Spinner) item.getActionView();
-
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position != currentFragmentPosition) {
-					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-					hideFragment(currentFragmentPosition, fragmentTransaction);
-					updateCurrentFragment(position, fragmentTransaction);
-
-					fragmentTransaction.commit();
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-
-			}
-		});
-		spinner.setSelection(currentFragmentPosition);
-
-		spinner.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					if (isHoveringActive()) {
-						spinner.setClickable(false);
-						spinnerDisabled = true;
-					} else if (spinnerDisabled) {
-						spinner.setClickable(true);
-						spinnerDisabled = false;
-					}
-				}
-				return false;
-			}
-		});
 		return super.onCreateOptionsMenu(menu);
 	}
 
