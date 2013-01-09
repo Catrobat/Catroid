@@ -108,8 +108,8 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 		View view = View.inflate(context, R.layout.brick_point_in_direction, null);
 
-		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_text_view);
-		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text_set_angle);
+		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
+		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
 		Button setAngleButton = (Button) view.findViewById(R.id.brick_point_in_direction_button_set_angle);
 
 		setAngleEditText.setText(String.valueOf(degrees));
