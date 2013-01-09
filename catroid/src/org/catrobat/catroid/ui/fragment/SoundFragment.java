@@ -66,18 +66,16 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
-		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
+		LoaderManager.LoaderCallbacks<Cursor> {
 
 	private class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
 		private ProgressDialog progressDialog = new ProgressDialog(getActivity());
@@ -129,8 +127,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private static int currentSoundPosition = Constants.NO_POSITION;
 
-	private View viewBelowSoundlistNonScrollable;
-	private View soundlistFooterView;
 	private View currentPlayingView = null;
 
 	private ListView listView;
@@ -161,17 +157,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (savedInstanceState != null) {
 			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-
-		viewBelowSoundlistNonScrollable = getActivity().findViewById(R.id.view_below_soundlist_non_scrollable);
-		viewBelowSoundlistNonScrollable.setOnClickListener(this);
-
-		View footerView = getActivity().getLayoutInflater().inflate(R.layout.fragment_sound_soundlist_footer, listView,
-				false);
-		soundlistFooterView = footerView.findViewById(R.id.soundlist_footerview);
-		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.soundlist_footerview_add_image);
-		footerAddImage.setAlpha(Constants.FOOTER_ADD_ALPHA_VALUE);
-		soundlistFooterView.setOnClickListener(this);
-		listView.addFooterView(footerView);
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
@@ -222,8 +207,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
 
 		stopSound();
-
-		addSoundViewsSetClickableFlag(true);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -424,25 +407,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.view_below_soundlist_non_scrollable:
-				addSoundViewsSetClickableFlag(false);
-				handleAddButton();
-				break;
-			case R.id.soundlist_footerview:
-				addSoundViewsSetClickableFlag(false);
-				handleAddButton();
-				break;
-		}
-	}
-
-	private void addSoundViewsSetClickableFlag(boolean setClickableFlag) {
-		viewBelowSoundlistNonScrollable.setClickable(setClickableFlag);
-		soundlistFooterView.setClickable(setClickableFlag);
 	}
 
 	private void updateSoundAdapter(String title, String fileName) {

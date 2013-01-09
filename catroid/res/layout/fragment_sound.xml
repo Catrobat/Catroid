@@ -35,11 +35,4 @@
         android:dividerHeight="1dp"
         android:cacheColorHint="#00000000" />
 
-    <View
-        android:id="@+id/view_below_soundlist_non_scrollable"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@android:id/list"
-        android:clickable="true" />
-
 </RelativeLayout>
