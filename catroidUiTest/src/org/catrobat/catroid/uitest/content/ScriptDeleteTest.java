@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -37,7 +38,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -77,9 +77,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Set costume brick was not added", solo.searchText(brickSetCostumeText));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_size_to);
-		solo.clickOnText(brickSetCostumeText);
-		assertTrue("Set size to brick was not added",
-				solo.searchText(solo.getString(R.string.brick_set_size_to)));
+		assertTrue("Set size to brick was not added", solo.searchText(solo.getString(R.string.brick_set_size_to)));
 	}
 
 	public void testDeleteScript() {

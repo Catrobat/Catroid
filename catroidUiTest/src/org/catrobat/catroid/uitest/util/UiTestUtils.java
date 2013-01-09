@@ -642,10 +642,10 @@ public class UiTestUtils {
 	}
 
 	public static int getAddedListItemYPosition(Solo solo) {
-		ArrayList<Integer> yPositionList = getListItemYPositions(solo);
-		int pos = (yPositionList.size() - 1) / 2;
+		ArrayList<Integer> yPositionsList = getListItemYPositions(solo);
+		int middleYPositionIndex = yPositionsList.size() / 2;
 
-		return yPositionList.get(pos);
+		return yPositionsList.get(middleYPositionIndex);
 	}
 
 	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,
