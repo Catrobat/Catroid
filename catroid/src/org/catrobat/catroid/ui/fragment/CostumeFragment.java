@@ -150,7 +150,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 		getListView().addFooterView(footerView);
 
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList);
+		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList, false);
 		adapter.setOnCostumeEditListener(this);
 		setListAdapter(adapter);
 	}
@@ -402,7 +402,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 		if (currentSprite != null) {
 			costumeDataList = currentSprite.getCostumeDataList();
 			CostumeAdapter adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item,
-					costumeDataList);
+					costumeDataList, false);
 			adapter.setOnCostumeEditListener(this);
 			setListAdapter(adapter);
 		}
@@ -650,13 +650,21 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 
 	@Override
 	public void setShowDetails(boolean showDetails) {
-		adapter.setShowDetails(showDetails);
-		adapter.notifyDataSetChanged();
+		// TODO CHANGE THIS!!! (was just a quick fix)
+		if (adapter != null) {
+			adapter.setShowDetails(showDetails);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
 	public boolean getShowDetails() {
-		return adapter.getShowDetails();
+		// TODO CHANGE THIS!!! (was just a quick fix)
+		if (adapter != null) {
+			return adapter.getShowDetails();
+		} else {
+			return false;
+		}
 	}
 
 	@Override

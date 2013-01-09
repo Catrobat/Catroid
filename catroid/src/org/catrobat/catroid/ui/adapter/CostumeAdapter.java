@@ -47,9 +47,11 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 
 	private boolean showDetails;
 
-	public CostumeAdapter(final Context context, int textViewResourceId, ArrayList<CostumeData> items) {
+	public CostumeAdapter(final Context context, int textViewResourceId, ArrayList<CostumeData> items,
+			boolean showDetails) {
 		super(context, textViewResourceId, items);
 		this.context = context;
+		this.showDetails = showDetails;
 		costumeDataItems = items;
 	}
 
