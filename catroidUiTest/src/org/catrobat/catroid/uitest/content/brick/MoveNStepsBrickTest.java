@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -109,10 +109,4 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
 	}
 
-	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.1, 50, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 12345.6789, 50, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -0.1, 50, true);
-		UiTestUtils.testDoubleEditText(solo, 0, -12345.6789, 50, false);
-	}
 }

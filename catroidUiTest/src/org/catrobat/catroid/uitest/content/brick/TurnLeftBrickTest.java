@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -92,13 +92,6 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<MainMenu
 		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnLeftBrick);
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
-	}
-
-	public void testResizeInputField() {
-		UiTestUtils.testDoubleEditText(solo, 0, 1.0, 75, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1080.55, 75, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 0.75, 75, true);
-		UiTestUtils.testDoubleEditText(solo, 0, 1080.555, 75, false);
 	}
 
 	private void createProject() {

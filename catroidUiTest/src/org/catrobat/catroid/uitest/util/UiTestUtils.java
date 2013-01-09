@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.util;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
@@ -151,17 +150,17 @@ public class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 * 
-	 * @param editTextId
+	 * @param editTextIndex
 	 *            The ID of the EditText to click on
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
-	public static void insertDoubleIntoEditText(Solo solo, int editTextId, double value) {
-		insertValue(solo, editTextId, value + "");
+	public static void insertDoubleIntoEditText(Solo solo, int editTextIndex, double value) {
+		insertValue(solo, editTextIndex, value + "");
 	}
 
-	private static void insertValue(Solo solo, int editTextId, String value) {
-		solo.clickOnEditText(editTextId);
+	private static void insertValue(Solo solo, int editTextIndex, String value) {
+		solo.clickOnEditText(editTextIndex);
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
@@ -169,15 +168,16 @@ public class UiTestUtils {
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
-		enterText(solo, 0, value);
-		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.clearEditText(0);
+		solo.enterText(0, value);
+		solo.clickOnButton(0);
 		solo.sleep(50);
 	}
 
 	private static void initBrickCategoryMap() {
 		brickCategoryMap = new SparseIntArray();
 
-		brickCategoryMap.put(R.string.brick_place_at, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_place_at_x, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_x, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_y, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_change_x_by, R.string.category_motion);
@@ -626,34 +626,6 @@ public class UiTestUtils {
 		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], 10);
 	}
 
-	public static void testIntegerEditText(Solo solo, int editTextIndex, int value, int editTextMinWidth,
-			boolean assertMode) {
-		insertIntegerIntoEditText(solo, editTextIndex, value);
-		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
-	}
-
-	public static void testDoubleEditText(Solo solo, int editTextIndex, double value, int editTextMinWidth,
-			boolean assertMode) {
-		insertDoubleIntoEditText(solo, editTextIndex, value);
-		testEditText(solo, editTextIndex, value + "", editTextMinWidth, assertMode);
-	}
-
-	private static void testEditText(Solo solo, int editTextIndex, String value, int editTextMinWidth,
-			boolean assertMode) {
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(400);
-		int width = 0;
-		if (assertMode) {
-			assertTrue("EditText not resized - value not (fully) visible", solo.searchText(value));
-			width = solo.getEditText(editTextIndex).getWidth();
-			assertTrue("Minwidth of EditText should be " + editTextMinWidth + " dpi",
-					width >= Utils.getPhysicalPixels(editTextMinWidth, solo.getCurrentActivity().getBaseContext()));
-		} else {
-			assertFalse("Number too long - should not be resized and fully visible", solo.searchText(value));
-		}
-	}
-
 	/**
 	 * Returns the absolute pixel y coordinates of the displayed bricks
 	 * 
@@ -680,10 +652,10 @@ public class UiTestUtils {
 	}
 
 	public static int getAddedListItemYPosition(Solo solo) {
-		ArrayList<Integer> yPositionList = getListItemYPositions(solo);
-		int pos = (yPositionList.size() - 1) / 2;
+		ArrayList<Integer> yPositionsList = getListItemYPositions(solo);
+		int middleYPositionIndex = yPositionsList.size() / 2;
 
-		return yPositionList.get(pos);
+		return yPositionsList.get(middleYPositionIndex);
 	}
 
 	public static void longClickAndDrag(final Solo solo, final float xFrom, final float yFrom, final float xTo,

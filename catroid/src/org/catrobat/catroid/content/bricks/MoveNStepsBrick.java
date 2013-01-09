@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -35,7 +36,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class MoveNStepsBrick implements Brick, OnClickListener {
 
@@ -83,7 +83,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_text_view);
+		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));

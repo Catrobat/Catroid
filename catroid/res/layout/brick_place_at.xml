@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -20,105 +20,38 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout01"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_blue" >
-
-    <LinearLayout
-        android:id="@+id/brick_place_at_linear_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" >
-
-        <TextView
-            android:id="@+id/TextView01"
-            style="@style/brick_text_style"
-            android:paddingRight="10dip"
-            android:text="@string/x_label" >
-        </TextView>
-
-        <TextView
-            android:id="@+id/brick_place_at_x_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dip"
-            android:background="@color/white"
-            android:gravity="right"
-            android:minHeight="30dip"
-            android:minWidth="50dip"
-            android:paddingRight="5dip"
-            android:text="0"
-            android:textSize="20dip" >
-        </TextView>
-
-        <EditText
-            android:id="@+id/brick_place_at_x_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:gravity="right"
-            android:inputType="number|numberDecimal|numberSigned"
-            android:maxLength="5"
-            android:maxLines="1"
-            android:minWidth="60dip"
-            android:text="0"
-            android:visibility="gone" >
-        </EditText>
-
-        <TextView
-            android:id="@+id/TextView02"
-            style="@style/brick_text_style"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:text="@string/y_label" >
-        </TextView>
-
-        <TextView
-            android:id="@+id/brick_place_at_y_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dip"
-            android:background="@color/white"
-            android:gravity="right"
-            android:minHeight="30dip"
-            android:minWidth="50dip"
-            android:paddingRight="5dip"
-            android:text="0"
-            android:textSize="20dip" >
-        </TextView>
-
-        <EditText
-            android:id="@+id/brick_place_at_y_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:gravity="right"
-            android:inputType="number|numberDecimal|numberSigned"
-            android:maxLength="5"
-            android:maxLines="1"
-            android:minWidth="60dip"
-            android:text="0"
-            android:visibility="gone" >
-        </EditText>
-    </LinearLayout>
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BrickContainer.Motion.Small" >
 
     <TextView
-        android:id="@+id/ValueTextViewXY"
-        style="@style/brick_text_style"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/brick_place_at_linear_layout"
-        android:text="@string/brick_place_at" >
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_place_at_x" >
     </TextView>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/brick_place_at_prototype_text_view_x"
+        style="@style/BrickPrototypeTextView" />
+
+    <EditText
+        android:id="@+id/brick_place_at_edit_text_x"
+        style="@style/BrickEditText"
+        android:inputType="number|numberDecimal|numberSigned" >
+    </EditText>
+
+    <TextView
+        style="@style/BrickText.SingleLine"
+        android:text="@string/y_label" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/brick_place_at_prototype_text_view_y"
+        style="@style/BrickPrototypeTextView" />
+
+    <EditText
+        android:id="@+id/brick_place_at_edit_text_y"
+        style="@style/BrickEditText"
+        android:inputType="number|numberDecimal|numberSigned" >
+    </EditText>
+
+</LinearLayout>

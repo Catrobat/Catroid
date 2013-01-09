@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@
     <string name="main_menu_continue">Continue</string>
     <string name="main_menu_programs">Programs</string>
     <string name="main_menu_forum">Forum</string>
-    <string name="main_menu_web">Web</string>
+    <string name="main_menu_web">Community</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_settings">Settings</string>
     <string name="main_menu_about_catroid">About Catroid</string>
@@ -88,7 +88,6 @@
 
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
-    <string name="spritelist_footer_image_description">Tap to add new sprite</string>
     <!--  -->
 
     <!-- Script activity -->
@@ -133,10 +132,9 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Project</string>
-    <string name="myprojectlist_footer_image_description">Tap to add new project</string>
     <string name="notification_title_copy_project">Copy project</string>
-	<string name="copy_project_finished"> copied.</string>
-	<!--  -->
+    <string name="copy_project_finished"> copied.</string>
+    <!--  -->
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
@@ -218,8 +216,7 @@
     <!--  -->
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">Place at</string>
-    <string name="x_label">X:</string>
+    <string name="brick_place_at_x">Place at X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Set X to:</string>
     <string name="brick_set_y">Set Y to:</string>
@@ -232,13 +229,13 @@
     <string name="brick_move">Move</string>
     <string name="brick_move_n_steps">steps</string>
     <string name="brick_turn_left">Turn left</string>
-    <string name="brick_turn_left_n_degrees">degrees</string>
+    <string name="brick_turn_left_degrees">degrees</string>
     <string name="brick_turn_right">Turn right</string>
-    <string name="brick_turn_right_n_degrees">degrees</string>
+    <string name="brick_turn_right_degrees">degrees</string>
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_to">Point towards</string>
     <string name="brick_glide">Glide</string>
-    <string name="brick_glide_to">to</string>
+    <string name="brick_glide_to_x">to X:</string>
     <!--  -->
 
     <!-- Looks bricks -->
@@ -309,7 +306,7 @@
     <!--  -->
 
     <!-- Error messages -->
-    <string name="error_no_sd_card">Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
+    <string name="error_no_writiable_external_storage_available">Catroid requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
     <string name="error_project_exists">A project with the same name already exists.\nPlease choose a different name.</string>
     <string name="error_project_upload">An error occurred while uploading the project.</string>

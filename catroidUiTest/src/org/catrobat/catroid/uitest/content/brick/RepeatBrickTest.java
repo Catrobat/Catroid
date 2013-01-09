@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -82,13 +82,6 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_repeat)));
-	}
-
-	public void testResizeInputField() {
-		UiTestUtils.testIntegerEditText(solo, 0, 1, 75, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 1234567891, 75, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 123, 75, true);
-		UiTestUtils.testIntegerEditText(solo, 0, -1234567891, 75, false);
 	}
 
 	private void createProject() {

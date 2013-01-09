@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -91,13 +91,6 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		int xPosition = (Integer) UiTestUtils.getPrivateField("xPosition", setXBrick);
 		assertEquals("Wrong text in field.", SET_X, xPosition);
 		assertEquals("Value in Brick is not updated.", SET_X + "", solo.getEditText(0).getText().toString());
-	}
-
-	public void testResizeInputField() {
-		UiTestUtils.testIntegerEditText(solo, 0, 1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 123456, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, -1, 50, true);
-		UiTestUtils.testIntegerEditText(solo, 0, 1234567, 50, false);
 	}
 
 	private void createProject() {

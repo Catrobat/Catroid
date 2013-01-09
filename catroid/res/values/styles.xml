@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -30,16 +30,17 @@
 
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@color/actionbar_background</item>
-        <item name="height">@dimen/actionbar_height</item>
         <item name="android:background">@color/actionbar_background</item>
         <item name="homeAsUpIndicator">@drawable/actionbar_ic_back</item>
         <item name="android:homeAsUpIndicator">@drawable/actionbar_ic_back</item>
         <item name="titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="android:titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
+        <item name="height">@dimen/actionbar_height</item>
     </style>
 
     <style name="Widget.Catroid.ActionBar.Title" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/actionbar_title_color</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TabText">
@@ -84,19 +85,27 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
-    <style name="DashboardButton">
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:drawablePadding">2dp</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:background">@null</item>
-        <item name="android:singleLine">true</item>
+    <style name="MainMenuButton">
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/main_menu_button_background</item>
+        <item name="android:drawablePadding">25dp</item>
+        <item name="android:drawableRight">@drawable/ic_main_menu_button_arrow</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textSize">@dimen/text_size_xxlarge</item>
+        <item name="android:textColor">@color/main_menu_button_text_color</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">@color/main_menu_button_text_shadow_color</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">3</item>
     </style>
-    
-     <style name="ProgramMenuButton">
+
+    <style name="ProgramMenuButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dip</item>
         <item name="android:layout_weight">0.3</item>
@@ -110,12 +119,54 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="brick_text_style">
+    <style name="BrickText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BrickText.SingleLine">
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText">
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:clickable">false</item>
+        <item name="android:minWidth">@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item>
+        <item name="android:gravity">right</item>
+        <item name="android:maxEms">5</item>
+        <item name="android:minEms">3</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
+        <item name="android:maxLines">1</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="BrickContainer">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="BrickContainer.Motion">
+        <item name="android:background">@drawable/brick_blue</item>
+    </style>
+
+    <style name="BrickContainer.Motion.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+    </style>
+
+    <style name="BrickContainer.Motion.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+    </style>
+
+    <style name="BrickContainer.Motion.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
     </style>
 
     <style name="brick_new">

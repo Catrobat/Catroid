@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,7 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_to)));
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.point_to_spinner));
+		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_point_to_spinner));
 
 		String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
 		solo.waitForText(spinnerNothingSelectedText);

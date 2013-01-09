@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,6 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -131,11 +130,11 @@ public class AddBrickDialog extends DialogFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.dialog_add_brick, null);
+		View rootView = inflater.inflate(R.layout.dialog_brick_add, null);
 
-		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.btn_close_dialog);
-		TextView textView = (TextView) rootView.findViewById(R.id.tv_dialog_title);
-		listView = (ListView) rootView.findViewById(R.id.addBrickDialogListView);
+		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.dialog_brick_title_button_close);
+		TextView textView = (TextView) rootView.findViewById(R.id.dialog_brick_title_text_view_title);
+		listView = (ListView) rootView.findViewById(R.id.dialog_brick_add_list_view);
 
 		closeButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -165,7 +164,6 @@ public class AddBrickDialog extends DialogFragment {
 		brickMap = setupBrickMap(ProjectManager.getInstance().getCurrentSprite(), context);
 		adapter = new PrototypeBrickAdapter(context, brickMap.get(selectedCategory));
 		listView.setAdapter(adapter);
-
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -182,7 +180,7 @@ public class AddBrickDialog extends DialogFragment {
 				dismiss();
 
 				BrickCategoryDialog brickCategoryDialog = (BrickCategoryDialog) getFragmentManager().findFragmentByTag(
-						"dialog_brick_category");
+						BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
 				brickCategoryDialog.dismiss();
 			}
 

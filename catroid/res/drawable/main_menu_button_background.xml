@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -21,13 +21,26 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <size
-        android:height="75dp"
-        android:width="75dp" />
+    <item>
+        <shape android:shape="rectangle" >
+            <stroke
+                android:width="1.3dp"
+                android:color="@color/main_menu_button_background_top_border_color" >
+            </stroke>
+        </shape>
+    </item>
+    <item android:top="1.3dp">
+        <shape android:shape="rectangle" >
+            <gradient
+                android:angle="270.0"
+                android:centerColor="@color/main_menu_button_background_gradient_start_color"
+                android:centerY="0.67"
+                android:endColor="@color/main_menu_button_background_gradient_end_color"
+                android:startColor="@color/main_menu_button_background_gradient_start_color"
+                android:type="linear" />
+        </shape>
+    </item>
 
-    <solid android:color="#B3B3B3" />
-
-</shape>
+</layer-list>

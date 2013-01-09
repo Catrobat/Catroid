@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.catrobat.catroid.soundrecorder;
 
 import java.io.IOException;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
 
@@ -40,7 +41,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -59,19 +59,13 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 
 		setContentView(R.layout.activity_soundrecorder);
 
-		recordLayout = (LinearLayout) findViewById(R.id.recordLayout);
-		recordButton = (ImageView) findViewById(R.id.recordButton);
-		recordText = (TextView) findViewById(R.id.recordText);
-		recordingIndicationText = (TextView) findViewById(R.id.recording);
+		recordLayout = (LinearLayout) findViewById(R.id.soundrecorder_linearlayout_record);
+		recordButton = (ImageView) findViewById(R.id.soundrecorder_imageview_record);
+		recordText = (TextView) findViewById(R.id.soundrecorder_textview_record_start_stop);
+		recordingIndicationText = (TextView) findViewById(R.id.soundrecorder_textview_recording_hint);
 
 		recordLayout.setOnClickListener(this);
-
-		soundRecorder = (SoundRecorder) getLastCustomNonConfigurationInstance();
-		if (soundRecorder != null && soundRecorder.isRecording()) {
-			setViewsToRecordingState();
-		}
-
-		Utils.checkForSdCard(this);
+		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -81,7 +75,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	protected void onDestroy() {
 		super.onDestroy();
 
-		unbindDrawables(findViewById(R.id.SoundrecorderActivityRoot));
+		unbindDrawables(findViewById(R.id.soundrecorder));
 		System.gc();
 	}
 
@@ -99,7 +93,7 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.recordLayout) {
+		if (v.getId() == R.id.soundrecorder_linearlayout_record) {
 			if (soundRecorder != null && soundRecorder.isRecording()) {
 				stopRecording();
 				finish();
@@ -113,11 +107,6 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 	public void onBackPressed() {
 		stopRecording();
 		super.onBackPressed();
-	}
-
-	@Override
-	public Object onRetainCustomNonConfigurationInstance() {
-		return soundRecorder;
 	}
 
 	private synchronized void startRecording() {

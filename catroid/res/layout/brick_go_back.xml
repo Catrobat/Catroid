@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -20,66 +20,28 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout01"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_blue"
-    android:orientation="horizontal" >
+    style="@style/BrickContainer.Motion.Small" >
 
     <TextView
-        android:id="@+id/ValueTextView"
-        style="@style/brick_text_style"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="10dip"
+        style="@style/BrickText.SingleLine"
         android:text="@string/brick_go_back" >
     </TextView>
 
     <TextView
-        android:id="@+id/brick_go_back_n_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dip"
-        android:layout_toLeftOf="@+id/LabelTextView"
-        android:background="@color/white"
-        android:gravity="right"
-        android:minHeight="30dip"
-        android:minWidth="50dip"
-        android:paddingRight="5dip"
-        android:text="1"
-        android:textSize="20dip" >
+        android:id="@+id/brick_go_back_prototype_text_view"
+        style="@style/BrickPrototypeTextView" >
     </TextView>
 
     <EditText
         android:id="@+id/brick_go_back_edit_text"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/LabelTextView"
-        android:clickable="true"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:freezesText="false"
-        android:gravity="right"
-        android:inputType="number"
-        android:maxLength="5"
-        android:maxLines="1"
-        android:text="1"
-        android:visibility="gone" >
+        style="@style/BrickEditText"
+        android:inputType="number" >
     </EditText>
 
     <TextView
-        android:id="@+id/LabelTextView"
-        style="@style/brick_text_style"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingBottom="10dip"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
+        style="@style/BrickText.SingleLine"
         android:text="@string/brick_go_back_layers" >
     </TextView>
 

@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -153,7 +153,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onResume() {
 		super.onResume();
 
-		if (!Utils.checkForSdCard(getActivity())) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
 		}
 
@@ -238,15 +238,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onCategorySelected(String category) {
 		selectedCategory = category;
 
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment prev = getFragmentManager().findFragmentByTag("dialog_add_brick");
-		if (prev != null) {
-			ft.remove(prev);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		Fragment previousFragment = getFragmentManager().findFragmentByTag(AddBrickDialog.DIALOG_FRAGMENT_TAG);
+		if (previousFragment != null) {
+			fragmentTransaction.remove(previousFragment);
 		}
-		ft.addToBackStack(null);
+		fragmentTransaction.addToBackStack(null);
 
 		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory, this);
-		addBrickDialog.show(ft, AddBrickDialog.DIALOG_FRAGMENT_TAG);
+		addBrickDialog.show(fragmentTransaction, AddBrickDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
@@ -274,7 +274,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		} else {
 			int firstVisibleBrick = listView.getFirstVisiblePosition();
 			int lastVisibleBrick = listView.getLastVisiblePosition();
-			int position = ((lastVisibleBrick - firstVisibleBrick) / 2);
+			int position = ((1 + lastVisibleBrick - firstVisibleBrick) / 2);
 			position += firstVisibleBrick;
 			adapter.addNewBrick(position, brickToBeAdded);
 

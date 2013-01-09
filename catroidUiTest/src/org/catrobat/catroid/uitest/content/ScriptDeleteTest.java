@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -77,7 +77,6 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Set costume brick was not added", solo.searchText(brickSetCostumeText));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_size_to);
-		solo.clickOnText(brickSetCostumeText);
 		assertTrue("Set size to brick was not added", solo.searchText(solo.getString(R.string.brick_set_size_to)));
 	}
 

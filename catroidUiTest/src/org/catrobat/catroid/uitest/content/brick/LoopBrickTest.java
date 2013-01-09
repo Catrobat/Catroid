@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -106,8 +106,6 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo);
 		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.drag(20, 20, addedYPosition, yPosition.get(2), 20);
-
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
 
@@ -166,7 +164,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.drag(20, 20, addedYPosition, yPosition.get(3), 20);
+		solo.drag(20, 20, addedYPosition, yPosition.get(2) + 20, 20);
 		solo.sleep(200);
 
 		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
@@ -195,7 +193,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.drag(20, 20, addedYPosition, yPosition.get(8) + 20, 20);
+		//solo.drag(20, 20, addedYPosition, yPosition.get(8) + 20, 20);
+		solo.drag(20, 20, addedYPosition, yPosition.get(6), 20);
 		solo.sleep(200);
 
 		assertEquals("Incorrect number of bricks.", 9, projectBrickList.size());

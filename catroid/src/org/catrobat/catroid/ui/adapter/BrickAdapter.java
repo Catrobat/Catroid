@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -655,10 +655,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		}
 
-		Rect rectgle = new Rect();
+		Rect rectangle = new Rect();
 		Window window = ((Activity) context).getWindow();
-		window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
-		int statusBarHeight = rectgle.top;
+		window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+		int statusBarHeight = rectangle.top;
 
 		footerHeight = Values.SCREEN_HEIGHT - height - statusBarHeight
 				- (int) context.getResources().getDimension(R.dimen.actionbar_height)
