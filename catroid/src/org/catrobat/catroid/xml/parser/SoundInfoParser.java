@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,11 @@
  */
 package org.catrobat.catroid.xml.parser;
 
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.FILE_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,41 +39,37 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 public class SoundInfoParser {
 	References references = new References();
-	List<SoundInfo> soundList;
 	ObjectCreator objectGetter = new ObjectCreator();
 
 	public void parseSoundInfo(NodeList soundNodes, Sprite sprite, Map<String, Object> referencedObjects,
-			List<ForwardReferences> forwardRefs) throws Throwable {
-		soundList = new ArrayList<SoundInfo>();
+			List<ForwardReference> forwardReferences) throws Throwable {
+
+		List<SoundInfo> soundInfos = new ArrayList<SoundInfo>();
 		for (int n = 0; n < soundNodes.getLength(); n++) {
 			Node soundNode = soundNodes.item(n);
 			if (soundNode.getNodeType() != Node.TEXT_NODE) {
 				Element soundElement = (Element) soundNode;
 				SoundInfo foundSoundInfo = new SoundInfo();
-				String soundRef = References.getReferenceAttribute(soundNode);
-				if (soundRef != null) {
-					String suffix = soundRef.substring(soundRef
-							.lastIndexOf(CatroidXMLConstants.SCRIPT_LIST_ELEMENT_NAME));
+				String soundReference = References.getReferenceAttribute(soundNode);
+				if (soundReference != null) {
+					String suffix = soundReference.substring(soundReference.lastIndexOf(SCRIPT_LIST_ELEMENT_NAME));
 
 					if (referencedObjects.containsKey(suffix)) {
 						foundSoundInfo = (SoundInfo) referencedObjects.get(suffix);
 						referencedObjects.remove(suffix);
 					} else {
-
-						foundSoundInfo = (SoundInfo) references.resolveReference(foundSoundInfo, soundNode, soundRef,
-								referencedObjects, forwardRefs);
+						foundSoundInfo = (SoundInfo) references.resolveReference(foundSoundInfo, soundNode,
+								soundReference, referencedObjects, forwardReferences);
 					}
 				} else {
-
-					Node soundFileNameNode = soundElement.getElementsByTagName(CatroidXMLConstants.FILE_NAME).item(0);
+					Node soundFileNameNode = soundElement.getElementsByTagName(FILE_NAME).item(0);
 					String soundFileName = null;
 					if (soundFileNameNode != null) {
 						soundFileName = soundFileNameNode.getChildNodes().item(0).getNodeValue();
 					}
-					Node soundNameNode = soundElement.getElementsByTagName(CatroidXMLConstants.NAME).item(0);
+					Node soundNameNode = soundElement.getElementsByTagName(NAME).item(0);
 					String soundName = null;
 					if (soundNameNode != null) {
 						soundName = soundNameNode.getChildNodes().item(0).getNodeValue();
@@ -76,22 +77,19 @@ public class SoundInfoParser {
 					foundSoundInfo = new SoundInfo();
 					foundSoundInfo.setSoundFileName(soundFileName);
 					foundSoundInfo.setTitle(soundName);
-
 				}
-				soundList.add(foundSoundInfo);
-				String soundInfoXPath = ParserUtil.getElementXpath(soundElement);
+				soundInfos.add(foundSoundInfo);
+				String soundInfoXPath = ParserUtil.getElementXPath(soundElement);
 				referencedObjects.put(soundInfoXPath, foundSoundInfo);
-				String playSoundQeuery = soundInfoXPath.substring(soundInfoXPath
-						.lastIndexOf(CatroidXMLConstants.SOUND_LIST_ELEMENT_NAME));
-				PlaySoundBrick playSoundBrickWithRef = (PlaySoundBrick) referencedObjects
-						.get("PlaySounfRef../../../../../" + playSoundQeuery);
-				if (playSoundBrickWithRef != null) {
-					playSoundBrickWithRef.setSoundInfo(foundSoundInfo);
+				String playSoundQuery = soundInfoXPath.substring(soundInfoXPath.lastIndexOf(SOUND_LIST_ELEMENT_NAME));
+				PlaySoundBrick playSoundBrickWithReference = (PlaySoundBrick) referencedObjects
+						.get("PlaySounfRef../../../../../" + playSoundQuery);
+				if (playSoundBrickWithReference != null) {
+					playSoundBrickWithReference.setSoundInfo(foundSoundInfo);
 				}
 			}
 		}
 		Field soundListField = sprite.getClass().getDeclaredField("soundList");
-		objectGetter.setFieldOfObject(soundListField, sprite, soundList);
-
+		objectGetter.setFieldOfObject(soundListField, sprite, soundInfos);
 	}
 }

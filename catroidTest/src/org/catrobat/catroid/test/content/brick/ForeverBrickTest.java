@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -35,25 +35,16 @@ import android.test.InstrumentationTestCase;
 
 public class ForeverBrickTest extends InstrumentationTestCase {
 
-	private Sprite testSprite;
-	private StartScript testScript;
-	private LoopEndBrick loopEndBrick;
-	private LoopBeginBrick foreverBrick;
-
-	@Override
-	protected void setUp() throws Exception {
-		testSprite = new Sprite("testSprite");
-	}
-	
 	@FlakyTest(tolerance = 3)
 	public void testForeverBrick() throws InterruptedException {
 		final int fiveIsAlmostForever = 5;
 
-		testSprite.removeAllScripts();
-		testScript = new StartScript(testSprite);
+		Sprite testSprite = new Sprite("testSprite");
 
-		foreverBrick = new ForeverBrick(testSprite);
-		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		StartScript testScript = new StartScript(testSprite);
+
+		LoopBeginBrick foreverBrick = new ForeverBrick(testSprite);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
 		foreverBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
@@ -82,11 +73,12 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		final int deltaY = -10;
 		final int repeatTimes = 5;
 
-		testSprite.removeAllScripts();
-		testScript = new StartScript(testSprite);
+		Sprite testSprite = new Sprite("testSprite");
 
-		foreverBrick = new ForeverBrick(testSprite);
-		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		StartScript testScript = new StartScript(testSprite);
+
+		LoopBeginBrick foreverBrick = new ForeverBrick(testSprite);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
 		foreverBrick.setLoopEndBrick(loopEndBrick);
 
 		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
@@ -112,15 +104,15 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		final long delayByContract = 20;
 		assertEquals("Loop delay was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
 	}
-	
+
 	@FlakyTest(tolerance = 3)
 	public void testNoDelayAtBeginOfLoop() throws InterruptedException {
+		Sprite testSprite = new Sprite("testSprite");
 
-		testSprite.removeAllScripts();
-		testScript = new StartScript(testSprite);
+		StartScript testScript = new StartScript(testSprite);
 
-		foreverBrick = new ForeverBrick(testSprite);
-		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		LoopBeginBrick foreverBrick = new ForeverBrick(testSprite);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
 		foreverBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;

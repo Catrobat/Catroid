@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -100,6 +100,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
+			return;
+		}
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
@@ -201,7 +204,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
 		if (ProjectManager.INSTANCE.getCurrentProject() == null) {
@@ -221,7 +224,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 
-		if (projectManager.getCurrentProject() == null) {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			return;
 		}
 	}
@@ -229,6 +232,10 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	public void onPause() {
 		super.onPause();
+		if (!Utils.externalStorageAvailable()) {
+			return;
+		}
+
 		// onPause is sufficient --> gets called before "process_killed",
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
@@ -245,7 +252,9 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
+		if (!Utils.externalStorageAvailable()) {
+			return;
+		}
 		unbindDrawables(findViewById(R.id.main_menu));
 		System.gc();
 	}

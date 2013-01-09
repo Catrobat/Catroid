@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class XMLValidationUtil {
-	private static final String XML_VALIDATING_URL = "http://catroidtestserver.ist.tugraz.at/xmlSchema/version-0.3/validateXmlVersion3.php";
+	private static final String XML_VALIDATING_URL = "http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/validateXmlVersion3.php";
 	private static final String LOG_TAG = XMLValidationUtil.class.getSimpleName();
 
 	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException, JSONException {

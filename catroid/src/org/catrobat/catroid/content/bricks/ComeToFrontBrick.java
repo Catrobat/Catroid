@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -25,12 +25,12 @@ package org.catrobat.catroid.content.bricks;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -79,7 +79,7 @@ public class ComeToFrontBrick implements Brick {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.brick_come_to_front, null);
+			view = View.inflate(context, R.layout.brick_go_to_front, null);
 		}
 
 		return view;
@@ -92,6 +92,6 @@ public class ComeToFrontBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_come_to_front, null);
+		return View.inflate(context, R.layout.brick_go_to_front, null);
 	}
 }
