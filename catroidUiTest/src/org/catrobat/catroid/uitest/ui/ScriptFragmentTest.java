@@ -162,7 +162,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	/**
-	 * Tests issue#54.
+	 * 
+	 * Tests issue#54. https://github.com/Catrobat/Catroid/issues/54
 	 */
 	public void testOnlyAddControlBricks() {
 		initEmptyProject();
@@ -177,7 +178,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnScreen(20, yPositionList.get(1));
 		solo.sleep(200);
 
-		assertEquals("Two controll bricks should be added.", 2, sprite.getNumberOfScripts());
+		assertEquals("Two control bricks should be added.", 2, sprite.getNumberOfScripts());
 		assertTrue("First script isn't a start script.", sprite.getScript(0) instanceof StartScript);
 		assertTrue("Second script isn't a broadcast script.", sprite.getScript(1) instanceof BroadcastScript);
 	}
