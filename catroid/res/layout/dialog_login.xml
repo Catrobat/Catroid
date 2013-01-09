@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:text="@string/login_or_register" />
+            android:text="@string/login" />
 
         <Button
             android:id="@+id/password_forgotten_button"

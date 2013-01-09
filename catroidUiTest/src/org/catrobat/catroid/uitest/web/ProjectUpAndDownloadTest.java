@@ -310,7 +310,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(500);
 
 		try {
-			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload));
+			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload), 1, 40000);
 			assertTrue("Upload failed. Internet connection?", success);
 			String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
 			JSONObject jsonObject;
@@ -381,7 +381,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
 		assertTrue("Download not successful.", solo.searchText(solo.getString(R.string.success_project_download)));
-		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
 
 		String projectPath = Constants.DEFAULT_ROOT + "/" + testProject;
 		File downloadedDirectory = new File(projectPath);

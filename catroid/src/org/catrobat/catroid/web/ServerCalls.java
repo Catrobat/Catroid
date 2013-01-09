@@ -43,6 +43,10 @@ public class ServerCalls {
 	private static final String REG_USER_COUNTRY = "registrationCountry";
 	private static final String REG_USER_LANGUAGE = "registrationLanguage";
 	private static final String REG_USER_EMAIL = "registrationEmail";
+	private static final String REG_USER_GENDER = "registrationGender";
+	private static final String REG_USER_BIRTHDAY_MONTH = "registrationMonth";
+	private static final String REG_USER_BIRTHDAY_YEAR = "registrationYear";
+	private static final String REG_USER_CITY = "registrationCity";
 
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
@@ -178,7 +182,8 @@ public class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-			String country, String token) throws WebconnectionException {
+			String country, String token, String gender, String birthdayMonth, String birthdayYear, String city)
+			throws WebconnectionException {
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
@@ -189,10 +194,12 @@ public class ServerCalls {
 			postValues.put(REG_USER_PASSWORD, password);
 			postValues.put(REG_USER_EMAIL, userEmail);
 			postValues.put(Constants.TOKEN, token);
+			postValues.put(REG_USER_GENDER, gender);
+			postValues.put(REG_USER_BIRTHDAY_MONTH, birthdayMonth);
+			postValues.put(REG_USER_BIRTHDAY_YEAR, birthdayYear);
+			postValues.put(REG_USER_COUNTRY, "AT");
+			postValues.put(REG_USER_CITY, city);
 
-			if (country != null) {
-				postValues.put(REG_USER_COUNTRY, country);
-			}
 			if (language != null) {
 				postValues.put(REG_USER_LANGUAGE, language);
 			}
@@ -227,5 +234,4 @@ public class ServerCalls {
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
-
 }

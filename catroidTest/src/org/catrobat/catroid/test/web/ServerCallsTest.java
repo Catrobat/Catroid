@@ -63,7 +63,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			String token = UtilToken.calculateToken(testUser, testPassword);
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, "male", "January", "2000", "Graz");
 
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
 					userRegistered);
@@ -88,14 +88,14 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			String token = UtilToken.calculateToken(testUser, testPassword);
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, "male", "January", "2000", "Graz");
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
 					userRegistered);
 
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de",
-					"at", token);
+					"at", token, "male", "January", "2000", "Graz");
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
 			assertFalse("Should be an existing user, but server responce indicates that this user is new",
@@ -117,7 +117,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			String token = UtilToken.calculateToken(testUser, testPassword);
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, "male", "January", "2000", "Graz");
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
@@ -125,7 +125,8 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			String wrongPassword = "wrongpassword";
 			token = UtilToken.calculateToken(testUser, wrongPassword);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, wrongPassword, testEmail, "de", "at", token);
+			ServerCalls.getInstance().registerOrCheckToken(testUser, wrongPassword, testEmail, "de", "at", token,
+					"male", "January", "2000", "Graz");
 
 			assertFalse("should never be reached because the password is wrong", true);
 
@@ -148,7 +149,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			String token = UtilToken.calculateToken(testUser, testPassword);
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, "male", "January", "2000", "Graz");
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
@@ -156,7 +157,8 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			String newUser = "testUser" + System.currentTimeMillis();
 			token = UtilToken.calculateToken(newUser, testPassword);
-			ServerCalls.getInstance().registerOrCheckToken(newUser, testPassword, testEmail, "de", "at", token);
+			ServerCalls.getInstance().registerOrCheckToken(newUser, testPassword, testEmail, "de", "at", token, "male",
+					"January", "2000", "Graz");
 
 			assertFalse(
 					"should never be reached because two registrations with the same email address are not allowed",
@@ -180,7 +182,8 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = testUser + "@gmail.com";
 
 			String token = UtilToken.calculateToken(testUser, testPassword);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token);
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
+					"male", "January", "2000", "Graz");
 
 			assertFalse("should never be reached because the password is too short", true);
 
@@ -201,7 +204,8 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testEmail = "invalidEmail";
 
 			String token = UtilToken.calculateToken(testUser, testPassword);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token);
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token,
+					"male", "January", "2000", "Graz");
 
 			assertFalse("should never be reached because the email is not valid", true);
 
@@ -254,7 +258,7 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			String token = UtilToken.calculateToken(testUser, testPassword);
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
+					"de", "at", token, "male", "January", "2000", "Graz");
 
 			Log.i(LOG_TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
