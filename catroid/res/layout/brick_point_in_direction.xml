@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/brick_point_in_direction_text_view_title"
-        style="@style/brick_text_style"
+        style="@style/BrickText"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:paddingRight="10dip"
@@ -72,7 +72,7 @@
         </EditText>
 
         <TextView
-            style="@style/brick_text_style"
+            style="@style/BrickText"
             android:text="@string/degree" >
         </TextView>
 
