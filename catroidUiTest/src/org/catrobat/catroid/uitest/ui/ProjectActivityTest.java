@@ -162,6 +162,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
 
@@ -174,6 +175,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		// Note that the activity is _indeed_ rotated on your device/emulator!
 		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
 
 		assertEquals(ProjectActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
