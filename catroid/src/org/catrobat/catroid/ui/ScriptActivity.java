@@ -83,8 +83,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	private static int currentFragmentPosition = FRAGMENT_SCRIPTS;
 
-	private boolean spinnerDisabled = false;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -115,7 +113,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		//		}
 		actionBar = getSupportActionBar();
 
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
