@@ -291,7 +291,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		} else {
 			int firstVisibleBrick = listView.getFirstVisiblePosition();
 			int lastVisibleBrick = listView.getLastVisiblePosition();
-			int position = ((lastVisibleBrick - firstVisibleBrick) / 2);
+			int position = ((1 + lastVisibleBrick - firstVisibleBrick) / 2);
 			position += firstVisibleBrick;
 			adapter.addNewBrick(position, brickToBeAdded);
 		}
