@@ -25,12 +25,6 @@ package org.catrobat.catroid.io;
 import java.io.IOException;
 import java.util.ArrayList;
 
-<<<<<<< HEAD
-import org.catrobat.catroid.stage.NativeAppActivity;
-
-import android.content.res.AssetFileDescriptor;
-=======
->>>>>>> 9cc434b... Removed NativeAppAct., had to refactor FullParser
 import android.media.MediaPlayer;
 
 public class SoundManager {

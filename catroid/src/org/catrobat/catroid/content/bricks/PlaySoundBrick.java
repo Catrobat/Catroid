@@ -22,17 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-<<<<<<< HEAD
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.stage.NativeAppActivity;
-=======
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
->>>>>>> 9cc434b... Removed NativeAppAct., had to refactor FullParser
 
 import android.content.Context;
 import android.view.View;
@@ -41,10 +34,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-<<<<<<< HEAD
-import org.catrobat.catroid.R;
-=======
->>>>>>> 9cc434b... Removed NativeAppAct., had to refactor FullParser
 
 public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;

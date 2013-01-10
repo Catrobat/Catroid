@@ -26,10 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.catrobat.catroid.content.Project;
-<<<<<<< HEAD
-import org.catrobat.catroid.stage.NativeAppActivity;
-=======
->>>>>>> 9cc434b... Removed NativeAppAct., had to refactor FullParser
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
 import org.catrobat.catroid.xml.parser.ParseException;
