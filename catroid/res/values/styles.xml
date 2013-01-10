@@ -168,6 +168,23 @@
     <style name="BrickContainer.Motion.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
     </style>
+    
+    <style name="BrickContainer.Control">
+        <item name="android:background">@drawable/brick_yellow</item>
+    </style>
+    
+    <style name="BrickContainer.Control.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+    </style>
+
+    <style name="BrickContainer.Control.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+    </style>
+
+    <style name="BrickContainer.Control.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+    </style>
+    
 
     <style name="brick_new">
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
