@@ -55,19 +55,19 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	public static enum Direction {
 		DIRECTION_RIGHT(90), DIRECTION_LEFT(-90), DIRECTION_UP(0), DIRECTION_DOWN(180);
 
-		private int directionDegrees;
+		private double directionDegrees;
 
-		private Direction(int degrees) {
+		private Direction(double degrees) {
 			directionDegrees = degrees;
 		}
 
-		public int getDegrees() {
+		public double getDegrees() {
 			return directionDegrees;
 		}
 	}
 
 	private Sprite sprite;
-	private int degrees;
+	private double degrees;
 
 	private transient Direction direction;
 	private transient EditText setAngleEditText;
@@ -95,8 +95,8 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void execute() {
-		int degreeOffset = 90;
-		sprite.costume.rotation = (-degrees + degreeOffset);
+		double degreeOffset = 90.0;
+		sprite.costume.rotation = (float) (-degrees + degreeOffset);
 	}
 
 	@Override
@@ -170,7 +170,8 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			final EditText input = new EditText(getActivity());
-			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+			input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED
+					| InputType.TYPE_NUMBER_FLAG_DECIMAL);
 			input.setText(degrees + "");
 
 			Dialog dialog = new AlertDialog.Builder(getActivity())
@@ -206,7 +207,7 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 								input.setText("0");
 							}
 							setAngleEditText.setText(input.getText().toString());
-							degrees = Integer.parseInt(input.getText().toString());
+							degrees = Double.parseDouble(input.getText().toString());
 						}
 					}).setNegativeButton(getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
 						@Override

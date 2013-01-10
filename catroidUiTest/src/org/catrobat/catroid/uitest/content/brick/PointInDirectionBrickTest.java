@@ -105,6 +105,17 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		solo.sleep(200);
 
 		assertTrue("Wrong selection", solo.searchEditText("100"));
+
+		solo.clickOnButton(0);
+
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, "-12.34");
+		solo.clickOnButton(solo.getString(R.string.ok));
+
+		solo.sleep(200);
+
+		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
 	}
 
 	private void createProject() {
