@@ -25,9 +25,6 @@ package org.catrobat.catroid.io;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.catrobat.catroid.stage.NativeAppActivity;
-
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
 public class SoundManager {
@@ -71,12 +68,7 @@ public class SoundManager {
 		MediaPlayer mediaPlayer = getMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
-				if (!NativeAppActivity.isRunning()) {
-					mediaPlayer.setDataSource(pathToSoundfile);
-				} else {
-					AssetFileDescriptor afd = NativeAppActivity.getContext().getAssets().openFd(pathToSoundfile);
-					mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-				}
+				mediaPlayer.setDataSource(pathToSoundfile);
 				mediaPlayer.prepare();
 				mediaPlayer.start();
 			} catch (IOException e) {
