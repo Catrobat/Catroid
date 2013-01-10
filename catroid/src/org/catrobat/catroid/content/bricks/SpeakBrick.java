@@ -110,7 +110,7 @@ public class SpeakBrick implements Brick {
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_speak, null);
 
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_text_view);
+		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
 		editText.setText(text);
 

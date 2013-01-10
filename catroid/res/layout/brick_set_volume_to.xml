@@ -31,9 +31,9 @@
          style="@style/BrickText.SingleLine"
          android:text="@string/brick_set_volume_to">
      </TextView>
-     
+          
      <TextView
-         android:id="@+id/brick_set_volume_to_text_view"
+         android:id="@+id/brick_set_volume_to_prototype_text_view"
          style="@style/BrickPrototypeTextView" >
      </TextView>
     

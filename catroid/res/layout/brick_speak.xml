@@ -41,7 +41,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/brick_speak_text_view"
+            android:id="@+id/brick_speak_prototype_text_view"
             style="@style/BrickPrototypeTextView"
             android:layout_width="0dp"
             android:layout_weight="1" >
