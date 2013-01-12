@@ -52,7 +52,7 @@
     <!-- Main menu activity -->
     <string name="main_menu_new">"Novo"</string>
     <string name="main_menu_continue">"Continuar"</string>
-    <string name="main_menu_programs">"Programas"</string>
+    <string name="main_menu_programs">"Projetos"</string>
     <string name="main_menu_forum">"Fórum"</string>
     <string name="main_menu_web">"Comunidade"</string>
     <string name="main_menu_upload">"Upload"</string>
@@ -64,14 +64,13 @@
     <!-- Settings activity -->
     <string name="pref_title">"Configurações"</string>
     <string name="pref_enable_ms_bricks">"Blocos do Lego Mindstorms"</string>
-    <string name="pref_descr_ms_bricks">"Permitir controlar robôs de Lego Mindstorms"</string>
+    <string name="pref_descr_ms_bricks">"Permitir o controle de robôs de Lego Mindstorms"</string>
     <!--  -->
 
 
     <!-- About Dialog -->
     <string name="dialog_about_title">"Sobre Catroid"</string>
-    <string name="dialog_about_license_info">"Catroid é um ambiente de programação e interpretador para dispositivos Android da linguagem de programação visual Catrobat. \n\n 
-Catroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes da licença veja o link abaixo. \n"</string>
+    <string name="dialog_about_license_info">"Catroid é um ambiente de programação e interpretador para dispositivos Android da linguagem de programação visual Catrobat.\n\nCatroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes da licença veja o link abaixo.\n"</string>
     <string name="dialog_about_catroid_license_link_text">"Licença Catroid"</string>
     <!--  -->
 
@@ -80,7 +79,7 @@ Catroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes d
     <string name="project_name">"Projeto:"</string>
     <string name="number_of_scripts">"Comandos:"</string>
     <string name="number_of_bricks">"Blocos:"</string>
-    <string name="number_of_costumes">"Aparência:"</string>
+    <string name="number_of_costumes">"Trajes:"</string>
     <string name="number_of_sounds">"Som:"</string>
     <string name="show_details">"Mostrar Detalhes"</string>
     <string name="hide_details">"Esconder Detalhes"</string>
@@ -96,7 +95,7 @@ Catroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes d
     <string name="rename_costume_dialog">"Renomear traje"</string>
     <string name="edit_costume_paintroid">"Paintroid"</string>
     <string name="copy_costume">"copiar"</string>
-    <string name="costumename_invalid">"Nome de aparência inválido"</string>
+    <string name="costumename_invalid">"Nome do traje inválido"</string>
     <string name="copy_costume_addition">"copiar"</string>
     <string name="paintroid_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>
     <string name="default_costume_name">"traje"</string>
@@ -133,11 +132,11 @@ Catroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes d
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">"TTS não instalado!\nVocê deseja instalá-lo?"</string>
     <!-- Script context menu -->
-    <string name="script_context_menu_title">"Menu de Comandos"</string>
+    <string name="script_context_menu_title">"Menu"</string>
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">"Mover Bloco"</string>
     <string name="brick_context_dialog_delete_brick">"Excluir Bloco"</string>
-    <string name="brick_context_dialog_animate_bricks">"Animar Partes do Bloco"</string>
+    <string name="brick_context_dialog_animate_bricks">"Animar Partes desse Bloco"</string>
     <!-- New project dialog -->
     <string name="new_project_dialog_title">"Novo Projeto"</string>
     <string name="new_project_dialog_hint">"Meu projeto"</string>
@@ -173,8 +172,8 @@ Catroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes d
     <string name="stage_dialog_resume">"Continuar"</string>
     <string name="stage_dialog_restart">"Recomeçar"</string>
     <string name="stage_dialog_maximize">"Maximizar/\nEsticar"</string>
-    <string name="stage_dialog_axes_on">"Eixos ligados"</string>
-    <string name="stage_dialog_axes_off">"Eixos desligados"</string>
+    <string name="stage_dialog_axes_on">"Eixos Desligados"</string>
+    <string name="stage_dialog_axes_off">"Eixos Ligados"</string>
     <string name="stage_dialog_screenshot">"Foto da Tela"</string>
     <!--  -->
 
@@ -223,8 +222,8 @@ Catroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes d
     <string name="brick_change_size_by">"Mude o tamanho para"</string>
     <string name="brick_hide">"Desapareça"</string>
     <string name="brick_show">"Apareça"</string>
-    <string name="brick_set_ghost_effect">"Definir efeito fantasma"</string>
-    <string name="brick_change_ghost_effect">"Alterar o efeito fantasma"</string>
+    <string name="brick_set_ghost_effect">"Definir transparência"</string>
+    <string name="brick_change_ghost_effect">"Alterar transparência"</string>
     <string name="brick_set_brightness">"Ajustar o brilho"</string>
     <string name="brick_change_brightness">"Alterar o brilho"</string>
     <string name="by_label">"por"</string>
@@ -246,14 +245,14 @@ Catroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes d
     <string name="brick_broadcast_receive">"Quando eu ouvir"</string>
     <string name="brick_broadcast">"Anuncie para todos"</string>
     <string name="brick_broadcast_wait">"Anuncie e espere"</string>
-    <string name="brick_note">"Nota"</string>
+    <string name="brick_note">"Comentário"</string>
     <string name="brick_forever">"Sempre"</string>
     <string name="brick_repeat">"Repita"</string>
     <string name="times_label">"vezes"</string>
     <string name="brick_loop_end">"Fim de ciclo"</string>
     <!-- Actions -->
-    <string name="action_tapped">"toque"</string>
-    <string name="action_doubleTapped">"duplo toque"</string>
+    <string name="action_tapped">"tocar"</string>
+    <string name="action_doubleTapped">"tocar duas vezes"</string>
     <string name="action_longPressed">"segurado"</string>
     <string name="action_swipeLeft">"arrastar à esquerda"</string>
     <string name="action_swipeRight">"arrastar à direita"</string>
@@ -270,9 +269,9 @@ Catroid é principalmente licenciado sob a licença GNU v3 AGPL. Para detalhes d
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"Insira um valor"</string>
     <string name="notification_screenshot_ok">"Foto da tela salvo"</string>
-    <string name="notification_load_project_cancel">"Cancelado abrir projeto"</string>
+    <string name="notification_load_project_cancel">"Cancelado abertura do projeto"</string>
     <!-- Error messages -->
-    <string name="error_no_writiable_external_storage_available">"Catroid requer armazenamento externo desbloqueado como um cartão SD para executar, mas nenhum foi encontrado.\n Corrija isso desbloqueando seu cartão SD ou inseririndo um."</string>
+    <string name="error_no_writiable_external_storage_available">"Catroid requer armazenamento externo desbloqueado como um cartão SD para executar, mas nenhum foi encontrado.\nCorrija isso desbloqueando seu cartão SD ou inseririndo um."</string>
     <string name="error_no_name_entered">"Por favor, digite um nome"</string>
     <string name="error_project_exists">"Um projeto com o mesmo nome já existe.\nPor favor, escolha um nome diferente."</string>
     <string name="error_project_upload">"Ocorreu um erro ao enviar o projeto."</string>
