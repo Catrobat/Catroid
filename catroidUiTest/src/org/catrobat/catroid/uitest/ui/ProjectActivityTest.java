@@ -509,15 +509,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				&& soundCountShowing);
 
 		solo.clickOnMenuItem(hideDetailsText);
-		solo.sleep(300);
 
-		scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
-		brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
-		costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
-		soundCountShowing = tvSoundCount.getVisibility() == View.GONE ? false : true;
-
-		assertFalse("Details are not hidden!", scriptCountShowing || brickCountShowing || costumeCountShowing
-				|| soundCountShowing);
+		assertFalse("Scripts not shown", solo.searchText(solo.getString(R.string.number_of_scripts), true));
+		assertFalse("Costumes not shown", solo.searchText(solo.getString(R.string.number_of_costumes), true));
+		assertFalse("Bricks not shown", solo.searchText(solo.getString(R.string.number_of_bricks), true));
+		assertFalse("Sounds not shown", solo.searchText(solo.getString(R.string.number_of_sounds), true));
 
 		solo.clickOnImageButton(0);
 		assertTrue("Show details should be shown!", solo.waitForText(showDetailsText));
