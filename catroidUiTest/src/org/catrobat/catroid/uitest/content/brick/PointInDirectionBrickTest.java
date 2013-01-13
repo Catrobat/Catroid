@@ -86,7 +86,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_in_direction)));
 
-		solo.clickOnButton(0);
+		solo.clickOnEditText(0);
 
 		solo.clickInList(1);
 		assertEquals("Wrong value in field!", "90", solo.getEditText(0).getText().toString());
@@ -106,12 +106,29 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		assertTrue("Wrong selection", solo.searchEditText("100"));
 
-		solo.clickOnButton(0);
+		solo.clickOnEditText(0);
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, "-12.34");
 		solo.clickOnButton(solo.getString(R.string.ok));
+
+		solo.sleep(200);
+
+		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
+
+		solo.clickOnEditText(0);
+		solo.clickOnButton(solo.getString(R.string.cancel_button));
+
+		solo.sleep(200);
+
+		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
+
+		solo.clickOnEditText(0);
+
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.clickOnButton(solo.getString(R.string.cancel_button));
 
 		solo.sleep(200);
 
