@@ -496,10 +496,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_sprites_list);
 
-		solo.clickOnImageButton(0);
-		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
-		solo.goBack();
-
 		scriptCountShowing = tvScriptCount.getVisibility() == View.GONE ? false : true;
 		brickCountShowing = tvBrickCount.getVisibility() == View.GONE ? false : true;
 		costumeCountShowing = tvCostumeCount.getVisibility() == View.GONE ? false : true;
@@ -510,10 +506,14 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.clickOnMenuItem(hideDetailsText);
 
-		assertFalse("Scripts not shown", solo.searchText(solo.getString(R.string.number_of_scripts), true));
-		assertFalse("Costumes not shown", solo.searchText(solo.getString(R.string.number_of_costumes), true));
-		assertFalse("Bricks not shown", solo.searchText(solo.getString(R.string.number_of_bricks), true));
-		assertFalse("Sounds not shown", solo.searchText(solo.getString(R.string.number_of_sounds), true));
+		assertFalse("Scripts should be hidden",
+				solo.waitForText(solo.getString(R.string.number_of_scripts), 0, 100, false, true));
+		assertFalse("Costumes should be hidden",
+				solo.waitForText(solo.getString(R.string.number_of_costumes), 0, 100, false, true));
+		assertFalse("Bricks should be hidden",
+				solo.waitForText(solo.getString(R.string.number_of_bricks), 0, 100, false, true));
+		assertFalse("Sounds should be hidden",
+				solo.waitForText(solo.getString(R.string.number_of_sounds), 0, 100, false, true));
 
 		solo.clickOnImageButton(0);
 		assertTrue("Show details should be shown!", solo.waitForText(showDetailsText));
