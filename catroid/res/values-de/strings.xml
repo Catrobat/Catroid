@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <resources>
 
     <!-- General terms -->
@@ -91,7 +91,6 @@
     <string name="insert_below">Darunter einfügen</string>
     <!-- Sprite activity -->
     <string name="sprite_name">Objekt:</string>
-    <string name="spritelist_footer_image_description">Hier drücken, um neues Objekt hinzuzufügen</string>
     <!-- ScriptTab activity -->
     <string name="scripts">Skripte</string>
     <string name="costumes">Kostüme</string>
@@ -134,7 +133,6 @@
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Projekt umbenennen</string>
-    <string name="myprojectlist_footer_image_description">Hier drücken, um neues Projekt hinzuzufügen</string>
     <string name="notification_title_copy_project">Kopiere Projekt</string>
     <string name="copy_project_finished"> kopiert.</string>
     <!-- Script context menu -->
@@ -192,9 +190,11 @@
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <!--  -->
+
+
     <!-- Motion bricks -->
-    <string name="brick_place_at">Setze Position</string>
-    <string name="x_label">X:</string>
+    <string name="brick_place_at_x">Setze Position X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_x">Setze X auf:</string>
     <string name="brick_set_y">Setze Y auf:</string>
@@ -207,13 +207,16 @@
     <string name="brick_move">Gehe</string>
     <string name="brick_move_n_steps">Schritte</string>
     <string name="brick_turn_left">Drehe links</string>
-    <string name="brick_turn_left_n_degrees">Grad</string>
+    <string name="brick_turn_left_degrees">Grad</string>
     <string name="brick_turn_right">Drehe rechts</string>
-    <string name="brick_turn_right_n_degrees">Grad</string>
+    <string name="brick_turn_right_degrees">Grad</string>
     <string name="brick_point_in_direction">Zeige in Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
-    <string name="brick_glide_to">zu</string>
+    <string name="brick_glide_to_x">zu X:</string>
+    <!--  -->
+
+
     <!-- Looks bricks -->
     <string name="brick_set_costume">Setze Kostüm</string>
     <string name="brick_set_background">Setze Hintergrund</string>
@@ -270,7 +273,7 @@
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
     <string name="notification_load_project_cancel">Projekt laden abgebrochen</string>
     <!-- Error messages -->
-    <string name="error_no_sd_card">Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.</string>
+    <string name="error_no_writiable_external_storage_available">Um Catroid zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
     <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
     <string name="error_project_exists">Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
     <string name="error_project_upload">Beim Upload des Projektes ist ein Fehler aufgetreten.</string>

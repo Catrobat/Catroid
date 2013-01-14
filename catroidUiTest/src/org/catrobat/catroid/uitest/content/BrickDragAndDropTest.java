@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -112,7 +112,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 
 		yPositionList = UiTestUtils.getListItemYPositions(solo);
 		solo.clickOnScreen(20, yPositionList.get(0));
-		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.clickOnScreen(20, yPositionList.get(2));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
 
 		Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
@@ -121,7 +121,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		int height = display.getHeight();
 
 		solo.sleep(200);
-		solo.drag(20, 20, 200, height - 20, 100);
+		solo.drag(20, 20, 300, height - 20, 100);
 		solo.sleep(200);
 
 		assertTrue("Last Brick should now be BroadcastBrick", adapter.getItem(3) instanceof BroadcastBrick);

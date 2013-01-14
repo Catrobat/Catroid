@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -46,7 +47,6 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class BrickCategoryDialog extends DialogFragment {
 
@@ -80,9 +80,9 @@ public class BrickCategoryDialog extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.dialog_categories, null);
 
-		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.btn_close_dialog);
-		TextView textView = (TextView) rootView.findViewById(R.id.tv_dialog_title);
-		listView = (ListView) rootView.findViewById(R.id.categoriesListView);
+		ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.dialog_brick_title_button_close);
+		TextView textView = (TextView) rootView.findViewById(R.id.dialog_brick_title_text_view_title);
+		listView = (ListView) rootView.findViewById(R.id.dialog_categories_list_view);
 
 		closeButton.setOnClickListener(new View.OnClickListener() {
 			@Override

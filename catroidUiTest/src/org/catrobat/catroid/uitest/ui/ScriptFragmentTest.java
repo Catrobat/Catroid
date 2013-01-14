@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,10 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -54,9 +58,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		brickListToCheck = UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -75,7 +76,20 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo = null;
 	}
 
+	private void initTestProject() {
+		brickListToCheck = UiTestUtils.createTestProject();
+		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+	}
+
+	private void initEmptyProject() {
+		UiTestUtils.createEmptyProject();
+		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+	}
+
 	public void testCreateNewBrickButton() {
+		initTestProject();
 		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
 		int brickCountInList = brickListToCheck.size();
 
@@ -92,6 +106,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBrickCategoryDialog() {
+		initTestProject();
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// enable mindstorm bricks, if disabled
@@ -115,7 +130,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.searchText(categoryLegoNXTLabel));
 
 		// Test if the correct category opens when clicked
-		String brickPlaceAtText = solo.getString(R.string.brick_place_at);
+		String brickPlaceAtText = solo.getString(R.string.brick_place_at_x);
 		String brickSetCostume = solo.getString(R.string.brick_set_costume);
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
@@ -146,7 +161,30 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.waitForText(brickLegoStopMotor, 0, 2000));
 	}
 
+	/**
+	 * 
+	 * Tests issue#54. https://github.com/Catrobat/Catroid/issues/54
+	 */
+	public void testOnlyAddControlBricks() {
+		initEmptyProject();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		assertEquals("Project should contain only one script.", 1, sprite.getNumberOfScripts());
+
+		Script script = sprite.getScript(0);
+		assertTrue("Single script isn't empty.", script.getBrickList().isEmpty());
+
+		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
+		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.sleep(200);
+
+		assertEquals("Two control bricks should be added.", 2, sprite.getNumberOfScripts());
+		assertTrue("First script isn't a start script.", sprite.getScript(0) instanceof StartScript);
+		assertTrue("Second script isn't a broadcast script.", sprite.getScript(1) instanceof BroadcastScript);
+	}
+
 	public void testSimpleDragNDrop() {
+		initTestProject();
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -163,6 +201,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testDeleteItem() {
+		initTestProject();
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -197,6 +236,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
+		initTestProject();
 		String currentProject = solo.getString(R.string.main_menu_continue);
 		String background = solo.getString(R.string.background);
 		String categoryLooks = solo.getString(R.string.category_looks);
