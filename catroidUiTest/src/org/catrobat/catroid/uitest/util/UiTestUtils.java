@@ -892,4 +892,11 @@ public class UiTestUtils {
 			fail("Fragment was not loaded");
 		}
 	}
+
+	public static void changeToFragmentViaActionbar(Solo solo, String currentSpinnerItem, String itemToSwitchTo) {
+		solo.clickOnText(currentSpinnerItem);
+		solo.sleep(50);
+		solo.clickOnText(itemToSwitchTo);
+		solo.sleep(50);
+	}
 }

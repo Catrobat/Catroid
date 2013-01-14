@@ -88,10 +88,12 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
 		String deleteCostumeText = solo.getString(R.string.delete_lowercase);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.category_looks);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.sleep(200);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 		solo.clickOnButton(deleteCostumeText);
 
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
@@ -119,12 +121,15 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		addSoundsToProject();
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
-		String deleteSoundText = solo.getString(R.string.delete_lowercase);
+		String deleteSoundText = solo.getString(R.string.delete);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String soundsSpinnerText = solo.getString(R.string.sounds);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		solo.clickOnText(solo.getString(R.string.sounds));
-		solo.sleep(200);
-		solo.clickOnButton(deleteSoundText);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+		solo.clickLongOnText(soundName);
+		solo.clickOnText(deleteSoundText);
 
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
@@ -137,7 +142,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int newCount = adapter.getCount();
 		assertEquals("The costume number not ok after canceling the deletion", newCount, oldCount);
 
-		solo.clickOnButton(deleteSoundText);
+		solo.clickLongOnText(soundName);
+		solo.clickOnText(deleteSoundText);
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(500);

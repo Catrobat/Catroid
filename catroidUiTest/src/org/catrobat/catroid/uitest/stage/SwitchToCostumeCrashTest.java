@@ -120,7 +120,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String looksSpinnerText = solo.getString(R.string.category_looks);
-		clickOnSpinnerItem(looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(nyanCat);
 
@@ -176,7 +176,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String looksSpinnerText = solo.getString(R.string.category_looks);
-		clickOnSpinnerItem(looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(manImage);
 
@@ -200,13 +200,8 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String looksSpinnerText = solo.getString(R.string.category_looks);
-		clickOnSpinnerItem(scriptsSpinnerText, looksSpinnerText);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
 		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
-	}
-
-	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {
-		solo.clickOnText(selectedSpinnerItem);
-		solo.clickOnText(itemName);
 	}
 
 	private void createProject() {
