@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
@@ -46,7 +47,7 @@ import android.widget.ImageButton;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 
@@ -64,14 +65,16 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptAc
 	private ProjectManager projectManager;
 
 	public SoundFragmentTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
+
 		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
@@ -96,6 +99,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptAc
 				RESOURCE_SOUND, getActivity());
 
 		solo = new Solo(getInstrumentation(), getActivity());
+
+		UiTestUtils.getIntoSoundsFromMainMenu(solo);
 
 		boolean showDetails = getSoundAdapter().getShowDetails();
 		if (showDetails) {
@@ -155,7 +160,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptAc
 	}
 
 	public void testShowAndHideDetails() {
-		int timeToWait = 200;
+		int timeToWait = 300;
 
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 		clickOnOverflowMenuItem(solo.getString(R.string.show_details));
@@ -261,7 +266,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<ScriptAc
 	}
 
 	private SoundFragment getSoundFragment() {
-		return (SoundFragment) getActivity().getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+		return (SoundFragment) ((ScriptActivity) solo.getCurrentActivity()).getFragment(ScriptActivity.FRAGMENT_SOUNDS);
 	}
 
 	private SoundAdapter getSoundAdapter() {
