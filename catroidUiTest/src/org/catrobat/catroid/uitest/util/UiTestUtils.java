@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.util;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 import java.io.BufferedInputStream;
@@ -542,18 +541,9 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
-		solo.sleep(500);
-		final View view = solo.getCurrentActivity().findViewById(buttonId);
-		assertTrue("Is null", view != null);
-
-		solo.waitForFragmentById(R.id.fr_sprites_list);
-
-		solo.getCurrentActivity().runOnUiThread(new Runnable() {
-
-			public void run() {
-				view.performClick();
-			}
-		});
+		solo.waitForView(LinearLayout.class);
+		LinearLayout linearLayout = (LinearLayout) solo.getView(buttonId);
+		solo.clickOnView(linearLayout);
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
@@ -637,14 +627,14 @@ public class UiTestUtils {
 			fail("ListView not shown in 10 secs!");
 		}
 
-		ListView listView = solo.getCurrentListViews().get(1);
+		ListView dragDropListView = solo.getCurrentListViews().get(1);
 
-		for (int i = 0; i < listView.getChildCount(); ++i) {
-			View currentViewInList = listView.getChildAt(i);
+		for (int i = 0; i < dragDropListView.getChildCount(); ++i) {
+			View currentViewInList = dragDropListView.getChildAt(i);
 
-			Rect globalVisibleRect = new Rect();
-			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
-			int middleYPosition = globalVisibleRect.top + globalVisibleRect.height() / 2;
+			Rect globalVisibleRectangle = new Rect();
+			currentViewInList.getGlobalVisibleRect(globalVisibleRectangle);
+			int middleYPosition = globalVisibleRectangle.top + globalVisibleRectangle.height() / 2;
 			yPositionList.add(middleYPosition);
 		}
 
@@ -761,11 +751,8 @@ public class UiTestUtils {
 	}
 
 	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
-		solo.sleep(300);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
-
-		solo.clickOnScreen(200, 200);
 
 		String continueString = solo.getString(R.string.main_menu_continue);
 		solo.waitForText(continueString);
