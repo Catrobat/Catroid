@@ -166,15 +166,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		String newName = "newName";
 		goToCostumesTab();
 		solo.clickOnView(solo.getView(R.id.costume_name));
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
@@ -206,29 +200,6 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
-	}
-
-	public void testDialogsOnChangeOrientation() {
-		String newName = "newTestName";
-		goToCostumesTab();
-		solo.clickOnView(solo.getView(R.id.costume_name));
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, newName);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(200);
-		assertTrue("Costume wasnt renamed", solo.searchText(newName));
 	}
 
 	public void testGetImageFromPaintroid() {
@@ -621,10 +592,11 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private CostumeFragment getCostumeFragment() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-		return (CostumeFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+		return (CostumeFragment) activity.getFragment(ScriptActivity.FRAGMENT_COSTUMES);
 	}
 
 	private void goToCostumesTab() {
 		UiTestUtils.getIntoCostumesFromMainMenu(solo, true);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 	}
 }
