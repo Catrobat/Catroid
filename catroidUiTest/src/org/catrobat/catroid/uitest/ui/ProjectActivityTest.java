@@ -469,7 +469,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
 
-	public void testOverFlowMenuDelete() {
+	public void testActionDelete() {
 		createProject();
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
@@ -485,9 +485,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite spriteThree = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(3);
 		Sprite spriteFour = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(4);
 
-		String deleteString = solo.getString(R.string.delete);
-		solo.clickOnMenuItem(deleteString);
-		assertTrue("ActionMode title is not set correctly!", solo.searchText(deleteString));
+		solo.clickOnActionBarItem(R.id.delete);
+		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.delete)));
 
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
