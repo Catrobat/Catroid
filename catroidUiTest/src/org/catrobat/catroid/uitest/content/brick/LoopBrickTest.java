@@ -80,30 +80,30 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof LoopBeginBrick));
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, 0, 20);
 
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected LoopBeginBrick but was "
 				+ projectBrickList.get(0).getClass().getSimpleName(), projectBrickList.get(0) instanceof LoopBeginBrick);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof LoopEndBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -111,14 +111,14 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		solo.goBack();
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		solo.clickOnScreen(20, yPosition.get(3));
 		clickOnDeleteInDialog();
 
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(2) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
@@ -126,16 +126,16 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_repeat);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 20);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, 20);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, 20);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 
@@ -149,7 +149,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		int addedYPosition;
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, 0, 20);
@@ -161,7 +161,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
 		solo.sleep(500);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(2) + 20, 20);
@@ -177,7 +177,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_change_brightness);
 		solo.sleep(500);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(6) + 20, 20);
@@ -190,7 +190,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
 		solo.sleep(500);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		//solo.drag(20, 20, addedYPosition, yPosition.get(8) + 20, 20);
@@ -206,39 +206,39 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		int addedYPosition;
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		solo.clickOnScreen(20, yPosition.get(1));
 		clickOnDeleteInDialog();
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		solo.clickOnScreen(20, yPosition.get(1));
 		clickOnDeleteInDialog();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_clear_graphic_effect);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, 0, 20);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(0), 20);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(2), 20);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(2), 20);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_forever);
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(1), 20);
@@ -249,13 +249,13 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		checkIfForeverLoopsAreCorrectlyPlaced(2);
 		checkIfForeverLoopsAreCorrectlyPlaced(3);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 
 		solo.clickOnScreen(20, yPosition.get(0)); // needed because of bug? in Nexus S 2.3.6
 		solo.clickOnScreen(20, yPosition.get(1));
 		clickOnDeleteInDialog();
 
-		yPosition = UiTestUtils.getListItemYPositions(solo);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 3), 20);
 
 		assertTrue("Wrong brick instance.", projectBrickList.get(3) instanceof ClearGraphicEffectBrick);

@@ -101,7 +101,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("Hovering brick should be instance of StopAllSoundsBrick",
 				adapter.getItem(1) instanceof StopAllSoundsBrick);
 
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		solo.drag(10, 10, yPositionList.get(1), yPositionList.get(2) + 100, 30);
 		solo.sleep(200);
 		assertEquals("Two Bricks should be in bricklist/project", 2, brickListToCheck.size());
@@ -118,7 +118,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		// just to get focus and get the correct list
 		solo.clickOnText(scriptsName);
 		solo.clickOnText(scriptsName);
-		yPositionList = UiTestUtils.getListItemYPositions(solo);
+		yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 
 		solo.clickOnScreen(20, yPositionList.get(0));
 		solo.clickOnScreen(20, yPositionList.get(2));

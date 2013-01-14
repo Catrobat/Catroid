@@ -173,7 +173,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		Script script = sprite.getScript(0);
 		assertTrue("Single script isn't empty.", script.getBrickList().isEmpty());
 
-		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		solo.clickOnScreen(20, yPositionList.get(1));
 		solo.sleep(200);
@@ -185,7 +185,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 	public void testSimpleDragNDrop() {
 		initTestProject();
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(2), 20);
@@ -202,7 +202,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 	public void testDeleteItem() {
 		initTestProject();
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();

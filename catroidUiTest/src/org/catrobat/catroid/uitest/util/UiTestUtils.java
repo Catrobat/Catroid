@@ -617,20 +617,30 @@ public class UiTestUtils {
 	}
 
 	/**
-	 * Returns the absolute pixel y coordinates of the displayed bricks
-	 * 
-	 * @return a list of the y pixel coordinates of the center of displayed bricks
+	 * Returns the absolute pixel y coordinates of elements from a listview
 	 */
 	public static ArrayList<Integer> getListItemYPositions(final Solo solo) {
+		return getListItemYPositions(solo, 0);
+	}
+
+	/**
+	 * Returns the absolute pixel y coordinates of elements from a listview
+	 * with a given index
+	 */
+	public static ArrayList<Integer> getListItemYPositions(final Solo solo, int listViewIndex) {
 		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
 		if (!solo.waitForView(ListView.class, 0, 10000, false)) {
 			fail("ListView not shown in 10 secs!");
 		}
 
-		ListView dragDropListView = solo.getCurrentListViews().get(1);
+		ArrayList<ListView> listViews = solo.getCurrentListViews();
+		if (listViews.size() <= listViewIndex) {
+			fail("Listview Index wrong");
+		}
+		ListView listView = listViews.get(listViewIndex);
 
-		for (int i = 0; i < dragDropListView.getChildCount(); ++i) {
-			View currentViewInList = dragDropListView.getChildAt(i);
+		for (int i = 0; i < listView.getChildCount(); ++i) {
+			View currentViewInList = listView.getChildAt(i);
 
 			Rect globalVisibleRectangle = new Rect();
 			currentViewInList.getGlobalVisibleRect(globalVisibleRectangle);
@@ -642,7 +652,7 @@ public class UiTestUtils {
 	}
 
 	public static int getAddedListItemYPosition(Solo solo) {
-		ArrayList<Integer> yPositionsList = getListItemYPositions(solo);
+		ArrayList<Integer> yPositionsList = getListItemYPositions(solo, 1);
 		int middleYPositionIndex = yPositionsList.size() / 2;
 
 		return yPositionsList.get(middleYPositionIndex);
