@@ -45,7 +45,6 @@
     <string name="stage">"Etapa"</string>
     <string name="ok">"Ok"</string>
     <string name="add">"Adicionar"</string>
-    <string name="start">"Iniciar"</string>
     <!--  -->
 
 
@@ -84,8 +83,6 @@
     <string name="show_details">"Mostrar Detalhes"</string>
     <string name="hide_details">"Esconder Detalhes"</string>
     <string name="insert_below">"Inserir Abaixo"</string>
-    <!-- Sprite activity -->
-    <string name="sprite_name">"Imagem:"</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"Comandos"</string>
     <string name="costumes">"Trajes"</string>
@@ -104,8 +101,6 @@
     <string name="add_costume_from_gallery">"Da Galeria"</string>
     <string name="select_costume_from_gallery">"Selecione uma imagem"</string>
     <string name="select_costume_from_camera">"Selecione uma foto"</string>
-    <string name="costumelist_footer_image_description_for_camera">"Toque para adicionar nova foto"</string>
-    <string name="costumelist_footer_image_description_for_gallery">"Toque para adicionar nova imagem"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"Renomear som"</string>
     <string name="soundname_invalid">"Nome de som inválido"</string>
@@ -113,7 +108,6 @@
     <string name="sound_pause">"pausar"</string>
     <string name="sound_select_source">"Selecione um som"</string>
     <string name="delete_sound_dialog">"Excluir som"</string>
-    <string name="soundlist_footer_image_description">"Toque para adicionar novo som"</string>
     <!-- My Projects activity -->
     <string name="last_used">"Último utilizado:"</string>
     <string name="description">"Descrição:"</string>
