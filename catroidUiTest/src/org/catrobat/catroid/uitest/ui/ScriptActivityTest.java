@@ -126,6 +126,11 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		ActivityInfo activityInfo = packageManager.getActivityInfo(currentActivity.getComponentName(),
 				PackageManager.GET_ACTIVITIES);
 
+		// Note that the activity is _indeed_ rotated on your device/emulator!
+		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
+
 		assertEquals(ScriptActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}

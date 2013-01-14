@@ -230,7 +230,9 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		if (currentFragment != null) {
+			handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -338,7 +340,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		//Dismiss ActionMode without effecting sounds
-		if (currentFragment.getActionModeActive()) {
+		if (currentFragment != null && currentFragment.getActionModeActive()) {
 			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 				ListAdapter adapter = currentFragment.getListAdapter();
 				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
