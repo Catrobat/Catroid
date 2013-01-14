@@ -8,24 +8,19 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.CheckBox;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
 
@@ -52,8 +47,8 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 	private String delete;
 	private String deleteDialogTitle;
 
-	public SoundActivityTest() {
-		super(ScriptActivity.class);
+	public ScriptActivityTest() {
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -84,6 +79,12 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 		solo = new Solo(getInstrumentation(), getActivity());
 
+		UiTestUtils.getIntoSoundsFromMainMenu(solo);
+
+		SoundFragment soundFragment = (SoundFragment) ((ScriptActivity) solo.getCurrentActivity())
+				.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
+		SoundAdapter soundAdapter = (SoundAdapter) soundFragment.getListAdapter();
+
 		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
 		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
 
@@ -92,11 +93,8 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
 
-		SoundFragment soundFragment = (SoundFragment) getActivity().getFragment(ScriptActivity.FRAGMENT_SOUNDS);
-		SoundAdapter soundAdapter = (SoundAdapter) soundFragment.getListAdapter();
-
 		if (soundAdapter.getShowDetails()) {
-			clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
+			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
 			solo.sleep(TIME_TO_WAIT);
 		}
 	}
@@ -108,25 +106,6 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
-	}
-
-	public void testOrientation() throws NameNotFoundException {
-		assertEquals("SoundActivity not initially in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
-				.getCurrentActivity().getResources().getConfiguration().orientation);
-
-		/// Method 2: Retrieve info about Activity as collected from AndroidManifest.xml
-		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
-		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
-		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
-				PackageManager.GET_ACTIVITIES);
-
-		// Note that the activity is _indeed_ rotated on your device/emulator!
-		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-
-		assertEquals(ProgramMenuActivity.class.getSimpleName()
-				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
-				activityInfo.screenOrientation);
 	}
 
 	public void testMainMenuButton() {
@@ -177,6 +156,10 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 	}
 
 	public void testChangeViaSpinner() {
+		int scriptsSpinnerIndexRelativeToCurrentSelected = -2;
+		int costumesSpinnerIndexRelativeToCurrentSelected = -1;
+		int soundsSpinnerIndexRelativeToCurrentSelected = 0;
+
 		int expectedNumberOfSpinnerItems = 3;
 		int actualNumberOfSpinnerItems = solo.getCurrentSpinners().get(0).getAdapter().getCount();
 		assertEquals("There should be " + expectedNumberOfSpinnerItems + " spinner items",
@@ -185,32 +168,30 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 		int expectedNumberOfSounds = getActualNumberOfSounds();
 
 		String sounds = solo.getString(R.string.sounds);
-		clickOnSpinnerItem(sounds);
+		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		checkIfNumberOfSoundsIsEqual("clicking on " + sounds, expectedNumberOfSounds);
 
-		String scripts = solo.getString(R.string.scripts);
-		clickOnSpinnerItem(scripts);
+		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
+		soundsSpinnerIndexRelativeToCurrentSelected = 2;
 
-		//TODO CHANGE TO SCRIPTACTIVITY!
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.goBack();
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
-
-		checkIfNumberOfSoundsIsEqual("clicking on " + scripts, expectedNumberOfSounds);
-
-		String looks = solo.getString(R.string.category_looks);
-		clickOnSpinnerItem(looks);
-
-		//TODO CHANGE TO LOOKACTIVITY!
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.goBack();
+		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
 
-		checkIfNumberOfSoundsIsEqual("clicking on " + looks, expectedNumberOfSounds);
+		checkIfNumberOfSoundsIsEqual("clicking on scripts", expectedNumberOfSounds);
+
+		clickOnSpinnerItem(costumesSpinnerIndexRelativeToCurrentSelected);
+		soundsSpinnerIndexRelativeToCurrentSelected = 1;
+
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
+
+		checkIfNumberOfSoundsIsEqual("clicking on costumes", expectedNumberOfSounds);
 	}
 
 	public void testRenameActionModeChecking() {
@@ -344,7 +325,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 	public void testOverflowMenuItemSettings() {
 		String settings = solo.getString(R.string.main_menu_settings);
-		clickOnOverflowMenuItem(settings);
+		solo.clickOnMenuItem(settings, true);
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 		solo.goBack();
 		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
@@ -355,15 +336,8 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 		assertEquals("Number of sounds has changed after " + assertMessageAffix, numberToCompare, soundInfoList.size());
 	}
 
-	private void clickOnSpinnerItem(String itemName) {
-		solo.clickOnText(solo.getString(R.string.sounds));
-		solo.clickOnText(itemName);
-	}
-
-	private void clickOnOverflowMenuItem(String itemName) {
-		solo.clickOnImageButton(0);
-		solo.waitForText(itemName, 0, TIME_TO_WAIT);
-		solo.clickOnText(itemName);
+	private void clickOnSpinnerItem(int itemIndex) {
+		solo.pressSpinnerItem(0, itemIndex);
 	}
 
 	private void checkVisabilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,
@@ -407,7 +381,11 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptAc
 	}
 
 	private void openActionMode(String overflowMenuItemName) {
-		clickOnOverflowMenuItem(overflowMenuItemName);
+		if (overflowMenuItemName.equals(delete)) { // Action item
+			solo.clickOnActionBarItem(R.id.delete);
+		} else { // From overflow menu
+			solo.clickOnMenuItem(overflowMenuItemName, true);
+		}
 		assertTrue("ActionMode didn't show up", solo.searchText(overflowMenuItemName, true));
 	}
 
