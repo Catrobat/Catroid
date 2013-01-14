@@ -52,6 +52,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
+	private static final int ACTION_OVERFLOW_BUTTON_INDEX = 1;
 
 	private Solo solo;
 	private String soundName = "testSound1";
@@ -186,7 +187,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
 
-		int timeToWait = 100;
+		int timeToWait = 3000;
 
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = soundInfoList.get(0);
@@ -201,6 +202,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
 		checkVisabilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
 
+		solo.sleep(timeToWait);
 		solo.clickOnView(pauseImageButton);
 		solo.sleep(timeToWait);
 
@@ -321,7 +323,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	private void clickOnOverflowMenuItem(String itemName) {
-		solo.clickOnImageButton(0);
+		solo.clickOnImageButton(ACTION_OVERFLOW_BUTTON_INDEX);
 		solo.waitForText(itemName);
 		solo.clickOnText(itemName);
 	}
