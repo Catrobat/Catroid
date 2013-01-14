@@ -638,8 +638,8 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 
 	@Override
 	public void handleAddButton() {
-		NewCostumeDialog dialog = new NewCostumeDialog(this);
-		dialog.show(getActivity().getSupportFragmentManager(), NewCostumeDialog.DIALOG_FRAGMENT_TAG);
+		NewCostumeDialog dialog = new NewCostumeDialog();
+		dialog.showDialog(getActivity().getSupportFragmentManager(), this);
 	}
 
 	@Override

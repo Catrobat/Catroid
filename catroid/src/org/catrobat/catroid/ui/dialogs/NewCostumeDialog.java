@@ -30,6 +30,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 
 public class NewCostumeDialog extends DialogFragment {
 
@@ -41,8 +42,9 @@ public class NewCostumeDialog extends DialogFragment {
 
 	private CostumeFragment costumeFragment = null;
 
-	public NewCostumeDialog(CostumeFragment fragment) {
+	public void showDialog(FragmentManager fragmentManager, CostumeFragment fragment) {
 		costumeFragment = fragment;
+		show(fragmentManager, DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
