@@ -109,8 +109,6 @@
     <string name="add_costume_from_camera">Von Kamera</string>
     <string name="select_costume_from_gallery">Bild auswählen</string>
     <string name="select_costume_from_camera">Photo auswählen</string>
-    <string name="costumelist_footer_image_description_for_camera">Hier drücken, um neues Bild hinzuzufügen</string>
-    <string name="costumelist_footer_image_description_for_gallery">Hier drücken, um neues Photo hinzuzufügen</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
@@ -119,7 +117,6 @@
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_size">Größe:</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
-    <string name="soundlist_footer_image_description">Hier drücken, um neuen Klang hinzuzufügen</string>
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Aufnehmen</string>

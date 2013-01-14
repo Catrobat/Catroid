@@ -109,8 +109,6 @@
     <string name="delete_costume_dialog">Delete costume?</string>
     <string name="select_costume_from_gallery">Select image</string>
     <string name="select_costume_from_camera">Select photo</string>
-    <string name="costumelist_footer_image_description_for_camera">Tap to add new photo</string>
-    <string name="costumelist_footer_image_description_for_gallery">Tap to add new image</string>
     <!--  -->
 
     <!-- Sound activity -->
@@ -122,7 +120,6 @@
     <string name="sound_time_seperator">/</string>
     <string name="sound_size">Size:</string>
     <string name="delete_sound_dialog">Delete sound?</string>
-    <string name="soundlist_footer_image_description">Tap to add new sound</string>
     <!--  -->
 
     <!-- My Projects activity -->

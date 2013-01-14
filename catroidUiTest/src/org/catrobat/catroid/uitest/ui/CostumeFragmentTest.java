@@ -122,58 +122,6 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.goBack();
 	}
 
-	public void testAddNewCostumeDialog() {
-		// currently disabled, until at least 2 camera apps are installed on testdevice
-		// otherwise test would timeout, because chooser is not shown
-		// String addCostumeFromCameraDialogTitle = solo.getString(R.string.select_costume_from_camera);
-		String addCostumeFromGalleryDialogTitle = solo.getString(R.string.select_costume_from_gallery);
-
-		goToCostumesTab();
-		solo.clickOnText(solo.getString(R.string.delete_lowercase));
-		solo.clickOnButton(0);
-		solo.sleep(300);
-
-		// see comment at the top of the method
-		//		solo.clickOnView(solo.getView(R.id.view_camera_non_scrollable));
-		//		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
-		//		assertTrue("Dialog to add new costume from camera did not appear",
-		//				solo.searchText(addCostumeFromCameraDialogTitle));
-		//		solo.goBack();
-		//		solo.sleep(200);
-		//		solo.clickOnView(solo.getView(R.id.costumelist_footerview_camera));
-		//		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
-		//		assertTrue("Dialog to add new costume from camera did not appear",
-		//				solo.searchText(addCostumeFromCameraDialogTitle));
-		//		solo.goBack();
-		//		solo.sleep(200);
-		//		solo.clickOnView(solo.getView(R.id.costumelist_footerview_camera_add_image));
-		//		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
-		//		assertTrue("Dialog to add new costume from camera did not appear",
-		//				solo.searchText(addCostumeFromCameraDialogTitle));
-		//		solo.goBack();
-		//		solo.sleep(200);
-
-		solo.clickOnView(solo.getView(R.id.view_gallery_non_scrollable));
-		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
-		assertTrue("Dialog to add new costume from gallery did not appear",
-				solo.searchText(addCostumeFromGalleryDialogTitle));
-		solo.goBack();
-		solo.sleep(200);
-
-		solo.clickOnView(solo.getView(R.id.costumelist_footerview_gallery));
-		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
-		assertTrue("Dialog to add new costume from gallery did not appear",
-				solo.searchText(addCostumeFromGalleryDialogTitle));
-		solo.goBack();
-		solo.sleep(200);
-		solo.clickOnView(solo.getView(R.id.costumelist_footerview_gallery_add_image));
-		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
-		assertTrue("Dialog to add new costume from gallery did not appear",
-				solo.searchText(addCostumeFromGalleryDialogTitle));
-		solo.goBack();
-		solo.sleep(200);
-	}
-
 	public void testCopyCostume() {
 		goToCostumesTab();
 		solo.clickOnText(solo.getString(R.string.copy_costume), 1);

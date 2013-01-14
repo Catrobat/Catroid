@@ -35,27 +35,4 @@
         android:layout_height="wrap_content"
         android:cacheColorHint="#00000000" />
 
-    <LinearLayout
-        android:id="@+id/view_below_costumelist_non_scrollable"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@android:id/list"
-        android:orientation="horizontal"
-        android:weightSum="2" >
-
-        <View
-            android:id="@+id/view_camera_non_scrollable"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true" />
-
-        <View
-            android:id="@+id/view_gallery_non_scrollable"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true" />
-    </LinearLayout>
-
 </RelativeLayout>
