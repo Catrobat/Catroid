@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import java.util.HashMap;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.ScriptTabActivity;
@@ -38,7 +39,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class SpeakBrick implements Brick {
 	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
@@ -51,6 +51,10 @@ public class SpeakBrick implements Brick {
 	private transient View view;
 
 	public SpeakBrick(Sprite sprite, String text) {
+		if (text == null) {
+			text = "";
+		}
+
 		this.sprite = sprite;
 		this.text = text;
 	}
@@ -80,7 +84,7 @@ public class SpeakBrick implements Brick {
 			}
 		};
 
-		String utteranceId = this.hashCode() + "";
+		String utteranceId = String.valueOf(hashCode());
 		activeSpeakBricks.put(utteranceId, this);
 
 		HashMap<String, String> speakParameter = new HashMap<String, String>();

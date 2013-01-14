@@ -23,21 +23,32 @@
 package org.catrobat.catroid.test.content.brick;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.test.utils.TestUtils;
 
 import android.test.AndroidTestCase;
 
 public class SpeakBrickTest extends AndroidTestCase {
 
 	private String text = "hello world!";
-	private String text2 = "nice to meet you.";
 
 	public void testSpeak() {
-		Sprite sprite = new Sprite("new sprite");
+		Sprite sprite = new Sprite("testSprite");
 		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
 		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
-		speakBrick = new SpeakBrick(sprite, text2);
-		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick.getText());
+	}
+
+	public void testNullValue() {
+		Sprite sprite = new Sprite("testSprite");
+		SpeakBrick speakBrick = new SpeakBrick(sprite, null);
+		assertEquals("Null value isn't converted to empty string.", "",
+				TestUtils.getPrivateField("text", speakBrick, false));
+	}
+
+	public void testRequirements() {
+		SpeakBrick speakBrick = new SpeakBrick(null, null);
+		assertEquals("Wrong required brick resources", Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
 	}
 
 	public void testNullSprite() {

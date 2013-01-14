@@ -257,7 +257,7 @@ public class AddBrickDialog extends DialogFragment {
 		soundBrickList.add(new StopAllSoundsBrick(sprite));
 		soundBrickList.add(new SetVolumeToBrick(sprite, 100));
 		soundBrickList.add(new ChangeVolumeByNBrick(sprite, 25));
-		soundBrickList.add(new SpeakBrick(sprite, null));
+		soundBrickList.add(new SpeakBrick(sprite, ""));
 		brickMap.put(context.getString(R.string.category_sound), soundBrickList);
 
 		List<Brick> controlBrickList = new ArrayList<Brick>();
