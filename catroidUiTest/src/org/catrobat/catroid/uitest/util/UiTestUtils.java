@@ -881,4 +881,15 @@ public class UiTestUtils {
 	public static ListView getScriptListView(Solo solo) {
 		return solo.getCurrentListViews().get(1);
 	}
+
+	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
+		waitForFragment(solo, fragmentRootLayoutId, 5000);
+	}
+
+	public static void waitForFragment(Solo solo, int fragmentRootLayoutId, int timeout) {
+		boolean fragmentFoundInTime = solo.waitForView(solo.getView(fragmentRootLayoutId), timeout, true);
+		if (!fragmentFoundInTime) {
+			fail("Fragment was not loaded");
+		}
+	}
 }

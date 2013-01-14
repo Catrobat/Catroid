@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -119,11 +118,13 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 			fail("File not added in CostumeDataList");
 		}
 
-		solo.clickOnText(solo.getString(R.string.scripts));
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.category_looks);
+		clickOnSpinnerItem(looksSpinnerText, scriptsSpinnerText);
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(nyanCat);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnActionBar(solo, R.id.btn_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 	}
@@ -173,11 +174,13 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 			fail("File not added in CostumeDataList");
 		}
 
-		solo.clickOnText(solo.getString(R.string.scripts));
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.category_looks);
+		clickOnSpinnerItem(looksSpinnerText, scriptsSpinnerText);
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(manImage);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnActionBar(solo, R.id.btn_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 	}
@@ -194,14 +197,16 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 	private void prepareTest() {
 		createProject();
-		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.sleep(200);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.category_looks);
+		clickOnSpinnerItem(scriptsSpinnerText, looksSpinnerText);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
+	}
 
-		solo.clickInList(0);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {
+		solo.clickOnText(selectedSpinnerItem);
+		solo.clickOnText(itemName);
 	}
 
 	private void createProject() {

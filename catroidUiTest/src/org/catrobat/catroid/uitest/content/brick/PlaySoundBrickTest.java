@@ -139,24 +139,24 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 	public void testSpinnerUpdatesRename() {
 		String newName = "nameRenamed";
 		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String soundsSpinnerText = solo.getString(R.string.sounds);
 
 		solo.clickOnText(spinnerNothingText);
 		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.goBack();
-		solo.clickOnText(solo.getString(R.string.sounds));
-		solo.clickOnView(solo.getView(R.id.sound_title));
+		clickOnSpinnerItem(scriptsSpinnerText, soundsSpinnerText);
+		solo.sleep(200);
+		solo.clickLongOnText(soundName);
+		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		solo.goBack();
 		solo.sendKey(Solo.ENTER);
 		solo.waitForDialogToClose(500);
 		solo.sleep(500);
-		solo.clickOnText(solo.getString(R.string.scripts));
+		clickOnSpinnerItem(soundsSpinnerText, scriptsSpinnerText);
+		solo.sleep(200);
 		solo.clickOnText(spinnerNothingText);
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
