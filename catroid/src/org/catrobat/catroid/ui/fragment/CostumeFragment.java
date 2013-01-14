@@ -70,9 +70,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.graphics.Pixmap;
 
 public class CostumeFragment extends ScriptActivityFragment implements OnCostumeEditListener,
@@ -217,47 +214,6 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 
 		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		//inflater.inflate(R.menu.menu_scripttab_costumes, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		//		menu.clear();
-		//		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.menu_scripttab_costumes, menu);
-		//
-		//		int addButtonIcon;
-		//		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		//		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
-		//			addButtonIcon = R.drawable.ic_background;
-		//		} else {
-		//			addButtonIcon = R.drawable.ic_actionbar_shirt;
-		//		}
-		//		menu.findItem(R.id.menu_add).setIcon(addButtonIcon);
-
-		super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int itemId = item.getItemId();
-		switch (itemId) {
-			case R.id.menu_add_costume_from_camera: {
-				selectImageFromCamera();
-				return true;
-			}
-			case R.id.menu_add_costume_from_gallery: {
-				selectImageFromGallery();
-				return true;
-			}
-			default: {
-				return super.onOptionsItemSelected(item);
-			}
-		}
 	}
 
 	public void setSelectedCostumeData(CostumeData costumeData) {
@@ -692,44 +648,24 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#setSelectMode(int)
-	 */
 	@Override
 	public void setSelectMode(int selectMode) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#getSelectMode()
-	 */
 	@Override
 	public int getSelectMode() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#showRenameDialog()
-	 */
 	@Override
 	protected void showRenameDialog() {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#showDeleteDialog()
-	 */
 	@Override
 	protected void showDeleteDialog() {
 		// TODO Auto-generated method stub
