@@ -88,6 +88,8 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnScreen(200, 200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
+		// just to get focus and get the correct list
+		solo.clickOnText(scriptsName);
 		solo.clickOnText(scriptsName);
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
@@ -110,6 +112,12 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
 		solo.clickOnScreen(200, 200);
 
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
+		// just to get focus and get the correct list
+		solo.clickOnText(scriptsName);
+		solo.clickOnText(scriptsName);
 		yPositionList = UiTestUtils.getListItemYPositions(solo);
 
 		solo.clickOnScreen(20, yPositionList.get(0));
@@ -132,11 +140,11 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		int categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
+		solo.clickOnText(solo.getString(categoryStringId));
 		solo.clickOnImageButton(0);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_stop_all_sounds));
+		solo.clickOnText(solo.getString(categoryStringId));
+		solo.clickOnText(solo.getString(R.string.brick_stop_all_sounds));
 		solo.clickOnScreen(200, 200);
 		solo.sleep(200);
 
