@@ -143,7 +143,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		createProject();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		UiTestUtils.getIntoProgramMenuFromMainMenu(solo, 0);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
 	}
@@ -216,7 +216,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);

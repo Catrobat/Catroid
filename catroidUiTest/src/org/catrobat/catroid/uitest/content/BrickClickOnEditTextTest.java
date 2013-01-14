@@ -81,7 +81,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		float screenWidth = 0;
 		float getTextViewXPosition = 0;
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -96,7 +96,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_y);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -112,7 +112,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);

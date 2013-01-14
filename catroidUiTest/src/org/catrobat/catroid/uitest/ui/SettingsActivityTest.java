@@ -79,7 +79,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(background);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
 		solo.goBack();
@@ -101,7 +101,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 }

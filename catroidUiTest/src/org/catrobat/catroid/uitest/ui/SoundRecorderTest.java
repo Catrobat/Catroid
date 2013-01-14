@@ -123,7 +123,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));

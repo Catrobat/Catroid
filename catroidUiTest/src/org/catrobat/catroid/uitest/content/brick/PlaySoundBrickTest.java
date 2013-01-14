@@ -91,7 +91,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(soundName);
 		assertTrue(soundName + " is not selected in Spinner", solo.searchText(soundName));
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
@@ -104,7 +104,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(soundName2);
 		assertTrue(soundName2 + " is not selected in Spinner", solo.searchText(soundName2));
 		mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());

@@ -49,7 +49,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_program_menu);
-		findViewById(R.id.btn_add).setVisibility(View.GONE);
+		findViewById(R.id.button_add).setVisibility(View.GONE);
 		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);

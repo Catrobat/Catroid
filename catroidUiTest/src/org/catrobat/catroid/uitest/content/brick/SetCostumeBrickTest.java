@@ -87,7 +87,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(costumeName);
 		assertTrue(costumeName + " is not selected in Spinner", solo.searchText(costumeName));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
@@ -101,7 +101,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(costumeName2);
 		assertTrue(costumeName2 + " is not selected in Spinner", solo.searchText(costumeName2));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
@@ -155,7 +155,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(costumeName);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		String costumePath = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList().get(0)
 				.getAbsolutePath();
@@ -173,7 +173,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<MainMe
 	public void selectCostume(String newCostume, String oldName, String costumeImagePath) {
 		solo.clickOnText(oldName);
 		solo.clickOnText(newCostume);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(5000);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);

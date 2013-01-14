@@ -115,7 +115,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		assertFalse("Menu to add costume from gallery should not be visible",
 				solo.searchText(addCostumeFromGalleryText));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		assertTrue("Menu to add costume from camera was not visible", solo.searchText(addCostumeFromCameraText));
 		assertTrue("Menu to add costume from gallery was not visible", solo.searchText(addCostumeFromGalleryText));

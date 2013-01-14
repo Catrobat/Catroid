@@ -140,7 +140,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	public void testAddSoundButton() {
 		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
 		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle, true));
 
@@ -167,7 +167,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	public void testPlayProgramButton() {
 		int expectedNumberOfSounds = getActualNumberOfSounds();
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
 
