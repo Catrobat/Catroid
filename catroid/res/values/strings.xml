@@ -93,7 +93,7 @@
     <!--  -->
 
     <!-- Costume activity -->
-    <string name="rename_costume_dialog">Rename costume</string>
+    <string name="rename_costume_dialog">Rename Costume</string>
     <string name="edit_costume_paintroid">Paintroid</string>
     <string name="copy_costume">copy</string>
     <string name="costumename_invalid">This costume\'s name is invalid</string>
@@ -106,7 +106,7 @@
     <!--  -->
 
     <!-- Sound activity -->
-    <string name="rename_sound_dialog">Rename sound</string>
+    <string name="rename_sound_dialog">Rename Sound</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
@@ -182,8 +182,8 @@
 
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Project with same name already exists!</string>
-    <string name="overwrite_replace">replace existing Project</string>
-    <string name="overwrite_rename">rename downloaded Project</string>
+    <string name="overwrite_replace">Replace existing Project</string>
+    <string name="overwrite_rename">Rename downloaded Project</string>
     <!--  -->
 
     <!-- Stage menu dialog -->
@@ -197,7 +197,7 @@
     <!--  -->
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">new…</string>
+    <string name="new_broadcast_message">New…</string>
     <string name="broadcast_nothing_selected">Nothing…</string>
     <!--  -->
     
