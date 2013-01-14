@@ -776,6 +776,19 @@ public class UiTestUtils {
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 	}
 
+	public static void getIntoSoundsFromMainMenu(Solo solo) {
+		getIntoSoundsFromMainMenu(solo, 0);
+	}
+
+	public static void getIntoSoundsFromMainMenu(Solo solo, int spriteIndex) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
+	}
+
 	public static void getIntoCostumesFromMainMenu(Solo solo) {
 		getIntoCostumesFromMainMenu(solo, 0, false);
 	}
