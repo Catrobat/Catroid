@@ -107,8 +107,6 @@
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
     <string name="default_costume_name">costume</string>
     <string name="delete_costume_dialog">Delete costume?</string>
-    <string name="add_costume_from_camera">From Camera</string>
-    <string name="add_costume_from_gallery">From Gallery</string>
     <string name="select_costume_from_gallery">Select image</string>
     <string name="select_costume_from_camera">Select photo</string>
     <string name="costumelist_footer_image_description_for_camera">Tap to add new photo</string>
@@ -173,6 +171,10 @@
     <string name="spritename_already_exists">This spritename already exists</string>
     <string name="rename_sprite_dialog">Rename Sprite</string>
     <string name="spritename_invalid">This spritename is invalid</string>
+    <!--  -->
+
+    <!-- New costume dialog -->
+    <string name="new_costume_dialog_title">Add Costume</string>
     <!--  -->
 
     <!-- Login Register dialog -->

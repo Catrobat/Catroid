@@ -74,4 +74,9 @@
         <item>Sounds</item>
     </string-array>
 
+    <string-array name="new_costume_chooser">
+        <item>From Camera</item>
+        <item>From Gallery</item>
+    </string-array>
+
 </resources>

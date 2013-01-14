@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.CostumeAdapter;
 import org.catrobat.catroid.ui.adapter.CostumeAdapter.OnCostumeEditListener;
 import org.catrobat.catroid.ui.dialogs.DeleteCostumeDialog;
+import org.catrobat.catroid.ui.dialogs.NewCostumeDialog;
 import org.catrobat.catroid.ui.dialogs.RenameCostumeDialog;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
@@ -408,7 +409,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 		}
 	}
 
-	private void selectImageFromCamera() {
+	public void selectImageFromCamera() {
 		costumeFromCameraUri = UtilCamera.getDefaultCostumeFromCameraUri(getString(R.string.default_costume_name));
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, costumeFromCameraUri);
@@ -416,7 +417,7 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 		startActivityForResult(chooser, REQUEST_TAKE_PICTURE);
 	}
 
-	private void selectImageFromGallery() {
+	public void selectImageFromGallery() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -681,8 +682,8 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 
 	@Override
 	public void handleAddButton() {
-		// TODO Auto-generated method stub
-
+		NewCostumeDialog dialog = new NewCostumeDialog(this);
+		dialog.show(getActivity().getSupportFragmentManager(), NewCostumeDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
