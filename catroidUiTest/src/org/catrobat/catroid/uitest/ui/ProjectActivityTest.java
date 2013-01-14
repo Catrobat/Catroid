@@ -485,7 +485,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite spriteThree = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(3);
 		Sprite spriteFour = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(4);
 
-		solo.clickOnActionBarItem(R.id.delete);
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.delete)));
 
 		solo.clickOnCheckBox(1);

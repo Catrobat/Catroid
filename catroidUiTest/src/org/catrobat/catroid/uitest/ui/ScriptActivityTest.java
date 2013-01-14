@@ -434,7 +434,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 
 	private void openActionMode(String overflowMenuItemName) {
 		if (overflowMenuItemName.equals(delete)) { // Action item
-			solo.clickOnActionBarItem(R.id.delete);
+			UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		} else { // From overflow menu
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
