@@ -48,9 +48,9 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<MainMe
 	private Solo solo;
 	private Project project;
 
-	private static final int FIRST_BRICK_SPINNER_INDEX = 1;
-	private static final int SECOND_BRICK_SPINNER_INDEX = 2;
-	private static final int THIRD_BRICK_SPINNER_INDEX = 3;
+	private static final int FIRST_BRICK_SPINNER_INDEX = 0;
+	private static final int SECOND_BRICK_SPINNER_INDEX = 1;
+	private static final int THIRD_BRICK_SPINNER_INDEX = 2;
 
 	public BroadcastBricksTest() {
 		super(MainMenuActivity.class);
@@ -92,7 +92,12 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<MainMe
 		String testString3 = "test3";
 
 		enterNewTextIntoSpinner(1, testString);
-		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive)); //just to get focus for solo
+		// just to get focus
+		String brickBroadcastString = solo.getString(R.string.brick_broadcast);
+		solo.clickOnText(brickBroadcastString);
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
 
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(FIRST_BRICK_SPINNER_INDEX)
 				.getSelectedItem());
@@ -110,12 +115,20 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<MainMe
 				.getSelectedItem());
 
 		enterNewTextIntoSpinner(2, testString2);
-		solo.clickOnScreen(200, 200); //just to get focus for solo
+		// just to get focus
+		solo.clickOnText(brickBroadcastString);
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
 
 		checkIfSpinnerTextsCorrect(testString, testString2, testString);
 
 		enterNewTextIntoSpinner(3, testString3);
-		solo.clickOnScreen(200, 200); //just to get focus for solo
+		// just to get focus
+		solo.clickOnText(brickBroadcastString);
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
 
 		checkIfSpinnerTextsCorrect(testString, testString2, testString3);
 
@@ -140,11 +153,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.enterText(0, text);
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(400);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(600);
 	}
 
 	private void createProject() {
