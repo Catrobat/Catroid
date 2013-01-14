@@ -62,10 +62,8 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-
 		ProjectManager.getInstance().deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
-
 		super.tearDown();
 		solo = null;
 	}
@@ -74,14 +72,14 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		if (!solo.waitForView(DragAndDropListView.class, 0, 5000, false)) {
 			fail("DragAndDropListView not shown in 5 secs!");
 		}
-		ListView view = UiTestUtils.getScriptListView(solo);
-		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int groupCount = adapter.getScriptCount();
 		ArrayList<Integer> yPosition;
 		int addedYPosition;
 
-		assertEquals("Incorrect number of bricks.", 4 + 1, solo.getCurrentListViews().get(1).getCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 4 + 1, dragDropListView.getCount()); // don't forget the footer
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());

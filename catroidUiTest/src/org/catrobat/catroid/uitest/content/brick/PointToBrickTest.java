@@ -70,12 +70,12 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	@Smoke
 	public void testPointToBrickTest() throws InterruptedException {
-		ListView view = UiTestUtils.getScriptListView(solo);
-		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 
-		assertEquals("Incorrect number of bricks.", 3 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 3 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -88,7 +88,7 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.waitForText(spinnerNothingSelectedText);
 		solo.clickInList(0);
 		solo.waitForText(spinnerNothingSelectedText);
-		assertEquals("Wrong selection", spinnerNothingSelectedText, solo.getCurrentSpinners().get(1).getSelectedItem());
+		assertEquals("Wrong selection", spinnerNothingSelectedText, solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
 	private void createProject() {

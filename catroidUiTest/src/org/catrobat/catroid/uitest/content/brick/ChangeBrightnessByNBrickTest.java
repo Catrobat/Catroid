@@ -38,7 +38,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.view.KeyEvent;
 import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -72,13 +71,13 @@ public class ChangeBrightnessByNBrickTest extends ActivityInstrumentationTestCas
 
 	@Smoke
 	public void testChangeBrightnessByNBrick() {
-		ListView view = UiTestUtils.getScriptListView(solo);
-		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -88,18 +87,11 @@ public class ChangeBrightnessByNBrickTest extends ActivityInstrumentationTestCas
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_brightness)));
 
 		solo.clickOnEditText(0);
-		solo.sleep(300);
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
+		solo.sleep(100);
 		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
 		solo.clearEditText(0);
 		solo.enterText(0, BRIGHTNESS_TO_CHANGE + "");
-		solo.sleep(300);
-		solo.sendKey(KeyEvent.KEYCODE_ENTER);
+		solo.sendKey(Solo.ENTER);
 		solo.sleep(300);
 
 		assertEquals("Wrong text in field", BRIGHTNESS_TO_CHANGE, changeBrightnessByNBrick.getChangeBrightness());

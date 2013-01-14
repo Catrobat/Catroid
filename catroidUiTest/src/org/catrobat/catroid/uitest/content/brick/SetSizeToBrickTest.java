@@ -94,13 +94,13 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 
 	@Smoke
 	public void testSetSizeToBrick() {
-		ListView view = UiTestUtils.getScriptListView(solo);
-		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 3 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 3 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -114,8 +114,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<MainMen
 
 		UiTestUtils.clickEnterClose(solo, 0, newSize + "");
 
-		double size = (Double) UiTestUtils.getPrivateField("size", setSizeToBrick);
-		assertEquals("Wrong text in field", newSize, size);
+		double currentSize = (Double) UiTestUtils.getPrivateField("size", setSizeToBrick);
+		assertEquals("Wrong text in field", newSize, currentSize);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
 		// -------------------------------------------------------------------------------------------------------------

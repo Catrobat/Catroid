@@ -77,7 +77,7 @@ public class WhenStartedBrickTest extends ActivityInstrumentationTestCase2<MainM
 		ArrayList<Integer> yPosition;
 		int addedYPosition;
 
-		assertEquals("Incorrect number of bricks.", 4 + 1, solo.getCurrentListViews().get(1).getCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 4 + 1, UiTestUtils.getScriptListView(solo).getCount()); // don't forget the footer
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());

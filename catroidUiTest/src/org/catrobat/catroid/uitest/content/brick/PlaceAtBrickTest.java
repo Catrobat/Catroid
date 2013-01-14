@@ -79,13 +79,13 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	@Smoke
 	public void testPlaceAtBrick() throws InterruptedException {
-		ListView view = UiTestUtils.getScriptListView(solo);
-		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 5 + 1, solo.getCurrentListViews().get(1).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 5 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -105,15 +105,15 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		UiTestUtils.clickEnterClose(solo, 0, xPosition + "");
 
-		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
+		int currentXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
+		assertEquals("Value in Brick is not updated", xPosition, currentXPosition);
 
 		UiTestUtils.clickEnterClose(solo, 1, yPosition + "");
 
-		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
+		int currentYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
+		assertEquals("Value in Brick is not updated", yPosition, currentYPosition);
 	}
 
 	private void createProject() {
