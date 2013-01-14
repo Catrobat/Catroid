@@ -45,7 +45,6 @@
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
     <string name="add">Add</string>
-    <string name="start">Start</string>
     <!--  -->
 
     <!-- Main menu activity -->
@@ -86,16 +85,11 @@
     <string name="insert_below">Insert Below</string>
     <!--  -->
 
-    <!-- Sprite activity -->
-    <string name="sprite_name">Sprite:</string>
-    <!--  -->
-
     <!-- Script activity -->
     <string name="scripts">Scripts</string>
     <string name="costumes">Costumes</string>
     <string name="sounds">Sounds</string>
     <string name="backgrounds">Backgrounds</string>
-    <string name="spinner">Spinner</string>
     <!--  -->
 
     <!-- Costume activity -->
