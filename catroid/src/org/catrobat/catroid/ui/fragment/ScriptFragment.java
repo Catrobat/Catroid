@@ -188,7 +188,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition()))
 						.initScript(ProjectManager.getInstance().getCurrentSprite());
 				MenuInflater inflater = getActivity().getMenuInflater();
-				inflater.inflate(R.menu.script_menu, menu);
+				inflater.inflate(R.menu.menu_script, menu);
 			}
 		}
 	}

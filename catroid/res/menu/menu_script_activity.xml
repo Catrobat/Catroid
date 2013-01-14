@@ -54,7 +54,7 @@
         android:id="@+id/delete"
         android:showAsAction="ifRoom"
         android:title="@string/delete"
-        android:icon="@drawable/ic_delete" />
+        android:icon="@drawable/ic_menu_delete" />
     <item
         android:id="@+id/settings"
         android:showAsAction="never"
