@@ -90,7 +90,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 	public void testCreateNewBrickButton() {
 		initTestProject();
-		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
+		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
 		int brickCountInList = brickListToCheck.size();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
@@ -99,7 +99,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		assertTrue("Wait brick is not in List", solo.searchText(solo.getString(R.string.brick_wait)));
 
-		assertEquals("Brick count in list view not correct", brickCountInView + 1, solo.getCurrentListViews().get(0)
+		assertEquals("Brick count in list view not correct", brickCountInView + 1, UiTestUtils.getScriptListView(solo)
 				.getCount());
 		assertEquals("Brick count in brick list not correct", brickCountInList + 1, ProjectManager.getInstance()
 				.getCurrentScript().getBrickList().size());

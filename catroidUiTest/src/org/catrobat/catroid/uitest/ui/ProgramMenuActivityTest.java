@@ -141,9 +141,8 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 
 	public void testPlayButton() {
 		createProject();
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText("Background");
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		UiTestUtils.getIntoProgramMenuFromMainMenu(solo, 0);
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);

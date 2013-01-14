@@ -126,14 +126,17 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnImage(soundRecorderIndex);
 
 		String startRecording = "Start recording";
-		assertTrue("No button to start recording", solo.waitForText(startRecording, 0, TIME_TO_WAIT));
+		assertTrue("No button to start recording", solo.waitForText(startRecording, 0, 2000, false, true));
 		solo.clickOnText(startRecording);
 
 		String stopRecording = "Stop recording";
-		assertTrue("No button to stop recording", solo.waitForText(stopRecording, 0, TIME_TO_WAIT));
+		solo.sleep(300);
+		assertTrue("No button to stop recording", solo.waitForText(stopRecording, 0, 2000, false, true));
 		solo.clickOnText(stopRecording);
+		solo.sleep(300);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 		solo.sleep(200);
 
 		checkIfNumberOfSoundsIsEqual("clicking on add button", expectedNumberOfSounds);
