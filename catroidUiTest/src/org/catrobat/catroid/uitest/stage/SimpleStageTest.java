@@ -30,6 +30,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.WindowManager;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -70,6 +71,16 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 		result = StageActivity.stageListener.getPixels(-1, -1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, result);
 		assertTrue("Just for FileTest", true);
+	}
+
+	public void testScreenAlwaysOn() {
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		WindowManager.LayoutParams settings = getActivity().getWindow().getAttributes();
+
+		//the value below represents the correct flags for portrait stage with screen always on property
+		int correctWindowFlag = 66944;
+
+		assertEquals("Window flag is not set to FLAG_KEEP_SCREEN_ON!", correctWindowFlag, settings.flags);
 	}
 
 	private void createProject() {
