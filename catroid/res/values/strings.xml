@@ -175,6 +175,8 @@
 
     <!-- New costume dialog -->
     <string name="new_costume_dialog_title">Add Costume</string>
+    <string name="add_costume_from_camera">From Camera</string>
+    <string name="add_costume_from_gallery">From Gallery</string>
     <!--  -->
 
     <!-- Login Register dialog -->

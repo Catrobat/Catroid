@@ -69,14 +69,14 @@
     </string-array>
 
     <string-array name="script_activity_spinner_items">
-        <item>Scripts</item>
-        <item>Looks</item>
-        <item>Sounds</item>
+        <item>@string/scripts</item>
+        <item>@string/category_looks</item>
+        <item>@string/sounds</item>
     </string-array>
 
     <string-array name="new_costume_chooser">
-        <item>From Camera</item>
-        <item>From Gallery</item>
+        <item>@string/add_costume_from_camera</item>
+        <item>@string/add_costume_from_gallery</item>
     </string-array>
 
 </resources>
