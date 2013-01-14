@@ -118,7 +118,10 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	private void prepareRecording() {
-		solo.clickOnText(solo.getString(R.string.sounds));
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String soundsSpinnerText = solo.getString(R.string.sounds);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
 		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
