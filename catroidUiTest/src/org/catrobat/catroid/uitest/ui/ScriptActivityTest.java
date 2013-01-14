@@ -14,6 +14,11 @@ import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.CheckBox;
@@ -106,6 +111,23 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
+	}
+
+	public void testOrientation() throws NameNotFoundException {
+		Activity currentActivity = solo.getCurrentActivity();
+
+		/// Method 1: Assert it is currently in portrait mode.
+		assertEquals("ScriptActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, currentActivity
+				.getResources().getConfiguration().orientation);
+
+		/// Method 2: Retrieve info about Activity as collected from AndroidManifest.xml
+		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
+		PackageManager packageManager = currentActivity.getPackageManager();
+		ActivityInfo activityInfo = packageManager.getActivityInfo(currentActivity.getComponentName(),
+				PackageManager.GET_ACTIVITIES);
+
+		assertEquals(ScriptActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
+				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
 	public void testMainMenuButton() {
