@@ -333,6 +333,7 @@ public class SpritesListFragment extends SherlockListFragment {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
+
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 		Adapter adapter = getListAdapter();
 
@@ -341,6 +342,9 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 			return;
 		}
+
+		menu.setHeaderTitle(spriteToEdit.getName());
+
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 	}
 
