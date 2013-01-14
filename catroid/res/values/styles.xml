@@ -31,8 +31,8 @@
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@color/actionbar_background</item>
         <item name="android:background">@color/actionbar_background</item>
-        <item name="homeAsUpIndicator">@drawable/actionbar_ic_back</item>
-        <item name="android:homeAsUpIndicator">@drawable/actionbar_ic_back</item>
+        <item name="homeAsUpIndicator">@drawable/ic_actionbar_back</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_actionbar_back</item>
         <item name="titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="android:titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="height">@dimen/actionbar_height</item>
