@@ -39,7 +39,9 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
@@ -180,6 +182,10 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testPlayAndStopSound() {
+		// Mute before playing sound
+		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+
 		int timeToWait = 100;
 
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
@@ -200,6 +206,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+
+		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
 	}
 
 	public void testAddNewSound() {
