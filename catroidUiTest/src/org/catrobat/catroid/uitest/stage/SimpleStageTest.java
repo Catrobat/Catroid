@@ -75,12 +75,10 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 	public void testScreenAlwaysOn() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		WindowManager.LayoutParams settings = getActivity().getWindow().getAttributes();
+		final int windowFlags = getActivity().getWindow().getAttributes().flags;
 
-		//the value below represents the correct flags for portrait stage with screen always on property
-		int correctWindowFlag = 66944;
-
-		assertEquals("Window flag is not set to FLAG_KEEP_SCREEN_ON!", correctWindowFlag, settings.flags);
+		assertTrue("Window flags do not contain FLAG_KEEP_SCREEN_ON!",
+				(windowFlags & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) != 0);
 	}
 
 	private void createProject() {
