@@ -45,6 +45,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -55,17 +56,30 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	private static final int ACTION_OVERFLOW_BUTTON_INDEX = 1;
 
 	private Solo solo;
+
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
+	private String rename;
+	private String renameDialogTitle;
+	private String delete;
+	private String deleteDialogTitle;
+
 	private File soundFile;
 	private File soundFile2;
 	private File externalSoundFile;
+
 	private ArrayList<SoundInfo> soundInfoList;
 
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
 
+	private CheckBox firstCheckBox;
+	private CheckBox secondCheckBox;
+
 	private ProjectManager projectManager;
+
+	private static final int TIME_TO_WAIT = 50;
+	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public SoundFragmentTest() {
 		super(MainMenuActivity.class);
@@ -105,10 +119,17 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		UiTestUtils.getIntoSoundsFromMainMenu(solo);
 
-		boolean showDetails = getSoundAdapter().getShowDetails();
-		if (showDetails) {
-			clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
-			solo.sleep(50);
+		rename = solo.getString(R.string.rename);
+		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
+		delete = solo.getString(R.string.delete);
+		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
+
+		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
+		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
+
+		if (getSoundAdapter().getShowDetails()) {
+			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
+			solo.sleep(TIME_TO_WAIT);
 		}
 	}
 
@@ -212,7 +233,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
 	}
 
-	public void testAddNewSound() {
+	public void testAddSound() {
 		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
 
 		String newSoundName = "Added Sound";
@@ -220,6 +241,33 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		assertEquals("No sound was added", expectedNumberOfSounds, getActualNumberOfSounds());
 		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
+	}
+
+	public void testAddSoundWithButton() {
+		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
+		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle, true));
+
+		int soundRecorderIndex = 0;
+		solo.clickOnImage(soundRecorderIndex);
+
+		String startRecording = "Start recording";
+		assertTrue("No button with text " + startRecording, solo.waitForText(startRecording, 0, 500, false, true));
+		solo.clickOnText(startRecording);
+
+		String stopRecording = "Stop recording";
+		solo.sleep(300);
+		assertTrue("No button with text " + stopRecording, solo.waitForText(stopRecording, 0, 500, false, true));
+		solo.clickOnText(stopRecording);
+		solo.sleep(300);
+
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+		solo.sleep(200);
+
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
 
 	public void testGetSoundFromExternalSource() {
@@ -250,6 +298,135 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		if (!isInSoundInfoList) {
 			fail("File not added in SoundInfoList");
 		}
+
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
+	}
+
+	public void testRenameActionModeChecking() {
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+		openActionMode(rename);
+
+		// CHeck if checkboxes are visible
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		solo.clickOnCheckBox(1);
+		// Check if only single-selection is possible
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+	}
+
+	public void testRenameActionModeIfNothingSelected() {
+		openActionMode(rename);
+
+		// Check if rename ActionMode disappears if nothing was selected
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		acceptAndCloseActionMode();
+		assertFalse("Rename dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
+	}
+
+	public void testRenameActionModeIfSelectedAndPressingBack() {
+		openActionMode(rename);
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		solo.goBack();
+
+		// Check if rename ActionMode disappears if back was pressed
+		assertFalse("Rename dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
+	}
+
+	public void testRenameActionModeEqualSoundNames() {
+		openActionMode(rename);
+
+		int checkboxIndex = 1;
+
+		// Rename second sound to the name of the first
+		String newSoundName = soundName;
+
+		solo.clickOnCheckBox(checkboxIndex);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		acceptAndCloseActionMode();
+
+		assertTrue("Rename dialog didn't show up", solo.searchText(renameDialogTitle, true));
+		assertTrue("No EditText with actual soundname", solo.searchEditText(soundName2));
+
+		UiTestUtils.enterText(solo, 0, newSoundName);
+		solo.sendKey(Solo.ENTER);
+
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+
+		// If an already existing name was entered a counter should be appended
+		String expectedNewSoundName = newSoundName + "1";
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		assertEquals("Sound is not correctly renamed in SoundList (1 should be appended)", expectedNewSoundName,
+				soundInfoList.get(checkboxIndex).getTitle());
+		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
+	}
+
+	public void testDeleteActionModeChecking() {
+		openActionMode(delete);
+
+		// Check if checkboxes are visible
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		solo.clickOnCheckBox(1);
+		// Check if multiple-selection is possible
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+	}
+
+	public void testDeleteActionModeIfNothingSelected() {
+		int expectedNumberOfSounds = getActualNumberOfSounds();
+
+		openActionMode(delete);
+
+		// Check if rename ActionMode disappears if nothing was selected
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		acceptAndCloseActionMode();
+		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
+	}
+
+	public void testDeleteActionModeIfSelectedAndPressingBack() {
+		int expectedNumberOfSounds = getActualNumberOfSounds();
+
+		openActionMode(delete);
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.goBack();
+
+		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+
+		// Check if rename ActionMode disappears if back was pressed
+		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
+	}
+
+	public void testDeleteActionMode() {
+		int expectedNumberOfSounds = getActualNumberOfSounds() - 1;
+
+		openActionMode(delete);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
+		acceptAndCloseActionMode();
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
@@ -348,5 +525,25 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	private String getSoundTitle(int soundIndex) {
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		return soundInfoList.get(soundIndex).getTitle();
+	}
+
+	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
+			boolean secondCheckboxExpectedChecked) {
+		solo.sleep(TIME_TO_WAIT);
+		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
+		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
+	}
+
+	private void openActionMode(String overflowMenuItemName) {
+		if (overflowMenuItemName.equals(delete)) { // Action item
+			UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		} else { // From overflow menu
+			solo.clickOnMenuItem(overflowMenuItemName, true);
+		}
+		assertTrue("ActionMode didn't show up", solo.searchText(overflowMenuItemName, true));
+	}
+
+	private void acceptAndCloseActionMode() {
+		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
 	}
 }
