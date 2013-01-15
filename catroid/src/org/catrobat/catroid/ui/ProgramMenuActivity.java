@@ -51,8 +51,10 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
 
 		actionBar = getSupportActionBar();
+
+		String title = ProjectManager.getInstance().getCurrentSprite().getName();
+		actionBar.setTitle(title);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(false);
 	}
 
 	@Override
