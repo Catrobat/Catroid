@@ -131,7 +131,10 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.sleep(200);
 		solo.drag(20, 20, 300, height - 20, 100);
-		solo.sleep(200);
+		// just to get focus and get the correct list
+		solo.clickOnText(scriptsName);
+		solo.clickOnText(scriptsName);
+		solo.sleep(400);
 
 		assertTrue("Last Brick should now be BroadcastBrick", adapter.getItem(3) instanceof BroadcastBrick);
 	}
