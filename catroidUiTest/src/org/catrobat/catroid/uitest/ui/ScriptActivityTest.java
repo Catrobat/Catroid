@@ -86,10 +86,19 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testMainMenuButton() {
-		UiTestUtils.clickOnUpActionBarButton(solo);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Main menu is not displayed", MainMenuActivity.class);
+		checkMainMenuButton();
+
+		UiTestUtils.getIntoCostumesFromMainMenu(solo);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
+
+		checkMainMenuButton();
+
+		UiTestUtils.getIntoSoundsFromMainMenu(solo);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+
+		checkMainMenuButton();
 	}
 
 	public void testChangeViaSpinnerAndPlayProgramButton() {
@@ -164,13 +173,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		checkSettingsAndGoBack();
 	}
 
-	private void checkSettingsAndGoBack() {
-		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings), true);
-		solo.assertCurrentActivity("Not in " + SettingsActivity.class.getSimpleName(), SettingsActivity.class);
-		solo.goBack();
-		solo.assertCurrentActivity("Not in " + ScriptActivity.class.getSimpleName(), ScriptActivity.class);
-	}
-
 	private void playProgramButtonTest() {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -181,6 +183,19 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
+	}
+
+	private void checkMainMenuButton() {
+		UiTestUtils.clickOnUpActionBarButton(solo);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Main menu is not displayed", MainMenuActivity.class);
+	}
+
+	private void checkSettingsAndGoBack() {
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings), true);
+		solo.assertCurrentActivity("Not in " + SettingsActivity.class.getSimpleName(), SettingsActivity.class);
+		solo.goBack();
+		solo.assertCurrentActivity("Not in " + ScriptActivity.class.getSimpleName(), ScriptActivity.class);
 	}
 
 	private void clickOnSpinnerItem(int itemIndex) {
