@@ -450,6 +450,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	@Override
@@ -658,6 +659,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SOUND_DELETED)) {
 				adapter.notifyDataSetChanged();
+				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 			}
 		}
 	}
