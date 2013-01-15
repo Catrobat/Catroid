@@ -51,7 +51,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		UiTestUtils.createTestProject();
 
 		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoSoundsFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -92,7 +92,56 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.assertCurrentActivity("Main menu is not displayed", MainMenuActivity.class);
 	}
 
-	public void testPlayProgramButton() {
+	public void testChangeViaSpinnerAndPlayProgramButton() {
+		int scriptsSpinnerIndexRelativeToCurrentSelected = 0;
+		int looksSpinnerIndexRelativeToCurrentSelected = 1;
+		int soundsSpinnerIndexRelativeToCurrentSelected = 2;
+
+		int expectedNumberOfSpinnerItems = 3;
+		int actualNumberOfSpinnerItems = solo.getCurrentSpinners().get(0).getAdapter().getCount();
+		assertEquals("There should be " + expectedNumberOfSpinnerItems + " spinner items",
+				expectedNumberOfSpinnerItems, actualNumberOfSpinnerItems);
+
+		String scripts = solo.getString(R.string.scripts);
+		String looks = solo.getString(R.string.category_looks);
+		String sounds = solo.getString(R.string.sounds);
+
+		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, 300, false, true));
+
+		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, 300, false, true));
+
+		testPlayProgramButton();
+
+		clickOnSpinnerItem(looksSpinnerIndexRelativeToCurrentSelected);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		assertTrue("Spinner item '" + looks + "' not selected", solo.waitForText(looks, 0, 300, false, true));
+
+		soundsSpinnerIndexRelativeToCurrentSelected = 1;
+		testPlayProgramButton();
+
+		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		assertTrue("Spinner item '" + sounds + "' not selected", solo.waitForText(sounds, 0, 300, false, true));
+
+		scriptsSpinnerIndexRelativeToCurrentSelected = -2;
+		testPlayProgramButton();
+
+		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, 300, false, true));
+	}
+
+	public void testOverflowMenuItemSettings() {
+		String settings = solo.getString(R.string.main_menu_settings);
+		solo.clickOnMenuItem(settings, true);
+		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
+		solo.goBack();
+		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
+	}
+
+	private void testPlayProgramButton() {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
@@ -101,45 +150,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.goBack();
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
-	}
-
-	public void testChangeViaSpinner() {
-		int scriptsSpinnerIndexRelativeToCurrentSelected = -2;
-		int costumesSpinnerIndexRelativeToCurrentSelected = -1;
-		int soundsSpinnerIndexRelativeToCurrentSelected = 0;
-
-		int expectedNumberOfSpinnerItems = 3;
-		int actualNumberOfSpinnerItems = solo.getCurrentSpinners().get(0).getAdapter().getCount();
-		assertEquals("There should be " + expectedNumberOfSpinnerItems + " spinner items",
-				expectedNumberOfSpinnerItems, actualNumberOfSpinnerItems);
-
-		String sounds = solo.getString(R.string.sounds);
-		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-
-		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
-		soundsSpinnerIndexRelativeToCurrentSelected = 2;
-
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
-
-		clickOnSpinnerItem(costumesSpinnerIndexRelativeToCurrentSelected);
-		soundsSpinnerIndexRelativeToCurrentSelected = 1;
-
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertTrue("Sounds spinner item is not selected", solo.searchText(sounds, true));
-	}
-
-	public void testOverflowMenuItemSettings() {
-		String settings = solo.getString(R.string.main_menu_settings);
-		solo.clickOnMenuItem(settings, true);
-		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
-		solo.goBack();
 		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
 	}
 
