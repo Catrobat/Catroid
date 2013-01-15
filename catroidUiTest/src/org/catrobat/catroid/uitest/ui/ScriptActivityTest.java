@@ -101,7 +101,31 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		checkMainMenuButton();
 	}
 
-	public void testChangeViaSpinnerAndPlayProgramButton() {
+	public void testPlayProgramButton() {
+		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
+
+		String scripts = solo.getString(R.string.scripts);
+		String looks = solo.getString(R.string.category_looks);
+		String sounds = solo.getString(R.string.sounds);
+
+		assertTrue("Spinner item '" + scripts + "' not shown", solo.waitForText(scripts, 0, 300, false, true));
+
+		checkplayProgramButton();
+
+		UiTestUtils.changeToFragmentViaActionbar(solo, scripts, looks);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
+		assertTrue("Spinner item '" + looks + "' not shown", solo.waitForText(looks, 0, 300, false, true));
+
+		checkplayProgramButton();
+
+		UiTestUtils.changeToFragmentViaActionbar(solo, looks, sounds);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+		assertTrue("Spinner item '" + sounds + "' not shown", solo.waitForText(sounds, 0, 300, false, true));
+
+		checkplayProgramButton();
+	}
+
+	public void testChangeViaSpinner() {
 		int scriptsSpinnerIndexRelativeToCurrentSelected = 0;
 		int looksSpinnerIndexRelativeToCurrentSelected = 1;
 		int soundsSpinnerIndexRelativeToCurrentSelected = 2;
@@ -125,7 +149,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
-		playProgramButtonTest();
 
 		clickOnSpinnerItem(looksSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -133,7 +156,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 
 		soundsSpinnerIndexRelativeToCurrentSelected = 1;
 		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
-		playProgramButtonTest();
 
 		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -141,7 +163,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 
 		scriptsSpinnerIndexRelativeToCurrentSelected = -2;
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
-		playProgramButtonTest();
 
 		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -173,7 +194,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		checkSettingsAndGoBack();
 	}
 
-	private void playProgramButtonTest() {
+	private void checkplayProgramButton() {
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
