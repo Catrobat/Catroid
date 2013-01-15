@@ -41,9 +41,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -61,7 +59,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	private static final String TAG = ScriptFragment.class.getSimpleName();
-	private static final String SHARED_PREFERENCE_NAME = "showDetailsScripts";
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
@@ -136,13 +133,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		if (brickListChangedReceiver != null) {
 			getActivity().unregisterReceiver(brickListChangedReceiver);
 		}
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
-		SharedPreferences.Editor editor = settings.edit();
-
-		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
-		editor.commit();
 	}
 
 	@Override
@@ -180,11 +170,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
 
 		initListeners();
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
-				.getApplicationContext());
-
-		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 	}
 
 	@Override
@@ -346,13 +331,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void setShowDetails(boolean showDetails) {
-		adapter.setShowDetails(showDetails);
-		adapter.notifyDataSetChanged();
+		// Currently no showDetails option
 	}
 
 	@Override
 	public boolean getShowDetails() {
-		return adapter.getShowDetails();
+		return false;
 	}
 
 	@Override
