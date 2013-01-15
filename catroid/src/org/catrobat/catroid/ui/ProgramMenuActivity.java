@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -33,11 +32,8 @@ import org.catrobat.catroid.utils.Utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -57,30 +53,6 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		final ArrayAdapter<Sprite> spinnerAdapter = new ArrayAdapter<Sprite>(this,
-				android.R.layout.simple_dropdown_item_1line, ProjectManager.INSTANCE.getCurrentProject()
-						.getSpriteList());
-		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
-
-			@Override
-			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-				ProjectManager.INSTANCE.setCurrentSprite(spinnerAdapter.getItem(itemPosition));
-				if (ProjectManager.INSTANCE.getCurrentSpritePosition() == 0) {
-					((Button) findViewById(R.id.btn_costumes)).setText(R.string.backgrounds);
-				} else {
-					((Button) findViewById(R.id.btn_costumes)).setText(R.string.costumes);
-				}
-				return true;
-			}
-		});
-		actionBar.setSelectedNavigationItem(ProjectManager.INSTANCE.getCurrentSpritePosition());
 	}
 
 	@Override
