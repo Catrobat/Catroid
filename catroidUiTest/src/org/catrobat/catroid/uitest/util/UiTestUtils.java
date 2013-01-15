@@ -748,12 +748,7 @@ public class UiTestUtils {
 		activity.startActivity(intent);
 	}
 
-	/**
-	 * This method invokes Up button press. You should pass {@link solo.getCurrentActivity} to it.
-	 * Works only with ActionBarSherlock on pre 4.0 Android. Tests which run on 4.0 and higher should use
-	 * solo.clickOnHomeActionBarButton().
-	 */
-	public static void clickOnUpActionBarButton(Solo solo) {
+	public static void clickOnHomeActionBarButton(Solo solo) {
 		if (Build.VERSION.SDK_INT < 15) {
 			Activity activity = solo.getCurrentActivity();
 
@@ -762,7 +757,7 @@ public class UiTestUtils {
 					SherlockFragmentActivity.class, "getSherlock", activity);
 			absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 		} else {
-			solo.clickOnView(solo.getView(android.R.id.home));
+			solo.clickOnActionBarHomeButton();
 		}
 	}
 

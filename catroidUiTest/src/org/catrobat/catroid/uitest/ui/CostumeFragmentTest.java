@@ -196,7 +196,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testMainMenuButton() {
 		goToCostumesTab();
-		UiTestUtils.clickOnUpActionBarButton(solo);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
@@ -550,7 +550,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 			e.printStackTrace();
 		}
 
-		UiTestUtils.clickOnUpActionBarButton(solo);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		goToCostumesTab();
 

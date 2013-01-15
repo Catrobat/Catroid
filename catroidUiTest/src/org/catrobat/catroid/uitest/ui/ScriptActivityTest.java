@@ -207,7 +207,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	private void checkMainMenuButton() {
-		UiTestUtils.clickOnUpActionBarButton(solo);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Main menu is not displayed", MainMenuActivity.class);
 	}

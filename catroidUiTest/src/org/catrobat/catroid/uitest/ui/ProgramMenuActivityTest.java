@@ -135,7 +135,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText("sprite1");
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertTrue("Text on costume button is not 'Costumes'", solo.searchText(solo.getString(R.string.costumes)));
-		UiTestUtils.clickOnUpActionBarButton(solo);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText("Background");
 		assertTrue("Text on costume button is not 'Backgrounds'", solo.searchText(solo.getString(R.string.backgrounds)));
@@ -161,7 +161,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("Background");
-		UiTestUtils.clickOnUpActionBarButton(solo);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
