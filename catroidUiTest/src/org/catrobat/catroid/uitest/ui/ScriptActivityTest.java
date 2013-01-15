@@ -158,8 +158,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testMainMenuButton() {
-		int upImageIndex = 0;
-		solo.clickOnImage(upImageIndex);
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity(), solo);
+
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Main menu is not displayed", MainMenuActivity.class);
 	}

@@ -274,7 +274,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			fail("ListView not shown in 5 secs!");
 		}
 
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity(), solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		solo.clickOnButton(myProjectsText);

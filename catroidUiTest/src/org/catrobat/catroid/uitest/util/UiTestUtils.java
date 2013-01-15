@@ -753,11 +753,15 @@ public class UiTestUtils {
 	 * Works only with ActionBarSherlock on pre 4.0 Android. Tests which run on 4.0 and higher should use
 	 * solo.clickOnHomeActionBarButton().
 	 */
-	public static void clickOnUpActionBarButton(Activity activity) {
-		ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
-				SherlockFragmentActivity.class, "getSherlock", activity);
-		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+	public static void clickOnUpActionBarButton(Activity activity, Solo solo) {
+		if (Build.VERSION.SDK_INT < 15) {
+			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
+			ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
+					SherlockFragmentActivity.class, "getSherlock", activity);
+			absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+		} else {
+			solo.clickOnView(solo.getView(android.R.id.home));
+		}
 	}
 
 	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
