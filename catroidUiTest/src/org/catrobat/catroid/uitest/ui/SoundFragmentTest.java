@@ -53,7 +53,6 @@ import com.jayway.android.robotium.solo.Solo;
 public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
 	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
-	private static final int ACTION_OVERFLOW_BUTTON_INDEX = 1;
 
 	private Solo solo;
 
@@ -187,7 +186,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		int timeToWait = 300;
 
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
-		clickOnOverflowMenuItem(solo.getString(R.string.show_details));
+		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(timeToWait);
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
 
@@ -198,7 +197,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.sleep(timeToWait);
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
 
-		clickOnOverflowMenuItem(solo.getString(R.string.hide_details));
+		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
 		solo.sleep(timeToWait);
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 	}
@@ -495,12 +494,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private void clickOnContextMenuItem(String soundName, String itemName) {
 		solo.clickLongOnText(soundName);
-		solo.waitForText(itemName);
-		solo.clickOnText(itemName);
-	}
-
-	private void clickOnOverflowMenuItem(String itemName) {
-		solo.clickOnImageButton(ACTION_OVERFLOW_BUTTON_INDEX);
 		solo.waitForText(itemName);
 		solo.clickOnText(itemName);
 	}
