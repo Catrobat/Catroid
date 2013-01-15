@@ -109,13 +109,13 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		final int timeToWait = 300;
 
 		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
-		solo.waitForFragmentById(R.id.fragment_script_relative_layout, timeToWait);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
 		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 
-		solo.waitForFragmentById(R.id.fragment_script_relative_layout, timeToWait);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 		playProgramButtonTest();
 
 		clickOnSpinnerItem(looksSpinnerIndexRelativeToCurrentSelected);
@@ -123,7 +123,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Spinner item '" + looks + "' not selected", solo.waitForText(looks, 0, timeToWait, false, true));
 
 		soundsSpinnerIndexRelativeToCurrentSelected = 1;
-		solo.waitForFragmentById(R.id.fragment_costume_relative_layout, timeToWait);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 		playProgramButtonTest();
 
 		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
@@ -131,17 +131,18 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Spinner item '" + sounds + "' not selected", solo.waitForText(sounds, 0, timeToWait, false, true));
 
 		scriptsSpinnerIndexRelativeToCurrentSelected = -2;
-		solo.waitForFragmentById(R.id.fragment_sound_relative_layout, timeToWait);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 		playProgramButtonTest();
 
 		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
-		solo.waitForFragmentById(R.id.fragment_script_relative_layout, timeToWait);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 	}
 
 	public void testOverflowMenuItemSettings() {
 		String settings = solo.getString(R.string.main_menu_settings);
+
 		solo.clickOnMenuItem(settings, true);
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 		solo.goBack();
