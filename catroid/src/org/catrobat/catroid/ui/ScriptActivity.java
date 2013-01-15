@@ -80,15 +80,16 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	private ScriptActivityFragment currentFragment = null;
 
-	private static int currentFragmentPosition = FRAGMENT_SCRIPTS;
+	private static int currentFragmentPosition;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_script);
-
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+		currentFragmentPosition = FRAGMENT_SCRIPTS;
 
 		if (savedInstanceState == null) {
 			Bundle bundle = this.getIntent().getExtras();
@@ -96,14 +97,12 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			if (bundle != null) {
 				currentFragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 			}
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
-			fragmentTransaction.commit();
-		} else {
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			updateCurrentFragment(FRAGMENT_SCRIPTS, fragmentTransaction);
-			fragmentTransaction.commit();
 		}
+
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
+		fragmentTransaction.commit();
+
 		actionBar = getSupportActionBar();
 
 		actionBar.setHomeButtonEnabled(true);
