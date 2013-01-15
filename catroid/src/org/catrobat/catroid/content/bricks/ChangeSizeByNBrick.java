@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptTabActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -34,7 +35,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_text_view);
+		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_size_by_edit_text);
 		edit.setText(String.valueOf(size));
 
