@@ -41,7 +41,6 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,25 +91,19 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		if (savedInstanceState == null) {
-			Log.d("TEST", "-----CREATE");
-
 			Bundle bundle = this.getIntent().getExtras();
 
 			if (bundle != null) {
 				currentFragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
-			} else {
-				Log.d("TEST", "No given bundle to determine fragment");
 			}
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 			fragmentTransaction.commit();
+		} else {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			updateCurrentFragment(FRAGMENT_SCRIPTS, fragmentTransaction);
+			fragmentTransaction.commit();
 		}
-		//		else {
-		//			Log.d("TEST", "No saved Instance");
-		//			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		//			updateCurrentFragment(FRAGMENT_SCRIPTS, fragmentTransaction);
-		//			fragmentTransaction.commit();
-		//		}
 		actionBar = getSupportActionBar();
 
 		actionBar.setHomeButtonEnabled(true);
@@ -125,7 +118,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-				Log.d("TEST", "spinner clicked!");
 				if (itemPosition != currentFragmentPosition) {
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -182,10 +174,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 		}
 		if (fragmentDoesNotExist) {
-			Log.d("TEST", "[INIT] " + currentFragment.getClass().getSimpleName());
 			fragmentTransaction.add(R.id.script_fragment_container, currentFragment);
 		} else {
-			Log.d("TEST", "[SHOW] " + currentFragment.getClass().getSimpleName());
 			fragmentTransaction.show(currentFragment);
 		}
 	}

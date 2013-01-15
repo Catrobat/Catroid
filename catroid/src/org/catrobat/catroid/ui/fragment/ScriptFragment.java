@@ -277,18 +277,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			int position = ((1 + lastVisibleBrick - firstVisibleBrick) / 2);
 			position += firstVisibleBrick;
 			adapter.addNewBrick(position, brickToBeAdded);
-
-			//			// TODO REMEMBER
-			//			Log.d("TEST", "HIDE ACTIONBAR!!!");
-			//			((SherlockFragmentActivity) getActivity()).getSupportActionBar().hide();
 		}
 		adapter.notifyDataSetChanged();
 	}
 
 	private void initListeners() {
-
-		Log.d("TEST", "INIT LISTENERS");
-
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		if (sprite == null) {
 			return;
