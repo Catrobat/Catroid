@@ -141,12 +141,34 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testOverflowMenuItemSettings() {
-		String settings = solo.getString(R.string.main_menu_settings);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
-		solo.clickOnMenuItem(settings, true);
-		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
+		String scripts = solo.getString(R.string.scripts);
+		String looks = solo.getString(R.string.category_looks);
+		String sounds = solo.getString(R.string.sounds);
+
+		assertTrue("Spinner item '" + scripts + "' not shown", solo.waitForText(scripts, 0, 300, false, true));
+
+		checkSettingsAndGoBack();
+
+		UiTestUtils.changeToFragmentViaActionbar(solo, scripts, looks);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
+		assertTrue("Spinner item '" + looks + "' not shown", solo.waitForText(looks, 0, 300, false, true));
+
+		checkSettingsAndGoBack();
+
+		UiTestUtils.changeToFragmentViaActionbar(solo, looks, sounds);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+		assertTrue("Spinner item '" + sounds + "' not shown", solo.waitForText(sounds, 0, 300, false, true));
+
+		checkSettingsAndGoBack();
+	}
+
+	private void checkSettingsAndGoBack() {
+		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings), true);
+		solo.assertCurrentActivity("Not in " + SettingsActivity.class.getSimpleName(), SettingsActivity.class);
 		solo.goBack();
-		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
+		solo.assertCurrentActivity("Not in " + ScriptActivity.class.getSimpleName(), ScriptActivity.class);
 	}
 
 	private void playProgramButtonTest() {
