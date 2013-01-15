@@ -212,7 +212,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	protected void onDestroy() {
 		super.onDestroy();
 		setVolumeControlStream(AudioManager.STREAM_RING);
-		unbindDrawables(findViewById(R.id.SoundActivityRoot));
+		unbindDrawables(findViewById(R.id.activity_script_root_layout));
 		System.gc();
 	}
 
