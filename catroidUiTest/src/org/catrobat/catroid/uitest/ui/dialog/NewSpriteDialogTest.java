@@ -74,10 +74,10 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(300);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_projects_list);
+		solo.waitForFragmentById(R.id.fragment_projects_list);
 		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testingproject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForView(EditText.class);
@@ -96,11 +96,11 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		createTestProject(testingproject);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_projects_list);
+		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnTextInList(solo, testingproject);
 		solo.sleep(500);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForView(EditText.class);
 		solo.clearEditText(0);

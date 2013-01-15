@@ -64,7 +64,8 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 		actionBar.setTitle(title);
 		actionBar.setHomeButtonEnabled(true);
 
-		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sprites_list);
+		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(
+				R.id.fragment_sprites_list);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
