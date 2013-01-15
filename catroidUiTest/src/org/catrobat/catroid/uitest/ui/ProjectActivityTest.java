@@ -232,7 +232,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fr_sprites_list);
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity(), solo);
+		UiTestUtils.clickOnUpActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
