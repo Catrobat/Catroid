@@ -32,6 +32,7 @@ import org.catrobat.catroid.utils.Utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -55,6 +56,16 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		String title = ProjectManager.getInstance().getCurrentSprite().getName();
 		actionBar.setTitle(title);
 		actionBar.setHomeButtonEnabled(true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (ProjectManager.INSTANCE.getCurrentSpritePosition() == 0) {
+			((Button) findViewById(R.id.program_menu_button_costumes)).setText(R.string.backgrounds);
+		} else {
+			((Button) findViewById(R.id.program_menu_button_costumes)).setText(R.string.costumes);
+		}
 	}
 
 	@Override
