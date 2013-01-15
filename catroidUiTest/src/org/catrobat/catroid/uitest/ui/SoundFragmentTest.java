@@ -242,33 +242,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
 	}
 
-	public void testAddSoundWithButton() {
-		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		String addSoundDialogTitle = solo.getString(R.string.sound_select_source);
-		assertTrue("New sound dialog did not appear", solo.searchText(addSoundDialogTitle, true));
-
-		int soundRecorderIndex = 0;
-		solo.clickOnImage(soundRecorderIndex);
-
-		String startRecording = "Start recording";
-		assertTrue("No button with text " + startRecording, solo.waitForText(startRecording, 0, 500, false, true));
-		solo.clickOnText(startRecording);
-
-		String stopRecording = "Stop recording";
-		solo.sleep(300);
-		assertTrue("No button with text " + stopRecording, solo.waitForText(stopRecording, 0, 500, false, true));
-		solo.clickOnText(stopRecording);
-		solo.sleep(300);
-
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
-		solo.sleep(200);
-
-		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
-	}
-
 	public void testGetSoundFromExternalSource() {
 		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
 		String checksumExternalSoundFile = Utils.md5Checksum(externalSoundFile);
