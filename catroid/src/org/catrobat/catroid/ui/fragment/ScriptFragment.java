@@ -54,6 +54,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.actionbarsherlock.view.Menu;
+
 public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
 
@@ -79,7 +81,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -104,6 +106,12 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		initListeners();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.show_details).setVisible(false);
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

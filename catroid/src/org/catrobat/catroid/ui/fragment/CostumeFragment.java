@@ -68,6 +68,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
 
 public class CostumeFragment extends ScriptActivityFragment implements OnCostumeEditListener,
@@ -122,6 +123,12 @@ public class CostumeFragment extends ScriptActivityFragment implements OnCostume
 		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList, false);
 		adapter.setOnCostumeEditListener(this);
 		setListAdapter(adapter);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.show_details).setVisible(true);
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
