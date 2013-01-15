@@ -395,22 +395,28 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 
 		String title = getString(R.string.delete);
-		String appendix = "Sounds";
 
-		if (numberOfSelectedItems == 1) {
-			appendix = "Sound";
+		if (numberOfSelectedItems == 0) {
+			actionMode.setTitle(title);
+		} else {
+			String appendix = getString(R.string.sounds);
+
+			if (numberOfSelectedItems == 1) {
+				appendix = getString(R.string.category_sound);
+			}
+
+			String numberOfItems = Integer.toString(numberOfSelectedItems);
+			String completeTitle = title + " " + numberOfItems + " " + appendix;
+
+			int titleLength = title.length();
+
+			Spannable completeSpannedTitle = new SpannableString(completeTitle);
+			completeSpannedTitle.setSpan(
+					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
+					titleLength + (numberOfItems.length() + 1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			actionMode.setTitle(completeSpannedTitle);
 		}
-
-		String numberOfItems = Integer.toString(numberOfSelectedItems);
-		String completeTitle = title + " " + numberOfItems + " " + appendix;
-
-		int titleLength = title.length();
-
-		Spannable completeSpannedTitle = new SpannableString(completeTitle);
-		completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
-				titleLength, titleLength + (numberOfItems.length() + 1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-		actionMode.setTitle(completeSpannedTitle);
 	}
 
 	@Override
