@@ -95,6 +95,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
+import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
@@ -899,5 +900,20 @@ public class UiTestUtils {
 		solo.sleep(50);
 		solo.clickOnText(itemToSwitchTo);
 		solo.sleep(50);
+	}
+
+	public static IcsSpinner getActionbarSpinnerOnPreHoneyComb(Solo solo) {
+		ArrayList<View> activityViews = solo.getViews();
+		IcsSpinner spinner = null;
+		for (View viewToCheck : activityViews) {
+			if (viewToCheck instanceof IcsSpinner) {
+				spinner = (IcsSpinner) viewToCheck;
+				break;
+			}
+		}
+		if (spinner == null) {
+			fail("no spinner found");
+		}
+		return spinner;
 	}
 }

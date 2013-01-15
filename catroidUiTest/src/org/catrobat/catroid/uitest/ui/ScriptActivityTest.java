@@ -34,8 +34,10 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
@@ -131,9 +133,9 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		int soundsSpinnerIndexRelativeToCurrentSelected = 2;
 
 		int expectedNumberOfSpinnerItems = 3;
-		int actualNumberOfSpinnerItems = solo.getCurrentSpinners().get(0).getAdapter().getCount();
+		int currentNumberOfSpinnerItems = getActionbarSpinnerItemCount();
 		assertEquals("There should be " + expectedNumberOfSpinnerItems + " spinner items",
-				expectedNumberOfSpinnerItems, actualNumberOfSpinnerItems);
+				expectedNumberOfSpinnerItems, currentNumberOfSpinnerItems);
 
 		String scripts = solo.getString(R.string.scripts);
 		String looks = solo.getString(R.string.category_looks);
@@ -146,28 +148,27 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 
 		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
-
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
+		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 
 		clickOnSpinnerItem(looksSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 		assertTrue("Spinner item '" + looks + "' not selected", solo.waitForText(looks, 0, timeToWait, false, true));
 
 		soundsSpinnerIndexRelativeToCurrentSelected = 1;
-		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 
 		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 		assertTrue("Spinner item '" + sounds + "' not selected", solo.waitForText(sounds, 0, timeToWait, false, true));
 
 		scriptsSpinnerIndexRelativeToCurrentSelected = -2;
-		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 
 		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
+		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 	}
 
 	public void testOverflowMenuItemSettings() {
@@ -220,6 +221,22 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	private void clickOnSpinnerItem(int itemIndex) {
-		solo.pressSpinnerItem(0, itemIndex);
+		if (Build.VERSION.SDK_INT < 15) {
+			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
+			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
+			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
+			UiTestUtils.changeToFragmentViaActionbar(solo,
+					spinner.getItemAtPosition(activeSpinnerItemIndex).toString(), itemToClickOnText);
+		} else {
+			solo.pressSpinnerItem(0, itemIndex);
+		}
+	}
+
+	private int getActionbarSpinnerItemCount() {
+		if (Build.VERSION.SDK_INT < 15) {
+			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
+		} else {
+			return solo.getCurrentSpinners().get(0).getAdapter().getCount();
+		}
 	}
 }
