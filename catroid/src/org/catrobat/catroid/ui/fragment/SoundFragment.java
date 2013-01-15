@@ -557,13 +557,21 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void setShowDetails(boolean showDetails) {
-		adapter.setShowDetails(showDetails);
-		adapter.notifyDataSetChanged();
+		// TODO CHANGE THIS!!! (was just a quick fix)
+		if (adapter != null) {
+			adapter.setShowDetails(showDetails);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
 	public boolean getShowDetails() {
-		return adapter.getShowDetails();
+		// TODO CHANGE THIS!!! (was just a quick fix)
+		if (adapter != null) {
+			return adapter.getShowDetails();
+		} else {
+			return false;
+		}
 	}
 
 	private void deleteSound(int position) {
