@@ -60,6 +60,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -301,13 +304,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			mode.setTitle(getString(R.string.delete));
 			return false;
 		}
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(Constants.MULTI_SELECT);
-			mode.setTitle(getString(R.string.delete));
 
 			setActionModeActive(true);
 
@@ -334,7 +337,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setSelectMode(Constants.SELECT_NONE);
 			adapter.clearCheckedItems();
 
-			actionMode.setSubtitle("");
 			actionMode = null;
 
 			numberOfSelectedItems = 0;
@@ -391,7 +393,24 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		} else {
 			--numberOfSelectedItems;
 		}
-		actionMode.setSubtitle(Integer.toString(numberOfSelectedItems) + " selected");
+
+		String title = getString(R.string.delete);
+		String appendix = "Sounds";
+
+		if (numberOfSelectedItems == 1) {
+			appendix = "Sound";
+		}
+
+		String numberOfItems = Integer.toString(numberOfSelectedItems);
+		String completeTitle = title + " " + numberOfItems + " " + appendix;
+
+		int titleLength = title.length();
+
+		Spannable completeSpannedTitle = new SpannableString(completeTitle);
+		completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
+				titleLength, titleLength + (numberOfItems.length() + 1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		actionMode.setTitle(completeSpannedTitle);
 	}
 
 	@Override
