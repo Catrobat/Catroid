@@ -129,6 +129,10 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (selectMode == Constants.MULTI_SELECT) {
+						if (onSoundEditListener != null) {
+							onSoundEditListener.onSoundChecked(isChecked);
+						}
+
 						if (isChecked) {
 							checkedSounds.add(position);
 						} else {
@@ -299,5 +303,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		public void onSoundPlay(View v);
 
 		public void onSoundPause(View v);
+
+		public void onSoundChecked(boolean isChecked);
 	}
 }
