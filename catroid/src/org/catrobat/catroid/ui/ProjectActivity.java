@@ -62,7 +62,7 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 
 		String title = ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar.setTitle(title);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
 
 		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(R.id.fr_sprites_list);
 	}

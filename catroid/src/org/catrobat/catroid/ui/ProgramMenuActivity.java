@@ -54,7 +54,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 
 		String title = ProjectManager.getInstance().getCurrentSprite().getName();
 		actionBar.setTitle(title);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
 	}
 
 	@Override
