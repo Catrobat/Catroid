@@ -180,10 +180,12 @@
 
     <style name="BrickContainer.Control.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="BrickContainer.Control.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
     
 

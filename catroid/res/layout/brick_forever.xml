@@ -22,13 +22,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_yellow"
-    android:orientation="horizontal" >
+    style="@style/BrickContainer.Control.Small"
+    android:background="@drawable/brick_yellow" >
 
     <TextView
-        style="@style/BrickText"
+        style="@style/BrickText.SingleLine"
         android:text="@string/brick_forever" />
 
 </LinearLayout>
