@@ -34,7 +34,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -78,10 +78,31 @@ public class SpritesListFragment extends SherlockListFragment {
 	private SpritesListInitReceiver spritesListInitReceiver;
 
 	private ActionMode actionMode;
+	private boolean actionModeActive = false;
 
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(SpriteAdapter.MULTI_SELECT);
+			mode.setTitle(getString(R.string.delete));
+
+			actionModeActive = true;
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
@@ -95,15 +116,15 @@ public class SpritesListFragment extends SherlockListFragment {
 			}
 			setSelectMode(SpriteAdapter.NONE);
 			spriteAdapter.clearCheckedSprites();
-			actionMode = null;
-		}
 
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.MULTI_SELECT);
-			mode.setTitle(getString(R.string.delete));
-			return true;
+			actionMode = null;
+			actionModeActive = false;
+
+			setBottomBarActivated(true);
 		}
+	};
+
+	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -111,12 +132,20 @@ public class SpritesListFragment extends SherlockListFragment {
 		}
 
 		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.rename));
+
+			actionModeActive = true;
+
+			return true;
+		}
+
+		@Override
 		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
 			return false;
 		}
-	};
 
-	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
@@ -128,24 +157,11 @@ public class SpritesListFragment extends SherlockListFragment {
 			}
 			setSelectMode(SpriteAdapter.NONE);
 			spriteAdapter.clearCheckedSprites();
+
 			actionMode = null;
-		}
+			actionModeActive = false;
 
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.SINGLE_SELECT);
-			mode.setTitle(getString(R.string.rename));
-			return true;
-		}
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			return false;
+			setBottomBarActivated(true);
 		}
 	};
 
@@ -215,13 +231,13 @@ public class SpritesListFragment extends SherlockListFragment {
 			spritesListInitReceiver = new SpritesListInitReceiver();
 		}
 
-		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptTabActivity.ACTION_SPRITE_RENAMED);
+		IntentFilter intentFilterSpriteRenamed = new IntentFilter(ScriptActivity.ACTION_SPRITE_RENAMED);
 		getActivity().registerReceiver(spriteRenamedReceiver, intentFilterSpriteRenamed);
 
-		IntentFilter intentFilterSpriteListChanged = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED);
+		IntentFilter intentFilterSpriteListChanged = new IntentFilter(ScriptActivity.ACTION_SPRITES_LIST_CHANGED);
 		getActivity().registerReceiver(spritesListChangedReceiver, intentFilterSpriteListChanged);
 
-		IntentFilter intentFilterSpriteListInit = new IntentFilter(ScriptTabActivity.ACTION_SPRITES_LIST_INIT);
+		IntentFilter intentFilterSpriteListInit = new IntentFilter(ScriptActivity.ACTION_SPRITES_LIST_INIT);
 		getActivity().registerReceiver(spritesListInitReceiver, intentFilterSpriteListInit);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -262,6 +278,9 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (actionMode != null) {
 			return;
 		}
+
+		setBottomBarActivated(false);
+
 		actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 	}
 
@@ -269,6 +288,9 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (actionMode != null) {
 			return;
 		}
+
+		setBottomBarActivated(false);
+
 		actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 	}
 
@@ -335,6 +357,7 @@ public class SpritesListFragment extends SherlockListFragment {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
+
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 		Adapter adapter = getListAdapter();
 
@@ -343,7 +366,10 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 			return;
 		}
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_current_project, menu);
+
+		menu.setHeaderTitle(spriteToEdit.getName());
+
+		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 	}
 
 	@Override
@@ -405,10 +431,14 @@ public class SpritesListFragment extends SherlockListFragment {
 		return spriteAdapter.getShowDetails();
 	}
 
+	public boolean getActionModeActive() {
+		return actionModeActive;
+	}
+
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITE_RENAMED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITE_RENAMED)) {
 				String newSpriteName = intent.getExtras().getString(RenameSpriteDialog.EXTRA_NEW_SPRITE_NAME);
 				spriteToEdit.setName(newSpriteName);
 			}
@@ -418,7 +448,7 @@ public class SpritesListFragment extends SherlockListFragment {
 	private class SpritesListChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_CHANGED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_CHANGED)) {
 				spriteAdapter.notifyDataSetChanged();
 				final ListView listView = getListView();
 				listView.post(new Runnable() {
@@ -434,10 +464,13 @@ public class SpritesListFragment extends SherlockListFragment {
 	private class SpritesListInitReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_SPRITES_LIST_INIT)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_INIT)) {
 				spriteAdapter.notifyDataSetChanged();
 			}
 		}
 	}
 
+	private void setBottomBarActivated(boolean isActive) {
+		Utils.setBottomBarActivated(getActivity(), isActive);
+	}
 }

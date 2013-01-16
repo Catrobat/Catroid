@@ -98,7 +98,6 @@
     <!-- <string name="brick_list">Блоки:</string> -->
     <!-- <string name="add_new_brick">Добавить новый блок</string> -->
     <!-- Sprite activity -->
-    <string name="sprite_name">Объект:</string>
     <!-- <string name="script_list">Скрипты:</string> -->
     <!-- <string name="add_new_script">Добавить новый Скрипт</string> -->
     <!-- ScriptTab activity -->

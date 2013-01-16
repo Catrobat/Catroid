@@ -52,7 +52,6 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.createEmptyProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		getIntoActivity();
 	}
@@ -82,7 +81,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		float screenWidth = 0;
 		float getTextViewXPosition = 0;
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -97,7 +96,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_y);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -113,7 +112,7 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(categoryMotionText);
@@ -235,6 +234,6 @@ public class BrickClickOnEditTextTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createEmptyProject();
 
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 }
