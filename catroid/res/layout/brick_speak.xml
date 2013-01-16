@@ -26,35 +26,23 @@
     android:gravity="center_vertical"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <TextView
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_speak" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/brick_speak_prototype_text_view"
+        style="@style/BrickPrototypeTextView"
+        android:layout_width="match_parent" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/brick_speak_edit_text"
+        style="@style/BrickEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_speak" >
-        </TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/brick_speak_prototype_text_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="0dp"
-            android:layout_weight="1" >
-        </TextView>
-
-        <EditText
-            android:id="@+id/brick_speak_edit_text"
-            style="@style/BrickEditText"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:inputType="text|number|numberDecimal|numberSigned" >
-        </EditText>
-    </LinearLayout>
+        android:gravity="left"
+        android:inputType="text|number|numberDecimal|numberSigned" >
+    </EditText>
 
 </LinearLayout>

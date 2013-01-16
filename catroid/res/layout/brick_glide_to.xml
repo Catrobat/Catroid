@@ -23,8 +23,6 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickContainer.Motion.Big"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical" >
 

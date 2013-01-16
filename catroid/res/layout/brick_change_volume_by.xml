@@ -20,28 +20,24 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-     style="@style/BrickContainer.Sound.Small"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content">
-    
-     <TextView
-         style="@style/BrickText.SingleLine"
-         android:text="@string/brick_change_volume_by">
-     </TextView>
-     
-     <TextView
-         android:id="@+id/brick_change_volume_by_prototype_text_view"
-         style="@style/BrickPrototypeTextView" >
-     </TextView>
-    
-     <EditText
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BrickContainer.Sound.Small" >
+
+    <TextView
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_change_volume_by" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/brick_change_volume_by_prototype_text_view"
+        style="@style/BrickPrototypeTextView" >
+    </TextView>
+
+    <EditText
         android:id="@+id/brick_change_volume_by_edit_text"
         style="@style/BrickEditText"
         android:inputType="number|numberDecimal" >
-     </EditText>
-     
- </LinearLayout>    
-     
- 
+    </EditText>
+
+</LinearLayout>
