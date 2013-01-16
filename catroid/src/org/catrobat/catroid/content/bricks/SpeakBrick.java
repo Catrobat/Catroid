@@ -51,10 +51,6 @@ public class SpeakBrick implements Brick {
 	private transient View view;
 
 	public SpeakBrick(Sprite sprite, String text) {
-		if (text == null) {
-			text = "";
-		}
-
 		this.sprite = sprite;
 		this.text = text;
 	}

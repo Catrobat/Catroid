@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
@@ -47,7 +48,6 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class PreStageActivity extends Activity {
 
@@ -277,6 +277,10 @@ public class PreStageActivity extends Activity {
 	@SuppressWarnings("deprecation")
 	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
+		if (text == null) {
+			text = "";
+		}
+
 		textToSpeech.setOnUtteranceCompletedListener(listener);
 		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
 	}

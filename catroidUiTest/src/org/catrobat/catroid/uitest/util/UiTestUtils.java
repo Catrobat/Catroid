@@ -462,12 +462,20 @@ public class UiTestUtils {
 	}
 
 	public static Object getPrivateField(String fieldName, Object object) {
+		return getPrivateField(fieldName, object.getClass(), object);
+	}
+
+	public static Object getPrivateField(String fieldName, Class<?> clazz) {
+		return getPrivateField(fieldName, clazz, null);
+	}
+
+	private static Object getPrivateField(String fieldName, Class<?> clazz, Object object) {
 		try {
-			Field field = object.getClass().getDeclaredField(fieldName);
+			Field field = clazz.getDeclaredField(fieldName);
 			field.setAccessible(true);
 			return field.get(object);
-		} catch (Exception e) {
-			Assert.fail(e.getClass().getName() + " when accessing " + fieldName);
+		} catch (Exception exception) {
+			Assert.fail(exception.getClass().getName() + " when accessing " + fieldName);
 		}
 		return null;
 	}
