@@ -80,42 +80,6 @@ import com.actionbarsherlock.view.Menu;
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
-		private ProgressDialog progressDialog = new ProgressDialog(getActivity());
-
-		@Override
-		protected void onPreExecute() {
-			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setTitle(getString(R.string.loading));
-			progressDialog.show();
-		}
-
-		@Override
-		protected File doInBackground(String... path) {
-			File file = null;
-			try {
-				file = StorageHandler.getInstance().copySoundFile(path[0]);
-			} catch (IOException e) {
-				Log.e("CATROID", "Cannot load sound.", e);
-			}
-			return file;
-		}
-
-		@Override
-		protected void onPostExecute(File file) {
-			progressDialog.dismiss();
-
-			if (file != null) {
-				String fileName = file.getName();
-				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
-				updateSoundAdapter(soundTitle, fileName);
-			} else {
-				Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
-						getString(R.string.error_load_sound));
-			}
-		}
-	}
-
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
@@ -263,96 +227,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		mediaPlayer = null;
 	}
 
-	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.SINGLE_SELECT);
-			mode.setTitle(getString(R.string.rename));
-
-			setActionModeActive(true);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSounds = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedSounds.iterator();
-
-			if (iterator.hasNext()) {
-				int position = iterator.next();
-				selectedSoundInfo = (SoundInfo) getListView().getItemAtPosition(position);
-				showRenameDialog();
-			}
-			setSelectMode(Constants.SELECT_NONE);
-			adapter.clearCheckedItems();
-
-			actionMode = null;
-			setActionModeActive(false);
-
-			setBottomBarActivated(true);
-		}
-	};
-
-	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			mode.setTitle(getString(R.string.delete));
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
-
-			setActionModeActive(true);
-
-			deleteActionModeTitle = getString(R.string.delete);
-			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
-			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSounds = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedSounds.iterator();
-
-			int numberDeleted = 0;
-
-			while (iterator.hasNext()) {
-				int position = iterator.next();
-				deleteSound(position - numberDeleted);
-				++numberDeleted;
-			}
-			setSelectMode(Constants.SELECT_NONE);
-			adapter.clearCheckedItems();
-
-			actionMode = null;
-			setActionModeActive(false);
-
-			setBottomBarActivated(true);
-		}
-	};
-
 	@Override
 	public void startRenameActionMode() {
 		setBottomBarActivated(false);
@@ -369,10 +243,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 		}
-	}
-
-	private void setBottomBarActivated(boolean isActive) {
-		((ScriptActivity) getActivity()).setBottomBarActivated(isActive);
 	}
 
 	@Override
@@ -471,27 +341,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
-	private void updateSoundAdapter(String title, String fileName) {
-		title = Utils.getUniqueSoundName(title);
-
-		SoundInfo newSoundInfo = new SoundInfo();
-		newSoundInfo.setTitle(title);
-		newSoundInfo.setSoundFileName(fileName);
-		soundInfoList.add(newSoundInfo);
-		adapter.notifyDataSetChanged();
-
-		//scroll down the list to the new item:
-		{
-			final ListView listView = getListView();
-			listView.post(new Runnable() {
-				@Override
-				public void run() {
-					listView.setSelection(listView.getCount() - 1);
-				}
-			});
-		}
-	}
-
 	public void handlePlaySoundButton(View v) {
 		final int position = (Integer) v.getTag();
 		final SoundInfo soundInfo = soundInfoList.get(position);
@@ -548,16 +397,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 				Log.e("CATROID", "Cannot start sound.", e);
 			}
 		}
-	}
-
-	private void initClickListener() {
-		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				currentSoundPosition = position;
-				return false;
-			}
-		});
 	}
 
 	@Override
@@ -629,13 +468,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 	}
 
-	private void deleteSound(int position) {
-		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
+	@Override
+	public void handleAddButton() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("audio/*");
 
-		soundInfoList.remove(position);
-		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
-
-		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
+		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+				REQUEST_SELECT_MUSIC);
 	}
 
 	@Override
@@ -651,6 +490,42 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
 		} else {
 			Log.e("CATROID", "No sound selected!");
+		}
+	}
+
+	private class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
+		private ProgressDialog progressDialog = new ProgressDialog(getActivity());
+
+		@Override
+		protected void onPreExecute() {
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setTitle(getString(R.string.loading));
+			progressDialog.show();
+		}
+
+		@Override
+		protected File doInBackground(String... path) {
+			File file = null;
+			try {
+				file = StorageHandler.getInstance().copySoundFile(path[0]);
+			} catch (IOException e) {
+				Log.e("CATROID", "Cannot load sound.", e);
+			}
+			return file;
+		}
+
+		@Override
+		protected void onPostExecute(File file) {
+			progressDialog.dismiss();
+
+			if (file != null) {
+				String fileName = file.getName();
+				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
+				updateSoundAdapter(soundTitle, fileName);
+			} else {
+				Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
+						getString(R.string.error_load_sound));
+			}
 		}
 	}
 
@@ -678,12 +553,137 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 	}
 
-	@Override
-	public void handleAddButton() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("audio/*");
+	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
 
-		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
-				REQUEST_SELECT_MUSIC);
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.rename));
+
+			setActionModeActive(true);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSounds = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedSounds.iterator();
+
+			if (iterator.hasNext()) {
+				int position = iterator.next();
+				selectedSoundInfo = (SoundInfo) getListView().getItemAtPosition(position);
+				showRenameDialog();
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			setBottomBarActivated(true);
+		}
+	};
+
+	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			mode.setTitle(getString(R.string.delete));
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.MULTI_SELECT);
+
+			setActionModeActive(true);
+
+			deleteActionModeTitle = getString(R.string.delete);
+			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
+			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSounds = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedSounds.iterator();
+
+			int numberDeleted = 0;
+
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				deleteSound(position - numberDeleted);
+				++numberDeleted;
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			setBottomBarActivated(true);
+		}
+	};
+
+	private void updateSoundAdapter(String title, String fileName) {
+		title = Utils.getUniqueSoundName(title);
+
+		SoundInfo newSoundInfo = new SoundInfo();
+		newSoundInfo.setTitle(title);
+		newSoundInfo.setSoundFileName(fileName);
+		soundInfoList.add(newSoundInfo);
+		adapter.notifyDataSetChanged();
+
+		//scroll down the list to the new item:
+		{
+			final ListView listView = getListView();
+			listView.post(new Runnable() {
+				@Override
+				public void run() {
+					listView.setSelection(listView.getCount() - 1);
+				}
+			});
+		}
+	}
+
+	private void initClickListener() {
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				currentSoundPosition = position;
+				return false;
+			}
+		});
+	}
+
+	private void deleteSound(int position) {
+		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
+
+		soundInfoList.remove(position);
+		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
+
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
+	}
+
+	private void setBottomBarActivated(boolean isActive) {
+		Utils.setBottomBarActivated(getActivity(), isActive);
 	}
 }
