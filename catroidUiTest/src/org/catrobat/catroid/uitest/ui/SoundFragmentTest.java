@@ -357,20 +357,34 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 
-		String expectedTitle = delete + " 1 " + sound;
+		int expectedNumberOfSelectedSounds = 1;
+		String expectedTitle = delete + " " + expectedNumberOfSelectedSounds + " " + sound;
 
 		solo.clickOnCheckBox(0);
 		checkIfCheckboxesAreCorrectlyChecked(true, false);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
-		expectedTitle = delete + " 2 " + sounds;
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		assertTrue("Add button changed title", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedSounds = 2;
+		expectedTitle = delete + " " + expectedNumberOfSelectedSounds + " " + sounds;
 
 		solo.clickOnCheckBox(1);
 		// Check if multiple-selection is possible
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
 		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
-		expectedTitle = delete + " 1 " + sound;
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.sleep(TIME_TO_WAIT);
+		solo.goBack();
+		solo.goBack();
+		assertTrue("Play button changed title", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedSounds = 1;
+		expectedTitle = delete + " " + expectedNumberOfSelectedSounds + " " + sound;
 
 		solo.clickOnCheckBox(0);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
