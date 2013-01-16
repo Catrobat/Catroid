@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -52,6 +53,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -467,6 +469,62 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		int soundCountActual = Integer.parseInt(soundCountString.substring(soundCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
+	}
+
+	public void testBottomBarOnActionModes() {
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
+		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
+		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
+
+		int timeToWait = 300;
+		String addDialogTitle = solo.getString(R.string.sound_select_source);
+
+		assertTrue("Add button not clickable", addButton.isClickable());
+		assertTrue("Play button not clickable", playButton.isClickable());
+
+		String rename = solo.getString(R.string.rename);
+		String delete = solo.getString(R.string.delete);
+
+		// Test on rename ActionMode
+		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		solo.waitForText(rename, 0, timeToWait, false, true);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+
+		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
+		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
+
+		// Test on delete ActionMode
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.waitForText(delete, 0, timeToWait, false, true);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
 	}
 
 	public void testActionDelete() {

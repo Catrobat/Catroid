@@ -112,9 +112,11 @@ public class SpritesListFragment extends SherlockListFragment {
 			}
 			setSelectMode(SpriteAdapter.NONE);
 			spriteAdapter.clearCheckedSprites();
-			actionMode = null;
 
+			actionMode = null;
 			actionModeActive = false;
+
+			setBottomBarActivated(true);
 		}
 	};
 
@@ -151,9 +153,11 @@ public class SpritesListFragment extends SherlockListFragment {
 			}
 			setSelectMode(SpriteAdapter.NONE);
 			spriteAdapter.clearCheckedSprites();
-			actionMode = null;
 
+			actionMode = null;
 			actionModeActive = false;
+
+			setBottomBarActivated(true);
 		}
 	};
 
@@ -260,6 +264,9 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (actionMode != null) {
 			return;
 		}
+
+		setBottomBarActivated(false);
+
 		actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 	}
 
@@ -267,6 +274,9 @@ public class SpritesListFragment extends SherlockListFragment {
 		if (actionMode != null) {
 			return;
 		}
+
+		setBottomBarActivated(false);
+
 		actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 	}
 
@@ -446,4 +456,8 @@ public class SpritesListFragment extends SherlockListFragment {
 		}
 	}
 
+	private void setBottomBarActivated(boolean isActive) {
+		Log.d("TEST", "set ACTIVE -> " + isActive);
+		Utils.setBottomBarActivated(getActivity(), isActive);
+	}
 }
