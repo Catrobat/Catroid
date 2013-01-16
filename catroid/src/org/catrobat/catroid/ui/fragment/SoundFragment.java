@@ -36,7 +36,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -562,7 +561,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			setSelectMode(Constants.SINGLE_SELECT);
 			mode.setTitle(getString(R.string.rename));
 
 			setActionModeActive(true);

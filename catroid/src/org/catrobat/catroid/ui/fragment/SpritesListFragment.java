@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
@@ -36,6 +37,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteCheckedListener;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
@@ -47,6 +49,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -65,9 +70,13 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
-public class SpritesListFragment extends SherlockListFragment {
+public class SpritesListFragment extends SherlockListFragment implements OnSpriteCheckedListener {
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
+
+	private static String deleteActionModeTitle;
+	private static String singleItemAppendixDeleteActionMode;
+	private static String multipleItemAppendixDeleteActionMode;
 
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
@@ -90,10 +99,15 @@ public class SpritesListFragment extends SherlockListFragment {
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.MULTI_SELECT);
-			mode.setTitle(getString(R.string.delete));
+			setSelectMode(Constants.MULTI_SELECT);
 
 			actionModeActive = true;
+
+			deleteActionModeTitle = getString(R.string.delete);
+			singleItemAppendixDeleteActionMode = getString(R.string.sprite);
+			multipleItemAppendixDeleteActionMode = getString(R.string.sprites);
+
+			mode.setTitle(deleteActionModeTitle);
 
 			return true;
 		}
@@ -114,7 +128,7 @@ public class SpritesListFragment extends SherlockListFragment {
 				deleteSprite();
 				numDeleted++;
 			}
-			setSelectMode(SpriteAdapter.NONE);
+			setSelectMode(Constants.SELECT_NONE);
 			spriteAdapter.clearCheckedSprites();
 
 			actionMode = null;
@@ -133,7 +147,7 @@ public class SpritesListFragment extends SherlockListFragment {
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			setSelectMode(Constants.SINGLE_SELECT);
 			mode.setTitle(getString(R.string.rename));
 
 			actionModeActive = true;
@@ -155,7 +169,7 @@ public class SpritesListFragment extends SherlockListFragment {
 				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
 				showRenameDialog();
 			}
-			setSelectMode(SpriteAdapter.NONE);
+			setSelectMode(Constants.SELECT_NONE);
 			spriteAdapter.clearCheckedSprites();
 
 			actionMode = null;
@@ -304,7 +318,6 @@ public class SpritesListFragment extends SherlockListFragment {
 	public void handleCheckBoxClick(View view) {
 		int position = getListView().getPositionForView(view);
 		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.checkbox)).isChecked());
-
 	}
 
 	private void initListeners() {
@@ -312,6 +325,7 @@ public class SpritesListFragment extends SherlockListFragment {
 		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item, R.id.sprite_title,
 				spriteList);
 
+		spriteAdapter.setOnSpriteCheckedListener(this);
 		setListAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
 		getListView().setDivider(null);
@@ -472,5 +486,36 @@ public class SpritesListFragment extends SherlockListFragment {
 
 	private void setBottomBarActivated(boolean isActive) {
 		Utils.setBottomBarActivated(getActivity(), isActive);
+	}
+
+	@Override
+	public void onSpriteChecked() {
+		if (actionMode == null) {
+			return;
+		}
+
+		int numberOfSelectedItems = spriteAdapter.getAmountOfCheckedSprites();
+
+		if (numberOfSelectedItems == 0) {
+			actionMode.setTitle(deleteActionModeTitle);
+		} else {
+			String appendix = multipleItemAppendixDeleteActionMode;
+
+			if (numberOfSelectedItems == 1) {
+				appendix = singleItemAppendixDeleteActionMode;
+			}
+
+			String numberOfItems = Integer.toString(numberOfSelectedItems);
+			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
+
+			int titleLength = deleteActionModeTitle.length();
+
+			Spannable completeSpannedTitle = new SpannableString(completeTitle);
+			completeSpannedTitle.setSpan(
+					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
+					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			actionMode.setTitle(completeSpannedTitle);
+		}
 	}
 }
