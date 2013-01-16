@@ -568,6 +568,7 @@ public class UiTestUtils {
 		} else { // From overflow menu
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
+		solo.sleep(400);
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
