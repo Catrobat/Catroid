@@ -33,24 +33,24 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private Project project;
 	private PointInDirectionBrick pointInDirectionBrick;
 
 	public PointInDirectionBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -61,7 +61,6 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -70,14 +69,13 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 	@Smoke
 	public void testPointInDirectionBrickTest() throws InterruptedException {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

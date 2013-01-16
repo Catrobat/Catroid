@@ -219,11 +219,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				projectToEdit = projectList.get(position);
-				if (projectToEdit == null) {
-					return true;
-				}
 
-				showEditProjectContextDialog();
+				if (projectToEdit != null) {
+					showEditProjectContextDialog();
+				}
 
 				return true;
 			}

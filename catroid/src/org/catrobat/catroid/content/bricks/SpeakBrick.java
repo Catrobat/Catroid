@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -121,7 +121,7 @@ public class SpeakBrick implements Brick {
 
 			@Override
 			public void onClick(View v) {
-				ScriptTabActivity activity = (ScriptTabActivity) context;
+				ScriptActivity activity = (ScriptActivity) context;
 
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override

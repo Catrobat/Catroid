@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -52,6 +53,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -60,6 +62,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
+	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public ProjectActivityTest() {
 		super(MainMenuActivity.class);
@@ -84,7 +87,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -93,7 +96,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}
 
@@ -105,6 +108,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.enterText(0, sometext);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		String spriteBackgroundLabel = solo.getString(R.string.background);
 		assertTrue("Wrong name for background sprite!", solo.searchText(spriteBackgroundLabel));
@@ -116,6 +120,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		final String spriteName = "testSprite";
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		addNewSprite(spriteName);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -148,6 +153,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		assertTrue("Sprite cat is first in list - should be visible on initial start without scrolling",
 				solo.searchText("cat", 0, false));
@@ -163,6 +169,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
 
@@ -184,6 +191,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testContextMenu() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		// Create sprites manually so we're able to check for equality
 		final String spriteName = "foo";
 		final String spriteName2 = "bar";
@@ -225,7 +233,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testMainMenuButton() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
@@ -237,6 +246,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		int expectedLineCount = 1;
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		addNewSprite(spriteName);
 		TextView textView = solo.getText(2);
 		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
@@ -248,6 +258,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String spriteName2 = "sprite2";
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		openNewSpriteDialog();
 		UiTestUtils.enterText(solo, 0, spriteName1);
@@ -267,6 +278,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String spriteName = "spriteError";
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		openNewSpriteDialog();
 		UiTestUtils.enterText(solo, 0, spriteName);
@@ -306,10 +318,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testRenameSpriteDialog() {
-		String spriteName = "spriteRename";
-		String spriteName2 = "spriteRename2";
+		String spriteName = "sprite";
+		String spriteName2 = "sprite2";
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		addNewSprite(spriteName);
 		addNewSprite(spriteName2);
 
@@ -353,6 +366,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String spriteName3 = "Sprite3";
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		addNewSprite(spriteName);
 		addNewSprite(spriteName2);
 		addNewSprite(spriteName3);
@@ -396,6 +410,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		addNewSprite("testSprite");
 
 		TextView tvScriptCount = ((TextView) solo.getView(R.id.textView_number_of_scripts));
@@ -456,11 +471,68 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
 
-	public void testOverFlowMenuDelete() {
+	public void testBottomBarOnActionModes() {
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
+		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
+		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
+
+		int timeToWait = 300;
+		String addDialogTitle = solo.getString(R.string.sound_select_source);
+
+		assertTrue("Add button not clickable", addButton.isClickable());
+		assertTrue("Play button not clickable", playButton.isClickable());
+
+		String rename = solo.getString(R.string.rename);
+		String delete = solo.getString(R.string.delete);
+
+		// Test on rename ActionMode
+		UiTestUtils.openActionMode(solo, rename, 0);
+		solo.waitForText(rename, 0, timeToWait, false, true);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+
+		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
+		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
+
+		// Test on delete ActionMode
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.waitForText(delete, 0, timeToWait, false, true);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+	}
+
+	public void testActionDelete() {
 		createProject();
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		addNewSprite("sprite1");
 		addNewSprite("sprite2");
 		addNewSprite("sprite3");
@@ -471,12 +543,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite spriteThree = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(3);
 		Sprite spriteFour = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(4);
 
-		solo.clickOnMenuItem(solo.getString(R.string.delete));
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.delete)));
 
 		solo.clickOnCheckBox(1);
 		solo.clickOnCheckBox(2);
-		solo.goBack();
+		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
 		solo.sleep(200);
 
 		assertTrue("Unselected sprites have been deleted!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList()
@@ -496,36 +568,38 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		addNewSprite("sprite1");
 		addNewSprite("sprite2");
 
-		solo.clickOnMenuItem(solo.getString(R.string.rename));
-		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.rename)));
+		String renameString = solo.getString(R.string.rename);
+		solo.clickOnMenuItem(renameString);
+		assertTrue("ActionMode title is not set correctly!", solo.searchText(renameString));
 
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 
-		solo.goBack();
+		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
 		solo.clearEditText(0);
 		solo.enterText(0, "renamed");
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(100);
 		assertTrue("sprite2 was not renamed!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(2)
 				.getName().equalsIgnoreCase("renamed"));
-
 	}
 
 	public void testOverFlowMenuSettings() {
 		createProject();
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
 	private void openNewSpriteDialog() {
 		solo.sleep(200);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(50);
 	}
 
@@ -533,7 +607,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		solo.clickLongOnText(spriteName);
 		solo.sleep(250);
-		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.clickOnText(solo.getString(R.string.rename));
 		solo.sleep(50);
 	}
 
