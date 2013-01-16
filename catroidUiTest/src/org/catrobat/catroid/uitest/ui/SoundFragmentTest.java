@@ -163,7 +163,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		assertEquals("Old count is not correct", 2, oldCount);
 		assertEquals("New count is not correct - one sound should be deleted", 1, newCount);
-		assertEquals("Count of the soundList is not right", 1, getActualNumberOfSounds());
+		assertEquals("Count of the soundList is not right", 1, getCurrentNumberOfSounds());
 	}
 
 	public void testRenameSoundContextMenu() {
@@ -235,17 +235,17 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testAddSound() {
-		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
+		int expectedNumberOfSounds = getCurrentNumberOfSounds() + 1;
 
 		String newSoundName = "Added Sound";
 		addNewSound(newSoundName);
 
-		assertEquals("No sound was added", expectedNumberOfSounds, getActualNumberOfSounds());
+		assertEquals("No sound was added", expectedNumberOfSounds, getCurrentNumberOfSounds());
 		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
 	}
 
 	public void testGetSoundFromExternalSource() {
-		int expectedNumberOfSounds = getActualNumberOfSounds() + 1;
+		int expectedNumberOfSounds = getCurrentNumberOfSounds() + 1;
 		String checksumExternalSoundFile = Utils.md5Checksum(externalSoundFile);
 
 		// Use of MockSoundActivity
@@ -438,7 +438,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testDeleteActionModeIfNothingSelected() {
-		int expectedNumberOfSounds = getActualNumberOfSounds();
+		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 
@@ -452,7 +452,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
-		int expectedNumberOfSounds = getActualNumberOfSounds();
+		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.clickOnCheckBox(0);
@@ -470,7 +470,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testDeleteActionMode() {
-		int expectedNumberOfSounds = getActualNumberOfSounds() - 1;
+		int expectedNumberOfSounds = getCurrentNumberOfSounds() - 1;
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.clickOnCheckBox(1);
@@ -557,12 +557,12 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		activity.startActivity(intent);
 	}
 
-	private void checkIfNumberOfSoundsIsEqual(int numberToCompare) {
+	private void checkIfNumberOfSoundsIsEqual(int expectedNumber) {
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Number of sounds is not as expected", numberToCompare, soundInfoList.size());
+		assertEquals("Number of sounds is not as expected", expectedNumber, soundInfoList.size());
 	}
 
-	private int getActualNumberOfSounds() {
+	private int getCurrentNumberOfSounds() {
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		return soundInfoList.size();
 	}
