@@ -297,9 +297,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			}
 			setSelectMode(Constants.SELECT_NONE);
 			adapter.clearCheckedItems();
-			actionMode = null;
 
+			actionMode = null;
 			setActionModeActive(false);
+
+			setBottomBarActivated(true);
 		}
 	};
 
@@ -345,13 +347,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			adapter.clearCheckedItems();
 
 			actionMode = null;
-
 			setActionModeActive(false);
+
+			setBottomBarActivated(true);
 		}
 	};
 
 	@Override
 	public void startRenameActionMode() {
+		setBottomBarActivated(false);
+
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 		}
@@ -359,9 +364,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void startDeleteActionMode() {
+		setBottomBarActivated(false);
+
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 		}
+	}
+
+	private void setBottomBarActivated(boolean isActive) {
+		((ScriptActivity) getActivity()).setBottomBarActivated(isActive);
 	}
 
 	@Override
