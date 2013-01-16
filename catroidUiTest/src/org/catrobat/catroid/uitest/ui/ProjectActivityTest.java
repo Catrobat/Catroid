@@ -316,8 +316,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testRenameSpriteDialog() {
-		String spriteName = "spriteRename";
-		String spriteName2 = "spriteRename2";
+		String spriteName = "sprite";
+		String spriteName2 = "sprite2";
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
@@ -549,7 +549,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(200);
 		solo.clickLongOnText(spriteName);
 		solo.sleep(250);
-		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.clickOnText(solo.getString(R.string.rename));
 		solo.sleep(50);
 	}
 
