@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -162,15 +163,21 @@ public class UiTestUtils {
 	private static void insertValue(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
 		solo.sleep(50);
-		solo.clearEditText(0);
-		solo.enterText(0, value);
+		solo.clearEditText(editTextIndex);
+		solo.enterText(editTextIndex, value);
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
-		solo.clearEditText(0);
-		solo.enterText(0, value);
-		solo.clickOnButton(0);
+		solo.clearEditText(editTextIndex);
+		solo.enterText(editTextIndex, value);
+		String buttonPositiveText = solo.getString(R.string.ok);
+		// if click is not successful, try workaround
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.sendKey(Solo.ENTER);
+		}
 		solo.sleep(50);
 	}
 

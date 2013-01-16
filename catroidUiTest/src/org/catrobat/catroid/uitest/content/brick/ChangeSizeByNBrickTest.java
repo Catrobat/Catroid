@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -42,7 +42,7 @@ import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final double SIZE_TO_CHANGE = 25;
 
 	private Solo solo;
@@ -50,19 +50,17 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Mai
 	private ChangeSizeByNBrick changeSizeByNBrick;
 
 	public ChangeSizeByNBrickTest() {
-		super(MainMenuActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();

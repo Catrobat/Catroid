@@ -59,6 +59,9 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String soundsSpinnerText = solo.getString(R.string.sounds);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
 	}
 
 	@Override
@@ -94,9 +97,6 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRecordMultipleSounds() throws InterruptedException {
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String soundsSpinnerText = solo.getString(R.string.sounds);
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
 		prepareRecording();
 		recordSound();
 		assertSoundRecording(1);
