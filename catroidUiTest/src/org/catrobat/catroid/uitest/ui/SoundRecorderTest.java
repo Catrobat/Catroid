@@ -94,16 +94,20 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRecordMultipleSounds() throws InterruptedException {
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String soundsSpinnerText = solo.getString(R.string.sounds);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
 		prepareRecording();
-		recordSoundWithChangingOrientation();
+		recordSound();
 		assertSoundRecording(1);
 
+		solo.sleep(500);
 		prepareRecording();
 		recordSoundGoBackWhileRecording();
 		assertSoundRecording(2);
 	}
 
-	public void recordSoundWithChangingOrientation() throws InterruptedException {
+	public void recordSound() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
 		solo.sleep(500);
@@ -118,9 +122,6 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	private void prepareRecording() {
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String soundsSpinnerText = solo.getString(R.string.sounds);
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
