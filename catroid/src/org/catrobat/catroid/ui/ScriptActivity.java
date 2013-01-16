@@ -179,21 +179,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		}
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
 	// Code from Stackoverflow to reduce memory problems
 	// onDestroy() and unbindDrawables() methods taken from
 	// http://stackoverflow.com/a/6779067
