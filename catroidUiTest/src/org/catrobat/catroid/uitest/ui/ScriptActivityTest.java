@@ -34,10 +34,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
@@ -133,7 +131,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		int soundsSpinnerIndexRelativeToCurrentSelected = 2;
 
 		int expectedNumberOfSpinnerItems = 3;
-		int currentNumberOfSpinnerItems = getActionbarSpinnerItemCount();
+		int currentNumberOfSpinnerItems = UiTestUtils.getActionBarSpinnerItemCount(solo);
 		assertEquals("There should be " + expectedNumberOfSpinnerItems + " spinner items",
 				expectedNumberOfSpinnerItems, currentNumberOfSpinnerItems);
 
@@ -146,26 +144,26 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 
-		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
+		UiTestUtils.clickOnActionBarSpinnerItem(solo, scriptsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
 
-		clickOnSpinnerItem(looksSpinnerIndexRelativeToCurrentSelected);
+		UiTestUtils.clickOnActionBarSpinnerItem(solo, looksSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 		assertTrue("Spinner item '" + looks + "' not selected", solo.waitForText(looks, 0, timeToWait, false, true));
 
 		soundsSpinnerIndexRelativeToCurrentSelected = 1;
 
-		clickOnSpinnerItem(soundsSpinnerIndexRelativeToCurrentSelected);
+		UiTestUtils.clickOnActionBarSpinnerItem(solo, soundsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 		assertTrue("Spinner item '" + sounds + "' not selected", solo.waitForText(sounds, 0, timeToWait, false, true));
 
 		scriptsSpinnerIndexRelativeToCurrentSelected = -2;
 
-		clickOnSpinnerItem(scriptsSpinnerIndexRelativeToCurrentSelected);
+		UiTestUtils.clickOnActionBarSpinnerItem(solo, scriptsSpinnerIndexRelativeToCurrentSelected);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		UiTestUtils.waitForFragment(solo, R.id.fragment_script_relative_layout);
 		assertTrue("Spinner item '" + scripts + "' not selected", solo.waitForText(scripts, 0, timeToWait, false, true));
@@ -218,25 +216,5 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.assertCurrentActivity("Not in " + SettingsActivity.class.getSimpleName(), SettingsActivity.class);
 		solo.goBack();
 		solo.assertCurrentActivity("Not in " + ScriptActivity.class.getSimpleName(), ScriptActivity.class);
-	}
-
-	private void clickOnSpinnerItem(int itemIndex) {
-		if (Build.VERSION.SDK_INT < 15) {
-			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
-			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
-			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
-			UiTestUtils.changeToFragmentViaActionbar(solo,
-					spinner.getItemAtPosition(activeSpinnerItemIndex).toString(), itemToClickOnText);
-		} else {
-			solo.pressSpinnerItem(0, itemIndex);
-		}
-	}
-
-	private int getActionbarSpinnerItemCount() {
-		if (Build.VERSION.SDK_INT < 15) {
-			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
-		} else {
-			return solo.getCurrentSpinners().get(0).getAdapter().getCount();
-		}
 	}
 }

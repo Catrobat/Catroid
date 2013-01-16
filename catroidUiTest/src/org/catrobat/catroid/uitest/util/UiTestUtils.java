@@ -116,6 +116,8 @@ public class UiTestUtils {
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
+	private static final int ACTION_BAR_SPINNER_INDEX = 0;
+
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
@@ -942,5 +944,25 @@ public class UiTestUtils {
 			fail("no spinner found");
 		}
 		return spinner;
+	}
+
+	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
+		if (Build.VERSION.SDK_INT < 15) {
+			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
+			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
+			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
+			UiTestUtils.changeToFragmentViaActionbar(solo,
+					spinner.getItemAtPosition(activeSpinnerItemIndex).toString(), itemToClickOnText);
+		} else {
+			solo.pressSpinnerItem(ACTION_BAR_SPINNER_INDEX, itemIndex);
+		}
+	}
+
+	public static int getActionBarSpinnerItemCount(Solo solo) {
+		if (Build.VERSION.SDK_INT < 15) {
+			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
+		} else {
+			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
+		}
 	}
 }
