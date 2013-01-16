@@ -490,7 +490,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String delete = solo.getString(R.string.delete);
 
 		// Test on rename ActionMode
-		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, 0);
 		solo.waitForText(rename, 0, timeToWait, false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
@@ -543,7 +543,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite spriteThree = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(3);
 		Sprite spriteFour = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(4);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.delete)));
 
 		solo.clickOnCheckBox(1);

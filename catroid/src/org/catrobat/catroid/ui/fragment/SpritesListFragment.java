@@ -457,7 +457,6 @@ public class SpritesListFragment extends SherlockListFragment {
 	}
 
 	private void setBottomBarActivated(boolean isActive) {
-		Log.d("TEST", "set ACTIVE -> " + isActive);
 		Utils.setBottomBarActivated(getActivity(), isActive);
 	}
 }

@@ -278,7 +278,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	public void testRenameActionModeChecking() {
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
-		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		// CHeck if checkboxes are visible
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
@@ -294,7 +294,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRenameActionModeIfNothingSelected() {
-		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -304,7 +304,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRenameActionModeIfSelectedAndPressingBack() {
-		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
@@ -316,7 +316,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRenameActionModeEqualSoundNames() {
-		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		int checkboxIndex = 1;
 
@@ -355,7 +355,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Play button not clickable", playButton.isClickable());
 
 		// Test on rename ActionMode
-		UiTestUtils.clickOnActionBar(solo, R.id.rename);
+		UiTestUtils.openActionMode(solo, rename, 0);
 		solo.waitForText(rename, 0, timeToWait, false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
@@ -375,7 +375,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
-		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.waitForText(delete, 0, timeToWait, false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
@@ -393,7 +393,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
 
 		int timeToWaitForTitle = 300;
 
@@ -440,7 +440,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfSounds = getActualNumberOfSounds();
 
-		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -454,7 +454,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
 		int expectedNumberOfSounds = getActualNumberOfSounds();
 
-		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -472,7 +472,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionMode() {
 		int expectedNumberOfSounds = getActualNumberOfSounds() - 1;
 
-		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 

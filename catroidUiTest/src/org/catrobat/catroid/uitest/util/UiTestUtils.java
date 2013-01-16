@@ -548,6 +548,14 @@ public class UiTestUtils {
 		}
 	}
 
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int overflowMenuItemId) {
+		if (overflowMenuItemName == null) { // Action item
+			UiTestUtils.clickOnActionBar(solo, overflowMenuItemId);
+		} else { // From overflow menu
+			solo.clickOnMenuItem(overflowMenuItemName, true);
+		}
+	}
+
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(buttonId);
