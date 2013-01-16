@@ -381,6 +381,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.sleep(TIME_TO_WAIT);
 		solo.goBack();
 		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Play button changed title", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedNumberOfSelectedSounds = 1;
