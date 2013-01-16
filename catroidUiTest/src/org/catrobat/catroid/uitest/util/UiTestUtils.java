@@ -169,8 +169,8 @@ public class UiTestUtils {
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
-		solo.clearEditText(editTextIndex);
-		solo.enterText(editTextIndex, value);
+		solo.clearEditText(0);
+		solo.enterText(0, value);
 		String buttonPositiveText = solo.getString(R.string.ok);
 		// if click is not successful, try workaround
 		try {
