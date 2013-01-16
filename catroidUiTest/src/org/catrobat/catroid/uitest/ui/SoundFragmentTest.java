@@ -341,21 +341,46 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
 	}
 
-	public void testDeleteActionModeChecking() {
+	public void testDeleteActionModeCheckingAndTitle() {
 		openActionMode(delete);
+
+		int timeToWaitForTitle = 300;
+
+		String sound = solo.getString(R.string.category_sound);
+		String sounds = solo.getString(R.string.sounds);
+		String delete = solo.getString(R.string.delete);
+
+		assertFalse("Sound should not be displayed in title", solo.waitForText(sound, 3, 300, false, true));
 
 		// Check if checkboxes are visible
 		checkVisabilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
 
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
+
+		String expectedTitle = delete + " 1 " + sound;
+
 		solo.clickOnCheckBox(0);
 		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedTitle = delete + " 2 " + sounds;
+
 		solo.clickOnCheckBox(1);
 		// Check if multiple-selection is possible
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedTitle = delete + " 1 " + sound;
+
 		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedTitle = delete;
+
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
 
 	public void testDeleteActionModeIfNothingSelected() {
