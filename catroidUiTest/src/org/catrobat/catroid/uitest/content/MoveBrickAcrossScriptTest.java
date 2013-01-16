@@ -129,10 +129,10 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
-		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(7), 10, yPositionList.get(2), 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(6), 10, yPositionList.get(2), 20);
 		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks + 1) == ProjectManager
 				.getInstance().getCurrentScript().getBrickList().size());
-		longClickAndDrag(10, yPositionList.get(7), 10, yPositionList.get(2), 20);
+		longClickAndDrag(10, yPositionList.get(6), 10, yPositionList.get(2), 20);
 		//		assertTrue("Number of Bricks inside Script hasn't changed", (numberOfBricks - 1) == ProjectManager
 		//				.getInstance().getCurrentSprite().getScript(0).getBrickList().size());
 		//
