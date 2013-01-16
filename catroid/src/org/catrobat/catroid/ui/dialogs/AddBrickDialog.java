@@ -77,7 +77,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
@@ -204,8 +204,8 @@ public class AddBrickDialog extends DialogFragment {
 	}
 
 	private ScriptFragment getScriptFragment() {
-		ScriptTabActivity activity = ((ScriptTabActivity) getActivity());
-		return (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		ScriptActivity scriptActivity = ((ScriptActivity) getActivity());
+		return (ScriptFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	private static boolean isBackground(Sprite sprite) {

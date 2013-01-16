@@ -32,7 +32,7 @@
         layout="@layout/bottom_bar" />
 
     <fragment
-        android:id="@+id/fr_sprites_list"
+        android:id="@+id/fragment_sprites_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_bar"

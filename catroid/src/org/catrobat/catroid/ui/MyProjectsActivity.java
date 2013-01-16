@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -33,7 +34,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import org.catrobat.catroid.R;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -110,7 +110,7 @@ public class MyProjectsActivity extends SherlockFragmentActivity implements Erro
 
 		actionBar = getSupportActionBar();
 		actionBar.setTitle(title);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
 	}
 
 	@Override

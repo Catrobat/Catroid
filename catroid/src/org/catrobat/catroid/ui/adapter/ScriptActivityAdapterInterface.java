@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,18 +19,25 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+ */
+package org.catrobat.catroid.ui.adapter;
 
-    <item
-        android:id="@+id/menu_add"
-        android:icon="@drawable/ic_plus_black"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/add"/>
-    <item
-        android:id="@+id/menu_start"
-        android:icon="@drawable/ic_play_black"
-        android:showAsAction="ifRoom"
-        android:title="@string/start"/>
+import java.util.Set;
 
-</menu>
+/**
+ * @author Daniel
+ * 
+ */
+public interface ScriptActivityAdapterInterface {
+	public void setSelectMode(int mode);
+
+	public int getSelectMode();
+
+	public void setShowDetails(boolean showDetails);
+
+	public boolean getShowDetails();
+
+	public Set<Integer> getCheckedItems();
+
+	public void clearCheckedItems();
+}

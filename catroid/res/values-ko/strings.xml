@@ -1,6 +1,6 @@
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,6 @@
     <string name="stage">"무대"</string>
     <string name="ok">"확인"</string>
     <string name="add">"추가"</string>
-    <string name="start">"시작"</string>
     <!-- Main menu activity -->
     <string name="resume">"계속"</string>
     <string name="current_project">"현재 프로젝트 :"</string>
@@ -71,9 +70,6 @@
     <string name="number_of_bricks">"블록 :"</string>
     <string name="number_of_costumes">"형태:"</string>
     <string name="number_of_sounds">"소리:"</string>
-    <!-- Sprite activity -->
-    <string name="sprite_name">"스프라이트 :"</string>
-    <string name="spritelist_footer_image_description">"새로운 스프라이트를 추가하려면 누르세요"</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"스크립트"</string>
     <string name="costumes">"형태"</string>
@@ -93,8 +89,6 @@
     <string name="add_costume_from_gallery">"갤러리에서 가져오기"</string>
     <string name="select_costume_from_gallery">"그림 선택"</string>
     <string name="select_costume_from_camera">"사진 선택"</string>
-    <string name="costumelist_footer_image_description_for_camera">"새로운 사진을 추가하려면 누르세요"</string>
-    <string name="costumelist_footer_image_description_for_gallery">"새로운 이미지를 추가하려면 누르세요"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"소리 이름 바꾸기"</string>
     <string name="soundname_invalid">"소리의 이름이 잘못되었습니다"</string>
@@ -102,13 +96,11 @@
     <string name="sound_pause">"일지정지"</string>
     <string name="sound_select_source">"소리 선택"</string>
     <string name="delete_sound_dialog">"소리를 삭제 하시겠습니까?"</string>
-    <string name="soundlist_footer_image_description">"새로운 사운드를 추가하려면 누르세요"</string>
     <!-- My Projects activity -->
     <string name="last_used">"최종 사용 :"</string>
     <string name="description">"설명:"</string>
     <string name="set_description">"설명 설정"</string>
     <string name="rename_project">"프로젝트 이름 바꾸기"</string>
-    <string name="myprojectlist_footer_image_description">"새 프로젝트를 추가하려면 누르세요"</string>
     <string name="copy_project">"프로젝트 복사"</string>
 
     <!-- Soundrecorder activity -->
