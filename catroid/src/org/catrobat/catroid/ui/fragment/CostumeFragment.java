@@ -28,14 +28,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.CostumeAdapter;
 import org.catrobat.catroid.ui.adapter.CostumeAdapter.OnCostumeEditListener;
 import org.catrobat.catroid.ui.dialogs.DeleteCostumeDialog;
+import org.catrobat.catroid.ui.dialogs.NewCostumeDialog;
 import org.catrobat.catroid.ui.dialogs.RenameCostumeDialog;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
@@ -49,48 +51,38 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
-import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.graphics.Pixmap;
 
-public class CostumeFragment extends SherlockListFragment implements OnCostumeEditListener,
-		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
+public class CostumeFragment extends ScriptActivityFragment implements OnCostumeEditListener,
+		LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_COSTUME = "selected_costume";
 	private static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
 	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
-	private static final int FOOTER_ADD_COSTUME_ALPHA_VALUE = 35;
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsCostumes";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private CostumeAdapter adapter;
 	private ArrayList<CostumeData> costumeDataList;
 	private CostumeData selectedCostumeData;
-
-	private View viewBelowCostumelistNonScrollable;
-	private View viewCameraNonScrollable;
-	private View viewGalleryNonScrollable;
-	private View costumelistFooterCamera;
-	private View costumelistFooterGallery;
 
 	private Uri costumeFromCameraUri = null;
 
@@ -127,30 +119,16 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			}
 		}
 
-		viewBelowCostumelistNonScrollable = getActivity().findViewById(R.id.view_below_costumelist_non_scrollable);
-		viewCameraNonScrollable = viewBelowCostumelistNonScrollable.findViewById(R.id.view_camera_non_scrollable);
-		viewGalleryNonScrollable = viewBelowCostumelistNonScrollable.findViewById(R.id.view_gallery_non_scrollable);
-		viewCameraNonScrollable.setOnClickListener(this);
-		viewGalleryNonScrollable.setOnClickListener(this);
-
-		View footerView = getActivity().getLayoutInflater().inflate(R.layout.fragment_costume_costumelist_footer,
-				getListView(), false);
-		costumelistFooterCamera = footerView.findViewById(R.id.costumelist_footerview_camera);
-		ImageView footerAddImageCamera = (ImageView) footerView
-				.findViewById(R.id.costumelist_footerview_camera_add_image);
-		footerAddImageCamera.setAlpha(FOOTER_ADD_COSTUME_ALPHA_VALUE);
-		costumelistFooterCamera.setOnClickListener(this);
-		costumelistFooterGallery = footerView.findViewById(R.id.costumelist_footerview_gallery);
-		ImageView footerAddImageGallery = (ImageView) footerView
-				.findViewById(R.id.costumelist_footerview_gallery_add_image);
-		footerAddImageGallery.setAlpha(FOOTER_ADD_COSTUME_ALPHA_VALUE);
-		costumelistFooterGallery.setOnClickListener(this);
-		getListView().addFooterView(footerView);
-
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList);
+		adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item, costumeDataList, false);
 		adapter.setOnCostumeEditListener(this);
 		setListAdapter(adapter);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.show_details).setVisible(true);
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -175,14 +153,18 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			costumeRenamedReceiver = new CostumeRenamedReceiver();
 		}
 
-		IntentFilter intentFilterDeleteCostume = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_DELETED);
+		IntentFilter intentFilterDeleteCostume = new IntentFilter(ScriptActivity.ACTION_COSTUME_DELETED);
 		getActivity().registerReceiver(costumeDeletedReceiver, intentFilterDeleteCostume);
 
-		IntentFilter intentFilterRenameCostume = new IntentFilter(ScriptTabActivity.ACTION_COSTUME_RENAMED);
+		IntentFilter intentFilterRenameCostume = new IntentFilter(ScriptActivity.ACTION_COSTUME_RENAMED);
 		getActivity().registerReceiver(costumeRenamedReceiver, intentFilterRenameCostume);
 
 		reloadAdapter();
-		addCostumeViewsSetClickableFlag(true);
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+
+		setShowDetails(settings.getBoolean(SHARED_PREFERENCE_NAME, false));
 	}
 
 	@Override
@@ -201,47 +183,13 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		if (costumeRenamedReceiver != null) {
 			getActivity().unregisterReceiver(costumeRenamedReceiver);
 		}
-	}
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_scripttab_costumes, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
+				.getApplicationContext());
+		SharedPreferences.Editor editor = settings.edit();
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.menu_scripttab_costumes, menu);
-
-		int addButtonIcon;
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
-			addButtonIcon = R.drawable.ic_background;
-		} else {
-			addButtonIcon = R.drawable.ic_actionbar_shirt;
-		}
-		menu.findItem(R.id.menu_add).setIcon(addButtonIcon);
-
-		super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int itemId = item.getItemId();
-		switch (itemId) {
-			case R.id.menu_add_costume_from_camera: {
-				selectImageFromCamera();
-				return true;
-			}
-			case R.id.menu_add_costume_from_gallery: {
-				selectImageFromGallery();
-				return true;
-			}
-			default: {
-				return super.onOptionsItemSelected(item);
-			}
-		}
+		editor.putBoolean(SHARED_PREFERENCE_NAME, getShowDetails());
+		editor.commit();
 	}
 
 	public void setSelectedCostumeData(CostumeData costumeData) {
@@ -334,36 +282,6 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.view_camera_non_scrollable:
-				addCostumeViewsSetClickableFlag(false);
-				selectImageFromCamera();
-				break;
-			case R.id.view_gallery_non_scrollable:
-				addCostumeViewsSetClickableFlag(false);
-				selectImageFromGallery();
-				break;
-			case R.id.costumelist_footerview_camera:
-				addCostumeViewsSetClickableFlag(false);
-				selectImageFromCamera();
-				break;
-			case R.id.costumelist_footerview_gallery:
-				addCostumeViewsSetClickableFlag(false);
-				selectImageFromGallery();
-				break;
-		}
-	}
-
-	private void addCostumeViewsSetClickableFlag(boolean setClickableFlag) {
-		viewCameraNonScrollable.setClickable(setClickableFlag);
-		viewGalleryNonScrollable.setClickable(setClickableFlag);
-		costumelistFooterCamera.setClickable(setClickableFlag);
-		costumelistFooterGallery.setClickable(setClickableFlag);
-
-	}
-
 	private void updateCostumeAdapter(String name, String fileName) {
 		name = Utils.getUniqueCostumeName(name);
 		CostumeData costumeData = new CostumeData();
@@ -387,13 +305,13 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		if (currentSprite != null) {
 			costumeDataList = currentSprite.getCostumeDataList();
 			CostumeAdapter adapter = new CostumeAdapter(getActivity(), R.layout.fragment_costume_costumelist_item,
-					costumeDataList);
+					costumeDataList, false);
 			adapter.setOnCostumeEditListener(this);
 			setListAdapter(adapter);
 		}
 	}
 
-	private void selectImageFromCamera() {
+	public void selectImageFromCamera() {
 		costumeFromCameraUri = UtilCamera.getDefaultCostumeFromCameraUri(getString(R.string.default_costume_name));
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, costumeFromCameraUri);
@@ -401,7 +319,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		startActivityForResult(chooser, REQUEST_TAKE_PICTURE);
 	}
 
-	private void selectImageFromGallery() {
+	public void selectImageFromGallery() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -462,7 +380,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 		}
 
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	private void loadImageIntoCatroid(Intent intent) {
@@ -562,7 +480,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 			e.printStackTrace();
 		}
 
-		getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	private void handleEditCostumeButton(View v) {
@@ -611,10 +529,10 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	private class CostumeDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_DELETED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_COSTUME_DELETED)) {
 				reloadAdapter();
 				adapter.notifyDataSetChanged();
-				getActivity().sendBroadcast(new Intent(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED));
+				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 			}
 		}
 	}
@@ -622,7 +540,7 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 	private class CostumeRenamedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_COSTUME_RENAMED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_COSTUME_RENAMED)) {
 				String newCostumeName = intent.getExtras().getString(RenameCostumeDialog.EXTRA_NEW_COSTUME_NAME);
 
 				if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
@@ -631,5 +549,72 @@ public class CostumeFragment extends SherlockListFragment implements OnCostumeEd
 				}
 			}
 		}
+	}
+
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		// TODO CHANGE THIS!!! (was just a quick fix)
+		if (adapter != null) {
+			adapter.setShowDetails(showDetails);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public boolean getShowDetails() {
+		// TODO CHANGE THIS!!! (was just a quick fix)
+		if (adapter != null) {
+			return adapter.getShowDetails();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void startRenameActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handleAddButton() {
+		NewCostumeDialog dialog = new NewCostumeDialog();
+		dialog.showDialog(getActivity().getSupportFragmentManager(), this);
+	}
+
+	@Override
+	public boolean getActionModeActive() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setSelectMode(int selectMode) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getSelectMode() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected void showRenameDialog() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void showDeleteDialog() {
+		// TODO Auto-generated method stub
+
 	}
 }

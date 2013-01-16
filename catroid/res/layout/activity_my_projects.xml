@@ -29,7 +29,7 @@
     android:orientation="vertical" >
 
     <fragment
-        android:id="@+id/fr_projects_list"
+        android:id="@+id/fragment_projects_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />

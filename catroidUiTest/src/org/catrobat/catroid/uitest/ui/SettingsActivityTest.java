@@ -26,7 +26,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -79,7 +79,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(background);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
 		solo.goBack();
@@ -100,8 +100,8 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnText(background);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 }
