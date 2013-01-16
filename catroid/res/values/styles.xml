@@ -31,8 +31,8 @@
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@color/actionbar_background</item>
         <item name="android:background">@color/actionbar_background</item>
-        <item name="homeAsUpIndicator">@drawable/actionbar_ic_back</item>
-        <item name="android:homeAsUpIndicator">@drawable/actionbar_ic_back</item>
+        <item name="homeAsUpIndicator">@drawable/ic_actionbar_back</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_actionbar_back</item>
         <item name="titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="android:titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="height">@dimen/actionbar_height</item>
@@ -194,6 +194,24 @@
 
     <style name="brick_blink">
         <item name="android:windowEnterAnimation">@anim/blink</item>
+    </style>
+    
+    <style name="sound_basic_style">
+        <item name="android:clickable">false</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="sound_time" parent="sound_basic_style">
+        <item name="android:textColor">@color/solid_black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="sound_text" parent="sound_basic_style">
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>

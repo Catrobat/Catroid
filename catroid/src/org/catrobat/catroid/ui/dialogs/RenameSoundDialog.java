@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
@@ -31,7 +32,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class RenameSoundDialog extends TextDialog {
 
@@ -71,7 +71,7 @@ public class RenameSoundDialog extends TextDialog {
 			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.soundname_invalid));
 		}
 
-		Intent intent = new Intent(ScriptTabActivity.ACTION_SOUND_RENAMED);
+		Intent intent = new Intent(ScriptActivity.ACTION_SOUND_RENAMED);
 		intent.putExtra(EXTRA_NEW_SOUND_TITLE, newSoundTitle);
 		getActivity().sendBroadcast(intent);
 
