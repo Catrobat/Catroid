@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -43,20 +43,19 @@ import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class WhenBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private Project project;
 
 	public WhenBrickTest() {
-		super(MainMenuActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
