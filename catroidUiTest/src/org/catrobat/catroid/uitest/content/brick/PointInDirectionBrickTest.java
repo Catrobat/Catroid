@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
@@ -84,12 +85,16 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_in_direction)));
 
-		int BrickSpinnerIndex = 0;
+		int brickSpinnerIndex = 1;
 
-		solo.pressSpinnerItem(BrickSpinnerIndex, 1);
+		if (Build.VERSION.SDK_INT < 15) {
+			brickSpinnerIndex = 0;
+		}
+
+		solo.pressSpinnerItem(brickSpinnerIndex, 1);
 		solo.sleep(200);
 		String[] directionStringArray = getActivity().getResources().getStringArray(R.array.point_in_direction_strings);
-		assertEquals("Wrong selection", directionStringArray[1], solo.getCurrentSpinners().get(BrickSpinnerIndex)
+		assertEquals("Wrong selection", directionStringArray[1], solo.getCurrentSpinners().get(brickSpinnerIndex)
 				.getSelectedItem());
 	}
 
