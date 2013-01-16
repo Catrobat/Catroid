@@ -120,6 +120,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
+	private static String deleteActionModeTitle;
+	private static String singleItemAppendixDeleteActionMode;
+	private static String multipleItemAppendixDeleteActionMode;
+
 	public static final int REQUEST_SELECT_MUSIC = 0;
 
 	private MediaPlayer mediaPlayer;
@@ -313,6 +317,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 			setActionModeActive(true);
 
+			deleteActionModeTitle = getString(R.string.delete);
+			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
+			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
+
 			return true;
 		}
 
@@ -389,28 +397,26 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			return;
 		}
 
-		int numberOfSelectedItems = adapter.getCheckedItems().size();
-
-		String title = getString(R.string.delete);
+		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(title);
+			actionMode.setTitle(deleteActionModeTitle);
 		} else {
-			String appendix = getString(R.string.sounds);
+			String appendix = multipleItemAppendixDeleteActionMode;
 
 			if (numberOfSelectedItems == 1) {
-				appendix = getString(R.string.category_sound);
+				appendix = singleItemAppendixDeleteActionMode;
 			}
 
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = title + " " + numberOfItems + " " + appendix;
+			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
 
-			int titleLength = title.length();
+			int titleLength = deleteActionModeTitle.length();
 
 			Spannable completeSpannedTitle = new SpannableString(completeTitle);
 			completeSpannedTitle.setSpan(
 					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
-					titleLength + (numberOfItems.length() + 1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 			actionMode.setTitle(completeSpannedTitle);
 		}
