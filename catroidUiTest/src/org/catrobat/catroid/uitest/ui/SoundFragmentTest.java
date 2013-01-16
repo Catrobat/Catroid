@@ -148,7 +148,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 	}
 
-	public void testDeleteSound() {
+	public void testDeleteSoundContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
 
@@ -166,7 +166,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Count of the soundList is not right", 1, getActualNumberOfSounds());
 	}
 
-	public void testRenameSound() {
+	public void testRenameSoundContextMenu() {
 		String newSoundName = "TeStSoUNd1";
 		renameSound(soundName, newSoundName);
 		solo.sleep(50);
