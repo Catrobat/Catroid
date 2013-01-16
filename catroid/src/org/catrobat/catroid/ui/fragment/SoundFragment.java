@@ -84,6 +84,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
+	private static String deleteActionModeTitle;
+	private static String singleItemAppendixDeleteActionMode;
+	private static String multipleItemAppendixDeleteActionMode;
+
 	public static final int REQUEST_SELECT_MUSIC = 0;
 
 	private MediaPlayer mediaPlayer;
@@ -275,10 +279,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		}
 
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
-
-		String deleteActionModeTitle = getString(R.string.delete);
-		String singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
-		String multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
 		if (numberOfSelectedItems == 0) {
 			actionMode.setTitle(deleteActionModeTitle);
@@ -606,7 +606,13 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(Constants.MULTI_SELECT);
+
 			setActionModeActive(true);
+
+			deleteActionModeTitle = getString(R.string.delete);
+			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
+			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
+
 			return true;
 		}
 
