@@ -46,7 +46,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -375,11 +374,5 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 		}
 		return fragment;
-	}
-
-	public void setBottomBarActivated(boolean isActive) {
-		LinearLayout bottomBarLayout = (LinearLayout) findViewById(R.id.bottom_bar);
-		bottomBarLayout.findViewById(R.id.button_add).setClickable(isActive);
-		bottomBarLayout.findViewById(R.id.button_play).setClickable(isActive);
 	}
 }
