@@ -128,24 +128,18 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (selectMode == Constants.MULTI_SELECT) {
-						if (onSoundEditListener != null) {
-							onSoundEditListener.onSoundChecked(isChecked);
-						}
-
-						if (isChecked) {
-							checkedSounds.add(position);
-						} else {
-							checkedSounds.remove(position);
-						}
-					} else if (selectMode == Constants.SINGLE_SELECT) {
-						if (isChecked) {
+					if (isChecked) {
+						if (selectMode == Constants.SINGLE_SELECT) {
 							clearCheckedItems();
-							checkedSounds.add(position);
-						} else {
-							checkedSounds.remove(position);
 						}
-						notifyDataSetChanged();
+						checkedSounds.add(position);
+					} else {
+						checkedSounds.remove(position);
+					}
+					notifyDataSetChanged();
+
+					if (onSoundEditListener != null) {
+						onSoundEditListener.onSoundChecked();
 					}
 				}
 			});
@@ -304,6 +298,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 		public void onSoundPause(View v);
 
-		public void onSoundChecked(boolean isChecked);
+		public void onSoundChecked();
 	}
 }

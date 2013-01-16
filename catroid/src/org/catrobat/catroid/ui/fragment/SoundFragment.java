@@ -138,7 +138,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private SoundRenamedReceiver soundRenamedReceiver;
 
 	private ActionMode actionMode;
-	private static int numberOfSelectedItems = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -339,8 +338,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 			actionMode = null;
 
-			numberOfSelectedItems = 0;
-
 			setActionModeActive(false);
 		}
 	};
@@ -387,12 +384,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	@Override
-	public void onSoundChecked(boolean isChecked) {
-		if (isChecked) {
-			++numberOfSelectedItems;
-		} else {
-			--numberOfSelectedItems;
+	public void onSoundChecked() {
+		if (actionMode == null) {
+			return;
 		}
+
+		int numberOfSelectedItems = adapter.getCheckedItems().size();
 
 		String title = getString(R.string.delete);
 
