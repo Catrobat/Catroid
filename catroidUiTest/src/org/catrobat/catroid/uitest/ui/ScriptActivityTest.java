@@ -92,7 +92,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 
 		checkMainMenuButton();
 
-		UiTestUtils.getIntoCostumesFromMainMenu(solo);
+		UiTestUtils.getIntoCostumesFromMainMenu(solo, true);
 		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 
 		checkMainMenuButton();
