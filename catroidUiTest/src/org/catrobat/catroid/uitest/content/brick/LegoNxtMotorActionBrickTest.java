@@ -36,6 +36,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
@@ -138,19 +139,23 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 4);
 
-		int LegoSpinnerIndex = 0;
+		int legoSpinnerIndex = 1;
 
-		Spinner currentSpinner = solo.getCurrentSpinners().get(LegoSpinnerIndex);
-		solo.pressSpinnerItem(LegoSpinnerIndex, 0);
+		if (Build.VERSION.SDK_INT < 15) {
+			legoSpinnerIndex = 0;
+		}
+
+		Spinner currentSpinner = solo.getCurrentSpinners().get(legoSpinnerIndex);
+		solo.pressSpinnerItem(legoSpinnerIndex, 0);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(LegoSpinnerIndex, 1);
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(LegoSpinnerIndex, 1);
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(LegoSpinnerIndex, 1);
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
 	}
