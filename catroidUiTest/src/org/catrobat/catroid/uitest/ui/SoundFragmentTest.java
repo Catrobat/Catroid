@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -47,6 +48,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -341,6 +343,55 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
 	}
 
+	public void testBottomBarOnActionModes() {
+		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
+		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
+		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
+
+		int timeToWait = 300;
+		String addDialogTitle = solo.getString(R.string.sound_select_source);
+
+		assertTrue("Add button not clickable", addButton.isClickable());
+		assertTrue("Play button not clickable", playButton.isClickable());
+
+		// Test on rename ActionMode
+		openActionMode(rename);
+		solo.waitForText(rename, 0, timeToWait, false, true);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+
+		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
+		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
+
+		// Test on delete ActionMode
+		openActionMode(delete);
+		solo.waitForText(delete, 0, timeToWait, false, true);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+	}
+
 	public void testDeleteActionModeCheckingAndTitle() {
 		openActionMode(delete);
 
@@ -364,11 +415,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		checkIfCheckboxesAreCorrectlyChecked(true, false);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		assertTrue("Add button changed title", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
-
 		expectedNumberOfSelectedSounds = 2;
 		expectedTitle = delete + " " + expectedNumberOfSelectedSounds + " " + sounds;
 
@@ -376,13 +422,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		// Check if multiple-selection is possible
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
 		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(TIME_TO_WAIT);
-		solo.goBack();
-		solo.goBack();
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertTrue("Play button changed title", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
 		expectedNumberOfSelectedSounds = 1;
 		expectedTitle = delete + " " + expectedNumberOfSelectedSounds + " " + sound;
