@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,17 +19,42 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+ */
+package org.catrobat.catroid.ui.fragment;
 
-    <!-- selected tabs -->
-    <item android:drawable="@drawable/tab_selected_pressed" android:state_pressed="true" android:state_selected="true"/>
-    <item android:drawable="@drawable/tab_selected_focused" android:state_focused="true" android:state_pressed="false" android:state_selected="true"/>
-    <item android:drawable="@drawable/tab_selected" android:state_focused="false" android:state_pressed="false" android:state_selected="true"/>
+import com.actionbarsherlock.app.SherlockListFragment;
 
-    <!-- unselected tabs -->
-    <item android:drawable="@drawable/tab_unselected_pressed" android:state_pressed="true" android:state_selected="false"/>
-    <item android:drawable="@drawable/tab_unselected_focused" android:state_focused="true" android:state_pressed="false" android:state_selected="false"/>
-    <item android:drawable="@drawable/tab_unselected" android:state_focused="false" android:state_pressed="false" android:state_selected="false"/>
+/**
+ * @author Daniel
+ * 
+ */
+public abstract class ScriptActivityFragment extends SherlockListFragment {
 
-</selector>
+	protected boolean actionModeActive = false;
+
+	public boolean getActionModeActive() {
+		return actionModeActive;
+	}
+
+	public void setActionModeActive(boolean actionModeActive) {
+		this.actionModeActive = actionModeActive;
+	}
+
+	public abstract boolean getShowDetails();
+
+	public abstract void setShowDetails(boolean showDetails);
+
+	public abstract void setSelectMode(int selectMode);
+
+	public abstract int getSelectMode();
+
+	public abstract void startRenameActionMode();
+
+	public abstract void startDeleteActionMode();
+
+	public abstract void handleAddButton();
+
+	protected abstract void showRenameDialog();
+
+	protected abstract void showDeleteDialog();
+}

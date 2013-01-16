@@ -20,24 +20,23 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="70dip" >
 
-    <View
-        android:id="@+id/soundlist_footerview"
+
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_script_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <include
+        android:id="@+id/bottom_bar"
+        layout="@layout/bottom_bar" />
+
+    <FrameLayout
+        android:id="@+id/script_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:clickable="true" />
+        android:layout_above="@id/bottom_bar" />
 
-    <ImageView
-        android:id="@+id/soundlist_footerview_add_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@string/soundlist_footer_image_description"
-        android:src="@android:drawable/ic_menu_add" />
-
-</FrameLayout>
+</RelativeLayout>

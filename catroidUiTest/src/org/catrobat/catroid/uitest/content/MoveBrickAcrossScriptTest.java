@@ -63,7 +63,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 	public void setUp() throws Exception {
 		createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -121,11 +121,11 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 	 */
 	@Smoke
 	public void testMoveBrickAcrossScript() {
-		//		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		//		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+		//		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		//		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 		//		BrickAdapter adapter = fragment.getAdapter();
 
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
