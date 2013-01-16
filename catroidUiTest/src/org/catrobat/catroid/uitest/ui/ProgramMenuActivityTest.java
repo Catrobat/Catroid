@@ -106,13 +106,14 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	public void testTitle() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		String spriteName = "sprite1";
 		String backgroundString = "Background";
 
 		addNewSprite(spriteName);
-
 		solo.clickOnText(backgroundString);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
 		String currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
 
@@ -120,7 +121,10 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 		assertTrue("Title doesn't match " + backgroundString, solo.waitForText(currentSpriteName, 0, 200, false, true));
 
 		solo.goBack();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		solo.clickOnText(spriteName);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
 		currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
 
@@ -224,7 +228,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}
 }
