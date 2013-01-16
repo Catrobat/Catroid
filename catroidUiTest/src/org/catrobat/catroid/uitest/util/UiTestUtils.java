@@ -548,6 +548,18 @@ public class UiTestUtils {
 		}
 	}
 
+	/**
+	 * This method can be used in 2 ways. Either to click on an action item
+	 * (icon), or to click on an item in the overflow menu. So either pass a
+	 * String (and any ID) OR null and a valid ID.
+	 * 
+	 * @param solo
+	 *            Needed to use Robotium functionality
+	 * @param overflowMenuItemName
+	 *            Name of the overflow menu item
+	 * @param overflowMenuItemId
+	 *            ID of an action item (icon)
+	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int overflowMenuItemId) {
 		if (overflowMenuItemName == null) { // Action item
 			UiTestUtils.clickOnActionBar(solo, overflowMenuItemId);
