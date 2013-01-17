@@ -53,7 +53,7 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/percent" >
+            android:text="@string/percent_symbol" >
         </TextView>
     </LinearLayout>
 
