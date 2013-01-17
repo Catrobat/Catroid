@@ -20,16 +20,13 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_violet"
-    android:orientation="horizontal" >
+    style="@style/BrickContainer.Look.Small" >
 
     <TextView
-        android:id="@+id/textview_next_costume"
-        style="@style/BrickText"
+        android:id="@+id/brick_next_costume_text_view"
+        style="@style/BrickText.SingleLine"
         android:text="@string/brick_next_costume" />
 
 </LinearLayout>
