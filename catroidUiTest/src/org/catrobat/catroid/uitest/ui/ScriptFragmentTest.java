@@ -271,4 +271,21 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
 	}
+
+	public void testOptionsMenuItems() {
+		initTestProject();
+
+		int overFlowMenuIndex = 0;
+		int timeToWait = 200;
+
+		String rename = solo.getString(R.string.rename);
+		String delete = solo.getString(R.string.delete);
+		String showDetails = solo.getString(R.string.show_details);
+
+		solo.clickOnImageButton(overFlowMenuIndex);
+
+		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
+		assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
+		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
+	}
 }
