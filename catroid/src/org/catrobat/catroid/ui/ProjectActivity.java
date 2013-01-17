@@ -148,7 +148,6 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 				startActivity(intent);
 				break;
 			}
-
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -175,9 +174,6 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 		if (hasFocus) {
 			sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_INIT));
 		}
-	}
-
-	public void handleProjectActivityItemLongClick(View view) {
 	}
 
 	public void handleCheckBoxClick(View view) {

@@ -309,8 +309,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		return spriteToEdit;
 	}
 
-	public void handleProjectActivityItemLongClick(View view) {
-	}
 
 	public void handleCheckBoxClick(View view) {
 		int position = getListView().getPositionForView(view);
