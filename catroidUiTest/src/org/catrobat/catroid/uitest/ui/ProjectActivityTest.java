@@ -60,7 +60,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
-	private String deleteDialogTitle;
 
 	private CheckBox firstCheckBox;
 	private CheckBox secondCheckBox;
@@ -94,9 +93,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo = new Solo(getInstrumentation(), getActivity());
 
 		rename = solo.getString(R.string.rename);
-		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
+		renameDialogTitle = solo.getString(R.string.rename_sprite_dialog);
 		delete = solo.getString(R.string.delete);
-		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
 	}
 
 	@Override
@@ -166,7 +164,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String addedSpriteName = "addedTestSprite";
 		addNewSprite(addedSpriteName);
 
-		solo.waitForText(addedSpriteName, 0, 2000);
+		solo.waitForText(addedSpriteName, 1, 2000);
 		assertTrue("Sprite '" + addedSpriteName + "' was not found - List did not move to last added sprite",
 				solo.searchText(addedSpriteName, 0, false));
 	}
@@ -470,14 +468,14 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
 
 		int timeToWait = 300;
-		String addDialogTitle = solo.getString(R.string.sound_select_source);
+		String addDialogTitle = solo.getString(R.string.new_sprite_dialog_title);
 
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
 
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0);
-		solo.waitForText(rename, 0, timeToWait, false, true);
+		solo.waitForText(rename, 1, timeToWait, false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -490,14 +488,14 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+		solo.waitForText(solo.getString(R.string.sprites), 1, timeToWait, false, true);
 
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
-		solo.waitForText(delete, 0, timeToWait, false, true);
+		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -510,7 +508,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+		solo.waitForText(solo.getString(R.string.sprites), 1, timeToWait, false, true);
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
@@ -560,7 +558,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testDeleteActionModeIfNothingSelected() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		int expectedNumberOfSounds = getCurrentNumberOfSprites();
+		int expectedNumberOfSprites = getCurrentNumberOfSprites();
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 
@@ -570,16 +568,15 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
-		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, timeToWait));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, timeToWait));
 
-		checkIfNumberOfSpritesIsEqual(expectedNumberOfSounds);
+		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 	}
 
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		int expectedNumberOfSounds = getCurrentNumberOfSprites();
+		int expectedNumberOfSprites = getCurrentNumberOfSprites();
 
 		int timeToWait = 300;
 
@@ -590,10 +587,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.goBack();
 
 		// Check if rename ActionMode disappears if back was pressed
-		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, timeToWait));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, timeToWait));
 
-		checkIfNumberOfSpritesIsEqual(expectedNumberOfSounds);
+		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 	}
 
 	public void testDeleteActionMode() {
@@ -602,7 +598,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(1);
 		Sprite secondSprite = projectManager.getCurrentProject().getSpriteList().get(2);
 
-		int expectedNumberOfSounds = getCurrentNumberOfSprites() - 1;
+		int expectedNumberOfSprites = getCurrentNumberOfSprites() - 1;
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.clickOnCheckBox(1);
@@ -611,7 +607,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
 
-		checkIfNumberOfSpritesIsEqual(expectedNumberOfSounds);
+		checkIfNumberOfSpritesIsEqual(expectedNumberOfSprites);
 
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 
@@ -626,7 +622,53 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.waitForText(deletedSpriteName, 0, 200, false, false));
 	}
 
-	public void testOverFlowMenuRename() {
+	public void testRenameActionModeChecking() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.openActionMode(solo, rename, 0);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+
+		solo.clickOnCheckBox(1);
+		// Check if only single-selection is possible
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+	}
+
+	public void testRenameActionModeIfNothingSelected() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.openActionMode(solo, rename, 0);
+
+		int timeToWait = 200;
+
+		// Check if rename ActionMode disappears if nothing was selected
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		assertFalse("Rename dialog showed up", solo.waitForText(renameDialogTitle, 0, timeToWait));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, timeToWait));
+	}
+
+	public void testRenameActionModeIfSelectedAndPressingBack() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.openActionMode(solo, rename, 0);
+
+		int timeToWait = 200;
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		solo.goBack();
+
+		// Check if rename ActionMode disappears if back was pressed
+		assertFalse("Rename dialog showed up", solo.waitForText(renameDialogTitle, 0, timeToWait));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, timeToWait));
+	}
+
+	public void testRenameActionMode() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
 		String renamedSpriteName = "renamedSprite";
@@ -706,14 +748,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private void checkIfNumberOfSpritesIsEqual(int expectedNumber) {
-		assertEquals("Number of sounds is not as expected", expectedNumber, getCurrentNumberOfSprites());
+		assertEquals("Number of sprites is not as expected", expectedNumber, getCurrentNumberOfSprites());
 	}
 
 	private int getCurrentNumberOfSprites() {
 		return projectManager.getCurrentProject().getSpriteList().size();
 	}
 
-	// UTILS METHOD?!?!?
 	private void clickOnContextMenuItem(String spriteName, String itemName) {
 		solo.clickLongOnText(spriteName);
 		solo.waitForText(itemName);

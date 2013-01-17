@@ -353,7 +353,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0);
-		solo.waitForText(rename, 0, timeToWait, false, true);
+		solo.waitForText(rename, 1, timeToWait, false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -366,14 +366,14 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
 
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
-		solo.waitForText(delete, 0, timeToWait, false, true);
+		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -386,7 +386,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
