@@ -582,6 +582,7 @@ public class UiTestUtils {
 	 */
 	public static void openOptionsMenu(Solo solo) {
 		solo.sendKey(Solo.MENU);
+		solo.sleep(200);
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
