@@ -64,9 +64,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	private CheckBox firstCheckBox;
 	private CheckBox secondCheckBox;
 
-	private Sprite firstSprite;
-	private Sprite secondSprite;
-
 	private ProjectManager projectManager;
 	private List<Sprite> spriteList;
 
@@ -84,11 +81,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		projectManager = ProjectManager.getInstance();
 		spriteList = projectManager.getCurrentProject().getSpriteList();
 
-		firstSprite = new Sprite(FIRST_TEST_SPRITE_NAME);
-		secondSprite = new Sprite(SECOND_TEST_SPRITE_NAME);
-
-		spriteList.add(firstSprite);
-		spriteList.add(secondSprite);
+		spriteList.add(new Sprite(FIRST_TEST_SPRITE_NAME));
+		spriteList.add(new Sprite(SECOND_TEST_SPRITE_NAME));
 
 		solo = new Solo(getInstrumentation(), getActivity());
 
@@ -130,7 +124,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertEquals("Sprite at index " + spriteToCheckIndex + " is not '" + SECOND_TEST_SPRITE_NAME + "'",
 				SECOND_TEST_SPRITE_NAME, spriteToCheckName);
-		assertTrue("Sprite is not in current Project", spriteList.contains(secondSprite));
+		assertTrue("Sprite is not in current Project", projectManager.spriteExists(spriteToCheckName));
 
 		final String addedSpriteName = "addedTestSprite";
 		addNewSprite(addedSpriteName);
