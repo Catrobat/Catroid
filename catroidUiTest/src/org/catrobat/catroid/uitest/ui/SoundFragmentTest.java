@@ -53,13 +53,18 @@ import android.widget.LinearLayout;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
-	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
+	private static final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
+	private static final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
+	private static final int VISIBLE = View.VISIBLE;
+	private static final int GONE = View.GONE;
+
+	private static final int TIME_TO_WAIT = 50;
+
+	private static final String FIRST_TEST_SOUND_NAME = "testSound1";
+	private static final String SECOND_TEST_SOUND_NAME = "testSound2";
 
 	private Solo solo;
 
-	private String soundName = "testSound1";
-	private String soundName2 = "testSound2";
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
@@ -72,15 +77,10 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private ArrayList<SoundInfo> soundInfoList;
 
-	private static final int VISIBLE = View.VISIBLE;
-	private static final int GONE = View.GONE;
-
 	private CheckBox firstCheckBox;
 	private CheckBox secondCheckBox;
 
 	private ProjectManager projectManager;
-
-	private static final int TIME_TO_WAIT = 50;
 
 	public SoundFragmentTest() {
 		super(MainMenuActivity.class);
@@ -100,13 +100,13 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
-		soundInfo.setTitle(soundName);
+		soundInfo.setTitle(FIRST_TEST_SOUND_NAME);
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
 				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile.getName());
-		soundInfo2.setTitle(soundName2);
+		soundInfo2.setTitle(SECOND_TEST_SOUND_NAME);
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
@@ -151,7 +151,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(soundName2, solo.getString(R.string.delete));
+		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.delete));
 		solo.waitForText(solo.getString(R.string.delete_sound_dialog));
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(50);
@@ -164,21 +164,21 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testRenameSoundContextMenu() {
-		String newSoundName = "TeStSoUNd1";
-		renameSound(soundName, newSoundName);
+		String newFIRST_TEST_SOUND_NAME = "TeStSoUNd1";
+		renameSound(FIRST_TEST_SOUND_NAME, newFIRST_TEST_SOUND_NAME);
 		solo.sleep(50);
 
-		assertEquals("Sound is not renamed in SoundList", newSoundName, getSoundTitle(0));
-		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
+		assertEquals("Sound is not renamed in SoundList", newFIRST_TEST_SOUND_NAME, getSoundTitle(0));
+		assertTrue("Sound not renamed in actual view", solo.searchText(newFIRST_TEST_SOUND_NAME));
 	}
 
 	public void testEqualSoundNames() {
-		renameSound(soundName2, soundName);
+		renameSound(SECOND_TEST_SOUND_NAME, FIRST_TEST_SOUND_NAME);
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		String expectedSoundName = soundName + "1";
-		String actualSoundName = getSoundTitle(1);
-		assertEquals("Sound not renamed correctly", expectedSoundName, actualSoundName);
+		String expectedFIRST_TEST_SOUND_NAME = FIRST_TEST_SOUND_NAME + "1";
+		String actualFIRST_TEST_SOUND_NAME = getSoundTitle(1);
+		assertEquals("Sound not renamed correctly", expectedFIRST_TEST_SOUND_NAME, actualFIRST_TEST_SOUND_NAME);
 	}
 
 	public void testShowAndHideDetails() {
@@ -234,11 +234,11 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testAddSound() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() + 1;
 
-		String newSoundName = "Added Sound";
-		addNewSound(newSoundName);
+		String newFIRST_TEST_SOUND_NAME = "Added Sound";
+		addNewSound(newFIRST_TEST_SOUND_NAME);
 
 		assertEquals("No sound was added", expectedNumberOfSounds, getCurrentNumberOfSounds());
-		assertTrue("Sound not added in actual view", solo.searchText(newSoundName));
+		assertTrue("Sound not added in actual view", solo.searchText(newFIRST_TEST_SOUND_NAME));
 	}
 
 	public void testGetSoundFromExternalSource() {
@@ -318,26 +318,26 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		int checkboxIndex = 1;
 
 		// Rename second sound to the name of the first
-		String newSoundName = soundName;
+		String newFIRST_TEST_SOUND_NAME = FIRST_TEST_SOUND_NAME;
 
 		solo.clickOnCheckBox(checkboxIndex);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		assertTrue("Rename dialog didn't show up", solo.searchText(renameDialogTitle, true));
-		assertTrue("No EditText with actual soundname", solo.searchEditText(soundName2));
+		assertTrue("No EditText with actual FIRST_TEST_SOUND_NAME", solo.searchEditText(SECOND_TEST_SOUND_NAME));
 
-		UiTestUtils.enterText(solo, 0, newSoundName);
+		UiTestUtils.enterText(solo, 0, newFIRST_TEST_SOUND_NAME);
 		solo.sendKey(Solo.ENTER);
 
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		// If an already existing name was entered a counter should be appended
-		String expectedNewSoundName = newSoundName + "1";
+		String expectedNewFIRST_TEST_SOUND_NAME = newFIRST_TEST_SOUND_NAME + "1";
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Sound is not correctly renamed in SoundList (1 should be appended)", expectedNewSoundName,
-				soundInfoList.get(checkboxIndex).getTitle());
-		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
+		assertEquals("Sound is not correctly renamed in SoundList (1 should be appended)",
+				expectedNewFIRST_TEST_SOUND_NAME, soundInfoList.get(checkboxIndex).getTitle());
+		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewFIRST_TEST_SOUND_NAME, true));
 	}
 
 	public void testBottomBarOnActionModes() {
@@ -478,12 +478,14 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 
-		assertTrue("Unselected sound '" + soundName + "' has been deleted!", soundInfoList.contains(soundInfo));
+		assertTrue("Unselected sound '" + FIRST_TEST_SOUND_NAME + "' has been deleted!",
+				soundInfoList.contains(soundInfo));
 
-		assertFalse("Selected sound '" + soundName2 + "' was not deleted!", soundInfoList.contains(soundInfo2));
+		assertFalse("Selected sound '" + SECOND_TEST_SOUND_NAME + "' was not deleted!",
+				soundInfoList.contains(soundInfo2));
 
-		assertFalse("Sound '" + soundName2 + "' has been deleted but is still showing!",
-				solo.waitForText(soundName2, 0, 200, false, false));
+		assertFalse("Sound '" + SECOND_TEST_SOUND_NAME + "' has been deleted but is still showing!",
+				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
 	private void addNewSound(String title) {
@@ -498,12 +500,12 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		projectManager.saveProject();
 	}
 
-	private void renameSound(String soundToRename, String newSoundName) {
+	private void renameSound(String soundToRename, String newFIRST_TEST_SOUND_NAME) {
 		clickOnContextMenuItem(soundToRename, solo.getString(R.string.rename));
 		assertTrue("Wrong title of dialog", solo.searchText(solo.getString(R.string.rename_sound_dialog)));
-		assertTrue("No EditText with actual soundname", solo.searchEditText(soundToRename));
+		assertTrue("No EditText with actual FIRST_TEST_SOUND_NAME", solo.searchEditText(soundToRename));
 
-		UiTestUtils.enterText(solo, 0, newSoundName);
+		UiTestUtils.enterText(solo, 0, newFIRST_TEST_SOUND_NAME);
 		solo.sendKey(Solo.ENTER);
 	}
 
@@ -515,14 +517,15 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		return (SoundAdapter) getSoundFragment().getListAdapter();
 	}
 
-	private void checkVisibilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,
-			int timePlayedVisibility, int soundDurationVisibility, int soundSizeVisibility, int checkBoxVisibility) {
+	private void checkVisibilityOfViews(int playButtonVisibility, int pauseButtonVisibility,
+			int FIRST_TEST_SOUND_NAMEVisibility, int timePlayedVisibility, int soundDurationVisibility,
+			int soundSizeVisibility, int checkBoxVisibility) {
 		assertTrue("Play button " + getAssertMessageAffix(playButtonVisibility), solo.getView(R.id.btn_sound_play)
 				.getVisibility() == playButtonVisibility);
 		assertTrue("Pause button " + getAssertMessageAffix(pauseButtonVisibility), solo.getView(R.id.btn_sound_pause)
 				.getVisibility() == pauseButtonVisibility);
-		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility), solo.getView(R.id.sound_title)
-				.getVisibility() == soundNameVisibility);
+		assertTrue("Sound name " + getAssertMessageAffix(FIRST_TEST_SOUND_NAMEVisibility),
+				solo.getView(R.id.sound_title).getVisibility() == FIRST_TEST_SOUND_NAMEVisibility);
 		assertTrue("Chronometer " + getAssertMessageAffix(timePlayedVisibility),
 				solo.getView(R.id.sound_chronometer_time_played).getVisibility() == timePlayedVisibility);
 		assertTrue("Sound duration " + getAssertMessageAffix(soundDurationVisibility), solo
@@ -548,8 +551,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		return assertMessageAffix;
 	}
 
-	private void clickOnContextMenuItem(String soundName, String itemName) {
-		solo.clickLongOnText(soundName);
+	private void clickOnContextMenuItem(String FIRST_TEST_SOUND_NAME, String itemName) {
+		solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
 		solo.waitForText(itemName);
 		solo.clickOnText(itemName);
 	}
