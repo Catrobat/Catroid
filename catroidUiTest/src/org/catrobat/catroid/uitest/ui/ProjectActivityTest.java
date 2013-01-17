@@ -384,7 +384,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		// Hide details if shown
 		UiTestUtils.openOptionsMenu(solo);
 
-		if (solo.waitForText(hideDetailsText, 0, 200)) {
+		if (solo.waitForText(hideDetailsText, 0, 300)) {
 			solo.clickOnText(hideDetailsText);
 			solo.sleep(300);
 		} else {
@@ -399,6 +399,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvCostumeCount, tvSoundCount, true);
 
 		UiTestUtils.openOptionsMenu(solo);
+		solo.sleep(300);
 		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
 		solo.goBack();
 
@@ -424,6 +425,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.waitForText(solo.getString(R.string.number_of_sounds), 0, 100, false, true));
 
 		UiTestUtils.openOptionsMenu(solo);
+		solo.sleep(300);
 		assertTrue("Show details should be shown!", solo.waitForText(showDetailsText));
 		solo.goBack();
 
