@@ -21,7 +21,6 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickContainer.Sound.Small" >
 
@@ -43,7 +42,7 @@
 
     <TextView
         style="@style/BrickText.SingleLine"
-        android:text="@string/percent" >
+        android:text="@string/percent_symbol" >
     </TextView>
 
 </LinearLayout>
