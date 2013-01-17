@@ -92,94 +92,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private boolean actionModeActive = false;
 	private boolean isRenameActionMode;
 
-	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.MULTI_SELECT);
-
-			actionModeActive = true;
-
-			deleteActionModeTitle = getString(R.string.delete);
-			singleItemAppendixDeleteActionMode = getString(R.string.sprite);
-			multipleItemAppendixDeleteActionMode = getString(R.string.sprites);
-
-			mode.setTitle(deleteActionModeTitle);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
-			Iterator<Integer> iterator = checkedSprites.iterator();
-			int numDeleted = 0;
-			while (iterator.hasNext()) {
-				int position = iterator.next();
-				spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
-				deleteSprite();
-				numDeleted++;
-			}
-			setSelectMode(Constants.SELECT_NONE);
-			spriteAdapter.clearCheckedSprites();
-
-			actionMode = null;
-			actionModeActive = false;
-
-			setBottomBarActivated(true);
-		}
-	};
-
-	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(Constants.SINGLE_SELECT);
-			mode.setTitle(getString(R.string.rename));
-
-			actionModeActive = true;
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
-			Iterator<Integer> iterator = checkedSprites.iterator();
-			if (iterator.hasNext()) {
-				int position = iterator.next();
-				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
-				showRenameDialog();
-			}
-			setSelectMode(Constants.SELECT_NONE);
-			spriteAdapter.clearCheckedSprites();
-
-			actionMode = null;
-			actionModeActive = false;
-
-			setBottomBarActivated(true);
-		}
-	};
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -289,80 +201,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		editor.commit();
 	}
 
-	public void startRenameActionMode() {
-		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
-			setBottomBarActivated(false);
-			isRenameActionMode = true;
-		}
-	}
-
-	public void startDeleteActionMode() {
-		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-			setBottomBarActivated(false);
-			isRenameActionMode = false;
-		}
-	}
-
-	public Sprite getSpriteToEdit() {
-		return spriteToEdit;
-	}
-
-
-	public void handleCheckBoxClick(View view) {
-		int position = getListView().getPositionForView(view);
-		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.checkbox)).isChecked());
-	}
-
-	private void initListeners() {
-		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item, R.id.sprite_title,
-				spriteList);
-
-		spriteAdapter.setOnSpriteCheckedListener(this);
-		setListAdapter(spriteAdapter);
-		getListView().setTextFilterEnabled(true);
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
-
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
-				startActivity(intent);
-			}
-		});
-
-		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				spriteToEdit = spriteList.get(position);
-
-				// as long as background sprite is always the first one, we're fine
-				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		});
-	}
-
-	private void deleteSpriteFiles() {
-		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
-		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
-
-		for (CostumeData currentCostumeData : costumeDataList) {
-			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
-		}
-
-		for (SoundInfo currentSoundInfo : soundInfoList) {
-			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
-		}
-	}
-
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
@@ -406,6 +244,62 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		}
 		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public void onSpriteChecked() {
+		if (isRenameActionMode || actionMode == null) {
+			return;
+		}
+
+		int numberOfSelectedItems = spriteAdapter.getAmountOfCheckedSprites();
+
+		if (numberOfSelectedItems == 0) {
+			actionMode.setTitle(deleteActionModeTitle);
+		} else {
+			String appendix = multipleItemAppendixDeleteActionMode;
+
+			if (numberOfSelectedItems == 1) {
+				appendix = singleItemAppendixDeleteActionMode;
+			}
+
+			String numberOfItems = Integer.toString(numberOfSelectedItems);
+			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
+
+			int titleLength = deleteActionModeTitle.length();
+
+			Spannable completeSpannedTitle = new SpannableString(completeTitle);
+			completeSpannedTitle.setSpan(
+					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
+					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			actionMode.setTitle(completeSpannedTitle);
+		}
+	}
+
+	public void startRenameActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			setBottomBarActivated(false);
+			isRenameActionMode = true;
+		}
+	}
+
+	public void startDeleteActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			setBottomBarActivated(false);
+			isRenameActionMode = false;
+		}
+	}
+
+	public Sprite getSpriteToEdit() {
+		return spriteToEdit;
+	}
+
+	public void handleCheckBoxClick(View view) {
+		int position = getListView().getPositionForView(view);
+		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.checkbox)).isChecked());
 	}
 
 	public void showRenameDialog() {
@@ -479,38 +373,143 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 	}
 
-	private void setBottomBarActivated(boolean isActive) {
-		Utils.setBottomBarActivated(getActivity(), isActive);
+	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.MULTI_SELECT);
+
+			actionModeActive = true;
+
+			deleteActionModeTitle = getString(R.string.delete);
+			singleItemAppendixDeleteActionMode = getString(R.string.sprite);
+			multipleItemAppendixDeleteActionMode = getString(R.string.sprites);
+
+			mode.setTitle(deleteActionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
+			Iterator<Integer> iterator = checkedSprites.iterator();
+			int numDeleted = 0;
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				spriteToEdit = (Sprite) getListView().getItemAtPosition(position - numDeleted);
+				deleteSprite();
+				numDeleted++;
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			spriteAdapter.clearCheckedSprites();
+
+			actionMode = null;
+			actionModeActive = false;
+
+			setBottomBarActivated(true);
+		}
+	};
+
+	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.rename));
+
+			actionModeActive = true;
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSprites = spriteAdapter.getCheckedSprites();
+			Iterator<Integer> iterator = checkedSprites.iterator();
+			if (iterator.hasNext()) {
+				int position = iterator.next();
+				spriteToEdit = (Sprite) getListView().getItemAtPosition(position);
+				showRenameDialog();
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			spriteAdapter.clearCheckedSprites();
+
+			actionMode = null;
+			actionModeActive = false;
+
+			setBottomBarActivated(true);
+		}
+	};
+
+	private void initListeners() {
+		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		spriteAdapter = new SpriteAdapter(getActivity(), R.layout.activity_project_spritelist_item, R.id.sprite_title,
+				spriteList);
+
+		spriteAdapter.setOnSpriteCheckedListener(this);
+		setListAdapter(spriteAdapter);
+		getListView().setTextFilterEnabled(true);
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
+
+		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+				Intent intent = new Intent(getActivity(), ProgramMenuActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				spriteToEdit = spriteList.get(position);
+
+				// as long as background sprite is always the first one, we're fine
+				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
 	}
 
-	@Override
-	public void onSpriteChecked() {
-		if (isRenameActionMode || actionMode == null) {
-			return;
+	private void deleteSpriteFiles() {
+		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
+		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
+
+		for (CostumeData currentCostumeData : costumeDataList) {
+			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
 		}
 
-		int numberOfSelectedItems = spriteAdapter.getAmountOfCheckedSprites();
-
-		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(deleteActionModeTitle);
-		} else {
-			String appendix = multipleItemAppendixDeleteActionMode;
-
-			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixDeleteActionMode;
-			}
-
-			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
-
-			int titleLength = deleteActionModeTitle.length();
-
-			Spannable completeSpannedTitle = new SpannableString(completeTitle);
-			completeSpannedTitle.setSpan(
-					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
-					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			actionMode.setTitle(completeSpannedTitle);
+		for (SoundInfo currentSoundInfo : soundInfoList) {
+			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
 		}
+	}
+
+	private void setBottomBarActivated(boolean isActive) {
+		Utils.setBottomBarActivated(getActivity(), isActive);
 	}
 }
