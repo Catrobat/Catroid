@@ -557,7 +557,7 @@ public class UiTestUtils {
 	 * String (and any ID) OR null and a valid ID.
 	 * 
 	 * @param solo
-	 *            Needed to use Robotium functionality
+	 *            Use Robotium functionality
 	 * @param overflowMenuItemName
 	 *            Name of the overflow menu item
 	 * @param overflowMenuItemId
@@ -574,6 +574,14 @@ public class UiTestUtils {
 
 	public static void acceptAndCloseActionMode(Solo solo) {
 		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+	}
+
+	/**
+	 * Due to maintainability reasons you should use this method to open an options menu.The way to open an options menu
+	 * might differ in future.
+	 */
+	public static void openOptionsMenu(Solo solo) {
+		solo.sendKey(Solo.MENU);
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
