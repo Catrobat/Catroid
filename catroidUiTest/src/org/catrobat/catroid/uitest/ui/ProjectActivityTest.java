@@ -373,8 +373,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testSpriteListDetails() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		int overFlowMenuIndex = 0;
-
 		String showDetailsText = solo.getString(R.string.show_details);
 		String hideDetailsText = solo.getString(R.string.hide_details);
 
@@ -384,7 +382,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		TextView tvSoundCount = ((TextView) solo.getView(R.id.textView_number_of_sounds));
 
 		// Hide details if shown
-		solo.clickOnImageButton(overFlowMenuIndex);
+		UiTestUtils.openOptionsMenu(solo);
+
 		if (solo.waitForText(hideDetailsText, 0, 200)) {
 			solo.clickOnText(hideDetailsText);
 			solo.sleep(300);
@@ -399,7 +398,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvCostumeCount, tvSoundCount, true);
 
-		solo.clickOnImageButton(overFlowMenuIndex);
+		UiTestUtils.openOptionsMenu(solo);
 		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
 		solo.goBack();
 
@@ -424,7 +423,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertFalse("Sounds should be hidden",
 				solo.waitForText(solo.getString(R.string.number_of_sounds), 0, 100, false, true));
 
-		solo.clickOnImageButton(overFlowMenuIndex);
+		UiTestUtils.openOptionsMenu(solo);
 		assertTrue("Show details should be shown!", solo.waitForText(showDetailsText));
 		solo.goBack();
 

@@ -275,14 +275,13 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	public void testOptionsMenuItems() {
 		initTestProject();
 
-		int overFlowMenuIndex = 0;
 		int timeToWait = 200;
 
 		String rename = solo.getString(R.string.rename);
 		String delete = solo.getString(R.string.delete);
 		String showDetails = solo.getString(R.string.show_details);
 
-		solo.clickOnImageButton(overFlowMenuIndex);
+		UiTestUtils.openOptionsMenu(solo);
 
 		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
 		assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
