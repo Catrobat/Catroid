@@ -65,8 +65,9 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	private String delete;
 	private String deleteDialogTitle;
 
-	private File soundFile;
-	private File soundFile2;
+	private SoundInfo soundInfo;
+	private SoundInfo soundInfo2;
+
 	private File externalSoundFile;
 
 	private ArrayList<SoundInfo> soundInfoList;
@@ -95,16 +96,16 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
-		SoundInfo soundInfo = new SoundInfo();
+		soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundName);
 
-		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
 				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
-		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setSoundFileName(soundFile2.getName());
+		soundInfo2 = new SoundInfo();
+		soundInfo2.setSoundFileName(soundFile.getName());
 		soundInfo2.setTitle(soundName2);
 
 		soundInfoList.add(soundInfo);
@@ -476,10 +477,17 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
+
+		assertTrue("Unselected sound '" + soundName + "' has been deleted!", soundInfoList.contains(soundInfo));
+
+		assertFalse("Selected sound '" + soundName2 + "' was not deleted!", soundInfoList.contains(soundInfo2));
+
+		assertFalse("Sound '" + soundName2 + "' has been deleted but is still showing!",
+				solo.waitForText(soundName2, 0, 200, false, false));
 	}
 
 	private void addNewSound(String title) {
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
@@ -569,7 +577,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
-		solo.sleep(TIME_TO_WAIT);
+		solo.sleep(300);
 		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
 		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());

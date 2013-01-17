@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.ui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -53,6 +54,7 @@ import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -61,11 +63,17 @@ import android.widget.TextView;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+	private static final String TEST_SPRITE_NAME = "cat";
 
 	private Solo solo;
 
-	private static final String TEST_SPRITE_NAME = "cat";
-	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
+	private String rename;
+	private String renameDialogTitle;
+	private String delete;
+	private String deleteDialogTitle;
+
+	private CheckBox firstCheckBox;
+	private CheckBox secondCheckBox;
 
 	public ProjectActivityTest() {
 		super(MainMenuActivity.class);
@@ -76,6 +84,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.createEmptyProject();
+
+		rename = solo.getString(R.string.rename);
+		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
+		delete = solo.getString(R.string.delete);
+		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
 	}
 
 	@Override
@@ -405,7 +418,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				}
 			}
 		}
-
 	}
 
 	public void testSpriteListDetails() {
@@ -569,40 +581,136 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
 	}
 
-	public void testActionDelete() {
-		createProject();
-		solo.sleep(500);
+	public void testDeleteActionModeCheckingAndTitle() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
-		addNewSprite("sprite1");
-		addNewSprite("sprite2");
-		addNewSprite("sprite3");
-		addNewSprite("sprite4");
 
-		Sprite spriteOne = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(1);
-		Sprite spriteTwo = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(2);
-		Sprite spriteThree = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(3);
-		Sprite spriteFour = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(4);
+		addNewSprite("test1");
+		addNewSprite("test2");
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
-		assertTrue("ActionMode title is not set correctly!", solo.searchText(solo.getString(R.string.delete)));
+
+		int timeToWaitForTitle = 300;
+
+		String sprite = solo.getString(R.string.sprite);
+		String sprites = solo.getString(R.string.sprites);
+		String delete = solo.getString(R.string.delete);
+
+		assertFalse("Sprite should not be displayed in title", solo.waitForText(sprite, 1, 300, false, true));
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+
+		int expectedNumberOfSelectedSprites = 1;
+		String expectedTitle = delete + " " + expectedNumberOfSelectedSprites + " " + sprite;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedSprites = 2;
+		expectedTitle = delete + " " + expectedNumberOfSelectedSprites + " " + sprites;
 
 		solo.clickOnCheckBox(1);
-		solo.clickOnCheckBox(2);
-		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
-		solo.sleep(200);
+		// Check if multiple-selection is possible
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
-		assertTrue("Unselected sprites have been deleted!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList()
-				.contains(spriteOne)
-				&& ProjectManager.INSTANCE.getCurrentProject().getSpriteList().contains(spriteFour));
+		expectedNumberOfSelectedSprites = 1;
+		expectedTitle = delete + " " + expectedNumberOfSelectedSprites + " " + sprite;
 
-		assertFalse("Selected sprites were not deleted!", ProjectManager.INSTANCE.getCurrentProject().getSpriteList()
-				.contains(spriteTwo)
-				|| ProjectManager.INSTANCE.getCurrentProject().getSpriteList().contains(spriteThree));
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
-		assertFalse("sprite2 and sprite3 have been deleted but are still showing!",
-				solo.searchText("sprite2") || solo.searchText("sprite3"));
+		expectedTitle = delete;
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+	}
+
+	public void testDeleteActionModeIfNothingSelected() {
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		addNewSprite("test1");
+		addNewSprite("test2");
+
+		int expectedNumberOfSounds = getCurrentNumberOfSprites();
+
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+
+		int timeToWait = 300;
+
+		// Check if rename ActionMode disappears if nothing was selected
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, timeToWait));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, timeToWait));
+
+		checkIfNumberOfSpritesIsEqual(expectedNumberOfSounds);
+	}
+
+	public void testDeleteActionModeIfSelectedAndPressingBack() {
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		addNewSprite("test1");
+		addNewSprite("test2");
+
+		int expectedNumberOfSounds = getCurrentNumberOfSprites();
+
+		int timeToWait = 300;
+
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.goBack();
+
+		// Check if rename ActionMode disappears if back was pressed
+		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, timeToWait));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, timeToWait));
+
+		checkIfNumberOfSpritesIsEqual(expectedNumberOfSounds);
+	}
+
+	public void testDeleteActionMode() {
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		addNewSprite("test1");
+		addNewSprite("test2");
+
+		Sprite firstSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1);
+		Sprite secondSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(2);
+
+		int expectedNumberOfSounds = getCurrentNumberOfSprites() - 1;
+
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, 300));
+
+		checkIfNumberOfSpritesIsEqual(expectedNumberOfSounds);
+
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+
+		assertTrue("Unselected sprite '" + firstSprite.getName() + "' has been deleted!",
+				spriteList.contains(firstSprite));
+
+		String deletedSpriteName = secondSprite.getName();
+
+		assertFalse("Selected sprite '" + deletedSpriteName + "' was not deleted!", spriteList.contains(secondSprite));
+
+		assertFalse("Sprite '" + deletedSpriteName + "' has been deleted but is still showing!",
+				solo.waitForText(deletedSpriteName, 0, 200, false, false));
 	}
 
 	public void testOverFlowMenuRename() {
@@ -621,7 +729,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 
-		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clearEditText(0);
 		solo.enterText(0, "renamed");
 		solo.clickOnButton(solo.getString(R.string.ok));
@@ -703,5 +811,22 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		project.addSprite(spriteToAdd);
 		ProjectManager.INSTANCE.saveProject();
 		ProjectManager.INSTANCE.setProject(project);
+	}
+
+	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
+			boolean secondCheckboxExpectedChecked) {
+		solo.sleep(300);
+		firstCheckBox = solo.getCurrentCheckBoxes().get(1);
+		secondCheckBox = solo.getCurrentCheckBoxes().get(2);
+		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
+		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
+	}
+
+	private void checkIfNumberOfSpritesIsEqual(int expectedNumber) {
+		assertEquals("Number of sounds is not as expected", expectedNumber, getCurrentNumberOfSprites());
+	}
+
+	private int getCurrentNumberOfSprites() {
+		return ProjectManager.INSTANCE.getCurrentProject().getSpriteList().size();
 	}
 }
