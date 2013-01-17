@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickContainer.Control.Medium"
     android:orientation="vertical" >
@@ -33,17 +33,17 @@
     <TextView
         android:id="@+id/brick_note_prototype_text_view"
         style="@style/BrickPrototypeTextView"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent" >
     </TextView>
 
     <EditText
         android:id="@+id/brick_note_edit_text"
         style="@style/BrickEditText"
         android:layout_width="match_parent"
+        android:gravity="left"
         android:inputType="textMultiLine"
-        android:minLines="1"
         android:maxLines="3"
-        android:gravity="left">
+        android:minLines="1" >
     </EditText>
 
 </LinearLayout>
