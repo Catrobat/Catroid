@@ -225,6 +225,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			unregisterForContextMenu(listView);
 			setBottomBarActivated(false);
 			isRenameActionMode = true;
 		}
@@ -234,6 +235,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			unregisterForContextMenu(listView);
 			setBottomBarActivated(false);
 			isRenameActionMode = false;
 		}
@@ -585,6 +587,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			actionMode = null;
 			setActionModeActive(false);
 
+			registerForContextMenu(listView);
 			setBottomBarActivated(true);
 		}
 	};
@@ -633,6 +636,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			actionMode = null;
 			setActionModeActive(false);
 
+			registerForContextMenu(listView);
 			setBottomBarActivated(true);
 		}
 	};
