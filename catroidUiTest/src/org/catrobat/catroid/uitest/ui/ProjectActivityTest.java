@@ -467,9 +467,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
 
+		checkIfContextMenuAppears(true, false);
+
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0);
 		solo.waitForText(rename, 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(false, false);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -483,13 +487,17 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.goBack();
 		solo.waitForText(solo.getString(R.string.sprites), 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(true, false);
 
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
-		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.waitForText(delete, 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -503,6 +511,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.goBack();
 		solo.waitForText(solo.getString(R.string.sprites), 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(true, true);
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
@@ -753,5 +763,42 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickLongOnText(spriteName);
 		solo.waitForText(itemName);
 		solo.clickOnText(itemName);
+	}
+
+	private void checkIfContextMenuAppears(boolean contextMenuShouldAppear, boolean isDeleteActionMode) {
+		solo.clickLongOnText(FIRST_TEST_SPRITE_NAME);
+
+		int timeToWait = 200;
+		String assertMessageAffix = "";
+
+		if (contextMenuShouldAppear) {
+			assertMessageAffix = "should appear";
+
+			assertTrue("Context menu with title '" + FIRST_TEST_SPRITE_NAME + "' " + assertMessageAffix,
+					solo.waitForText(FIRST_TEST_SPRITE_NAME, 1, timeToWait, false, true));
+			assertTrue("Context menu item '" + delete + "' " + assertMessageAffix,
+					solo.waitForText(delete, 1, timeToWait, false, true));
+			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
+					solo.waitForText(rename, 1, timeToWait, false, true));
+
+			solo.goBack();
+		} else {
+			assertMessageAffix = "should not appear";
+
+			int minimumMatchesDelete = 1;
+			int minimumMatchesRename = 1;
+
+			if (isDeleteActionMode) {
+				minimumMatchesDelete = 2;
+			} else {
+				minimumMatchesRename = 2;
+			}
+			assertFalse("Context menu with title '" + FIRST_TEST_SPRITE_NAME + "' " + assertMessageAffix,
+					solo.waitForText(FIRST_TEST_SPRITE_NAME, 2, timeToWait, false, true));
+			assertFalse("Context menu item '" + delete + "' " + assertMessageAffix,
+					solo.waitForText(delete, minimumMatchesDelete, timeToWait, false, true));
+			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
+					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
+		}
 	}
 }

@@ -352,7 +352,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Play button not clickable", playButton.isClickable());
 
 		checkIfContextMenuAppears(true, false);
-		solo.goBack();
 
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0);
@@ -379,9 +378,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
-		checkIfContextMenuAppears(true, true);
-		solo.goBack();
-
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
@@ -615,6 +611,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 					solo.waitForText(delete, 1, timeToWait, false, true));
 			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
 					solo.waitForText(rename, 1, timeToWait, false, true));
+
+			solo.goBack();
 		} else {
 			assertMessageAffix = "should not appear";
 
