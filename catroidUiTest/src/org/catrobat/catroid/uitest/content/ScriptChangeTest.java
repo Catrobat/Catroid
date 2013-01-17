@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -33,17 +34,16 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ListView;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
@@ -52,7 +52,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 	private Script testScript3;
 
 	public ScriptChangeTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 	}
 
 	public void testChangeScript() {
-		ListView parent = solo.getCurrentListViews().get(0);
+		ListView parent = UiTestUtils.getScriptListView(solo);
 		View testScriptBrick = parent.getChildAt(0);
 
 		solo.clickOnView(testScriptBrick);

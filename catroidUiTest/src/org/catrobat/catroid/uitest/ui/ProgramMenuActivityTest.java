@@ -66,7 +66,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	public void setUp() throws Exception {
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
-		//UiTestUtils.createEmptyProject();
+		createProject();
 	}
 
 	@Override
@@ -81,14 +81,13 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
-		createProject();
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText("Background");
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertEquals("ProgramMenuActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
 
-		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
+		/// Method 2: Retrieve info about Activity as collected from AndroidManifest.xml
 		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
 		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
 		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
@@ -104,53 +103,57 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 				activityInfo.screenOrientation);
 	}
 
+	public void testTitle() {
+		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		String spriteName = "sprite1";
+		String backgroundString = "Background";
+
+		addNewSprite(spriteName);
+		solo.clickOnText(backgroundString);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+
+		String currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
+
+		assertEquals("Current sprite is not " + backgroundString, backgroundString, currentSpriteName);
+		assertTrue("Title doesn't match " + backgroundString, solo.waitForText(currentSpriteName, 0, 200, false, true));
+
+		solo.goBack();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.clickOnText(spriteName);
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+
+		currentSpriteName = ProjectManager.INSTANCE.getCurrentSprite().getName();
+
+		assertEquals("Current sprite is not " + spriteName, spriteName, currentSpriteName);
+		assertTrue("Title doesn't match " + spriteName, solo.waitForText(currentSpriteName, 0, 200, false, true));
+	}
+
 	public void testCostumeButtonTextChange() {
-		createProject();
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		addNewSprite("sprite1");
 		solo.clickOnText("sprite1");
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertTrue("Text on costume button is not 'Costumes'", solo.searchText(solo.getString(R.string.costumes)));
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.clickOnText("Background");
 		assertTrue("Text on costume button is not 'Backgrounds'", solo.searchText(solo.getString(R.string.backgrounds)));
 	}
 
-	public void testSpriteChangeViaSpinner() {
-		createProject();
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		addNewSprite("sprite1");
-		addNewSprite("sprite2");
-		solo.clickOnText("Background");
-		assertEquals("Current sprite is not 'Background'", "Background", ProjectManager.INSTANCE.getCurrentSprite()
-				.getName());
-		solo.clickOnText("Background", 0);
-		solo.sleep(100);
-		solo.clickOnText("sprite1");
-		solo.sleep(500);
-		assertEquals("Current sprite is not 'sprite1'", "sprite1", ProjectManager.INSTANCE.getCurrentSprite().getName());
-		solo.clickOnText("sprite1", 0);
-		solo.sleep(100);
-		solo.clickOnText("sprite2");
-		solo.sleep(500);
-		assertEquals("Current sprite is not 'sprite2'", "sprite2", ProjectManager.INSTANCE.getCurrentSprite().getName());
-	}
-
 	public void testPlayButton() {
-		createProject();
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText("Background");
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_play);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		UiTestUtils.getIntoProgramMenuFromMainMenu(solo, 0);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
 	}
 
 	public void testMenuItemSettings() {
-		createProject();
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("Background");
@@ -159,11 +162,10 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 	}
 
 	public void testMainMenuButton() {
-		createProject();
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText("Background");
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
@@ -217,7 +219,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnBottomBar(solo, R.id.btn_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
 
 		EditText addNewSpriteEditText = solo.getEditText(0);
@@ -226,7 +228,7 @@ public class ProgramMenuActivityTest extends ActivityInstrumentationTestCase2<Ma
 				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}
 }

@@ -48,7 +48,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		super.setUp();
 		UiTestUtils.createEmptyProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override

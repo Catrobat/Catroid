@@ -31,8 +31,8 @@
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@color/actionbar_background</item>
         <item name="android:background">@color/actionbar_background</item>
-        <item name="homeAsUpIndicator">@drawable/actionbar_ic_back</item>
-        <item name="android:homeAsUpIndicator">@drawable/actionbar_ic_back</item>
+        <item name="homeAsUpIndicator">@drawable/ic_actionbar_back</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_actionbar_back</item>
         <item name="titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="android:titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="height">@dimen/actionbar_height</item>
@@ -169,11 +169,43 @@
     <style name="BrickContainer.Motion.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
     </style>
-    
+
+    <style name="BrickContainer.Sound">
+        <item name="android:background">@drawable/brick_magenta</item>
+    </style>
+
+    <style name="BrickContainer.Sound.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+    </style>
+
+    <style name="BrickContainer.Sound.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+    </style>
+
+    <style name="BrickContainer.Sound.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+    </style>
+
+    <style name="BrickContainer.Look">
+        <item name="android:background">@drawable/brick_violet</item>
+    </style>
+
+    <style name="BrickContainer.Look.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+    </style>
+
+    <style name="BrickContainer.Look.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+    </style>
+
+    <style name="BrickContainer.Look.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+    </style>
+
     <style name="BrickContainer.Control">
         <item name="android:background">@drawable/brick_yellow</item>
     </style>
-    
+
     <style name="BrickContainer.Control.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
     </style>
@@ -187,7 +219,6 @@
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    
 
     <style name="brick_new">
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
@@ -195,6 +226,24 @@
 
     <style name="brick_blink">
         <item name="android:windowEnterAnimation">@anim/blink</item>
+    </style>
+
+    <style name="sound_basic_style">
+        <item name="android:clickable">false</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="sound_time" parent="sound_basic_style">
+        <item name="android:textColor">@color/solid_black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="sound_text" parent="sound_basic_style">
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>
