@@ -340,7 +340,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
 	}
 
-	public void testBottomBarOnActionModes() {
+	public void testBottomBarAndContextMenuOnActionModes() {
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
 		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
 		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
@@ -351,9 +351,23 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
 
+		solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
+		assertTrue("Context menu item '" + delete + "' should appear",
+				solo.waitForText(delete, 1, timeToWait, false, true));
+		assertTrue("Context menu item '" + rename + "'  should appear",
+				solo.waitForText(rename, 1, timeToWait, false, true));
+
+		solo.goBack();
+
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0);
 		solo.waitForText(rename, 1, timeToWait, false, true);
+
+		solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
+		assertFalse("Context menu item '" + delete + "' should not appear",
+				solo.waitForText(delete, 1, timeToWait, false, true));
+		assertFalse("Context menu item '" + rename + "'  should not appear",
+				solo.waitForText(rename, 2, timeToWait, false, true));
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -367,6 +381,12 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.goBack();
 		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+
+		solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
+		assertTrue("Context menu item '" + delete + "' should appear",
+				solo.waitForText(delete, 1, timeToWait, false, true));
+		assertTrue("Context menu item '" + rename + "'  should appear",
+				solo.waitForText(rename, 1, timeToWait, false, true));
 
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
