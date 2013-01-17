@@ -80,7 +80,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	private ProjectManager projectManager;
 
 	private static final int TIME_TO_WAIT = 50;
-	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public SoundFragmentTest() {
 		super(MainMenuActivity.class);
@@ -124,9 +123,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
-
-		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
-		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
 
 		if (getSoundAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -298,7 +294,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
-		acceptAndCloseActionMode();
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertFalse("Rename dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
@@ -325,7 +321,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.clickOnCheckBox(checkboxIndex);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
-		acceptAndCloseActionMode();
+		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		assertTrue("Rename dialog didn't show up", solo.searchText(renameDialogTitle, true));
 		assertTrue("No EditText with actual soundname", solo.searchEditText(soundName2));
@@ -444,7 +440,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
-		acceptAndCloseActionMode();
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
@@ -476,7 +472,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
-		acceptAndCloseActionMode();
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
@@ -558,8 +554,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	private void checkIfNumberOfSoundsIsEqual(int expectedNumber) {
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Number of sounds is not as expected", expectedNumber, soundInfoList.size());
+		assertEquals("Number of sounds is not as expected", expectedNumber, getCurrentNumberOfSounds());
 	}
 
 	private int getCurrentNumberOfSounds() {
@@ -579,9 +574,5 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
-	}
-
-	private void acceptAndCloseActionMode() {
-		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
 	}
 }

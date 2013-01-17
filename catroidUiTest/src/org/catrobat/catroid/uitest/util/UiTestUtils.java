@@ -117,6 +117,7 @@ public class UiTestUtils {
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
 	private static final int ACTION_BAR_SPINNER_INDEX = 0;
+	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
@@ -569,6 +570,10 @@ public class UiTestUtils {
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
 		solo.sleep(400);
+	}
+
+	public static void acceptAndCloseActionMode(Solo solo) {
+		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
