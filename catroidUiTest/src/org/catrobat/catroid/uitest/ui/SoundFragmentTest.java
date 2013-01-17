@@ -609,6 +609,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		if (contextMenuShouldAppear) {
 			assertMessageAffix = "should appear";
 
+			assertTrue("Context menu with title '" + FIRST_TEST_SOUND_NAME + "' " + assertMessageAffix,
+					solo.waitForText(FIRST_TEST_SOUND_NAME, 1, timeToWait, false, true));
 			assertTrue("Context menu item '" + delete + "' " + assertMessageAffix,
 					solo.waitForText(delete, 1, timeToWait, false, true));
 			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
@@ -624,7 +626,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 			} else {
 				minimumMatchesRename = 2;
 			}
-
+			assertFalse("Context menu with title '" + FIRST_TEST_SOUND_NAME + "' " + assertMessageAffix,
+					solo.waitForText(FIRST_TEST_SOUND_NAME, 2, timeToWait, false, true));
 			assertFalse("Context menu item '" + delete + "' " + assertMessageAffix,
 					solo.waitForText(delete, minimumMatchesDelete, timeToWait, false, true));
 			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
