@@ -105,7 +105,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(solo.getString(R.string.main_menu_new));
 		solo.waitForText(solo.getString(R.string.new_project_dialog_title));
 
-		UiTestUtils.clickEnterClose(solo, 0, sometext);
+		enterTextAndCloseDialog(sometext);
 
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
@@ -251,8 +251,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String addedTestSpriteName = "addedTestSprite";
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		UiTestUtils.clickEnterClose(solo, 0, addedTestSpriteName);
-		solo.sleep(200);
+
+		enterTextAndCloseDialog(addedTestSpriteName);
 
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(addedTestSpriteName));
 	}
@@ -263,14 +263,14 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String spriteName = "spriteError";
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		UiTestUtils.clickEnterClose(solo, 0, spriteName);
-		solo.sleep(200);
+
+		enterTextAndCloseDialog(spriteName);
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
 
 		// Add sprite which already exists
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		UiTestUtils.clickEnterClose(solo, 0, spriteName);
-		solo.sleep(200);
+
+		enterTextAndCloseDialog(spriteName);
 
 		String errorMessageText = solo.getString(R.string.spritename_already_exists);
 		String buttonCloseText = solo.getString(R.string.close);
@@ -800,5 +800,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
 					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
 		}
+	}
+
+	private void enterTextAndCloseDialog(String text) {
+		// Don't use UiTestUtils.clickEnterClose(solo, 0, "text")
+		solo.clearEditText(0);
+		solo.enterText(0, text);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(200);
 	}
 }
