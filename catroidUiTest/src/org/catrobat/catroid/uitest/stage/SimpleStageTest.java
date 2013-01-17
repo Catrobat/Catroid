@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Values;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -44,14 +41,15 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 	@Override
 	public void setUp() throws Exception {
-		createProject();
+		UiTestUtils.createEmptyProject();
+		Values.SCREEN_HEIGHT = 20;
+		Values.SCREEN_WIDTH = 20;
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -70,7 +68,6 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 		result = StageActivity.stageListener.getPixels(-1, -1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, result);
-		assertTrue("Just for FileTest", true);
 	}
 
 	public void testScreenAlwaysOn() {
@@ -81,12 +78,4 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 				(windowFlags & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) != 0);
 	}
 
-	private void createProject() {
-		Values.SCREEN_HEIGHT = 20;
-		Values.SCREEN_WIDTH = 20;
-		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		ProjectManager.getInstance().setProject(project);
-		StorageHandler.getInstance().saveProject(project);
-	}
 }
