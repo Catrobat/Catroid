@@ -79,32 +79,34 @@ import com.actionbarsherlock.view.Menu;
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
+	public static final int REQUEST_SELECT_MUSIC = 0;
+
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
+
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private static String deleteActionModeTitle;
 	private static String singleItemAppendixDeleteActionMode;
 	private static String multipleItemAppendixDeleteActionMode;
 
-	public static final int REQUEST_SELECT_MUSIC = 0;
+	private static int currentSoundPosition = Constants.NO_POSITION;
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
-
 	private SoundInfo selectedSoundInfo;
-
-	private static int currentSoundPosition = Constants.NO_POSITION;
-
-	private View currentPlayingView = null;
 
 	private ListView listView;
 
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
 
+	private View currentPlayingView = null;
+
 	private ActionMode actionMode;
+
+	private boolean isRenameActionMode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -228,19 +230,19 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void startRenameActionMode() {
-		setBottomBarActivated(false);
-
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			setBottomBarActivated(false);
+			isRenameActionMode = true;
 		}
 	}
 
 	@Override
 	public void startDeleteActionMode() {
-		setBottomBarActivated(false);
-
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			setBottomBarActivated(false);
+			isRenameActionMode = false;
 		}
 	}
 
@@ -273,7 +275,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void onSoundChecked() {
-		if (actionMode == null) {
+		if (isRenameActionMode || actionMode == null) {
 			return;
 		}
 
@@ -598,14 +600,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			mode.setTitle(getString(R.string.delete));
 			return false;
 		}
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(Constants.MULTI_SELECT);
-
 			setActionModeActive(true);
 
 			deleteActionModeTitle = getString(R.string.delete);

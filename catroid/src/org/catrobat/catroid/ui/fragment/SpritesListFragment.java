@@ -73,6 +73,7 @@ import com.actionbarsherlock.view.Menu;
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteCheckedListener {
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
+	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
 
 	private static String deleteActionModeTitle;
 	private static String singleItemAppendixDeleteActionMode;
@@ -87,9 +88,9 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpritesListInitReceiver spritesListInitReceiver;
 
 	private ActionMode actionMode;
-	private boolean actionModeActive = false;
 
-	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
+	private boolean actionModeActive = false;
+	private boolean isRenameActionMode;
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 		@Override
@@ -288,24 +289,20 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		editor.commit();
 	}
 
-	public void startDeleteActionMode() {
-		if (actionMode != null) {
-			return;
+	public void startRenameActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			setBottomBarActivated(false);
+			isRenameActionMode = true;
 		}
-
-		setBottomBarActivated(false);
-
-		actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 	}
 
-	public void startRenameActionMode() {
-		if (actionMode != null) {
-			return;
+	public void startDeleteActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			setBottomBarActivated(false);
+			isRenameActionMode = false;
 		}
-
-		setBottomBarActivated(false);
-
-		actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 	}
 
 	public Sprite getSpriteToEdit() {
@@ -490,7 +487,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	@Override
 	public void onSpriteChecked() {
-		if (actionMode == null) {
+		if (isRenameActionMode || actionMode == null) {
 			return;
 		}
 
