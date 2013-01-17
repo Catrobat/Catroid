@@ -76,7 +76,7 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_text_view);
+		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		editX.setText(String.valueOf(changeGhostEffect));
 
