@@ -601,6 +601,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setSelectMode(Constants.MULTI_SELECT);
 			setActionModeActive(true);
 
+			mode.setTitle(R.string.delete);
+
 			deleteActionModeTitle = getString(R.string.delete);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
