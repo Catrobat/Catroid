@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -34,7 +35,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class SetBrightnessBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 
 		view = View.inflate(context, R.layout.brick_set_brightness, null);
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_text_view);
+		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
 		EditText editX = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
 		editX.setText(String.valueOf(brightness));
 

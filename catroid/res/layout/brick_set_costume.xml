@@ -20,38 +20,22 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    style="@style/BrickContainer.Look.Medium"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/brick_set_costume_prototype_text_view"
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_set_costume" />
+
+    <Spinner
+        android:id="@+id/setcostume_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/brick_violet"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/tv_set_costume"
-            style="@style/BrickText"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="3dip"
-            android:text="@string/brick_set_costume" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <Spinner
-                android:id="@+id/setcostume_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false" />
-        </LinearLayout>
-    </LinearLayout>
+        android:clickable="false"
+        android:focusable="false" />
 
 </LinearLayout>
