@@ -551,8 +551,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		return assertMessageAffix;
 	}
 
-	private void clickOnContextMenuItem(String FIRST_TEST_SOUND_NAME, String itemName) {
-		solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
+	private void clickOnContextMenuItem(String soundName, String itemName) {
+		solo.clickLongOnText(soundName);
 		solo.waitForText(itemName);
 		solo.clickOnText(itemName);
 	}

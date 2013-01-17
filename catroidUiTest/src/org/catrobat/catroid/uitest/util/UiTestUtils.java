@@ -797,7 +797,7 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
+	public static void getIntoSpritesFromMainMenu(Solo solo) {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
 
@@ -807,6 +807,10 @@ public class UiTestUtils {
 		solo.clickOnButton(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
+	}
+
+	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
+		getIntoSpritesFromMainMenu(solo);
 		solo.sleep(200);
 
 		solo.clickInList(spriteIndex);
