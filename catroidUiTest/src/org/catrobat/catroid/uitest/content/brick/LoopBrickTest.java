@@ -91,7 +91,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, 0, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
 
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected LoopBeginBrick but was "
