@@ -48,7 +48,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		foreverBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int expectedDelay = (Integer) TestUtils.getPrivateField(loopEndBrick, "LOOP_DELAY");
 
 		testScript.addBrick(foreverBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
@@ -62,8 +62,8 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		assertEquals("Executed the wrong number of times!", fiveIsAlmostForever * deltaY,
 				(int) testSprite.costume.getYPosition());
 
-		final int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
-		final int forever = (Integer) TestUtils.getPrivateField("FOREVER", loopEndBrick, false);
+		final int timesToRepeat = (Integer) TestUtils.getPrivateField(loopEndBrick, "timesToRepeat");
+		final int forever = (Integer) TestUtils.getPrivateField(loopEndBrick, "FOREVER");
 
 		assertEquals("Wrong number of times to repeat", forever, timesToRepeat);
 	}
@@ -81,7 +81,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
 		foreverBrick.setLoopEndBrick(loopEndBrick);
 
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int expectedDelay = (Integer) TestUtils.getPrivateField(loopEndBrick, "LOOP_DELAY");
 
 		testScript.addBrick(foreverBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
@@ -116,7 +116,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		foreverBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int expectedDelay = (Integer) TestUtils.getPrivateField(loopEndBrick, "LOOP_DELAY");
 
 		testScript.addBrick(foreverBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));

@@ -34,12 +34,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -92,7 +89,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.jayway.android.robotium.solo.Solo;
@@ -461,73 +457,121 @@ public class UiTestUtils {
 		}
 	}
 
-	public static Object getPrivateField(String fieldName, Object object) {
-		try {
-			Field field = object.getClass().getDeclaredField(fieldName);
+	public static Object getPrivateField(Object object, String fieldName) {
+		if (object == null) {
+			return null;
+		}
+
+		return getPrivateField(object.getClass(), object, fieldName);
+	}
+
+	public static Object getPrivateField(Class<?> clazz, String fieldName) {
+		return getPrivateField(clazz, null, fieldName);
+	}
+
+	public static Object getPrivateField(Class<?> clazz, Object object, String fieldName) {
+		Field field = getField(fieldName, clazz);
+
+		if (field == null) {
+			Log.v(TAG, "Class " + clazz.getSimpleName() + " or superclasses dosn't have a field named '" + fieldName
+					+ "'");
+		} else {
 			field.setAccessible(true);
-			return field.get(object);
-		} catch (Exception e) {
-			Assert.fail(e.getClass().getName() + " when accessing " + fieldName);
+			try {
+				return field.get(object);
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
 		}
 		return null;
 	}
 
-	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {
-
-		Field field = null;
-
-		try {
-			Class<?> c = object.getClass();
-			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
+	public static void setPrivateField(Object object, String fieldName, Object value) {
+		if (object == null) {
+			return;
 		}
 
-		if (field != null) {
-			field.setAccessible(true);
+		setPrivateField(object.getClass(), object, fieldName, value);
+	}
 
+	public static void setPrivateField(Class<?> fieldOwner, String fieldName, Object value) {
+		setPrivateField(fieldOwner, null, fieldName, value);
+	}
+
+	public static void setPrivateField(Class<?> fieldOwner, Object object, String fieldName, Object value) {
+		Field field = getField(fieldName, fieldOwner);
+
+		if (field == null) {
+			Log.v(TAG, "Class " + fieldOwner.getSimpleName() + " or superclasses dosn't have a field named '"
+					+ fieldName + "'");
+		} else {
+			field.setAccessible(true);
 			try {
 				field.set(object, value);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+			} catch (Exception exception) {
+				exception.printStackTrace();
 			}
 		}
 	}
 
-	public static Object invokePrivateMethodWithoutParameters(Class<?> clazz, String methodName, Object receiver) {
-		Method method = null;
-		try {
-			method = clazz.getDeclaredMethod(methodName, (Class<?>[]) null);
-		} catch (NoSuchMethodException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + methodName);
+	private static Field getField(String fieldName, Class<?> clazz) {
+		Field field = null;
+
+		do {
+			try {
+				field = clazz.getDeclaredField(fieldName);
+			} catch (NoSuchFieldException noSuchFieldException) {
+			}
+		} while (field == null && (clazz = clazz.getSuperclass()) != null);
+
+		return field;
+	}
+
+	public static Object invokeMethod(Object object, String methodName, Object... params) {
+		Class<?>[] args = null;
+		if (params != null) {
+			args = new Class<?>[params.length];
+			for (int index = 0; index < params.length; index++) {
+				args[index] = params[index].getClass();
+			}
 		}
 
-		if (method != null) {
-			method.setAccessible(true);
+		return invokeMethod(object, methodName, args, params);
+	}
 
-			try {
-				return method.invoke(receiver, (Object[]) null);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
+	public static Object invokeMethod(Object object, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
+		if (object == null) {
+			return null;
+		}
+
+		return invokeMethod(object.getClass(), object, methodName, methodParams, methodArgs);
+	}
+
+	public static Object invokeMethod(Class<?> clazz, String methodName, Object... params) {
+		Class<?>[] args = new Class<?>[params.length];
+		for (int index = 0; index < params.length; index++) {
+			args[index] = params[index].getClass();
+		}
+
+		return invokeMethod(clazz, methodName, args, params);
+	}
+
+	public static Object invokeMethod(Class<?> clazz, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
+		return invokeMethod(clazz, null, methodName, methodParams, methodArgs);
+	}
+
+	private static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] methodParams,
+			Object[] methodArgs) {
+		Method method;
+		try {
+			method = clazz.getDeclaredMethod(methodName, methodParams);
+			method.setAccessible(true);
+			return method.invoke(object, methodArgs);
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 
 		return null;
-	}
-
-	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
-			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = classFromObject.getDeclaredField(fieldName);
-		field.setAccessible(true);
-		field.set(object, value);
 	}
 
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
@@ -745,8 +789,7 @@ public class UiTestUtils {
 	 */
 	public static void clickOnUpActionBarButton(Activity activity) {
 		ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
-				SherlockFragmentActivity.class, "getSherlock", activity);
+		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokeMethod(activity, "getSherlock");
 		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 	}
 

@@ -106,7 +106,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(0, STEPS_TO_MOVE + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		assertEquals("Wrong text in field.", STEPS_TO_MOVE, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
+		assertEquals("Wrong text in field.", STEPS_TO_MOVE, UiTestUtils.getPrivateField(moveNStepsBrick, "steps"));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
 	}
 

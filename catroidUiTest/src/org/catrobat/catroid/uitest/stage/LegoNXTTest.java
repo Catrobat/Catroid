@@ -117,7 +117,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
+		UiTestUtils.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -210,7 +210,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add(connectedDeviceMacAdress);
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
+		UiTestUtils.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
 		solo.sleep(6500);// increase this sleep if probs!
@@ -238,7 +238,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
-		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
+		UiTestUtils.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -259,7 +259,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField("autoConnectIDs", deviceListActivity, autoConnectIDs, false);
+		UiTestUtils.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);

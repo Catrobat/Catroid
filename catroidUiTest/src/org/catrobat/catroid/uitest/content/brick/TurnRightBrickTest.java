@@ -91,7 +91,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.enterText(0, TURN_DEGREES + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnRightBrick);
+		double actualDegrees = (Double) UiTestUtils.getPrivateField(turnRightBrick, "degrees");
 
 		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees);
 		assertEquals("Text not updated", TURN_DEGREES, Double.parseDouble(solo.getEditText(0).getText().toString()));

@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -39,7 +40,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.Spinner;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -98,7 +98,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 		solo.enterText(0, SET_SPEED + "");
 		solo.clickOnButton(buttonOkText);
 
-		int speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		int speed = (Integer) UiTestUtils.getPrivateField(motorBrick, "speed");
 		assertEquals("Wrong text in field.", SET_SPEED, speed);
 		assertEquals("Value in Brick is not updated.", SET_SPEED + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", SET_SPEED + 100, solo.getCurrentProgressBars().get(0)
@@ -106,7 +106,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 
 		solo.setProgressBar(0, SET_SPEED_INITIALLY + 100); //robotium doesnt go through proper function onProgressChanged() to change value on progress bar!
 		solo.sleep(200);
-		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		speed = (Integer) UiTestUtils.getPrivateField(motorBrick, "speed");
 		assertEquals("Wrong text in field.", SET_SPEED_INITIALLY, speed);
 		assertEquals("Value in Brick is not updated.", SET_SPEED_INITIALLY + "", solo.getEditText(0).getText()
 				.toString());
@@ -114,14 +114,14 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 				.getProgress());
 
 		solo.clickOnButton(0);
-		int speedCounter = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		int speedCounter = (Integer) UiTestUtils.getPrivateField(motorBrick, "speed");
 		assertEquals("Wrong text in field.", speedCounter, speed - 1);
 		assertEquals("Value in Brick is not updated.", speed - 1 + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed - 1 + 100, solo.getCurrentProgressBars().get(0)
 				.getProgress());
 
 		solo.clickOnButton(1);
-		speedCounter = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		speedCounter = (Integer) UiTestUtils.getPrivateField(motorBrick, "speed");
 		assertEquals("Wrong text in field.", speedCounter, speed);
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
@@ -129,7 +129,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 		solo.setProgressBar(0, 1);
 		solo.clickOnButton(0);
 		solo.clickOnButton(0);
-		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		speed = (Integer) UiTestUtils.getPrivateField(motorBrick, "speed");
 		assertEquals("Wrong text in field.", speed, MIN_SPEED);
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
@@ -137,7 +137,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 		solo.setProgressBar(0, MAX_SPEED + 100);
 		solo.clickOnButton(1);
 		solo.clickOnButton(1);
-		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		speed = (Integer) UiTestUtils.getPrivateField(motorBrick, "speed");
 		assertEquals("Wrong text in field.", speed, MAX_SPEED);
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());

@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -40,7 +41,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
 import android.widget.Spinner;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -86,8 +86,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.",
-				solo.getText(solo.getString(R.string.brick_motor_turn_angle)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_motor_turn_angle)));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_angle)));
 		assertTrue("Unit missing for angle!", solo.searchText("°"));
 
@@ -112,7 +111,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		solo.enterText(0, SET_ANGLE + "");
 		solo.clickOnButton(0);
 
-		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
+		int angle = (Integer) UiTestUtils.getPrivateField(motorBrick, "degrees");
 		assertEquals("Wrong text in field.", SET_ANGLE, angle);
 		assertEquals("Value in Brick is not updated.", SET_ANGLE + "", solo.getEditText(0).getText().toString());
 
@@ -126,7 +125,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 			e.printStackTrace();
 			fail("Numberformat Exception should not occur");
 		}
-		angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
+		angle = (Integer) UiTestUtils.getPrivateField(motorBrick, "degrees");
 		assertEquals("Wrong text in field.", 0, angle);
 		assertEquals("Value in Brick is not updated.", "0", solo.getEditText(0).getText().toString());
 

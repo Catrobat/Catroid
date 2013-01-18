@@ -36,7 +36,7 @@ public class ProjectTest extends AndroidTestCase {
 		Project project = new Project(getContext(), "testProject");
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("org.catrobat.catroid", 0);
 		assertEquals("Incorrect version name", packageInfo.versionName,
-				(String) TestUtils.getPrivateField("applicationVersion", project, false));
+				(String) TestUtils.getPrivateField(project, "applicationVersion"));
 	}
 
 	public void testAddRemoveSprite() {

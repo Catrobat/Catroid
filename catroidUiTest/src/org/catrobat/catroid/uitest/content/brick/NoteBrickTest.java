@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -38,7 +39,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -91,7 +91,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.enterText(0, TEST_STRING);
 		solo.clickOnButton(buttonPositiveText);
 
-		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
+		String note = UiTestUtils.getPrivateField(noteBrick, "note").toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
 
 		solo.clickOnEditText(0);
@@ -99,7 +99,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.enterText(0, "");
 		solo.clickOnButton(buttonPositiveText);
 
-		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
+		note = UiTestUtils.getPrivateField(noteBrick, "note").toString();
 		assertEquals("Wrong text in field.", "", note);
 
 		//used testString again, cause robotium can't find button otherwise....
@@ -107,7 +107,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.enterText(0, TEST_STRING);
 		solo.clickOnButton(buttonPositiveText);
 
-		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
+		note = UiTestUtils.getPrivateField(noteBrick, "note").toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
 	}
 

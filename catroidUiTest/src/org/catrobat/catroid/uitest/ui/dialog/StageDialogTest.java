@@ -269,7 +269,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(300);
 		@SuppressWarnings("unchecked")
 		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) UiTestUtils.getPrivateField(
-				"mediaPlayers", SoundManager.getInstance());
+				SoundManager.getInstance(), "mediaPlayers");
 		int positionAfterRestart = mediaPlayerArrayList.get(0).getCurrentPosition();
 		assertTrue("Sound not playing after stage restart.", mediaPlayerArrayList.get(0).isPlaying());
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);

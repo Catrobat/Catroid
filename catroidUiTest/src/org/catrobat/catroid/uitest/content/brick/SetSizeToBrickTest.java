@@ -113,7 +113,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		UiTestUtils.clickEnterClose(solo, 0, newSize + "");
 
-		double size = (Double) UiTestUtils.getPrivateField("size", setSizeToBrick);
+		double size = (Double) UiTestUtils.getPrivateField(setSizeToBrick, "size");
 		assertEquals("Wrong text in field", newSize, size);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
 

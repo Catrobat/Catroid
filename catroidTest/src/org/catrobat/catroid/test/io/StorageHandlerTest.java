@@ -142,13 +142,13 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		int actualXPosition = (Integer) TestUtils.getPrivateField("xPosition", (postSpriteList.get(2).getScript(0)
-				.getBrickList().get(0)), false);
-		int actualYPosition = (Integer) TestUtils.getPrivateField("yPosition", (postSpriteList.get(2).getScript(0)
-				.getBrickList().get(0)), false);
+		int actualXPosition = (Integer) TestUtils.getPrivateField(
+				(postSpriteList.get(2).getScript(0).getBrickList().get(0)), "xPosition");
+		int actualYPosition = (Integer) TestUtils.getPrivateField(
+				(postSpriteList.get(2).getScript(0).getBrickList().get(0)), "yPosition");
 
-		double actualSize = (Double) TestUtils.getPrivateField("size", (postSpriteList.get(1).getScript(0)
-				.getBrickList().get(2)), false);
+		double actualSize = (Double) TestUtils.getPrivateField(
+				(postSpriteList.get(1).getScript(0).getBrickList().get(2)), "size");
 
 		assertEquals("Size was not deserialized right", size, actualSize);
 		assertEquals("XPosition was not deserialized right", xPosition, actualXPosition);
@@ -249,7 +249,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("project contains package information", projectString.contains("org.catrobat"));
 
-		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", new XmlSerializer(), false);
+		String xmlHeader = (String) TestUtils.getPrivateField(new XmlSerializer(), "XML_HEADER");
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
 
 		projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);

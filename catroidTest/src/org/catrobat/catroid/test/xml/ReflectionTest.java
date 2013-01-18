@@ -56,12 +56,11 @@ public class ReflectionTest extends InstrumentationTestCase {
 			fail("Excption when parsing");
 		}
 
-		int androidVersionResult = (Integer) TestUtils.getPrivateField("platformVersion", createdProject, false);
-		float catrobatLanguageVersionResult = (Float) TestUtils.getPrivateField("catrobatLanguageVersion",
-				createdProject, false);
-		String catroidVersionNameResult = (String) TestUtils.getPrivateField("applicationVersion", createdProject,
-				false);
-		String deviceNameResult = (String) TestUtils.getPrivateField("deviceName", createdProject, false);
+		int androidVersionResult = (Integer) TestUtils.getPrivateField(createdProject, "platformVersion");
+		float catrobatLanguageVersionResult = (Float) TestUtils.getPrivateField(createdProject,
+				"catrobatLanguageVersion");
+		String catroidVersionNameResult = (String) TestUtils.getPrivateField(createdProject, "applicationVersion");
+		String deviceNameResult = (String) TestUtils.getPrivateField(createdProject, "deviceName");
 
 		assertEquals("the Android version is wrong", 10, androidVersionResult);
 		assertEquals("catrobatlanguageversion wrong", 0.3f, catrobatLanguageVersionResult);

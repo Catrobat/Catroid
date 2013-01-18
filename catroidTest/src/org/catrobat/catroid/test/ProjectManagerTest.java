@@ -23,13 +23,13 @@
 package org.catrobat.catroid.test;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.test.utils.TestErrorListenerInterface;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import android.test.AndroidTestCase;
-import org.catrobat.catroid.R;
 
 public class ProjectManagerTest extends AndroidTestCase {
 	private static final String OLD_PROJECT = "OLD_PROJECT";
@@ -47,7 +47,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		Utils.updateScreenWidthAndHeight(getContext());
 		projectManager = ProjectManager.getInstance();
 		// Prevent Utils from returning true in isApplicationDebuggable
-		TestUtils.setPrivateField(Utils.class, null, "isUnderTest", true);
+		TestUtils.setPrivateField(Utils.class, "isUnderTest", true);
 	}
 
 	@Override

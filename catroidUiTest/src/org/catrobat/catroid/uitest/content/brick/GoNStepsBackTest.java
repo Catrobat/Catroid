@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -38,7 +39,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -96,7 +96,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.enterText(0, STEPS_TO_GO_BACK + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
+		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, UiTestUtils.getPrivateField(goNStepsBackBrick, "steps"));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_GO_BACK + "", solo.getEditText(0).getText().toString());
 	}
 

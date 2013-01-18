@@ -154,52 +154,120 @@ public class TestUtils {
 		return contents.toString();
 	}
 
-	public static Object getPrivateField(String fieldName, Object object, boolean ofSuperclass) {
-
-		Field field = null;
-
-		try {
-			Class<?> c = object.getClass();
-			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
+	public static Object getPrivateField(Object object, String fieldName) {
+		if (object == null) {
+			return null;
 		}
 
-		if (field != null) {
-			field.setAccessible(true);
+		return getPrivateField(object.getClass(), object, fieldName);
+	}
 
+	public static Object getPrivateField(Class<?> clazz, String fieldName) {
+		return getPrivateField(clazz, null, fieldName);
+	}
+
+	public static Object getPrivateField(Class<?> clazz, Object object, String fieldName) {
+		Field field = getField(fieldName, clazz);
+
+		if (field == null) {
+			Log.v(TAG, "Class " + clazz.getSimpleName() + " or superclasses dosn't have a field named '" + fieldName
+					+ "'");
+		} else {
+			field.setAccessible(true);
 			try {
 				return field.get(object);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+			} catch (Exception exception) {
+				exception.printStackTrace();
 			}
 		}
+		return null;
+	}
+
+	public static void setPrivateField(Object object, String fieldName, Object value) {
+		if (object == null) {
+			return;
+		}
+
+		setPrivateField(object.getClass(), object, fieldName, value);
+	}
+
+	public static void setPrivateField(Class<?> fieldOwner, String fieldName, Object value) {
+		setPrivateField(fieldOwner, null, fieldName, value);
+	}
+
+	public static void setPrivateField(Class<?> fieldOwner, Object object, String fieldName, Object value) {
+		Field field = getField(fieldName, fieldOwner);
+
+		if (field == null) {
+			Log.v(TAG, "Class " + fieldOwner.getSimpleName() + " or superclasses dosn't have a field named '"
+					+ fieldName + "'");
+		} else {
+			field.setAccessible(true);
+			try {
+				field.set(object, value);
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
+		}
+	}
+
+	private static Field getField(String fieldName, Class<?> clazz) {
+		Field field = null;
+
+		do {
+			try {
+				field = clazz.getDeclaredField(fieldName);
+			} catch (NoSuchFieldException noSuchFieldException) {
+			}
+		} while (field == null && (clazz = clazz.getSuperclass()) != null);
 
 		return field;
 	}
 
-	public static void setPrivateField(Class<?> classFromObject, Object object, String fieldName, Object value)
-			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = classFromObject.getDeclaredField(fieldName);
-		field.setAccessible(true);
-		field.set(object, value);
+	public static Object invokeMethod(Object object, String methodName, Object... params) {
+		Class<?>[] args = null;
+		if (params != null) {
+			args = new Class<?>[params.length];
+			for (int index = 0; index < params.length; index++) {
+				args[index] = params[index].getClass();
+			}
+		}
+
+		return invokeMethod(object, methodName, args, params);
 	}
 
-	public static Object invokeMethod(Object classObject, String methodName, Class<?>[] methodParams,
-			Object[] methodArgs) {
-		try {
-			Class<?> currentClass = classObject.getClass();
-			Method currentMethod = currentClass.getDeclaredMethod(methodName, methodParams);
-			currentMethod.setAccessible(true);
-			Object returnObject = currentMethod.invoke(classObject, methodArgs);
-			return returnObject;
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static Object invokeMethod(Object object, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
+		if (object == null) {
+			return null;
 		}
+
+		return invokeMethod(object.getClass(), object, methodName, methodParams, methodArgs);
+	}
+
+	public static Object invokeMethod(Class<?> clazz, String methodName, Object... params) {
+		Class<?>[] args = new Class<?>[params.length];
+		for (int index = 0; index < params.length; index++) {
+			args[index] = params[index].getClass();
+		}
+
+		return invokeMethod(clazz, methodName, args, params);
+	}
+
+	public static Object invokeMethod(Class<?> clazz, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
+		return invokeMethod(clazz, null, methodName, methodParams, methodArgs);
+	}
+
+	private static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] methodParams,
+			Object[] methodArgs) {
+		Method method;
+		try {
+			method = clazz.getDeclaredMethod(methodName, methodParams);
+			method.setAccessible(true);
+			return method.invoke(object, methodArgs);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
 		return null;
 	}
 

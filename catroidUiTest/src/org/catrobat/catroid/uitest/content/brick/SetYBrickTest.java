@@ -91,7 +91,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.enterText(0, SET_Y + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		int yPosition = (Integer) UiTestUtils.getPrivateField("yPosition", setYBrick);
+		int yPosition = (Integer) UiTestUtils.getPrivateField(setYBrick, "yPosition");
 		assertEquals("Wrong text in field.", SET_Y, yPosition);
 		assertEquals("Value in Brick is not updated.", SET_Y + "", solo.getEditText(0).getText().toString());
 	}

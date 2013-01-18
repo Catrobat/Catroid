@@ -90,7 +90,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.enterText(0, waitTime + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		int actualWaitTime = (Integer) UiTestUtils.getPrivateField("timeToWaitInMilliSeconds", waitBrick);
+		int actualWaitTime = (Integer) UiTestUtils.getPrivateField(waitBrick, "timeToWaitInMilliSeconds");
 		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}

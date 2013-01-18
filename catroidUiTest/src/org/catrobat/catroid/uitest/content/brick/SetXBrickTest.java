@@ -91,7 +91,7 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		solo.enterText(0, SET_X + "");
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		int xPosition = (Integer) UiTestUtils.getPrivateField("xPosition", setXBrick);
+		int xPosition = (Integer) UiTestUtils.getPrivateField(setXBrick, "xPosition");
 		assertEquals("Wrong text in field.", SET_X, xPosition);
 		assertEquals("Value in Brick is not updated.", SET_X + "", solo.getEditText(0).getText().toString());
 	}
