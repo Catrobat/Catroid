@@ -186,30 +186,35 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
-	public void testContextMenu() {
+	public void testRenameSoundContextMenu() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		// Rename sprite
-		final String renamedSpriteName = "renamedTestSpriteName";
+		final String spriteToRename = "renamedTestSpriteName";
 
 		clickOnContextMenuItem(FIRST_TEST_SPRITE_NAME, rename);
 		solo.waitForText(solo.getString(R.string.rename_sprite_dialog));
 		solo.sleep(50);
 
 		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, renamedSpriteName);
+		UiTestUtils.enterText(solo, 0, spriteToRename);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 
 		int spriteToRenameIndex = 1;
 
 		Sprite renamedSprite = spriteList.get(spriteToRenameIndex);
-		assertEquals("Sprite on position " + spriteToRenameIndex + " wasn't renamed correctly", renamedSpriteName,
+		assertEquals("Sprite on position " + spriteToRenameIndex + " wasn't renamed correctly", spriteToRename,
 				renamedSprite.getName());
+	}
+
+	public void testDeleteSpriteContextMenu() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+
+		final String spriteToDelete = FIRST_TEST_SPRITE_NAME;
 
 		// Delete sprite
 		int expectedNumberOfSpritesAfterDelete = spriteList.size() - 1;
-		clickOnContextMenuItem(renamedSpriteName, delete);
+		clickOnContextMenuItem(spriteToDelete, delete);
 
 		// Dialog is handled asynchronously, so we need to wait a while for it to finish
 		solo.sleep(300);
@@ -217,8 +222,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertEquals("Size of sprite list has not changed accordingly", expectedNumberOfSpritesAfterDelete,
 				spriteList.size());
-		assertFalse("Sprite is still shown in sprite list", solo.searchText(renamedSpriteName));
-		assertFalse("Sprite is still in Project", spriteList.contains(renamedSprite));
+		assertFalse("Sprite is still shown in sprite list", solo.searchText(spriteToDelete));
+		assertFalse("Sprite is still in Project", projectManager.spriteExists(spriteToDelete));
 
 		Sprite notDeletedSprite = spriteList.get(1);
 		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", SECOND_TEST_SPRITE_NAME,
