@@ -344,7 +344,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		boolean okButtonEnabled = solo.getButton(okButtonText).isEnabled();
 		assertFalse("'" + okButtonText + "' button not deactivated", okButtonEnabled);
 
-		// Test to add sprite without name ("") with ENTER key
+		// Test renaming sprite to ("") with ENTER key
 		solo.clickOnEditText(0);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
