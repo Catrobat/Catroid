@@ -293,6 +293,16 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String okButtonText = solo.getString(R.string.ok);
 		boolean okButtonEnabled = solo.getButton(okButtonText).isEnabled();
 		assertFalse("'" + okButtonText + "' button not deactivated", okButtonEnabled);
+
+		// Test to add sprite without name ("") with ENTER key
+		solo.clickOnEditText(0);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+
+		assertTrue("ErrorMessage not visible", solo.searchText(solo.getString(R.string.spritename_invalid)));
+		solo.clickOnButton(buttonCloseText);
+		solo.sleep(200);
+		assertTrue("not in NewSpriteDialog", solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
 	}
 
 	public void testRenameSpriteDialog() {
@@ -328,6 +338,16 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String okButtonText = solo.getString(R.string.ok);
 		boolean okButtonEnabled = solo.getButton(okButtonText).isEnabled();
 		assertFalse("'" + okButtonText + "' button not deactivated", okButtonEnabled);
+
+		// Test to add sprite without name ("") with ENTER key
+		solo.clickOnEditText(0);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+
+		assertTrue("ErrorMessage not visible", solo.searchText(solo.getString(R.string.spritename_invalid)));
+		solo.clickOnButton(buttonCloseText);
+		solo.sleep(200);
+		assertTrue("not in NewSpriteDialog", solo.searchText(dialogRenameSpriteText));
 	}
 
 	public void testDivider() {
