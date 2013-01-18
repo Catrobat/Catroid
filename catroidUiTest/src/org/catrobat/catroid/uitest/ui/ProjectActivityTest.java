@@ -473,7 +473,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
 	}
 
-	public void testBottomBarOnActionModes() {
+	public void testBottomBarAndContextMenuOnActionModes() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
