@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.stage.NativeAppActivity;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
 import org.catrobat.catroid.xml.parser.ParseException;
@@ -36,10 +35,9 @@ import android.test.InstrumentationTestCase;
 public class ReflectionTest extends InstrumentationTestCase {
 
 	public void testFillingClassfromReflection() {
-		NativeAppActivity.setContext(getInstrumentation().getContext());
 		InputStream xmlFileStream = null;
 		try {
-			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
+			xmlFileStream = getInstrumentation().getContext().getAssets().open("test_project.xml");
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("IOexceptiona which can be FileNotFoundException");

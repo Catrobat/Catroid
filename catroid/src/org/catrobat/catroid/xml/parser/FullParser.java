@@ -25,7 +25,6 @@ package org.catrobat.catroid.xml.parser;
 import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -42,7 +41,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.NativeAppActivity;
 import org.catrobat.catroid.utils.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -51,38 +49,15 @@ import org.w3c.dom.NodeList;
 
 public class FullParser {
 
-	private Map<String, Object> referencedObjects = new HashMap<String, Object>();
-	private List<ForwardReference> forwardReferences = new ArrayList<ForwardReference>();
-	private ObjectCreator objectGetter = new ObjectCreator();
-	private CostumeParser costumeParser = new CostumeParser();
-	private SoundInfoParser soundParser = new SoundInfoParser();
-	private ScriptParser scriptParser = new ScriptParser();
-
-	public Project fullParser(String xmlFile) throws ParseException {
-
-		Project parsedProject = null;
-
-		try {
-			InputStream inputStreamForSprites = NativeAppActivity.getContext().getAssets().open(xmlFile);
-
-			parsedProject = this.parseSpritesWithProject(inputStreamForSprites);
-			inputStreamForSprites.close();
-			inputStreamForSprites = null;
-		} catch (ParseException e) {
-			e.printStackTrace();
-			throw e;
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new ParseException("IO exception in full parser", e);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			throw new ParseException("Field exception, Sound handling", e);
-		}
-		return parsedProject;
-
+	private FullParser() {
 	}
 
-	public Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException {
+	public static Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException {
+		Map<String, Object> referencedObjects = new HashMap<String, Object>();
+		List<ForwardReference> forwardReferences = new ArrayList<ForwardReference>();
+		CostumeParser costumeParser = new CostumeParser();
+		SoundInfoParser soundParser = new SoundInfoParser();
+		ScriptParser scriptParser = new ScriptParser();
 
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder;
@@ -135,7 +110,7 @@ public class FullParser {
 		return parsedProject;
 	}
 
-	private void setChecksumsOnProjectManager(Project project) {
+	private static void setChecksumsOnProjectManager(Project project) {
 		FileChecksumContainer checksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		File projectImageDirectory = new File(Utils.buildProjectPath(project.getName()) + "/"
 				+ Constants.IMAGE_DIRECTORY);
@@ -162,7 +137,7 @@ public class FullParser {
 		}
 	}
 
-	private String getSpriteName(Element spriteElement) {
+	private static String getSpriteName(Element spriteElement) {
 		String spriteName = "";
 		NodeList spriteChildren = spriteElement.getChildNodes();
 		for (int i = 0; i < spriteChildren.getLength(); i++) {
@@ -177,7 +152,7 @@ public class FullParser {
 		return spriteName;
 	}
 
-	private Project getProjectObject(Document document, List<Sprite> sprites) throws IllegalArgumentException,
+	private static Project getProjectObject(Document document, List<Sprite> sprites) throws IllegalArgumentException,
 			InstantiationException, IllegalAccessException, InvocationTargetException, ParseException {
 		Node rootNode = document.getDocumentElement();
 		String nameOfRoot = rootNode.getNodeName();
@@ -194,6 +169,7 @@ public class FullParser {
 			projectClass = Project.class;
 		}
 
+		ObjectCreator objectGetter = new ObjectCreator();
 		Project newProject = (Project) objectGetter.getObjectOfClass(projectClass, "0");
 
 		Map<String, Field> projectFieldsToSet = objectGetter.getFieldMap(projectClass);
