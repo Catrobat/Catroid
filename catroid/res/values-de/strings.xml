@@ -88,6 +88,8 @@
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
+    <string name="sprite">Objekt</string>
+    <string name="sprites">Objekte</string>
     <!--  -->
 
 
