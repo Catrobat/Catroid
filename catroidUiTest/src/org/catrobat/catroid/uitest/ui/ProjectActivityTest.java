@@ -186,7 +186,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
 	}
 
-	public void testRenameSoundContextMenu() {
+	public void testRenameSpriteContextMenu() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
 		final String spriteToRename = "renamedTestSpriteName";
