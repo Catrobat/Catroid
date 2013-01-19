@@ -43,38 +43,19 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.stage.NativeAppActivity;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.xml.parser.FullParser;
 import org.catrobat.catroid.xml.parser.ParseException;
 
-import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 public class FullParserTest extends InstrumentationTestCase {
 
-	Context androidContext;
-
-	@Override
-	protected void setUp() throws Exception {
-		androidContext = getInstrumentation().getContext();
-		NativeAppActivity.setContext(androidContext);
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		androidContext = null;
-		NativeAppActivity.setContext(androidContext);
-		super.tearDown();
-	}
-
 	public void testSpriteListParsing() {
-		FullParser parser = new FullParser();
-
 		InputStream xmlFileStream = null;
 
 		try {
-			xmlFileStream = androidContext.getAssets().open("test_project.xml");
+			xmlFileStream = getInstrumentation().getContext().getAssets().open("test_project.xml");
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Exception caught at getting filestream");
@@ -82,7 +63,7 @@ public class FullParserTest extends InstrumentationTestCase {
 
 		List<Sprite> values = null;
 		try {
-			Project testProject = parser.parseSpritesWithProject(xmlFileStream);
+			Project testProject = FullParser.parseSpritesWithProject(xmlFileStream);
 			values = testProject.getSpriteList();
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -116,10 +97,9 @@ public class FullParserTest extends InstrumentationTestCase {
 	}
 
 	public void testParsingFullProject() {
-		FullParser parser = new FullParser();
 		Project testProject = null;
 		try {
-			testProject = parser.fullParser("test_project.xml");
+			testProject = XmlTestUtils.loadProjectFromAssets("test_project.xml", getInstrumentation().getContext());
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parse Exception");
@@ -145,11 +125,9 @@ public class FullParserTest extends InstrumentationTestCase {
 	}
 
 	public void testCostumeListParsing() {
-		FullParser parser = new FullParser();
-
 		Project testProject = null;
 		try {
-			testProject = parser.fullParser("standardProject.xml");
+			testProject = XmlTestUtils.loadProjectFromAssets("standardProject.xml", getInstrumentation().getContext());
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parser Exception");
@@ -187,11 +165,10 @@ public class FullParserTest extends InstrumentationTestCase {
 	}
 
 	public void testSoundListParsing() {
-		FullParser parser = new FullParser();
 		Project testProject = null;
-
 		try {
-			testProject = parser.fullParser("test_sound_project.xml");
+			testProject = XmlTestUtils.loadProjectFromAssets("test_sound_project.xml", getInstrumentation()
+					.getContext());
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parse exception");
@@ -220,13 +197,10 @@ public class FullParserTest extends InstrumentationTestCase {
 	}
 
 	public void testPerformanceTest() {
-		FullParser parser = new FullParser();
-
 		Project testProject = null;
 		try {
-
-			testProject = parser.fullParser("test_pointto_project.xml");
-
+			testProject = XmlTestUtils.loadProjectFromAssets("test_pointto_project.xml", getInstrumentation()
+					.getContext());
 		} catch (ParseException e) {
 			e.printStackTrace();
 			fail("Unexpected parser exception");
@@ -246,9 +220,8 @@ public class FullParserTest extends InstrumentationTestCase {
 	}
 
 	public void testParseMalformedProject() {
-		FullParser parser = new FullParser();
 		try {
-			parser.fullParser("test_malformed_project.xml");
+			XmlTestUtils.loadProjectFromAssets("test_malformed_project.xml", getInstrumentation().getContext());
 			fail("parse exception expected");
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -256,17 +229,16 @@ public class FullParserTest extends InstrumentationTestCase {
 	}
 
 	public void testLoadProjectTwoTimes() {
-		FullParser parser = new FullParser();
 		Project loadedProject = null;
 		Project loadedProject2 = null;
 		try {
-			InputStream firstFileStream = androidContext.getAssets().open("standardProject.xml");
-			loadedProject = parser.parseSpritesWithProject(firstFileStream);
+			InputStream firstFileStream = getInstrumentation().getContext().getAssets().open("standardProject.xml");
+			loadedProject = FullParser.parseSpritesWithProject(firstFileStream);
 			assertNotNull("loadedProject null", loadedProject);
 			assertEquals("sprites not right", 2, loadedProject.getSpriteList().size());
 
-			InputStream secondFileStream = androidContext.getAssets().open("standardProject.xml");
-			loadedProject2 = parser.parseSpritesWithProject(secondFileStream);
+			InputStream secondFileStream = getInstrumentation().getContext().getAssets().open("standardProject.xml");
+			loadedProject2 = FullParser.parseSpritesWithProject(secondFileStream);
 			assertNotNull("loadedProject null", loadedProject2);
 			assertEquals("sprites not right", 2, loadedProject2.getSpriteList().size());
 		} catch (IOException e) {

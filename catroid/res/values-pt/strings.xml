@@ -19,7 +19,8 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+-->
+<resources>
 
     <!-- General terms -->
     <string name="app_name">"Catroid"</string>
@@ -39,13 +40,12 @@
     <!-- General -->
     <string name="close">"Fechar"</string>
     <string name="error">"Erro"</string>
-    <string name="please_wait">"Por favor, aguarde..."</string>
-    <string name="loading">"Carregando..."</string>
+    <string name="please_wait">"Por favor, aguarde…"</string>
+    <string name="loading">"Carregando…"</string>
     <string name="background">"Fundo de tela"</string>
     <string name="stage">"Etapa"</string>
     <string name="ok">"Ok"</string>
     <string name="add">"Adicionar"</string>
-    <string name="start">"Iniciar"</string>
     <!--  -->
 
 
@@ -84,8 +84,6 @@
     <string name="show_details">"Mostrar Detalhes"</string>
     <string name="hide_details">"Esconder Detalhes"</string>
     <string name="insert_below">"Inserir Abaixo"</string>
-    <!-- Sprite activity -->
-    <string name="sprite_name">"Imagem:"</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"Comandos"</string>
     <string name="costumes">"Trajes"</string>
@@ -104,8 +102,6 @@
     <string name="add_costume_from_gallery">"Da Galeria"</string>
     <string name="select_costume_from_gallery">"Selecione uma imagem"</string>
     <string name="select_costume_from_camera">"Selecione uma foto"</string>
-    <string name="costumelist_footer_image_description_for_camera">"Toque para adicionar nova foto"</string>
-    <string name="costumelist_footer_image_description_for_gallery">"Toque para adicionar nova imagem"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"Renomear som"</string>
     <string name="soundname_invalid">"Nome de som inválido"</string>
@@ -113,7 +109,6 @@
     <string name="sound_pause">"pausar"</string>
     <string name="sound_select_source">"Selecione um som"</string>
     <string name="delete_sound_dialog">"Excluir som"</string>
-    <string name="soundlist_footer_image_description">"Toque para adicionar novo som"</string>
     <!-- My Projects activity -->
     <string name="last_used">"Último utilizado:"</string>
     <string name="description">"Descrição:"</string>
@@ -126,7 +121,7 @@
     <string name="soundrecorder_name">"Gravador de Som Catdroid"</string>
     <string name="soundrecorder_record_start">"Iniciar a gravação"</string>
     <string name="soundrecorder_record_stop">"Parar gravação"</string>
-    <string name="soundrecorder_recording">"gravação em andamento..."</string>
+    <string name="soundrecorder_recording">"gravação em andamento…"</string>
     <string name="soundrecorder_error">"Gravação de som falhou"</string>
     <string name="soundrecorder_recorded_filename">"gravar"</string>
     <!-- PreStage activity -->
@@ -179,8 +174,8 @@
 
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">"novo..."</string>
-    <string name="broadcast_nothing_selected">"Nada..."</string>
+    <string name="new_broadcast_message">"novo…"</string>
+    <string name="broadcast_nothing_selected">"Nada…"</string>
     <!-- Brick categories -->
     <string name="categories">"Categorias"</string>
     <string name="category_motion">"Movimento"</string>
@@ -305,7 +300,7 @@
     <string name="button_scan">"Buscar dispositivos Bluetooth"</string>
     <string name="select_device">"Selecione seu Lego Mindstorms NXT"</string>
     <string name="scanning">"Procurando"</string>
-    <string name="connecting_please_wait">"Conectando ao seu dispositivo.\nPor favor, aguarde..."</string>
+    <string name="connecting_please_wait">"Conectando ao seu dispositivo.\nPor favor, aguarde…"</string>
     <string name="pairing_message">"Após o pareamento, conectar."</string>
     <string name="problem_at_closing">"Problema em fechar a conexão!"</string>
     <string name="bt_connection_failed">"Conexão ao dispositivo falhou!"</string>

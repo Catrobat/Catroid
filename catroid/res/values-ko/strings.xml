@@ -19,7 +19,8 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- --><resources>
+-->
+<resources>
 
     <!-- General terms -->
     <string name="app_name">"Catroid"</string>
@@ -37,14 +38,13 @@
     <!-- General -->
     <string name="close">"닫기"</string>
     <string name="error">"오류"</string>
-    <string name="please_wait">"잠시만 기다려주십시오..."</string>
-    <string name="loading">"로드중입니다..."</string>
-    <string name="copying">"복사중 ..."</string>
+    <string name="please_wait">"잠시만 기다려주십시오…"</string>
+    <string name="loading">"로드중입니다…"</string>
+    <string name="copying">"복사중 …"</string>
     <string name="background">"배경"</string>
     <string name="stage">"무대"</string>
     <string name="ok">"확인"</string>
     <string name="add">"추가"</string>
-    <string name="start">"시작"</string>
     <!-- Main menu activity -->
     <string name="resume">"계속"</string>
     <string name="current_project">"현재 프로젝트 :"</string>
@@ -58,7 +58,7 @@
     <string name="about">"Catroid에 대하여"</string>
     <string name="upload_project">"프로젝트 업로드"</string>
     <!-- Settings activity -->
-    <string name="pref_title">"설정"</string>    
+    <string name="pref_title">"설정"</string>
     <string name="pref_enable_ms_bricks">"레고 마인드 스톰 블록을 사용"</string>
     <string name="pref_descr_ms_bricks">"이 블록은 레고 마인드 스톰 로봇을 제어하는​​ 데 사용됩니다."</string>
     <!-- About Dialog -->
@@ -71,9 +71,6 @@
     <string name="number_of_bricks">"블록 :"</string>
     <string name="number_of_costumes">"형태:"</string>
     <string name="number_of_sounds">"소리:"</string>
-    <!-- Sprite activity -->
-    <string name="sprite_name">"스프라이트 :"</string>
-    <string name="spritelist_footer_image_description">"새로운 스프라이트를 추가하려면 누르세요"</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"스크립트"</string>
     <string name="costumes">"형태"</string>
@@ -93,8 +90,6 @@
     <string name="add_costume_from_gallery">"갤러리에서 가져오기"</string>
     <string name="select_costume_from_gallery">"그림 선택"</string>
     <string name="select_costume_from_camera">"사진 선택"</string>
-    <string name="costumelist_footer_image_description_for_camera">"새로운 사진을 추가하려면 누르세요"</string>
-    <string name="costumelist_footer_image_description_for_gallery">"새로운 이미지를 추가하려면 누르세요"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"소리 이름 바꾸기"</string>
     <string name="soundname_invalid">"소리의 이름이 잘못되었습니다"</string>
@@ -102,20 +97,18 @@
     <string name="sound_pause">"일지정지"</string>
     <string name="sound_select_source">"소리 선택"</string>
     <string name="delete_sound_dialog">"소리를 삭제 하시겠습니까?"</string>
-    <string name="soundlist_footer_image_description">"새로운 사운드를 추가하려면 누르세요"</string>
     <!-- My Projects activity -->
     <string name="last_used">"최종 사용 :"</string>
     <string name="description">"설명:"</string>
     <string name="set_description">"설명 설정"</string>
     <string name="rename_project">"프로젝트 이름 바꾸기"</string>
-    <string name="myprojectlist_footer_image_description">"새 프로젝트를 추가하려면 누르세요"</string>
     <string name="copy_project">"프로젝트 복사"</string>
 
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">"Catroid 녹음기"</string>
     <string name="soundrecorder_record_start">"녹음 시작"</string>
     <string name="soundrecorder_record_stop">"녹음 중지"</string>
-    <string name="soundrecorder_recording">"녹음 중 ..."</string>
+    <string name="soundrecorder_recording">"녹음 중 …"</string>
     <string name="soundrecorder_error">"녹음 실패"</string>
     <string name="soundrecorder_recorded_filename">"녹음"</string>
     <!-- PreStage activity -->
@@ -165,7 +158,7 @@
     <string name="stagemenu_screenshot">"스크린샷"</string>
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">"새로운"</string>
-    <string name="broadcast_nothing_selected">"없음..."</string>
+    <string name="broadcast_nothing_selected">"없음…"</string>
     <!-- Brick categories -->
     <string name="categories">"카테고리"</string>
     <string name="category_motion">"동작"</string>
@@ -288,7 +281,7 @@
     <string name="button_scan">"블루투스 장치 검색"</string>
     <string name="select_device">"레고 마인드 스톰 NXT 선택"</string>
     <string name="scanning">"검색 중"</string>
-    <string name="connecting_please_wait">"장치에 연결중입니다. \n 기다려 주세요 ..."</string>
+    <string name="connecting_please_wait">"장치에 연결중입니다. \n 기다려 주세요 …"</string>
     <string name="pairing_message">"페어링 후, 연결하십시오."</string>
     <string name="problem_at_closing">"연결 종료시 문제!"</string>
     <string name="bt_connection_failed">"장치 연결에 실패했습니다!"</string>
@@ -308,7 +301,7 @@
     <string name="nxt_tone_hundred_hz">"x100Hz"</string>
     <string name="number_to_small">"값이 너무 작습니다!"</string>
     <string name="number_to_big">"값이 너무 큽니다!"</string>
-        <!-- Formula Editor Strings -->
+    <!-- Formula Editor Strings -->
     <string name="formula_editor_decimal_mark">"."</string>
     <string name="formula_editor_title">"수식 편집기"</string>
     <string name="formula_editor_button_undo">"실행 취소"</string>
@@ -323,7 +316,7 @@
     <string name="formula_editor_function_cos">"cos"</string>
     <string name="formula_editor_function_tan">"tan"</string>
     <string name="formula_editor_function_ln">"ln"</string>
-    <string name="formula_editor_function_log">"log"</string>   
+    <string name="formula_editor_function_log">"log"</string>
     <string name="formula_editor_function_pi">"pi"</string>
     <string name="formula_editor_function_sqrt">"sqrt"</string>
     <string name="formula_editor_function_e">"e"</string>
@@ -343,4 +336,5 @@
     <string name="formula_editor_costume_size">"looks-size"</string>
     <string name="formula_editor_costume_rotation">"looks-rotation"</string>
     <string name="formula_editor_costume_layer">"looks-layer"</string>
+
 </resources>

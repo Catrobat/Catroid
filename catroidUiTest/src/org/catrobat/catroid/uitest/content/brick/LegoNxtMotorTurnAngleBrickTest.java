@@ -32,19 +32,20 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final int SET_ANGLE = 135;
 
 	private Solo solo;
@@ -52,7 +53,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 	private LegoNxtMotorTurnAngleBrick motorBrick;
 
 	public LegoNxtMotorTurnAngleBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -63,7 +64,6 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -72,14 +72,13 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 
 	@Smoke
 	public void testMotorTurnAngleBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -106,10 +105,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		solo.clickInList(5);
 		assertEquals("Wrong value in field!", "180", solo.getEditText(0).getText().toString());
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, SET_ANGLE + "");
-		solo.clickOnButton(0);
+		UiTestUtils.clickEnterClose(solo, 0, SET_ANGLE + "");
 
 		int angle = (Integer) UiTestUtils.getPrivateField(motorBrick, "degrees");
 		assertEquals("Wrong text in field.", SET_ANGLE, angle);
@@ -118,9 +114,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		solo.sleep(200);
 		solo.clickOnView(solo.getView(R.id.directions_btn));
 		try {
-			solo.clickOnEditText(0);
-			solo.clearEditText(0);
-			solo.clickOnButton(0);
+			UiTestUtils.clickEnterClose(solo, 0, "");
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			fail("Numberformat Exception should not occur");
@@ -132,14 +126,20 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", array.length == 4);
 
-		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
-		solo.pressSpinnerItem(0, 0);
+		int legoSpinnerIndex = 1;
+
+		if (Build.VERSION.SDK_INT < 15) {
+			legoSpinnerIndex = 0;
+		}
+
+		Spinner currentSpinner = solo.getCurrentSpinners().get(legoSpinnerIndex);
+		solo.pressSpinnerItem(legoSpinnerIndex, 0);
 		assertEquals("Wrong item in spinner!", array[0], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
 		assertEquals("Wrong item in spinner!", array[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
 		assertEquals("Wrong item in spinner!", array[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
 		assertEquals("Wrong item in spinner!", array[3], currentSpinner.getSelectedItem());
 	}
 

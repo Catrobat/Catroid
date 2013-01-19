@@ -36,13 +36,13 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -51,14 +51,14 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 
 	public PlaceAtBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -69,7 +69,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -78,14 +77,13 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Smoke
 	public void testPlaceAtBrick() throws InterruptedException {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 5 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 5 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -102,26 +100,18 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 		int xPosition = 987;
 		int yPosition = 654;
-		String buttonPositiveText = solo.getString(R.string.ok);
 
-		solo.clickOnEditText(0);
-		solo.waitForText(buttonPositiveText);
-		solo.clearEditText(0);
-		solo.enterText(0, xPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.clickEnterClose(solo, 0, xPosition + "");
 
-		int actualXPosition = (Integer) UiTestUtils.getPrivateField(placeAtBrick, "xPosition");
+		int currentXPosition = (Integer) UiTestUtils.getPrivateField(placeAtBrick, "xPosition");
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
+		assertEquals("Value in Brick is not updated", xPosition, currentXPosition);
 
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, yPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.clickEnterClose(solo, 1, yPosition + "");
 
-		int actualYPosition = (Integer) UiTestUtils.getPrivateField(placeAtBrick, "yPosition");
+		int currentYPosition = (Integer) UiTestUtils.getPrivateField(placeAtBrick, "yPosition");
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
+		assertEquals("Value in Brick is not updated", yPosition, currentYPosition);
 	}
 
 	private void createProject() {

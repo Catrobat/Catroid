@@ -22,9 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -35,7 +36,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -84,7 +84,7 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_text_view);
+		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		edit.setText(String.valueOf(volume));
 
@@ -109,7 +109,7 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		ScriptTabActivity activity = (ScriptTabActivity) view.getContext();
+		ScriptActivity activity = (ScriptActivity) view.getContext();
 
 		BrickTextDialog editDialog = new BrickTextDialog() {
 			@Override

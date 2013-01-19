@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,24 +19,42 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="70dip" >
+ */
+package org.catrobat.catroid.ui.fragment;
 
-    <View
-        android:id="@+id/soundlist_footerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:clickable="true" />
+import com.actionbarsherlock.app.SherlockListFragment;
 
-    <ImageView
-        android:id="@+id/soundlist_footerview_add_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@string/soundlist_footer_image_description"
-        android:src="@android:drawable/ic_menu_add" />
+/**
+ * @author Daniel
+ * 
+ */
+public abstract class ScriptActivityFragment extends SherlockListFragment {
 
-</FrameLayout>
+	protected boolean actionModeActive = false;
+
+	public boolean getActionModeActive() {
+		return actionModeActive;
+	}
+
+	public void setActionModeActive(boolean actionModeActive) {
+		this.actionModeActive = actionModeActive;
+	}
+
+	public abstract boolean getShowDetails();
+
+	public abstract void setShowDetails(boolean showDetails);
+
+	public abstract void setSelectMode(int selectMode);
+
+	public abstract int getSelectMode();
+
+	public abstract void startRenameActionMode();
+
+	public abstract void startDeleteActionMode();
+
+	public abstract void handleAddButton();
+
+	protected abstract void showRenameDialog();
+
+	protected abstract void showDeleteDialog();
+}

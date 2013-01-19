@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -35,7 +36,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -63,7 +64,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import org.catrobat.catroid.R;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener, OnClickListener {
 
@@ -82,6 +82,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private boolean firstDrag;
 	private int fromBeginDrag, toEndDrag;
 	private boolean retryScriptDragging;
+	private boolean showDetails = false;
 
 	private List<Brick> brickList;
 	private List<Brick> animatedBricks;
@@ -810,12 +811,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	@Override
 	public void onClick(final View view) {
 		if (view instanceof FrameLayout) {
-			ScriptTabActivity activity = (ScriptTabActivity) context;
-			ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
+			ScriptActivity activity = (ScriptActivity) context;
+			ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 			if (fragment != null) {
-				fragment.showCategoryDialog();
+				fragment.handleAddButton();
 			}
-
 			return;
 		}
 
@@ -876,4 +876,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return itemPosition;
 	}
 
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
+
+	public boolean getShowDetails() {
+		return showDetails;
+	}
 }

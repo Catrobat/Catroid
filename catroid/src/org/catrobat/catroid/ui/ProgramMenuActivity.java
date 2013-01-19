@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -33,11 +32,9 @@ import org.catrobat.catroid.utils.Utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -48,32 +45,27 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_program_menu);
-		findViewById(R.id.btn_add).setVisibility(View.GONE);
+
+		findViewById(R.id.button_add).setVisibility(View.GONE);
 		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
+
 		actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		final ArrayAdapter<Sprite> spinnerAdapter = new ArrayAdapter<Sprite>(this,
-				android.R.layout.simple_dropdown_item_1line, ProjectManager.INSTANCE.getCurrentProject()
-						.getSpriteList());
-		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
+		String title = ProjectManager.getInstance().getCurrentSprite().getName();
+		actionBar.setTitle(title);
+		actionBar.setHomeButtonEnabled(true);
+	}
 
-			@Override
-			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-				ProjectManager.INSTANCE.setCurrentSprite(spinnerAdapter.getItem(itemPosition));
-				if (ProjectManager.INSTANCE.getCurrentSpritePosition() == 0) {
-					((Button) findViewById(R.id.btn_costumes)).setText(R.string.backgrounds);
-				} else {
-					((Button) findViewById(R.id.btn_costumes)).setText(R.string.costumes);
-				}
-				return true;
-			}
-		});
-		actionBar.setSelectedNavigationItem(ProjectManager.INSTANCE.getCurrentSpritePosition());
-
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (ProjectManager.INSTANCE.getCurrentSpritePosition() == 0) {
+			((Button) findViewById(R.id.program_menu_button_costumes)).setText(R.string.backgrounds);
+		} else {
+			((Button) findViewById(R.id.program_menu_button_costumes)).setText(R.string.costumes);
+		}
 	}
 
 	@Override
@@ -94,7 +86,7 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_program_menu_activity, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_program_activity, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -116,21 +108,15 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	}
 
 	public void handleScriptsButton(View v) {
-		//TODO: start ScriptActivity
-		Intent intent = new Intent(this, ScriptTabActivity.class);
-		startActivity(intent);
+		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
 	public void handleCostumesButton(View v) {
-		//TODO: start LookActivity
-		Intent intent = new Intent(this, ScriptTabActivity.class);
-		startActivity(intent);
+		startScriptActivity(ScriptActivity.FRAGMENT_COSTUMES);
 	}
 
 	public void handleSoundsButton(View v) {
-		//TODO: start SoundActivity
-		Intent intent = new Intent(this, ScriptTabActivity.class);
-		startActivity(intent);
+		startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
 	}
 
 	public void handlePlayButton(View view) {
@@ -143,4 +129,9 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
 	}
 
+	private void startScriptActivity(int fragmentPosition) {
+		Intent intent = new Intent(this, ScriptActivity.class);
+		intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
+		startActivity(intent);
+	}
 }

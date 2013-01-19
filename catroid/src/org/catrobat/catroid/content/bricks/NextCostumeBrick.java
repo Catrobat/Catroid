@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import java.util.ArrayList;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 
@@ -32,7 +33,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class NextCostumeBrick implements Brick {
 
@@ -90,7 +90,7 @@ public class NextCostumeBrick implements Brick {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.brick_next_costume, null);
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.textview_next_costume);
+			TextView textView = (TextView) view.findViewById(R.id.brick_next_costume_text_view);
 			textView.setText(R.string.brick_next_background);
 		}
 		return view;
@@ -114,7 +114,7 @@ public class NextCostumeBrick implements Brick {
 		}
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.textview_next_costume);
+			TextView textView = (TextView) view.findViewById(R.id.brick_next_costume_text_view);
 			textView.setText(R.string.brick_next_background);
 		}
 

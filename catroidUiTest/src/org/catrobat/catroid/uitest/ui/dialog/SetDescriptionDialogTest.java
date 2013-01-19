@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.ui.dialog;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -31,7 +32,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -69,7 +69,7 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 		solo.sleep(300);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fr_projects_list);
+		solo.waitForFragmentById(R.id.fragment_projects_list);
 		solo.clickLongOnText(testProject);
 		solo.clickInList(2);
 		EditText description = (EditText) solo.getView(R.id.dialog_text_EditMultiLineText);

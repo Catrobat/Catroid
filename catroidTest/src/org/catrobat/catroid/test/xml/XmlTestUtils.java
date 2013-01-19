@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,17 +19,35 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+ */
+package org.catrobat.catroid.test.xml;
 
-    <!-- selected tabs -->
-    <item android:drawable="@drawable/tab_selected_pressed" android:state_pressed="true" android:state_selected="true"/>
-    <item android:drawable="@drawable/tab_selected_focused" android:state_focused="true" android:state_pressed="false" android:state_selected="true"/>
-    <item android:drawable="@drawable/tab_selected" android:state_focused="false" android:state_pressed="false" android:state_selected="true"/>
+import java.io.IOException;
+import java.io.InputStream;
 
-    <!-- unselected tabs -->
-    <item android:drawable="@drawable/tab_unselected_pressed" android:state_pressed="true" android:state_selected="false"/>
-    <item android:drawable="@drawable/tab_unselected_focused" android:state_focused="true" android:state_pressed="false" android:state_selected="false"/>
-    <item android:drawable="@drawable/tab_unselected" android:state_focused="false" android:state_pressed="false" android:state_selected="false"/>
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.xml.parser.FullParser;
+import org.catrobat.catroid.xml.parser.ParseException;
 
-</selector>
+import android.content.Context;
+
+class XmlTestUtils {
+
+	public static Project loadProjectFromAssets(String xmlFile, Context context) throws ParseException {
+
+		Project parsedProject = null;
+		try {
+			InputStream inputStreamForSprites = context.getAssets().open(xmlFile);
+			parsedProject = FullParser.parseSpritesWithProject(inputStreamForSprites);
+			inputStreamForSprites.close();
+			inputStreamForSprites = null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new ParseException("IO exception in full parser", e);
+		}
+		return parsedProject;
+	}
+}
