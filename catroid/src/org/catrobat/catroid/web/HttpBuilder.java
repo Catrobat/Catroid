@@ -29,27 +29,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.catrobat.catroid.common.Constants;
+
 public class HttpBuilder {
-	private static final String NEWLINE = "\r\n";
-	private static final String PREFIX = "--";
-	private static final String BOUNDARY_PREFIX = "--------------------";
 
 	private DataOutputStream outputStream = null;
 	private String boundary = null;
 
 	public HttpBuilder(OutputStream stream, String boundary) {
 		if (stream == null) {
-			throw new IllegalArgumentException("Output stream is null"); //TODO: error message from resources
+			throw new IllegalArgumentException("Output stream is null");
 		}
-		if (boundary == null) {
-			throw new IllegalArgumentException("Boundary is null"); //TODO: error message from resources
+		if (boundary == null || boundary.length() == 0) {
+			throw new IllegalArgumentException("Boundary is null");
 		}
 		this.outputStream = new DataOutputStream(stream);
 		this.boundary = boundary;
 	}
 
 	public static String createBoundary() {
-		return BOUNDARY_PREFIX + Long.toString(System.currentTimeMillis(), 16);
+		return Constants.HTTP_BOUNDARY_PREFIX + Long.toString(System.currentTimeMillis(), 16);
 	}
 
 	public static URLConnection createConnection(URL url) throws IOException {
@@ -81,25 +80,25 @@ public class HttpBuilder {
 			value = "";
 		}
 		// write boundary
-		outputStream.writeBytes(PREFIX);
+		outputStream.writeBytes(Constants.HTTP_PREFIX);
 		outputStream.writeBytes(boundary);
-		outputStream.writeBytes(NEWLINE);
+		outputStream.writeBytes(Constants.HTTP_NEWLINE);
 		// write content header
 		outputStream.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"");
-		outputStream.writeBytes(NEWLINE);
-		outputStream.writeBytes(NEWLINE);
+		outputStream.writeBytes(Constants.HTTP_NEWLINE);
+		outputStream.writeBytes(Constants.HTTP_NEWLINE);
 		// write content
 		outputStream.writeBytes(value);
-		outputStream.writeBytes(NEWLINE);
+		outputStream.writeBytes(Constants.HTTP_NEWLINE);
 		outputStream.flush();
 	}
 
 	public void close() throws IOException {
 		// write final boundary
-		outputStream.writeBytes(PREFIX);
+		outputStream.writeBytes(Constants.HTTP_PREFIX);
 		outputStream.writeBytes(boundary);
-		outputStream.writeBytes(PREFIX);
-		outputStream.writeBytes(NEWLINE);
+		outputStream.writeBytes(Constants.HTTP_PREFIX);
+		outputStream.writeBytes(Constants.HTTP_NEWLINE);
 		outputStream.flush();
 		outputStream.close();
 	}

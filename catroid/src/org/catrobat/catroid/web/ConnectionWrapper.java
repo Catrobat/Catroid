@@ -115,9 +115,9 @@ public class ConnectionWrapper {
 	private String sendUploadPost(String httpPostUrl, HashMap<String, String> postValues, String fileTag,
 			String filePath) throws IOException, WebconnectionException {
 
-		MultiPartFormOutputStream out = buildPost(httpPostUrl, postValues);
+		HttpBuilder httpBuilder = buildPost(httpPostUrl, postValues);
 
-		out.close();
+		httpBuilder.close();
 
 		// response code != 2xx -> error
 		urlConnection.getResponseCode();
@@ -154,8 +154,8 @@ public class ConnectionWrapper {
 
 	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
 			ResultReceiver receiver, Integer notificationId, String projectName) throws IOException {
-		MultiPartFormOutputStream out = buildPost(urlString, postValues);
-		out.close();
+		HttpBuilder httpBuilder = buildPost(urlString, postValues);
+		httpBuilder.close();
 
 		URL downloadUrl = new URL(urlString);
 		urlConnection = (HttpURLConnection) downloadUrl.openConnection();
@@ -219,9 +219,9 @@ public class ConnectionWrapper {
 	}
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
-		MultiPartFormOutputStream out = buildPost(urlString, postValues);
+		HttpBuilder httpBuilder = buildPost(urlString, postValues);
 		//HttpBuilder out = buildPost(urlString, postValues);
-		out.close();
+		httpBuilder.close();
 
 		InputStream resultStream = null;
 
@@ -231,32 +231,31 @@ public class ConnectionWrapper {
 		return getString(resultStream);
 	}
 
-	private MultiPartFormOutputStream buildPost(String urlString, HashMap<String, String> postValues)
-			throws IOException {
+	private HttpBuilder buildPost(String urlString, HashMap<String, String> postValues) throws IOException {
 		if (postValues == null) {
 			postValues = new HashMap<String, String>();
 		}
 
 		URL url = new URL(urlString);
 
-		String boundary = MultiPartFormOutputStream.createBoundary();
-		urlConnection = (HttpURLConnection) MultiPartFormOutputStream.createConnection(url);
+		String boundary = HttpBuilder.createBoundary();
+		urlConnection = (HttpURLConnection) HttpBuilder.createConnection(url);
 
 		urlConnection.setRequestProperty("Accept", "*/*");
-		urlConnection.setRequestProperty("Content-Type", MultiPartFormOutputStream.getContentType(boundary));
+		urlConnection.setRequestProperty("Content-Type", HttpBuilder.getContentType(boundary));
 
 		urlConnection.setRequestProperty("Connection", "Keep-Alive");
 		urlConnection.setRequestProperty("Cache-Control", "no-cache");
 
-		MultiPartFormOutputStream out = new MultiPartFormOutputStream(urlConnection.getOutputStream(), boundary);
+		HttpBuilder httpBuilder = new HttpBuilder(urlConnection.getOutputStream(), boundary);
 
 		Set<Entry<String, String>> entries = postValues.entrySet();
 		for (Entry<String, String> entry : entries) {
 			Log.d(TAG, "key: " + entry.getKey() + ", value: " + entry.getValue());
-			out.writeField(entry.getKey(), entry.getValue());
+			httpBuilder.writeField(entry.getKey(), entry.getValue());
 		}
 
-		return out;
+		return httpBuilder;
 	}
 
 	/*

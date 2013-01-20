@@ -51,6 +51,9 @@ public final class Constants {
 
 	//Web:
 	public static final String TOKEN = "token";
+	public static final String HTTP_NEWLINE = "\r\n";
+	public static final String HTTP_PREFIX = "--";
+	public static final String HTTP_BOUNDARY_PREFIX = "--------------------";
 
 	// Paintroid
 	public static final String EXTRA_PICTURE_PATH_PAINTROID = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
