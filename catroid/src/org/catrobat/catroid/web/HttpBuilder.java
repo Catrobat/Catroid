@@ -74,7 +74,7 @@ public class HttpBuilder {
 
 	public void writeField(String name, String value) throws IOException {
 		if (name == null) {
-			throw new IllegalArgumentException("Name cannot be null or empty.");
+			throw new IllegalArgumentException("Name must not be null or empty.");
 		}
 		if (value == null) {
 			value = "";
