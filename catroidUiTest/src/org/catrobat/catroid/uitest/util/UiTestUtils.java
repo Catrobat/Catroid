@@ -91,6 +91,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.actionbarsherlock.internal.widget.IcsSpinner;
@@ -843,7 +844,9 @@ public class UiTestUtils {
 			Activity activity = solo.getCurrentActivity();
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-			ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokeMethod(activity, "getSherlock");
+			//		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokeMethod(activity, "getSherlock");
+			ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokeMethod(
+					SherlockFragmentActivity.class, activity, "getSherlock", null, null);
 			absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 		} else {
 			solo.clickOnActionBarHomeButton();
