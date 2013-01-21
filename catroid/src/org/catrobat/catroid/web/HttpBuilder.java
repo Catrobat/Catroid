@@ -29,9 +29,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.catrobat.catroid.common.Constants;
-
 class HttpBuilder {
+
+	public static final String HTTP_NEWLINE = "\r\n";
+	public static final String HTTP_PREFIX = "--";
+	public static final String HTTP_BOUNDARY_PREFIX = "--------------------";
 
 	private DataOutputStream outputStream = null;
 	private String boundary = null;
@@ -48,7 +50,7 @@ class HttpBuilder {
 	}
 
 	public static String createBoundary() {
-		return Constants.HTTP_BOUNDARY_PREFIX + Long.toString(System.currentTimeMillis(), 16);
+		return HTTP_BOUNDARY_PREFIX + Long.toString(System.currentTimeMillis(), 16);
 	}
 
 	public static URLConnection createConnection(URL url) throws IOException {
@@ -80,25 +82,25 @@ class HttpBuilder {
 			value = "";
 		}
 		// write boundary
-		outputStream.writeBytes(Constants.HTTP_PREFIX);
+		outputStream.writeBytes(HTTP_PREFIX);
 		outputStream.writeBytes(boundary);
-		outputStream.writeBytes(Constants.HTTP_NEWLINE);
+		outputStream.writeBytes(HTTP_NEWLINE);
 		// write content header
 		outputStream.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"");
-		outputStream.writeBytes(Constants.HTTP_NEWLINE);
-		outputStream.writeBytes(Constants.HTTP_NEWLINE);
+		outputStream.writeBytes(HTTP_NEWLINE);
+		outputStream.writeBytes(HTTP_NEWLINE);
 		// write content
 		outputStream.writeBytes(value);
-		outputStream.writeBytes(Constants.HTTP_NEWLINE);
+		outputStream.writeBytes(HTTP_NEWLINE);
 		outputStream.flush();
 	}
 
 	public void close() throws IOException {
 		// write final boundary
-		outputStream.writeBytes(Constants.HTTP_PREFIX);
+		outputStream.writeBytes(HTTP_PREFIX);
 		outputStream.writeBytes(boundary);
-		outputStream.writeBytes(Constants.HTTP_PREFIX);
-		outputStream.writeBytes(Constants.HTTP_NEWLINE);
+		outputStream.writeBytes(HTTP_PREFIX);
+		outputStream.writeBytes(HTTP_NEWLINE);
 		outputStream.flush();
 		outputStream.close();
 	}
