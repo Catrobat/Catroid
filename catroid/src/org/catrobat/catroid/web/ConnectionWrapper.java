@@ -35,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -80,7 +81,7 @@ public class ConnectionWrapper {
 			String fileName = "";
 			if (filePath != null) {
 				fileName = postValues.get("projectTitle");
-				String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
+				String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase(Locale.ENGLISH);
 				FtpProgressInputStream ftpProgressStream = new FtpProgressInputStream(inputStream, receiver,
 						notificationId, fileName);
 				boolean result = ftpClient.storeFile(fileName + "." + extension, ftpProgressStream);

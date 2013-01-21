@@ -31,7 +31,7 @@ import java.net.URLConnection;
 
 import org.catrobat.catroid.common.Constants;
 
-public class HttpBuilder {
+class HttpBuilder {
 
 	private DataOutputStream outputStream = null;
 	private String boundary = null;
@@ -52,16 +52,16 @@ public class HttpBuilder {
 	}
 
 	public static URLConnection createConnection(URL url) throws IOException {
-		URLConnection urlConnonnection = url.openConnection();
-		if (urlConnonnection instanceof HttpURLConnection) {
-			HttpURLConnection httpConnection = (HttpURLConnection) urlConnonnection;
+		URLConnection urlConnection = url.openConnection();
+		if (urlConnection instanceof HttpURLConnection) {
+			HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
 			httpConnection.setRequestMethod("POST");
 		}
-		urlConnonnection.setDoInput(true);
-		urlConnonnection.setDoOutput(true);
-		urlConnonnection.setUseCaches(false);
-		urlConnonnection.setDefaultUseCaches(false);
-		return urlConnonnection;
+		urlConnection.setDoInput(true);
+		urlConnection.setDoOutput(true);
+		urlConnection.setUseCaches(false);
+		urlConnection.setDefaultUseCaches(false);
+		return urlConnection;
 	}
 
 	public String getBoundary() {
