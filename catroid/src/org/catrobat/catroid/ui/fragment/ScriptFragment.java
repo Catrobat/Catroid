@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,12 @@
 package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.AddBrickDialog;
 import org.catrobat.catroid.ui.dialogs.BrickCategoryDialog;
@@ -50,14 +51,10 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import org.catrobat.catroid.R;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class ScriptFragment extends SherlockFragment implements OnCategorySelectedListener,
+public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
 		OnBrickCategoryDialogDismissCancelListener {
 
 	private static final String ARGUMENTS_SELECTED_CATEGORY = "selected_category";
@@ -82,7 +79,6 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		setRetainInstance(true);
 	}
 
 	@Override
@@ -105,6 +101,15 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		if (savedInstanceState != null) {
 			selectedCategory = savedInstanceState.getString(ARGUMENTS_SELECTED_CATEGORY);
 		}
+
+		initListeners();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.show_details).setVisible(false);
+		menu.findItem(R.id.rename).setVisible(false);
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -147,7 +152,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	public void onResume() {
 		super.onResume();
 
-		if (!Utils.checkForSdCard(getActivity())) {
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
 		}
 
@@ -159,42 +164,13 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 			brickListChangedReceiver = new BrickListChangedReceiver();
 		}
 
-		IntentFilter filterBrickAdded = new IntentFilter(ScriptTabActivity.ACTION_NEW_BRICK_ADDED);
+		IntentFilter filterBrickAdded = new IntentFilter(ScriptActivity.ACTION_NEW_BRICK_ADDED);
 		getActivity().registerReceiver(brickAddedReceiver, filterBrickAdded);
 
-		IntentFilter filterBrickListChanged = new IntentFilter(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
+		IntentFilter filterBrickListChanged = new IntentFilter(ScriptActivity.ACTION_BRICK_LIST_CHANGED);
 		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
 
 		initListeners();
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		final MenuItem addItem = menu.findItem(R.id.menu_add);
-		addItem.setIcon(R.drawable.ic_plus_black);
-		addItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				if (listView.setHoveringBrick()) {
-					return false;
-				}
-
-				showCategoryDialog();
-
-				return true;
-			}
-		});
-	}
-
-	public void showCategoryDialog() {
-		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
-		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
-		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
-		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
-
-		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -206,7 +182,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 				scriptToEdit = ((ScriptBrick) adapter.getItem(listView.getTouchedListPosition()))
 						.initScript(ProjectManager.getInstance().getCurrentSprite());
 				MenuInflater inflater = getActivity().getMenuInflater();
-				inflater.inflate(R.menu.script_menu, menu);
+				inflater.inflate(R.menu.menu_script, menu);
 			}
 		}
 	}
@@ -247,6 +223,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		return adapter;
 	}
 
+	@Override
 	public DragAndDropListView getListView() {
 		return listView;
 	}
@@ -255,15 +232,15 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	public void onCategorySelected(String category) {
 		selectedCategory = category;
 
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment prev = getFragmentManager().findFragmentByTag("dialog_add_brick");
-		if (prev != null) {
-			ft.remove(prev);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		Fragment previousFragment = getFragmentManager().findFragmentByTag(AddBrickDialog.DIALOG_FRAGMENT_TAG);
+		if (previousFragment != null) {
+			fragmentTransaction.remove(previousFragment);
 		}
-		ft.addToBackStack(null);
+		fragmentTransaction.addToBackStack(null);
 
 		AddBrickDialog addBrickDialog = AddBrickDialog.newInstance(selectedCategory, this);
-		addBrickDialog.show(ft, AddBrickDialog.DIALOG_FRAGMENT_TAG);
+		addBrickDialog.show(fragmentTransaction, AddBrickDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
@@ -291,11 +268,10 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		} else {
 			int firstVisibleBrick = listView.getFirstVisiblePosition();
 			int lastVisibleBrick = listView.getLastVisiblePosition();
-			int position = ((lastVisibleBrick - firstVisibleBrick) / 2);
+			int position = ((1 + lastVisibleBrick - firstVisibleBrick) / 2);
 			position += firstVisibleBrick;
 			adapter.addNewBrick(position, brickToBeAdded);
 		}
-
 		adapter.notifyDataSetChanged();
 	}
 
@@ -313,7 +289,6 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
-
 		registerForContextMenu(listView);
 		addNewScript = false;
 	}
@@ -321,7 +296,7 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	private class NewBrickAddedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_NEW_BRICK_ADDED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_NEW_BRICK_ADDED)) {
 				Brick brickToBeAdded = null;
 				Object tempObject = intent.getExtras().get("added_brick");
 				if (tempObject instanceof Brick) {
@@ -340,9 +315,98 @@ public class ScriptFragment extends SherlockFragment implements OnCategorySelect
 	private class BrickListChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_BRICK_LIST_CHANGED)) {
 				adapter.updateProjectBrickList();
 			}
 		}
+	}
+
+	private void showCategoryDialog() {
+		BrickCategoryDialog brickCategoryDialog = new BrickCategoryDialog();
+		brickCategoryDialog.setOnCategorySelectedListener(ScriptFragment.this);
+		brickCategoryDialog.setOnBrickCategoryDialogDismissCancelListener(ScriptFragment.this);
+		brickCategoryDialog.show(getFragmentManager(), BrickCategoryDialog.DIALOG_FRAGMENT_TAG);
+
+		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		// Currently no showDetails option
+	}
+
+	@Override
+	public boolean getShowDetails() {
+		return false;
+	}
+
+	@Override
+	public void startRenameActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handleAddButton() {
+		if (listView.setHoveringBrick()) {
+			return;
+		}
+		showCategoryDialog();
+	}
+
+	@Override
+	public boolean getActionModeActive() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#setSelectMode(int)
+	 */
+	@Override
+	public void setSelectMode(int selectMode) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#getSelectMode()
+	 */
+	@Override
+	public int getSelectMode() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#showRenameDialog()
+	 */
+	@Override
+	protected void showRenameDialog() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.catrobat.catroid.ui.fragment.ScriptActivityFragment#showDeleteDialog()
+	 */
+	@Override
+	protected void showDeleteDialog() {
+		// TODO Auto-generated method stub
+
 	}
 }

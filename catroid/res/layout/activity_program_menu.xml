@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/btn_scripts"
+        android:id="@+id/program_menu_button_scripts"
         style="@style/ProgramMenuButton"
         android:drawableLeft="@drawable/program_menu_scripts"
         android:drawableRight="@drawable/ic_media_play"
@@ -36,7 +36,7 @@
         android:text="@string/scripts" />
 
     <Button
-        android:id="@+id/btn_costumes"
+        android:id="@+id/program_menu_button_costumes"
         style="@style/ProgramMenuButton"
         android:drawableLeft="@drawable/program_menu_costumes"
         android:drawableRight="@drawable/ic_media_play"
@@ -44,7 +44,7 @@
         android:text="@string/costumes" />
 
     <Button
-        android:id="@+id/btn_sounds"
+        android:id="@+id/program_menu_button_sounds"
         style="@style/ProgramMenuButton"
         android:drawableLeft="@drawable/program_menu_sounds"
         android:drawableRight="@drawable/ic_media_play"

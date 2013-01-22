@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -43,14 +43,13 @@ import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
-import org.catrobat.catroid.stage.NativeAppActivity;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -60,26 +59,10 @@ import org.catrobat.catroid.xml.parser.ParseException;
 import org.catrobat.catroid.xml.serializer.SerializeException;
 import org.catrobat.catroid.xml.serializer.XmlSerializer;
 
-import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 public class SerializerTest extends InstrumentationTestCase {
-	Context androidContext;
-
-	@Override
-	protected void tearDown() throws Exception {
-		androidContext = null;
-		NativeAppActivity.setContext(androidContext);
-		super.tearDown();
-	}
-
-	@Override
-	public void setUp() {
-
-		androidContext = getInstrumentation().getContext();
-		NativeAppActivity.setContext(androidContext);
-	}
 
 	public void testSerializingToXml() {
 		XmlSerializer serializer = new XmlSerializer();
@@ -145,8 +128,7 @@ public class SerializerTest extends InstrumentationTestCase {
 			try {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
-				FullParser parser = new FullParser();
-				loadedProject = parser.parseSpritesWithProject(projectFileStream);
+				loadedProject = FullParser.parseSpritesWithProject(projectFileStream);
 			} catch (ParseException e) {
 				fail("unexpected SerilizeException");
 				e.printStackTrace();
@@ -156,14 +138,7 @@ public class SerializerTest extends InstrumentationTestCase {
 			} catch (IllegalArgumentException e) {
 				fail("unexpected SerilizeException");
 				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				fail("unexpected SerilizeException");
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				fail("unexpected SerilizeException");
-				e.printStackTrace();
 			}
-
 		}
 
 		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getSpriteList();
@@ -298,8 +273,7 @@ public class SerializerTest extends InstrumentationTestCase {
 			try {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
-				FullParser parser = new FullParser();
-				loadedProject = parser.parseSpritesWithProject(projectFileStream);
+				loadedProject = FullParser.parseSpritesWithProject(projectFileStream);
 			} catch (ParseException e) {
 				fail("unexpected SerilizeException");
 				e.printStackTrace();
@@ -309,14 +283,7 @@ public class SerializerTest extends InstrumentationTestCase {
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 				fail("Exception when parsing the headers");
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-				fail("Exception when parsing the headers");
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-				fail("Exception when parsing the headers");
 			}
-
 		}
 		assertNotNull("loaded project is null", loadedProject);
 		Sprite loadedFirstSprite = loadedProject.getSpriteList().get(0);
@@ -351,10 +318,9 @@ public class SerializerTest extends InstrumentationTestCase {
 	}
 
 	public void testSerializePerformanceTest() {
-		FullParser parser = new FullParser();
 		Project bigProject = null;
 		try {
-			bigProject = parser.fullParser("standardProject.xml");
+			bigProject = XmlTestUtils.loadProjectFromAssets("standardProject.xml", getInstrumentation().getContext());
 		} catch (ParseException e) {
 			fail("Unexpected ParseException");
 			e.printStackTrace();
@@ -374,18 +340,16 @@ public class SerializerTest extends InstrumentationTestCase {
 			serializer.toXml(bigProject, Utils.buildPath(bigProjectDirectoryName, Constants.PROJECTCODE_NAME));
 			long endTime = System.currentTimeMillis();
 			long duration = endTime - starTime;
-			Log.i("SerializerTest", "big project duration is " + duration + " ms");
+			Log.i("SerializerTest", "Big project duration is " + duration + " ms");
 		} catch (SerializeException e) {
 			fail("Unexpected exception");
 			e.printStackTrace();
 		}
 		Project loadedBigProject = null;
 		try {
-			parser = null;
-			parser = new FullParser();
 			InputStream bigProjectFileStream = new FileInputStream(Utils.buildPath(
 					bigProjectDirectory.getAbsolutePath(), Constants.PROJECTCODE_NAME));
-			loadedBigProject = parser.parseSpritesWithProject(bigProjectFileStream);
+			loadedBigProject = FullParser.parseSpritesWithProject(bigProjectFileStream);
 		} catch (ParseException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -393,12 +357,6 @@ public class SerializerTest extends InstrumentationTestCase {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			fail("Exception when parsing the headers");
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-			fail("Exception when parsing the headers");
-		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			fail("Exception when parsing the headers");
 		}
@@ -451,12 +409,9 @@ public class SerializerTest extends InstrumentationTestCase {
 		}
 		Project testProject = null;
 		try {
-			FullParser parser = new FullParser();
 			InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 					Constants.PROJECTCODE_NAME));
-
-			testProject = parser.parseSpritesWithProject(projectFileStream);
-
+			testProject = FullParser.parseSpritesWithProject(projectFileStream);
 		} catch (FileNotFoundException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -466,17 +421,10 @@ public class SerializerTest extends InstrumentationTestCase {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			fail("Exception when parsing the headers");
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-			fail("Exception when parsing the headers");
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			fail("Exception when parsing the headers");
 		}
 
 		assertNotNull("testproject is null", testProject);
 		UtilFile.deleteDirectory(projectDirectory);
-
 	}
 
 	public void testSavingWithNothingSelected() {
@@ -513,12 +461,12 @@ public class SerializerTest extends InstrumentationTestCase {
 			soundList.add(referencedSound);
 			soundField.setAccessible(true);
 			soundField.set(testSprite, soundList);
-		} catch (SecurityException e1) {
+		} catch (SecurityException e) {
 			fail("unexpected SerilizeException");
-			e1.printStackTrace();
-		} catch (NoSuchFieldException e1) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
 			fail("unexpected SerilizeException");
-			e1.printStackTrace();
+			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -553,8 +501,7 @@ public class SerializerTest extends InstrumentationTestCase {
 			try {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
-				FullParser parser = new FullParser();
-				loadedProject = parser.parseSpritesWithProject(projectFileStream);
+				loadedProject = FullParser.parseSpritesWithProject(projectFileStream);
 			} catch (ParseException e) {
 				fail("unexpected SerilizeException");
 				e.printStackTrace();
@@ -564,14 +511,7 @@ public class SerializerTest extends InstrumentationTestCase {
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 				fail("Exception when parsing the headers");
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-				fail("Exception when parsing the headers");
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-				fail("Exception when parsing the headers");
 			}
-
 		}
 		assertNotNull("loaded project is null", loadedProject);
 		Sprite loadedFirstSprite = loadedProject.getSpriteList().get(0);

@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -114,62 +114,12 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		assertFalse("Menu to add costume from camera should not be visible", solo.searchText(addCostumeFromCameraText));
 		assertFalse("Menu to add costume from gallery should not be visible",
 				solo.searchText(addCostumeFromGalleryText));
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-		assertTrue("Menu to add costume from camera was not visible visible", solo.searchText(addCostumeFromCameraText));
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertTrue("Menu to add costume from camera was not visible", solo.searchText(addCostumeFromCameraText));
 		assertTrue("Menu to add costume from gallery was not visible", solo.searchText(addCostumeFromGalleryText));
 		solo.goBack();
-	}
-
-	public void testAddNewCostumeDialog() {
-		// currently disabled, until at least 2 camera apps are installed on testdevice
-		// otherwise test would timeout, because chooser is not shown
-		// String addCostumeFromCameraDialogTitle = solo.getString(R.string.select_costume_from_camera);
-		String addCostumeFromGalleryDialogTitle = solo.getString(R.string.select_costume_from_gallery);
-
-		goToCostumesTab();
-		solo.clickOnText(solo.getString(R.string.delete_lowercase));
-		solo.clickOnButton(0);
-		solo.sleep(300);
-
-		// see comment at the top of the method
-		//		solo.clickOnView(solo.getView(R.id.view_camera_non_scrollable));
-		//		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
-		//		assertTrue("Dialog to add new costume from camera did not appear",
-		//				solo.searchText(addCostumeFromCameraDialogTitle));
-		//		solo.goBack();
-		//		solo.sleep(200);
-		//		solo.clickOnView(solo.getView(R.id.costumelist_footerview_camera));
-		//		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
-		//		assertTrue("Dialog to add new costume from camera did not appear",
-		//				solo.searchText(addCostumeFromCameraDialogTitle));
-		//		solo.goBack();
-		//		solo.sleep(200);
-		//		solo.clickOnView(solo.getView(R.id.costumelist_footerview_camera_add_image));
-		//		solo.waitForText(addCostumeFromCameraDialogTitle, 0, 1000);
-		//		assertTrue("Dialog to add new costume from camera did not appear",
-		//				solo.searchText(addCostumeFromCameraDialogTitle));
-		//		solo.goBack();
-		//		solo.sleep(200);
-
-		solo.clickOnView(solo.getView(R.id.view_gallery_non_scrollable));
-		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
-		assertTrue("Dialog to add new costume from gallery did not appear",
-				solo.searchText(addCostumeFromGalleryDialogTitle));
-		solo.goBack();
-		solo.sleep(200);
-
-		solo.clickOnView(solo.getView(R.id.costumelist_footerview_gallery));
-		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
-		assertTrue("Dialog to add new costume from gallery did not appear",
-				solo.searchText(addCostumeFromGalleryDialogTitle));
-		solo.goBack();
-		solo.sleep(200);
-		solo.clickOnView(solo.getView(R.id.costumelist_footerview_gallery_add_image));
-		solo.waitForText(addCostumeFromGalleryDialogTitle, 0, 1000);
-		assertTrue("Dialog to add new costume from gallery did not appear",
-				solo.searchText(addCostumeFromGalleryDialogTitle));
-		solo.goBack();
-		solo.sleep(200);
 	}
 
 	public void testCopyCostume() {
@@ -216,15 +166,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		String newName = "newName";
 		goToCostumesTab();
 		solo.clickOnView(solo.getView(R.id.costume_name));
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(200);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
@@ -252,33 +196,10 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testMainMenuButton() {
 		goToCostumesTab();
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
-	}
-
-	public void testDialogsOnChangeOrientation() {
-		String newName = "newTestName";
-		goToCostumesTab();
-		solo.clickOnView(solo.getView(R.id.costume_name));
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("Dialog is not visible", solo.searchText(solo.getString(R.string.ok)));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(100);
-		solo.clearEditText(0);
-		solo.enterText(0, newName);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(200);
-		assertTrue("Costume wasnt renamed", solo.searchText(newName));
 	}
 
 	public void testGetImageFromPaintroid() {
@@ -293,7 +214,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 		assertTrue("Checksum not in checksumcontainer",
@@ -328,7 +249,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 
 		solo.sleep(5000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5PaintroidImage);
@@ -361,7 +282,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
@@ -386,7 +307,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
@@ -408,7 +329,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		int numberOfCostumeDatas = costumeDataList.size();
@@ -426,7 +347,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
@@ -457,9 +378,9 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 		solo.sleep(2000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName(), 2000);
-		solo.assertCurrentActivity("Test should not fail - should be in ScriptTabActivity",
-				ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName(), 2000);
+		solo.assertCurrentActivity("Test should not fail - should be in ScriptActivity",
+				ScriptActivity.class.getSimpleName());
 		costumeDataList = ProjectManager.INSTANCE.getCurrentSprite().getCostumeDataList();
 		int numberOfCostumeDatasAfterReturning = costumeDataList.size();
 		assertEquals("wrong size of costumedatalist", numberOfCostumeDatasBeforeIntent,
@@ -484,7 +405,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertNotSame("Picture did not change", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5ImageFile);
@@ -525,7 +446,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		assertEquals("wrong number of costumedatas", 3, costumeDataList.size());
 		assertTrue("new added image has been deleted", tempImageFile.exists());
@@ -575,7 +496,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 		intent.putExtras(bundleForPaintroid);
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
 		expectedCostumeName = defaultCostumeName + "3";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(4).getCostumeName());
@@ -601,7 +522,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getCostumeFragment().startActivityForResult(intent, CostumeFragment.REQUEST_SELECT_IMAGE);
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
 		expectedCostumeName = defaultCostumeName + "4";
 		assertEquals("costume not renamed correctly", expectedCostumeName, costumeDataList.get(5).getCostumeName());
@@ -629,7 +550,7 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 			e.printStackTrace();
 		}
 
-		UiTestUtils.clickOnUpActionBarButton(solo.getCurrentActivity());
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		goToCostumesTab();
 
@@ -670,13 +591,12 @@ public class CostumeFragmentTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private CostumeFragment getCostumeFragment() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		return (CostumeFragment) activity.getFragment(ScriptActivity.FRAGMENT_COSTUMES);
 	}
 
 	private void goToCostumesTab() {
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.sleep(500);
+		UiTestUtils.getIntoCostumesFromMainMenu(solo, true);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 	}
 }

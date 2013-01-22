@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@
         <item>0</item>
         <item>180</item>
     </string-array>
+
     <string-array name="point_in_direction_strings">
         <item>(90) right</item>
         <item>(-90) left</item>
@@ -44,6 +45,7 @@
         <item>C</item>
         <item>A+C</item>
     </string-array>
+
     <string-array name="nxt_stop_motor_chooser">
         <item>A</item>
         <item>B</item>
@@ -51,6 +53,7 @@
         <item>A+C</item>
         <item>All</item>
     </string-array>
+
     <string-array name="fancy_directions_chooser">
         <item>right (45°)</item>
         <item>right (90°)</item>
@@ -59,9 +62,21 @@
         <item>turn (180°)</item>
         <item>spin (360°)</item>
     </string-array>
+
     <string-array name="yes_no_array">
         <item>Yes</item>
         <item>No</item>
+    </string-array>
+
+    <string-array name="script_activity_spinner_items">
+        <item>@string/scripts</item>
+        <item>@string/category_looks</item>
+        <item>@string/sounds</item>
+    </string-array>
+
+    <string-array name="new_costume_chooser">
+        <item>@string/add_costume_from_camera</item>
+        <item>@string/add_costume_from_gallery</item>
     </string-array>
 
 </resources>

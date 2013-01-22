@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -20,75 +20,36 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BrickContainer.Look.Medium"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_change_brightness" >
+    </TextView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/brick_violet"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/ChangeBrightnessTextView"
-            style="@style/brick_text_style"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="5dip"
-            android:text="@string/brick_change_brightness" >
+            style="@style/BrickText.SingleLine"
+            android:text="@string/by_label" >
         </TextView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+        <TextView
+            android:id="@+id/brick_change_brightness_prototype_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/ChangeBrightnessTextView"
-                style="@style/brick_text_style"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="5dip"
-                android:text="@string/by_label" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/brick_change_brightness_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip"
-                android:layout_toRightOf="@+id/ChangeBrightnessTextView"
-                android:background="@color/white"
-                android:gravity="right"
-                android:minHeight="30dip"
-                android:minWidth="50dip"
-                android:paddingRight="5dip"
-                android:text="25"
-                android:textSize="20dip" >
-            </TextView>
-
-            <EditText
-                android:id="@+id/brick_change_brightness_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/ChangeBrightnessTextView"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:gravity="right"
-                android:inputType="number|numberDecimal|numberSigned"
-                android:maxLength="6"
-                android:maxLines="1"
-                android:minWidth="60dip"
-                android:numeric="signed"
-                android:text="25"
-                android:visibility="gone" >
-            </EditText>
-        </LinearLayout>
+        <EditText
+            android:id="@+id/brick_change_brightness_edit_text"
+            style="@style/BrickEditText"
+            android:inputType="number|numberDecimal|numberSigned" >
+        </EditText>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

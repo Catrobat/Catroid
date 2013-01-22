@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -209,9 +209,12 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	public void testBuildProjectPath() {
-		String projectName1 = "test?Projekt\"1";
-		String result1 = "/mnt/sdcard/catroid/testProjekt1";
-		assertEquals("Paths are different!", result1, Utils.buildProjectPath(projectName1));
+		if (!Utils.externalStorageAvailable()) {
+			fail("No SD card present");
+		}
+		String projectName = "test?Projekt\"1";
+		String expectedPath = Constants.DEFAULT_ROOT + "/testProjekt1";
+		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
 	}
 
 	@Smoke

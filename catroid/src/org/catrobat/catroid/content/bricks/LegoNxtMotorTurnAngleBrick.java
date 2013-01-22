@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -167,7 +167,7 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 		directionsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ScriptTabActivity activity = (ScriptTabActivity) context;
+				ScriptActivity activity = (ScriptActivity) context;
 				EditNxtMotorTurnAngleBrickDialog dialog = new EditNxtMotorTurnAngleBrickDialog();
 				dialog.show(activity.getSupportFragmentManager(), "dialog_nxt_motor_turn_angle_brick");
 			}

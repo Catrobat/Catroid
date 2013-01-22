@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
  *  GNU Affero General Public License for more details.
  *  
  *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -44,7 +44,6 @@
     <string name="stage">"ステージ"</string>
     <string name="ok">"OK"</string>
     <string name="add">"加える"</string>
-    <string name="start">"起動"</string>
     <!-- Main menu activity -->
     <!--
          <string name="resume">"再開"</string>
@@ -81,8 +80,6 @@
     <string name="number_of_bricks">"ブロック："</string>
     <string name="number_of_costumes">"コスチューム："</string>
     <string name="number_of_sounds">"サウンド："</string>
-    <!-- Sprite activity -->
-    <string name="sprite_name">"スプライト："</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"スクリプト"</string>
     <string name="costumes">"コスチューム"</string>
@@ -151,6 +148,7 @@
     <string name="stagemenu_screenshot">"スクリーン\nショット"</string>
     -->
 
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">"新しい…"</string>
     <string name="broadcast_nothing_selected">"何もない…"</string>
@@ -162,8 +160,7 @@
     <string name="category_control">"制御"</string>
     <string name="category_lego_nxt">レゴマインドストームNXT</string>
     <!-- Motion bricks -->
-    <string name="brick_place_at">"場所を設定"</string>
-    <string name="x_label">"X:"</string>
+    <string name="brick_place_at_x">"場所を設定 X:"</string>
     <string name="y_label">"Y:"</string>
     <string name="brick_set_x">"Xを設定:"</string>
     <string name="brick_set_y">"Yを設定:"</string>
@@ -182,7 +179,6 @@
     <string name="brick_point_in_direction">"方向（左右上下）："</string>
     <string name="brick_point_to">"方向（スプライト）："</string>
     <string name="brick_glide">"滑る："</string>
-    <string name="brick_glide_to">"方向："</string>
     <!-- Looks bricks -->
     <string name="brick_set_costume">"コスチュームに切り替える："</string>
     <string name="brick_set_background">"背景を設定する"</string>
@@ -238,7 +234,7 @@
     <string name="notification_invalid_text_entered">"値を入力してください"</string>
     <string name="notification_screenshot_ok">"スクリーン ショットが保存した"</string>
     <!-- Error messages -->
-    <string name="error_no_sd_card">"キャットロイドを実行するためにSDカードが必要ですが、どれも見つかりませんでした\nSDカードを挿入して再試行してください"</string>
+    <string name="error_no_writiable_external_storage_available">"キャットロイドを実行するためにSDカードが必要ですが、どれも見つかりませんでした\nSDカードを挿入して再試行してください"</string>
     <string name="error_no_name_entered">"名前を入力してください"</string>
     <string name="error_project_exists">"同じ名前のプロジェクトが既に存在しています\n別の名前を選択してください"</string>
     <string name="error_project_upload">"アップロード中にエラーが発生しました"</string>

@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -35,15 +36,13 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import org.catrobat.catroid.R;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -52,14 +51,14 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 
 	public PlaceAtBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -70,7 +69,6 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -79,14 +77,13 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	@Smoke
 	public void testPlaceAtBrick() throws InterruptedException {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 5 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 5 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -99,45 +96,22 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertEquals("Wrong Brick instance.", projectBrickList.get(2), adapter.getChild(groupCount - 1, 2));
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(3), adapter.getChild(groupCount - 1, 3));
-		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_place_at)));
+		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_place_at_x)));
 
 		int xPosition = 987;
 		int yPosition = 654;
-		String buttonPositiveText = solo.getString(R.string.ok);
 
-		solo.clickOnEditText(0);
-		solo.waitForText(buttonPositiveText);
-		solo.clearEditText(0);
-		solo.enterText(0, xPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.clickEnterClose(solo, 0, xPosition + "");
 
-		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
+		int currentXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
+		assertEquals("Value in Brick is not updated", xPosition, currentXPosition);
 
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, yPosition + "");
-		solo.clickOnButton(buttonPositiveText);
+		UiTestUtils.clickEnterClose(solo, 1, yPosition + "");
 
-		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
+		int currentYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
-	}
-
-	public void testResizeInputFields() {
-		ProjectManager.getInstance().deleteCurrentProject();
-		createTestProject();
-		Intent intent = new Intent(ScriptTabActivity.ACTION_NEW_BRICK_ADDED);
-		intent.setAction(ScriptTabActivity.ACTION_BRICK_LIST_CHANGED);
-		solo.getCurrentActivity().sendBroadcast(intent);
-
-		for (int i = 0; i < 2; i++) {
-			UiTestUtils.testIntegerEditText(solo, i, 1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 12345, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, -1, 60, true);
-			UiTestUtils.testIntegerEditText(solo, i, 123456, 60, false);
-		}
+		assertEquals("Value in Brick is not updated", yPosition, currentYPosition);
 	}
 
 	private void createProject() {
@@ -164,18 +138,4 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptTab
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
-	private void createTestProject() {
-		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
-		script.addBrick(placeAtBrick);
-
-		sprite.addScript(script);
-		project.addSprite(sprite);
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
-	}
 }

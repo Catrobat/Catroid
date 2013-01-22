@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -39,8 +40,7 @@ import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -48,7 +48,6 @@ import org.catrobat.catroid.utils.Utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -119,11 +118,13 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 			fail("File not added in CostumeDataList");
 		}
 
-		solo.clickOnText(solo.getString(R.string.scripts));
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.category_looks);
+		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(nyanCat);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 	}
@@ -173,11 +174,13 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 			fail("File not added in CostumeDataList");
 		}
 
-		solo.clickOnText(solo.getString(R.string.scripts));
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.category_looks);
+		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
 		solo.clickOnText(solo.getString(R.string.broadcast_nothing_selected));
 		solo.clickOnText(manImage);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 	}
@@ -194,14 +197,11 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 
 	private void prepareTest() {
 		createProject();
-		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.sleep(200);
-
-		solo.clickInList(0);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.backgrounds));
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.category_looks);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 	}
 
 	private void createProject() {
@@ -224,7 +224,7 @@ public class SwitchToCostumeCrashTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	private CostumeFragment getCostumeFragment() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		return (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		return (CostumeFragment) activity.getFragment(ScriptActivity.FRAGMENT_COSTUMES);
 	}
 }

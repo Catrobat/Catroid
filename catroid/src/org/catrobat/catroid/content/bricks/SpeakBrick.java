@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,10 @@ package org.catrobat.catroid.content.bricks;
 
 import java.util.HashMap;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -38,7 +39,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class SpeakBrick implements Brick {
 	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
@@ -110,7 +110,7 @@ public class SpeakBrick implements Brick {
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_speak, null);
 
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_text_view);
+		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
 		editText.setText(text);
 
@@ -121,7 +121,7 @@ public class SpeakBrick implements Brick {
 
 			@Override
 			public void onClick(View v) {
-				ScriptTabActivity activity = (ScriptTabActivity) context;
+				ScriptActivity activity = (ScriptActivity) context;
 
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override

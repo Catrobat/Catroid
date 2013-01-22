@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		super.setUp();
 		UiTestUtils.createEmptyProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -74,21 +74,23 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testPutHoveringBrickDown() {
 		// clicks on spriteName needed to get focus on listview for solo without adding hovering brick
-		String spriteName = solo.getString(R.string.sprite_name);
+		String scriptsName = solo.getString(R.string.scripts);
 
-		ListView view = solo.getCurrentListViews().get(0);
+		ListView view = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
 		assertEquals("Wrong number of Bricks", 3, adapter.getCount());
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(200);
-		assertFalse("Wrong number of Bricks", solo.searchText(solo.getString(R.string.categories)));
+		assertFalse("Categories shouldn't be shown", solo.searchText(solo.getString(R.string.categories)));
 		solo.clickOnScreen(200, 200);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
-		solo.clickOnText(spriteName);
+		// just to get focus and get the correct list
+		solo.clickOnText(scriptsName);
+		solo.clickOnText(scriptsName);
 
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist, one hovering and therefore not in project yet", 1,
@@ -99,7 +101,7 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("Hovering brick should be instance of StopAllSoundsBrick",
 				adapter.getItem(1) instanceof StopAllSoundsBrick);
 
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		solo.drag(10, 10, yPositionList.get(1), yPositionList.get(2) + 100, 30);
 		solo.sleep(200);
 		assertEquals("Two Bricks should be in bricklist/project", 2, brickListToCheck.size());
@@ -110,9 +112,16 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
 		solo.clickOnScreen(200, 200);
 
-		yPositionList = UiTestUtils.getListItemYPositions(solo);
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
+			solo.goBack();
+		}
+		// just to get focus and get the correct list
+		solo.clickOnText(scriptsName);
+		solo.clickOnText(scriptsName);
+		yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+
 		solo.clickOnScreen(20, yPositionList.get(0));
-		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.clickOnScreen(20, yPositionList.get(2));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_move_brick));
 
 		Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
@@ -121,8 +130,11 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 		int height = display.getHeight();
 
 		solo.sleep(200);
-		solo.drag(20, 20, 200, height - 20, 100);
-		solo.sleep(200);
+		solo.drag(20, 20, 300, height - 20, 100);
+		// just to get focus and get the correct list
+		solo.clickOnText(scriptsName);
+		solo.clickOnText(scriptsName);
+		solo.sleep(400);
 
 		assertTrue("Last Brick should now be BroadcastBrick", adapter.getItem(3) instanceof BroadcastBrick);
 	}
@@ -130,16 +142,16 @@ public class BrickDragAndDropTest extends ActivityInstrumentationTestCase2<MainM
 	public void testAddNewBrickFromAnotherCategory() {
 		int categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(categoryStringId));
 		solo.clickOnImageButton(0);
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_stop_all_sounds));
+		solo.clickOnText(solo.getString(categoryStringId));
+		solo.clickOnText(solo.getString(R.string.brick_stop_all_sounds));
 		solo.clickOnScreen(200, 200);
 		solo.sleep(200);
 
-		BrickAdapter adapter = (BrickAdapter) solo.getCurrentListViews().get(0).getAdapter();
+		BrickAdapter adapter = (BrickAdapter) UiTestUtils.getScriptListView(solo).getAdapter();
 		assertEquals("Brick was not added.", 2 + 1, adapter.getCount()); // don't forget the footer
 	}
 }

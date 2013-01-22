@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
@@ -70,7 +70,7 @@ public class RenameSpriteDialog extends TextDialog {
 		}
 
 		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
-			Intent intent = new Intent(ScriptTabActivity.ACTION_SPRITE_RENAMED);
+			Intent intent = new Intent(ScriptActivity.ACTION_SPRITE_RENAMED);
 			intent.putExtra(EXTRA_NEW_SPRITE_NAME, newSpriteName);
 			getActivity().sendBroadcast(intent);
 		} else {

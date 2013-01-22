@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,14 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY = "sounds";
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
+
+	public static final int FOOTER_ADD_ALPHA_VALUE = 35;
+
+	public static final int SELECT_NONE = 0;
+	public static final int SINGLE_SELECT = 1;
+	public static final int MULTI_SELECT = 2;
+
+	public static final int NO_POSITION = -1;
 
 	//Web:
 	public static final String TOKEN = "token";

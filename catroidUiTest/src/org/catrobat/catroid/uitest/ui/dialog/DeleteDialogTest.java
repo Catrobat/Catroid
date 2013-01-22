@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -26,10 +26,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.CostumeFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -37,7 +38,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.widget.ListAdapter;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -88,17 +88,19 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
 		String deleteCostumeText = solo.getString(R.string.delete_lowercase);
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String looksSpinnerText = solo.getString(R.string.category_looks);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.sleep(200);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_costume_relative_layout);
 		solo.clickOnButton(deleteCostumeText);
 
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		CostumeFragment fragment = (CostumeFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_COSTUMES);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		CostumeFragment fragment = (CostumeFragment) activity.getFragment(ScriptActivity.FRAGMENT_COSTUMES);
 		ListAdapter adapter = fragment.getListAdapter();
 
 		int oldCount = adapter.getCount();
@@ -119,25 +121,29 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		addSoundsToProject();
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
-		String deleteSoundText = solo.getString(R.string.delete_lowercase);
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		String deleteSoundText = solo.getString(R.string.delete);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String soundsSpinnerText = solo.getString(R.string.sounds);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		solo.clickOnText(solo.getString(R.string.sounds));
-		solo.sleep(200);
-		solo.clickOnButton(deleteSoundText);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
+		solo.clickLongOnText(soundName);
+		solo.clickOnText(deleteSoundText);
 
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
 
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		SoundFragment fragment = (SoundFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SOUNDS);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		SoundFragment fragment = (SoundFragment) activity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
 		ListAdapter adapter = fragment.getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(buttonCancelText);
 		int newCount = adapter.getCount();
 		assertEquals("The costume number not ok after canceling the deletion", newCount, oldCount);
 
-		solo.clickOnButton(deleteSoundText);
+		solo.clickLongOnText(soundName);
+		solo.clickOnText(deleteSoundText);
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(500);

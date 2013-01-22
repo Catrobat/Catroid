@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private StartScript testScript;
-	private static final int REPEAT_TIMES = 10;
+	private static final int REPEAT_TIMES = 4;
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick repeatBrick;
 
@@ -68,7 +68,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		 * Let's wait even longer than necessary, then check if we only executed N times, not N+1 times
 		 * http://code.google.com/p/catroid/issues/detail?id=24
 		 */
-		Thread.sleep(expectedDelay * REPEAT_TIMES * 2);
+		Thread.sleep(expectedDelay * (REPEAT_TIMES + 1));
 
 		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY,
 				(int) testSprite.costume.getYPosition());
@@ -165,6 +165,31 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		Thread.sleep(expectedDelay / 2);
 
 		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
+				(int) testSprite.costume.getYPosition());
+	}
+	
+	@FlakyTest(tolerance = 3)
+	public void testNoDelayAtBeginOfLoop() throws InterruptedException {
+		testSprite.removeAllScripts();
+		testScript = new StartScript(testSprite);
+
+		repeatBrick = new RepeatBrick(testSprite, 1);
+		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.startStartScripts();
+	
+		Thread.sleep(expectedDelay / 5);
+
+		assertEquals("There was an unexpected delay at the begin of the loop!", deltaY,
 				(int) testSprite.costume.getYPosition());
 	}
 }

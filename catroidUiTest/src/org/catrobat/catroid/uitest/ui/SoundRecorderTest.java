@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -26,24 +26,29 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
 
 	public SoundRecorderTest() {
-		super(ScriptTabActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
@@ -53,6 +58,10 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		UiTestUtils.createTestProject();
 
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String soundsSpinnerText = solo.getString(R.string.sounds);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
 	}
 
 	@Override
@@ -64,38 +73,58 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo = null;
 	}
 
+	public void testOrientation() throws NameNotFoundException {
+		prepareRecording();
+		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
+		/// Method 1: Assert it is currently in portrait mode.
+		assertEquals("SoundRecorderActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
+				.getCurrentActivity().getResources().getConfiguration().orientation);
+
+		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
+		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
+		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
+		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
+				PackageManager.GET_ACTIVITIES);
+
+		// Note that the activity is _indeed_ rotated on your device/emulator!
+		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
+
+		assertEquals(SoundRecorderActivity.class.getSimpleName()
+				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+				activityInfo.screenOrientation);
+	}
+
 	public void testRecordMultipleSounds() throws InterruptedException {
 		prepareRecording();
-		recordSoundWithChangingOrientation();
+		recordSound();
 		assertSoundRecording(1);
 
+		solo.sleep(500);
 		prepareRecording();
 		recordSoundGoBackWhileRecording();
 		assertSoundRecording(2);
 	}
 
-	public void recordSoundWithChangingOrientation() throws InterruptedException {
+	public void recordSound() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(500);
 		solo.clickOnText(solo.getString(R.string.soundrecorder_record_stop));
 	}
 
 	public void recordSoundGoBackWhileRecording() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-
+		solo.sleep(500);
 		solo.goBack();
-		solo.setActivityOrientation(Solo.PORTRAIT);
 	}
 
 	private void prepareRecording() {
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnText(solo.getString(R.string.sounds));
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
@@ -109,7 +138,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<ScriptTa
 		File recordedFile = new File(recordPath);
 		assertTrue("recorded sound file not found in file system", recordedFile.exists());
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		String recordTitle = solo.getString(R.string.soundrecorder_recorded_filename);
 		if (recordNumber > 1) {

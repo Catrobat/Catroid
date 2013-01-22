@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import android.content.Intent;
@@ -72,7 +72,7 @@ public class RenameCostumeDialog extends TextDialog {
 			dismiss();
 		}
 
-		Intent intent = new Intent(ScriptTabActivity.ACTION_COSTUME_RENAMED);
+		Intent intent = new Intent(ScriptActivity.ACTION_COSTUME_RENAMED);
 		intent.putExtra(EXTRA_NEW_COSTUME_NAME, newCostumeName);
 		getActivity().sendBroadcast(intent);
 		return true;

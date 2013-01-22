@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -27,10 +27,14 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
@@ -54,9 +58,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		brickListToCheck = UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
 	}
 
 	@Override
@@ -75,8 +76,21 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo = null;
 	}
 
+	private void initTestProject() {
+		brickListToCheck = UiTestUtils.createTestProject();
+		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+	}
+
+	private void initEmptyProject() {
+		UiTestUtils.createEmptyProject();
+		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+	}
+
 	public void testCreateNewBrickButton() {
-		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
+		initTestProject();
+		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
 		int brickCountInList = brickListToCheck.size();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
@@ -85,20 +99,21 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		assertTrue("Wait brick is not in List", solo.searchText(solo.getString(R.string.brick_wait)));
 
-		assertEquals("Brick count in list view not correct", brickCountInView + 1, solo.getCurrentListViews().get(0)
+		assertEquals("Brick count in list view not correct", brickCountInView + 1, UiTestUtils.getScriptListView(solo)
 				.getCount());
 		assertEquals("Brick count in brick list not correct", brickCountInList + 1, ProjectManager.getInstance()
 				.getCurrentScript().getBrickList().size());
 	}
 
 	public void testBrickCategoryDialog() {
+		initTestProject();
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// enable mindstorm bricks, if disabled
 		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		String categorySoundLabel = solo.getString(R.string.category_sound);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		String categoryControlLabel = solo.getString(R.string.category_control);
@@ -115,7 +130,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.searchText(categoryLegoNXTLabel));
 
 		// Test if the correct category opens when clicked
-		String brickPlaceAtText = solo.getString(R.string.brick_place_at);
+		String brickPlaceAtText = solo.getString(R.string.brick_place_at_x);
 		String brickSetCostume = solo.getString(R.string.brick_set_costume);
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
@@ -146,11 +161,34 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 				solo.waitForText(brickLegoStopMotor, 0, 2000));
 	}
 
+	/**
+	 * 
+	 * Tests issue#54. https://github.com/Catrobat/Catroid/issues/54
+	 */
+	public void testOnlyAddControlBricks() {
+		initEmptyProject();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		assertEquals("Project should contain only one script.", 1, sprite.getNumberOfScripts());
+
+		Script script = sprite.getScript(0);
+		assertTrue("Single script isn't empty.", script.getBrickList().isEmpty());
+
+		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
+		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.sleep(200);
+
+		assertEquals("Two control bricks should be added.", 2, sprite.getNumberOfScripts());
+		assertTrue("First script isn't a start script.", sprite.getScript(0) instanceof StartScript);
+		assertTrue("Second script isn't a broadcast script.", sprite.getScript(1) instanceof BroadcastScript);
+	}
+
 	public void testSimpleDragNDrop() {
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		initTestProject();
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
-		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(2), 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPositionList.get(4), 10, yPositionList.get(2) - 3, 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
@@ -163,7 +201,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testDeleteItem() {
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo);
+		initTestProject();
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -197,6 +236,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
+		initTestProject();
 		String currentProject = solo.getString(R.string.main_menu_continue);
 		String background = solo.getString(R.string.background);
 		String categoryLooks = solo.getString(R.string.category_looks);
@@ -212,23 +252,39 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(background);
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooks);
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 		solo.clickOnText(nextBackground);
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
+	}
+
+	public void testOptionsMenuItems() {
+		initTestProject();
+
+		int timeToWait = 200;
+
+		String rename = solo.getString(R.string.rename);
+		String delete = solo.getString(R.string.delete);
+		String showDetails = solo.getString(R.string.show_details);
+
+		UiTestUtils.openOptionsMenu(solo);
+
+		assertFalse("Found menu item '" + rename + "'", solo.waitForText(rename, 1, timeToWait, false, true));
+		assertFalse("Found menu item '" + delete + "'", solo.waitForText(delete, 1, timeToWait, false, true));
+		assertFalse("Found menu item '" + showDetails + "'", solo.waitForText(showDetails, 1, timeToWait, false, true));
 	}
 }

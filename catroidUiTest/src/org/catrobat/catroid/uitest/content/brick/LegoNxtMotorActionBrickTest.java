@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -25,25 +25,26 @@ package org.catrobat.catroid.uitest.content.brick;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 import android.widget.Spinner;
-import org.catrobat.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final int SET_SPEED = 30;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int MAX_SPEED = 100;
@@ -54,7 +55,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 	private LegoNxtMotorActionBrick motorBrick;
 
 	public LegoNxtMotorActionBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -65,7 +66,6 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -74,14 +74,13 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 
 	@Smoke
 	public void testNXTMotorActionBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -91,12 +90,7 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_motor_action)));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_speed)));
 
-		String buttonOkText = solo.getString(R.string.ok);
-		solo.clickOnEditText(0);
-		solo.waitForText(buttonOkText);
-		solo.clearEditText(0);
-		solo.enterText(0, SET_SPEED + "");
-		solo.clickOnButton(buttonOkText);
+		UiTestUtils.clickEnterClose(solo, 0, SET_SPEED + "");
 
 		int speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", SET_SPEED, speed);
@@ -145,18 +139,24 @@ public class LegoNxtMotorActionBrickTest extends ActivityInstrumentationTestCase
 		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 4);
 
-		Spinner currentSpinner = solo.getCurrentSpinners().get(0);
-		solo.pressSpinnerItem(0, 0);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		int legoSpinnerIndex = 1;
+
+		if (Build.VERSION.SDK_INT < 15) {
+			legoSpinnerIndex = 0;
+		}
+
+		Spinner currentSpinner = solo.getCurrentSpinners().get(legoSpinnerIndex);
+		solo.pressSpinnerItem(legoSpinnerIndex, 0);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(0, 1);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.pressSpinnerItem(legoSpinnerIndex, 1);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		assertEquals("Wrong item in spinner!", motors[3], currentSpinner.getSelectedItem());
 	}
 

@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -86,14 +87,6 @@ public class CostumeData implements Serializable {
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToImageDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getInternalPath() {
-		if (fileName != null) {
-			return Constants.IMAGE_DIRECTORY + "/" + fileName;
 		} else {
 			return null;
 		}

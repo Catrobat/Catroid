@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,6 @@ package org.catrobat.catroid.io;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.catrobat.catroid.stage.NativeAppActivity;
-
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
 public class SoundManager {
@@ -71,12 +68,7 @@ public class SoundManager {
 		MediaPlayer mediaPlayer = getMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
-				if (!NativeAppActivity.isRunning()) {
-					mediaPlayer.setDataSource(pathToSoundfile);
-				} else {
-					AssetFileDescriptor afd = NativeAppActivity.getContext().getAssets().openFd(pathToSoundfile);
-					mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-				}
+				mediaPlayer.setDataSource(pathToSoundfile);
 				mediaPlayer.prepare();
 				mediaPlayer.start();
 			} catch (IOException e) {

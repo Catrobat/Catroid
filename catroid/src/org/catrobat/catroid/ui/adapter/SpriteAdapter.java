@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 
@@ -50,17 +51,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	private int selectMode;
 	private boolean showDetails;
 	private Set<Integer> checkedSprites = new HashSet<Integer>();
-
-	public static final int NONE = 0;
-	public static final int SINGLE_SELECT = 1;
-	public static final int MULTI_SELECT = 2;
+	private OnSpriteCheckedListener onSpriteCheckedListener;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
 		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.context = context;
-		selectMode = NONE;
+		selectMode = Constants.SELECT_NONE;
 		showDetails = false;
+	}
+
+	public void setOnSpriteCheckedListener(OnSpriteCheckedListener listener) {
+		onSpriteCheckedListener = listener;
 	}
 
 	private static class ViewHolder {
@@ -72,7 +74,10 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		private TextView bricks;
 		private TextView costumes;
 		private TextView sounds;
-		//private TextView detail;
+	}
+
+	public int getAmountOfCheckedSprites() {
+		return checkedSprites.size();
 	}
 
 	public Set<Integer> getCheckedSprites() {
@@ -108,7 +113,6 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder = new ViewHolder();
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.checkbox);
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
-			//holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
 			holder.divider = spriteView.findViewById(R.id.sprite_divider);
 			holder.scripts = (TextView) spriteView.findViewById(R.id.textView_number_of_scripts);
@@ -124,22 +128,19 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (selectMode == MULTI_SELECT) {
-					if (isChecked) {
-						checkedSprites.add(position);
-					} else {
-						checkedSprites.remove(position);
-					}
-				} else if (selectMode == SINGLE_SELECT) {
-					if (isChecked) {
+				if (isChecked) {
+					if (selectMode == Constants.SINGLE_SELECT) {
 						clearCheckedSprites();
-						checkedSprites.add(position);
-					} else {
-						checkedSprites.remove(position);
 					}
-					notifyDataSetChanged();
+					checkedSprites.add(position);
+				} else {
+					checkedSprites.remove(position);
 				}
+				notifyDataSetChanged();
 
+				if (onSpriteCheckedListener != null) {
+					onSpriteCheckedListener.onSpriteChecked();
+				}
 			}
 		});
 
@@ -198,15 +199,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		} else {
 			holder.divider.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2));
 			holder.divider.setBackgroundResource(R.color.divider);
-			if (selectMode != NONE) {
+			if (selectMode != Constants.SELECT_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
 				clearCheckedSprites();
 			}
-
 		}
 		return spriteView;
+	}
+
+	public interface OnSpriteCheckedListener {
+		public void onSpriteChecked();
 	}
 }

@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,6 @@ import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
 import org.catrobat.catroid.ui.dialogs.CustomIconContextMenu;
-import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
@@ -57,17 +56,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnClickListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 
@@ -78,14 +75,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	private int activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 
-	private View viewBelowMyProjectlistNonScrollable;
-	private View myprojectlistFooterView;
-
 	private static final int NO_DIALOG_FRAGMENT_ACTIVE = -1;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
-	private static final int FOOTER_ADD_PROJECT_ALPHA_VALUE = 35;
 	private static final int CONTEXT_MENU_ITEM_COPY = 3;
 
 	@Override
@@ -97,7 +90,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_projects_list, null);
-
 		return rootView;
 	}
 
@@ -108,17 +100,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		if (savedInstanceState != null) {
 			projectToEdit = (ProjectData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA);
 		}
-
-		viewBelowMyProjectlistNonScrollable = getActivity().findViewById(R.id.view_below_myprojectlist_non_scrollable);
-		viewBelowMyProjectlistNonScrollable.setOnClickListener(this);
-
-		View footerView = getActivity().getLayoutInflater().inflate(R.layout.activity_my_projects_footer,
-				getListView(), false);
-		myprojectlistFooterView = footerView.findViewById(R.id.myprojectlist_footerview);
-		ImageView footerAddImage = (ImageView) footerView.findViewById(R.id.myprojectlist_footerview_add_image);
-		footerAddImage.setAlpha(FOOTER_ADD_PROJECT_ALPHA_VALUE);
-		myprojectlistFooterView.setOnClickListener(this);
-		getListView().addFooterView(footerView);
 
 		checkForCanceledFragment();
 		reattachDialogFragmentListener();
@@ -153,21 +134,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	public void onUpdateProjectDescription() {
 		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		initAdapter();
-	}
-
-	@Override
-	public void onClick(View v) {
-		NewProjectDialog dialog = null;
-		switch (v.getId()) {
-			case R.id.view_below_myprojectlist_non_scrollable:
-				dialog = new NewProjectDialog();
-				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
-				break;
-			case R.id.myprojectlist_footerview:
-				dialog = new NewProjectDialog();
-				dialog.show(getActivity().getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
-				break;
-		}
 	}
 
 	private void reattachDialogFragmentListener() {
@@ -253,11 +219,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				projectToEdit = projectList.get(position);
-				if (projectToEdit == null) {
-					return true;
-				}
 
-				showEditProjectContextDialog();
+				if (projectToEdit != null) {
+					showEditProjectContextDialog();
+				}
 
 				return true;
 			}

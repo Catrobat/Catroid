@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -25,18 +25,18 @@
 <resources>
 
     <!-- Language independent -->
-    <string name="percent">%</string>
-    <string name="catroid_extension_pathPattern">.*\\.catrobat</string>
+    <string name="catroid_extension_pathPattern" translatable="false">.*\\.catrobat</string>
 
-    <!-- Lego Mindstorms -->
-    <string name="minus_symbol">-</string>
-    <string name="plus_symbol">+</string>
-    <string name="degree">°</string>
+    <!-- Symbols -->
+    <string name="degree_symbol" translatable="false">°</string>
+    <string name="minus_symbol" translatable="false">-</string>
+    <string name="percent_symbol" translatable="false">%</string>
+    <string name="plus_symbol" translatable="false">+</string>
 
     <!-- Website URLs -->
-    <string name="catroid_website">http://www.catroid.org</string>
-    <string name="about_catroid_license_url">http://developer.catrobat.org/licenses</string>
-    <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
-    <string name="catrobat_forum">https://groups.google.com/group/catrobat</string>
+    <string name="catroid_website" translatable="false">http://www.catroid.org</string>
+    <string name="about_catroid_license_url" translatable="false">http://developer.catrobat.org/licenses</string>
+    <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
+    <string name="catrobat_forum" translatable="false">https://groups.google.com/group/catrobat</string>
 
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,7 @@
     <string name="load">Incărcare</string>
     <string name="change_project_name_main">Schimbarea numelui proiectului</string>
     <string name="about">Despre Catroid</string>
-    <string name="upload_project">Încărcarea proiectului</string>
+    <string name="upload_project">Încărcarea proiectului</string>
     -->
 
 
@@ -98,7 +98,6 @@
     <!-- <string name="brick_list">Blocuri:</string> -->
     <!-- <string name="add_new_brick">Adăugarea noului bloc</string> -->
     <!-- Sprite activity -->
-    <string name="sprite_name">Obiecte:</string>
     <!-- <string name="script_list">Scripte:</string> -->
     <!-- <string name="add_new_script">Adăugarea noului Script</string> -->
     <!-- ScriptTab activity -->
@@ -188,8 +187,7 @@
     <string name="seconds">Secunde</string>
     <string name="brick_hide">Ascunde</string>
     <string name="brick_show">Arată</string>
-    <string name="brick_place_at">Plasează la</string>
-    <string name="x_label">X:</string>
+    <string name="brick_place_at_x">Plasează la X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_costume">Setează costumul</string>
     <string name="brick_set_size_to">Setează mărimea la</string>
@@ -202,7 +200,6 @@
     <string name="brick_set_x">Setează X la:</string>
     <string name="brick_set_y">Setează Y la:</string>
     <string name="brick_glide">Alunecă</string>
-    <string name="brick_glide_to">spre</string>
     <string name="brick_when">Cînd</string>
     <string name="brick_set_ghost_effect">Setează transparența</string>
     <string name="brick_change_ghost_effect">Schimbă transparența</string>
@@ -253,7 +250,7 @@
     <!-- Vă rugăm să introduceți numele -->
     <!-- </string> -->
     <!-- Error messages -->
-    <string name="error_no_sd_card">Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.</string>
+    <string name="error_no_writiable_external_storage_available">Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.</string>
     <string name="error_no_name_entered">Introduceți denumirea, vă rog</string>
     <string name="error_project_exists">Un proiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog</string>
     <!-- <string name="error_create_project"> -->

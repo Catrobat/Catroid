@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2012 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,6 @@ import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
-
 
 public class Sprite implements Serializable {
 
@@ -288,6 +287,10 @@ public class Sprite implements Serializable {
 
 	public ArrayList<SoundInfo> getSoundList() {
 		return soundList;
+	}
+
+	public void setSoundList(ArrayList<SoundInfo> list) {
+		soundList = list;
 	}
 
 	public int getRequiredResources() {
