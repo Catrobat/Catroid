@@ -79,7 +79,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -98,8 +97,6 @@ import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
-	private static final String TAG = UiTestUtils.class.getSimpleName();
-
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
 
@@ -483,19 +480,14 @@ public class UiTestUtils {
 	}
 
 	public static Object getPrivateField(Class<?> clazz, Object object, String fieldName) {
-		Field field = getField(fieldName, clazz);
-
-		if (field == null) {
-			Log.v(TAG, "Class " + clazz.getSimpleName() + " or superclasses dosn't have a field named '" + fieldName
-					+ "'");
-		} else {
+		try {
+			Field field = clazz.getDeclaredField(fieldName);
 			field.setAccessible(true);
-			try {
-				return field.get(object);
-			} catch (Exception exception) {
-				exception.printStackTrace();
-			}
+			return field.get(object);
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
+
 		return null;
 	}
 
@@ -512,41 +504,19 @@ public class UiTestUtils {
 	}
 
 	public static void setPrivateField(Class<?> fieldOwner, Object object, String fieldName, Object value) {
-		Field field = getField(fieldName, fieldOwner);
-
-		if (field == null) {
-			Log.v(TAG, "Class " + fieldOwner.getSimpleName() + " or superclasses dosn't have a field named '"
-					+ fieldName + "'");
-		} else {
+		try {
+			Field field = fieldOwner.getDeclaredField(fieldName);
 			field.setAccessible(true);
-			try {
-				field.set(object, value);
-			} catch (Exception exception) {
-				exception.printStackTrace();
-			}
+			field.set(object, value);
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 
-	private static Field getField(String fieldName, Class<?> clazz) {
-		Field field = null;
-
-		do {
-			try {
-				field = clazz.getDeclaredField(fieldName);
-			} catch (NoSuchFieldException noSuchFieldException) {
-			}
-		} while (field == null && (clazz = clazz.getSuperclass()) != null);
-
-		return field;
-	}
-
 	public static Object invokeMethod(Object object, String methodName, Object... params) {
-		Class<?>[] args = null;
-		if (params != null) {
-			args = new Class<?>[params.length];
-			for (int index = 0; index < params.length; index++) {
-				args[index] = params[index].getClass();
-			}
+		Class<?>[] args = new Class<?>[params.length];
+		for (int index = 0; index < params.length; index++) {
+			args[index] = params[index].getClass();
 		}
 
 		return invokeMethod(object, methodName, args, params);
@@ -575,9 +545,8 @@ public class UiTestUtils {
 
 	private static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] methodParams,
 			Object[] methodArgs) {
-		Method method;
 		try {
-			method = clazz.getDeclaredMethod(methodName, methodParams);
+			Method method = clazz.getDeclaredMethod(methodName, methodParams);
 			method.setAccessible(true);
 			return method.invoke(object, methodArgs);
 		} catch (Exception exception) {

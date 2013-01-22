@@ -37,7 +37,6 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.Smoke;
 
 public class UtilsTest extends AndroidTestCase {
-
 	private final String testFileContent = "Hello, this is a Test-String";
 	private final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
 	private final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
@@ -138,8 +137,11 @@ public class UtilsTest extends AndroidTestCase {
 		int secretInteger = (Integer) TestUtils.getPrivateField(new Sub(), "SECRET_INTEGER");
 		assertEquals("Getting private Integer failed!", 42, secretInteger);
 
-		float secretFloat = (Float) TestUtils.getPrivateField(new Sub(), "SECRET_FLOAT");
+		float secretFloat = (Float) TestUtils.getPrivateField(Super.class, new Sub(), "SECRET_FLOAT");
 		assertEquals("Getting private Float from super class failed!", 3.1415f, secretFloat);
+
+		Float secretFloatObject = (Float) TestUtils.getPrivateField(Sub.class, new Sub(), "SECRET_FLOAT");
+		assertNull("Getting private Float from sub class didn't fail!", secretFloatObject);
 
 		char newSecretChar = 'n';
 		TestUtils.setPrivateField(Sub.class, "SECRET_STATIC_CHAR", newSecretChar);
@@ -158,8 +160,8 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals("Getting private Integer failed!", newSecretInteger, secretInteger);
 
 		float newSecretFloat = -5.4f;
-		TestUtils.setPrivateField(sub, "SECRET_FLOAT", newSecretFloat);
-		secretFloat = (Float) TestUtils.getPrivateField(sub, "SECRET_FLOAT");
+		TestUtils.setPrivateField(Super.class, sub, "SECRET_FLOAT", newSecretFloat);
+		secretFloat = (Float) TestUtils.getPrivateField(Super.class, sub, "SECRET_FLOAT");
 		assertEquals("Getting private Float from super class failed!", newSecretFloat, secretFloat);
 	}
 

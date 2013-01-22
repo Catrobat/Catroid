@@ -46,11 +46,8 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.content.Context;
-import android.util.Log;
 
 public class TestUtils {
-
-	private static final String TAG = TestUtils.class.getSimpleName();
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
@@ -167,19 +164,14 @@ public class TestUtils {
 	}
 
 	public static Object getPrivateField(Class<?> clazz, Object object, String fieldName) {
-		Field field = getField(fieldName, clazz);
-
-		if (field == null) {
-			Log.v(TAG, "Class " + clazz.getSimpleName() + " or superclasses dosn't have a field named '" + fieldName
-					+ "'");
-		} else {
+		try {
+			Field field = clazz.getDeclaredField(fieldName);
 			field.setAccessible(true);
-			try {
-				return field.get(object);
-			} catch (Exception exception) {
-				exception.printStackTrace();
-			}
+			return field.get(object);
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
+
 		return null;
 	}
 
@@ -196,41 +188,19 @@ public class TestUtils {
 	}
 
 	public static void setPrivateField(Class<?> fieldOwner, Object object, String fieldName, Object value) {
-		Field field = getField(fieldName, fieldOwner);
-
-		if (field == null) {
-			Log.v(TAG, "Class " + fieldOwner.getSimpleName() + " or superclasses dosn't have a field named '"
-					+ fieldName + "'");
-		} else {
+		try {
+			Field field = fieldOwner.getDeclaredField(fieldName);
 			field.setAccessible(true);
-			try {
-				field.set(object, value);
-			} catch (Exception exception) {
-				exception.printStackTrace();
-			}
+			field.set(object, value);
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 
-	private static Field getField(String fieldName, Class<?> clazz) {
-		Field field = null;
-
-		do {
-			try {
-				field = clazz.getDeclaredField(fieldName);
-			} catch (NoSuchFieldException noSuchFieldException) {
-			}
-		} while (field == null && (clazz = clazz.getSuperclass()) != null);
-
-		return field;
-	}
-
 	public static Object invokeMethod(Object object, String methodName, Object... params) {
-		Class<?>[] args = null;
-		if (params != null) {
-			args = new Class<?>[params.length];
-			for (int index = 0; index < params.length; index++) {
-				args[index] = params[index].getClass();
-			}
+		Class<?>[] args = new Class<?>[params.length];
+		for (int index = 0; index < params.length; index++) {
+			args[index] = params[index].getClass();
 		}
 
 		return invokeMethod(object, methodName, args, params);
@@ -259,9 +229,8 @@ public class TestUtils {
 
 	private static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] methodParams,
 			Object[] methodArgs) {
-		Method method;
 		try {
-			method = clazz.getDeclaredMethod(methodName, methodParams);
+			Method method = clazz.getDeclaredMethod(methodName, methodParams);
 			method.setAccessible(true);
 			return method.invoke(object, methodArgs);
 		} catch (Exception exception) {
