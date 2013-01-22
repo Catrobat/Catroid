@@ -49,6 +49,12 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	}
 
 	public SetVolumeToBrick() {
+		//edit.setTextColor(color.transparent);
+
+	}
+
+	public void getView() {
+		//edit.setTextColor(color.transparent);
 
 	}
 
@@ -90,6 +96,9 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
+
+		//volume = AddBrickDialog.TEST_VALUE;
+
 		return View.inflate(context, R.layout.brick_set_volume_to, null);
 	}
 

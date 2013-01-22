@@ -35,7 +35,6 @@
         android:id="@+id/brick_speak_prototype_text_view"
         style="@style/BrickPrototypeTextView"
         android:layout_width="match_parent"
-        android:text="@string/BrickPrototype_speak"
         android:gravity="left">
     </TextView>
 

@@ -31,8 +31,7 @@
 
     <TextView
         android:id="@+id/brick_set_volume_to_prototype_text_view"
-        style="@style/BrickPrototypeTextView" 
-        android:text="@integer/BrickPrototype_set_volume_to">
+        style="@style/BrickPrototypeTextView"> 
     </TextView>
 
     <EditText

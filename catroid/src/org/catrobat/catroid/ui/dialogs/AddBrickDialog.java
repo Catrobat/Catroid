@@ -108,6 +108,19 @@ public class AddBrickDialog extends DialogFragment {
 	private String selectedCategory;
 	private ScriptFragment scriptFragment;
 
+	//constants Look
+	public static final Float Set_Size_to_Value = (float) 60;
+	public static final Float Change_Size_by_Value = (float) 10;
+	public static final Float Set_Ghost_Effect_Value = (float) 50;
+	public static final Float Change_Ghost_Effect_by_Value = (float) 25;
+	public static final Float Set_Brightness_to_Value = (float) 50;
+	public static final Float Change_Brightness_by_Value = (float) 25;
+
+	//constants Sounds
+	public static final Float Set_Volumen_to_Value = (float) 60;
+	public static final Float Change_Volume_by_Value = (float) -10;
+	public static final String Speak_Value = "Hello!";
+
 	public static AddBrickDialog newInstance(String selectedCategory, ScriptFragment scriptFragment) {
 		AddBrickDialog dialog = new AddBrickDialog();
 
@@ -240,14 +253,14 @@ public class AddBrickDialog extends DialogFragment {
 		List<Brick> looksBrickList = new ArrayList<Brick>();
 		looksBrickList.add(new SetCostumeBrick(sprite));
 		looksBrickList.add(new NextCostumeBrick(sprite));
-		looksBrickList.add(new SetSizeToBrick(sprite, 100));
-		looksBrickList.add(new ChangeSizeByNBrick(sprite, 20));
+		looksBrickList.add(new SetSizeToBrick(sprite, Set_Size_to_Value));
+		looksBrickList.add(new ChangeSizeByNBrick(sprite, Change_Size_by_Value));
 		looksBrickList.add(new HideBrick(sprite));
 		looksBrickList.add(new ShowBrick(sprite));
-		looksBrickList.add(new SetGhostEffectBrick(sprite, 0));
-		looksBrickList.add(new ChangeGhostEffectByNBrick(sprite, 25));
-		looksBrickList.add(new SetBrightnessBrick(sprite, 0));
-		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, 25));
+		looksBrickList.add(new SetGhostEffectBrick(sprite, Set_Ghost_Effect_Value));
+		looksBrickList.add(new ChangeGhostEffectByNBrick(sprite, Change_Ghost_Effect_by_Value));
+		looksBrickList.add(new SetBrightnessBrick(sprite, Set_Brightness_to_Value));
+		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, Change_Brightness_by_Value));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
 
 		brickMap.put(context.getString(R.string.category_looks), looksBrickList);
@@ -255,9 +268,9 @@ public class AddBrickDialog extends DialogFragment {
 		List<Brick> soundBrickList = new ArrayList<Brick>();
 		soundBrickList.add(new PlaySoundBrick(sprite));
 		soundBrickList.add(new StopAllSoundsBrick(sprite));
-		soundBrickList.add(new SetVolumeToBrick(sprite, 66));
-		soundBrickList.add(new ChangeVolumeByNBrick(sprite, 25));
-		soundBrickList.add(new SpeakBrick(sprite, null));
+		soundBrickList.add(new SetVolumeToBrick(sprite, Set_Volumen_to_Value));
+		soundBrickList.add(new ChangeVolumeByNBrick(sprite, Change_Volume_by_Value));
+		soundBrickList.add(new SpeakBrick(sprite, Speak_Value));
 		brickMap.put(context.getString(R.string.category_sound), soundBrickList);
 
 		List<Brick> controlBrickList = new ArrayList<Brick>();
