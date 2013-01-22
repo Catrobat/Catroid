@@ -92,11 +92,6 @@ public class MyProjectsActivity extends SherlockFragmentActivity implements Erro
 				startActivity(intent);
 				return true;
 			}
-			case R.id.menu_add: {
-				NewProjectDialog dialog = new NewProjectDialog();
-				dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
-				return true;
-			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
