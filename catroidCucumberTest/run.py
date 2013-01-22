@@ -8,7 +8,7 @@ def main ():
     arg_parser.add_argument('-c', '--clean', action='store_true', dest='build_clean',
         help='Run ant clean before building the apk.', default=False)
     arg_parser.add_argument('-nb', '--no-build', action='store_true', dest='skip_build',
-        help='Do not run ant build.', default=False)
+        help='Do not run ant build (for repeated testing).', default=False)
     args = arg_parser.parse_args()
 
     catroid_dir = os.path.abspath('..%scatroid' % os.sep)
