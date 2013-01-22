@@ -108,7 +108,7 @@ public class AddBrickDialog extends DialogFragment {
 	private String selectedCategory;
 	private ScriptFragment scriptFragment;
 
-	//constants Look
+	//constants Looks
 	public static final Float Set_Size_to_Value = (float) 60;
 	public static final Float Change_Size_by_Value = (float) 10;
 	public static final Float Set_Ghost_Effect_Value = (float) 50;
