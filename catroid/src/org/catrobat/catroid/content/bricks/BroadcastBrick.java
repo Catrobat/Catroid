@@ -190,4 +190,9 @@ public class BroadcastBrick implements Brick {
 	public BroadcastBrick() {
 
 	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+
+	}
 }

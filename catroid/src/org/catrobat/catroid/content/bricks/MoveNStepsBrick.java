@@ -107,6 +107,13 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public void setDefaultValues(Context context) {
+		View prototype = View.inflate(context, R.layout.brick_move_n_steps, null);
+		TextView textX = (TextView) prototype.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+		textX.setText(steps + "");
+	}
+
+	@Override
 	public void onClick(View view) {
 		ScriptActivity activity = (ScriptActivity) view.getContext();
 

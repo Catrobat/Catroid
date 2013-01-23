@@ -102,6 +102,10 @@ public class NextCostumeBrick implements Brick {
 	}
 
 	@Override
+	public void setDefaultValues(Context context) {
+	}
+
+	@Override
 	public int getRequiredResources() {
 		// TODO Auto-generated method stub
 		return 0;

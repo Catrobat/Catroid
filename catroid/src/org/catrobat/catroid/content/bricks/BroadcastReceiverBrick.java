@@ -172,4 +172,9 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	public BroadcastReceiverBrick() {
 		this.projectManager = ProjectManager.getInstance();
 	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+
+	}
 }

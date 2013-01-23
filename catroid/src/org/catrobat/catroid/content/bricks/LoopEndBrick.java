@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
@@ -33,7 +34,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
@@ -116,6 +116,10 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	@Override
 	public Brick clone() {
 		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
+	}
+
+	@Override
+	public void setDefaultValues(Context context) {
 	}
 
 	@Override

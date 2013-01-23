@@ -179,6 +179,15 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public void setDefaultValues(Context context) {
+		View prototype = View.inflate(context, R.layout.brick_glide_to, null);
+		TextView textX = (TextView) prototype.findViewById(R.id.brick_glide_to_prototype_text_view_x);
+		textX.setText(xDestination + "");
+		TextView textY = (TextView) prototype.findViewById(R.id.brick_place_at_prototype_text_view_y);
+		textY.setText(yDestination + "");
+	}
+
+	@Override
 	public void onClick(final View view) {
 		ScriptActivity activity = (ScriptActivity) view.getContext();
 

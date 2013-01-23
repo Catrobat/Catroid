@@ -97,6 +97,13 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public void setDefaultValues(Context context) {
+		View prototype = View.inflate(context, R.layout.brick_turn_right, null);
+		TextView textX = (TextView) prototype.findViewById(R.id.brick_turn_right_prototype_text_view);
+		textX.setText(degrees + "");
+	}
+
+	@Override
 	public void onClick(View view) {
 		ScriptActivity activity = (ScriptActivity) view.getContext();
 

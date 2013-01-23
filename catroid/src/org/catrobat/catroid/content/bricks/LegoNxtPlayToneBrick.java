@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -38,7 +39,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
@@ -92,6 +92,10 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 	@Override
 	public Brick clone() {
 		return new LegoNxtPlayToneBrick(getSprite(), hertz, durationInMilliSeconds);
+	}
+
+	@Override
+	public void setDefaultValues(Context context) {
 	}
 
 	@Override

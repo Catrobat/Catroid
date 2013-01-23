@@ -145,4 +145,11 @@ public class SetCostumeBrick implements Brick {
 
 		return clonedBrick;
 	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+		View prototype = View.inflate(context, R.layout.brick_set_costume, null);
+		TextView textX = (TextView) prototype.findViewById(R.id.brick_set_costume_prototype_text_view);
+		textX.setText(costume + "");
+	}
 }

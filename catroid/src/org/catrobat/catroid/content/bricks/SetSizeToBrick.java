@@ -94,6 +94,13 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	}
 
 	@Override
+	public void setDefaultValues(Context context) {
+		View prototype = View.inflate(context, R.layout.brick_set_size_to, null);
+		TextView textX = (TextView) prototype.findViewById(R.id.brick_set_size_to_prototype_text_view);
+		textX.setText(size + "");
+	}
+
+	@Override
 	public void onClick(View view) {
 		ScriptActivity activity = (ScriptActivity) view.getContext();
 

@@ -200,4 +200,10 @@ public class PointToBrick implements Brick {
 	public Brick clone() {
 		return new PointToBrick(sprite, pointedSprite);
 	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+		View.inflate(context, R.layout.brick_point_to, null);
+
+	}
 }

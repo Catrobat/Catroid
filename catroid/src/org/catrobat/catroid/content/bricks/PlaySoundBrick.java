@@ -108,6 +108,10 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 		return new PlaySoundBrick(getSprite());
 	}
 
+	@Override
+	public void setDefaultValues(Context context) {
+	}
+
 	//for testing purposes:
 	public void setSoundInfo(SoundInfo soundInfo) {
 		this.sound = soundInfo;

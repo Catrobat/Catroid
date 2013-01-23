@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -29,7 +30,6 @@ import org.catrobat.catroid.content.StartScript;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
@@ -79,6 +79,12 @@ public class WhenStartedBrick extends ScriptBrick {
 	@Override
 	public Brick clone() {
 		return new WhenStartedBrick(getSprite(), null);
+	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+		View.inflate(context, R.layout.brick_started, null);
+
 	}
 
 	@Override

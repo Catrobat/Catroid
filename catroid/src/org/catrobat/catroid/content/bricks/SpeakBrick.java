@@ -152,4 +152,12 @@ public class SpeakBrick implements Brick {
 	public Brick clone() {
 		return new SpeakBrick(this.sprite, this.text);
 	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+		View prototype = View.inflate(context, R.layout.brick_speak, null);
+		TextView textX = (TextView) prototype.findViewById(R.id.brick_speak_prototype_text_view);
+		textX.setText(text + "");
+	}
+
 }

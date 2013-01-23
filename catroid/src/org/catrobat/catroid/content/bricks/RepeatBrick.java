@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -35,7 +36,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -69,6 +69,13 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	@Override
 	public Brick clone() {
 		return new RepeatBrick(getSprite(), timesToRepeat);
+	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+		View prototype = View.inflate(context, R.layout.brick_repeat, null);
+		TextView textX = (TextView) prototype.findViewById(R.id.brick_repeat_text_view);
+		textX.setText(timesToRepeat + "");
 	}
 
 	@Override

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -34,7 +35,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class WaitBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -107,6 +107,13 @@ public class WaitBrick implements Brick, OnClickListener {
 	@Override
 	public Brick clone() {
 		return new WaitBrick(getSprite(), timeToWaitInMilliSeconds);
+	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+		View prototype = View.inflate(context, R.layout.brick_wait, null);
+		TextView textX = (TextView) prototype.findViewById(R.id.brick_wait_text_view);
+		textX.setText(timeToWaitInMilliSeconds + "");
 	}
 
 	@Override

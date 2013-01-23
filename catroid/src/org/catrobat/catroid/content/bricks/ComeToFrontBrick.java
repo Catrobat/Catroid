@@ -91,6 +91,10 @@ public class ComeToFrontBrick implements Brick {
 	}
 
 	@Override
+	public void setDefaultValues(Context context) {
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_go_to_front, null);
 	}
