@@ -219,7 +219,11 @@ public class AddBrickDialog extends DialogFragment {
 		HashMap<String, List<Brick>> brickMap = new HashMap<String, List<Brick>>();
 
 		List<Brick> motionBrickList = new ArrayList<Brick>();
-		motionBrickList.add(new PlaceAtBrick(sprite, 0, 0));
+
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
+		placeAtBrick.setDefaultValues(context);
+		motionBrickList.add(placeAtBrick);
+
 		motionBrickList.add(new SetXBrick(sprite, 0));
 		motionBrickList.add(new SetYBrick(sprite, 0));
 		motionBrickList.add(new ChangeXByNBrick(sprite, 100));
