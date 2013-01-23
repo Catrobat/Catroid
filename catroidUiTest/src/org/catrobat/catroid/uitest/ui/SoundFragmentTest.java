@@ -53,34 +53,34 @@ import android.widget.LinearLayout;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
-	private final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
+	private static final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
+	private static final int RESOURCE_SOUND2 = org.catrobat.catroid.uitest.R.raw.testsoundui;
+	private static final int VISIBLE = View.VISIBLE;
+	private static final int GONE = View.GONE;
+
+	private static final int TIME_TO_WAIT = 50;
+
+	private static final String FIRST_TEST_SOUND_NAME = "testSound1";
+	private static final String SECOND_TEST_SOUND_NAME = "testSound2";
 
 	private Solo solo;
 
-	private String soundName = "testSound1";
-	private String soundName2 = "testSound2";
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
 	private String deleteDialogTitle;
 
-	private File soundFile;
-	private File soundFile2;
+	private SoundInfo soundInfo;
+	private SoundInfo soundInfo2;
+
 	private File externalSoundFile;
 
 	private ArrayList<SoundInfo> soundInfoList;
-
-	private static final int VISIBLE = View.VISIBLE;
-	private static final int GONE = View.GONE;
 
 	private CheckBox firstCheckBox;
 	private CheckBox secondCheckBox;
 
 	private ProjectManager projectManager;
-
-	private static final int TIME_TO_WAIT = 50;
-	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public SoundFragmentTest() {
 		super(MainMenuActivity.class);
@@ -96,17 +96,17 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		projectManager = ProjectManager.getInstance();
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
-		SoundInfo soundInfo = new SoundInfo();
+		soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
-		soundInfo.setTitle(soundName);
+		soundInfo.setTitle(FIRST_TEST_SOUND_NAME);
 
-		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
+		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
 				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
-		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setSoundFileName(soundFile2.getName());
-		soundInfo2.setTitle(soundName2);
+		soundInfo2 = new SoundInfo();
+		soundInfo2.setSoundFileName(soundFile.getName());
+		soundInfo2.setTitle(SECOND_TEST_SOUND_NAME);
 
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
@@ -124,9 +124,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		renameDialogTitle = solo.getString(R.string.rename_sound_dialog);
 		delete = solo.getString(R.string.delete);
 		deleteDialogTitle = solo.getString(R.string.delete_sound_dialog);
-
-		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
-		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
 
 		if (getSoundAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -154,7 +151,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(soundName2, solo.getString(R.string.delete));
+		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.delete));
 		solo.waitForText(solo.getString(R.string.delete_sound_dialog));
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(50);
@@ -168,7 +165,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	public void testRenameSoundContextMenu() {
 		String newSoundName = "TeStSoUNd1";
-		renameSound(soundName, newSoundName);
+		renameSound(FIRST_TEST_SOUND_NAME, newSoundName);
 		solo.sleep(50);
 
 		assertEquals("Sound is not renamed in SoundList", newSoundName, getSoundTitle(0));
@@ -176,10 +173,10 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testEqualSoundNames() {
-		renameSound(soundName2, soundName);
+		renameSound(SECOND_TEST_SOUND_NAME, FIRST_TEST_SOUND_NAME);
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 
-		String expectedSoundName = soundName + "1";
+		String expectedSoundName = FIRST_TEST_SOUND_NAME + "1";
 		String actualSoundName = getSoundTitle(1);
 		assertEquals("Sound not renamed correctly", expectedSoundName, actualSoundName);
 	}
@@ -298,7 +295,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
-		acceptAndCloseActionMode();
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertFalse("Rename dialog showed up", solo.waitForText(renameDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
@@ -321,14 +318,14 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		int checkboxIndex = 1;
 
 		// Rename second sound to the name of the first
-		String newSoundName = soundName;
+		String newSoundName = FIRST_TEST_SOUND_NAME;
 
 		solo.clickOnCheckBox(checkboxIndex);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
-		acceptAndCloseActionMode();
+		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		assertTrue("Rename dialog didn't show up", solo.searchText(renameDialogTitle, true));
-		assertTrue("No EditText with actual soundname", solo.searchEditText(soundName2));
+		assertTrue("No EditText with actual sound name", solo.searchEditText(SECOND_TEST_SOUND_NAME));
 
 		UiTestUtils.enterText(solo, 0, newSoundName);
 		solo.sendKey(Solo.ENTER);
@@ -343,7 +340,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
 	}
 
-	public void testBottomBarOnActionModes() {
+	public void testBottomBarAndContextMenuOnActionModes() {
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
 		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
 		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
@@ -354,9 +351,13 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
 
+		checkIfContextMenuAppears(true, false);
+
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0);
-		solo.waitForText(rename, 0, timeToWait, false, true);
+		solo.waitForText(rename, 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(false, false);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -369,14 +370,18 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(true, false);
 
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
-		solo.waitForText(delete, 0, timeToWait, false, true);
+		solo.waitForText(delete, 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(false, true);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -389,7 +394,9 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 0, timeToWait, false, true);
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(true, true);
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
@@ -444,7 +451,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
-		acceptAndCloseActionMode();
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
@@ -476,14 +483,23 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
-		acceptAndCloseActionMode();
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
+
+		assertTrue("Unselected sound '" + FIRST_TEST_SOUND_NAME + "' has been deleted!",
+				soundInfoList.contains(soundInfo));
+
+		assertFalse("Selected sound '" + SECOND_TEST_SOUND_NAME + "' was not deleted!",
+				soundInfoList.contains(soundInfo2));
+
+		assertFalse("Sound '" + SECOND_TEST_SOUND_NAME + "' has been deleted but is still showing!",
+				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
 	private void addNewSound(String title) {
-		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
 				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
@@ -497,7 +513,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	private void renameSound(String soundToRename, String newSoundName) {
 		clickOnContextMenuItem(soundToRename, solo.getString(R.string.rename));
 		assertTrue("Wrong title of dialog", solo.searchText(solo.getString(R.string.rename_sound_dialog)));
-		assertTrue("No EditText with actual soundname", solo.searchEditText(soundToRename));
+		assertTrue("No EditText with actual sound name", solo.searchEditText(soundToRename));
 
 		UiTestUtils.enterText(solo, 0, newSoundName);
 		solo.sendKey(Solo.ENTER);
@@ -511,14 +527,14 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		return (SoundAdapter) getSoundFragment().getListAdapter();
 	}
 
-	private void checkVisibilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,
+	private void checkVisibilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int SoundNameVisibility,
 			int timePlayedVisibility, int soundDurationVisibility, int soundSizeVisibility, int checkBoxVisibility) {
 		assertTrue("Play button " + getAssertMessageAffix(playButtonVisibility), solo.getView(R.id.btn_sound_play)
 				.getVisibility() == playButtonVisibility);
 		assertTrue("Pause button " + getAssertMessageAffix(pauseButtonVisibility), solo.getView(R.id.btn_sound_pause)
 				.getVisibility() == pauseButtonVisibility);
-		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility), solo.getView(R.id.sound_title)
-				.getVisibility() == soundNameVisibility);
+		assertTrue("Sound name " + getAssertMessageAffix(SoundNameVisibility), solo.getView(R.id.sound_title)
+				.getVisibility() == SoundNameVisibility);
 		assertTrue("Chronometer " + getAssertMessageAffix(timePlayedVisibility),
 				solo.getView(R.id.sound_chronometer_time_played).getVisibility() == timePlayedVisibility);
 		assertTrue("Sound duration " + getAssertMessageAffix(soundDurationVisibility), solo
@@ -558,8 +574,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	private void checkIfNumberOfSoundsIsEqual(int expectedNumber) {
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-		assertEquals("Number of sounds is not as expected", expectedNumber, soundInfoList.size());
+		assertEquals("Number of sounds is not as expected", expectedNumber, getCurrentNumberOfSounds());
 	}
 
 	private int getCurrentNumberOfSounds() {
@@ -574,14 +589,47 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
-		solo.sleep(TIME_TO_WAIT);
+		solo.sleep(300);
 		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
 		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}
 
-	private void acceptAndCloseActionMode() {
-		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+	private void checkIfContextMenuAppears(boolean contextMenuShouldAppear, boolean isDeleteActionMode) {
+		solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
+
+		int timeToWait = 200;
+		String assertMessageAffix = "";
+
+		if (contextMenuShouldAppear) {
+			assertMessageAffix = "should appear";
+
+			assertTrue("Context menu with title '" + FIRST_TEST_SOUND_NAME + "' " + assertMessageAffix,
+					solo.waitForText(FIRST_TEST_SOUND_NAME, 1, timeToWait, false, true));
+			assertTrue("Context menu item '" + delete + "' " + assertMessageAffix,
+					solo.waitForText(delete, 1, timeToWait, false, true));
+			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
+					solo.waitForText(rename, 1, timeToWait, false, true));
+
+			solo.goBack();
+		} else {
+			assertMessageAffix = "should not appear";
+
+			int minimumMatchesDelete = 1;
+			int minimumMatchesRename = 1;
+
+			if (isDeleteActionMode) {
+				minimumMatchesDelete = 2;
+			} else {
+				minimumMatchesRename = 2;
+			}
+			assertFalse("Context menu with title '" + FIRST_TEST_SOUND_NAME + "' " + assertMessageAffix,
+					solo.waitForText(FIRST_TEST_SOUND_NAME, 2, timeToWait, false, true));
+			assertFalse("Context menu item '" + delete + "' " + assertMessageAffix,
+					solo.waitForText(delete, minimumMatchesDelete, timeToWait, false, true));
+			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
+					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
+		}
 	}
 }

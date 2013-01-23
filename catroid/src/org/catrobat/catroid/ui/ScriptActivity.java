@@ -244,7 +244,9 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 
 			case R.id.rename:
-				currentFragment.startRenameActionMode();
+				if (currentFragmentPosition != FRAGMENT_SCRIPTS) {
+					currentFragment.startRenameActionMode();
+				}
 				break;
 
 			case R.id.delete:

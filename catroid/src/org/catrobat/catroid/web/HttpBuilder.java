@@ -29,44 +29,41 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class HttpBuilder {
-	private static final String NEWLINE = "\r\n";
-	private static final String PREFIX = "--";
-	private static final String BOUNDARY_PREFIX = "--------------------";
+class HttpBuilder {
 
-	private DataOutputStream outputStream = null;
-	private String boundary = null;
+	private static final String HTTP_NEWLINE = "\r\n";
+	private static final String HTTP_PREFIX = "--";
+	private static final String HTTP_BOUNDARY_PREFIX = "--------------------";
+
+	private DataOutputStream outputStream;
+	private String boundary;
 
 	public HttpBuilder(OutputStream stream, String boundary) {
 		if (stream == null) {
-			throw new IllegalArgumentException("Output stream is null"); //TODO: error message from resources
+			throw new IllegalArgumentException("Output stream is null");
 		}
-		if (boundary == null) {
-			throw new IllegalArgumentException("Boundary is null"); //TODO: error message from resources
+		if (boundary == null || boundary.length() == 0) {
+			throw new IllegalArgumentException("Boundary is null");
 		}
 		this.outputStream = new DataOutputStream(stream);
 		this.boundary = boundary;
 	}
 
 	public static String createBoundary() {
-		return BOUNDARY_PREFIX + Long.toString(System.currentTimeMillis(), 16);
+		return HTTP_BOUNDARY_PREFIX + Long.toString(System.currentTimeMillis(), 16);
 	}
 
 	public static URLConnection createConnection(URL url) throws IOException {
-		URLConnection urlConnonnection = url.openConnection();
-		if (urlConnonnection instanceof HttpURLConnection) {
-			HttpURLConnection httpConnection = (HttpURLConnection) urlConnonnection;
+		URLConnection urlConnection = url.openConnection();
+		if (urlConnection instanceof HttpURLConnection) {
+			HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
 			httpConnection.setRequestMethod("POST");
 		}
-		urlConnonnection.setDoInput(true);
-		urlConnonnection.setDoOutput(true);
-		urlConnonnection.setUseCaches(false);
-		urlConnonnection.setDefaultUseCaches(false);
-		return urlConnonnection;
-	}
-
-	public String getBoundary() {
-		return this.boundary;
+		urlConnection.setDoInput(true);
+		urlConnection.setDoOutput(true);
+		urlConnection.setUseCaches(false);
+		urlConnection.setDefaultUseCaches(false);
+		return urlConnection;
 	}
 
 	public static String getContentType(String boundary) {
@@ -75,31 +72,31 @@ public class HttpBuilder {
 
 	public void writeField(String name, String value) throws IOException {
 		if (name == null) {
-			throw new IllegalArgumentException("Name cannot be null or empty.");
+			throw new IllegalArgumentException("Name must not be null or empty.");
 		}
 		if (value == null) {
 			value = "";
 		}
 		// write boundary
-		outputStream.writeBytes(PREFIX);
+		outputStream.writeBytes(HTTP_PREFIX);
 		outputStream.writeBytes(boundary);
-		outputStream.writeBytes(NEWLINE);
+		outputStream.writeBytes(HTTP_NEWLINE);
 		// write content header
 		outputStream.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"");
-		outputStream.writeBytes(NEWLINE);
-		outputStream.writeBytes(NEWLINE);
+		outputStream.writeBytes(HTTP_NEWLINE);
+		outputStream.writeBytes(HTTP_NEWLINE);
 		// write content
 		outputStream.writeBytes(value);
-		outputStream.writeBytes(NEWLINE);
+		outputStream.writeBytes(HTTP_NEWLINE);
 		outputStream.flush();
 	}
 
 	public void close() throws IOException {
 		// write final boundary
-		outputStream.writeBytes(PREFIX);
+		outputStream.writeBytes(HTTP_PREFIX);
 		outputStream.writeBytes(boundary);
-		outputStream.writeBytes(PREFIX);
-		outputStream.writeBytes(NEWLINE);
+		outputStream.writeBytes(HTTP_PREFIX);
+		outputStream.writeBytes(HTTP_NEWLINE);
 		outputStream.flush();
 		outputStream.close();
 	}

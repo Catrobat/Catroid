@@ -117,6 +117,7 @@ public class UiTestUtils {
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
 	private static final int ACTION_BAR_SPINNER_INDEX = 0;
+	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
@@ -556,7 +557,7 @@ public class UiTestUtils {
 	 * String (and any ID) OR null and a valid ID.
 	 * 
 	 * @param solo
-	 *            Needed to use Robotium functionality
+	 *            Use Robotium functionality
 	 * @param overflowMenuItemName
 	 *            Name of the overflow menu item
 	 * @param overflowMenuItemId
@@ -569,6 +570,19 @@ public class UiTestUtils {
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
 		solo.sleep(400);
+	}
+
+	public static void acceptAndCloseActionMode(Solo solo) {
+		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+	}
+
+	/**
+	 * Due to maintainability reasons you should use this method to open an options menu.The way to open an options menu
+	 * might differ in future.
+	 */
+	public static void openOptionsMenu(Solo solo) {
+		solo.sendKey(Solo.MENU);
+		solo.sleep(200);
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
@@ -792,7 +806,7 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
+	public static void getIntoSpritesFromMainMenu(Solo solo) {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
 
@@ -802,6 +816,10 @@ public class UiTestUtils {
 		solo.clickOnButton(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
+	}
+
+	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
+		getIntoSpritesFromMainMenu(solo);
 		solo.sleep(200);
 
 		solo.clickInList(spriteIndex);
