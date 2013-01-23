@@ -108,6 +108,18 @@ public class AddBrickDialog extends DialogFragment {
 	private String selectedCategory;
 	private ScriptFragment scriptFragment;
 
+	//constants Motion
+	public static final Float X_Position_Value = (float) 100;
+	public static final Float Y_Position_Value = (float) 200;
+	public static final Float Change_X_by_Value = (float) 10;
+	public static final Float Change_Y_by_Value = (float) 10;
+	public static final Float Move_Steps_Value = (float) 10;
+	public static final Float Turn_right_Value = (float) 15;
+	public static final Float Point_in_Direction_Value = (float) 90;
+	public static final Float Glide_Seconds_Value = (float) 1;
+	public static final Float Go_Back_Value = (float) 1;
+	public static final String Point_Towards_Value = "Nothing...";
+
 	//constants Looks
 	public static final Float Set_Size_to_Value = (float) 60;
 	public static final Float Change_Size_by_Value = (float) 10;
