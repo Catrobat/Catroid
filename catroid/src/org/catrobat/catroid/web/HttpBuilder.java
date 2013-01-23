@@ -35,8 +35,8 @@ class HttpBuilder {
 	private static final String HTTP_PREFIX = "--";
 	private static final String HTTP_BOUNDARY_PREFIX = "--------------------";
 
-	private DataOutputStream outputStream = null;
-	private String boundary = null;
+	private DataOutputStream outputStream;
+	private String boundary;
 
 	public HttpBuilder(OutputStream stream, String boundary) {
 		if (stream == null) {
