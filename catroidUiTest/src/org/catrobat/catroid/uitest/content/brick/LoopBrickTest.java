@@ -90,6 +90,8 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
+		// just to get focus
+		// seems to be a bug just with the Nexus S 2.3.6
 		String spinnerScripts = solo.getString(R.string.scripts);
 		solo.clickOnText(spinnerScripts);
 		solo.clickOnText(spinnerScripts);
