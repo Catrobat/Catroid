@@ -28,6 +28,7 @@ import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.SPRITE;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +57,15 @@ public class ScriptParser {
 			if (scriptListNodes.item(j).getNodeType() != Node.TEXT_NODE) {
 				Element scriptElement = (Element) scriptListNodes.item(j);
 				foundScript = getPopulatedScript(scriptElement, foundSprite);
+
+				Method[] scriptMethods = foundScript.getClass().getDeclaredMethods();
+				for (Method method : scriptMethods) {
+					if (method.getName().equals("readResolve")) {
+						method.setAccessible(true);
+						method.invoke(foundScript);
+					}
+				}
+
 				Node brickListNode = scriptElement.getElementsByTagName(BRICK_LIST_ELEMENT_NAME).item(0);
 				if (brickListNode != null) {
 					brickParser.parseBricks(foundSprite, foundScript, scriptElement, brickListNode, referencedObjects,
