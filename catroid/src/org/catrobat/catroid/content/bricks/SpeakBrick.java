@@ -56,7 +56,6 @@ public class SpeakBrick implements Brick {
 	}
 
 	public SpeakBrick() {
-
 	}
 
 	@Override
@@ -66,7 +65,6 @@ public class SpeakBrick implements Brick {
 
 	@Override
 	public synchronized void execute() {
-
 		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
 			@Override
 			public void onUtteranceCompleted(String utteranceId) {
@@ -74,6 +72,7 @@ public class SpeakBrick implements Brick {
 				if (speakBrick == null) {
 					return;
 				}
+
 				synchronized (speakBrick) {
 					speakBrick.notifyAll();
 				}
@@ -91,7 +90,6 @@ public class SpeakBrick implements Brick {
 		try {
 			this.wait();
 		} catch (InterruptedException e) {
-			// nothing to do
 		}
 		Log.i(LOG_TAG, "speak Time: " + (System.currentTimeMillis() - time));
 		activeSpeakBricks.remove(utteranceId);
