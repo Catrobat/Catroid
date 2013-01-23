@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.NativeAppActivity;
 
 import android.content.Context;
 import android.view.View;
@@ -62,11 +61,7 @@ public class SetCostumeBrick implements Brick {
 	@Override
 	public void execute() {
 		if (costume != null && sprite != null && sprite.getCostumeDataList().contains(costume)) {
-			if (!NativeAppActivity.isRunning()) {
-				sprite.costume.setCostumeData(costume);
-			} else {
-				sprite.costume.setCostumeDataInternal(costume);
-			}
+			sprite.costume.setCostumeData(costume);
 		}
 	}
 

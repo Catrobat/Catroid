@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,11 +19,35 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+ */
+package org.catrobat.catroid.test.xml;
 
-    <item
-        android:id="@+id/nativeappMenuAbout"
-        android:title="@string/main_menu_about_catroid"/>
+import java.io.IOException;
+import java.io.InputStream;
 
-</menu>
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.xml.parser.FullParser;
+import org.catrobat.catroid.xml.parser.ParseException;
+
+import android.content.Context;
+
+class XmlTestUtils {
+
+	public static Project loadProjectFromAssets(String xmlFile, Context context) throws ParseException {
+
+		Project parsedProject = null;
+		try {
+			InputStream inputStreamForSprites = context.getAssets().open(xmlFile);
+			parsedProject = FullParser.parseSpritesWithProject(inputStreamForSprites);
+			inputStreamForSprites.close();
+			inputStreamForSprites = null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new ParseException("IO exception in full parser", e);
+		}
+		return parsedProject;
+	}
+}
