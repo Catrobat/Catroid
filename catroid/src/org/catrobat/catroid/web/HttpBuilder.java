@@ -31,9 +31,9 @@ import java.net.URLConnection;
 
 class HttpBuilder {
 
-	public static final String HTTP_NEWLINE = "\r\n";
-	public static final String HTTP_PREFIX = "--";
-	public static final String HTTP_BOUNDARY_PREFIX = "--------------------";
+	private static final String HTTP_NEWLINE = "\r\n";
+	private static final String HTTP_PREFIX = "--";
+	private static final String HTTP_BOUNDARY_PREFIX = "--------------------";
 
 	private DataOutputStream outputStream = null;
 	private String boundary = null;
@@ -64,10 +64,6 @@ class HttpBuilder {
 		urlConnection.setUseCaches(false);
 		urlConnection.setDefaultUseCaches(false);
 		return urlConnection;
-	}
-
-	public String getBoundary() {
-		return this.boundary;
 	}
 
 	public static String getContentType(String boundary) {
