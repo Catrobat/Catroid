@@ -125,7 +125,6 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View.inflate(context, R.layout.brick_point_in_direction, null);
 	}
 
 	@Override

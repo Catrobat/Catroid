@@ -203,7 +203,5 @@ public class PointToBrick implements Brick {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View.inflate(context, R.layout.brick_point_to, null);
-
 	}
 }

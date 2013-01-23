@@ -108,8 +108,8 @@ public class ChangeYByNBrick implements Brick, OnClickListener {
 	@Override
 	public void setDefaultValues(Context context) {
 		View prototype = View.inflate(context, R.layout.brick_change_y, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.brick_change_y_prototype_text_view);
-		textX.setText(yMovement + "");
+		TextView textYMovement = (TextView) prototype.findViewById(R.id.brick_change_y_prototype_text_view);
+		textYMovement.setText(yMovement + "");
 	}
 
 	@Override

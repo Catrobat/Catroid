@@ -277,13 +277,13 @@ public class AddBrickDialog extends DialogFragment {
 		turnRightBrick.setDefaultValues(context);
 		motionBrickList.add(turnRightBrick);
 
-		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
-		pointInDirectionBrick.setDefaultValues(context);
-		motionBrickList.add(pointInDirectionBrick);
+		//PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
+		//pointInDirectionBrick.setDefaultValues(context);
+		motionBrickList.add(new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT));
 
-		PointToBrick pointToBrick = new PointToBrick(sprite, null);
-		pointToBrick.setDefaultValues(context);
-		motionBrickList.add(pointToBrick);
+		//PointToBrick pointToBrick = new PointToBrick(sprite, null);
+		//pointToBrick.setDefaultValues(context);
+		motionBrickList.add(new PointToBrick(sprite, null));
 
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, 800, 0, 1000);
 		glideToBrick.setDefaultValues(context);
@@ -293,9 +293,9 @@ public class AddBrickDialog extends DialogFragment {
 			GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, 1);
 			goNStepsBackBrick.setDefaultValues(context);
 			motionBrickList.add(goNStepsBackBrick);
-
-			motionBrickList.add(new ComeToFrontBrick(sprite));
 		}
+		motionBrickList.add(new ComeToFrontBrick(sprite));
+
 		brickMap.put(context.getString(R.string.category_motion), motionBrickList);
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();

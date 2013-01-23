@@ -100,8 +100,8 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 	@Override
 	public void setDefaultValues(Context context) {
 		View prototype = View.inflate(context, R.layout.brick_go_back, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.brick_go_back_prototype_text_view);
-		textX.setText(steps + "");
+		TextView textSteps = (TextView) prototype.findViewById(R.id.brick_go_back_prototype_text_view);
+		textSteps.setText(steps + "");
 	}
 
 	@Override
