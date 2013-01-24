@@ -42,6 +42,7 @@ public class SetYBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public SetYBrick(Sprite sprite, int yPosition) {
 		this.sprite = sprite;
@@ -87,7 +88,7 @@ public class SetYBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_set_y, null);
+		return prototype;
 	}
 
 	@Override
@@ -97,7 +98,7 @@ public class SetYBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View prototype = View.inflate(context, R.layout.brick_set_y, null);
+		prototype = View.inflate(context, R.layout.brick_set_y, null);
 		TextView textYPosition = (TextView) prototype.findViewById(R.id.brick_set_y_prototype_text_view);
 		textYPosition.setText(yPosition + "");
 	}

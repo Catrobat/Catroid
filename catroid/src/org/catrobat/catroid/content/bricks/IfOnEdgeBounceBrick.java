@@ -36,6 +36,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;

@@ -37,6 +37,7 @@ public class ComeToFrontBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public ComeToFrontBrick(Sprite sprite) {
 		this.sprite = sprite;

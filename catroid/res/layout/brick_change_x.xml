@@ -31,8 +31,7 @@
 
     <TextView
         android:id="@+id/brick_change_x_prototype_text_view"
-        style="@style/BrickPrototypeTextView" 
-        android:text="@string/testvalue">
+        style="@style/BrickPrototypeTextView">
     </TextView>
 
     <EditText

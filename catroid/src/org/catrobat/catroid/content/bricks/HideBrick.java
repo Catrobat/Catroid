@@ -34,6 +34,7 @@ public class HideBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;

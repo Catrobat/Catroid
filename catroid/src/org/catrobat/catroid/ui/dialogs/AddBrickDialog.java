@@ -285,18 +285,53 @@ public class AddBrickDialog extends DialogFragment {
 		//pointToBrick.setDefaultValues(context);
 		motionBrickList.add(new PointToBrick(sprite, null));
 
-		GlideToBrick glideToBrick = new GlideToBrick(sprite, 800, 0, 1000);
-		glideToBrick.setDefaultValues(context);
-		motionBrickList.add(glideToBrick);
+		//GlideToBrick glideToBrick = new GlideToBrick(sprite, 800, 0, 1000);
+		//glideToBrick.setDefaultValues(context);
+		//motionBrickList.add(glideToBrick);
+		motionBrickList.add(new GlideToBrick(sprite, 800, 0, 1000));
 
 		if (!isBackground(sprite)) {
-			GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, 1);
-			goNStepsBackBrick.setDefaultValues(context);
-			motionBrickList.add(goNStepsBackBrick);
+			motionBrickList.add(new GoNStepsBackBrick(sprite, 1));
+			motionBrickList.add(new ComeToFrontBrick(sprite));
 		}
-		motionBrickList.add(new ComeToFrontBrick(sprite));
 
 		brickMap.put(context.getString(R.string.category_motion), motionBrickList);
+
+		/*
+		 * List<Brick> motionBrickList = new ArrayList<Brick>();
+		 * motionBrickList.add(new PlaceAtBrick(sprite, 0, 0));
+		 * motionBrickList.add(new SetXBrick(sprite, 0));
+		 * motionBrickList.add(new SetYBrick(sprite, 0));
+		 * motionBrickList.add(new ChangeXByNBrick(sprite, 100));
+		 * motionBrickList.add(new ChangeYByNBrick(sprite, 100));
+		 * motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
+		 * motionBrickList.add(new MoveNStepsBrick(sprite, 10));
+		 * motionBrickList.add(new TurnLeftBrick(sprite, 15));
+		 * motionBrickList.add(new TurnRightBrick(sprite, 15));
+		 * motionBrickList.add(new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT));
+		 * motionBrickList.add(new PointToBrick(sprite, null));
+		 * motionBrickList.add(new GlideToBrick(sprite, 800, 0, 1000));
+		 * if (!isBackground(sprite)) {
+		 * motionBrickList.add(new GoNStepsBackBrick(sprite, 1));
+		 * motionBrickList.add(new ComeToFrontBrick(sprite));
+		 * }
+		 * brickMap.put(context.getString(R.string.category_motion), motionBrickList);
+		 * 
+		 * List<Brick> looksBrickList = new ArrayList<Brick>();
+		 * looksBrickList.add(new SetCostumeBrick(sprite));
+		 * looksBrickList.add(new NextCostumeBrick(sprite));
+		 * looksBrickList.add(new SetSizeToBrick(sprite, 100));
+		 * looksBrickList.add(new ChangeSizeByNBrick(sprite, 20));
+		 * looksBrickList.add(new HideBrick(sprite));
+		 * looksBrickList.add(new ShowBrick(sprite));
+		 * looksBrickList.add(new SetGhostEffectBrick(sprite, 0));
+		 * looksBrickList.add(new ChangeGhostEffectByNBrick(sprite, 25));
+		 * looksBrickList.add(new SetBrightnessBrick(sprite, 0));
+		 * looksBrickList.add(new ChangeBrightnessByNBrick(sprite, 25));
+		 * looksBrickList.add(new ClearGraphicEffectBrick(sprite));
+		 * 
+		 * brickMap.put(context.getString(R.string.category_looks), looksBrickList);
+		 */
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();
 

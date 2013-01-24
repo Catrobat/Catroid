@@ -44,6 +44,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public GlideToBrick() {
 
@@ -170,7 +171,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_glide_to, null);
+		return prototype;
 	}
 
 	@Override
@@ -180,7 +181,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View prototype = View.inflate(context, R.layout.brick_glide_to, null);
+
+		prototype = View.inflate(context, R.layout.brick_glide_to, null);
 		TextView textDurationInMilliSeconds = (TextView) prototype
 				.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		textDurationInMilliSeconds.setText((durationInMilliSeconds / 1000.0) + "");
@@ -188,6 +190,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 		textXDestination.setText(xDestination + "");
 		TextView textYDestination = (TextView) prototype.findViewById(R.id.brick_place_at_prototype_text_view_y);
 		textYDestination.setText(yDestination + "");
+
 	}
 
 	@Override
