@@ -53,76 +53,65 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	}
 
 	public void testNullText() {
-		assertEquals("TextToSpeech has already been called", null, textToSpeechMock.text);
+		assertEquals("Initialized TextToSpeechMock with wrong text value", null, textToSpeechMock.text);
 		PreStageActivity.textToSpeech(null, null, null);
-		assertEquals("Called TextToSpeech with wrong text", "", textToSpeechMock.text);
+		assertEquals("Null-text isn't converted into empty string", "", textToSpeechMock.text);
 	}
 
 	public void testTextToSpeechParameter() throws InterruptedException {
-		String text = "A";
-		SpeakBrick speakBrick = new SpeakBrick(null, text);
-		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
+		SpeakBrick speakBrick = new SpeakBrick(null, "A");
 
-		Timeout timeout = new Timeout(speakBrick);
-		Thread timeoutThread = new Thread(timeout);
-		assertFalse("SpeakBrick already executed", timeout.isFinished());
+		NonBlockingSpeakBrickExecutionThread speakBrickThread = new NonBlockingSpeakBrickExecutionThread(speakBrick);
+		assertFalse("SpeakBrick already executed", speakBrickThread.isFinished());
 
-		timeoutThread.start();
-		timeoutThread.join(2000);
+		speakBrickThread.start();
+		speakBrickThread.join(2000);
 
 		String utteranceId = String.valueOf(speakBrick.hashCode());
+		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
 		assertEquals("TextToSpeech executed with wrong utterance id", utteranceId,
 				String.valueOf(textToSpeechMock.mockListener.utteranceId));
 
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
-		assertTrue("TextToSpeech executed with wrong parameter", speakParameter.equals(textToSpeechMock.params));
+		assertEquals("TextToSpeech executed with wrong parameter", speakParameter, textToSpeechMock.parameters);
 	}
 
 	public void testNormalBehavior() throws InterruptedException {
-		String text = "Hello";
+		String text = "Hello world!";
 		SpeakBrick speakBrick = new SpeakBrick(null, text);
 
-		Timeout timeout = new Timeout(speakBrick);
-		Thread timeoutThread = new Thread(timeout);
-		timeoutThread.start();
-		timeoutThread.join(2000);
+		NonBlockingSpeakBrickExecutionThread speakBrickThread = new NonBlockingSpeakBrickExecutionThread(speakBrick);
+		speakBrickThread.start();
+		speakBrickThread.join(2000);
 
-		assertTrue("SpeakBrick not finished yet", timeout.isFinished());
+		String utteranceId = String.valueOf(speakBrick.hashCode());
+		assertTrue("SpeakBrick not finished yet", speakBrickThread.isFinished());
 		assertEquals("TextToSpeech executed with wrong text", text, textToSpeechMock.text);
-
-		text = "World";
-		speakBrick = new SpeakBrick(null, text);
-
-		timeout = new Timeout(speakBrick);
-		timeoutThread = new Thread(timeout);
-		timeoutThread.start();
-		timeoutThread.join(2000);
-
-		assertTrue("SpeakBrick not finished yet", timeout.isFinished());
-		assertEquals("TextToSpeech executed with wrong text", text, textToSpeechMock.text);
+		assertEquals("TextToSpeech complete listener was called with wrong utteranceId", utteranceId,
+				textToSpeechMock.mockListener.utteranceId);
 	}
 
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
-		SpeakBrick longTextSpeakBrick = new SpeakBrick(null, "A very long text will be interrupted.");
-		Timeout longTextTimeout = new Timeout(longTextSpeakBrick);
-		Thread longTextTimeoutThread = new Thread(longTextTimeout);
+		SpeakBrick longTextSpeakBrick = new SpeakBrick(null, "This very long text will be interrupted.");
+		NonBlockingSpeakBrickExecutionThread longTextSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+				longTextSpeakBrick);
 
 		SpeakBrick shortTextSpeakBrick = new SpeakBrick(null, "Interrupt!");
-		Timeout shortTextTimeout = new Timeout(shortTextSpeakBrick);
-		Thread shortTextTimeoutThread = new Thread(shortTextTimeout);
+		NonBlockingSpeakBrickExecutionThread shortTextSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+				shortTextSpeakBrick);
 
-		longTextTimeoutThread.start();
+		longTextSpeakBrickThread.start();
 		solo.sleep(100);
 
-		assertFalse("SpeakBrick with long text already executed", longTextTimeout.isFinished());
-		assertFalse("SpeakBrick with short text already executed", shortTextTimeout.isFinished());
+		assertFalse("SpeakBrick with long text already executed", longTextSpeakBrickThread.isFinished());
+		assertFalse("SpeakBrick with short text already executed", shortTextSpeakBrickThread.isFinished());
 
-		shortTextTimeoutThread.start();
-		shortTextTimeoutThread.join(5000);
+		shortTextSpeakBrickThread.start();
+		shortTextSpeakBrickThread.join(5000);
 
-		assertTrue("SpeakBrick with long text not finished yet", longTextTimeout.isFinished());
-		assertTrue("SpeakBrick with short text not finished yet", shortTextTimeout.isFinished());
+		assertTrue("SpeakBrick with long text not finished yet", longTextSpeakBrickThread.isFinished());
+		assertTrue("SpeakBrick with short text not finished yet", shortTextSpeakBrickThread.isFinished());
 	}
 
 	private void createProject() {
@@ -146,11 +135,11 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		StorageHandler.getInstance().saveProject(project);
 	}
 
-	private class Timeout implements Runnable {
+	private class NonBlockingSpeakBrickExecutionThread extends Thread {
 		private final Brick speakBrick;
 		private boolean finished = false;
 
-		public Timeout(Brick speakBrick) {
+		public NonBlockingSpeakBrickExecutionThread(Brick speakBrick) {
 			this.speakBrick = speakBrick;
 		}
 
@@ -158,6 +147,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			return finished;
 		}
 
+		@Override
 		public void run() {
 			speakBrick.execute();
 			finished = true;
@@ -169,8 +159,8 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		protected OnUtteranceCompletedListenerMock mockListener;
 
 		protected String text;
-		protected int queueMode;
-		protected HashMap<String, String> params;
+		protected int queueMode = -1;
+		protected HashMap<String, String> parameters;
 
 		public TextToSpeechMock(Context context, TextToSpeech textToSpeech, final SpeakStageTest speakStageTest) {
 			super(context, new OnInitListener() {
@@ -192,12 +182,12 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		}
 
 		@Override
-		public int speak(String text, int queueMode, HashMap<String, String> params) {
+		public int speak(String text, int queueMode, HashMap<String, String> parameters) {
 			this.text = text;
 			this.queueMode = queueMode;
-			this.params = params;
+			this.parameters = parameters;
 
-			return textToSpeech.speak(text, queueMode, params);
+			return textToSpeech.speak(text, queueMode, parameters);
 		}
 	}
 
