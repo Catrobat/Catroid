@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -109,29 +110,6 @@ public class AddBrickDialog extends DialogFragment {
 	private ScriptFragment scriptFragment;
 
 	//constants Motion
-	public static final Float X_Position_Value = (float) 100;
-	public static final Float Y_Position_Value = (float) 200;
-	public static final Float Change_X_by_Value = (float) 10;
-	public static final Float Change_Y_by_Value = (float) 10;
-	public static final Float Move_Steps_Value = (float) 10;
-	public static final Float Turn_right_Value = (float) 15;
-	public static final Float Point_in_Direction_Value = (float) 90;
-	public static final Float Glide_Seconds_Value = (float) 1;
-	public static final Float Go_Back_Value = (float) 1;
-	public static final String Point_Towards_Value = "Nothing...";
-
-	//constants Looks
-	public static final Float Set_Size_to_Value = (float) 60;
-	public static final Float Change_Size_by_Value = (float) 10;
-	public static final Float Set_Ghost_Effect_Value = (float) 50;
-	public static final Float Change_Ghost_Effect_by_Value = (float) 25;
-	public static final Float Set_Brightness_to_Value = (float) 50;
-	public static final Float Change_Brightness_by_Value = (float) 25;
-
-	//constants Sounds
-	public static final Float Set_Volumen_to_Value = (float) 60;
-	public static final Float Change_Volume_by_Value = (float) -10;
-	public static final String Speak_Value = "Hello!";
 
 	public static AddBrickDialog newInstance(String selectedCategory, ScriptFragment scriptFragment) {
 		AddBrickDialog dialog = new AddBrickDialog();
@@ -243,37 +221,37 @@ public class AddBrickDialog extends DialogFragment {
 	private static HashMap<String, List<Brick>> setupBrickMap(Sprite sprite, Context context) {
 		HashMap<String, List<Brick>> brickMap = new HashMap<String, List<Brick>>();
 		List<Brick> motionBrickList = new ArrayList<Brick>();
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION);
 		placeAtBrick.setDefaultValues(context);
 		motionBrickList.add(placeAtBrick);
 
-		SetXBrick setXBrick = new SetXBrick(sprite, 0);
+		SetXBrick setXBrick = new SetXBrick(sprite, BrickValues.X_POSITION);
 		setXBrick.setDefaultValues(context);
 		motionBrickList.add(setXBrick);
 
-		SetYBrick setYBrick = new SetYBrick(sprite, 0);
+		SetYBrick setYBrick = new SetYBrick(sprite, BrickValues.Y_POSITION);
 		setYBrick.setDefaultValues(context);
 		motionBrickList.add(setYBrick);
 
-		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, 100);
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, BrickValues.CHANGE_X_BY);
 		changeXByNBrick.setDefaultValues(context);
 		motionBrickList.add(changeXByNBrick);
 
-		ChangeYByNBrick changeYByNBrick = new ChangeYByNBrick(sprite, 100);
+		ChangeYByNBrick changeYByNBrick = new ChangeYByNBrick(sprite, BrickValues.CHANGE_Y_BY);
 		changeYByNBrick.setDefaultValues(context);
 		motionBrickList.add(changeYByNBrick);
 
 		motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
 
-		MoveNStepsBrick moveNStepsBrick = new MoveNStepsBrick(sprite, 10);
+		MoveNStepsBrick moveNStepsBrick = new MoveNStepsBrick(sprite, BrickValues.Move_Steps_Value);
 		moveNStepsBrick.setDefaultValues(context);
 		motionBrickList.add(moveNStepsBrick);
 
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 15);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, BrickValues.TURN_REIGTH);
 		turnLeftBrick.setDefaultValues(context);
 		motionBrickList.add(turnLeftBrick);
 
-		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, 15);
+		TurnRightBrick turnRightBrick = new TurnRightBrick(sprite, BrickValues.TURN_REIGTH);
 		turnRightBrick.setDefaultValues(context);
 		motionBrickList.add(turnRightBrick);
 
@@ -288,10 +266,13 @@ public class AddBrickDialog extends DialogFragment {
 		//GlideToBrick glideToBrick = new GlideToBrick(sprite, 800, 0, 1000);
 		//glideToBrick.setDefaultValues(context);
 		//motionBrickList.add(glideToBrick);
-		motionBrickList.add(new GlideToBrick(sprite, 800, 0, 1000));
+		motionBrickList.add(new GlideToBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION,
+				BrickValues.SECONDS));
 
 		if (!isBackground(sprite)) {
-			motionBrickList.add(new GoNStepsBackBrick(sprite, 1));
+			GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, BrickValues.GO_BACK);
+			goNStepsBackBrick.setDefaultValues(context);
+			motionBrickList.add(turnRightBrick);
 			motionBrickList.add(new ComeToFrontBrick(sprite));
 		}
 
@@ -339,32 +320,32 @@ public class AddBrickDialog extends DialogFragment {
 
 		looksBrickList.add(new NextCostumeBrick(sprite));
 
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, Set_Size_to_Value);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, BrickValues.SET_SIZE_TO);
 		setSizeToBrick.setDefaultValues(context);
 		looksBrickList.add(setSizeToBrick);
 
-		ChangeSizeByNBrick changeSizeByNBrick = new ChangeSizeByNBrick(sprite, Change_Size_by_Value);
+		ChangeSizeByNBrick changeSizeByNBrick = new ChangeSizeByNBrick(sprite, BrickValues.CHANGE_SIZE_BY);
 		changeSizeByNBrick.setDefaultValues(context);
 		looksBrickList.add(changeSizeByNBrick);
 
 		looksBrickList.add(new HideBrick(sprite));
 		looksBrickList.add(new ShowBrick(sprite));
 
-		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(sprite, Set_Ghost_Effect_Value);
+		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(sprite, BrickValues.SET_GHOST_EFFECT);
 		setGhostEffectBrick.setDefaultValues(context);
 		looksBrickList.add(setGhostEffectBrick);
 
 		ChangeGhostEffectByNBrick changeGhostEffectByNBrick = new ChangeGhostEffectByNBrick(sprite,
-				Change_Ghost_Effect_by_Value);
+				BrickValues.CHANGE_GHOST_EFFECT);
 		changeGhostEffectByNBrick.setDefaultValues(context);
 		looksBrickList.add(changeGhostEffectByNBrick);
 
-		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, Set_Brightness_to_Value);
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, BrickValues.SET_BRIGHTNESS_TO);
 		setBrightnessBrick.setDefaultValues(context);
 		looksBrickList.add(setBrightnessBrick);
 
 		ChangeBrightnessByNBrick changeBrightnessByNBrick = new ChangeBrightnessByNBrick(sprite,
-				Change_Brightness_by_Value);
+				BrickValues.CHANGE_BRITHNESS_BY);
 		changeBrightnessByNBrick.setDefaultValues(context);
 		looksBrickList.add(changeBrightnessByNBrick);
 
@@ -376,15 +357,15 @@ public class AddBrickDialog extends DialogFragment {
 		soundBrickList.add(new PlaySoundBrick(sprite));
 		soundBrickList.add(new StopAllSoundsBrick(sprite));
 
-		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, Set_Volumen_to_Value);
+		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, BrickValues.SET_VOLUMEN_TO);
 		setVolumeToBrick.setDefaultValues(context);
 		soundBrickList.add(setVolumeToBrick);
 
-		ChangeVolumeByNBrick changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, Change_Volume_by_Value);
+		ChangeVolumeByNBrick changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, BrickValues.CHANGE_VOLUMEN_BY);
 		changeVolumeByNBrick.setDefaultValues(context);
 		soundBrickList.add(changeVolumeByNBrick);
 
-		SpeakBrick speakBrick = new SpeakBrick(sprite, Speak_Value);
+		SpeakBrick speakBrick = new SpeakBrick(sprite, BrickValues.SPEAK);
 		speakBrick.setDefaultValues(context);
 		soundBrickList.add(speakBrick);
 
@@ -399,7 +380,7 @@ public class AddBrickDialog extends DialogFragment {
 		whenBrick.setDefaultValues(context);
 		controlBrickList.add(whenBrick);
 
-		WaitBrick waitBrick = new WaitBrick(sprite, 1000);
+		WaitBrick waitBrick = new WaitBrick(sprite, BrickValues.WAIT);
 		waitBrick.setDefaultValues(context);
 		controlBrickList.add(waitBrick);
 
@@ -409,10 +390,14 @@ public class AddBrickDialog extends DialogFragment {
 
 		controlBrickList.add(new BroadcastBrick(sprite));
 		controlBrickList.add(new BroadcastWaitBrick(sprite));
-		controlBrickList.add(new NoteBrick(sprite));
+
+		NoteBrick noteBrick = new NoteBrick(sprite, BrickValues.NOTE);
+		noteBrick.setDefaultValues(context);
+		controlBrickList.add(noteBrick);
+
 		controlBrickList.add(new ForeverBrick(sprite));
 
-		RepeatBrick repeatBrick = new RepeatBrick(sprite, 3);
+		RepeatBrick repeatBrick = new RepeatBrick(sprite, BrickValues.REPEAT);
 		repeatBrick.setDefaultValues(context);
 		controlBrickList.add(repeatBrick);
 
@@ -420,7 +405,7 @@ public class AddBrickDialog extends DialogFragment {
 
 		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
 		LegoNxtMotorTurnAngleBrick legoNxtMotorTurnAngleBrick = new LegoNxtMotorTurnAngleBrick(sprite,
-				LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 180);
+				LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, BrickValues.ANGLE);
 		legoNxtMotorTurnAngleBrick.setDefaultValues(context);
 		legoNXTBrickList.add(legoNxtMotorTurnAngleBrick);
 
@@ -430,11 +415,12 @@ public class AddBrickDialog extends DialogFragment {
 		legoNXTBrickList.add(legoNxtMotorStopBrick);
 
 		LegoNxtMotorActionBrick legoNxtMotorActionBrick = new LegoNxtMotorActionBrick(sprite,
-				LegoNxtMotorActionBrick.Motor.MOTOR_A, 100);
+				LegoNxtMotorActionBrick.Motor.MOTOR_A, BrickValues.SPEED);
 		legoNxtMotorActionBrick.setDefaultValues(context);
 		legoNXTBrickList.add(legoNxtMotorActionBrick);
 
-		LegoNxtPlayToneBrick legoNxtPlayToneBrick = new LegoNxtPlayToneBrick(sprite, 200, 1000);
+		LegoNxtPlayToneBrick legoNxtPlayToneBrick = new LegoNxtPlayToneBrick(sprite, BrickValues.SECONDS,
+				BrickValues.FREQUENCY);
 		legoNxtPlayToneBrick.setDefaultValues(context);
 		legoNXTBrickList.add(legoNxtPlayToneBrick);
 

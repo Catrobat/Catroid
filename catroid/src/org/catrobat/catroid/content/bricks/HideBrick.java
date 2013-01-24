@@ -75,10 +75,11 @@ public class HideBrick implements Brick {
 
 	@Override
 	public void setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_hide, null);
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_hide, null);
+		return prototype;
 	}
 }

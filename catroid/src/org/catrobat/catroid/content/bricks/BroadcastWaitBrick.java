@@ -40,6 +40,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class BroadcastWaitBrick implements Brick {
 
@@ -49,6 +50,7 @@ public class BroadcastWaitBrick implements Brick {
 	private String broadcastMessage = "";
 
 	private transient View view;
+	private transient View prototype;
 
 	public BroadcastWaitBrick() {
 
@@ -191,6 +193,9 @@ public class BroadcastWaitBrick implements Brick {
 
 	@Override
 	public void setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_broadcast_wait, null);
+		TextView textXMovement = (TextView) prototype.findViewById(R.id.brick_broadcast_wait_spinner);
+		textXMovement.setText(broadcastMessage + "");
 
 	}
 }

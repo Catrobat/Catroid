@@ -40,9 +40,10 @@ import android.widget.TextView;
 public class NoteBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private String note = "";
+	private String note;
 
 	private transient View view;
+	private transient View prototype;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -138,7 +139,7 @@ public class NoteBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_note, null);
+		return prototype;
 	}
 
 	@Override
@@ -148,5 +149,8 @@ public class NoteBrick implements Brick {
 
 	@Override
 	public void setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_note, null);
+		TextView textSpeak = (TextView) prototype.findViewById(R.id.brick_note_prototype_text_view);
+		textSpeak.setText(note + "");
 	}
 }

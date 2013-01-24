@@ -42,6 +42,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	private double size;
 
 	private transient View view;
+	private transient View prototype;
 
 	public ChangeSizeByNBrick() {
 
@@ -100,9 +101,9 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View prototype = View.inflate(context, R.layout.brick_change_size_by_n, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.brick_change_size_by_prototype_text_view);
-		textX.setText(size + "");
+		prototype = View.inflate(context, R.layout.brick_change_size_by_n, null);
+		TextView textChangeSizeBy = (TextView) prototype.findViewById(R.id.brick_change_size_by_prototype_text_view);
+		textChangeSizeBy.setText(size + "");
 	}
 
 	@Override

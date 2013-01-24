@@ -49,6 +49,7 @@ public class SpeakBrick implements Brick {
 	private String text = "";
 
 	private transient View view;
+	private transient View prototype;
 
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
@@ -145,7 +146,7 @@ public class SpeakBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_speak, null);
+		return prototype;
 	}
 
 	@Override
@@ -155,9 +156,9 @@ public class SpeakBrick implements Brick {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View prototype = View.inflate(context, R.layout.brick_speak, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.brick_speak_prototype_text_view);
-		textX.setText(text + "");
+		prototype = View.inflate(context, R.layout.brick_speak, null);
+		TextView textSpeak = (TextView) prototype.findViewById(R.id.brick_speak_prototype_text_view);
+		textSpeak.setText(text + "");
 	}
 
 }

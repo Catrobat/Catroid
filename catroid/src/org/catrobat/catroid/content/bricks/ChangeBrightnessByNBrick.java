@@ -42,6 +42,7 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public ChangeBrightnessByNBrick() {
 
@@ -90,19 +91,20 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_brightness, null);
-	}
-
-	@Override
-	public void setDefaultValues(Context context) {
-		View prototype = View.inflate(context, R.layout.brick_change_brightness, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.brick_change_brightness_prototype_text_view);
-		textX.setText(changeBrightness + "");
+		return prototype;
 	}
 
 	@Override
 	public Brick clone() {
 		return new ChangeBrightnessByNBrick(getSprite(), getChangeBrightness());
+	}
+
+	@Override
+	public void setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_change_brightness, null);
+		TextView textChangeBrightness = (TextView) prototype
+				.findViewById(R.id.brick_change_brightness_prototype_text_view);
+		textChangeBrightness.setText(changeBrightness + "");
 	}
 
 	@Override

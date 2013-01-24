@@ -42,6 +42,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	private Sprite sprite;
 	private float volume;
+	private transient View prototype;
 
 	public SetVolumeToBrick(Sprite sprite, float volume) {
 		this.sprite = sprite;
@@ -96,10 +97,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-
-		//volume = AddBrickDialog.TEST_VALUE;
-
-		return View.inflate(context, R.layout.brick_set_volume_to, null);
+		return prototype;
 	}
 
 	@Override
@@ -109,9 +107,9 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View prototype = View.inflate(context, R.layout.brick_set_volume_to, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.brick_set_volume_to_prototype_text_view);
-		textX.setText(volume + "");
+		prototype = View.inflate(context, R.layout.brick_set_volume_to, null);
+		TextView textSetVolumenTo = (TextView) prototype.findViewById(R.id.brick_set_volume_to_prototype_text_view);
+		textSetVolumenTo.setText(volume + "");
 	}
 
 	@Override

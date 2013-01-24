@@ -42,6 +42,7 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public ChangeGhostEffectByNBrick() {
 
@@ -89,7 +90,7 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		return prototype;
 	}
 
 	@Override
@@ -99,9 +100,10 @@ public class ChangeGhostEffectByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View prototype = View.inflate(context, R.layout.brick_change_ghost_effect, null);
-		TextView textX = (TextView) prototype.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		textX.setText(changeGhostEffect + "");
+		prototype = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+		TextView textChangeGhostEffect = (TextView) prototype
+				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
+		textChangeGhostEffect.setText(changeGhostEffect + "");
 	}
 
 	@Override

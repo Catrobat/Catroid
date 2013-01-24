@@ -83,7 +83,7 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		View.inflate(context, R.layout.brick_started, null);
+		View.inflate(context, R.layout.brick_when_started, null);
 
 	}
 
