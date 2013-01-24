@@ -813,9 +813,9 @@ public class UiTestUtils {
 			Activity activity = solo.getCurrentActivity();
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-			ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokeMethod(
+			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) UiTestUtils.invokeMethod(
 					SherlockFragmentActivity.class, activity, "getSherlock", null, null);
-			absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 		} else {
 			solo.clickOnActionBarHomeButton();
 		}

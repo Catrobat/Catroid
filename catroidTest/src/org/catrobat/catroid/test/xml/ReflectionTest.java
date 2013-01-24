@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
 import org.catrobat.catroid.xml.parser.ParseException;
 
@@ -54,11 +54,11 @@ public class ReflectionTest extends InstrumentationTestCase {
 			fail("Excption when parsing");
 		}
 
-		int androidVersionResult = (Integer) TestUtils.getPrivateField(createdProject, "platformVersion");
-		float catrobatLanguageVersionResult = (Float) TestUtils.getPrivateField(createdProject,
+		int androidVersionResult = (Integer) Reflection.getPrivateField(createdProject, "platformVersion");
+		float catrobatLanguageVersionResult = (Float) Reflection.getPrivateField(createdProject,
 				"catrobatLanguageVersion");
-		String catroidVersionNameResult = (String) TestUtils.getPrivateField(createdProject, "applicationVersion");
-		String deviceNameResult = (String) TestUtils.getPrivateField(createdProject, "deviceName");
+		String catroidVersionNameResult = (String) Reflection.getPrivateField(createdProject, "applicationVersion");
+		String deviceNameResult = (String) Reflection.getPrivateField(createdProject, "deviceName");
 
 		assertEquals("the Android version is wrong", 10, androidVersionResult);
 		assertEquals("catrobatlanguageversion wrong", 0.3f, catrobatLanguageVersionResult);

@@ -24,7 +24,7 @@ package org.catrobat.catroid.test.content.project;
 
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -36,7 +36,7 @@ public class ProjectTest extends AndroidTestCase {
 		Project project = new Project(getContext(), "testProject");
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("org.catrobat.catroid", 0);
 		assertEquals("Incorrect version name", packageInfo.versionName,
-				(String) TestUtils.getPrivateField(project, "applicationVersion"));
+				(String) Reflection.getPrivateField(project, "applicationVersion"));
 	}
 
 	public void testAddRemoveSprite() {

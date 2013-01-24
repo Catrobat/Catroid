@@ -50,6 +50,7 @@ import org.catrobat.catroid.content.bricks.SetCostumeBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -158,12 +159,12 @@ public class SerializerTest extends InstrumentationTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		int actualXPosition = (Integer) TestUtils.getPrivateField(
+		int actualXPosition = (Integer) Reflection.getPrivateField(
 				(postSpriteList.get(1).getScript(0).getBrickList().get(0)), "xPosition");
-		int actualYPosition = (Integer) TestUtils.getPrivateField(
+		int actualYPosition = (Integer) Reflection.getPrivateField(
 				(postSpriteList.get(1).getScript(0).getBrickList().get(0)), "yPosition");
 
-		double actualSize = (Double) TestUtils.getPrivateField(
+		double actualSize = (Double) Reflection.getPrivateField(
 				(postSpriteList.get(0).getScript(0).getBrickList().get(2)), "size");
 
 		assertEquals("Size was not deserialized right", size, actualSize);
@@ -295,24 +296,24 @@ public class SerializerTest extends InstrumentationTestCase {
 		CostumeData loadedCostume = loadedFirstSprite.getCostumeDataList().get(0);
 		assertNotNull("Costume not in sprite costumeList", loadedCostume);
 		SetCostumeBrick loadedCostumeBrick = (SetCostumeBrick) loadedFirstSprite.getScript(0).getBrick(1);
-		CostumeData brickReferencedCostumeData = (CostumeData) TestUtils.getPrivateField(loadedCostumeBrick,
+		CostumeData brickReferencedCostumeData = (CostumeData) Reflection.getPrivateField(loadedCostumeBrick,
 				CatroidXMLConstants.COSTUME_DATA_FIELD_NAME);
 		assertEquals("Costume data referencing wrong", loadedCostume, brickReferencedCostumeData);
 
 		SoundInfo loadedSound = loadedFirstSprite.getSoundList().get(0);
 		PlaySoundBrick loadedPlaySoundBrick = (PlaySoundBrick) loadedFirstSprite.getScript(0).getBrick(2);
-		SoundInfo brickReferenceSoundInfo = (SoundInfo) TestUtils.getPrivateField(loadedPlaySoundBrick,
+		SoundInfo brickReferenceSoundInfo = (SoundInfo) Reflection.getPrivateField(loadedPlaySoundBrick,
 				CatroidXMLConstants.SOUND_INFO_FIELD_NAME);
 		assertEquals("Sound Info referencing wrong", loadedSound, brickReferenceSoundInfo);
 		assertTrue("PlaySoundBrick sprite soundInfo doesnt have referenced SoundInfo", loadedPlaySoundBrick.getSprite()
 				.getSoundList().contains(brickReferenceSoundInfo));
 		assertEquals("Sprites are different", loadedPlaySoundBrick.getSprite(), loadedFirstSprite);
 		PointToBrick loadedPointBrick = (PointToBrick) loadedFirstSprite.getScript(0).getBrick(4);
-		Sprite referencedSprite = (Sprite) TestUtils.getPrivateField(loadedPointBrick, "pointedSprite");
+		Sprite referencedSprite = (Sprite) Reflection.getPrivateField(loadedPointBrick, "pointedSprite");
 		assertEquals("SpriteReferencing wrong", loadedProject.getSpriteList().get(1), referencedSprite);
 
 		WhenStartedBrick loadedScriptBrick = (WhenStartedBrick) loadedFirstSprite.getScript(1).getBrick(0);
-		StartScript referencedScript = (StartScript) TestUtils.getPrivateField(loadedScriptBrick, "script");
+		StartScript referencedScript = (StartScript) Reflection.getPrivateField(loadedScriptBrick, "script");
 		assertEquals("Script referencing of bricks wrong", loadedFirstSprite.getScript(0), referencedScript);
 		UtilFile.deleteDirectory(projectDirectory);
 	}
@@ -519,12 +520,12 @@ public class SerializerTest extends InstrumentationTestCase {
 		CostumeData loadedCostume = loadedFirstSprite.getCostumeDataList().get(0);
 		assertNotNull("Costume not in sprite costumeList", loadedCostume);
 		SetCostumeBrick loadedCostumeBrick = (SetCostumeBrick) loadedFirstSprite.getScript(0).getBrick(0);
-		CostumeData brickReferencedCostumeData = (CostumeData) TestUtils.getPrivateField(loadedCostumeBrick,
+		CostumeData brickReferencedCostumeData = (CostumeData) Reflection.getPrivateField(loadedCostumeBrick,
 				CatroidXMLConstants.COSTUME_DATA_FIELD_NAME);
 		assertNull("Costume data referencing wrong", brickReferencedCostumeData);
 
 		PlaySoundBrick loadedPlaySoundBrick = (PlaySoundBrick) loadedFirstSprite.getScript(0).getBrick(1);
-		SoundInfo brickReferenceSoundInfo = (SoundInfo) TestUtils.getPrivateField(loadedPlaySoundBrick,
+		SoundInfo brickReferenceSoundInfo = (SoundInfo) Reflection.getPrivateField(loadedPlaySoundBrick,
 				CatroidXMLConstants.SOUND_INFO_FIELD_NAME);
 		assertNull("Sound Info referencing wrong", brickReferenceSoundInfo);
 
