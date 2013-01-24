@@ -153,7 +153,7 @@ public class TestUtils {
 
 	public static Object getPrivateField(Object object, String fieldName) {
 		if (object == null) {
-			return null;
+			throw new IllegalArgumentException("Object is null");
 		}
 
 		return getPrivateField(object.getClass(), object, fieldName);
@@ -169,7 +169,7 @@ public class TestUtils {
 			field.setAccessible(true);
 			return field.get(object);
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			exception.printStackTrace(); // XXX
 		}
 
 		return null;
@@ -177,67 +177,85 @@ public class TestUtils {
 
 	public static void setPrivateField(Object object, String fieldName, Object value) {
 		if (object == null) {
-			return;
+			throw new IllegalArgumentException("Object is null");
 		}
 
 		setPrivateField(object.getClass(), object, fieldName, value);
 	}
 
-	public static void setPrivateField(Class<?> fieldOwner, String fieldName, Object value) {
-		setPrivateField(fieldOwner, null, fieldName, value);
+	public static void setPrivateField(Class<?> fieldOwnerType, String fieldName, Object value) {
+		setPrivateField(fieldOwnerType, null, fieldName, value);
 	}
 
-	public static void setPrivateField(Class<?> fieldOwner, Object object, String fieldName, Object value) {
+	public static void setPrivateField(Class<?> fieldOwnerType, Object object, String fieldName, Object value) {
 		try {
-			Field field = fieldOwner.getDeclaredField(fieldName);
+			Field field = fieldOwnerType.getDeclaredField(fieldName);
 			field.setAccessible(true);
 			field.set(object, value);
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			exception.printStackTrace(); // XXX
 		}
 	}
 
-	public static Object invokeMethod(Object object, String methodName, Object... params) {
-		Class<?>[] args = new Class<?>[params.length];
-		for (int index = 0; index < params.length; index++) {
-			args[index] = params[index].getClass();
-		}
-
-		return invokeMethod(object, methodName, args, params);
+	public static Object invokeMethod(Object object, String methodName, Object... parameters) {
+		return invokeMethod(object, methodName, getParameterTypes(parameters), parameters);
 	}
 
-	public static Object invokeMethod(Object object, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
+	public static Object invokeMethod(Object object, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
 		if (object == null) {
-			return null;
+			throw new IllegalArgumentException("Object is null");
 		}
 
-		return invokeMethod(object.getClass(), object, methodName, methodParams, methodArgs);
+		return invokeMethod(object.getClass(), object, methodName, parameterTypes, parameters);
 	}
 
-	public static Object invokeMethod(Class<?> clazz, String methodName, Object... params) {
-		Class<?>[] args = new Class<?>[params.length];
-		for (int index = 0; index < params.length; index++) {
-			args[index] = params[index].getClass();
-		}
-
-		return invokeMethod(clazz, methodName, args, params);
+	public static Object invokeMethod(Class<?> clazz, String methodName, Object... parameters) {
+		return invokeMethod(clazz, methodName, getParameterTypes(parameters), parameters);
 	}
 
-	public static Object invokeMethod(Class<?> clazz, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
-		return invokeMethod(clazz, null, methodName, methodParams, methodArgs);
+	public static Object invokeMethod(Class<?> clazz, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
+		return invokeMethod(clazz, null, methodName, parameterTypes, parameters);
 	}
 
-	private static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] methodParams,
-			Object[] methodArgs) {
+	private static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] parameterTypes,
+			Object[] parameters) {
 		try {
-			Method method = clazz.getDeclaredMethod(methodName, methodParams);
+			Method method = clazz.getDeclaredMethod(methodName, parameterTypes);
 			method.setAccessible(true);
-			return method.invoke(object, methodArgs);
+			return method.invoke(object, parameters);
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			exception.printStackTrace(); // XXX
 		}
 
 		return null;
+	}
+
+	public static Class<?>[] getParameterTypes(Object[] parameters) { // XXX: Change to private or protected
+		Class<?>[] arguments = new Class<?>[parameters.length];
+		for (int index = 0; index < parameters.length; index++) {
+			Class<?> currentParameterClass = parameters[index].getClass();
+			if (currentParameterClass == Boolean.class) {
+				currentParameterClass = boolean.class;
+			} else if (currentParameterClass == Byte.class) {
+				currentParameterClass = byte.class;
+			} else if (currentParameterClass == Character.class) {
+				currentParameterClass = char.class;
+			} else if (currentParameterClass == Double.class) {
+				currentParameterClass = double.class;
+			} else if (currentParameterClass == Float.class) {
+				currentParameterClass = float.class;
+			} else if (currentParameterClass == Integer.class) {
+				currentParameterClass = int.class;
+			} else if (currentParameterClass == Long.class) {
+				currentParameterClass = long.class;
+			} else if (currentParameterClass == Short.class) {
+				currentParameterClass = short.class;
+			}
+
+			arguments[index] = currentParameterClass;
+		}
+
+		return arguments;
 	}
 
 	//	private static class ProjectWithCatrobatLanguageVersion extends Project {

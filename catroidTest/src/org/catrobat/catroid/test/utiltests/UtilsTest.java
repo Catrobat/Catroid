@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -115,11 +116,11 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	public void testPrivateFieldUtils() {
-		class Super {
+		class SuperClass {
 			@SuppressWarnings("unused")
 			private final float SECRET_FLOAT = 3.1415f;
 		}
-		class Sub extends Super {
+		class SubClass extends SuperClass {
 			@SuppressWarnings("unused")
 			private final static char SECRET_STATIC_CHAR = 'c';
 			@SuppressWarnings("unused")
@@ -128,27 +129,27 @@ public class UtilsTest extends AndroidTestCase {
 			private final int SECRET_INTEGER = 42;
 		}
 
-		char secretChar = (Character) TestUtils.getPrivateField(Sub.class, "SECRET_STATIC_CHAR");
+		char secretChar = (Character) TestUtils.getPrivateField(SubClass.class, "SECRET_STATIC_CHAR");
 		assertEquals("Getting private static field failed!", 'c', secretChar);
 
-		String secretString = (String) TestUtils.getPrivateField(new Sub(), "SECRET_STRING");
+		String secretString = (String) TestUtils.getPrivateField(new SubClass(), "SECRET_STRING");
 		assertEquals("Getting private String failed!", "This is a secret string!", secretString);
 
-		int secretInteger = (Integer) TestUtils.getPrivateField(new Sub(), "SECRET_INTEGER");
+		int secretInteger = (Integer) TestUtils.getPrivateField(new SubClass(), "SECRET_INTEGER");
 		assertEquals("Getting private Integer failed!", 42, secretInteger);
 
-		float secretFloat = (Float) TestUtils.getPrivateField(Super.class, new Sub(), "SECRET_FLOAT");
+		float secretFloat = (Float) TestUtils.getPrivateField(SuperClass.class, new SubClass(), "SECRET_FLOAT");
 		assertEquals("Getting private Float from super class failed!", 3.1415f, secretFloat);
 
-		Float secretFloatObject = (Float) TestUtils.getPrivateField(Sub.class, new Sub(), "SECRET_FLOAT");
+		Float secretFloatObject = (Float) TestUtils.getPrivateField(SubClass.class, new SubClass(), "SECRET_FLOAT");
 		assertNull("Getting private Float from sub class didn't fail!", secretFloatObject);
 
 		char newSecretChar = 'n';
-		TestUtils.setPrivateField(Sub.class, "SECRET_STATIC_CHAR", newSecretChar);
-		secretChar = (Character) TestUtils.getPrivateField(Sub.class, "SECRET_STATIC_CHAR");
+		TestUtils.setPrivateField(SubClass.class, "SECRET_STATIC_CHAR", newSecretChar);
+		secretChar = (Character) TestUtils.getPrivateField(SubClass.class, "SECRET_STATIC_CHAR");
 		assertEquals("Getting private static field failed!", newSecretChar, secretChar);
 
-		Sub sub = new Sub();
+		SubClass sub = new SubClass();
 		String newSecretString = "This is a new secret string!";
 		TestUtils.setPrivateField(sub, "SECRET_STRING", newSecretString);
 		secretString = (String) TestUtils.getPrivateField(sub, "SECRET_STRING");
@@ -160,9 +161,30 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals("Getting private Integer failed!", newSecretInteger, secretInteger);
 
 		float newSecretFloat = -5.4f;
-		TestUtils.setPrivateField(Super.class, sub, "SECRET_FLOAT", newSecretFloat);
-		secretFloat = (Float) TestUtils.getPrivateField(Super.class, sub, "SECRET_FLOAT");
+		TestUtils.setPrivateField(SuperClass.class, sub, "SECRET_FLOAT", newSecretFloat);
+		secretFloat = (Float) TestUtils.getPrivateField(SuperClass.class, sub, "SECRET_FLOAT");
 		assertEquals("Getting private Float from super class failed!", newSecretFloat, secretFloat);
+	}
+
+	public void testNullObject() {
+		Object nullObject = null;
+		try {
+			TestUtils.getPrivateField(nullObject, "noFieldAvailable");
+			fail();
+		} catch (IllegalArgumentException illegalArgumentException) {
+		}
+
+		try {
+			TestUtils.setPrivateField(nullObject, "noFieldAvailable", true);
+			fail();
+		} catch (IllegalArgumentException illegalArgumentException) {
+		}
+
+		try {
+			TestUtils.invokeMethod(nullObject, "noMethodAvailable");
+			fail();
+		} catch (IllegalArgumentException illegalArgumentException) {
+		}
 	}
 
 	public void testBuildPath() {
@@ -196,42 +218,68 @@ public class UtilsTest extends AndroidTestCase {
 		assertFalse("Same unique name!", second.equals(third));
 	}
 
-	public void testInvokeMethod() {
+	public void testInvokeMethodForObjects() {
 		String returnValue = (String) TestUtils
 				.invokeMethod(new InvokeMethodTestClass(), "testMethodWithoutParameters");
 		assertEquals("Calling private method without parameters failed!", "Called testMethodWithoutParameters!",
 				returnValue);
 
-		String param1 = "first";
-		String param2 = "second";
-		returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(), "testMethodWithParameters", param1,
-				param2);
-		assertEquals("Wrong return value", param1 + param2, returnValue);
-
-		param1 = "newFirst";
+		String parameter1 = "first parameter";
+		String parameter2 = "second parameter";
 		returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(), "testMethodWithParameters",
-				new Class<?>[] { String.class, String.class }, new Object[] { param1, param2 });
-		assertEquals("Wrong return value", param1 + param2, returnValue);
+				parameter1, parameter2);
+		assertEquals("Wrong return value", parameter1 + parameter2, returnValue);
 
-		returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(), "testStaticMethodWithoutParameters");
-		assertEquals("Calling private static method without parameters failed!",
-				"Called testStaticMethodWithoutParameters!", returnValue);
-
-		param1 = "staticFirst";
-		returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(), "testStaticMethodWithParameters",
-				param1, param2);
-		assertEquals("Wrong return value", param1 + param2, returnValue);
-
-		param1 = "newStaticFirst";
-		returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(), "testStaticMethodWithParameters",
-				new Class<?>[] { String.class, String.class }, new Object[] { param1, param2 });
-		assertEquals("Wrong return value", param1 + param2, returnValue);
+		parameter1 = "New first parameter";
+		returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(), "testMethodWithParameters",
+				new Class<?>[] { String.class, String.class }, new Object[] { parameter1, parameter2 });
+		assertEquals("Wrong return value", parameter1 + parameter2, returnValue);
 
 		InvokeMethodTestClass testClass = new InvokeMethodTestClass();
 		assertFalse("Already called void method", testClass.calledVoidMethod);
 		returnValue = (String) TestUtils.invokeMethod(testClass, "testVoidMethod");
 		assertTrue("Void method hasn't been called", testClass.calledVoidMethod);
 		assertNull("Void method returned a non-null value", returnValue);
+	}
+
+	public void testInvokeMethodForClasses() {
+		String returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(),
+				"testStaticMethodWithoutParameters");
+		assertEquals("Calling private static method without parameters failed!",
+				"Called testStaticMethodWithoutParameters!", returnValue);
+
+		String parameter1 = "First parameter for static method";
+		String parameter2 = "Second parameter for static mehtod";
+		returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(), "testStaticMethodWithParameters",
+				parameter1, parameter2);
+		assertEquals("Wrong return value", parameter1 + parameter2, returnValue);
+
+		parameter1 = "New first parameter for another static method";
+		returnValue = (String) TestUtils.invokeMethod(new InvokeMethodTestClass(), "testStaticMethodWithParameters",
+				new Class<?>[] { String.class, String.class }, new Object[] { parameter1, parameter2 });
+		assertEquals("Wrong return value", parameter1 + parameter2, returnValue);
+	}
+
+	public void testInvokeMethodForPrimitivesVersusNonPrimitves() {
+		InvokeMethodTestClass testClass = new InvokeMethodTestClass();
+		float returnFloat = (Float) TestUtils.invokeMethod(testClass, "testPrimitiveParameterMethod", 0.0f);
+		assertEquals("Method with primitive float parameter hasn't been called", returnFloat, 1.0f);
+
+		Class<?>[] arguments = new Class[] { Float.class };
+		Object[] parameters = new Object[] { new Float(0.0f) };
+		returnFloat = (Float) TestUtils.invokeMethod(testClass, "testObjectParameterMethod", arguments, parameters);
+		assertEquals("Method with float object parameter hasn't been called", returnFloat, -1.0f);
+	}
+
+	public void testConvertObjectsIntoPrimitives() {
+		Object[] primitiveObjects = new Object[] { new Boolean(true), new Byte((byte) 1), new Character('c'),
+				new Double(1.0), new Float(1.0f), new Integer(1), new Long(1l), new Short((short) 1) };
+
+		Class<?>[] primitiveObjectsClass = TestUtils.getParameterTypes(primitiveObjects);
+		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[] { boolean.class, byte.class, char.class,
+				double.class, float.class, int.class, long.class, short.class };
+		assertTrue("Not all object classes are converted into primitve classes",
+				Arrays.deepEquals(expectedPrimitiveObjectsClasses, primitiveObjectsClass));
 	}
 
 	private static class InvokeMethodTestClass {
@@ -260,6 +308,16 @@ public class UtilsTest extends AndroidTestCase {
 		@SuppressWarnings("unused")
 		private void testVoidMethod() {
 			calledVoidMethod = true;
+		}
+
+		@SuppressWarnings("unused")
+		private float testPrimitiveParameterMethod(float primitiveParameter) {
+			return 1.0f;
+		}
+
+		@SuppressWarnings("unused")
+		private float testObjectParameterMethod(Float primitiveParameter) {
+			return -1.0f;
 		}
 	}
 
