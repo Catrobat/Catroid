@@ -104,6 +104,9 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		assertTrue("Wrong selection", solo.searchEditText("100"));
 
+		double degrees = (Double) UiTestUtils.getPrivateField("degrees", pointInDirectionBrick);
+		assertEquals("Text not updated", "" + degrees, "100.0");
+
 		solo.clickOnEditText(0);
 
 		solo.clickOnEditText(0);
@@ -115,12 +118,20 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
 
+		degrees = 0.0;
+		degrees = (Double) UiTestUtils.getPrivateField("degrees", pointInDirectionBrick);
+		assertEquals("Text not updated", "" + degrees, "-12.34");
+
 		solo.clickOnEditText(0);
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
 
 		solo.sleep(200);
 
 		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
+
+		degrees = 0.0;
+		degrees = (Double) UiTestUtils.getPrivateField("degrees", pointInDirectionBrick);
+		assertEquals("Text not updated", "" + degrees, "-12.34");
 
 		solo.clickOnEditText(0);
 
@@ -131,6 +142,10 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		solo.sleep(200);
 
 		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
+
+		degrees = 0.0;
+		degrees = (Double) UiTestUtils.getPrivateField("degrees", pointInDirectionBrick);
+		assertEquals("Text not updated", "" + degrees, "-12.34");
 	}
 
 	private void createProject() {
