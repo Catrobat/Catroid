@@ -37,7 +37,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		TextToSpeech textToSpeech = (TextToSpeech) UiTestUtils.getPrivateField("textToSpeech", PreStageActivity.class);
 		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext(), textToSpeech, this);
 		synchronized (this) {
-			wait(500);
+			wait(2000);
 		}
 
 		UiTestUtils.setPrivateField2(PreStageActivity.class, null, "textToSpeech", textToSpeechMock);
@@ -58,8 +58,9 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		assertEquals("Null-text isn't converted into empty string", "", textToSpeechMock.text);
 	}
 
-	public void testTextToSpeechParameter() throws InterruptedException {
-		SpeakBrick speakBrick = new SpeakBrick(null, "A");
+	public void testNormalBehavior() throws InterruptedException {
+		String text = "Hello world!";
+		SpeakBrick speakBrick = new SpeakBrick(null, text);
 
 		NonBlockingSpeakBrickExecutionThread speakBrickThread = new NonBlockingSpeakBrickExecutionThread(speakBrick);
 		assertFalse("SpeakBrick already executed", speakBrickThread.isFinished());
@@ -69,27 +70,15 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 
 		String utteranceId = String.valueOf(speakBrick.hashCode());
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech executed with wrong utterance id", utteranceId,
-				String.valueOf(textToSpeechMock.mockListener.utteranceId));
+		assertEquals("TextToSpeech complete listener was called with wrong utteranceId", utteranceId,
+				textToSpeechMock.mockListener.utteranceId);
 
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
 		assertEquals("TextToSpeech executed with wrong parameter", speakParameter, textToSpeechMock.parameters);
-	}
 
-	public void testNormalBehavior() throws InterruptedException {
-		String text = "Hello world!";
-		SpeakBrick speakBrick = new SpeakBrick(null, text);
-
-		NonBlockingSpeakBrickExecutionThread speakBrickThread = new NonBlockingSpeakBrickExecutionThread(speakBrick);
-		speakBrickThread.start();
-		speakBrickThread.join(2000);
-
-		String utteranceId = String.valueOf(speakBrick.hashCode());
 		assertTrue("SpeakBrick not finished yet", speakBrickThread.isFinished());
 		assertEquals("TextToSpeech executed with wrong text", text, textToSpeechMock.text);
-		assertEquals("TextToSpeech complete listener was called with wrong utteranceId", utteranceId,
-				textToSpeechMock.mockListener.utteranceId);
 	}
 
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
