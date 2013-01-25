@@ -66,7 +66,6 @@ import android.util.Log;
 public class SerializerTest extends InstrumentationTestCase {
 
 	public void testSerializingToXml() {
-		XmlSerializer serializer = new XmlSerializer();
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
@@ -111,7 +110,7 @@ public class SerializerTest extends InstrumentationTestCase {
 				projectDirectory.mkdir();
 
 			}
-			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (IllegalArgumentException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -252,8 +251,6 @@ public class SerializerTest extends InstrumentationTestCase {
 		testProject.addSprite(testSprite);
 		testProject.addSprite(pointedSprite);
 
-		XmlSerializer serializer = new XmlSerializer();
-
 		String projectDirectoryName = Utils.buildProjectPath("test__" + testProject.getName());
 		File projectDirectory = new File(projectDirectoryName);
 
@@ -262,7 +259,7 @@ public class SerializerTest extends InstrumentationTestCase {
 
 		}
 		try {
-			serializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (SerializeException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -327,8 +324,6 @@ public class SerializerTest extends InstrumentationTestCase {
 			e.printStackTrace();
 		}
 
-		XmlSerializer serializer = new XmlSerializer();
-
 		String bigProjectDirectoryName = Utils.buildProjectPath("test_1_" + bigProject.getName());
 		File bigProjectDirectory = new File(bigProjectDirectoryName);
 
@@ -338,7 +333,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		}
 		try {
 			long starTime = System.currentTimeMillis();
-			serializer.toXml(bigProject, Utils.buildPath(bigProjectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(bigProject, Utils.buildPath(bigProjectDirectoryName, Constants.PROJECTCODE_NAME));
 			long endTime = System.currentTimeMillis();
 			long duration = endTime - starTime;
 			Log.i("SerializerTest", "Big project duration is " + duration + " ms");
@@ -394,7 +389,6 @@ public class SerializerTest extends InstrumentationTestCase {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		XmlSerializer serializer = new XmlSerializer();
 		String projectDirectoryName = Utils.buildProjectPath("test_" + project.getName());
 		File projectDirectory = new File(projectDirectoryName);
 
@@ -403,7 +397,7 @@ public class SerializerTest extends InstrumentationTestCase {
 
 		}
 		try {
-			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (SerializeException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -480,8 +474,6 @@ public class SerializerTest extends InstrumentationTestCase {
 		testProject.setName("testReferenceSerializerProject");
 		testProject.addSprite(testSprite);
 
-		XmlSerializer serializer = new XmlSerializer();
-
 		String projectDirectoryName = Utils.buildProjectPath("test__" + testProject.getName());
 		File projectDirectory = new File(projectDirectoryName);
 
@@ -490,7 +482,7 @@ public class SerializerTest extends InstrumentationTestCase {
 
 		}
 		try {
-			serializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (SerializeException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();

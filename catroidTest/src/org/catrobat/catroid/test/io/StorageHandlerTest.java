@@ -250,7 +250,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("project contains package information", projectString.contains("org.catrobat"));
 
-		String xmlHeader = (String) Reflection.getPrivateField(new XmlSerializer(), "XML_HEADER");
+		String xmlHeader = (String) Reflection.getPrivateField(XmlSerializer.class, "XML_HEADER");
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
 
 		projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
