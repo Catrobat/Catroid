@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -86,7 +87,7 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		UiTestUtils.clickEnterClose(solo, 0, SET_X + "");
 
-		int xPosition = (Integer) UiTestUtils.getPrivateField(setXBrick, "xPosition");
+		int xPosition = (Integer) Reflection.getPrivateField(setXBrick, "xPosition");
 		assertEquals("Wrong text in field.", SET_X, xPosition);
 		assertEquals("Value in Brick is not updated.", SET_X + "", solo.getEditText(0).getText().toString());
 	}

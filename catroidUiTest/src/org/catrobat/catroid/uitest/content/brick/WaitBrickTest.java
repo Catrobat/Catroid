@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -85,7 +86,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		UiTestUtils.clickEnterClose(solo, 0, waitTime + "");
 
-		int actualWaitTime = (Integer) UiTestUtils.getPrivateField(waitBrick, "timeToWaitInMilliSeconds");
+		int actualWaitTime = (Integer) Reflection.getPrivateField(waitBrick, "timeToWaitInMilliSeconds");
 		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}

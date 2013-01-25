@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.web.ServerCalls;
@@ -312,7 +313,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		try {
 			boolean success = solo.waitForText(solo.getString(R.string.success_project_upload));
 			assertTrue("Upload failed. Internet connection?", success);
-			String resultString = (String) UiTestUtils.getPrivateField(ServerCalls.getInstance(), "resultString");
+			String resultString = (String) Reflection.getPrivateField(ServerCalls.getInstance(), "resultString");
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");

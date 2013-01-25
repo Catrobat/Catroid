@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -86,7 +87,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		UiTestUtils.clickEnterClose(solo, 0, SET_Y + "");
 
-		int yPosition = (Integer) UiTestUtils.getPrivateField(setYBrick, "yPosition");
+		int yPosition = (Integer) Reflection.getPrivateField(setYBrick, "yPosition");
 		assertEquals("Wrong text in field.", SET_Y, yPosition);
 		assertEquals("Value in Brick is not updated.", SET_Y + "", solo.getEditText(0).getText().toString());
 	}

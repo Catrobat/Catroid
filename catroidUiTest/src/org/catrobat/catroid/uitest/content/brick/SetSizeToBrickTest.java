@@ -41,6 +41,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -113,7 +114,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		UiTestUtils.clickEnterClose(solo, 0, newSize + "");
 
-		double currentSize = (Double) UiTestUtils.getPrivateField(setSizeToBrick, "size");
+		double currentSize = (Double) Reflection.getPrivateField(setSizeToBrick, "size");
 		assertEquals("Wrong text in field", newSize, currentSize);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
 

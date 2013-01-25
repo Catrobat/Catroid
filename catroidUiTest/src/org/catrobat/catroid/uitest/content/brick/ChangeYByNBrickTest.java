@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -86,7 +87,7 @@ public class ChangeYByNBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		UiTestUtils.clickEnterClose(solo, 0, Y_TO_CHANGE + "");
 
-		int yMovementValue = (Integer) UiTestUtils.getPrivateField(changeYByNBrick, "yMovement");
+		int yMovementValue = (Integer) Reflection.getPrivateField(changeYByNBrick, "yMovement");
 		assertEquals("Wrong text in field.", Y_TO_CHANGE, yMovementValue);
 		assertEquals("Value in Brick is not updated.", Y_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}

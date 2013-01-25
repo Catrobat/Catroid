@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -84,8 +85,8 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
 				glideToBrick.getDurationInMilliSeconds());
 		assertEquals("Wrong x input in Glide to brick", xPosition,
-				UiTestUtils.getPrivateField(glideToBrick, "xDestination"));
+				Reflection.getPrivateField(glideToBrick, "xDestination"));
 		assertEquals("Wrong y input in Glide to brick", yPosition,
-				UiTestUtils.getPrivateField(glideToBrick, "yDestination"));
+				Reflection.getPrivateField(glideToBrick, "yDestination"));
 	}
 }

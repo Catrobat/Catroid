@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.os.Build;
@@ -107,7 +108,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 
 		UiTestUtils.clickEnterClose(solo, 0, SET_ANGLE + "");
 
-		int angle = (Integer) UiTestUtils.getPrivateField(motorBrick, "degrees");
+		int angle = (Integer) Reflection.getPrivateField(motorBrick, "degrees");
 		assertEquals("Wrong text in field.", SET_ANGLE, angle);
 		assertEquals("Value in Brick is not updated.", SET_ANGLE + "", solo.getEditText(0).getText().toString());
 
@@ -119,7 +120,7 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 			e.printStackTrace();
 			fail("Numberformat Exception should not occur");
 		}
-		angle = (Integer) UiTestUtils.getPrivateField(motorBrick, "degrees");
+		angle = (Integer) Reflection.getPrivateField(motorBrick, "degrees");
 		assertEquals("Wrong text in field.", 0, angle);
 		assertEquals("Value in Brick is not updated.", "0", solo.getEditText(0).getText().toString());
 

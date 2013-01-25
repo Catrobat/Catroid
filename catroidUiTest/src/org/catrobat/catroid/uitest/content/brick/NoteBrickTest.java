@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -86,12 +87,12 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		UiTestUtils.clickEnterClose(solo, 0, TEST_STRING + "");
 
-		String note = UiTestUtils.getPrivateField(noteBrick, "note").toString();
+		String note = Reflection.getPrivateField(noteBrick, "note").toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
 
 		UiTestUtils.clickEnterClose(solo, 0, "");
 
-		note = UiTestUtils.getPrivateField(noteBrick, "note").toString();
+		note = Reflection.getPrivateField(noteBrick, "note").toString();
 		assertEquals("Wrong text in field.", "", note);
 	}
 

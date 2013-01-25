@@ -33,8 +33,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -467,95 +465,6 @@ public class UiTestUtils {
 		}
 	}
 
-	public static Object getPrivateField(Object object, String fieldName) {
-		if (object == null) {
-			return null;
-		}
-
-		return getPrivateField(object.getClass(), object, fieldName);
-	}
-
-	public static Object getPrivateField(Class<?> clazz, String fieldName) {
-		return getPrivateField(clazz, null, fieldName);
-	}
-
-	public static Object getPrivateField(Class<?> clazz, Object object, String fieldName) {
-		try {
-			Field field = clazz.getDeclaredField(fieldName);
-			field.setAccessible(true);
-			return field.get(object);
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-
-		return null;
-	}
-
-	public static void setPrivateField(Object object, String fieldName, Object value) {
-		if (object == null) {
-			return;
-		}
-
-		setPrivateField(object.getClass(), object, fieldName, value);
-	}
-
-	public static void setPrivateField(Class<?> fieldOwner, String fieldName, Object value) {
-		setPrivateField(fieldOwner, null, fieldName, value);
-	}
-
-	public static void setPrivateField(Class<?> fieldOwner, Object object, String fieldName, Object value) {
-		try {
-			Field field = fieldOwner.getDeclaredField(fieldName);
-			field.setAccessible(true);
-			field.set(object, value);
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-	}
-
-	public static Object invokeMethod(Object object, String methodName, Object... params) {
-		Class<?>[] args = new Class<?>[params.length];
-		for (int index = 0; index < params.length; index++) {
-			args[index] = params[index].getClass();
-		}
-
-		return invokeMethod(object, methodName, args, params);
-	}
-
-	public static Object invokeMethod(Object object, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
-		if (object == null) {
-			return null;
-		}
-
-		return invokeMethod(object.getClass(), object, methodName, methodParams, methodArgs);
-	}
-
-	public static Object invokeMethod(Class<?> clazz, String methodName, Object... params) {
-		Class<?>[] args = new Class<?>[params.length];
-		for (int index = 0; index < params.length; index++) {
-			args[index] = params[index].getClass();
-		}
-
-		return invokeMethod(clazz, methodName, args, params);
-	}
-
-	public static Object invokeMethod(Class<?> clazz, String methodName, Class<?>[] methodParams, Object[] methodArgs) {
-		return invokeMethod(clazz, null, methodName, methodParams, methodArgs);
-	}
-
-	private static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] methodParams,
-			Object[] methodArgs) {
-		try {
-			Method method = clazz.getDeclaredMethod(methodName, methodParams);
-			method.setAccessible(true);
-			return method.invoke(object, methodArgs);
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-
-		return null;
-	}
-
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
 		if (Build.VERSION.SDK_INT < 15) {
 			solo.waitForView(LinearLayout.class);
@@ -813,7 +722,7 @@ public class UiTestUtils {
 			Activity activity = solo.getCurrentActivity();
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) UiTestUtils.invokeMethod(
+			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) Reflection.invokeMethod(
 					SherlockFragmentActivity.class, activity, "getSherlock", null, null);
 			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 		} else {

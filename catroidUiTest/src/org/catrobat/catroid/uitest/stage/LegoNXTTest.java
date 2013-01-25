@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.bluetooth.BluetoothAdapter;
@@ -117,7 +118,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -210,7 +211,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add(connectedDeviceMacAdress);
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		UiTestUtils.clickOnActionBar(solo, R.id.button_play);
 		solo.sleep(6500);// increase this sleep if probs!
@@ -238,7 +239,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
-		UiTestUtils.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -259,7 +260,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		ArrayList<String> autoConnectIDs = new ArrayList<String>();
 		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		UiTestUtils.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
