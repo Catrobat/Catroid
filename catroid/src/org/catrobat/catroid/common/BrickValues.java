@@ -35,7 +35,7 @@ public class BrickValues {
 	public static final Float Move_Steps_Value = (float) 10;
 	public static final Float TURN_REIGTH = (float) 15;
 	public static final Float POINT_IN_DIRECTION = (float) 90;
-	public static final Float GLIDE_SECONDS = (float) 1;
+	public static final int GLIDE_SECONDS = 1000;
 	public static final int GO_BACK = 1;
 	public static final String POINT_TOWARDS = "Nothing...";
 
@@ -62,6 +62,6 @@ public class BrickValues {
 	public static final String MOTOR = "A";
 	public static final int ANGLE = 180;
 	public static final int SPEED = 100;
-	public static final int SECONDS = 1;
-	public static final int FREQUENCY = 2;
+	public static final int SECONDS = 1000;
+	public static final int FREQUENCY = 200;
 }

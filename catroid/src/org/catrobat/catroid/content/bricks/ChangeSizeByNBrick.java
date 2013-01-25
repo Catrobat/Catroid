@@ -91,7 +91,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_change_size_by_n, null);
+		return prototype;
 	}
 
 	@Override

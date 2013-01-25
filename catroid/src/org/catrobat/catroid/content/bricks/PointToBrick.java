@@ -42,10 +42,14 @@ public class PointToBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
+	private String pointTowards;
 
-	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
+	private transient View prototype;
+
+	public PointToBrick(Sprite sprite, Sprite pointedSprite, String pointTowards) {
 		this.sprite = sprite;
 		this.pointedSprite = pointedSprite;
+		this.pointTowards = pointTowards;
 	}
 
 	public PointToBrick() {
@@ -191,17 +195,20 @@ public class PointToBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_point_to, null);
-		return view;
+		//LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		//View view = inflater.inflate(R.layout.brick_point_to, null);
+		return prototype;//view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PointToBrick(sprite, pointedSprite);
+		return new PointToBrick(sprite, pointedSprite, pointTowards);
 	}
 
 	@Override
 	public void setDefaultValues(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		prototype = inflater.inflate(R.layout.brick_point_to, null);
+		//TOTO set the Value in teh list 
 	}
 }

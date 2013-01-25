@@ -40,7 +40,6 @@ public class SetCostumeBrick implements Brick {
 	private Sprite sprite;
 	private CostumeData costume;
 	private transient View view;
-	private transient View prototype;
 
 	public SetCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -129,12 +128,12 @@ public class SetCostumeBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		//View prototypeView = View.inflate(context, R.layout.brick_set_costume, null);
-		//if (sprite.getName().equals(context.getString(R.string.background))) {
-		//	TextView textView = (TextView) prototypeView.findViewById(R.id.brick_set_costume_prototype_text_view);
-		//	textView.setText(R.string.brick_set_background);
-		//}
-		return prototype;
+		View prototypeView = View.inflate(context, R.layout.brick_set_costume, null);
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) prototypeView.findViewById(R.id.brick_set_costume_prototype_text_view);
+			textView.setText(R.string.brick_set_background);
+		}
+		return prototypeView;
 	}
 
 	@Override
@@ -149,11 +148,11 @@ public class SetCostumeBrick implements Brick {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		prototype = View.inflate(context, R.layout.brick_set_costume, null);
-		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textSetCostume = (TextView) prototype.findViewById(R.id.brick_set_costume_prototype_text_view);
-			textSetCostume.setText(R.string.brick_set_background);
-			textSetCostume.setText(costume + "");
-		}
+		//prototype = View.inflate(context, R.layout.brick_set_costume, null);
+		//if (sprite.getName().equals(context.getString(R.string.background))) {
+		//	TextView textSetCostume = (TextView) prototype.findViewById(R.id.brick_set_costume_prototype_text_view);
+		///	textSetCostume.setText(R.string.brick_set_background);
+		//	textSetCostume.setText(costume + "");
+		//}
 	}
 }

@@ -259,22 +259,22 @@ public class AddBrickDialog extends DialogFragment {
 		//pointInDirectionBrick.setDefaultValues(context);
 		motionBrickList.add(new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT));
 
-		//PointToBrick pointToBrick = new PointToBrick(sprite, null);
-		//pointToBrick.setDefaultValues(context);
-		motionBrickList.add(new PointToBrick(sprite, null));
+		PointToBrick pointToBrick = new PointToBrick(sprite, null, BrickValues.POINT_TOWARDS);
+		pointToBrick.setDefaultValues(context);
+		motionBrickList.add(pointToBrick);
 
-		//GlideToBrick glideToBrick = new GlideToBrick(sprite, 800, 0, 1000);
-		//glideToBrick.setDefaultValues(context);
-		//motionBrickList.add(glideToBrick);
-		motionBrickList.add(new GlideToBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION,
-				BrickValues.SECONDS));
+		GlideToBrick glideToBrick = new GlideToBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION,
+				BrickValues.GLIDE_SECONDS);
+		glideToBrick.setDefaultValues(context);
+		motionBrickList.add(glideToBrick);
 
 		if (!isBackground(sprite)) {
 			GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, BrickValues.GO_BACK);
 			goNStepsBackBrick.setDefaultValues(context);
-			motionBrickList.add(turnRightBrick);
+			motionBrickList.add(goNStepsBackBrick);
 			motionBrickList.add(new ComeToFrontBrick(sprite));
 		}
+
 		brickMap.put(context.getString(R.string.category_motion), motionBrickList);
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();
@@ -382,8 +382,8 @@ public class AddBrickDialog extends DialogFragment {
 		legoNxtMotorActionBrick.setDefaultValues(context);
 		legoNXTBrickList.add(legoNxtMotorActionBrick);
 
-		LegoNxtPlayToneBrick legoNxtPlayToneBrick = new LegoNxtPlayToneBrick(sprite, BrickValues.SECONDS,
-				BrickValues.FREQUENCY);
+		LegoNxtPlayToneBrick legoNxtPlayToneBrick = new LegoNxtPlayToneBrick(sprite, BrickValues.FREQUENCY,
+				BrickValues.SECONDS);
 		legoNxtPlayToneBrick.setDefaultValues(context);
 		legoNXTBrickList.add(legoNxtPlayToneBrick);
 
