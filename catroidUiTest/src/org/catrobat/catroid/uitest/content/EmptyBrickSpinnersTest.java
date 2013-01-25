@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -135,14 +136,14 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	}
 
 	private void addBroadcastBrick(Sprite sprite, Script startScript) {
-		ProjectManager.getInstance().getMessageContainer().addMessage(testBroadcastMessage);
+		MessageContainer.addMessage(testBroadcastMessage);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
 		broadcastBrick.setSelectedMessage(testBroadcastMessage);
 		startScript.addBrick(broadcastBrick);
 	}
 
 	private void addBroadcastWaitBrick(Sprite sprite, Script startScript) {
-		ProjectManager.getInstance().getMessageContainer().addMessage(testBroadcastWaitMessage);
+		MessageContainer.addMessage(testBroadcastWaitMessage);
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		broadcastWaitBrick.setSelectedMessage(testBroadcastWaitMessage);
 		startScript.addBrick(broadcastWaitBrick);

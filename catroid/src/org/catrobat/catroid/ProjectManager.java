@@ -27,7 +27,6 @@ import java.io.IOException;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -38,7 +37,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.content.Context;
 import android.util.Log;
-import org.catrobat.catroid.R;
 
 public class ProjectManager {
 
@@ -48,11 +46,9 @@ public class ProjectManager {
 	public static final ProjectManager INSTANCE = new ProjectManager();
 
 	private FileChecksumContainer fileChecksumContainer;
-	private MessageContainer messageContainer;
 
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
-		messageContainer = new MessageContainer();
 	}
 
 	public static ProjectManager getInstance() {
@@ -62,7 +58,6 @@ public class ProjectManager {
 	public boolean loadProject(String projectName, Context context, ErrorListenerInterface errorListener,
 			boolean errorMessage) {
 		fileChecksumContainer = new FileChecksumContainer();
-		messageContainer = new MessageContainer();
 		Project oldProject = project;
 		project = StorageHandler.getInstance().loadProject(projectName);
 
@@ -135,7 +130,6 @@ public class ProjectManager {
 	public boolean initializeDefaultProject(Context context, ErrorListenerInterface errorListener) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
-			messageContainer = new MessageContainer();
 			project = StandardProjectHandler.createAndSaveStandardProject(context);
 			currentSprite = null;
 			currentScript = null;
@@ -149,7 +143,6 @@ public class ProjectManager {
 
 	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
-		messageContainer = new MessageContainer();
 		project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
 
 		currentSprite = null;
@@ -340,9 +333,5 @@ public class ProjectManager {
 
 	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
 		this.fileChecksumContainer = fileChecksumContainer;
-	}
-
-	public MessageContainer getMessageContainer() {
-		return this.messageContainer;
 	}
 }
