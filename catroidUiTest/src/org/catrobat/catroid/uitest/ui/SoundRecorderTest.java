@@ -125,7 +125,9 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
+		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
+		// String soundRecorderText = solo.getString(R.string.soundrecorder_name);
+		String soundRecorderText = "Catroid Sound Recorder";
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
 
