@@ -29,8 +29,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.AssertionFailedError;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -216,8 +214,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(200);
 		assertTrue("No error message was shown", solo.searchText(solo.getString(R.string.error_load_project)));
 
@@ -686,28 +682,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 	}
 
-	public void testRenameWithOrientationChange() {
-		createProjects();
-		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
-				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
-		solo.clickOnText(solo.getString(R.string.rename));
-		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		solo.sendKey(Solo.ENTER);
-		solo.waitForDialogToClose(500);
-		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
-		assertFalse("List was not updated after rename", solo.searchText(UiTestUtils.PROJECTNAME1));
-	}
-
 	public void testAddNewProject() {
 		createProjects();
 		solo.sleep(200);
@@ -715,18 +689,13 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(buttonMyProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(200);
 		EditText addNewProjectEditText = solo.getEditText(0);
 		String buttonOkText = solo.getString(R.string.ok);
 		assertEquals("Not the proper hint set", solo.getString(R.string.new_project_dialog_hint),
 				addNewProjectEditText.getHint());
 		assertEquals("There should no text be set", "", addNewProjectEditText.getText().toString());
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(100);
-		assertTrue("Dialog is not visible", solo.searchText(buttonOkText));
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(100);
 		solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		solo.sleep(200);
@@ -752,7 +721,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(200);
 		solo.enterText(0, UiTestUtils.PROJECTNAME1);
 		solo.sleep(100);
@@ -776,7 +745,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String buttonCloseText = solo.getString(R.string.close);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.sleep(200);
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.sleep(200);
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.sleep(200);
@@ -808,21 +777,9 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.clearEditText(0);
 		solo.enterText(0, lorem);
-		solo.sleep(400);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
-		solo.sleep(300);
-
-		String buttonPositiveText = solo.getString(R.string.ok);
-		// if keyboard is there, hide it and click ok
-		try {
-			solo.clickOnText(buttonPositiveText);
-		} catch (AssertionFailedError e) {
-			solo.goBack();
-			solo.clickOnText(buttonPositiveText);
-		}
+		solo.sendKey(Solo.ENTER);
+		solo.sendKey(Solo.ENTER);
 		solo.waitForDialogToClose(500);
 
 		// temporarily removed - should be added when displaying projectdescription
@@ -853,26 +810,18 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
 		solo.clearEditText(0);
 		solo.enterText(0, lorem);
-		solo.sleep(400);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
-		solo.sleep(300);
-
-		String buttonPositiveText = solo.getString(R.string.ok);
-		// if keyboard is there, hide it and click ok
-		try {
-			solo.clickOnText(buttonPositiveText);
-		} catch (AssertionFailedError e) {
-			solo.goBack();
-			solo.clickOnText(buttonPositiveText);
-		}
+		solo.sendKey(Solo.ENTER);
+		solo.sendKey(Solo.ENTER);
 		solo.waitForDialogToClose(500);
 
 		// temporarily removed - should be added when displaying projectdescription
 		//		assertTrue("description is not shown in activity", solo.searchText("Lorem ipsum"));
 		//		assertTrue("description is not shown in activity", solo.searchText("ultricies"));
+		assertEquals("The project is not first in list",
+				((ProjectData) (solo.getCurrentListViews().get(0).getAdapter().getItem(0))).projectName,
+				UiTestUtils.PROJECTNAME1);
+
 		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
@@ -881,36 +830,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		ProjectManager.INSTANCE.loadProject(UiTestUtils.PROJECTNAME1, getActivity(), getActivity(), true);
 		assertTrue("description is not set in project", ProjectManager.INSTANCE.getCurrentProject().getDescription()
 				.equalsIgnoreCase(lorem));
-	}
-
-	public void testSetDescriptionWithOrientationChange() {
-		createProjects();
-		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
-		solo.clickOnText(solo.getString(R.string.set_description));
-		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTDESCRIPTION1);
-		solo.sleep(400);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(200);
-		String buttonPositiveText = solo.getString(R.string.ok);
-		try {
-			solo.clickOnText(buttonPositiveText);
-		} catch (AssertionFailedError e) {
-			solo.goBack();
-			solo.clickOnText(buttonPositiveText);
-		}
-		solo.waitForDialogToClose(500);
-		solo.clickOnText(solo.getString(R.string.project_name)); //just to get focus for solo
-
-		assertEquals("The project is not first in list",
-				((ProjectData) (solo.getCurrentListViews().get(0).getAdapter().getItem(0))).projectName,
-				UiTestUtils.PROJECTNAME1);
 	}
 
 	public void testCopyCurrentProject() {
@@ -1049,55 +968,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.clickOnButton(solo.getString(R.string.close));
-	}
-
-	public void testCopyWithOrientationChange() {
-		createProjects();
-		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
-				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
-		solo.clickOnText(solo.getString(R.string.copy));
-		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, UiTestUtils.PROJECTNAME3);
-		solo.sleep(200);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		String buttonPositiveText = solo.getString(R.string.ok);
-		try {
-			solo.clickOnText(buttonPositiveText);
-		} catch (AssertionFailedError e) {
-			solo.goBack();
-			solo.clickOnText(buttonPositiveText);
-		}
-		solo.waitForDialogToClose(500);
-		assertTrue("List was not updated after copy", solo.searchText(UiTestUtils.PROJECTNAME3));
-	}
-
-	public void testResetActiveDialogId() {
-		createProjects();
-		solo.sleep(200);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
-		solo.clickOnText(solo.getString(R.string.rename));
-		String buttonNegativeText = solo.getString(R.string.cancel_button);
-		try {
-			solo.clickOnText(buttonNegativeText);
-		} catch (AssertionFailedError e) {
-			solo.goBack();
-			solo.clickOnText(buttonNegativeText);
-		}
-		solo.waitForDialogToClose(500);
-
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		solo.assertCurrentActivity("Catroid should not crash", MyProjectsActivity.class);
 	}
 
 	public void createProjects() {
