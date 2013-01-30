@@ -105,6 +105,7 @@
         <activity
             android:name=".ui.MyProjectsActivity"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Catroid" />
         <activity
             android:name=".ui.SettingsActivity"
