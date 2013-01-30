@@ -30,6 +30,7 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
@@ -38,7 +39,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
-import org.catrobat.catroid.R;
 
 public class ProjectScreenshotLoader {
 
@@ -98,6 +98,7 @@ public class ProjectScreenshotLoader {
 			this.projectScreenshotData = screenshotData;
 		}
 
+		@Override
 		public void run() {
 			if (imageViewReused(projectScreenshotData)) {
 				return;
@@ -122,6 +123,7 @@ public class ProjectScreenshotLoader {
 			}
 
 			uiActivity.runOnUiThread(new Runnable() {
+				@Override
 				public void run() {
 					if (imageViewReused(projectScreenshotData)) {
 						return;

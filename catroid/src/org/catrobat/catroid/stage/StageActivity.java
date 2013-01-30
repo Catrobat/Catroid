@@ -29,6 +29,7 @@ import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -52,6 +53,11 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		this.calculateScreenSizes();
 		initialize(stageListener, true);
+		if (ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
+			Log.d("org.catrobat.catroid",
+					"StageActivity.onCreate() isManualScreenShot and setMakeFirstScreenShot(false)");
+			stageListener.setMakeFirstScreenShot(false);
+		}
 	}
 
 	@Override

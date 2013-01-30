@@ -41,6 +41,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -69,13 +70,13 @@ public class StageListener implements ApplicationListener {
 	private boolean reloadProject = false;
 
 	private boolean makeFirstScreenshot = true;
+	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
 	private int screenshotHeight;
 	private int screenshotX;
 	private int screenshotY;
 	private byte[] screenshot;
-	private boolean makeScreenshot = false;
 
 	private Project project;
 
@@ -315,7 +316,7 @@ public class StageListener implements ApplicationListener {
 
 		if (makeFirstScreenshot) {
 			File file = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
-			if (!file.exists()) {
+			if (file.exists()) {
 				File noMediaFile = new File(pathForScreenshot + ".nomedia");
 				try {
 					file.createNewFile();
@@ -323,9 +324,18 @@ public class StageListener implements ApplicationListener {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				this.makeThumbnail();
+			} else {
+				file.delete();
+				file = new File(pathForScreenshot + SCREENSHOT_FILE_NAME);
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
+			this.makeThumbnail();
 			makeFirstScreenshot = false;
+			Log.d("org.catrobat.catroid", "I'm making the first screenshot");
 		}
 
 		if (makeScreenshot) {
@@ -401,6 +411,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public boolean makeScreenshot() {
+		Log.d("org.catrobat.catroid", "Make Screenshot");
 		makeScreenshot = true;
 		while (makeScreenshot) {
 			Thread.yield();
@@ -428,6 +439,7 @@ public class StageListener implements ApplicationListener {
 		} catch (IOException e) {
 			return false;
 		}
+		Log.d("org.catrobat.catroid", "Saved Screenshot");
 		return true;
 	}
 
@@ -479,6 +491,14 @@ public class StageListener implements ApplicationListener {
 				costumeData.getTextureRegion().getTexture().dispose();
 			}
 		}
+	}
+
+	public void setMakeFirstScreenShot(boolean makeFirstScreenshot) {
+		this.makeFirstScreenshot = makeFirstScreenshot;
+	}
+
+	public boolean isMakeFirstScreenShot() {
+		return this.makeFirstScreenshot;
 	}
 
 }

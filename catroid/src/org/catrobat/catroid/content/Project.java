@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.utils.Utils;
@@ -33,7 +34,7 @@ import org.catrobat.catroid.xml.parser.XMLAlias;
 
 import android.content.Context;
 import android.os.Build;
-import org.catrobat.catroid.R;
+import android.util.Log;
 
 public class Project implements Serializable {
 
@@ -76,6 +77,17 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private String userHandle = "";
 
+	private boolean manualScreenshot = false;
+
+	public boolean isManualScreenshot() {
+		return manualScreenshot;
+	}
+
+	public void setManualScreenshot(boolean manualScreenshot) {
+		Log.d("org.catrobat.catroid", "The Project now has a manualScreenshot = true");
+		this.manualScreenshot = manualScreenshot;
+	}
+
 	public Project(Context context, String name) {
 		programName = name;
 		description = "";
@@ -101,6 +113,7 @@ public class Project implements Serializable {
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.costume.zPosition = Integer.MIN_VALUE;
 		addSprite(background);
+		Log.d("org.catrobat.catroid", "Project: Special - Project Constructor Called " + programName);
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
@@ -130,6 +143,7 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
+		Log.d("org.catrobat.catroid", "Project: setName():" + name);
 		this.programName = name;
 	}
 
@@ -171,7 +185,6 @@ public class Project implements Serializable {
 
 	// default constructor for XMLParser
 	public Project() {
-
 	}
 
 }

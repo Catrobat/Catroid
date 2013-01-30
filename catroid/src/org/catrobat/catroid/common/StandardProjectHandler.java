@@ -32,6 +32,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -46,7 +47,6 @@ import org.catrobat.catroid.utils.Utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import org.catrobat.catroid.R;
 
 public class StandardProjectHandler {
 
@@ -180,7 +180,8 @@ public class StandardProjectHandler {
 	private static File savePictureFromResourceInProject(String project, String outputName, int fileId, Context context)
 			throws IOException {
 
-		final String imagePath = Utils.buildPath(Utils.buildProjectPath(project), Constants.IMAGE_DIRECTORY, outputName);
+		final String imagePath = Utils
+				.buildPath(Utils.buildProjectPath(project), Constants.IMAGE_DIRECTORY, outputName);
 		File testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();

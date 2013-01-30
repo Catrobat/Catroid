@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -69,7 +70,14 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.stage_dialog_button_back:
+				Log.d("org.catrobat.catroid", "onBackPressed:["
+						+ ProjectManager.getInstance().getCurrentProject().getName()
+						+ "], \n\tmakeFirstScreenshot Value is:" + stageListener.isMakeFirstScreenShot()
+						+ "\n\tprojectManualScreenshot = "
+						+ ProjectManager.getInstance().getCurrentProject().isManualScreenshot());
+
 				dismiss();
+
 				new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 				break;
 			case R.id.stage_dialog_button_resume:
@@ -90,6 +98,10 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				if (stageListener.makeScreenshot()) {
 					Toast.makeText(stageActivity, stageActivity.getString(R.string.notification_screenshot_ok),
 							Toast.LENGTH_SHORT).show();
+					if (!ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
+						ProjectManager.getInstance().getCurrentProject().setManualScreenshot(true);
+						ProjectManager.getInstance().saveProject();
+					}
 				} else {
 					Toast.makeText(stageActivity, stageActivity.getString(R.string.error_screenshot_failed),
 							Toast.LENGTH_SHORT).show();
@@ -103,6 +115,12 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	@Override
 	public void onBackPressed() {
+
+		Log.d("org.catrobat.catroid", "onBackPressed:[" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ "], \n\tmakeFirstScreenshot Value is:" + stageListener.isMakeFirstScreenShot()
+				+ " \n\tprojectManualScreenshot = "
+				+ ProjectManager.getInstance().getCurrentProject().isManualScreenshot());
+
 		dismiss();
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
