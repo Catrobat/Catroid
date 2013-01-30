@@ -71,35 +71,35 @@ public class Reflection {
 		}
 	}
 
-	public static Object invokeMethod(Object object, String methodName, Object... parameters) {
-		if (object == null) {
-			throw new IllegalArgumentException("Object is null");
-		}
-
-		return Reflection.invokeMethod(object.getClass(), object, methodName, parameters);
-	}
-
-	public static Object invokeMethod(Object object, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
-		if (object == null) {
-			throw new IllegalArgumentException("Object is null");
-		}
-
-		return Reflection.invokeMethod(object.getClass(), object, methodName, parameterTypes, parameters);
-	}
-
-	public static Object invokeMethod(Class<?> clazz, String methodName, Object... parameters) {
-		return Reflection.invokeMethod(clazz, null, methodName, parameters);
-	}
-
-	public static Object invokeMethod(Class<?> clazz, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
-		return Reflection.invokeMethod(clazz, null, methodName, parameterTypes, parameters);
-	}
-
-	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, Object... parameters) {
-		return Reflection.invokeMethod(clazz, object, methodName, getParameterTypes(parameters), parameters);
-	}
-
-	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] parameterTypes,
+	//	public static Object invokeMethod(Object object, String methodName, Object... parameters) {
+	//		if (object == null) {
+	//			throw new IllegalArgumentException("Object is null");
+	//		}
+	//
+	//		return Reflection.invokeMethod(object.getClass(), object, methodName, parameters);
+	//	}
+	//
+	//	public static Object invokeMethod(Object object, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
+	//		if (object == null) {
+	//			throw new IllegalArgumentException("Object is null");
+	//		}
+	//
+	//		return Reflection.invokeMethod(object.getClass(), object, methodName, parameterTypes, parameters);
+	//	}
+	//
+	//	public static Object invokeMethod(Class<?> clazz, String methodName, Object... parameters) {
+	//		return Reflection.invokeMethod(clazz, null, methodName, parameters);
+	//	}
+	//
+	//	public static Object invokeMethod(Class<?> clazz, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
+	//		return Reflection.invokeMethod(clazz, null, methodName, parameterTypes, parameters);
+	//	}
+	//
+	//	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, Object... parameters) {
+	//		return Reflection.invokeMethod(clazz, object, methodName, getParameterTypes(parameters), parameters);
+	//	}
+	//
+	protected static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] parameterTypes,
 			Object[] parameters) {
 		try {
 			Method method = clazz.getDeclaredMethod(methodName, parameterTypes);
@@ -109,33 +109,33 @@ public class Reflection {
 			throw new RuntimeException(exception);
 		}
 	}
-
-	public static Class<?>[] getParameterTypes(Object[] parameters) {
-		Class<?>[] arguments = new Class<?>[parameters.length];
-		for (int index = 0; index < parameters.length; index++) {
-			Class<?> currentParameterClass = parameters[index].getClass();
-			if (currentParameterClass == Boolean.class) {
-				currentParameterClass = boolean.class;
-			} else if (currentParameterClass == Byte.class) {
-				currentParameterClass = byte.class;
-			} else if (currentParameterClass == Character.class) {
-				currentParameterClass = char.class;
-			} else if (currentParameterClass == Double.class) {
-				currentParameterClass = double.class;
-			} else if (currentParameterClass == Float.class) {
-				currentParameterClass = float.class;
-			} else if (currentParameterClass == Integer.class) {
-				currentParameterClass = int.class;
-			} else if (currentParameterClass == Long.class) {
-				currentParameterClass = long.class;
-			} else if (currentParameterClass == Short.class) {
-				currentParameterClass = short.class;
-			}
-
-			arguments[index] = currentParameterClass;
-		}
-
-		return arguments;
-	}
+	//
+	//	public static Class<?>[] getParameterTypes(Object[] parameters) {
+	//		Class<?>[] arguments = new Class<?>[parameters.length];
+	//		for (int index = 0; index < parameters.length; index++) {
+	//			Class<?> currentParameterClass = parameters[index].getClass();
+	//			if (currentParameterClass == Boolean.class) {
+	//				currentParameterClass = boolean.class;
+	//			} else if (currentParameterClass == Byte.class) {
+	//				currentParameterClass = byte.class;
+	//			} else if (currentParameterClass == Character.class) {
+	//				currentParameterClass = char.class;
+	//			} else if (currentParameterClass == Double.class) {
+	//				currentParameterClass = double.class;
+	//			} else if (currentParameterClass == Float.class) {
+	//				currentParameterClass = float.class;
+	//			} else if (currentParameterClass == Integer.class) {
+	//				currentParameterClass = int.class;
+	//			} else if (currentParameterClass == Long.class) {
+	//				currentParameterClass = long.class;
+	//			} else if (currentParameterClass == Short.class) {
+	//				currentParameterClass = short.class;
+	//			}
+	//
+	//			arguments[index] = currentParameterClass;
+	//		}
+	//
+	//		return arguments;
+	//	}
 
 }
