@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -65,7 +66,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), null, false);
+		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", null);
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
@@ -83,8 +84,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		fillLoginDialog(true);
 
-		assertNotNull("Upload Dialog is not shown.",
-				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testRegisterWithValidTokenSaved() throws Throwable {
@@ -94,8 +94,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.sleep(5000);
 
-		assertNotNull("Upload Dialog is not shown.",
-				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testTokenPersistance() throws Throwable {
@@ -108,14 +107,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(1000);
 		fillLoginDialog(true);
 
-		assertNotNull("Upload Dialog is not shown.",
-				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 		solo.goBack();
 
 		solo.waitForDialogToClose(10000);
 
-		assertNotNull("Upload Dialog is not shown.",
-				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testRegisterWithWrongToken() throws Throwable {
@@ -128,8 +125,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(4000);
 		fillLoginDialog(true);
 
-		assertNotNull("Login Dialog is not shown.",
-				solo.getText(solo.getString(R.string.upload_project_dialog_title)));
+		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
 	public void testRegisterWithShortPassword() throws Throwable {
@@ -144,8 +140,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertNotNull("no error dialog is shown", solo.getText(solo.getString(R.string.register_error)));
 		solo.clickOnButton(0);
-		assertNotNull("Login Dialog is not shown.",
-				solo.getText(solo.getString(R.string.login_register_dialog_title)));
+		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
 	private void setTestUrl() throws Throwable {
@@ -157,8 +152,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	private void fillLoginDialog(boolean correct) {
-		assertNotNull("Login Dialog is not shown.",
-				solo.getText(solo.getString(R.string.login_register_dialog_title)));
+		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 
 		// enter a username
 		String testUser = "testUser" + System.currentTimeMillis();
@@ -177,7 +171,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
+		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
 		solo.sleep(1000);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
@@ -197,7 +191,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		String username = "MAXmustermann"; //real username is MaxMustermann
 		String password = "password";
 		String testEmail = "maxmustermann@gmail.com";
-		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
+		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
 		EditText usernameEditText = (EditText) solo.getView(R.id.username);
 		EditText passwordEditText = (EditText) solo.getView(R.id.password);
 		solo.enterText(usernameEditText, username);

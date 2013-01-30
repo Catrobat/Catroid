@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
-import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
@@ -55,7 +55,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int expectedDelay = (Integer) Reflection.getPrivateField(loopEndBrick, "LOOP_DELAY");
 
 		testScript.addBrick(repeatBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
@@ -84,7 +84,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int expectedDelay = (Integer) Reflection.getPrivateField(loopEndBrick, "LOOP_DELAY");
 
 		testScript.addBrick(repeatBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
@@ -118,7 +118,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 		final int decoyDeltaY = -150;
 		final int expectedDeltaY = 150;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int expectedDelay = (Integer) Reflection.getPrivateField(loopEndBrick, "LOOP_DELAY");
 
 		testScript.addBrick(repeatBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, decoyDeltaY));
@@ -148,7 +148,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 		final int decoyDeltaY = -150;
 		final int expectedDeltaY = 150;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int expectedDelay = (Integer) Reflection.getPrivateField(loopEndBrick, "LOOP_DELAY");
 
 		testScript.addBrick(repeatBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, decoyDeltaY));
@@ -167,7 +167,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
 				(int) testSprite.costume.getYPosition());
 	}
-	
+
 	@FlakyTest(tolerance = 3)
 	public void testNoDelayAtBeginOfLoop() throws InterruptedException {
 		testSprite.removeAllScripts();
@@ -178,7 +178,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int expectedDelay = (Integer) Reflection.getPrivateField(loopEndBrick, "LOOP_DELAY");
 
 		testScript.addBrick(repeatBrick);
 		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
@@ -186,7 +186,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 		testSprite.addScript(testScript);
 		testSprite.startStartScripts();
-	
+
 		Thread.sleep(expectedDelay / 5);
 
 		assertEquals("There was an unexpected delay at the begin of the loop!", deltaY,
