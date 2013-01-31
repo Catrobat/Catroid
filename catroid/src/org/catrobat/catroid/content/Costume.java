@@ -26,7 +26,6 @@ import java.util.concurrent.Semaphore;
 
 import org.catrobat.catroid.common.CostumeData;
 
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -44,7 +43,6 @@ public class Costume extends Image {
 	protected Sprite sprite;
 	protected float alphaValue;
 	protected float brightnessValue;
-	protected boolean internalPath;
 	public boolean show;
 	public int zPosition;
 	protected Pixmap pixmap;
@@ -65,7 +63,6 @@ public class Costume extends Image {
 		this.touchable = true;
 		this.show = true;
 		this.zPosition = 0;
-		this.internalPath = false;
 	}
 
 	@Override
@@ -244,21 +241,11 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
-	public void setCostumeDataInternal(CostumeData costumeData) {
-		imageLock.acquireUninterruptibly();
-		internalPath = true;
-		this.costumeData = costumeData;
-		imageChanged = true;
-		imageLock.release();
-	}
-
 	public String getImagePath() {
 		imageLock.acquireUninterruptibly();
 		String path;
 		if (this.costumeData == null) {
 			path = "";
-		} else if (internalPath) {
-			path = this.costumeData.getInternalPath();
 		} else {
 			path = this.costumeData.getAbsolutePath();
 		}

@@ -44,7 +44,6 @@
     <string name="stage">"ステージ"</string>
     <string name="ok">"OK"</string>
     <string name="add">"加える"</string>
-    <string name="start">"起動"</string>
     <!-- Main menu activity -->
     <!--
          <string name="resume">"再開"</string>
@@ -81,8 +80,6 @@
     <string name="number_of_bricks">"ブロック："</string>
     <string name="number_of_costumes">"コスチューム："</string>
     <string name="number_of_sounds">"サウンド："</string>
-    <!-- Sprite activity -->
-    <string name="sprite_name">"スプライト："</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"スクリプト"</string>
     <string name="costumes">"コスチューム"</string>

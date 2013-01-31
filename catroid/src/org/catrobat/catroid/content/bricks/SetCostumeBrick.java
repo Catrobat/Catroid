@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.NativeAppActivity;
 
 import android.content.Context;
 import android.view.View;
@@ -34,7 +34,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -62,11 +61,7 @@ public class SetCostumeBrick implements Brick {
 	@Override
 	public void execute() {
 		if (costume != null && sprite != null && sprite.getCostumeDataList().contains(costume)) {
-			if (!NativeAppActivity.isRunning()) {
-				sprite.costume.setCostumeData(costume);
-			} else {
-				sprite.costume.setCostumeDataInternal(costume);
-			}
+			sprite.costume.setCostumeData(costume);
 		}
 	}
 
@@ -111,7 +106,7 @@ public class SetCostumeBrick implements Brick {
 		}
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.tv_set_costume);
+			TextView textView = (TextView) view.findViewById(R.id.brick_set_costume_prototype_text_view);
 			textView.setText(R.string.brick_set_background);
 		}
 
@@ -135,7 +130,7 @@ public class SetCostumeBrick implements Brick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_set_costume, null);
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) prototypeView.findViewById(R.id.tv_set_costume);
+			TextView textView = (TextView) prototypeView.findViewById(R.id.brick_set_costume_prototype_text_view);
 			textView.setText(R.string.brick_set_background);
 		}
 		return prototypeView;

@@ -32,17 +32,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private Project project;
@@ -57,7 +58,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	private String testTrailingWhitespaces = trailing + " \t\n";
 
 	public SpeakBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -68,7 +69,6 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -77,14 +77,13 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 
 	@Smoke
 	public void testSpeakBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -98,7 +97,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 		solo.enterText(0, testString);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		String brickText = UiTestUtils.getPrivateField("text", speakBrick).toString();
+		String brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", testString, brickText);
 		assertEquals("Value in Brick is not updated.", testString, solo.getEditText(0).getText().toString());
 
@@ -107,7 +106,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 		solo.enterText(0, testLeadingWhitespaces);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		brickText = UiTestUtils.getPrivateField("text", speakBrick).toString();
+		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", leading, brickText);
 		assertEquals("Value in Brick is not updated.", leading, solo.getEditText(0).getText().toString());
 
@@ -116,7 +115,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 		solo.enterText(0, testTrailingWhitespaces);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		brickText = UiTestUtils.getPrivateField("text", speakBrick).toString();
+		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", trailing, brickText);
 		assertEquals("Value in Brick is not updated.", trailing, solo.getEditText(0).getText().toString());
 	}

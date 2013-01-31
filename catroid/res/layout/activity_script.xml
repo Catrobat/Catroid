@@ -20,18 +20,23 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/menu_add"
-        android:icon="@drawable/ic_plus_black"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/add"/>
-    <item
-        android:id="@+id/menu_start"
-        android:icon="@drawable/ic_play_black"
-        android:showAsAction="ifRoom"
-        android:title="@string/start"/>
 
-</menu>
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_script_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <include
+        android:id="@+id/bottom_bar"
+        layout="@layout/bottom_bar" />
+
+    <FrameLayout
+        android:id="@+id/script_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_bar" />
+
+</RelativeLayout>

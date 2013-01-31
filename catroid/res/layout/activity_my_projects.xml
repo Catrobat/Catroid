@@ -21,17 +21,21 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/MyProjectsActivityRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:background="@android:color/white" >
+
+    <include
+        android:id="@+id/bottom_bar"
+        layout="@layout/bottom_bar" />
 
     <fragment
-        android:id="@+id/fr_projects_list"
+        android:id="@+id/fragment_projects_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottom_bar"
         class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />
 
-</LinearLayout>
+</RelativeLayout>

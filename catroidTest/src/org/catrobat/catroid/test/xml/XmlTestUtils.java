@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,17 +19,35 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_script"
-    android:orientation="horizontal" >
+ */
+package org.catrobat.catroid.test.xml;
 
-    <TextView
-        android:id="@+id/StartedBrick"
-        style="@style/BrickText"
-        android:text="@string/brick_when_started" >
-    </TextView>
+import java.io.IOException;
+import java.io.InputStream;
 
-</LinearLayout>
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.xml.parser.FullParser;
+import org.catrobat.catroid.xml.parser.ParseException;
+
+import android.content.Context;
+
+class XmlTestUtils {
+
+	public static Project loadProjectFromAssets(String xmlFile, Context context) throws ParseException {
+
+		Project parsedProject = null;
+		try {
+			InputStream inputStreamForSprites = context.getAssets().open(xmlFile);
+			parsedProject = FullParser.parseSpritesWithProject(inputStreamForSprites);
+			inputStreamForSprites.close();
+			inputStreamForSprites = null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new ParseException("IO exception in full parser", e);
+		}
+		return parsedProject;
+	}
+}

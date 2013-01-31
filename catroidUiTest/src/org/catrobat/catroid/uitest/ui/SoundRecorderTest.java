@@ -31,7 +31,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -58,7 +58,10 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 		UiTestUtils.createTestProject();
 
 		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptTabActivityFromMainMenu(solo);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		String scriptsSpinnerText = solo.getString(R.string.scripts);
+		String soundsSpinnerText = solo.getString(R.string.sounds);
+		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, soundsSpinnerText);
 	}
 
 	@Override
@@ -95,15 +98,16 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	public void testRecordMultipleSounds() throws InterruptedException {
 		prepareRecording();
-		recordSoundWithChangingOrientation();
+		recordSound();
 		assertSoundRecording(1);
 
+		solo.sleep(500);
 		prepareRecording();
 		recordSoundGoBackWhileRecording();
 		assertSoundRecording(2);
 	}
 
-	public void recordSoundWithChangingOrientation() throws InterruptedException {
+	public void recordSound() throws InterruptedException {
 		solo.waitForActivity(SoundRecorderActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.soundrecorder_record_start));
 		solo.sleep(500);
@@ -118,10 +122,12 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	private void prepareRecording() {
-		solo.clickOnText(solo.getString(R.string.sounds));
+		UiTestUtils.waitForFragment(solo, R.id.fragment_sound_relative_layout);
 
-		UiTestUtils.clickOnActionBar(solo, R.id.menu_add);
-		String soundRecorderText = solo.getString(R.string.soundrecorder_name);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
+		// String soundRecorderText = solo.getString(R.string.soundrecorder_name);
+		String soundRecorderText = "Catroid Sound Recorder";
 		solo.waitForText(soundRecorderText);
 		assertTrue("Catroid Sound Recorder is not present", solo.searchText(soundRecorderText));
 
@@ -134,7 +140,7 @@ public class SoundRecorderTest extends ActivityInstrumentationTestCase2<MainMenu
 		File recordedFile = new File(recordPath);
 		assertTrue("recorded sound file not found in file system", recordedFile.exists());
 
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		String recordTitle = solo.getString(R.string.soundrecorder_recorded_filename);
 		if (recordNumber > 1) {

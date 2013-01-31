@@ -30,8 +30,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -46,11 +44,8 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.content.Context;
-import android.util.Log;
 
 public class TestUtils {
-
-	private static final String TAG = TestUtils.class.getSimpleName();
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
@@ -152,55 +147,6 @@ public class TestUtils {
 			ex.printStackTrace();
 		}
 		return contents.toString();
-	}
-
-	public static Object getPrivateField(String fieldName, Object object, boolean ofSuperclass) {
-
-		Field field = null;
-
-		try {
-			Class<?> c = object.getClass();
-			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
-		}
-
-		if (field != null) {
-			field.setAccessible(true);
-
-			try {
-				return field.get(object);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return field;
-	}
-
-	public static void setPrivateField(Class<?> classFromObject, Object object, String fieldName, Object value)
-			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = classFromObject.getDeclaredField(fieldName);
-		field.setAccessible(true);
-		field.set(object, value);
-	}
-
-	public static Object invokeMethod(Object classObject, String methodName, Class<?>[] methodParams,
-			Object[] methodArgs) {
-		try {
-			Class<?> currentClass = classObject.getClass();
-			Method currentMethod = currentClass.getDeclaredMethod(methodName, methodParams);
-			currentMethod.setAccessible(true);
-			Object returnObject = currentMethod.invoke(classObject, methodArgs);
-			return returnObject;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	//	private static class ProjectWithCatrobatLanguageVersion extends Project {

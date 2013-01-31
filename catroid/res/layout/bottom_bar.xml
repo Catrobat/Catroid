@@ -30,7 +30,7 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:id="@+id/btn_add"
+        android:id="@+id/button_add"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -67,7 +67,7 @@
         android:background="@drawable/bottombar_separator" />
 
     <LinearLayout
-        android:id="@+id/btn_play"
+        android:id="@+id/button_play"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"

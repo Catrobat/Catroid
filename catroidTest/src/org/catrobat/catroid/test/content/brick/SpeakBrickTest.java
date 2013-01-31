@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.content.brick;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
-import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.AndroidTestCase;
 
@@ -42,8 +42,7 @@ public class SpeakBrickTest extends AndroidTestCase {
 	public void testNullValue() {
 		Sprite sprite = new Sprite("testSprite");
 		SpeakBrick speakBrick = new SpeakBrick(sprite, null);
-		assertEquals("Null value isn't converted to empty string.", "",
-				TestUtils.getPrivateField("text", speakBrick, false));
+		assertEquals("Null value isn't converted to empty string.", "", Reflection.getPrivateField(speakBrick, "text"));
 	}
 
 	public void testRequirements() {

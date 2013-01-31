@@ -26,8 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.stage.NativeAppActivity;
-import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.xml.parser.ObjectCreator;
 import org.catrobat.catroid.xml.parser.ParseException;
 
@@ -36,10 +35,9 @@ import android.test.InstrumentationTestCase;
 public class ReflectionTest extends InstrumentationTestCase {
 
 	public void testFillingClassfromReflection() {
-		NativeAppActivity.setContext(getInstrumentation().getContext());
 		InputStream xmlFileStream = null;
 		try {
-			xmlFileStream = NativeAppActivity.getContext().getAssets().open("test_project.xml");
+			xmlFileStream = getInstrumentation().getContext().getAssets().open("test_project.xml");
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("IOexceptiona which can be FileNotFoundException");
@@ -56,12 +54,11 @@ public class ReflectionTest extends InstrumentationTestCase {
 			fail("Excption when parsing");
 		}
 
-		int androidVersionResult = (Integer) TestUtils.getPrivateField("platformVersion", createdProject, false);
-		float catrobatLanguageVersionResult = (Float) TestUtils.getPrivateField("catrobatLanguageVersion",
-				createdProject, false);
-		String catroidVersionNameResult = (String) TestUtils.getPrivateField("applicationVersion", createdProject,
-				false);
-		String deviceNameResult = (String) TestUtils.getPrivateField("deviceName", createdProject, false);
+		int androidVersionResult = (Integer) Reflection.getPrivateField(createdProject, "platformVersion");
+		float catrobatLanguageVersionResult = (Float) Reflection.getPrivateField(createdProject,
+				"catrobatLanguageVersion");
+		String catroidVersionNameResult = (String) Reflection.getPrivateField(createdProject, "applicationVersion");
+		String deviceNameResult = (String) Reflection.getPrivateField(createdProject, "deviceName");
 
 		assertEquals("the Android version is wrong", 10, androidVersionResult);
 		assertEquals("catrobatlanguageversion wrong", 0.3f, catrobatLanguageVersionResult);

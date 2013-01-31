@@ -32,17 +32,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private static final int SET_X = 17;
 
 	private Solo solo;
@@ -50,7 +51,7 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 	private SetXBrick setXBrick;
 
 	public SetXBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -61,7 +62,6 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
@@ -70,14 +70,13 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 
 	@Smoke
 	public void testSetXBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -86,12 +85,9 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptTabAct
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_x)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, SET_X + "");
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.clickEnterClose(solo, 0, SET_X + "");
 
-		int xPosition = (Integer) UiTestUtils.getPrivateField("xPosition", setXBrick);
+		int xPosition = (Integer) Reflection.getPrivateField(setXBrick, "xPosition");
 		assertEquals("Wrong text in field.", SET_X, xPosition);
 		assertEquals("Value in Brick is not updated.", SET_X + "", solo.getEditText(0).getText().toString());
 	}

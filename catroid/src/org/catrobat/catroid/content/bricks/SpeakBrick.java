@@ -27,7 +27,7 @@ import java.util.HashMap;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import android.content.Context;
@@ -108,7 +108,7 @@ public class SpeakBrick implements Brick {
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
 		view = View.inflate(context, R.layout.brick_speak, null);
 
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_text_view);
+		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		EditText editText = (EditText) view.findViewById(R.id.brick_speak_edit_text);
 		editText.setText(text);
 
@@ -119,7 +119,7 @@ public class SpeakBrick implements Brick {
 
 			@Override
 			public void onClick(View v) {
-				ScriptTabActivity activity = (ScriptTabActivity) context;
+				ScriptActivity activity = (ScriptActivity) context;
 
 				BrickTextDialog editDialog = new BrickTextDialog() {
 					@Override

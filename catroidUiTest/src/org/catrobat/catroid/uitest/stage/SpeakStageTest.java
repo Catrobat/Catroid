@@ -12,6 +12,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.Context;
@@ -34,13 +35,13 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 
-		TextToSpeech textToSpeech = (TextToSpeech) UiTestUtils.getPrivateField("textToSpeech", PreStageActivity.class);
+		TextToSpeech textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class, "textToSpeech");
 		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext(), textToSpeech, this);
 		synchronized (this) {
 			wait(2000);
 		}
 
-		UiTestUtils.setPrivateField2(PreStageActivity.class, null, "textToSpeech", textToSpeechMock);
+		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
 	}
 
 	@Override

@@ -33,13 +33,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -60,7 +57,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilToken;
 import org.catrobat.catroid.utils.Utils;
@@ -80,7 +77,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -95,11 +91,10 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
+import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
-	private static final String TAG = UiTestUtils.class.getSimpleName();
-
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
 
@@ -113,6 +108,9 @@ public class UiTestUtils {
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
+
+	private static final int ACTION_BAR_SPINNER_INDEX = 0;
+	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
@@ -161,15 +159,21 @@ public class UiTestUtils {
 	private static void insertValue(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
 		solo.sleep(50);
-		solo.clearEditText(0);
-		solo.enterText(0, value);
+		solo.clearEditText(editTextIndex);
+		solo.enterText(editTextIndex, value);
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
 		solo.clickOnEditText(editTextIndex);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
-		solo.clickOnButton(0);
+		String buttonPositiveText = solo.getString(R.string.ok);
+		// if click is not successful, try workaround
+		try {
+			solo.clickOnText(buttonPositiveText);
+		} catch (AssertionFailedError e) {
+			solo.sendKey(Solo.ENTER);
+		}
 		solo.sleep(50);
 	}
 
@@ -247,7 +251,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId, int nThElement) {
-		clickOnActionBar(solo, R.id.menu_add);
+		clickOnBottomBar(solo, R.id.button_add);
 		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), 0, 5000)) {
 			fail("Text not shown in 5 secs!");
 		}
@@ -461,83 +465,6 @@ public class UiTestUtils {
 		}
 	}
 
-	public static Object getPrivateField(String fieldName, Object object) {
-		return getPrivateField(fieldName, object.getClass(), object);
-	}
-
-	public static Object getPrivateField(String fieldName, Class<?> clazz) {
-		return getPrivateField(fieldName, clazz, null);
-	}
-
-	private static Object getPrivateField(String fieldName, Class<?> clazz, Object object) {
-		try {
-			Field field = clazz.getDeclaredField(fieldName);
-			field.setAccessible(true);
-			return field.get(object);
-		} catch (Exception exception) {
-			Assert.fail(exception.getClass().getName() + " when accessing " + fieldName);
-		}
-		return null;
-	}
-
-	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {
-
-		Field field = null;
-
-		try {
-			Class<?> c = object.getClass();
-			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
-		}
-
-		if (field != null) {
-			field.setAccessible(true);
-
-			try {
-				field.set(object, value);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public static Object invokePrivateMethodWithoutParameters(Class<?> clazz, String methodName, Object receiver) {
-		Method method = null;
-		try {
-			method = clazz.getDeclaredMethod(methodName, (Class<?>[]) null);
-		} catch (NoSuchMethodException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + methodName);
-		}
-
-		if (method != null) {
-			method.setAccessible(true);
-
-			try {
-				return method.invoke(receiver, (Object[]) null);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return null;
-	}
-
-	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
-			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = classFromObject.getDeclaredField(fieldName);
-		field.setAccessible(true);
-		field.set(object, value);
-	}
-
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
 		if (Build.VERSION.SDK_INT < 15) {
 			solo.waitForView(LinearLayout.class);
@@ -546,6 +473,40 @@ public class UiTestUtils {
 		} else {
 			solo.clickOnActionBarItem(imageButtonId);
 		}
+	}
+
+	/**
+	 * This method can be used in 2 ways. Either to click on an action item
+	 * (icon), or to click on an item in the overflow menu. So either pass a
+	 * String (and any ID) OR null and a valid ID.
+	 * 
+	 * @param solo
+	 *            Use Robotium functionality
+	 * @param overflowMenuItemName
+	 *            Name of the overflow menu item
+	 * @param overflowMenuItemId
+	 *            ID of an action item (icon)
+	 */
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int overflowMenuItemId) {
+		if (overflowMenuItemName == null) { // Action item
+			UiTestUtils.clickOnActionBar(solo, overflowMenuItemId);
+		} else { // From overflow menu
+			solo.clickOnMenuItem(overflowMenuItemName, true);
+		}
+		solo.sleep(400);
+	}
+
+	public static void acceptAndCloseActionMode(Solo solo) {
+		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+	}
+
+	/**
+	 * Due to maintainability reasons you should use this method to open an options menu.The way to open an options menu
+	 * might differ in future.
+	 */
+	public static void openOptionsMenu(Solo solo) {
+		solo.sendKey(Solo.MENU);
+		solo.sleep(200);
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
@@ -625,24 +586,34 @@ public class UiTestUtils {
 	}
 
 	/**
-	 * Returns the absolute pixel y coordinates of the displayed bricks
-	 * 
-	 * @return a list of the y pixel coordinates of the center of displayed bricks
+	 * Returns the absolute pixel y coordinates of elements from a listview
 	 */
 	public static ArrayList<Integer> getListItemYPositions(final Solo solo) {
+		return getListItemYPositions(solo, 0);
+	}
+
+	/**
+	 * Returns the absolute pixel y coordinates of elements from a listview
+	 * with a given index
+	 */
+	public static ArrayList<Integer> getListItemYPositions(final Solo solo, int listViewIndex) {
 		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
 		if (!solo.waitForView(ListView.class, 0, 10000, false)) {
 			fail("ListView not shown in 10 secs!");
 		}
 
-		ListView listView = solo.getCurrentListViews().get(0);
+		ArrayList<ListView> listViews = solo.getCurrentListViews();
+		if (listViews.size() <= listViewIndex) {
+			fail("Listview Index wrong");
+		}
+		ListView listView = listViews.get(listViewIndex);
 
 		for (int i = 0; i < listView.getChildCount(); ++i) {
 			View currentViewInList = listView.getChildAt(i);
 
-			Rect globalVisibleRect = new Rect();
-			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
-			int middleYPosition = globalVisibleRect.top + globalVisibleRect.height() / 2;
+			Rect globalVisibleRectangle = new Rect();
+			currentViewInList.getGlobalVisibleRect(globalVisibleRectangle);
+			int middleYPosition = globalVisibleRectangle.top + globalVisibleRectangle.height() / 2;
 			yPositionList.add(middleYPosition);
 		}
 
@@ -650,7 +621,7 @@ public class UiTestUtils {
 	}
 
 	public static int getAddedListItemYPosition(Solo solo) {
-		ArrayList<Integer> yPositionsList = getListItemYPositions(solo);
+		ArrayList<Integer> yPositionsList = getListItemYPositions(solo, 1);
 		int middleYPositionIndex = yPositionsList.size() / 2;
 
 		return yPositionsList.get(middleYPositionIndex);
@@ -746,35 +717,85 @@ public class UiTestUtils {
 		activity.startActivity(intent);
 	}
 
-	/**
-	 * This method invokes Up button press. You should pass {@link solo.getCurrentActivity} to it.
-	 * Works only with ActionBarSherlock on pre 4.0 Android. Tests which run on 4.0 and higher should use
-	 * solo.clickOnHomeActionBarButton().
-	 */
-	public static void clickOnUpActionBarButton(Activity activity) {
-		ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-		ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
-				SherlockFragmentActivity.class, "getSherlock", activity);
-		absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+	public static void clickOnHomeActionBarButton(Solo solo) {
+		if (Build.VERSION.SDK_INT < 15) {
+			Activity activity = solo.getCurrentActivity();
+
+			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
+			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) Reflection.invokeMethod(
+					SherlockFragmentActivity.class, activity, "getSherlock", null, null);
+			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+		} else {
+			solo.clickOnActionBarHomeButton();
+		}
 	}
 
-	public static void getIntoScriptTabActivityFromMainMenu(Solo solo) {
-		getIntoScriptTabActivityFromMainMenu(solo, 0);
-	}
-
-	public static void getIntoScriptTabActivityFromMainMenu(Solo solo, int spriteIndex) {
+	public static void getIntoSpritesFromMainMenu(Solo solo) {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
+		solo.sleep(300);
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
+		String continueString = solo.getString(R.string.main_menu_continue);
+		solo.waitForText(continueString);
+
+		solo.clickOnButton(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
+	}
+
+	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
+		getIntoSpritesFromMainMenu(solo);
 		solo.sleep(200);
 
 		solo.clickInList(spriteIndex);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+	}
+
+	public static void getIntoSoundsFromMainMenu(Solo solo) {
+		getIntoSoundsFromMainMenu(solo, 0);
+	}
+
+	public static void getIntoSoundsFromMainMenu(Solo solo, int spriteIndex) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+
+		solo.clickOnText(solo.getString(R.string.sounds));
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
+	}
+
+	public static void getIntoCostumesFromMainMenu(Solo solo) {
+		getIntoCostumesFromMainMenu(solo, 0, false);
+	}
+
+	public static void getIntoCostumesFromMainMenu(Solo solo, boolean isBackground) {
+		getIntoCostumesFromMainMenu(solo, 0, isBackground);
+	}
+
+	public static void getIntoCostumesFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+
+		String textToClickOn = "";
+
+		if (isBackground) {
+			textToClickOn = solo.getString(R.string.backgrounds);
+		} else {
+			textToClickOn = solo.getString(R.string.costumes);
+		}
+		solo.clickOnText(textToClickOn);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.waitForView(ListView.class);
+		solo.sleep(200);
+	}
+
+	public static void getIntoScriptActivityFromMainMenu(Solo solo) {
+		getIntoScriptActivityFromMainMenu(solo, 0);
+	}
+
+	public static void getIntoScriptActivityFromMainMenu(Solo solo, int spriteIndex) {
+		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
+
 		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 		solo.sleep(200);
 	}
@@ -831,4 +852,60 @@ public class UiTestUtils {
 		StorageHandler.saveBitmapToImageFile(imageFile, imageBitmap);
 	}
 
+	public static ListView getScriptListView(Solo solo) {
+		return solo.getCurrentListViews().get(1);
+	}
+
+	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
+		waitForFragment(solo, fragmentRootLayoutId, 5000);
+	}
+
+	public static void waitForFragment(Solo solo, int fragmentRootLayoutId, int timeout) {
+		boolean fragmentFoundInTime = solo.waitForView(solo.getView(fragmentRootLayoutId), timeout, true);
+		if (!fragmentFoundInTime) {
+			fail("Fragment was not loaded");
+		}
+	}
+
+	public static void changeToFragmentViaActionbar(Solo solo, String currentSpinnerItem, String itemToSwitchTo) {
+		solo.clickOnText(currentSpinnerItem);
+		solo.sleep(50);
+		solo.clickOnText(itemToSwitchTo);
+		solo.sleep(50);
+	}
+
+	public static IcsSpinner getActionbarSpinnerOnPreHoneyComb(Solo solo) {
+		ArrayList<View> activityViews = solo.getViews();
+		IcsSpinner spinner = null;
+		for (View viewToCheck : activityViews) {
+			if (viewToCheck instanceof IcsSpinner) {
+				spinner = (IcsSpinner) viewToCheck;
+				break;
+			}
+		}
+		if (spinner == null) {
+			fail("no spinner found");
+		}
+		return spinner;
+	}
+
+	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
+		if (Build.VERSION.SDK_INT < 15) {
+			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
+			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
+			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
+			UiTestUtils.changeToFragmentViaActionbar(solo,
+					spinner.getItemAtPosition(activeSpinnerItemIndex).toString(), itemToClickOnText);
+		} else {
+			solo.pressSpinnerItem(ACTION_BAR_SPINNER_INDEX, itemIndex);
+		}
+	}
+
+	public static int getActionBarSpinnerItemCount(Solo solo) {
+		if (Build.VERSION.SDK_INT < 15) {
+			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
+		} else {
+			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
+		}
+	}
 }
