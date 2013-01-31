@@ -48,7 +48,6 @@ import com.jayway.android.robotium.solo.Solo;
 public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 
 	private Solo solo;
-	private List<Brick> brickListToCheck;
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public ScriptFragmentTest() {
@@ -58,11 +57,12 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		// disable mindstorm bricks, if enabled in test
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
@@ -76,20 +76,8 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo = null;
 	}
 
-	private void initTestProject() {
-		brickListToCheck = UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	private void initEmptyProject() {
-		UiTestUtils.createEmptyProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
 	public void testCreateNewBrickButton() {
-		initTestProject();
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		int brickCountInView = UiTestUtils.getScriptListView(solo).getCount();
 		int brickCountInList = brickListToCheck.size();
 
@@ -106,7 +94,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBrickCategoryDialog() {
-		initTestProject();
+		UiTestUtils.createTestProject();
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		// enable mindstorm bricks, if disabled
@@ -166,7 +154,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	 * Tests issue#54. https://github.com/Catrobat/Catroid/issues/54
 	 */
 	public void testOnlyAddControlBricks() {
-		initEmptyProject();
+		UiTestUtils.createEmptyProject();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		assertEquals("Project should contain only one script.", 1, sprite.getNumberOfScripts());
 
@@ -184,7 +172,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testSimpleDragNDrop() {
-		initTestProject();
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -201,7 +189,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testDeleteItem() {
-		initTestProject();
+		List<Brick> brickListToCheck = UiTestUtils.createTestProject();
 		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
@@ -236,7 +224,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testBackgroundBricks() {
-		initTestProject();
 		String currentProject = solo.getString(R.string.main_menu_continue);
 		String background = solo.getString(R.string.background);
 		String categoryLooks = solo.getString(R.string.category_looks);
@@ -245,8 +232,6 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		String nextBackground = solo.getString(R.string.brick_next_background);
 		String comeToFront = solo.getString(R.string.brick_come_to_front);
 		String goNStepsBack = solo.getString(R.string.brick_go_back_layers);
-
-		UiTestUtils.goToHomeActivity(solo.getCurrentActivity());
 
 		solo.clickOnText(currentProject);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -273,7 +258,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testOptionsMenuItems() {
-		initTestProject();
+		UiTestUtils.createTestProject();
 
 		int timeToWait = 200;
 
