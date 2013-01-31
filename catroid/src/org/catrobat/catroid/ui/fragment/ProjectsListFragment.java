@@ -73,9 +73,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	private ProjectAdapter adapter;
 	private ProjectsListFragment parentFragment = this;
 
-	private int activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
-
-	private static final int NO_DIALOG_FRAGMENT_ACTIVE = -1;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
 	private static final int CONTEXT_MENU_ITEM_DESCRIPTION = 1;
 	private static final int CONTEXT_MENU_ITEM_DELETE = 2;
@@ -101,8 +98,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			projectToEdit = (ProjectData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_PROJECT_DATA);
 		}
 
-		checkForCanceledFragment();
-		reattachDialogFragmentListener();
 		initAdapter();
 		initClickListener();
 	}
@@ -118,62 +113,17 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		if (isCurrentProject) {
 			updateProjectTitle();
 		}
-		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		initAdapter();
 	}
 
 	@Override
-	public void onCopyProject(boolean orientationChangedWhileCopying) {
-		if (!orientationChangedWhileCopying) {
-			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
-			initAdapter();
-		}
+	public void onCopyProject() {
+		initAdapter();
 	}
 
 	@Override
 	public void onUpdateProjectDescription() {
-		activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
 		initAdapter();
-	}
-
-	private void reattachDialogFragmentListener() {
-		Fragment activeFragmentDialog;
-		if (activeDialogId != NO_DIALOG_FRAGMENT_ACTIVE) {
-			switch (activeDialogId) {
-				case CONTEXT_MENU_ITEM_RENAME:
-					activeFragmentDialog = getFragmentManager().findFragmentByTag(
-							RenameProjectDialog.DIALOG_FRAGMENT_TAG);
-					RenameProjectDialog displayingRenameProjectDialog = (RenameProjectDialog) activeFragmentDialog;
-					displayingRenameProjectDialog.setOnProjectRenameListener(ProjectsListFragment.this);
-					break;
-				case CONTEXT_MENU_ITEM_DESCRIPTION:
-					activeFragmentDialog = getFragmentManager().findFragmentByTag(
-							SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
-					SetDescriptionDialog displayingSetDescriptionProjectDialog = (SetDescriptionDialog) activeFragmentDialog;
-					displayingSetDescriptionProjectDialog
-							.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
-					break;
-				case CONTEXT_MENU_ITEM_COPY:
-					activeFragmentDialog = getFragmentManager()
-							.findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG);
-					CopyProjectDialog displayingCopyProjectDialog = (CopyProjectDialog) activeFragmentDialog;
-					displayingCopyProjectDialog.setParentFragment(this);
-					break;
-			}
-		}
-	}
-
-	private void checkForCanceledFragment() {
-		if (getFragmentManager().findFragmentByTag(RenameProjectDialog.DIALOG_FRAGMENT_TAG) == null
-				&& activeDialogId == CONTEXT_MENU_ITEM_RENAME) {
-			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
-		} else if (getFragmentManager().findFragmentByTag(SetDescriptionDialog.DIALOG_FRAGMENT_TAG) == null
-				&& activeDialogId == CONTEXT_MENU_ITEM_DESCRIPTION) {
-			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
-		} else if (getFragmentManager().findFragmentByTag(CopyProjectDialog.DIALOG_FRAGMENT_TAG) == null
-				&& activeDialogId == CONTEXT_MENU_ITEM_COPY) {
-			activeDialogId = NO_DIALOG_FRAGMENT_ACTIVE;
-		}
 	}
 
 	private void initAdapter() {
@@ -258,7 +208,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
 			@Override
 			public void onClick(int menuId) {
-				activeDialogId = menuId;
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
 						RenameProjectDialog dialogRenameProject = RenameProjectDialog
