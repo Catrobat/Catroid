@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.utiltests;
 
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 
 import android.test.AndroidTestCase;
 
@@ -40,6 +41,12 @@ public class ReflectionTest extends AndroidTestCase {
 
 		float secretFloat = (Float) Reflection.getPrivateField(SuperClass.class, new SubClass(), "SECRET_FLOAT");
 		assertEquals("Getting private Float from super class failed!", 3.1415f, secretFloat);
+
+		byte secretByte = (Byte) Reflection.getPrivateField(new SuperClass(), "SECRET_BYTE");
+		assertEquals("Getting private Float from super class failed!", 32, secretByte);
+
+		//		secretByte = (Byte) Reflection.getPrivateField(new SubClass(), "SECRET_BYTE");
+		//		assertEquals("Getting private Float from super class failed!", 32, secretByte);
 
 		char newSecretChar = 'n';
 		Reflection.setPrivateField(SubClass.class, "SECRET_STATIC_CHAR", newSecretChar);
@@ -145,6 +152,8 @@ public class ReflectionTest extends AndroidTestCase {
 	private class SuperClass {
 		@SuppressWarnings("unused")
 		private final float SECRET_FLOAT = 3.1415f;
+		@SuppressWarnings("unused")
+		protected byte SECRET_BYTE = 32;
 	}
 
 	private class SubClass extends SuperClass {
@@ -154,6 +163,14 @@ public class ReflectionTest extends AndroidTestCase {
 		private final int SECRET_INTEGER = 42;
 		@SuppressWarnings("unused")
 		private String SECRET_STRING = "This is a secret string!";
+	}
+
+	public void testInvokeMethodForObjects() {
+		String p1 = "A";
+		String p2 = "B";
+		String returnValue = (String) Reflection.invokeMethod(new InvokeMethodTestClass(), "testMethodWithParameters",
+				new ParameterList(p1, p2));
+		assertEquals(returnValue, p1 + p2);
 	}
 
 	//	public void testInvokeMethodForObjects() {
@@ -252,43 +269,43 @@ public class ReflectionTest extends AndroidTestCase {
 	//					IllegalArgumentException.class);
 	//		}
 	//	}
-	//
-	//	private static class InvokeMethodTestClass {
-	//		protected boolean calledVoidMethod = false;
-	//
-	//		@SuppressWarnings("unused")
-	//		private String testMethodWithoutParameters() {
-	//			return "Called testMethodWithoutParameters!";
-	//		};
-	//
-	//		@SuppressWarnings("unused")
-	//		private static String testStaticMethodWithoutParameters() {
-	//			return "Called testStaticMethodWithoutParameters!";
-	//		}
-	//
-	//		@SuppressWarnings("unused")
-	//		private String testMethodWithParameters(String param1, String param2) {
-	//			return param1 + param2;
-	//		};
-	//
-	//		@SuppressWarnings("unused")
-	//		private static String testStaticMethodWithParameters(String param1, String param2) {
-	//			return param1 + param2;
-	//		}
-	//
-	//		@SuppressWarnings("unused")
-	//		private void testVoidMethod() {
-	//			calledVoidMethod = true;
-	//		}
-	//
-	//		@SuppressWarnings("unused")
-	//		private float testPrimitiveParameterMethod(float primitiveParameter) {
-	//			return 1.0f;
-	//		}
-	//
-	//		@SuppressWarnings("unused")
-	//		private float testObjectParameterMethod(Float primitiveParameter) {
-	//			return -1.0f;
-	//		}
-	//	}
+
+	private static class InvokeMethodTestClass {
+		protected boolean calledVoidMethod = false;
+
+		@SuppressWarnings("unused")
+		private String testMethodWithoutParameters() {
+			return "Called testMethodWithoutParameters!";
+		};
+
+		@SuppressWarnings("unused")
+		private static String testStaticMethodWithoutParameters() {
+			return "Called testStaticMethodWithoutParameters!";
+		}
+
+		@SuppressWarnings("unused")
+		private String testMethodWithParameters(String param1, String param2) {
+			return param1 + param2;
+		};
+
+		@SuppressWarnings("unused")
+		private static String testStaticMethodWithParameters(String param1, String param2) {
+			return param1 + param2;
+		}
+
+		@SuppressWarnings("unused")
+		private void testVoidMethod() {
+			calledVoidMethod = true;
+		}
+
+		@SuppressWarnings("unused")
+		private float testPrimitiveParameterMethod(float primitiveParameter) {
+			return 1.0f;
+		}
+
+		@SuppressWarnings("unused")
+		private float testObjectParameterMethod(Float primitiveParameter) {
+			return -1.0f;
+		}
+	}
 }

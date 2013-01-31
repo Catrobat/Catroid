@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class Reflection {
 
@@ -70,6 +71,63 @@ public class Reflection {
 		}
 	}
 
+	public static class Parameter {
+		private final Class<?> type;
+		private final Object value;
+
+		public Parameter(Object value) {
+			this(value.getClass(), value);
+		}
+
+		public Parameter(Class<?> type, Object value) {
+			this.type = type;
+			this.value = value;
+		}
+	}
+
+	public static class ParameterList {
+		private final Class<?>[] types;
+		private final Object[] values;
+
+		public ParameterList(Object... values) {
+			this.types = new Class<?>[values.length];
+			this.values = new Object[values.length];
+
+			for (int index = 0; index < values.length; index++) {
+				Object value = values[index];
+				this.types[index] = value.getClass();
+				this.values[index] = value;
+			}
+		}
+
+		public ParameterList(Parameter... parameters) {
+			this.types = new Class<?>[parameters.length];
+			this.values = new Object[parameters.length];
+
+			for (int index = 0; index < values.length; index++) {
+				Parameter parameter = parameters[index];
+				this.types[index] = parameter.type;
+				this.values[index] = parameter.value;
+			}
+		}
+	}
+
+	// 1515 - 1548
+	// 1640 - 
+	public static Object invokeMethod(Object object, String methodName, Parameter... parameters) {
+		return invokeMethod(object, methodName, new ParameterList(parameters));
+	}
+
+	public static Object invokeMethod(Object object, String methodName, ParameterList parameters) {
+		try {
+			Method method = object.getClass().getDeclaredMethod(methodName, parameters.types);
+			method.setAccessible(true);
+			return method.invoke(object, parameters.values);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+
+	}
 	//	public static Object invokeMethod(Object object, String methodName, Object... parameters) {
 	//		if (object == null) {
 	//			throw new IllegalArgumentException("Object is null");
