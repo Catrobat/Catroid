@@ -25,38 +25,20 @@ package org.catrobat.catroid.test.content.brick;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
-import org.catrobat.catroid.test.utils.Reflection;
 
 import android.test.AndroidTestCase;
 
 public class SpeakBrickTest extends AndroidTestCase {
 
-	private String text = "hello world!";
-
 	public void testSpeak() {
+		String text = "hello world!";
 		Sprite sprite = new Sprite("testSprite");
 		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
-		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
-	}
-
-	public void testNullValue() {
-		Sprite sprite = new Sprite("testSprite");
-		SpeakBrick speakBrick = new SpeakBrick(sprite, null);
-		assertEquals("Null value isn't converted to empty string.", "", Reflection.getPrivateField(speakBrick, "text"));
+		assertEquals("Stored wrong text in speak brick", text, speakBrick.getText());
 	}
 
 	public void testRequirements() {
 		SpeakBrick speakBrick = new SpeakBrick(null, null);
 		assertEquals("Wrong required brick resources", Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
-	}
-
-	public void testNullSprite() {
-		SpeakBrick speakBrick = new SpeakBrick(null, text);
-		try {
-			speakBrick.execute();
-			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-			// expected behavior
-		}
 	}
 }
