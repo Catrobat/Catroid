@@ -30,7 +30,7 @@ import org.catrobat.catroid.common.Constants;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 
-public class FtpProgressInputStream extends InputStream {
+class FtpProgressInputStream extends InputStream {
 
 	private static final Integer DATA_STREAM_UPDATE_SIZE = 1024 * 20; //20 KB
 	private InputStream inputStream;

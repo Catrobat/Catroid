@@ -37,7 +37,6 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.NativeAppActivity;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
@@ -54,13 +53,8 @@ public class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static StorageHandler instance;
-	private FullParser fullParser;
-	private XmlSerializer serializer;
 
 	private StorageHandler() throws IOException {
-
-		fullParser = new FullParser();
-		serializer = new XmlSerializer();
 		if (!Utils.externalStorageAvailable()) {
 			throw new IOException("Could not read external storage");
 		}
@@ -89,18 +83,12 @@ public class StorageHandler {
 	public Project loadProject(String projectName) {
 		createCatroidRoot();
 		try {
-			if (NativeAppActivity.isRunning()) {
-				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
-				Project returned = fullParser.parseSpritesWithProject(spfFileStream);
-				return returned;
-			}
-
 			File projectDirectory = new File(Utils.buildProjectPath(projectName));
 
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
 						Constants.PROJECTCODE_NAME));
-				Project returned = fullParser.parseSpritesWithProject(projectFileStream);
+				Project returned = FullParser.parseSpritesWithProject(projectFileStream);
 				return returned;
 			} else {
 				return null;
@@ -140,7 +128,7 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

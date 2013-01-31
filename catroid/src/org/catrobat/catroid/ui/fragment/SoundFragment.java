@@ -36,7 +36,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -80,37 +79,38 @@ import com.actionbarsherlock.view.Menu;
 public class SoundFragment extends ScriptActivityFragment implements OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
+	public static final int REQUEST_SELECT_MUSIC = 0;
+
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
+
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private static String deleteActionModeTitle;
 	private static String singleItemAppendixDeleteActionMode;
 	private static String multipleItemAppendixDeleteActionMode;
 
-	public static final int REQUEST_SELECT_MUSIC = 0;
+	private static int currentSoundPosition = Constants.NO_POSITION;
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
-
 	private SoundInfo selectedSoundInfo;
-
-	private static int currentSoundPosition = Constants.NO_POSITION;
-
-	private View currentPlayingView = null;
 
 	private ListView listView;
 
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
 
+	private View currentPlayingView = null;
+
 	private ActionMode actionMode;
+
+	private boolean isRenameActionMode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -141,12 +141,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		} catch (ClassCastException exception) {
 			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
 		}
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.show_details).setVisible(true);
-		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -229,19 +223,21 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void startRenameActionMode() {
-		setBottomBarActivated(false);
-
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			unregisterForContextMenu(listView);
+			setBottomBarActivated(false);
+			isRenameActionMode = true;
 		}
 	}
 
 	@Override
 	public void startDeleteActionMode() {
-		setBottomBarActivated(false);
-
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			unregisterForContextMenu(listView);
+			setBottomBarActivated(false);
+			isRenameActionMode = false;
 		}
 	}
 
@@ -274,7 +270,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	public void onSoundChecked() {
-		if (actionMode == null) {
+		if (isRenameActionMode || actionMode == null) {
 			return;
 		}
 
@@ -562,7 +558,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(SpriteAdapter.SINGLE_SELECT);
+			setSelectMode(Constants.SINGLE_SELECT);
 			mode.setTitle(getString(R.string.rename));
 
 			setActionModeActive(true);
@@ -591,6 +587,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			actionMode = null;
 			setActionModeActive(false);
 
+			registerForContextMenu(listView);
 			setBottomBarActivated(true);
 		}
 	};
@@ -599,15 +596,15 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			mode.setTitle(getString(R.string.delete));
 			return false;
 		}
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(Constants.MULTI_SELECT);
-
 			setActionModeActive(true);
+
+			mode.setTitle(R.string.delete);
 
 			deleteActionModeTitle = getString(R.string.delete);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
@@ -639,6 +636,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			actionMode = null;
 			setActionModeActive(false);
 
+			registerForContextMenu(listView);
 			setBottomBarActivated(true);
 		}
 	};

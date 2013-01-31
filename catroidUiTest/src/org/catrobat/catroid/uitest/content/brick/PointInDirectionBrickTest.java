@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -104,7 +105,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		assertTrue("Wrong selection", solo.searchEditText("100"));
 
-		double degrees = (Double) UiTestUtils.getPrivateField("degrees", pointInDirectionBrick);
+		double degrees = (Double) Reflection.getPrivateField(pointInDirectionBrick, "degrees");
 		assertEquals("Text not updated", "" + degrees, "100.0");
 
 		solo.clickOnEditText(0);
@@ -119,7 +120,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
 
 		degrees = 0.0;
-		degrees = (Double) UiTestUtils.getPrivateField("degrees", pointInDirectionBrick);
+		degrees = (Double) Reflection.getPrivateField(pointInDirectionBrick, "degrees");
 		assertEquals("Text not updated", "" + degrees, "-12.34");
 
 		solo.clickOnEditText(0);
@@ -130,7 +131,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
 
 		degrees = 0.0;
-		degrees = (Double) UiTestUtils.getPrivateField("degrees", pointInDirectionBrick);
+		degrees = (Double) Reflection.getPrivateField(pointInDirectionBrick, "degrees");
 		assertEquals("Text not updated", "" + degrees, "-12.34");
 
 		solo.clickOnEditText(0);
@@ -144,7 +145,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertTrue("Wrong selection", solo.searchEditText("-12.34"));
 
 		degrees = 0.0;
-		degrees = (Double) UiTestUtils.getPrivateField("degrees", pointInDirectionBrick);
+		degrees = (Double) Reflection.getPrivateField(pointInDirectionBrick, "degrees");
 		assertEquals("Text not updated", "" + degrees, "-12.34");
 	}
 

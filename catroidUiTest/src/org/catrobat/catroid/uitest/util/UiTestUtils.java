@@ -33,13 +33,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import org.catrobat.catroid.ProjectManager;
@@ -81,7 +77,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -100,8 +95,6 @@ import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
-	private static final String TAG = UiTestUtils.class.getSimpleName();
-
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
 
@@ -117,6 +110,7 @@ public class UiTestUtils {
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
 	private static final int ACTION_BAR_SPINNER_INDEX = 0;
+	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
@@ -471,75 +465,6 @@ public class UiTestUtils {
 		}
 	}
 
-	public static Object getPrivateField(String fieldName, Object object) {
-		try {
-			Field field = object.getClass().getDeclaredField(fieldName);
-			field.setAccessible(true);
-			return field.get(object);
-		} catch (Exception e) {
-			Assert.fail(e.getClass().getName() + " when accessing " + fieldName);
-		}
-		return null;
-	}
-
-	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {
-
-		Field field = null;
-
-		try {
-			Class<?> c = object.getClass();
-			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
-		}
-
-		if (field != null) {
-			field.setAccessible(true);
-
-			try {
-				field.set(object, value);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public static Object invokePrivateMethodWithoutParameters(Class<?> clazz, String methodName, Object receiver) {
-		Method method = null;
-		try {
-			method = clazz.getDeclaredMethod(methodName, (Class<?>[]) null);
-		} catch (NoSuchMethodException e) {
-			Log.e(TAG, e.getClass().getName() + ": " + methodName);
-		}
-
-		if (method != null) {
-			method.setAccessible(true);
-
-			try {
-				return method.invoke(receiver, (Object[]) null);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return null;
-	}
-
-	public static void setPrivateField2(Class<?> classFromObject, Object object, String fieldName, Object value)
-			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = classFromObject.getDeclaredField(fieldName);
-		field.setAccessible(true);
-		field.set(object, value);
-	}
-
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
 		if (Build.VERSION.SDK_INT < 15) {
 			solo.waitForView(LinearLayout.class);
@@ -556,7 +481,7 @@ public class UiTestUtils {
 	 * String (and any ID) OR null and a valid ID.
 	 * 
 	 * @param solo
-	 *            Needed to use Robotium functionality
+	 *            Use Robotium functionality
 	 * @param overflowMenuItemName
 	 *            Name of the overflow menu item
 	 * @param overflowMenuItemId
@@ -569,6 +494,19 @@ public class UiTestUtils {
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
 		solo.sleep(400);
+	}
+
+	public static void acceptAndCloseActionMode(Solo solo) {
+		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+	}
+
+	/**
+	 * Due to maintainability reasons you should use this method to open an options menu.The way to open an options menu
+	 * might differ in future.
+	 */
+	public static void openOptionsMenu(Solo solo) {
+		solo.sendKey(Solo.MENU);
+		solo.sleep(200);
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
@@ -784,15 +722,15 @@ public class UiTestUtils {
 			Activity activity = solo.getCurrentActivity();
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-			ActionBarSherlockCompat absc = (ActionBarSherlockCompat) UiTestUtils.invokePrivateMethodWithoutParameters(
-					SherlockFragmentActivity.class, "getSherlock", activity);
-			absc.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
+			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) Reflection.invokeMethod(
+					SherlockFragmentActivity.class, activity, "getSherlock", null, null);
+			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
 		} else {
 			solo.clickOnActionBarHomeButton();
 		}
 	}
 
-	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
+	public static void getIntoSpritesFromMainMenu(Solo solo) {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
 
@@ -802,6 +740,10 @@ public class UiTestUtils {
 		solo.clickOnButton(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
+	}
+
+	public static void getIntoProgramMenuFromMainMenu(Solo solo, int spriteIndex) {
+		getIntoSpritesFromMainMenu(solo);
 		solo.sleep(200);
 
 		solo.clickInList(spriteIndex);

@@ -88,11 +88,19 @@
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
+    <string name="sprite">Objekt</string>
+    <string name="sprites">Objekte</string>
+    <!--  -->
+
+
     <!-- ScriptTab activity -->
     <string name="scripts">Skripte</string>
     <string name="costumes">Kostüme</string>
     <string name="sounds">Klänge</string>
     <string name="backgrounds">Hintergründe</string>
+    <!--  -->
+
+
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Kostüm umbenennen</string>
     <string name="edit_costume_paintroid">Paintroid</string>
@@ -107,6 +115,9 @@
     <string name="add_costume_from_camera">Von Kamera</string>
     <string name="select_costume_from_gallery">Bild auswählen</string>
     <string name="select_costume_from_camera">Photo auswählen</string>
+    <!--  -->
+
+
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
@@ -116,6 +127,9 @@
     <string name="sound_time_seperator">/</string>
     <string name="sound_size">Größe:</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
+    <!--  -->
+
+
     <!-- Soundrecorder activity -->
     <string name="soundrecorder_name">Catroid Sound Recorder</string>
     <string name="soundrecorder_record_start">Aufnehmen</string>
@@ -123,8 +137,14 @@
     <string name="soundrecorder_recording">Aufnahme gestartet…</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
+    <!--  -->
+
+
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt herunterladen?</string>
+    <!--  -->
+
+
     <!-- My Projects activity -->
     <string name="last_used">Zuletzt benutzt:</string>
     <string name="description">Beschreibung:</string>
@@ -132,18 +152,30 @@
     <string name="rename_project">Projekt umbenennen</string>
     <string name="notification_title_copy_project">Kopiere Projekt</string>
     <string name="copy_project_finished"> kopiert.</string>
+    <!--  -->
+
+
     <!-- Script context menu -->
     <string name="script_context_menu_title">Skript Menü</string>
+    <!--  -->
+
+
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
+    <!--  -->
+
+
     <!-- New project dialog -->
     <string name="new_project_dialog_title">Neues Projekt</string>
     <string name="new_project_dialog_hint">Mein Projekt</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Projektname:</string>
     <string name="new_project_description">Projektbeschreibung:</string>
+    <!--  -->
+
+
     <!-- Rename Dialog -->
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
@@ -173,13 +205,22 @@
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
+    <!--  -->
+
+
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_text">Projekt mit gleichem Namen existiert bereits!</string>
     <string name="overwrite_replace">ersetze bestehendes Projekt</string>
     <string name="overwrite_rename">benenne heruntergeladenes Projekt um</string>
+    <!--  -->
+
+
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">Neu…</string>
     <string name="broadcast_nothing_selected">Nichts…</string>
+    <!--  -->
+
+
     <!-- Brick categories -->
     <string name="categories">Kategorien</string>
     <string name="category_motion">Bewegung</string>
@@ -231,12 +272,18 @@
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
     <string name="brick_next_costume">Nächstes Kostüm</string>
     <string name="brick_next_background">Nächster Hintergrund</string>
+    <!--  -->
+
+
     <!-- Sound bricks -->
     <string name="brick_play_sound">Starte Klang</string>
     <string name="brick_stop_all_sounds">Stoppe alle Klänge</string>
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
+    <!--  -->
+
+
     <!-- Control bricks -->
     <string name="brick_when_started">Wenn Projekt gestartet</string>
     <string name="brick_when">Wenn</string>
@@ -250,14 +297,14 @@
     <string name="brick_repeat">Wiederhole</string>
     <string name="times_label">mal</string>
     <string name="brick_loop_end">Wiederholen beenden</string>
+    <!--  -->
+
+
     <!-- Actions -->
     <string name="action_tapped">angetippt</string>
-    <string name="action_doubleTapped">doppelt angetippt</string>
-    <string name="action_longPressed">lang gedrückt</string>
-    <string name="action_swipeLeft">nach links gewischt</string>
-    <string name="action_swipeRight">nach rechts gewischt</string>
-    <string name="action_swipeUp">nach oben gewischt</string>
-    <string name="action_swipeDown">nach unten gewischt</string>
+    <!--  -->
+
+
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Projekt</string>
     <string name="default_project_sprites_catroid_name">Catroid</string>
@@ -266,10 +313,16 @@
     <string name="default_project_sprites_catroid_cheshirecat">Grinsekatze</string>
     <string name="default_project_backgroundname">Hintergrund</string>
     <string name="default_project_backgroundcolor">#604fff</string>
+    <!--  -->
+
+
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
     <string name="notification_load_project_cancel">Projekt laden abgebrochen</string>
+    <!--  -->
+
+
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">Um Catroid zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
     <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
@@ -286,6 +339,9 @@
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatability">Das Projekt ist nicht mit dieser Version von Catroid kompatibel.</string>
     <string name="error_copy_project">Beim kopieren des Projektes ist ein Fehler aufgetreten.</string>
+    <!--  -->
+
+
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>
@@ -297,6 +353,9 @@
     <string name="notification_percent_completed">abgeschlossen</string>
     <string name="notification_upload_title">Projekt raufladen</string>
     <string name="notification_download_title">Projekt runterladen</string>
+    <!--  -->
+
+
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
@@ -311,6 +370,9 @@
     <string name="no_paired_nxt">Kein verbundenes NXT</string>
     <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
     <string name="none_paired">Keine verbundenen Geräte gefunden</string>
+    <!--  -->
+
+
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT bewege Motor</string>
     <string name="motor_speed">Geschwindigkeit</string>
@@ -323,5 +385,6 @@
     <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="number_to_small">Wert ist zu klein!</string>
     <string name="number_to_big">Wert ist zu groß!</string>
+    <!--  -->
 
 </resources>

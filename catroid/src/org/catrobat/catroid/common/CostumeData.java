@@ -30,6 +30,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -86,14 +87,6 @@ public class CostumeData implements Serializable {
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToImageDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getInternalPath() {
-		if (fileName != null) {
-			return Constants.IMAGE_DIRECTORY + "/" + fileName;
 		} else {
 			return null;
 		}

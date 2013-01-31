@@ -90,8 +90,13 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(2) instanceof LoopEndBrick));
 
+		// just to get focus
+		// seems to be a bug just with the Nexus S 2.3.6
+		String spinnerScripts = solo.getString(R.string.scripts);
+		solo.clickOnText(spinnerScripts);
+		solo.clickOnText(spinnerScripts);
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, 0, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
 
 		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected LoopBeginBrick but was "
@@ -180,7 +185,7 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.drag(20, 20, addedYPosition, yPosition.get(6) + 20, 20);
+		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, 20);
 		solo.sleep(200);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
@@ -193,11 +198,11 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
-		solo.drag(20, 20, addedYPosition, yPosition.get(6), 500);
+		solo.drag(20, 20, addedYPosition, yPosition.get(6), 20);
 		solo.sleep(200);
 
 		assertEquals("Incorrect number of bricks.", 9, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(7) instanceof BroadcastBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof BroadcastBrick);
 	}
 
 	public void testNestedForeverBricks() {
@@ -255,11 +260,14 @@ public class LoopBrickTest extends ActivityInstrumentationTestCase2<MainMenuActi
 		clickOnDeleteInDialog();
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
-		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 3), 20);
+		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 4) - 20, 20);
 
-		assertTrue("Wrong brick instance.", projectBrickList.get(3) instanceof ClearGraphicEffectBrick);
+		assertTrue("Wrong brick instance.", projectBrickList.get(2) instanceof ClearGraphicEffectBrick);
 
-		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(4), 20, yPosition.get(yPosition.size() - 2) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(3), 20, yPosition.get(yPosition.size() - 2), 20);
+		solo.scrollToBottom();
+		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		UiTestUtils.longClickAndDrag(solo, 20, yPosition.get(1), 20, yPosition.get(yPosition.size() - 1), 20);
 		assertEquals("Wrong number of bricks", 6, projectBrickList.size());
 
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();

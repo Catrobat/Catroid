@@ -21,10 +21,13 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BrickContainer.Control.Small"
+    android:background="@drawable/brick_script" >
 
-    <item
-        android:id="@+id/nativeappMenuAbout"
-        android:title="@string/main_menu_about_catroid"/>
+    <TextView
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_when_started" >
+    </TextView>
 
-</menu>
+</LinearLayout>

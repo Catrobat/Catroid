@@ -41,6 +41,7 @@
 
     <TextView
         style="@style/BrickText.SingleLine"
-        android:text="@string/degree" >
+        android:text="@string/degree_symbol" >
     </TextView>
+
 </LinearLayout>

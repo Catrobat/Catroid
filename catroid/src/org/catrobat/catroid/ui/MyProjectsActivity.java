@@ -49,6 +49,9 @@ public class MyProjectsActivity extends SherlockFragmentActivity implements Erro
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_projects);
 		setUpActionBar();
+
+		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
+		findViewById(R.id.button_play).setVisibility(View.GONE);
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -89,11 +92,6 @@ public class MyProjectsActivity extends SherlockFragmentActivity implements Erro
 				startActivity(intent);
 				return true;
 			}
-			case R.id.menu_add: {
-				NewProjectDialog dialog = new NewProjectDialog();
-				dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
-				return true;
-			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -116,5 +114,10 @@ public class MyProjectsActivity extends SherlockFragmentActivity implements Erro
 	@Override
 	public void showErrorDialog(String errorMessage) {
 		Utils.displayErrorMessageFragment(getSupportFragmentManager(), errorMessage);
+	}
+
+	public void handleAddButton(View view) {
+		NewProjectDialog dialog = new NewProjectDialog();
+		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 }
