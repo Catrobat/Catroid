@@ -253,6 +253,7 @@
     <string name="brick_turn_right">Turn right</string>
     <string name="brick_turn_right_degrees">degrees</string>
     <string name="brick_point_in_direction">Point in direction</string>
+    <string name="brick_point_in_direction_choose_direction">Choose direction</string>
     <string name="brick_point_to">Point towards</string>
     <string name="brick_glide">Glide</string>
     <string name="brick_glide_to_x">to X:</string>
