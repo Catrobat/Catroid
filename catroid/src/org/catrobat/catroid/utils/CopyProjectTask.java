@@ -88,7 +88,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 				parentActivity.getActivity(),
 				parentActivity.getString(R.string.project_name) + " " + newName + " "
 						+ parentActivity.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
-		parentActivity.onCopyProject(false);
+		parentActivity.onCopyProject();
 	}
 
 	private void copyDirectory(File destinationFile, File sourceFile) throws IOException {
