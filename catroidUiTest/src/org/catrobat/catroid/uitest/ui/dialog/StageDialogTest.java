@@ -41,6 +41,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -268,8 +269,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_restart));
 		solo.sleep(300);
 		@SuppressWarnings("unchecked")
-		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) UiTestUtils.getPrivateField(
-				"mediaPlayers", SoundManager.getInstance());
+		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) Reflection.getPrivateField(
+				SoundManager.getInstance(), "mediaPlayers");
 		int positionAfterRestart = mediaPlayerArrayList.get(0).getCurrentPosition();
 		assertTrue("Sound not playing after stage restart.", mediaPlayerArrayList.get(0).isPlaying());
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);

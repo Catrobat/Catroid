@@ -106,7 +106,7 @@ public class BroadcastBrick implements Brick {
 
 		view = View.inflate(context, R.layout.brick_broadcast, null);
 
-		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
+		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
 		broadcastSpinner.setFocusable(true);
@@ -136,7 +136,7 @@ public class BroadcastBrick implements Brick {
 			broadcastSpinner.setSelection(position);
 		}
 
-		Button newBroadcastMessage = (Button) view.findViewById(R.id.broadcast_new_message);
+		Button newBroadcastMessage = (Button) view.findViewById(R.id.brick_broadcast_button_new_message);
 		newBroadcastMessage.setClickable(true);
 		newBroadcastMessage.setFocusable(true);
 

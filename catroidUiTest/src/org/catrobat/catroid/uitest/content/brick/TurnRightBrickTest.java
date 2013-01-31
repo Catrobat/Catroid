@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -86,7 +87,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		UiTestUtils.clickEnterClose(solo, 0, TURN_DEGREES + "");
 
-		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnRightBrick);
+		double actualDegrees = (Double) Reflection.getPrivateField(turnRightBrick, "degrees");
 
 		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees);
 		assertEquals("Text not updated", TURN_DEGREES, Double.parseDouble(solo.getEditText(0).getText().toString()));
