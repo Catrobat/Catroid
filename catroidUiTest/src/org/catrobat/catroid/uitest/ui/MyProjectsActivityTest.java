@@ -46,6 +46,10 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -153,6 +157,31 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		zipFile.delete();
 	}
 
+	public void testOrientation() throws NameNotFoundException {
+		/// Method 1: Assert it is currently in portrait mode.
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		assertEquals("MyProjectsActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
+				.getCurrentActivity().getResources().getConfiguration().orientation);
+
+		/// Method 2: Retreive info about Activity as collected from AndroidManifest.xml
+		// https://developer.android.com/reference/android/content/pm/ActivityInfo.html
+		PackageManager packageManager = solo.getCurrentActivity().getPackageManager();
+		ActivityInfo activityInfo = packageManager.getActivityInfo(solo.getCurrentActivity().getComponentName(),
+				PackageManager.GET_ACTIVITIES);
+
+		// Note that the activity is _indeed_ rotated on your device/emulator!
+		// Robotium can _force_ the activity to be in landscape mode (and so could we, programmatically)
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(200);
+
+		assertEquals(MyProjectsActivity.class.getSimpleName()
+				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+				activityInfo.screenOrientation);
+	}
+
 	public void testDeleteSprite() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
@@ -165,8 +194,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		ArrayList<CostumeData> catroidCostumeList = activeProject.getSpriteList().get(1).getCostumeDataList();
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(200);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.default_project_name));
 		solo.sleep(200);
 		solo.clickLongOnText(solo.getString(R.string.default_project_sprites_catroid_name));
