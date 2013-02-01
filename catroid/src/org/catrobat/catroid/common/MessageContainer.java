@@ -45,6 +45,7 @@ public class MessageContainer {
 		receiverMap.clear();
 		if (messageAdapter != null) {
 			messageAdapter.clear();
+			messageAdapter = null;
 		}
 	}
 
