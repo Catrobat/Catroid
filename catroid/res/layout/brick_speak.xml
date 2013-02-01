@@ -42,7 +42,7 @@
         style="@style/BrickEditText"
         android:layout_width="match_parent"
         android:gravity="left"
-        android:inputType="text|number|numberDecimal|numberSigned" >
+        android:inputType="text" >
     </EditText>
 
 </LinearLayout>
