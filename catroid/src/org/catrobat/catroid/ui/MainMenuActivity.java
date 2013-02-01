@@ -28,6 +28,7 @@ import java.net.URLDecoder;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
@@ -123,6 +124,7 @@ public class MainMenuActivity extends SherlockFragmentActivity implements OnChec
 			return;
 		}
 
+		PreStageActivity.shutdownPersistentResources();
 		Utils.loadProjectIfNeeded(this, this);
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
 		StatusBarNotificationManager.INSTANCE.displayDialogs(this);
