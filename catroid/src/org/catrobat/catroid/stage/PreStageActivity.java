@@ -60,6 +60,7 @@ public class PreStageActivity extends Activity {
 	private static LegoNXT legoNXT;
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
+	private static TextToSpeechCompletedListener textToSpeechCompletedListener;
 	private int requiredResourceCounter;
 
 	private boolean autoConnect = false;
@@ -184,6 +185,7 @@ public class PreStageActivity extends Activity {
 		return ressources;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
@@ -237,6 +239,8 @@ public class PreStageActivity extends Activity {
 							}
 						}
 					});
+					textToSpeechCompletedListener = new TextToSpeechCompletedListener();
+					textToSpeech.setOnUtteranceCompletedListener(textToSpeechCompletedListener);
 					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
 						Intent installIntent = new Intent();
 						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
@@ -274,14 +278,14 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
-	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
+	public static synchronized void textToSpeech(String text, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
 		if (text == null) {
 			text = "";
 		}
 
-		textToSpeech.setOnUtteranceCompletedListener(listener);
+		textToSpeechCompletedListener.addOnUtteranceCompletedListener(listener,
+				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
 	}
 

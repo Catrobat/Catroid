@@ -1,3 +1,25 @@
+/**
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.catrobat.catroid.uitest.stage;
 
 import java.util.HashMap;
@@ -17,7 +39,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -55,24 +76,22 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 
 	public void testNullText() {
 		assertEquals("Initialized TextToSpeechMock with wrong text value", null, textToSpeechMock.text);
-		PreStageActivity.textToSpeech(null, null, null);
+		PreStageActivity.textToSpeech(null, null, new HashMap<String, String>());
 		assertEquals("Null-text isn't converted into empty string", "", textToSpeechMock.text);
 	}
 
 	public void testNormalBehavior() throws InterruptedException {
-		String text = "Hello world!";
+		String text = "Hello.";
 		SpeakBrick speakBrick = new SpeakBrick(null, text);
-
+		String utteranceId = String.valueOf(speakBrick.hashCode());
 		NonBlockingSpeakBrickExecutionThread speakBrickThread = new NonBlockingSpeakBrickExecutionThread(speakBrick);
+
 		assertFalse("SpeakBrick already executed", speakBrickThread.isFinished());
 
 		speakBrickThread.start();
 		speakBrickThread.join(2000);
 
-		String utteranceId = String.valueOf(speakBrick.hashCode());
 		assertEquals("TextToSpeech executed with wrong parameter", TextToSpeech.QUEUE_FLUSH, textToSpeechMock.queueMode);
-		assertEquals("TextToSpeech complete listener was called with wrong utteranceId", utteranceId,
-				textToSpeechMock.mockListener.utteranceId);
 
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
@@ -82,26 +101,49 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		assertEquals("TextToSpeech executed with wrong text", text, textToSpeechMock.text);
 	}
 
+	public void testSuccessiveTextToSpeech() throws InterruptedException {
+		SpeakBrick firstSpeakBrick = new SpeakBrick(null, "Hello");
+		NonBlockingSpeakBrickExecutionThread firstSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+				firstSpeakBrick);
+
+		SpeakBrick secondSpeakBrick = new SpeakBrick(null, "World");
+		NonBlockingSpeakBrickExecutionThread secondSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+				secondSpeakBrick);
+
+		firstSpeakBrickThread.start();
+		firstSpeakBrickThread.join(1500);
+		assertTrue("First SpeakBrick not finished yet", firstSpeakBrickThread.finished);
+
+		secondSpeakBrickThread.start();
+		secondSpeakBrickThread.join(1500);
+		assertTrue("First SpeakBrick not finished yet", secondSpeakBrickThread.finished);
+	}
+
 	public void testSimultaneousTextToSpeech() throws InterruptedException {
-		SpeakBrick longTextSpeakBrick = new SpeakBrick(null, "This very long text will be interrupted.");
-		NonBlockingSpeakBrickExecutionThread longTextSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
-				longTextSpeakBrick);
+		SpeakBrick firstSpeakBrick = new SpeakBrick(null, "This very long text will be interrupted.");
+		NonBlockingSpeakBrickExecutionThread firstSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+				firstSpeakBrick);
 
-		SpeakBrick shortTextSpeakBrick = new SpeakBrick(null, "Interrupt!");
-		NonBlockingSpeakBrickExecutionThread shortTextSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
-				shortTextSpeakBrick);
+		SpeakBrick interruptSpeakBrick = new SpeakBrick(null, "Interrupt.");
+		NonBlockingSpeakBrickExecutionThread interruptSpeakBrickThread = new NonBlockingSpeakBrickExecutionThread(
+				interruptSpeakBrick);
 
-		longTextSpeakBrickThread.start();
-		solo.sleep(100);
+		firstSpeakBrickThread.start();
+		synchronized (this) {
+			wait(250);
+		}
+		assertFalse("First SpeakBrick already executed", firstSpeakBrickThread.isFinished());
+		assertFalse("Interrupted SpeakBrick already executed", interruptSpeakBrickThread.isFinished());
 
-		assertFalse("SpeakBrick with long text already executed", longTextSpeakBrickThread.isFinished());
-		assertFalse("SpeakBrick with short text already executed", shortTextSpeakBrickThread.isFinished());
+		interruptSpeakBrickThread.start();
+		synchronized (this) {
+			wait(100);
+		}
+		assertTrue("First SpeakBrick not finished yet", firstSpeakBrickThread.isFinished());
+		assertFalse("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
 
-		shortTextSpeakBrickThread.start();
-		shortTextSpeakBrickThread.join(5000);
-
-		assertTrue("SpeakBrick with long text not finished yet", longTextSpeakBrickThread.isFinished());
-		assertTrue("SpeakBrick with short text not finished yet", shortTextSpeakBrickThread.isFinished());
+		interruptSpeakBrickThread.join(1500);
+		assertTrue("Interrupted SpeakBrick not finished yet", interruptSpeakBrickThread.isFinished());
 	}
 
 	private void createProject() {
@@ -129,6 +171,8 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		private final Brick speakBrick;
 		private boolean finished = false;
 
+		private long elapsedTime = -1;
+
 		public NonBlockingSpeakBrickExecutionThread(Brick speakBrick) {
 			this.speakBrick = speakBrick;
 		}
@@ -137,16 +181,23 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			return finished;
 		}
 
+		@SuppressWarnings("unused")
+		// The method estimates the wait and join timeouts used in this test.
+		public long getElapsedTime() {
+			return elapsedTime;
+		}
+
 		@Override
 		public void run() {
+			long start = System.currentTimeMillis();
 			speakBrick.execute();
+			elapsedTime = System.currentTimeMillis() - start;
 			finished = true;
 		}
 	}
 
 	private class TextToSpeechMock extends TextToSpeech {
 		private final TextToSpeech textToSpeech;
-		protected OnUtteranceCompletedListenerMock mockListener;
 
 		protected String text;
 		protected int queueMode = -1;
@@ -165,33 +216,12 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		}
 
 		@Override
-		@Deprecated
-		public int setOnUtteranceCompletedListener(OnUtteranceCompletedListener listener) {
-			mockListener = new OnUtteranceCompletedListenerMock(listener);
-			return textToSpeech.setOnUtteranceCompletedListener(mockListener);
-		}
-
-		@Override
 		public int speak(String text, int queueMode, HashMap<String, String> parameters) {
 			this.text = text;
 			this.queueMode = queueMode;
 			this.parameters = parameters;
 
 			return textToSpeech.speak(text, queueMode, parameters);
-		}
-	}
-
-	private class OnUtteranceCompletedListenerMock implements OnUtteranceCompletedListener {
-		private final OnUtteranceCompletedListener listener;
-		protected String utteranceId;
-
-		public OnUtteranceCompletedListenerMock(OnUtteranceCompletedListener listener) {
-			this.listener = listener;
-		}
-
-		public void onUtteranceCompleted(String utteranceId) {
-			this.utteranceId = utteranceId;
-			listener.onUtteranceCompleted(utteranceId);
 		}
 	}
 }

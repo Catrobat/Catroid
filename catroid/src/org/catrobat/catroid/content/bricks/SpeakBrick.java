@@ -33,7 +33,6 @@ import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -41,10 +40,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class SpeakBrick implements Brick {
-	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
 
-	private static HashMap<String, SpeakBrick> activeSpeakBricks = new HashMap<String, SpeakBrick>();
 	private Sprite sprite;
 	private String text = "";
 
@@ -65,34 +62,25 @@ public class SpeakBrick implements Brick {
 
 	@Override
 	public synchronized void execute() {
+		final Brick self = this;
 		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
+
 			@Override
 			public void onUtteranceCompleted(String utteranceId) {
-				SpeakBrick speakBrick = activeSpeakBricks.get(utteranceId);
-				if (speakBrick == null) {
-					return;
-				}
-
-				synchronized (speakBrick) {
-					speakBrick.notifyAll();
+				synchronized (self) {
+					self.notify();
 				}
 			}
 		};
 
-		String utteranceId = String.valueOf(hashCode());
-		activeSpeakBricks.put(utteranceId, this);
-
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
-		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
+		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, String.valueOf(hashCode()));
 
-		long time = System.currentTimeMillis();
 		PreStageActivity.textToSpeech(getText(), listener, speakParameter);
 		try {
 			this.wait();
-		} catch (InterruptedException e) {
+		} catch (InterruptedException interruptedException) {
 		}
-		Log.i(LOG_TAG, "speak Time: " + (System.currentTimeMillis() - time));
-		activeSpeakBricks.remove(utteranceId);
 	}
 
 	@Override
