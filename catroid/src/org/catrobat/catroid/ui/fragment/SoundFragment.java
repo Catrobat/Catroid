@@ -224,6 +224,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
+            if (currentPlayingView != null) {
+                handlePauseSoundButton(currentPlayingView);
+            }
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			setBottomBarActivated(false);
@@ -234,6 +237,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
+            if (currentPlayingView != null) {
+                handlePauseSoundButton(currentPlayingView);
+            }
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			setBottomBarActivated(false);
