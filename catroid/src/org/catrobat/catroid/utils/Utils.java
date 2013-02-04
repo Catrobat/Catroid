@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -55,7 +56,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -68,7 +68,6 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -120,7 +119,8 @@ public class Utils {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		return activeNetworkInfo != null;
+
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
 	/**
@@ -150,17 +150,6 @@ public class Utils {
 	static public String buildProjectPath(String projectName) {
 		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
-
-	/**
-	 * @param projectFileName
-	 * @return the project name without the default file extension, else returns unchanged string
-	 */
-	//	public static String getProjectName(String projectFileName) {
-	//		if (projectFileName.endsWith(Constants.PROJECT_EXTENTION)) {
-	//			return projectFileName.substring(0, projectFileName.length() - Constants.PROJECT_EXTENTION.length());
-	//		}
-	//		return projectFileName;
-	//	}
 
 	public static void displayErrorMessageFragment(FragmentManager fragmentManager, String errorMessage) {
 		DialogFragment errorDialog = ErrorDialogFragment.newInstance(errorMessage);
@@ -352,7 +341,7 @@ public class Utils {
 		if (isUnderTest) {
 			return false;
 		} else {
-			return (context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+			return BuildConfig.DEBUG;
 		}
 	}
 
@@ -367,14 +356,5 @@ public class Utils {
 			return null;
 		}
 		return pixmap;
-	}
-
-	public static void setBottomBarActivated(Activity activity, boolean isActive) {
-		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
-
-		if (bottomBarLayout != null) {
-			bottomBarLayout.findViewById(R.id.button_add).setClickable(isActive);
-			bottomBarLayout.findViewById(R.id.button_play).setClickable(isActive);
-		}
 	}
 }
