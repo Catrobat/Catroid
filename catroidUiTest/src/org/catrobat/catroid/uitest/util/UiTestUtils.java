@@ -466,7 +466,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnActionBar(Solo solo, int imageButtonId) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			solo.waitForView(LinearLayout.class);
 			LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
 			solo.clickOnView(linearLayout);
@@ -718,7 +718,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnHomeActionBarButton(Solo solo) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			Activity activity = solo.getCurrentActivity();
 
 			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
@@ -890,7 +890,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
 			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
 			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
@@ -902,7 +902,7 @@ public class UiTestUtils {
 	}
 
 	public static int getActionBarSpinnerItemCount(Solo solo) {
-		if (Build.VERSION.SDK_INT < 15) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
 		} else {
 			return solo.getCurrentSpinners().get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
