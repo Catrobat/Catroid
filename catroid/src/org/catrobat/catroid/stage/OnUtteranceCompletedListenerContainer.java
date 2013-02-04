@@ -28,7 +28,7 @@ import java.util.Map;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 
-public class TextToSpeechCompletedListener implements OnUtteranceCompletedListener {
+public class OnUtteranceCompletedListenerContainer implements OnUtteranceCompletedListener {
 	private final Map<String, OnUtteranceCompletedListener> listeners = new HashMap<String, TextToSpeech.OnUtteranceCompletedListener>();
 
 	public synchronized void addOnUtteranceCompletedListener(OnUtteranceCompletedListener onUtteranceCompletedListener,

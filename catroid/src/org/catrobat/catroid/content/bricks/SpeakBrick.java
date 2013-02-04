@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -60,26 +61,31 @@ public class SpeakBrick implements Brick {
 		return TEXT_TO_SPEECH;
 	}
 
+	private static AtomicInteger utteranceIdPool = new AtomicInteger();
+
 	@Override
-	public synchronized void execute() {
-		final Brick self = this;
+	public void execute() {
 		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
 
 			@Override
 			public void onUtteranceCompleted(String utteranceId) {
-				synchronized (self) {
-					self.notify();
+				synchronized (this) {
+					this.notify();
 				}
 			}
 		};
 
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
-		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, String.valueOf(hashCode()));
+		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+				String.valueOf(utteranceIdPool.getAndIncrement()));
+		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_VOLUME, "0");
 
-		PreStageActivity.textToSpeech(getText(), listener, speakParameter);
-		try {
-			this.wait();
-		} catch (InterruptedException interruptedException) {
+		synchronized (listener) {
+			PreStageActivity.textToSpeech(getText(), listener, speakParameter);
+			try {
+				listener.wait();
+			} catch (InterruptedException interruptedException) {
+			}
 		}
 	}
 

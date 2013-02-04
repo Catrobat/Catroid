@@ -60,7 +60,7 @@ public class PreStageActivity extends Activity {
 	private static LegoNXT legoNXT;
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
-	private static TextToSpeechCompletedListener textToSpeechCompletedListener;
+	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 	private int requiredResourceCounter;
 
 	private boolean autoConnect = false;
@@ -239,8 +239,8 @@ public class PreStageActivity extends Activity {
 							}
 						}
 					});
-					textToSpeechCompletedListener = new TextToSpeechCompletedListener();
-					textToSpeech.setOnUtteranceCompletedListener(textToSpeechCompletedListener);
+					onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
+					textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
 					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
 						Intent installIntent = new Intent();
 						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
@@ -278,13 +278,13 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	public static synchronized void textToSpeech(String text, OnUtteranceCompletedListener listener,
+	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
 		if (text == null) {
 			text = "";
 		}
 
-		textToSpeechCompletedListener.addOnUtteranceCompletedListener(listener,
+		onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(listener,
 				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
 	}
