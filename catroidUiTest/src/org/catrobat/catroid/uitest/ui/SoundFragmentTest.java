@@ -502,7 +502,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
         // Mute before playing sound
         AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
-        int timeToWait = 1200;
+        int timeToWait = 2000;
 
         soundInfoList = projectManager.getCurrentSprite().getSoundList();
         SoundInfo soundInfo = soundInfoList.get(0);
@@ -512,6 +512,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
         solo.sleep(timeToWait);
         solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
         solo.waitForText(solo.getString(R.string.delete));
+        solo.sleep(timeToWait);
         assertFalse("Mediaplayer continues playing even if context menu has been opened", soundInfo.isPlaying);
         solo.goBack();
         checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
@@ -519,6 +520,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
         solo.clickOnView(playImageButton);
         solo.sleep(timeToWait);
         UiTestUtils.openActionMode(solo, rename, 0);
+        solo.sleep(timeToWait);
         assertFalse("Mediaplayer continues playing even if rename action has been opened", soundInfo.isPlaying);
         solo.goBack();
         checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
@@ -526,6 +528,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
         solo.clickOnView(playImageButton);
         solo.sleep(timeToWait);
         UiTestUtils.openActionMode(solo, null, R.id.delete);
+        solo.sleep(timeToWait);
         assertFalse("Mediaplayer continues playing even if delete action has been opened", soundInfo.isPlaying);
         solo.goBack();
         checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
