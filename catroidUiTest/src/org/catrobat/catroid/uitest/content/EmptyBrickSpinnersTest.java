@@ -159,7 +159,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	}
 
 	private void addPointToBrick(Sprite sprite, Sprite pointToSprite, Script startScript) {
-		PointToBrick pointToBrick = new PointToBrick(sprite, pointToSprite);
+		PointToBrick pointToBrick = new PointToBrick(sprite, pointToSprite, null);
 		startScript.addBrick(pointToBrick);
 	}
 

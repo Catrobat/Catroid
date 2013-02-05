@@ -54,7 +54,7 @@ public class PointToBrickTest extends AndroidTestCase {
 		startScript2.addBrick(size2);
 		sprite2.addScript(startScript2);
 
-		PointToBrick pointToBrick = new PointToBrick(sprite1, sprite2);
+		PointToBrick pointToBrick = new PointToBrick(sprite1, sprite2, null);
 		startScript1.addBrick(pointToBrick);
 		sprite1.addScript(startScript1);
 

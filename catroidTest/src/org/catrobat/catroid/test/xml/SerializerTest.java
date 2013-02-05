@@ -197,7 +197,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		PlaySoundBrick soundBrick = new PlaySoundBrick(testSprite);
 		soundBrick.setSoundInfo(referencedSound);
 
-		PointToBrick pointBrick = new PointToBrick(testSprite, pointedSprite);
+		PointToBrick pointBrick = new PointToBrick(testSprite, pointedSprite, null);
 
 		Script testScript = new StartScript(testSprite);
 		Script otherScript = new StartScript(pointedSprite);
