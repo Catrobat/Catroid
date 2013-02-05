@@ -56,7 +56,7 @@ public class StageActivity extends AndroidApplication {
 		if (ProjectManager.getInstance().getCurrentProject().isManualScreenshot()) {
 			Log.d("org.catrobat.catroid",
 					"StageActivity.onCreate() isManualScreenShot and setMakeFirstScreenShot(false)");
-			stageListener.setMakeFirstScreenShot(false);
+			stageListener.setMakeAutomaticScreenshot(false);
 		}
 	}
 

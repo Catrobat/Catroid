@@ -1164,7 +1164,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 			solo.goBack();
 		} else {
 			solo.goBack();
-			solo.sleep(500);
 			solo.goBack();
 		}
 
@@ -1173,7 +1172,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.sleep(1000);
+		solo.sleep(500);
 	}
 
 	public int createScreenshotBitmap() {
