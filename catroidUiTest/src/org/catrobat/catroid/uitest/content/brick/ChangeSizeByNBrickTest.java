@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -85,7 +86,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		UiTestUtils.clickEnterClose(solo, 0, SIZE_TO_CHANGE + "");
 
-		double currentSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);
+		double currentSize = (Double) Reflection.getPrivateField(changeSizeByNBrick, "size");
 		assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize);
 		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
