@@ -84,7 +84,6 @@ public class Project implements Serializable {
 	}
 
 	public void setManualScreenshot(boolean manualScreenshot) {
-		Log.d("org.catrobat.catroid", "The Project now has a manualScreenshot = true");
 		this.manualScreenshot = manualScreenshot;
 	}
 

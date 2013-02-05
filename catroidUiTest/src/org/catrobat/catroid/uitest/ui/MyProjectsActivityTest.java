@@ -1192,7 +1192,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 				TextView textView = (TextView) currentViews.get(i + 1);
 				if (textView.getText().equals(UiTestUtils.DEFAULT_TEST_PROJECT_NAME)) { // ...and check if it belongs to the test project
 
-					Log.d("org.catrobat.catroid", "text: " + textView.getText());
 					viewToTest.buildDrawingCache();
 					viewBitmap = viewToTest.getDrawingCache();
 					pixel = viewBitmap.getPixel(1, 1);
@@ -1217,14 +1216,12 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		String greenHexValue = "ff00ff00";
 		String redHexValue = "ffff0000";
 		String pixelHexValue = Integer.toHexString(greenPixel1);
-		Log.d("org.catrobat.catroid", "wanted: " + greenHexValue + ", have: " + pixelHexValue);
 		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		playTheProject(true, false, false); // green to red
 		int redPixel1 = createScreenshotBitmap();
 		pixelHexValue = Integer.toHexString(redPixel1);
-		Log.d("org.catrobat.catroid", "wanted: " + redHexValue + ", have: " + pixelHexValue);
 		assertEquals("The extracted pixel was not red", redHexValue, pixelHexValue);
 		assertFalse("The screenshot has not been changed", greenPixel1 == redPixel1);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -1232,7 +1229,6 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		playTheProject(false, true, true);// red to green + screenshot
 		int greenPixel2 = createScreenshotBitmap();
 		pixelHexValue = Integer.toHexString(greenPixel2);
-		Log.d("org.catrobat.catroid", "wanted: " + greenHexValue + ", have: " + pixelHexValue);
 		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
 		assertFalse("The screenshot has not been changed", redPixel1 == greenPixel2);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -1240,11 +1236,11 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		playTheProject(true, false, false); // green to red, screenshot must stay green
 		int greenPixel3 = createScreenshotBitmap();
 		pixelHexValue = Integer.toHexString(greenPixel3);
-		Log.d("org.catrobat.catroid", "wanted: " + greenHexValue + ", have: " + pixelHexValue);
 		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
 		assertTrue("The screenshot has not been changed", greenPixel2 == greenPixel3);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void createProjectWithBackgrounds() {
 
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -1277,6 +1273,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		setBackgroundBrick.setCostume(backgroundGreen);
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+		// "new" .getSize requires API 13, so supress for current build configuration	
 		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
 

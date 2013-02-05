@@ -41,7 +41,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
-import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -339,7 +338,6 @@ public class StageListener implements ApplicationListener {
 				}
 				this.makeThumbnail();
 				makeAutomaticScreenshot = false;
-				Log.d("org.catrobat.catroid", "I'm making the first screenshot");
 			}
 		}
 
@@ -416,7 +414,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public boolean makeScreenshot() {
-		Log.d("org.catrobat.catroid", "Make Screenshot");
 		makeScreenshot = true;
 		while (makeScreenshot) {
 			Thread.yield();
@@ -443,7 +440,6 @@ public class StageListener implements ApplicationListener {
 		} catch (IOException e) {
 			return false;
 		}
-		Log.d("org.catrobat.catroid", "Saved Screenshot");
 		return true;
 	}
 

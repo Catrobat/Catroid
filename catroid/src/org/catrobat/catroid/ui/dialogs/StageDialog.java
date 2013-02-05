@@ -70,14 +70,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.stage_dialog_button_back:
-				Log.d("org.catrobat.catroid", "onBackPressed:["
-						+ ProjectManager.getInstance().getCurrentProject().getName()
-						+ "], \n\tmakeFirstScreenshot Value is:" + stageListener.isMakeAutomaticScreenshot()
-						+ "\n\tprojectManualScreenshot = "
-						+ ProjectManager.getInstance().getCurrentProject().isManualScreenshot());
-
 				dismiss();
-
 				new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 				break;
 			case R.id.stage_dialog_button_resume:
@@ -115,12 +108,6 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-
-		Log.d("org.catrobat.catroid", "onBackPressed:[" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ "], \n\tmakeFirstScreenshot Value is:" + stageListener.isMakeAutomaticScreenshot()
-				+ " \n\tprojectManualScreenshot = "
-				+ ProjectManager.getInstance().getCurrentProject().isManualScreenshot());
-
 		dismiss();
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
