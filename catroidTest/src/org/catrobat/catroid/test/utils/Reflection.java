@@ -86,21 +86,54 @@ public class Reflection {
 	}
 
 	public static class ParameterList {
-		private final Class<?>[] types;
-		private final Object[] values;
+		private Class<?>[] types;
+		private Object[] values;
 
-		public ParameterList(Object... values) {
-			this.types = new Class<?>[values.length];
-			this.values = new Object[values.length];
+		public ParameterList(Object... parameters) {
+			Parameter[] parameterList = new Parameter[parameters.length];
+			for (int index = 0; index < parameters.length; index++) {
+				Object parameter = parameters[index];
 
-			for (int index = 0; index < values.length; index++) {
-				Object value = values[index];
-				this.types[index] = value.getClass();
-				this.values[index] = value;
+				if (parameter == null) {
+					throw new RuntimeException("Parameter " + index + " is null");
+				} else if (parameter instanceof Parameter) {
+					parameterList[index] = (Parameter) parameter;
+				} else {
+					parameterList[index] = new Parameter(getParameterType(parameter), parameter);
+				}
 			}
+			splitParametersToTypesAndValues(parameterList);
+		}
+
+		private Class<?> getParameterType(Object object) {
+			Class<?> objectClass = object.getClass();
+
+			if (objectClass == Boolean.class) {
+				objectClass = boolean.class;
+			} else if (objectClass == Byte.class) {
+				objectClass = byte.class;
+			} else if (objectClass == Character.class) {
+				objectClass = char.class;
+			} else if (objectClass == Double.class) {
+				objectClass = double.class;
+			} else if (objectClass == Float.class) {
+				objectClass = float.class;
+			} else if (objectClass == Integer.class) {
+				objectClass = int.class;
+			} else if (objectClass == Long.class) {
+				objectClass = long.class;
+			} else if (objectClass == Short.class) {
+				objectClass = short.class;
+			}
+
+			return objectClass;
 		}
 
 		public ParameterList(Parameter... parameters) {
+			splitParametersToTypesAndValues(parameters);
+		}
+
+		private void splitParametersToTypesAndValues(Parameter... parameters) {
 			this.types = new Class<?>[parameters.length];
 			this.values = new Object[parameters.length];
 
@@ -112,87 +145,38 @@ public class Reflection {
 		}
 	}
 
-	// 1515 - 1548
-	// 1640 - 
-	public static Object invokeMethod(Object object, String methodName, Parameter... parameters) {
-		return invokeMethod(object, methodName, new ParameterList(parameters));
+	public static Object invokeMethod(Object object, String methodName) {
+		return invokeMethod(object, methodName, new ParameterList());
 	}
 
-	public static Object invokeMethod(Object object, String methodName, ParameterList parameters) {
+	public static Object invokeMethod(Object object, String methodName, ParameterList parameterList) {
+		if (object == null) {
+			throw new IllegalArgumentException("Object is null");
+		}
+
+		return Reflection.invokeMethod(object.getClass(), object, methodName, parameterList);
+	}
+
+	public static Object invokeMethod(Class<?> clazz, String methodName) {
+		return invokeMethod(clazz, methodName, new ParameterList());
+	}
+
+	public static Object invokeMethod(Class<?> clazz, String methodName, ParameterList parameterList) {
+		return Reflection.invokeMethod(clazz, null, methodName, parameterList);
+	}
+
+	public static Object invokeMethod(Class<?> clazz, Object object, String methodName) {
+		return invokeMethod(clazz, object, methodName, new ParameterList());
+	}
+
+	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, ParameterList parameterList) {
 		try {
-			Method method = object.getClass().getDeclaredMethod(methodName, parameters.types);
+			Method method = clazz.getDeclaredMethod(methodName, parameterList.types);
 			method.setAccessible(true);
-			return method.invoke(object, parameters.values);
+			return method.invoke(object, parameterList.values);
 		} catch (Exception exception) {
 			throw new RuntimeException(exception);
 		}
-
 	}
-	//	public static Object invokeMethod(Object object, String methodName, Object... parameters) {
-	//		if (object == null) {
-	//			throw new IllegalArgumentException("Object is null");
-	//		}
-	//
-	//		return Reflection.invokeMethod(object.getClass(), object, methodName, parameters);
-	//	}
-	//
-	//	public static Object invokeMethod(Object object, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
-	//		if (object == null) {
-	//			throw new IllegalArgumentException("Object is null");
-	//		}
-	//
-	//		return Reflection.invokeMethod(object.getClass(), object, methodName, parameterTypes, parameters);
-	//	}
-	//
-	//	public static Object invokeMethod(Class<?> clazz, String methodName, Object... parameters) {
-	//		return Reflection.invokeMethod(clazz, null, methodName, parameters);
-	//	}
-	//
-	//	public static Object invokeMethod(Class<?> clazz, String methodName, Class<?>[] parameterTypes, Object[] parameters) {
-	//		return Reflection.invokeMethod(clazz, null, methodName, parameterTypes, parameters);
-	//	}
-	//
-	//	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, Object... parameters) {
-	//		return Reflection.invokeMethod(clazz, object, methodName, getParameterTypes(parameters), parameters);
-	//	}
-	//
-	//	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, Class<?>[] parameterTypes,
-	//			Object[] parameters) {
-	//		try {
-	//			Method method = clazz.getDeclaredMethod(methodName, parameterTypes);
-	//			method.setAccessible(true);
-	//			return method.invoke(object, parameters);
-	//		} catch (Exception exception) {
-	//			throw new RuntimeException(exception);
-	//		}
-	//	}
-	//
-	//	public static Class<?>[] getParameterTypes(Object[] parameters) {
-	//		Class<?>[] arguments = new Class<?>[parameters.length];
-	//		for (int index = 0; index < parameters.length; index++) {
-	//			Class<?> currentParameterClass = parameters[index].getClass();
-	//			if (currentParameterClass == Boolean.class) {
-	//				currentParameterClass = boolean.class;
-	//			} else if (currentParameterClass == Byte.class) {
-	//				currentParameterClass = byte.class;
-	//			} else if (currentParameterClass == Character.class) {
-	//				currentParameterClass = char.class;
-	//			} else if (currentParameterClass == Double.class) {
-	//				currentParameterClass = double.class;
-	//			} else if (currentParameterClass == Float.class) {
-	//				currentParameterClass = float.class;
-	//			} else if (currentParameterClass == Integer.class) {
-	//				currentParameterClass = int.class;
-	//			} else if (currentParameterClass == Long.class) {
-	//				currentParameterClass = long.class;
-	//			} else if (currentParameterClass == Short.class) {
-	//				currentParameterClass = short.class;
-	//			}
-	//
-	//			arguments[index] = currentParameterClass;
-	//		}
-	//
-	//		return arguments;
-	//	}
 
 }
