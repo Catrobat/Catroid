@@ -86,9 +86,9 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		for (int index = 0; index < 3; index++) {
 			NonBlockingSpeakBrickExecutionThread speakBrickThread = new NonBlockingSpeakBrickExecutionThread(speakBrick);
 			speakBrickThread.start();
-			speakBrickThread.join(100);
-			assertTrue(speakBrickThread.isFinished());
-			assertEquals(String.valueOf(index),
+			speakBrickThread.join(200);
+			assertTrue("Speack brick not finished yet", speakBrickThread.isFinished());
+			assertEquals("TextToSpeech exectuted with wrong utterance id", String.valueOf(index),
 					textToSpeechMock.parameters.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
 		}
 	}
@@ -241,7 +241,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 				public void onInit(int status) {
 					if (status == SUCCESS) {
 						TextToSpeech textToSpeech = null;
-						for (int round = 0; round < 6; round++) {
+						for (int round = 0; round < 8; round++) {
 							textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class,
 									"textToSpeech");
 							if (textToSpeech != null && textToSpeechMock != null) {
