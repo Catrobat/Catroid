@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -53,16 +52,13 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	}
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp() throws InterruptedException {
 		createProjectToInitializeTextToSpeech();
 		solo = new Solo(getInstrumentation(), getActivity());
 
 		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
 		synchronized (textToSpeechMock) {
-			try {
-				textToSpeechMock.wait(2000);
-			} catch (InterruptedException interruptedException) {
-			}
+			textToSpeechMock.wait();
 		}
 
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
@@ -204,12 +200,12 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 	}
 
 	private class NonBlockingSpeakBrickExecutionThread extends Thread {
-		private final Brick speakBrick;
+		private final SpeakBrick speakBrick;
 		private boolean finished = false;
 
 		private long elapsedTime = -1;
 
-		public NonBlockingSpeakBrickExecutionThread(Brick speakBrick) {
+		public NonBlockingSpeakBrickExecutionThread(SpeakBrick speakBrick) {
 			this.speakBrick = speakBrick;
 		}
 
@@ -228,6 +224,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			long start = System.currentTimeMillis();
 			speakBrick.execute();
 			elapsedTime = System.currentTimeMillis() - start;
+			System.out.println("LOG: " + speakBrick.getText() + " @ " + getElapsedTime());
 			finished = true;
 		}
 	}
@@ -242,37 +239,29 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		public TextToSpeechMock(Context context) {
 			super(context, new OnInitListener() {
 				public void onInit(int status) {
-					if (textToSpeechMock == null) {
-						synchronized (this) {
-							try {
-								wait(1000);
-							} catch (InterruptedException e) {
+					if (status == SUCCESS) {
+						TextToSpeech textToSpeech = null;
+						for (int round = 0; round < 6; round++) {
+							textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class,
+									"textToSpeech");
+							if (textToSpeech != null && textToSpeechMock != null) {
+								break;
 							}
-						}
-					}
 
-					textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class,
-							"textToSpeech");
-					System.out.println("LOG: TTS = " + textToSpeechMock.textToSpeech);
-					if (textToSpeechMock.textToSpeech == null) {
-						synchronized (this) {
-							try {
-								wait(1000);
-								textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(
-										PreStageActivity.class, "textToSpeech");
-
-							} catch (InterruptedException interruptedException) {
+							synchronized (this) {
+								try {
+									wait(500);
+								} catch (InterruptedException interruptedException) {
+								}
 							}
-						}
-
-						if (textToSpeechMock.textToSpeech == null) {
-							fail("TextToSpeech hasn't been initialized.");
-							System.out.println("LOG: Failed to init TTS = " + textToSpeechMock.textToSpeech);
 						}
 
 						synchronized (textToSpeechMock) {
+							textToSpeechMock.textToSpeech = textToSpeech;
 							textToSpeechMock.notifyAll();
 						}
+					} else {
+						fail("TextToSpeech couldn't be initialized");
 					}
 				}
 			});
