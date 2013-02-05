@@ -258,6 +258,7 @@
     <string name="brick_glide">Glide</string>
     <string name="brick_glide_to_x">to X:</string>
     <string name="testvalue">66</string>
+    <string name="brick_point_to_prototype">Nothing…</string>
     <!--  -->
 
 
@@ -286,6 +287,7 @@
     <string name="brick_set_volume_to">Set volume to</string>
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
+    <string name="brick_speak_prototype">"Hello!"</string>
     <!--  -->
 
 
@@ -302,6 +304,9 @@
     <string name="brick_repeat">Repeat</string>
     <string name="times_label">times</string>
     <string name="brick_loop_end">End of loop</string>
+    <string name="brick_broadcast_prototype">"message 1"</string>
+    <string name="brick_note_prototype">"add comment here..."</string>
+    
     <!--  -->
 
 

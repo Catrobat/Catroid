@@ -195,9 +195,7 @@ public class PointToBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		//LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		//View view = inflater.inflate(R.layout.brick_point_to, null);
-		return prototype;//view;
+		return prototype;
 	}
 
 	@Override
@@ -209,6 +207,6 @@ public class PointToBrick implements Brick {
 	public void setDefaultValues(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		prototype = inflater.inflate(R.layout.brick_point_to, null);
-		//TOTO set the Value in teh list 
+		//TODO set the Value in the list 
 	}
 }

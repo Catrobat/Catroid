@@ -148,11 +148,5 @@ public class SetCostumeBrick implements Brick {
 
 	@Override
 	public void setDefaultValues(Context context) {
-		//prototype = View.inflate(context, R.layout.brick_set_costume, null);
-		//if (sprite.getName().equals(context.getString(R.string.background))) {
-		//	TextView textSetCostume = (TextView) prototype.findViewById(R.id.brick_set_costume_prototype_text_view);
-		///	textSetCostume.setText(R.string.brick_set_background);
-		//	textSetCostume.setText(costume + "");
-		//}
 	}
 }

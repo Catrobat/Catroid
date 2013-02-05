@@ -204,7 +204,7 @@
     <string name="login_or_register">Einloggen/\nRegistrieren</string>
     <string name="password_forgotten">Passwort\nvergessen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
-    <string name="register_error">Fehler aufgetreten</string>
+    <string name="register_error">Fehler aufetreten</string>
     <!--  -->
 
 
@@ -281,6 +281,7 @@
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
+    <string name="brick_speak_prototype">"Hallo!"</string>
     <!--  -->
 
 
@@ -297,6 +298,8 @@
     <string name="brick_repeat">Wiederhole</string>
     <string name="times_label">mal</string>
     <string name="brick_loop_end">Wiederholen beenden</string>
+    <string name="brick_broadcast_prototype">"Nachricht 1"</string>
+    <string name="brick_note_prototype">"Anmerkung hier hinzufügen..." </string>
     <!--  -->
 
 

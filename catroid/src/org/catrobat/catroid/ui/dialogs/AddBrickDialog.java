@@ -204,6 +204,7 @@ public class AddBrickDialog extends DialogFragment {
 
 	private void abort() {
 		getScriptFragment().setCreateNewBrick(false);
+
 	}
 
 	private ScriptFragment getScriptFragment() {
@@ -255,11 +256,11 @@ public class AddBrickDialog extends DialogFragment {
 		turnRightBrick.setDefaultValues(context);
 		motionBrickList.add(turnRightBrick);
 
-		//PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
-		//pointInDirectionBrick.setDefaultValues(context);
-		motionBrickList.add(new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT));
+		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
+		pointInDirectionBrick.setDefaultValues(context);
+		motionBrickList.add(pointInDirectionBrick);
 
-		PointToBrick pointToBrick = new PointToBrick(sprite, null, BrickValues.POINT_TOWARDS);
+		PointToBrick pointToBrick = new PointToBrick(sprite, null, context.getString(R.string.brick_point_to_prototype));
 		pointToBrick.setDefaultValues(context);
 		motionBrickList.add(pointToBrick);
 
@@ -328,7 +329,7 @@ public class AddBrickDialog extends DialogFragment {
 		changeVolumeByNBrick.setDefaultValues(context);
 		soundBrickList.add(changeVolumeByNBrick);
 
-		SpeakBrick speakBrick = new SpeakBrick(sprite, BrickValues.SPEAK);
+		SpeakBrick speakBrick = new SpeakBrick(sprite, context.getString(R.string.brick_speak_prototype));
 		speakBrick.setDefaultValues(context);
 		soundBrickList.add(speakBrick);
 
@@ -354,7 +355,7 @@ public class AddBrickDialog extends DialogFragment {
 		controlBrickList.add(new BroadcastBrick(sprite));
 		controlBrickList.add(new BroadcastWaitBrick(sprite));
 
-		NoteBrick noteBrick = new NoteBrick(sprite, BrickValues.NOTE);
+		NoteBrick noteBrick = new NoteBrick(sprite, context.getString(R.string.brick_note_prototype));
 		noteBrick.setDefaultValues(context);
 		controlBrickList.add(noteBrick);
 
