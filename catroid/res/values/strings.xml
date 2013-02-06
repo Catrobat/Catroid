@@ -114,6 +114,7 @@
     <string name="delete_look_dialog">Delete look?</string>
     <string name="select_look_from_gallery">Select image</string>
     <string name="select_look_from_camera">Select photo</string>
+    <string name="look_resolution">Resolution:</string>
     <!--  -->
 
 

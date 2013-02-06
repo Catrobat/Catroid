@@ -116,6 +116,7 @@
     <string name="add_look_from_camera">Von Kamera</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
     <string name="select_look_from_camera">Photo auswählen</string>
+    <string name="look_resolution">Auflösung:</string>
     <!--  -->
 
 

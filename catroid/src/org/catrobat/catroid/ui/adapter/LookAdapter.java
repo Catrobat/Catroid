@@ -87,7 +87,8 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 
 				//setting resolution
 				int[] resolution = lookData.getResolution();
-				lookResolutionTextView.setText(resolution[0] + " x " + resolution[1]);
+				lookResolutionTextView.setText(getContext().getString(R.string.look_resolution) + " " + resolution[0]
+						+ " x " + resolution[1]);
 			}
 
 			lookImageView.setOnClickListener(new OnClickListener() {
