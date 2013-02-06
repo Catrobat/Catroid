@@ -34,7 +34,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,8 +46,7 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 
 	private boolean showDetails;
 
-	public LookAdapter(final Context context, int textViewResourceId, ArrayList<LookData> items,
-			boolean showDetails) {
+	public LookAdapter(final Context context, int textViewResourceId, ArrayList<LookData> items, boolean showDetails) {
 		super(context, textViewResourceId, items);
 		this.context = context;
 		this.showDetails = showDetails;
@@ -66,9 +64,6 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 			convertView = View.inflate(context, R.layout.fragment_look_looklist_item, null);
 		}
 
-		convertView.findViewById(R.id.btn_look_copy).setTag(position);
-		convertView.findViewById(R.id.btn_look_delete).setTag(position);
-		convertView.findViewById(R.id.btn_look_edit).setTag(position);
 		convertView.findViewById(R.id.look_name).setTag(position);
 		convertView.findViewById(R.id.look_image).setTag(position);
 
@@ -77,11 +72,8 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 		if (lookData != null) {
 			ImageView lookImage = (ImageView) convertView.findViewById(R.id.look_image);
 			TextView lookNameTextField = (TextView) convertView.findViewById(R.id.look_name);
-			TextView lookResolution = (TextView) convertView.findViewById(R.id.look_res);
+			TextView lookResolution = (TextView) convertView.findViewById(R.id.look_resolution);
 			TextView lookSize = (TextView) convertView.findViewById(R.id.look_size);
-			Button lookEditButton = (Button) convertView.findViewById(R.id.btn_look_edit);
-			Button lookCopyButton = (Button) convertView.findViewById(R.id.btn_look_copy);
-			Button lookDeleteButton = (Button) convertView.findViewById(R.id.btn_look_delete);
 
 			lookImage.setImageBitmap(lookData.getThumbnailBitmap());
 			lookNameTextField.setText(lookData.getLookName());
@@ -114,35 +106,7 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 					}
 				}
 			});
-
-			lookEditButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onLookEditListener != null) {
-						onLookEditListener.onLookEdit(v);
-					}
-				}
-			});
-
-			lookCopyButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onLookEditListener != null) {
-						onLookEditListener.onLookCopy(v);
-					}
-				}
-			});
-
-			lookDeleteButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onLookEditListener != null) {
-						onLookEditListener.onLookDelete(v);
-					}
-				}
-			});
 		}
-
 		return convertView;
 	}
 
