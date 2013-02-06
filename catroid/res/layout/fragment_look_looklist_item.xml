@@ -35,7 +35,7 @@
         android:paddingLeft="5dip" >
 
         <ImageView
-            android:id="@+id/costume_image"
+            android:id="@+id/look_image"
             android:layout_width="110dip"
             android:layout_height="110dip"
             android:clickable="true"
@@ -48,7 +48,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/costume_name"
+                android:id="@+id/look_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dip"
                 android:layout_marginLeft="8dip"
@@ -72,7 +72,7 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:id="@+id/costume_res"
+                    android:id="@+id/look_res"
                     android:layout_width="wrap_content"
                     android:layout_height="20dip"
                     android:layout_weight=".5"
@@ -86,7 +86,7 @@
                     android:textSize="12dip" />
 
                 <TextView
-                    android:id="@+id/costume_size"
+                    android:id="@+id/look_size"
                     android:layout_width="wrap_content"
                     android:layout_height="20dip"
                     android:layout_weight=".5"
@@ -112,23 +112,23 @@
         android:weightSum="3" >
 
         <Button
-            android:id="@+id/btn_costume_edit"
+            android:id="@+id/btn_look_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_paintroid_logo"
-            android:text="@string/edit_costume_paintroid" />
+            android:text="@string/edit_look_paintroid" />
 
         <Button
-            android:id="@+id/btn_costume_copy"
+            android:id="@+id/btn_look_copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_copy"
-            android:text="@string/copy_costume" />
+            android:text="@string/copy_look" />
 
         <Button
-            android:id="@+id/btn_costume_delete"
+            android:id="@+id/btn_look_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

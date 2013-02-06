@@ -30,7 +30,7 @@ import java.util.Set;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
@@ -497,11 +497,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void deleteSpriteFiles() {
-		List<CostumeData> costumeDataList = spriteToEdit.getCostumeDataList();
+		List<LookData> lookDataList = spriteToEdit.getLookDataList();
 		List<SoundInfo> soundInfoList = spriteToEdit.getSoundList();
 
-		for (CostumeData currentCostumeData : costumeDataList) {
-			StorageHandler.getInstance().deleteFile(currentCostumeData.getAbsolutePath());
+		for (LookData currentLookData : lookDataList) {
+			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath());
 		}
 
 		for (SoundInfo currentSoundInfo : soundInfoList) {

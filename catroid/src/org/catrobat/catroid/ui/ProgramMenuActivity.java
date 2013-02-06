@@ -62,9 +62,9 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 	protected void onResume() {
 		super.onResume();
 		if (ProjectManager.INSTANCE.getCurrentSpritePosition() == 0) {
-			((Button) findViewById(R.id.program_menu_button_costumes)).setText(R.string.backgrounds);
+			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.backgrounds);
 		} else {
-			((Button) findViewById(R.id.program_menu_button_costumes)).setText(R.string.costumes);
+			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
 		}
 	}
 
@@ -111,8 +111,8 @@ public class ProgramMenuActivity extends SherlockFragmentActivity implements Err
 		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
-	public void handleCostumesButton(View v) {
-		startScriptActivity(ScriptActivity.FRAGMENT_COSTUMES);
+	public void handleLooksButton(View v) {
+		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
 	}
 
 	public void handleSoundsButton(View v) {

@@ -60,7 +60,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		Thread.sleep(expectedDelay * fiveIsAlmostForever);
 
 		assertEquals("Executed the wrong number of times!", fiveIsAlmostForever * deltaY,
-				(int) testSprite.costume.getYPosition());
+				(int) testSprite.look.getYPosition());
 
 		final int timesToRepeat = (Integer) Reflection.getPrivateField(loopEndBrick, "timesToRepeat");
 		final int forever = (Integer) Reflection.getPrivateField(loopEndBrick, "FOREVER");
@@ -95,7 +95,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		final long endTime = System.currentTimeMillis();
 
-		assertEquals("Loop delay did not work!", repeatTimes * deltaY, (int) testSprite.costume.getYPosition());
+		assertEquals("Loop delay did not work!", repeatTimes * deltaY, (int) testSprite.look.getYPosition());
 
 		/*
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
@@ -128,6 +128,6 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		Thread.sleep(expectedDelay / 5);
 
 		assertEquals("There was an unexpected delay at the begin of the loop!", deltaY,
-				(int) testSprite.costume.getYPosition());
+				(int) testSprite.look.getYPosition());
 	}
 }

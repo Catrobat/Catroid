@@ -195,7 +195,7 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_point_to, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_glide, R.string.category_motion);
 
-		brickCategoryMap.put(R.string.brick_set_costume, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_set_look, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_set_size_to, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_change_size_by, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_hide, R.string.category_looks);
@@ -763,15 +763,15 @@ public class UiTestUtils {
 		solo.sleep(200);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo) {
-		getIntoCostumesFromMainMenu(solo, 0, false);
+	public static void getIntoLooksFromMainMenu(Solo solo) {
+		getIntoLooksFromMainMenu(solo, 0, false);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo, boolean isBackground) {
-		getIntoCostumesFromMainMenu(solo, 0, isBackground);
+	public static void getIntoLooksFromMainMenu(Solo solo, boolean isBackground) {
+		getIntoLooksFromMainMenu(solo, 0, isBackground);
 	}
 
-	public static void getIntoCostumesFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
+	public static void getIntoLooksFromMainMenu(Solo solo, int spriteIndex, boolean isBackground) {
 		getIntoProgramMenuFromMainMenu(solo, spriteIndex);
 
 		String textToClickOn = "";
@@ -779,7 +779,7 @@ public class UiTestUtils {
 		if (isBackground) {
 			textToClickOn = solo.getString(R.string.backgrounds);
 		} else {
-			textToClickOn = solo.getString(R.string.costumes);
+			textToClickOn = solo.getString(R.string.looks);
 		}
 		solo.clickOnText(textToClickOn);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());

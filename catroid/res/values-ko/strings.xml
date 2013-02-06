@@ -69,27 +69,27 @@
     <string name="project_name">"프로젝트 :"</string>
     <string name="number_of_scripts">"스크립트"</string>
     <string name="number_of_bricks">"블록 :"</string>
-    <string name="number_of_costumes">"형태:"</string>
+    <string name="number_of_looks">"형태:"</string>
     <string name="number_of_sounds">"소리:"</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"스크립트"</string>
-    <string name="costumes">"형태"</string>
+    <string name="looks">"형태"</string>
     <string name="sounds">"소리"</string>
     <string name="backgrounds">"배경"</string>
-    <!-- Costume activity -->
-    <string name="rename_costume_dialog">"형태 이름 바꾸기"</string>
-    <string name="edit_costume">"수정"</string>
-    <string name="edit_costume_paintroid">"그림판"</string>
-    <string name="copy_costume">"복사"</string>
-    <string name="costumename_invalid">"형태의 이름이 잘못되었습니다."</string>
-    <string name="copy_costume_addition">"복사"</string>
+    <!-- Look activity -->
+    <string name="rename_look_dialog">"형태 이름 바꾸기"</string>
+    <string name="edit_look">"수정"</string>
+    <string name="edit_look_paintroid">"그림판"</string>
+    <string name="copy_look">"복사"</string>
+    <string name="lookname_invalid">"형태의 이름이 잘못되었습니다."</string>
+    <string name="copy_look_addition">"복사"</string>
     <string name="paintroid_not_installed">"그림판이 설치되어 있지 않습니다! \n그림판을 설치하겠습니까?"</string>
-    <string name="default_costume_name">"형태"</string>
-    <string name="delete_costume_dialog">"형태를 삭제하겠습니까?"</string>
-    <string name="add_costume_from_camera">"카메라에서 가져오기"</string>
-    <string name="add_costume_from_gallery">"갤러리에서 가져오기"</string>
-    <string name="select_costume_from_gallery">"그림 선택"</string>
-    <string name="select_costume_from_camera">"사진 선택"</string>
+    <string name="default_look_name">"형태"</string>
+    <string name="delete_look_dialog">"형태를 삭제하겠습니까?"</string>
+    <string name="add_look_from_camera">"카메라에서 가져오기"</string>
+    <string name="add_look_from_gallery">"갤러리에서 가져오기"</string>
+    <string name="select_look_from_gallery">"그림 선택"</string>
+    <string name="select_look_from_camera">"사진 선택"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"소리 이름 바꾸기"</string>
     <string name="soundname_invalid">"소리의 이름이 잘못되었습니다"</string>
@@ -189,7 +189,7 @@
     <string name="brick_glide">"움직이기"</string>
     <string name="brick_glide_to">"쪽으로"</string>
     <!-- Looks bricks -->
-    <string name="brick_set_costume">"형태 바꾸기"</string>
+    <string name="brick_set_look">"형태 바꾸기"</string>
     <string name="brick_set_background">"배경 설정"</string>
     <string name="brick_set_size_to">"크기 설정"</string>
     <string name="brick_change_size_by">"다음 비율로 크기 변경하기"</string>
@@ -202,7 +202,7 @@
     <string name="by_label">"만큼"</string>
     <string name="to_label">"로"</string>
     <string name="brick_clear_graphic_effect">"그래픽 효과 지우기"</string>
-    <string name="brick_next_costume">"다음 형태"</string>
+    <string name="brick_next_look">"다음 형태"</string>
     <string name="brick_next_background">"다음 배경"</string>
     <!-- Sound bricks -->
     <string name="brick_play_sound">"소리 재생"</string>
@@ -311,7 +311,7 @@
     <string name="formula_editor_parse_fail">"입력에 오류가 있습니다! 해결하거나 취소하려면 다시 누르십시오."</string>
     <string name="formula_nothing_selected">"블록의 입력 값을 정의"</string>
     <string name="formula_editor_parse_fail_formula_too_long">"수식이 너무 깁니다! 해결하거나 취소하려면 다시 누르십시오."</string>
-    <string name="formula_editor_choose_costume_variable">"형태 변수 값를 선택하세요 :"</string>
+    <string name="formula_editor_choose_look_variable">"형태 변수 값를 선택하세요 :"</string>
     <string name="formula_editor_function_sin">"sin"</string>
     <string name="formula_editor_function_cos">"cos"</string>
     <string name="formula_editor_function_tan">"tan"</string>
@@ -329,12 +329,12 @@
     <string name="formula_editor_sensor_azimuth_orientation">"azimuth-orientation"</string>
     <string name="formula_editor_sensor_pitch_orientation">"pitch-orientation"</string>
     <string name="formula_editor_sensor_roll_orientation">"roll-orientation"</string>
-    <string name="formula_editor_costume_x">"looks-x"</string>
-    <string name="formula_editor_costume_y">"looks-y"</string>
-    <string name="formula_editor_costume_ghosteffect">"looks-ghosteffect"</string>
-    <string name="formula_editor_costume_brightness">"looks-brightness"</string>
-    <string name="formula_editor_costume_size">"looks-size"</string>
-    <string name="formula_editor_costume_rotation">"looks-rotation"</string>
-    <string name="formula_editor_costume_layer">"looks-layer"</string>
+    <string name="formula_editor_look_x">"looks-x"</string>
+    <string name="formula_editor_look_y">"looks-y"</string>
+    <string name="formula_editor_look_ghosteffect">"looks-ghosteffect"</string>
+    <string name="formula_editor_look_brightness">"looks-brightness"</string>
+    <string name="formula_editor_look_size">"looks-size"</string>
+    <string name="formula_editor_look_rotation">"looks-rotation"</string>
+    <string name="formula_editor_look_layer">"looks-layer"</string>
 
 </resources>

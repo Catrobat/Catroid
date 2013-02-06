@@ -403,7 +403,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		TextView tvScriptCount = ((TextView) solo.getView(R.id.textView_number_of_scripts));
 		TextView tvBrickCount = ((TextView) solo.getView(R.id.textView_number_of_bricks));
-		TextView tvCostumeCount = ((TextView) solo.getView(R.id.textView_number_of_costumes));
+		TextView tvLookCount = ((TextView) solo.getView(R.id.textView_number_of_looks));
 		TextView tvSoundCount = ((TextView) solo.getView(R.id.textView_number_of_sounds));
 
 		// Hide details if shown
@@ -416,12 +416,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			solo.goBack();
 		}
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvCostumeCount, tvSoundCount, false);
+		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, false);
 
 		solo.clickOnMenuItem(showDetailsText);
 		solo.sleep(300);
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvCostumeCount, tvSoundCount, true);
+		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, true);
 
 		UiTestUtils.openOptionsMenu(solo);
 		assertTrue("Hide details should be shown!", solo.waitForText(hideDetailsText));
@@ -434,15 +434,15 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
-		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvCostumeCount, tvSoundCount, true);
+		checkVisibilityOfViews(tvScriptCount, tvBrickCount, tvLookCount, tvSoundCount, true);
 
 		solo.clickOnMenuItem(hideDetailsText);
 		solo.sleep(300);
 
 		assertFalse("Scripts should be hidden",
 				solo.waitForText(solo.getString(R.string.number_of_scripts), 0, 100, false, true));
-		assertFalse("Costumes should be hidden",
-				solo.waitForText(solo.getString(R.string.number_of_costumes), 0, 100, false, true));
+		assertFalse("Looks should be hidden",
+				solo.waitForText(solo.getString(R.string.number_of_looks), 0, 100, false, true));
 		assertFalse("Bricks should be hidden",
 				solo.waitForText(solo.getString(R.string.number_of_bricks), 0, 100, false, true));
 		assertFalse("Sounds should be hidden",
@@ -455,12 +455,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		int scriptCount = currentSprite.getNumberOfScripts();
 		int brickCount = currentSprite.getNumberOfBricks();
-		int costumeCount = currentSprite.getCostumeDataList().size();
+		int lookCount = currentSprite.getLookDataList().size();
 		int soundCount = currentSprite.getSoundList().size();
 
 		String scriptCountString = tvScriptCount.getText().toString();
 		String brickCountString = tvBrickCount.getText().toString();
-		String costumeCountString = tvCostumeCount.getText().toString();
+		String lookCountString = tvLookCount.getText().toString();
 		String soundCountString = tvSoundCount.getText().toString();
 
 		int scriptCountActual = Integer.parseInt(scriptCountString.substring(scriptCountString.lastIndexOf(' ') + 1));
@@ -470,9 +470,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		int brickCountExpected = scriptCount + brickCount;
 		assertEquals("Displayed the wrong number of bricks", brickCountExpected, brickCountActual);
 
-		int costumeCountActual = Integer
-				.parseInt(costumeCountString.substring(costumeCountString.lastIndexOf(' ') + 1));
-		assertEquals("Displayed wrong number of costumes", costumeCount, costumeCountActual);
+		int lookCountActual = Integer
+				.parseInt(lookCountString.substring(lookCountString.lastIndexOf(' ') + 1));
+		assertEquals("Displayed wrong number of looks", lookCount, lookCountActual);
 
 		int soundCountActual = Integer.parseInt(soundCountString.substring(soundCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of sound", soundCount, soundCountActual);
@@ -749,7 +749,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		projectManager.setProject(project);
 	}
 
-	private void checkVisibilityOfViews(TextView tvScriptCount, TextView tvBrickCount, TextView tvCostumeCount,
+	private void checkVisibilityOfViews(TextView tvScriptCount, TextView tvBrickCount, TextView tvLookCount,
 			TextView tvSoundCount, boolean visible) {
 		int visibility = View.GONE;
 
@@ -762,7 +762,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertTrue("Script count " + assertMessageAffix, tvSoundCount.getVisibility() == visibility);
 		assertTrue("Brick count " + assertMessageAffix, tvBrickCount.getVisibility() == visibility);
-		assertTrue("Costume count " + assertMessageAffix, tvCostumeCount.getVisibility() == visibility);
+		assertTrue("Look count " + assertMessageAffix, tvLookCount.getVisibility() == visibility);
 		assertTrue("Sound count " + assertMessageAffix, tvSoundCount.getVisibility() == visibility);
 	}
 

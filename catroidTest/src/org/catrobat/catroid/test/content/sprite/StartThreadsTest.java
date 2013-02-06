@@ -49,9 +49,9 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		Thread.sleep(200);
 
-		assertFalse("Sprite is not hidden", testSprite.costume.show);
-		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.scaleX);
-		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.scaleY);
+		assertFalse("Sprite is not hidden", testSprite.look.show);
+		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.scaleX);
+		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.scaleY);
 	}
 
 	public void testResumeThreads() throws InterruptedException {
@@ -71,12 +71,12 @@ public class StartThreadsTest extends AndroidTestCase {
 		Thread.sleep(100);
 
 		testSprite.pause();
-		assertFalse("Sprite is not hidden", testSprite.costume.show);
+		assertFalse("Sprite is not hidden", testSprite.look.show);
 		testSprite.resume();
 
 		Thread.sleep(400);
 
-		assertTrue("Sprite is hidden", testSprite.costume.show);
+		assertTrue("Sprite is hidden", testSprite.look.show);
 
 		testScript.getBrickList().clear();
 		testScript.addBrick(hideBrick);
@@ -84,6 +84,6 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		Thread.sleep(100);
 
-		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.costume.show);
+		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.look.show);
 	}
 }

@@ -36,12 +36,12 @@
         android:text="@string/scripts" />
 
     <Button
-        android:id="@+id/program_menu_button_costumes"
+        android:id="@+id/program_menu_button_looks"
         style="@style/ProgramMenuButton"
-        android:drawableLeft="@drawable/program_menu_costumes"
+        android:drawableLeft="@drawable/program_menu_looks"
         android:drawableRight="@drawable/ic_media_play"
-        android:onClick="handleCostumesButton"
-        android:text="@string/costumes" />
+        android:onClick="handleLooksButton"
+        android:text="@string/looks" />
 
     <Button
         android:id="@+id/program_menu_button_sounds"

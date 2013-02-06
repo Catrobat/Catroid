@@ -77,7 +77,7 @@
                     android:textSize="12dip" />
 
                 <TextView
-                    android:id="@+id/textView_number_of_costumes"
+                    android:id="@+id/textView_number_of_looks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textView_number_of_scripts"

@@ -34,24 +34,24 @@ public class ChangeGhostEffectByNBrickTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.costume.getAlphaValue());
+		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.look.getAlphaValue());
 
-		float ghostEffect = sprite.costume.getAlphaValue();
+		float ghostEffect = sprite.look.getAlphaValue();
 		ghostEffect -= increaseGhostEffect;
 
 		ChangeGhostEffectByNBrick changeGhostEffectByNBrick1 = new ChangeGhostEffectByNBrick(sprite,
 				increaseGhostEffect * 100);
 		changeGhostEffectByNBrick1.execute();
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
-				sprite.costume.getAlphaValue());
+				sprite.look.getAlphaValue());
 
-		ghostEffect = sprite.costume.getAlphaValue();
+		ghostEffect = sprite.look.getAlphaValue();
 		ghostEffect -= decreaseGhostEffect;
 		ChangeGhostEffectByNBrick changeGhostEffectByNBrick2 = new ChangeGhostEffectByNBrick(sprite,
 				decreaseGhostEffect * 100);
 		changeGhostEffectByNBrick2.execute();
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
-				sprite.costume.getAlphaValue());
+				sprite.look.getAlphaValue());
 	}
 
 	public void testNullSprite() {

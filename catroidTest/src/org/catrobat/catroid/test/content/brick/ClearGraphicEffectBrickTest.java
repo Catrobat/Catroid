@@ -32,15 +32,15 @@ public class ClearGraphicEffectBrickTest extends AndroidTestCase {
 	public void testClearGraphicEffect() {
 		float value = 0.8f;
 		Sprite sprite = new Sprite("new sprite");
-		sprite.costume.setAlphaValue(value);
-		assertEquals("Costume hasn't ghost effect.", value, sprite.costume.getAlphaValue());
-		sprite.costume.setBrightnessValue(value);
-		assertEquals("Costume hasn't brightness effect.", value, sprite.costume.getBrightnessValue());
+		sprite.look.setAlphaValue(value);
+		assertEquals("Look hasn't ghost effect.", value, sprite.look.getAlphaValue());
+		sprite.look.setBrightnessValue(value);
+		assertEquals("Look hasn't brightness effect.", value, sprite.look.getBrightnessValue());
 
 		ClearGraphicEffectBrick clearGraphicEffectBrick = new ClearGraphicEffectBrick(sprite);
 		clearGraphicEffectBrick.execute();
-		assertEquals("Costume's ghost effect is removed.", 1f, sprite.costume.getAlphaValue());
-		assertEquals("Costume's brightness effect is removed.", 1f, sprite.costume.getBrightnessValue());
+		assertEquals("Look's ghost effect is removed.", 1f, sprite.look.getAlphaValue());
+		assertEquals("Look's brightness effect is removed.", 1f, sprite.look.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
