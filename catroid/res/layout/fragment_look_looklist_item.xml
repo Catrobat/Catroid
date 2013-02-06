@@ -43,53 +43,47 @@
         android:layout_height="60dp"
         android:clickable="true"
         android:scaleType="centerCrop"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:src="@drawable/catroid_banzai" />
 
      <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="2dp" >
+        android:orientation="vertical" >
         
 	    <TextView style="@style/fragment_text"
 	        android:id="@+id/look_name"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:clickable="true"
 	        android:gravity="center_vertical"
-	        android:paddingLeft="10dp"
-	        android:paddingRight="8dp"
 	        android:textColor="@color/solid_black"
-	        android:textSize="18sp" />
+	        android:textSize="18sp"
+	        android:text="This is a very very very long name for a look that should show what happens.." />
 	
 	    <LinearLayout
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:orientation="horizontal"
-	        android:padding="2dp" >
+	        android:orientation="horizontal" >
+
+	        <TextView style="@style/fragment_detail"
+                android:id="@+id/look_size"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight=".5"
+                android:textColor="@color/backbrown"
+                android:textSize="12sp"
+                android:text="Size: 1241324321231234123413 KB" />
 	        
 		    <TextView style="@style/fragment_detail"
 		        android:id="@+id/look_resolution"
-		        android:layout_width="wrap_content"
+		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:layout_weight=".5"
-		        android:paddingLeft="10dp"
-		        android:textSize="18sp" />
-		
-		    <TextView
-		        android:id="@+id/look_size"
-		        android:layout_width="wrap_content"
-		        android:layout_height="20dp"
-		        android:layout_weight=".5"
-		        android:clickable="false"
-		        android:focusable="false"
 		        android:gravity="right"
-		        android:longClickable="false"
-		        android:maxLines="1"
-		        android:paddingLeft="10dp"
-		        android:paddingRight="8dp"
 		        android:textColor="@color/backbrown"
-		        android:textSize="12sp" />
+		        android:textSize="12sp"
+		        android:text="1000 x 1000" />
 	    </LinearLayout>
 	</LinearLayout>
 </LinearLayout>

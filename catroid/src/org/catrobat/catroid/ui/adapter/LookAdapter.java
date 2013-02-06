@@ -70,26 +70,27 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 		LookData lookData = lookDataItems.get(position);
 
 		if (lookData != null) {
-			ImageView lookImage = (ImageView) convertView.findViewById(R.id.look_image);
-			TextView lookNameTextField = (TextView) convertView.findViewById(R.id.look_name);
-			TextView lookResolution = (TextView) convertView.findViewById(R.id.look_resolution);
-			TextView lookSize = (TextView) convertView.findViewById(R.id.look_size);
+			ImageView lookImageView = (ImageView) convertView.findViewById(R.id.look_image);
+			TextView lookNameTextView = (TextView) convertView.findViewById(R.id.look_name);
+			TextView lookFileSizeTextView = (TextView) convertView.findViewById(R.id.look_size);
+			TextView lookResolutionTextView = (TextView) convertView.findViewById(R.id.look_resolution);
 
-			lookImage.setImageBitmap(lookData.getThumbnailBitmap());
-			lookNameTextField.setText(lookData.getLookName());
+			lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
+			lookNameTextView.setText(lookData.getLookName());
 
-			//setting resolution and look size:
 			{
-				int[] resolution = lookData.getResolution();
-				lookResolution.setText(resolution[0] + " x " + resolution[1]);
-
 				//setting size
 				if (lookData.getAbsolutePath() != null) {
-					lookSize.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
+					lookFileSizeTextView.setText(getContext().getString(R.string.size) + " "
+							+ UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 				}
+
+				//setting resolution
+				int[] resolution = lookData.getResolution();
+				lookResolutionTextView.setText(resolution[0] + " x " + resolution[1]);
 			}
 
-			lookImage.setOnClickListener(new OnClickListener() {
+			lookImageView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onLookEditListener != null) {
@@ -98,7 +99,7 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 				}
 			});
 
-			lookNameTextField.setOnClickListener(new OnClickListener() {
+			lookNameTextView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onLookEditListener != null) {
