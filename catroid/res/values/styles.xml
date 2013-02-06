@@ -228,22 +228,22 @@
         <item name="android:windowEnterAnimation">@anim/blink</item>
     </style>
 
-    <style name="sound_basic_style">
+    <style name="fragment_basic_style">
         <item name="android:clickable">false</item>
         <item name="android:longClickable">false</item>
         <item name="android:focusable">false</item>
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="sound_time" parent="sound_basic_style">
-        <item name="android:textColor">@color/solid_black</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="sound_text" parent="sound_basic_style">
+    <style name="fragment_text" parent="fragment_basic_style">
         <item name="android:layout_marginLeft">8dp</item>
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="fragment_detail" parent="fragment_basic_style">
+        <item name="android:textColor">@color/solid_black</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>
