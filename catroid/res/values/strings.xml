@@ -99,10 +99,11 @@
     <string name="looks">Looks</string>
     <string name="sounds">Sounds</string>
     <string name="backgrounds">Backgrounds</string>
+    <string name="size">Size:</string>
     <!--  -->
 
 
-    <!-- Look activity -->
+    <!-- Look fragment -->
     <string name="rename_look_dialog">Rename Look</string>
     <string name="edit_look_paintroid">Paintroid</string>
     <string name="copy_look">copy</string>
@@ -116,14 +117,13 @@
     <!--  -->
 
 
-    <!-- Sound activity -->
+    <!-- Sound fragment -->
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
     <string name="sound_select_source">Select a sound</string>
     <string name="sound_time_seperator">/</string>
-    <string name="sound_size">Size:</string>
     <string name="delete_sound_dialog">Delete sound?</string>
     <!--  -->
 

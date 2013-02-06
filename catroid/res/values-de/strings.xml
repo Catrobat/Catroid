@@ -93,15 +93,16 @@
     <!--  -->
 
 
-    <!-- ScriptTab activity -->
+    <!-- Script activity -->
     <string name="scripts">Skripte</string>
     <string name="looks">Kostüme</string>
     <string name="sounds">Klänge</string>
     <string name="backgrounds">Hintergründe</string>
+    <string name="size">Größe:</string>
     <!--  -->
 
 
-    <!-- Look activity -->
+    <!-- Look fragment -->
     <string name="rename_look_dialog">Kostüm umbenennen</string>
     <string name="edit_look_paintroid">Paintroid</string>
     <string name="copy_look">kopieren</string>
@@ -118,14 +119,13 @@
     <!--  -->
 
 
-    <!-- Sound activity -->
+    <!-- Sound fragment -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
-    <string name="sound_size">Größe:</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
     <!--  -->
 

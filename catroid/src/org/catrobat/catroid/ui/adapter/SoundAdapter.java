@@ -207,7 +207,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				}
 
 				if (showDetails) {
-					holder.soundFileSizeTextView.setText(getContext().getString(R.string.sound_size) + " "
+					holder.soundFileSizeTextView.setText(getContext().getString(R.string.size) + " "
 							+ UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
 					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
 				} else {
