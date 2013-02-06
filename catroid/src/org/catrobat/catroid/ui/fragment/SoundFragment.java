@@ -224,8 +224,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-            if (currentPlayingView != null) {
-                handlePauseSoundButton(currentPlayingView);
+            View pauseButton = getPauseButtonOfCurrentPlayingView();
+            if (pauseButton != null) {
+                handlePauseSoundButton(pauseButton);
             }
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
@@ -237,8 +238,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-            if (currentPlayingView != null) {
-                handlePauseSoundButton(currentPlayingView);
+            View pauseButton = getPauseButtonOfCurrentPlayingView();
+            if (pauseButton != null) {
+                handlePauseSoundButton(pauseButton);
             }
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
@@ -405,8 +407,9 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
-		if (currentPlayingView != null) {
-			handlePauseSoundButton(currentPlayingView);
+        View pauseButton = getPauseButtonOfCurrentPlayingView();
+		if (pauseButton != null) {
+			handlePauseSoundButton(pauseButton);
 		}
 		selectedSoundInfo = adapter.getItem(currentSoundPosition);
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
@@ -690,4 +693,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private void setBottomBarActivated(boolean isActive) {
 		Utils.setBottomBarActivated(getActivity(), isActive);
 	}
+
+    private View getPauseButtonOfCurrentPlayingView() {
+        if(currentSoundPosition == Constants.NO_POSITION)
+            return null;
+        View item = listView.getChildAt(currentSoundPosition);
+        return item.findViewById(R.id.btn_sound_pause);
+    }
 }
