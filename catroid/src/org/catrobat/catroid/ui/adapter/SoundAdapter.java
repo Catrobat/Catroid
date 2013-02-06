@@ -103,7 +103,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			holder.playButton.setVisibility(Button.VISIBLE);
 			holder.pauseButton.setVisibility(Button.GONE);
 
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.sound_checkbox);
 
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
 			holder.timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);

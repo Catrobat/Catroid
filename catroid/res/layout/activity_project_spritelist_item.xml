@@ -34,7 +34,7 @@
         android:orientation="horizontal" >
 
         <CheckBox
-            android:id="@+id/checkbox"
+            android:id="@+id/sprite_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

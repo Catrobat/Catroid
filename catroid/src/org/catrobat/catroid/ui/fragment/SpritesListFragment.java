@@ -299,7 +299,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void handleCheckBoxClick(View view) {
 		int position = getListView().getPositionForView(view);
-		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.checkbox)).isChecked());
+		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.sprite_checkbox)).isChecked());
 	}
 
 	public void showRenameDialog() {
