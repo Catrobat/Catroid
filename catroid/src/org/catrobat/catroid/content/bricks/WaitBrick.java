@@ -102,7 +102,7 @@ public class WaitBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -111,10 +111,11 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_wait, null);
 		TextView textWait = (TextView) prototype.findViewById(R.id.brick_wait_prototype_text_view);
 		textWait.setText(timeToWaitInMilliSeconds + "");
+		return prototype;
 	}
 
 	@Override

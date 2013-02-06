@@ -45,6 +45,8 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	private LoopBeginBrick loopBeginBrick;
 	private transient int timesToRepeat;
 
+	private transient View prototype;
+
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
 		this.loopBeginBrick = loopStartingBrick;
@@ -119,12 +121,14 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_loop_end, null);
+		return prototype;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_loop_end, null);
+		return setDefaultValues(context);
 	}
 
 	@Override

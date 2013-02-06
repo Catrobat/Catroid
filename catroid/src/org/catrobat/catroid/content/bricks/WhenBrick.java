@@ -38,6 +38,7 @@ public class WhenBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View view;
+	private transient View prototype;
 
 	public WhenBrick(Sprite sprite, WhenScript whenScript) {
 		this.whenScript = whenScript;
@@ -112,7 +113,7 @@ public class WhenBrick extends ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -121,7 +122,9 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
+		prototype = getView(context, 0, null);
+		return prototype;
 	}
 
 	@Override

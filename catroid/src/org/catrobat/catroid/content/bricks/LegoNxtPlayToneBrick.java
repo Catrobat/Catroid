@@ -88,7 +88,7 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 		//View view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		//SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarNXTToneFrequency);
 		//noClick.setEnabled(false);
-		return prototype;//view;
+		return setDefaultValues(context);//view;
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		TextView textDuration = (TextView) prototype.findViewById(R.id.nxt_tone_duration_text_view);
 		textDuration.setText(String.valueOf((durationInMilliSeconds / 1000.0) + ""));
@@ -106,6 +106,7 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 		SeekBar noClick = (SeekBar) prototype.findViewById(R.id.seekBarNXTToneFrequency);
 		//freqBar.setMax(MAX_FREQ_IN_HERTZ / 100);
 		noClick.setEnabled(false);
+		return prototype;
 	}
 
 	@Override

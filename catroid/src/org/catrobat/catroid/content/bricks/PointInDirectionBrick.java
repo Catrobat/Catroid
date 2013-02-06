@@ -130,7 +130,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -139,11 +139,12 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototype
 				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		setAngleTextView.setText(degrees + "");
+		return prototype;
 	}
 
 	//@Override

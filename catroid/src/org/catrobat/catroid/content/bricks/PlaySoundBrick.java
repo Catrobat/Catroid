@@ -41,6 +41,8 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	private SoundInfo sound;
 	private Sprite sprite;
 
+	private transient View prototype;
+
 	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
@@ -100,7 +102,7 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_play_sound, null);
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -109,7 +111,9 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_play_sound, null);
+		return prototype;
 	}
 
 	//for testing purposes:

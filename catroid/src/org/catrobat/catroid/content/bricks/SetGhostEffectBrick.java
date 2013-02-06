@@ -91,7 +91,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -100,11 +100,12 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_set_ghost_effect, null);
 		TextView textSetGhostEffect = (TextView) prototype
 				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
 		textSetGhostEffect.setText(transparency + "");
+		return prototype;
 	}
 
 	@Override

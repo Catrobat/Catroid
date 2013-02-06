@@ -91,7 +91,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -100,10 +100,11 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_set_brightness, null);
 		TextView textSetBrightness = (TextView) prototype.findViewById(R.id.brick_set_brightness_prototype_text_view);
 		textSetBrightness.setText(brightness + "");
+		return prototype;
 	}
 
 	@Override

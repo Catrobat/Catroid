@@ -97,7 +97,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;//View.inflate(context, R.layout.brick_place_at, null);
+		return setDefaultValues(context);//View.inflate(context, R.layout.brick_place_at, null);
 	}
 
 	@Override
@@ -106,12 +106,13 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_place_at, null);
 		TextView textX = (TextView) prototype.findViewById(R.id.brick_place_at_prototype_text_view_x);
 		textX.setText(xPosition + "");
 		TextView textY = (TextView) prototype.findViewById(R.id.brick_place_at_prototype_text_view_y);
 		textY.setText(yPosition + "");
+		return prototype;
 	}
 
 	@Override

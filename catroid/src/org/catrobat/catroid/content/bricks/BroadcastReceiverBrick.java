@@ -47,6 +47,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
@@ -152,7 +153,7 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_broadcast_receive, null);
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -174,7 +175,9 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_broadcast_receive, null);
+		return prototype;
 
 	}
 }

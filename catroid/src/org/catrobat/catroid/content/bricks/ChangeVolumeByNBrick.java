@@ -99,7 +99,7 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -108,10 +108,11 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_change_volume_by, null);
 		TextView textSetVolumenTo = (TextView) prototype.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		textSetVolumenTo.setText(volume + "");
+		return prototype;
 	}
 
 	@Override

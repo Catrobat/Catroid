@@ -120,7 +120,7 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -129,11 +129,12 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		TextView textX = (TextView) prototype.findViewById(R.id.motor_turn_angle_text_view);
 		textX.setText(degrees + "");
 		Spinner motorSpinner = (Spinner) prototype.findViewById(R.id.motor_spinner);
+		return prototype;
 
 		//TODO set the motorname
 	}

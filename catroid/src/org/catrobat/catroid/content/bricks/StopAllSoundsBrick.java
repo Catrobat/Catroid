@@ -36,6 +36,7 @@ public class StopAllSoundsBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public StopAllSoundsBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -74,12 +75,14 @@ public class StopAllSoundsBrick implements Brick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
-		View.inflate(context, R.layout.brick_stop_all_sounds, null);
+	public View setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_stop_all_sounds, null);
+		return prototype;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
+
+		return setDefaultValues(context);
 	}
 }

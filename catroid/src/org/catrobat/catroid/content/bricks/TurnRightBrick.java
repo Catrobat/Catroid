@@ -89,7 +89,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -98,10 +98,11 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_turn_right, null);
 		TextView textDegrees = (TextView) prototype.findViewById(R.id.brick_turn_right_prototype_text_view);
 		textDegrees.setText(degrees + "");
+		return prototype;
 	}
 
 	@Override

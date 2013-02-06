@@ -34,6 +34,7 @@ public class HideBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient View prototype;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -73,11 +74,13 @@ public class HideBrick implements Brick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_hide, null);
+		return prototype;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_hide, null);
+		return setDefaultValues(context);
 	}
 }

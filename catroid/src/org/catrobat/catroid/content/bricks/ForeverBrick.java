@@ -33,6 +33,7 @@ public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View view;
+	private transient View prototype;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -58,7 +59,9 @@ public class ForeverBrick extends LoopBeginBrick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
+		prototype = View.inflate(context, R.layout.brick_forever, null);
+		return prototype;
 	}
 
 	@Override
@@ -72,7 +75,7 @@ public class ForeverBrick extends LoopBeginBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_forever, null);
+		return setDefaultValues(context);
 	}
 
 	@Override

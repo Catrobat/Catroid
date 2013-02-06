@@ -35,6 +35,7 @@ public class ClearGraphicEffectBrick implements Brick {
 	private Sprite sprite;
 
 	private transient View view;
+	private transient LayoutInflater prototypeInflater;
 
 	public ClearGraphicEffectBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -71,8 +72,7 @@ public class ClearGraphicEffectBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_clear_graphic_effect, null);
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -81,6 +81,8 @@ public class ClearGraphicEffectBrick implements Brick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
+		prototypeInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return prototypeInflater.inflate(R.layout.brick_clear_graphic_effect, null);
 	}
 }

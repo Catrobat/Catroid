@@ -98,7 +98,7 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -107,10 +107,11 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_change_x, null);
 		TextView textXMovement = (TextView) prototype.findViewById(R.id.brick_change_x_prototype_text_view);
 		textXMovement.setText(xMovement + "");
+		return prototype;
 	}
 
 	@Override

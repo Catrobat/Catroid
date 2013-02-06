@@ -91,7 +91,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -100,10 +100,11 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_change_size_by_n, null);
 		TextView textChangeSizeBy = (TextView) prototype.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		textChangeSizeBy.setText(size + "");
+		return prototype;
 	}
 
 	@Override

@@ -97,7 +97,7 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -106,11 +106,12 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		prototype = inflater.inflate(R.layout.brick_move_n_steps, null);
 		TextView textSteps = (TextView) prototype.findViewById(R.id.brick_move_n_steps_prototype_text_view);
 		textSteps.setText(steps + "");
+		return prototype;
 	}
 
 	@Override

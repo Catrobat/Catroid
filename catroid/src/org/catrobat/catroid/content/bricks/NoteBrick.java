@@ -139,7 +139,7 @@ public class NoteBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -148,9 +148,10 @@ public class NoteBrick implements Brick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_note, null);
 		TextView textSpeak = (TextView) prototype.findViewById(R.id.brick_note_prototype_text_view);
 		textSpeak.setText(note + "");
+		return prototype;
 	}
 }

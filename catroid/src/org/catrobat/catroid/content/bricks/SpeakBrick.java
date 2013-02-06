@@ -146,7 +146,7 @@ public class SpeakBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -155,10 +155,11 @@ public class SpeakBrick implements Brick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_speak, null);
 		TextView textSpeak = (TextView) prototype.findViewById(R.id.brick_speak_prototype_text_view);
 		textSpeak.setText(text + "");
+		return prototype;
 	}
 
 }

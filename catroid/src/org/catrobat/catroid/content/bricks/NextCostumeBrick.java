@@ -39,6 +39,7 @@ public class NextCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private transient View view;
+	private transient View prototype;
 
 	public NextCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -87,13 +88,7 @@ public class NextCostumeBrick implements Brick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_next_costume, null);
-		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.brick_next_costume_text_view);
-			textView.setText(R.string.brick_next_background);
-		}
-		return view;
+		return setDefaultValues(context);
 	}
 
 	@Override
@@ -102,7 +97,14 @@ public class NextCostumeBrick implements Brick {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		prototype = inflater.inflate(R.layout.brick_next_costume, null);
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) prototype.findViewById(R.id.brick_next_costume_text_view);
+			textView.setText(R.string.brick_next_background);
+		}
+		return prototype;
 	}
 
 	@Override

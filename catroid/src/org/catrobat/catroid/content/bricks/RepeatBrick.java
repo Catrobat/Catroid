@@ -74,10 +74,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	}
 
 	@Override
-	public void setDefaultValues(Context context) {
+	public View setDefaultValues(Context context) {
 		prototype = View.inflate(context, R.layout.brick_repeat, null);
 		TextView textRepeat = (TextView) prototype.findViewById(R.id.brick_repeat_prototype_text_view);
 		textRepeat.setText(timesToRepeat + "");
+		return prototype;
 	}
 
 	@Override
@@ -98,7 +99,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
