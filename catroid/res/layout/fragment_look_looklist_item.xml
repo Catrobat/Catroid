@@ -43,7 +43,7 @@
         android:layout_height="60dp"
         android:clickable="true"
         android:scaleType="centerCrop"
-        android:padding="8dp"
+        android:padding="6dp"
         android:src="@drawable/catroid_banzai" />
 
      <LinearLayout
@@ -71,8 +71,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_weight=".5"
-                android:textColor="@color/backbrown"
-                android:textSize="12sp"
                 android:text="Size: 1241324321231234123413 KB" />
 	        
 		    <TextView style="@style/fragment_detail"
@@ -81,9 +79,7 @@
 		        android:layout_height="wrap_content"
 		        android:layout_weight=".5"
 		        android:gravity="right"
-		        android:textColor="@color/backbrown"
-		        android:textSize="12sp"
-		        android:text="1000 x 1000" />
+		        android:text="Resolution: 1000 x 1000000000000000000000000000000000" />
 	    </LinearLayout>
 	</LinearLayout>
 </LinearLayout>
