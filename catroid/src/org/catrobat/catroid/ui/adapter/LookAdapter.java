@@ -127,11 +127,11 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 				}
 			});
 
-			boolean checkboxIsGone = true;
+			boolean checkboxIsVisible = false;
 
 			if (selectMode != Constants.SELECT_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
-				checkboxIsGone = false;
+				checkboxIsVisible = true;
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
@@ -145,23 +145,28 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 			}
 
 			if (showDetails) {
-				//setting size
 				if (lookData.getAbsolutePath() != null) {
 					holder.lookFileSizeTextView.setText(getContext().getString(R.string.size) + " "
 							+ UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 				}
-
-				//setting resolution
 				int[] resolution = lookData.getResolution();
 				String resolutionString = resolution[0] + " x " + resolution[1];
 
-				if (checkboxIsGone) {
+				// Shorter string on active ActionMode
+				if (!checkboxIsVisible) {
 					resolutionString = getContext().getString(R.string.look_resolution) + " " + resolutionString;
 				}
 				holder.lookResolutionTextView.setText(resolutionString);
 				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
 			} else {
 				holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
+			}
+
+			// Disable ImageView on active ActionMode
+			if (checkboxIsVisible) {
+				holder.lookImageView.setEnabled(false);
+			} else {
+				holder.lookImageView.setEnabled(true);
 			}
 
 			holder.lookImageView.setOnClickListener(new OnClickListener() {
