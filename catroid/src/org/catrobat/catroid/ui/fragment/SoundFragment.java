@@ -89,7 +89,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private static String singleItemAppendixDeleteActionMode;
 	private static String multipleItemAppendixDeleteActionMode;
 
-	private static int currentSoundPosition = Constants.NO_POSITION;
+	private static int selectedSoundPosition = Constants.NO_POSITION;
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
@@ -398,7 +398,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (isSoundPlaying()) {
 			handlePauseSoundButton();
 		}
-		selectedSoundInfo = adapter.getItem(currentSoundPosition);
+		selectedSoundInfo = adapter.getItem(selectedSoundPosition);
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
@@ -477,12 +477,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	@Override
 	protected void showDeleteDialog() {
-		if (currentSoundPosition != Constants.NO_POSITION) {
-			DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(currentSoundPosition);
-			deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
-		} else {
-			Log.e("CATROID", "No sound selected!");
-		}
+		DeleteSoundDialog deleteSoundDialog = DeleteSoundDialog.newInstance(selectedSoundPosition);
+		deleteSoundDialog.show(getFragmentManager(), DeleteSoundDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
@@ -662,7 +658,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				currentSoundPosition = position;
+				selectedSoundPosition = position;
 				return false;
 			}
 		});
