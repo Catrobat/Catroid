@@ -91,7 +91,7 @@ public class ChangeBrightnessByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return prototype;
+		return setDefaultValues(context);
 	}
 
 	@Override
