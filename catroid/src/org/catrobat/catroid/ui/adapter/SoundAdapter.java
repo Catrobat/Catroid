@@ -68,8 +68,8 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		super(context, textViewResourceId, items);
 		this.context = context;
 		this.showDetails = showDetails;
-		soundInfoItems = items;
-		selectMode = Constants.SELECT_NONE;
+		this.soundInfoItems = items;
+		this.selectMode = Constants.SELECT_NONE;
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
@@ -122,7 +122,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		if (soundInfo != null) {
 			holder.playButton.setTag(position);
 			holder.pauseButton.setTag(position);
-			holder.titleTextView.setTag(position);
 			holder.titleTextView.setText(soundInfo.getTitle());
 
 			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
