@@ -232,7 +232,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				@Override
 				public void onClick(View v) {
 					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPause(v);
+						onSoundEditListener.onSoundPause();
 					}
 				}
 			});
@@ -299,7 +299,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 		public void onSoundPlay(View v);
 
-		public void onSoundPause(View v);
+		public void onSoundPause();
 
 		public void onSoundChecked();
 	}

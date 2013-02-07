@@ -118,6 +118,11 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 				if (itemPosition != currentFragmentPosition) {
+
+					if (currentFragmentPosition == FRAGMENT_SOUNDS && soundFragment.isSoundPlaying()) {
+						soundFragment.handlePauseSoundButton();
+					}
+
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 					hideFragment(currentFragmentPosition, fragmentTransaction);

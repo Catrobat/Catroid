@@ -38,7 +38,6 @@ import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
-import org.catrobat.catroid.utils.ErrorListenerInterface;
 import org.catrobat.catroid.utils.Utils;
 
 import android.app.Activity;
@@ -132,7 +131,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
 		try {
-			Utils.loadProjectIfNeeded(scriptActivity, (ErrorListenerInterface) scriptActivity);
+			Utils.loadProjectIfNeeded(scriptActivity, scriptActivity);
 		} catch (ClassCastException exception) {
 			Log.e("CATROID", scriptActivity.toString() + " does not implement ErrorListenerInterface", exception);
 		}
@@ -172,8 +171,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 		IntentFilter intentFilterDeleteSound = new IntentFilter(ScriptActivity.ACTION_SOUND_DELETED);
 		getActivity().registerReceiver(soundDeletedReceiver, intentFilterDeleteSound);
-
-		stopSound();
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -259,8 +256,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	@Override
-	public void onSoundPause(View v) {
-		handlePauseSoundButton(v);
+	public void onSoundPause() {
+		handlePauseSoundButton();
 	}
 
 	@Override
@@ -353,8 +350,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		});
 	}
 
-	public void handlePauseSoundButton(View v) {
-		final int position = (Integer) v.getTag();
+	public boolean isSoundPlaying() {
+		return currentPlayingView != null;
+	}
+
+	public void handlePauseSoundButton() {
+		final int position = (Integer) currentPlayingView.getTag();
 		pauseSound(soundInfoList.get(position));
 		adapter.notifyDataSetChanged();
 		currentPlayingView = null;
@@ -394,8 +395,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
-		if (currentPlayingView != null) {
-			handlePauseSoundButton(currentPlayingView);
+		if (isSoundPlaying()) {
+			handlePauseSoundButton();
 		}
 		selectedSoundInfo = adapter.getItem(currentSoundPosition);
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
