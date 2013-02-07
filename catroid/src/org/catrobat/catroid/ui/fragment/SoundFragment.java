@@ -214,6 +214,11 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	@Override
+	public void startCopyActionMode() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);

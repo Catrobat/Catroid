@@ -237,6 +237,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 
 			case R.id.copy:
+				currentFragment.startCopyActionMode();
 				break;
 
 			case R.id.cut:

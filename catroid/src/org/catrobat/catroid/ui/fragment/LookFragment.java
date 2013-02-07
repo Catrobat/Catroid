@@ -98,9 +98,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
 
-	private static String deleteActionModeTitle;
-	private static String singleItemAppendixDeleteActionMode;
-	private static String multipleItemAppendixDeleteActionMode;
+	private static String actionModeTitle;
+	private static String singleItemAppendixActionMode;
+	private static String multipleItemAppendixActionMode;
 
 	private LookAdapter adapter;
 	private ArrayList<LookData> lookDataList;
@@ -371,6 +371,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
+	public void startCopyActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			unregisterForContextMenu(listView);
+			Utils.setBottomBarActivated(getActivity(), false);
+			isRenameActionMode = false;
+		}
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
@@ -421,18 +431,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(deleteActionModeTitle);
+			actionMode.setTitle(actionModeTitle);
 		} else {
-			String appendix = multipleItemAppendixDeleteActionMode;
+			String appendix = multipleItemAppendixActionMode;
 
 			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixDeleteActionMode;
+				appendix = singleItemAppendixActionMode;
 			}
 
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
+			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
 
-			int titleLength = deleteActionModeTitle.length();
+			int titleLength = actionModeTitle.length();
 
 			Spannable completeSpannedTitle = new SpannableString(completeTitle);
 			completeSpannedTitle.setSpan(
@@ -667,6 +677,52 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	}
 
+	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.MULTI_SELECT);
+			setActionModeActive(true);
+
+			actionModeTitle = getString(R.string.copy);
+			singleItemAppendixActionMode = getString(R.string.look);
+			multipleItemAppendixActionMode = getString(R.string.looks);
+
+			mode.setTitle(actionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedLooks = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedLooks.iterator();
+
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				copyLook(position);
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			registerForContextMenu(listView);
+			Utils.setBottomBarActivated(getActivity(), true);
+		}
+	};
+
 	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -722,11 +778,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			setSelectMode(Constants.MULTI_SELECT);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.delete);
+			actionModeTitle = getString(R.string.delete);
+			singleItemAppendixActionMode = getString(R.string.look);
+			multipleItemAppendixActionMode = getString(R.string.looks);
 
-			deleteActionModeTitle = getString(R.string.delete);
-			singleItemAppendixDeleteActionMode = getString(R.string.look);
-			multipleItemAppendixDeleteActionMode = getString(R.string.looks);
+			mode.setTitle(actionModeTitle);
 
 			return true;
 		}
@@ -738,8 +794,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedSounds = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedSounds.iterator();
+			Set<Integer> checkedLooks = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedLooks.iterator();
 
 			int numberDeleted = 0;
 
