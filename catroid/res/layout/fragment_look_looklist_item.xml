@@ -57,31 +57,27 @@
 	        android:layout_height="wrap_content"
 	        android:gravity="center_vertical"
 	        android:textColor="@color/solid_black"
-	        android:textSize="18sp"
-	        android:text="This is a very very very long name for a look that should show what happens.." />
+	        android:textSize="18sp" />
 	
 	    <LinearLayout
 	        android:id="@+id/look_details"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:orientation="horizontal"
-	        android:visibility="gone" >
+	        android:orientation="horizontal" >
 
 	        <TextView style="@style/fragment_detail"
                 android:id="@+id/look_size"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_weight=".5"
-                android:text="Size: 1241324321231234123413 KB" />
+                android:layout_weight=".5" />
 	        
 		    <TextView style="@style/fragment_detail"
 		        android:id="@+id/look_resolution"
-		        android:layout_width="fill_parent"
+		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_weight=".5"
-		        android:gravity="right"
-		        android:text="Resolution: 1000 x 1000000000000000000000000000000000" />
+		        android:gravity="right" />
 	    </LinearLayout>
 	</LinearLayout>
 </LinearLayout>
