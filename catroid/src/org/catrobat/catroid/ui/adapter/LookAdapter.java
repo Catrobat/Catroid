@@ -166,15 +166,6 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 					}
 				}
 			});
-
-			holder.lookNameTextView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (onLookEditListener != null) {
-						onLookEditListener.onLookRename(v);
-					}
-				}
-			});
 		}
 		return convertView;
 	}
@@ -212,8 +203,6 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 	public interface OnLookEditListener {
 
 		public void onLookEdit(View v);
-
-		public void onLookRename(View v);
 
 		public void onLookDelete(View v);
 

@@ -25,7 +25,9 @@ package org.catrobat.catroid.ui.fragment;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -69,6 +71,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
 
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
@@ -91,8 +95,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private Uri lookFromCameraUri = null;
 
+	private ListView listView;
+
 	private LookDeletedReceiver lookDeletedReceiver;
 	private LookRenamedReceiver lookRenamedReceiver;
+
+	private ActionMode actionMode;
+
+	private boolean isRenameActionMode;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,6 +113,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		listView = getListView();
+		registerForContextMenu(listView);
 
 		if (savedInstanceState != null) {
 			selectedLookData = (LookData) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_LOOK);
@@ -219,11 +232,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void onLookEdit(View v) {
 		handleEditLookButton(v);
-	}
-
-	@Override
-	public void onLookRename(View v) {
-		handleRenameLookButton(v);
 	}
 
 	@Override
@@ -471,14 +479,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
-	private void handleRenameLookButton(View v) {
-		int position = (Integer) v.getTag();
-		selectedLookData = lookDataList.get(position);
-
-		RenameLookDialog renameLookDialog = RenameLookDialog.newInstance(selectedLookData.getLookName());
-		renameLookDialog.show(getFragmentManager(), RenameLookDialog.DIALOG_FRAGMENT_TAG);
-	}
-
 	private void handleCopyLookButton(View v) {
 		int position = (Integer) v.getTag();
 		LookData lookData = lookDataList.get(position);
@@ -561,7 +561,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 				if (newLookName != null && !newLookName.equalsIgnoreCase("")) {
 					selectedLookData.setLookName(newLookName);
-					reloadAdapter();
+					adapter.notifyDataSetChanged();
 				}
 			}
 		}
@@ -588,8 +588,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public void startRenameActionMode() {
-		// TODO Auto-generated method stub
-
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			unregisterForContextMenu(listView);
+			Utils.setBottomBarActivated(getActivity(), false);
+			isRenameActionMode = true;
+		}
 	}
 
 	@Override
@@ -605,25 +609,63 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
-	public boolean getActionModeActive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void setSelectMode(int selectMode) {
-		// TODO Auto-generated method stub
+		adapter.setSelectMode(selectMode);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public int getSelectMode() {
-		// TODO Auto-generated method stub
-		return 0;
+		return adapter.getSelectMode();
 	}
+
+	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.SINGLE_SELECT);
+			mode.setTitle(getString(R.string.rename));
+
+			setActionModeActive(true);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedLooks = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedLooks.iterator();
+
+			if (iterator.hasNext()) {
+				int position = iterator.next();
+				selectedLookData = (LookData) listView.getItemAtPosition(position);
+				showRenameDialog();
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			registerForContextMenu(listView);
+			Utils.setBottomBarActivated(getActivity(), true);
+		}
+	};
 
 	@Override
 	protected void showRenameDialog() {
-		// TODO Auto-generated method stub
+		RenameLookDialog renameLookDialog = RenameLookDialog.newInstance(selectedLookData.getLookName());
+		renameLookDialog.show(getFragmentManager(), RenameLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
