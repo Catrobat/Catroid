@@ -279,26 +279,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
-	public void onLookEdit(View v) {
-		handleEditLookButton(v);
-	}
-
-	@Override
-	public void onLookDelete(View v) {
-		handleDeleteLookButton(v);
-	}
-
-	@Override
-	public void onLookCopy(View v) {
-		handleCopyLookButton(v);
-	}
-
-	@Override
-	public void onLookChecked() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle arguments) {
 		Uri imageUri = null;
 
@@ -340,6 +320,106 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
+	public void selectImageFromCamera() {
+		lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
+
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, lookFromCameraUri);
+
+		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_camera));
+		startActivityForResult(chooser, REQUEST_TAKE_PICTURE);
+	}
+
+	public void selectImageFromGallery() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
+		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID, getString(R.string.default_look_name));
+
+		intent.setType("image/*");
+		intent.putExtras(bundleForPaintroid);
+
+		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_gallery));
+		startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
+	}
+
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		// TODO CHANGE THIS!!! (was just a quick fix)
+		if (adapter != null) {
+			adapter.setShowDetails(showDetails);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public boolean getShowDetails() {
+		// TODO CHANGE THIS!!! (was just a quick fix)
+		if (adapter != null) {
+			return adapter.getShowDetails();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void startRenameActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			unregisterForContextMenu(listView);
+			Utils.setBottomBarActivated(getActivity(), false);
+			isRenameActionMode = true;
+		}
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		//		if (actionMode == null) {
+		//			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+		//			unregisterForContextMenu(listView);
+		//			Utils.setBottomBarActivated(getActivity(), false);
+		//			isRenameActionMode = false;
+		//		}
+	}
+
+	@Override
+	public void handleAddButton() {
+		NewLookDialog dialog = new NewLookDialog();
+		dialog.showDialog(getActivity().getSupportFragmentManager(), this);
+	}
+
+	@Override
+	public void setSelectMode(int selectMode) {
+		adapter.setSelectMode(selectMode);
+		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public int getSelectMode() {
+		return adapter.getSelectMode();
+	}
+
+	@Override
+	public void onLookEdit(View v) {
+		handleEditLookButton(v);
+	}
+
+	@Override
+	public void onLookDelete(View v) {
+		handleDeleteLookButton(v);
+	}
+
+	@Override
+	public void onLookCopy(View v) {
+		handleCopyLookButton(v);
+	}
+
+	@Override
+	public void onLookChecked() {
+		// TODO Auto-generated method stub
+	}
+
 	private void updateLookAdapter(String name, String fileName) {
 		name = Utils.getUniqueLookName(name);
 		LookData lookData = new LookData();
@@ -367,30 +447,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			adapter.setOnLookEditListener(this);
 			setListAdapter(adapter);
 		}
-	}
-
-	public void selectImageFromCamera() {
-		lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
-
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, lookFromCameraUri);
-
-		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_camera));
-		startActivityForResult(chooser, REQUEST_TAKE_PICTURE);
-	}
-
-	public void selectImageFromGallery() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-
-		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, "");
-		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_NAME_PAINTROID, getString(R.string.default_look_name));
-
-		intent.setType("image/*");
-		intent.putExtras(bundleForPaintroid);
-
-		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_gallery));
-		startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 	}
 
 	private void copyImageToCatroid(String originalImagePath) {
@@ -624,58 +680,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				}
 			}
 		}
-	}
-
-	@Override
-	public void setShowDetails(boolean showDetails) {
-		// TODO CHANGE THIS!!! (was just a quick fix)
-		if (adapter != null) {
-			adapter.setShowDetails(showDetails);
-			adapter.notifyDataSetChanged();
-		}
-	}
-
-	@Override
-	public boolean getShowDetails() {
-		// TODO CHANGE THIS!!! (was just a quick fix)
-		if (adapter != null) {
-			return adapter.getShowDetails();
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public void startRenameActionMode() {
-		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
-			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
-			isRenameActionMode = true;
-		}
-	}
-
-	@Override
-	public void startDeleteActionMode() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void handleAddButton() {
-		NewLookDialog dialog = new NewLookDialog();
-		dialog.showDialog(getActivity().getSupportFragmentManager(), this);
-	}
-
-	@Override
-	public void setSelectMode(int selectMode) {
-		adapter.setSelectMode(selectMode);
-		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public int getSelectMode() {
-		return adapter.getSelectMode();
 	}
 
 	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
