@@ -102,8 +102,8 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 		final LookData lookData = lookDataItems.get(position);
 
 		if (lookData != null) {
-			//			holder.lookNameTextView.setTag(position);
-			//			holder.lookImageView.setTag(position);
+			holder.lookNameTextView.setTag(position);
+			holder.lookImageView.setTag(position);
 
 			holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
 			holder.lookNameTextView.setText(lookData.getLookName());

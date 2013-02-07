@@ -63,6 +63,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,11 +74,16 @@ import com.badlogic.gdx.graphics.Pixmap;
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
+	public static final int REQUEST_SELECT_IMAGE = 0;
+	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
+	public static final int REQUEST_TAKE_PICTURE = 2;
+
+	private static final int ID_LOADER_MEDIA_IMAGE = 1;
+
 	private static final String BUNDLE_ARGUMENTS_SELECTED_LOOK = "selected_look";
 	private static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
 	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
-	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private LookAdapter adapter;
 	private ArrayList<LookData> lookDataList;
@@ -87,15 +93,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private LookDeletedReceiver lookDeletedReceiver;
 	private LookRenamedReceiver lookRenamedReceiver;
-
-	public static final int REQUEST_SELECT_IMAGE = 0;
-	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
-	public static final int REQUEST_TAKE_PICTURE = 2;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,11 +113,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(defLookName);
 			}
 		}
-
 		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+
 		adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList, false);
 		adapter.setOnLookEditListener(this);
 		setListAdapter(adapter);
+
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		try {
+			Utils.loadProjectIfNeeded(scriptActivity, scriptActivity);
+		} catch (ClassCastException exception) {
+			Log.e("CATROID", scriptActivity.toString() + " does not implement ErrorListenerInterface", exception);
+		}
 	}
 
 	@Override
@@ -133,25 +137,24 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void onResume() {
 		super.onResume();
+
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
-		}
-
-		if (lookDeletedReceiver == null) {
-			lookDeletedReceiver = new LookDeletedReceiver();
 		}
 
 		if (lookRenamedReceiver == null) {
 			lookRenamedReceiver = new LookRenamedReceiver();
 		}
 
-		IntentFilter intentFilterDeleteLook = new IntentFilter(ScriptActivity.ACTION_LOOK_DELETED);
-		getActivity().registerReceiver(lookDeletedReceiver, intentFilterDeleteLook);
+		if (lookDeletedReceiver == null) {
+			lookDeletedReceiver = new LookDeletedReceiver();
+		}
 
 		IntentFilter intentFilterRenameLook = new IntentFilter(ScriptActivity.ACTION_LOOK_RENAMED);
 		getActivity().registerReceiver(lookRenamedReceiver, intentFilterRenameLook);
 
-		reloadAdapter();
+		IntentFilter intentFilterDeleteLook = new IntentFilter(ScriptActivity.ACTION_LOOK_DELETED);
+		getActivity().registerReceiver(lookDeletedReceiver, intentFilterDeleteLook);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -191,25 +194,25 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK) {
-			return;
-		}
 
-		switch (requestCode) {
-			case REQUEST_SELECT_IMAGE:
-				if (data == null) {
+		if (resultCode == Activity.RESULT_OK) {
+			switch (requestCode) {
+				case REQUEST_SELECT_IMAGE:
+					if (data != null) {
+						loadImageIntoCatroid(data);
+					}
 					break;
-				}
-				loadImageIntoCatroid(data);
-				break;
-			case REQUEST_PAINTROID_EDIT_IMAGE:
-				loadPaintroidImageIntoCatroid(data);
-				break;
-			case REQUEST_TAKE_PICTURE:
-				String defLookName = getString(R.string.default_look_name);
-				lookFromCameraUri = UtilCamera.rotatePictureIfNecessary(lookFromCameraUri, defLookName);
-				loadPictureFromCameraIntoCatroid();
-				break;
+				case REQUEST_PAINTROID_EDIT_IMAGE:
+					if (data != null) {
+						loadPaintroidImageIntoCatroid(data);
+					}
+					break;
+				case REQUEST_TAKE_PICTURE:
+					String defLookName = getString(R.string.default_look_name);
+					lookFromCameraUri = UtilCamera.rotatePictureIfNecessary(lookFromCameraUri, defLookName);
+					loadPictureFromCameraIntoCatroid();
+					break;
+			}
 		}
 	}
 
@@ -234,12 +237,17 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
+	public void onLookChecked() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle arguments) {
 		Uri imageUri = null;
+
 		if (arguments != null) {
 			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
-
 		String[] projection = { MediaStore.MediaColumns.DATA };
 		return new CursorLoader(getActivity(), imageUri, projection, null, null, null);
 	}
@@ -249,24 +257,25 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		String originalImagePath = "";
 		CursorLoader cursorLoader = (CursorLoader) loader;
 
+		boolean catchedExpetion = false;
+
 		if (data == null) {
 			originalImagePath = cursorLoader.getUri().getPath();
 		} else {
 			int columnIndex = data.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
 			data.moveToFirst();
+
 			try {
 				originalImagePath = data.getString(columnIndex);
 			} catch (CursorIndexOutOfBoundsException e) {
-				Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
-				return;
+				catchedExpetion = true;
 			}
 		}
 
-		if (data == null && originalImagePath.equals("")) {
+		if (catchedExpetion || (data == null && originalImagePath.equals(""))) {
 			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
 			return;
 		}
-
 		copyImageToCatroid(originalImagePath);
 	}
 
@@ -296,8 +305,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		if (currentSprite != null) {
 			lookDataList = currentSprite.getLookDataList();
-			LookAdapter adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item,
-					lookDataList, false);
+			LookAdapter adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList,
+					false);
 			adapter.setOnLookEditListener(this);
 			setListAdapter(adapter);
 		}
@@ -305,8 +314,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	public void selectImageFromCamera() {
 		lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
+
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, lookFromCameraUri);
+
 		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_camera));
 		startActivityForResult(chooser, REQUEST_TAKE_PICTURE);
 	}
@@ -320,6 +331,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		intent.setType("image/*");
 		intent.putExtras(bundleForPaintroid);
+
 		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_gallery));
 		startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 	}
@@ -355,9 +367,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			// so has to be loaded again with other Config
 			Pixmap pixmap = null;
 			pixmap = Utils.getPixmapFromFile(imageFile);
+
 			if (pixmap == null) {
 				ImageEditing.overwriteImageFileWithNewBitmap(imageFile);
 				pixmap = Utils.getPixmapFromFile(imageFile);
+
 				if (pixmap == null) {
 					Utils.displayErrorMessageFragment(getActivity().getSupportFragmentManager(),
 							getString(R.string.error_load_image));
@@ -370,7 +384,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		} catch (IOException e) {
 			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
 		}
-
 		getLoaderManager().destroyLoader(ID_LOADER_MEDIA_IMAGE);
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
@@ -383,13 +396,17 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (bundle != null) {
 			originalImagePath = bundle.getString(Constants.EXTRA_PICTURE_PATH_PAINTROID);
 		}
+
 		if (originalImagePath == null || originalImagePath.equals("")) {
 			Bundle arguments = new Bundle();
 			arguments.putParcelable(LOADER_ARGUMENTS_IMAGE_URI, intent.getData());
-			if (getLoaderManager().getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
-				getLoaderManager().initLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
+
+			LoaderManager loaderManager = getLoaderManager();
+
+			if (loaderManager.getLoader(ID_LOADER_MEDIA_IMAGE) == null) {
+				loaderManager.initLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			} else {
-				getLoaderManager().restartLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
+				loaderManager.restartLoader(ID_LOADER_MEDIA_IMAGE, arguments, this);
 			}
 		} else {
 			copyImageToCatroid(originalImagePath);
@@ -413,12 +430,15 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			String oldFileName = selectedLookData.getLookFileName();
 			String newFileName = oldFileName.substring(oldFileName.indexOf('_') + 1);
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+
 			try {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPaintroidImage,
 						newFileName);
 				File tempPicFileInPaintroid = new File(pathOfPaintroidImage);
 				tempPicFileInPaintroid.delete(); //delete temp file in paintroid
+
 				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath()); //reduce usage in container or delete it
+
 				selectedLookData.setLookFilename(newLookFile.getName());
 				selectedLookData.resetThumbnailBitmap();
 			} catch (IOException e) {
@@ -430,6 +450,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private void loadPictureFromCameraIntoCatroid() {
 		if (lookFromCameraUri != null) {
 			String originalImagePath = lookFromCameraUri.getPath();
+
 			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
 			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
 				Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
@@ -461,17 +482,20 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private void handleCopyLookButton(View v) {
 		int position = (Integer) v.getTag();
 		LookData lookData = lookDataList.get(position);
+
 		try {
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+
 			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
+
 			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_look_addition);
 			String imageFileName = lookData.getLookFileName();
+
 			updateLookAdapter(imageName, imageFileName);
 		} catch (IOException e) {
 			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
 			e.printStackTrace();
 		}
-
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
@@ -504,7 +528,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 		//-------------------------------------------------------------------------------
-
 		int position = (Integer) v.getTag();
 		selectedLookData = lookDataList.get(position);
 
@@ -514,6 +537,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		bundleForPaintroid.putInt(Constants.EXTRA_X_VALUE_PAINTROID, 0);
 		bundleForPaintroid.putInt(Constants.EXTRA_Y_VALUE_PAINTROID, 0);
 		intent.putExtras(bundleForPaintroid);
+
 		intent.addCategory("android.intent.category.LAUNCHER");
 		startActivityForResult(intent, REQUEST_PAINTROID_EDIT_IMAGE);
 	}
@@ -589,7 +613,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void setSelectMode(int selectMode) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -601,12 +624,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	protected void showRenameDialog() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void showDeleteDialog() {
 		// TODO Auto-generated method stub
-
 	}
 }
