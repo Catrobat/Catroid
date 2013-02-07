@@ -262,6 +262,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.copy:
+				copyLook(selectedLookPosition);
 				break;
 
 			case R.id.cut:
@@ -409,11 +410,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void onLookEdit(View v) {
 		handleEditLookButton(v);
-	}
-
-	@Override
-	public void onLookCopy(View v) {
-		handleCopyLookButton(v);
 	}
 
 	@Override
@@ -604,26 +600,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		});
 	}
 
-	private void handleCopyLookButton(View v) {
-		int position = (Integer) v.getTag();
-		LookData lookData = lookDataList.get(position);
-
-		try {
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-
-			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
-
-			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_look_addition);
-			String imageFileName = lookData.getLookFileName();
-
-			updateLookAdapter(imageName, imageFileName);
-		} catch (IOException e) {
-			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
-			e.printStackTrace();
-		}
-		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
-	}
-
 	private void handleEditLookButton(View v) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName("org.catrobat.paintroid", "org.catrobat.paintroid.MainActivity"));
@@ -790,6 +766,25 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+	}
+
+	private void copyLook(int position) {
+		LookData lookData = lookDataList.get(position);
+
+		try {
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+
+			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
+
+			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_look_addition);
+			String imageFileName = lookData.getLookFileName();
+
+			updateLookAdapter(imageName, imageFileName);
+		} catch (IOException e) {
+			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_load_image));
+			e.printStackTrace();
+		}
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	@Override

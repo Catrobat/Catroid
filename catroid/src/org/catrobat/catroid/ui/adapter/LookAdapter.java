@@ -209,8 +209,6 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 		public void onLookEdit(View v);
 
-		public void onLookCopy(View v);
-
 		public void onLookChecked();
 	}
 }
