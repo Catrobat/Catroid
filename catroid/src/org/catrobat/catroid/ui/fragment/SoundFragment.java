@@ -218,7 +218,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
-			setBottomBarActivated(false);
+			Utils.setBottomBarActivated(getActivity(), false);
 			isRenameActionMode = true;
 		}
 	}
@@ -228,7 +228,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
-			setBottomBarActivated(false);
+			Utils.setBottomBarActivated(getActivity(), false);
 			isRenameActionMode = false;
 		}
 	}
@@ -574,7 +574,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 			if (iterator.hasNext()) {
 				int position = iterator.next();
-				selectedSoundInfo = (SoundInfo) getListView().getItemAtPosition(position);
+				selectedSoundInfo = (SoundInfo) listView.getItemAtPosition(position);
 				showRenameDialog();
 			}
 			setSelectMode(Constants.SELECT_NONE);
@@ -584,7 +584,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			setBottomBarActivated(true);
+			Utils.setBottomBarActivated(getActivity(), true);
 		}
 	};
 
@@ -633,7 +633,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			setBottomBarActivated(true);
+			Utils.setBottomBarActivated(getActivity(), true);
 		}
 	};
 
@@ -675,9 +675,5 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
-	}
-
-	private void setBottomBarActivated(boolean isActive) {
-		Utils.setBottomBarActivated(getActivity(), isActive);
 	}
 }
