@@ -33,7 +33,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
@@ -450,11 +449,13 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private void updateLookAdapter(String name, String fileName) {
 		name = Utils.getUniqueLookName(name);
+
 		LookData lookData = new LookData();
 		lookData.setLookFilename(fileName);
 		lookData.setLookName(name);
 		lookDataList.add(lookData);
-		reloadAdapter();
+
+		adapter.notifyDataSetChanged();
 
 		//scroll down the list to the new item:
 		final ListView listView = getListView();
@@ -464,17 +465,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				listView.setSelection(listView.getCount() - 1);
 			}
 		});
-	}
-
-	private void reloadAdapter() {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		if (currentSprite != null) {
-			lookDataList = currentSprite.getLookDataList();
-			LookAdapter adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList,
-					false);
-			adapter.setOnLookEditListener(this);
-			setListAdapter(adapter);
-		}
 	}
 
 	private void copyImageToCatroid(String originalImagePath) {
@@ -681,7 +671,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_LOOK_DELETED)) {
-				reloadAdapter();
 				adapter.notifyDataSetChanged();
 				getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 			}

@@ -640,6 +640,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		newSoundInfo.setTitle(title);
 		newSoundInfo.setSoundFileName(fileName);
 		soundInfoList.add(newSoundInfo);
+
 		adapter.notifyDataSetChanged();
 
 		//scroll down the list to the new item:
