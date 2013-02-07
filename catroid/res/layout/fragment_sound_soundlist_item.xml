@@ -41,7 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="2dp" >
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp" >
 
         <ImageButton
             android:id="@+id/btn_sound_play"
@@ -74,6 +75,7 @@
             android:id="@+id/sound_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:visibility="gone" />
     </LinearLayout>
 
