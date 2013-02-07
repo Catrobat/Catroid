@@ -85,17 +85,22 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName(lookName);
 		lookDataList.add(lookData);
+
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile2.getName());
 		lookData.setLookName("lookNameTest2");
 		lookDataList.add(lookData);
+
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
 		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 
 		solo = new Solo(getInstrumentation(), getActivity());
+		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 	}
 
 	@Override
@@ -107,8 +112,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo = null;
 	}
 
-	public void testAddNewLookActionbarIcon() {
-		goToLooksTab();
+	public void testAddNewLookDialog() {
 		String addLookFromCameraText = solo.getString(R.string.add_look_from_camera);
 		String addLookFromGalleryText = solo.getString(R.string.add_look_from_gallery);
 		assertFalse("Menu to add look from camera should not be visible", solo.searchText(addLookFromCameraText));
@@ -122,7 +126,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testCopyLook() {
-		goToLooksTab();
 		solo.clickOnText(solo.getString(R.string.copy_look), 1);
 		if (solo.searchText(lookName + "_" + solo.getString(R.string.copy_look_addition), 1, true)) {
 			assertEquals("the copy of the look wasn't added to the lookDataList in the sprite", 3, lookDataList.size());
@@ -132,7 +135,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testDeleteLook() {
-		goToLooksTab();
 		ListAdapter adapter = getLookFragment().getListAdapter();
 
 		int oldCount = adapter.getCount();
@@ -147,8 +149,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testDeleteLookFile() {
-		goToLooksTab();
-
 		Sprite firstSprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);
 		LookData lookToDelete = firstSprite.getLookDataList().get(1);
 
@@ -162,7 +162,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public void testRenameLook() {
 		String newName = "newName";
-		goToLooksTab();
 		solo.clickOnView(solo.getView(R.id.look_name));
 		solo.sleep(200);
 		solo.clearEditText(0);
@@ -178,7 +177,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testRenameLookMixedCase() {
-		goToLooksTab();
 		solo.clickOnView(solo.getView(R.id.look_name));
 		solo.sleep(300);
 		solo.clearEditText(0);
@@ -193,7 +191,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testMainMenuButton() {
-		goToLooksTab();
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
@@ -201,7 +198,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testGetImageFromPaintroid() {
-		goToLooksTab();
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
@@ -230,7 +226,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testEditImageWithPaintroid() {
-		goToLooksTab();
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
 
@@ -267,7 +262,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testEditImageWithPaintroidNoChanges() {
-		goToLooksTab();
 		int numberOfLookDatas = lookDataList.size();
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
@@ -292,7 +286,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testEditImageWithPaintroidNoPath() {
-		goToLooksTab();
 		int numberOfLookDatas = lookDataList.size();
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
@@ -316,7 +309,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testGetImageFromPaintroidNoPath() {
-		goToLooksTab();
 		LookData lookData = lookDataList.get(0);
 		String md5ImageFile = Utils.md5Checksum(imageFile);
 
@@ -336,7 +328,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testGetImageFromGallery() {
-		goToLooksTab();
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
@@ -364,7 +355,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testGetImageFromGalleryNullData() {
-		goToLooksTab();
 		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
 		int numberOfLookDatasBeforeIntent = lookDataList.size();
 		Bundle bundleForGallery = new Bundle();
@@ -385,7 +375,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
-		goToLooksTab();
 		int numberOfLookDatas = lookDataList.size();
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
@@ -425,7 +414,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				lookDataToAdd.getAbsolutePath());
 
 		solo.sleep(200);
-		goToLooksTab();
 
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
@@ -451,7 +439,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testLookNames() {
-		goToLooksTab();
 		String buttonCopyLookText = solo.getString(R.string.copy_look);
 		solo.clickOnText(buttonCopyLookText);
 		solo.scrollToTop();
@@ -527,8 +514,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testResolutionWhenEditedAndCroppedWithPaintroid() {
-		goToLooksTab();
-
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
 
@@ -548,7 +533,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		goToLooksTab();
+		//		goToLooksTab();
 
 		int[] fileResolutionAfterCrop = lookData.getResolution();
 		int[] displayedResolutionAfterCrop = getDisplayedResolution(lookData);
@@ -589,10 +574,5 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private LookFragment getLookFragment() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 		return (LookFragment) activity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
-	}
-
-	private void goToLooksTab() {
-		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
 	}
 }
