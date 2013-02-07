@@ -32,8 +32,8 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 
@@ -283,6 +283,10 @@ public class Sprite implements Serializable {
 
 	public ArrayList<LookData> getLookDataList() {
 		return lookList;
+	}
+
+	public void setLookDataList(ArrayList<LookData> list) {
+		lookList = list;
 	}
 
 	public ArrayList<SoundInfo> getSoundList() {

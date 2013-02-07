@@ -65,6 +65,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -95,6 +98,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
 	private static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
+
+	private static String deleteActionModeTitle;
+	private static String singleItemAppendixDeleteActionMode;
+	private static String multipleItemAppendixDeleteActionMode;
 
 	private LookAdapter adapter;
 	private ArrayList<LookData> lookDataList;
@@ -375,12 +382,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public void startDeleteActionMode() {
-		//		if (actionMode == null) {
-		//			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-		//			unregisterForContextMenu(listView);
-		//			Utils.setBottomBarActivated(getActivity(), false);
-		//			isRenameActionMode = false;
-		//		}
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			unregisterForContextMenu(listView);
+			Utils.setBottomBarActivated(getActivity(), false);
+			isRenameActionMode = false;
+		}
 	}
 
 	@Override
@@ -406,18 +413,39 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
-	public void onLookDelete(View v) {
-		handleDeleteLookButton(v);
-	}
-
-	@Override
 	public void onLookCopy(View v) {
 		handleCopyLookButton(v);
 	}
 
 	@Override
 	public void onLookChecked() {
-		// TODO Auto-generated method stub
+		if (isRenameActionMode || actionMode == null) {
+			return;
+		}
+
+		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
+
+		if (numberOfSelectedItems == 0) {
+			actionMode.setTitle(deleteActionModeTitle);
+		} else {
+			String appendix = multipleItemAppendixDeleteActionMode;
+
+			if (numberOfSelectedItems == 1) {
+				appendix = singleItemAppendixDeleteActionMode;
+			}
+
+			String numberOfItems = Integer.toString(numberOfSelectedItems);
+			String completeTitle = deleteActionModeTitle + " " + numberOfItems + " " + appendix;
+
+			int titleLength = deleteActionModeTitle.length();
+
+			Spannable completeSpannedTitle = new SpannableString(completeTitle);
+			completeSpannedTitle.setSpan(
+					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
+					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			actionMode.setTitle(completeSpannedTitle);
+		}
 	}
 
 	private void updateLookAdapter(String name, String fileName) {
@@ -576,14 +604,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	}
 
-	private void handleDeleteLookButton(View v) {
-		int position = (Integer) v.getTag();
-		selectedLookData = lookDataList.get(position);
-
-		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(position);
-		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
-	}
-
 	private void initClickListener() {
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
@@ -725,6 +745,64 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	};
 
+	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			setSelectMode(Constants.MULTI_SELECT);
+			setActionModeActive(true);
+
+			mode.setTitle(R.string.delete);
+
+			deleteActionModeTitle = getString(R.string.delete);
+			singleItemAppendixDeleteActionMode = getString(R.string.look);
+			multipleItemAppendixDeleteActionMode = getString(R.string.looks);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Set<Integer> checkedSounds = adapter.getCheckedItems();
+			Iterator<Integer> iterator = checkedSounds.iterator();
+
+			int numberDeleted = 0;
+
+			while (iterator.hasNext()) {
+				int position = iterator.next();
+				deleteLook(position - numberDeleted);
+				++numberDeleted;
+			}
+			setSelectMode(Constants.SELECT_NONE);
+			adapter.clearCheckedItems();
+
+			actionMode = null;
+			setActionModeActive(false);
+
+			registerForContextMenu(listView);
+			Utils.setBottomBarActivated(getActivity(), true);
+		}
+	};
+
+	private void deleteLook(int position) {
+		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
+
+		lookDataList.remove(position);
+		ProjectManager.getInstance().getCurrentSprite().setLookDataList(lookDataList);
+
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_LOOK_DELETED));
+	}
+
 	@Override
 	protected void showRenameDialog() {
 		RenameLookDialog renameLookDialog = RenameLookDialog.newInstance(selectedLookData.getLookName());
@@ -733,6 +811,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	protected void showDeleteDialog() {
-		// TODO Auto-generated method stub
+		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedLookPosition);
+		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
 	}
 }

@@ -80,16 +80,16 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	public static final int REQUEST_SELECT_MUSIC = 0;
 
+	private static final int ID_LOADER_MEDIA_IMAGE = 1;
+
+	private static int selectedSoundPosition = Constants.NO_POSITION;
+
 	private static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
-
-	private static final int ID_LOADER_MEDIA_IMAGE = 1;
 
 	private static String deleteActionModeTitle;
 	private static String singleItemAppendixDeleteActionMode;
 	private static String multipleItemAppendixDeleteActionMode;
-
-	private static int selectedSoundPosition = Constants.NO_POSITION;
 
 	private MediaPlayer mediaPlayer;
 	private SoundAdapter adapter;
