@@ -498,46 +498,55 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
-    public void testStopSoundOnContextAndActionMenu() {
-        // Mute before playing sound
-        AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
-        int timeToWait = 2000;
+	public void testStopSoundOnContextAndActionMenu() {
+		// Mute before playing sound
+		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+		int timeToWait = 1000;
 
-        soundInfoList = projectManager.getCurrentSprite().getSoundList();
-        SoundInfo soundInfo = soundInfoList.get(0);
-        ImageButton playImageButton = (ImageButton) solo.getView(R.id.btn_sound_play);
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		SoundInfo soundInfo = soundInfoList.get(0);
+		ImageButton playImageButton = (ImageButton) solo.getView(R.id.btn_sound_play);
 
-        solo.clickOnView(playImageButton);
-        solo.sleep(timeToWait);
-        solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
-        solo.waitForText(solo.getString(R.string.delete));
-        solo.sleep(timeToWait);
-        assertFalse("Mediaplayer continues playing even if context menu has been opened", soundInfo.isPlaying);
-        solo.goBack();
-        solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
-        checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+		solo.clickOnView(playImageButton);
+		solo.sleep(timeToWait);
+		solo.clickLongOnText(FIRST_TEST_SOUND_NAME);
+		solo.waitForText(solo.getString(R.string.delete));
+		solo.sleep(timeToWait);
+		assertFalse("Mediaplayer continues playing even if context menu has been opened", soundInfo.isPlaying);
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
-        solo.clickOnView(playImageButton);
-        solo.sleep(timeToWait);
-        UiTestUtils.openActionMode(solo, rename, 0);
-        solo.sleep(timeToWait);
-        assertFalse("Mediaplayer continues playing even if rename action has been opened", soundInfo.isPlaying);
-        solo.goBack();
-        solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
-        checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+		solo.clickOnView(playImageButton);
+		solo.sleep(timeToWait);
+		UiTestUtils.openActionMode(solo, rename, 0);
+		solo.sleep(timeToWait);
+		assertFalse("Mediaplayer continues playing even if rename action has been opened", soundInfo.isPlaying);
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
-        solo.clickOnView(playImageButton);
-        solo.sleep(timeToWait);
-        UiTestUtils.openActionMode(solo, null, R.id.delete);
-        solo.sleep(timeToWait);
-        assertFalse("Mediaplayer continues playing even if delete action has been opened", soundInfo.isPlaying);
-        solo.goBack();
-        solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
-        checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+		solo.clickOnView(playImageButton);
+		solo.sleep(timeToWait);
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		solo.sleep(timeToWait);
+		assertFalse("Mediaplayer continues playing even if delete action has been opened", soundInfo.isPlaying);
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
-        audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
-    }
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		solo.clickOnView(playImageButton);
+		solo.clickOnCheckBox(0);
+		solo.sleep(timeToWait);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.sleep(timeToWait);
+		assertFalse("Mediaplayer continues playing even if already deleted", soundInfo.isPlaying);
+		solo.goBack();
+
+		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+	}
 
 	private void addNewSound(String title) {
 		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
