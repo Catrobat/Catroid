@@ -231,6 +231,39 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
 	}
 
+	public void testStopSoundOnSpinnerPress() {
+		// Mute before playing sound
+		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+
+		int timeToWait = 1500;
+
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		SoundInfo soundInfo = soundInfoList.get(0);
+		assertFalse("Mediaplayer is playing although no play button was touched", soundInfo.isPlaying);
+
+		ImageButton playImageButton = (ImageButton) solo.getView(R.id.btn_sound_play);
+
+		solo.clickOnView(playImageButton);
+		solo.sleep(timeToWait);
+
+		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
+		checkVisibilityOfViews(GONE, VISIBLE, VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
+
+		String soundsString = solo.getString(R.string.sounds);
+		String looksString = solo.getString(R.string.looks);
+
+		solo.sleep(timeToWait);
+		UiTestUtils.changeToFragmentViaActionbar(solo, soundsString, looksString);
+		solo.waitForFragmentById(R.id.fragment_look_relative_layout, 500);
+		UiTestUtils.changeToFragmentViaActionbar(solo, looksString, soundsString);
+
+		assertFalse("Mediaplayer is playing after switching fragment via spinner", soundInfo.isPlaying);
+		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
+
+		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+	}
+
 	public void testAddSound() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() + 1;
 
