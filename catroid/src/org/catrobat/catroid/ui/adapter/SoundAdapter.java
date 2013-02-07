@@ -261,6 +261,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		soundInfo.isPlaying = false;
 	}
 
+	@Override
 	public int getAmountOfCheckedItems() {
 		return checkedSounds.size();
 	}

@@ -191,6 +191,11 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 	}
 
 	@Override
+	public int getAmountOfCheckedItems() {
+		return checkedLooks.size();
+	}
+
+	@Override
 	public Set<Integer> getCheckedItems() {
 		return checkedLooks;
 	}
@@ -203,8 +208,6 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 	public interface OnLookEditListener {
 
 		public void onLookEdit(View v);
-
-		public void onLookDelete(View v);
 
 		public void onLookCopy(View v);
 
