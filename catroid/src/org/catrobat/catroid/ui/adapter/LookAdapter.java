@@ -127,8 +127,11 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 				}
 			});
 
+			boolean checkboxIsGone = true;
+
 			if (selectMode != Constants.SELECT_NONE) {
 				holder.checkbox.setVisibility(View.VISIBLE);
+				checkboxIsGone = false;
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
@@ -150,9 +153,12 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 				//setting resolution
 				int[] resolution = lookData.getResolution();
-				holder.lookResolutionTextView.setText(getContext().getString(R.string.look_resolution) + " "
-						+ resolution[0] + " x " + resolution[1]);
+				String resolutionString = resolution[0] + " x " + resolution[1];
 
+				if (checkboxIsGone) {
+					resolutionString = getContext().getString(R.string.look_resolution) + " " + resolutionString;
+				}
+				holder.lookResolutionTextView.setText(resolutionString);
 				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
 			} else {
 				holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
