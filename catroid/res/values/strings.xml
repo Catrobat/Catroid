@@ -96,6 +96,7 @@
 
     <!-- Script activity -->
     <string name="scripts">Scripts</string>
+    <string name="look">Look</string>
     <string name="looks">Looks</string>
     <string name="sounds">Sounds</string>
     <string name="backgrounds">Backgrounds</string>
