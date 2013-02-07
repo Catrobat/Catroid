@@ -515,7 +515,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if context menu has been opened", soundInfo.isPlaying);
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		solo.clickOnView(playImageButton);
@@ -524,7 +523,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if rename action has been opened", soundInfo.isPlaying);
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		solo.clickOnView(playImageButton);
@@ -533,7 +531,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if delete action has been opened", soundInfo.isPlaying);
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
