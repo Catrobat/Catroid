@@ -24,8 +24,11 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -34,64 +37,128 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class LookAdapter extends ArrayAdapter<LookData> {
+public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivityAdapterInterface {
 
 	protected ArrayList<LookData> lookDataItems;
 	protected Context context;
 
 	private OnLookEditListener onLookEditListener;
 
+	private int selectMode;
 	private boolean showDetails;
+	private Set<Integer> checkedLooks = new HashSet<Integer>();
 
 	public LookAdapter(final Context context, int textViewResourceId, ArrayList<LookData> items, boolean showDetails) {
 		super(context, textViewResourceId, items);
 		this.context = context;
 		this.showDetails = showDetails;
-		lookDataItems = items;
+		this.lookDataItems = items;
+		this.selectMode = Constants.SELECT_NONE;
 	}
 
 	public void setOnLookEditListener(OnLookEditListener listener) {
 		onLookEditListener = listener;
 	}
 
+	private static class ViewHolder {
+		private ImageView lookImageView;
+		private CheckBox checkbox;
+		private TextView lookNameTextView;
+		private LinearLayout lookDetailsLinearLayout;
+		private TextView lookFileSizeTextView;
+		private TextView lookResolutionTextView;
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
+		ViewHolder holder;
+
 		if (convertView == null) {
 			convertView = View.inflate(context, R.layout.fragment_look_looklist_item, null);
+
+			holder = new ViewHolder();
+
+			holder.lookImageView = (ImageView) convertView.findViewById(R.id.look_image);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.look_checkbox);
+			holder.lookNameTextView = (TextView) convertView.findViewById(R.id.look_name);
+			holder.lookDetailsLinearLayout = (LinearLayout) convertView.findViewById(R.id.look_details);
+			holder.lookFileSizeTextView = (TextView) holder.lookDetailsLinearLayout.findViewById(R.id.look_size);
+			holder.lookResolutionTextView = (TextView) holder.lookDetailsLinearLayout
+					.findViewById(R.id.look_resolution);
+
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
 		}
 
-		convertView.findViewById(R.id.look_name).setTag(position);
-		convertView.findViewById(R.id.look_image).setTag(position);
-
-		LookData lookData = lookDataItems.get(position);
+		final LookData lookData = lookDataItems.get(position);
 
 		if (lookData != null) {
-			ImageView lookImageView = (ImageView) convertView.findViewById(R.id.look_image);
-			TextView lookNameTextView = (TextView) convertView.findViewById(R.id.look_name);
-			TextView lookFileSizeTextView = (TextView) convertView.findViewById(R.id.look_size);
-			TextView lookResolutionTextView = (TextView) convertView.findViewById(R.id.look_resolution);
+			//			holder.lookNameTextView.setTag(position);
+			//			holder.lookImageView.setTag(position);
 
-			lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
-			lookNameTextView.setText(lookData.getLookName());
+			holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
+			holder.lookNameTextView.setText(lookData.getLookName());
 
-			{
+			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if (isChecked) {
+						if (selectMode == Constants.SINGLE_SELECT) {
+							clearCheckedItems();
+						}
+						checkedLooks.add(position);
+					} else {
+						checkedLooks.remove(position);
+					}
+					notifyDataSetChanged();
+
+					if (onLookEditListener != null) {
+						onLookEditListener.onLookChecked();
+					}
+				}
+			});
+
+			if (selectMode != Constants.SELECT_NONE) {
+				holder.checkbox.setVisibility(View.VISIBLE);
+			} else {
+				holder.checkbox.setVisibility(View.GONE);
+				holder.checkbox.setChecked(false);
+				clearCheckedItems();
+			}
+
+			if (checkedLooks.contains(position)) {
+				holder.checkbox.setChecked(true);
+			} else {
+				holder.checkbox.setChecked(false);
+			}
+
+			if (showDetails) {
 				//setting size
 				if (lookData.getAbsolutePath() != null) {
-					lookFileSizeTextView.setText(getContext().getString(R.string.size) + " "
+					holder.lookFileSizeTextView.setText(getContext().getString(R.string.size) + " "
 							+ UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 				}
 
 				//setting resolution
 				int[] resolution = lookData.getResolution();
-				lookResolutionTextView.setText(getContext().getString(R.string.look_resolution) + " " + resolution[0]
-						+ " x " + resolution[1]);
+				holder.lookResolutionTextView.setText(getContext().getString(R.string.look_resolution) + " "
+						+ resolution[0] + " x " + resolution[1]);
+
+				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
+			} else {
+				holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
 			}
 
-			lookImageView.setOnClickListener(new OnClickListener() {
+			holder.lookImageView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onLookEditListener != null) {
@@ -100,7 +167,7 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 				}
 			});
 
-			lookNameTextView.setOnClickListener(new OnClickListener() {
+			holder.lookNameTextView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (onLookEditListener != null) {
@@ -112,12 +179,34 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 		return convertView;
 	}
 
+	@Override
 	public void setShowDetails(boolean showDetails) {
 		this.showDetails = showDetails;
 	}
 
+	@Override
 	public boolean getShowDetails() {
 		return showDetails;
+	}
+
+	@Override
+	public void setSelectMode(int mode) {
+		selectMode = mode;
+	}
+
+	@Override
+	public int getSelectMode() {
+		return selectMode;
+	}
+
+	@Override
+	public Set<Integer> getCheckedItems() {
+		return checkedLooks;
+	}
+
+	@Override
+	public void clearCheckedItems() {
+		checkedLooks.clear();
 	}
 
 	public interface OnLookEditListener {
@@ -129,5 +218,7 @@ public class LookAdapter extends ArrayAdapter<LookData> {
 		public void onLookDelete(View v);
 
 		public void onLookCopy(View v);
+
+		public void onLookChecked();
 	}
 }
