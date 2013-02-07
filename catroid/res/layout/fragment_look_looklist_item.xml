@@ -61,9 +61,11 @@
 	        android:text="This is a very very very long name for a look that should show what happens.." />
 	
 	    <LinearLayout
+	        android:id="@+id/look_details"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:orientation="horizontal" >
+	        android:orientation="horizontal"
+	        android:visibility="gone" >
 
 	        <TextView style="@style/fragment_detail"
                 android:id="@+id/look_size"
