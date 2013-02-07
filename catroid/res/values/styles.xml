@@ -169,8 +169,7 @@
     <style name="BrickContainer.Motion.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
     </style>
-    
-    
+
     <style name="BrickContainer.Sound">
         <item name="android:background">@drawable/brick_magenta</item>
     </style>
@@ -186,7 +185,6 @@
     <style name="BrickContainer.Sound.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
     </style>
-    
 
     <style name="BrickContainer.Look">
         <item name="android:background">@drawable/brick_violet</item>
@@ -204,6 +202,24 @@
         <item name="android:minHeight">@dimen/brick_height_big</item>
     </style>
 
+    <style name="BrickContainer.Control">
+        <item name="android:background">@drawable/brick_yellow</item>
+    </style>
+
+    <style name="BrickContainer.Control.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+    </style>
+
+    <style name="BrickContainer.Control.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="BrickContainer.Control.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <style name="brick_new">
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
     </style>
@@ -211,7 +227,7 @@
     <style name="brick_blink">
         <item name="android:windowEnterAnimation">@anim/blink</item>
     </style>
-    
+
     <style name="sound_basic_style">
         <item name="android:clickable">false</item>
         <item name="android:longClickable">false</item>

@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -102,7 +103,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		UiTestUtils.clickEnterClose(solo, 0, STEPS_TO_MOVE + "");
 
-		assertEquals("Wrong text in field.", STEPS_TO_MOVE, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
+		assertEquals("Wrong text in field.", STEPS_TO_MOVE, Reflection.getPrivateField(moveNStepsBrick, "steps"));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
 	}
 
