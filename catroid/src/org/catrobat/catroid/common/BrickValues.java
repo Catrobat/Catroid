@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.common;
 
-/**
- * @author Michael
- * 
- */
 public class BrickValues {
 
 	public static final int X_POSITION = 100;
