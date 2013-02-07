@@ -124,17 +124,17 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		if (savedInstanceState != null) {
 			selectedSoundInfo = (SoundInfo) savedInstanceState.getSerializable(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item, soundInfoList, false);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
 
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
 		try {
-			Utils.loadProjectIfNeeded(getActivity(), (ErrorListenerInterface) getActivity());
+			Utils.loadProjectIfNeeded(scriptActivity, (ErrorListenerInterface) scriptActivity);
 		} catch (ClassCastException exception) {
-			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
+			Log.e("CATROID", scriptActivity.toString() + " does not implement ErrorListenerInterface", exception);
 		}
 	}
 
