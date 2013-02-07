@@ -112,8 +112,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String addLookFromCameraText = solo.getString(R.string.add_look_from_camera);
 		String addLookFromGalleryText = solo.getString(R.string.add_look_from_gallery);
 		assertFalse("Menu to add look from camera should not be visible", solo.searchText(addLookFromCameraText));
-		assertFalse("Menu to add look from gallery should not be visible",
-				solo.searchText(addLookFromGalleryText));
+		assertFalse("Menu to add look from gallery should not be visible", solo.searchText(addLookFromGalleryText));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
@@ -126,8 +125,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		goToLooksTab();
 		solo.clickOnText(solo.getString(R.string.copy_look), 1);
 		if (solo.searchText(lookName + "_" + solo.getString(R.string.copy_look_addition), 1, true)) {
-			assertEquals("the copy of the look wasn't added to the lookDataList in the sprite", 3,
-					lookDataList.size());
+			assertEquals("the copy of the look wasn't added to the lookDataList in the sprite", 3, lookDataList.size());
 		} else {
 			fail("copy look didn't work");
 		}
@@ -383,8 +381,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				ScriptActivity.class.getSimpleName());
 		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
 		int numberOfLookDatasAfterReturning = lookDataList.size();
-		assertEquals("wrong size of lookdatalist", numberOfLookDatasBeforeIntent,
-				numberOfLookDatasAfterReturning);
+		assertEquals("wrong size of lookdatalist", numberOfLookDatasBeforeIntent, numberOfLookDatasAfterReturning);
 	}
 
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
@@ -407,8 +404,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		assertNotSame("Picture did not change", Utils.md5Checksum(new File(lookData.getAbsolutePath())),
-				md5ImageFile);
+		assertNotSame("Picture did not change", Utils.md5Checksum(new File(lookData.getAbsolutePath())), md5ImageFile);
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		int newNumberOfLookDatas = lookDataList.size();
 		assertEquals("LookData was added", numberOfLookDatas, newNumberOfLookDatas);
@@ -566,7 +562,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	private int[] getDisplayedResolution(LookData look) {
-		TextView resolutionTextView = (TextView) solo.getView(R.id.look_res);
+		TextView resolutionTextView = (TextView) solo.getView(R.id.look_resolution);
 		String resolutionString = resolutionTextView.getText().toString();
 		//resolution string has form "width x height"
 		int dividingPosition = resolutionString.indexOf(' ');

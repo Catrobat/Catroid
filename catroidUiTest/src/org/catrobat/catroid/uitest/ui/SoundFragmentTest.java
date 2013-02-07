@@ -541,7 +541,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				.getView(R.id.sound_duration).getVisibility() == soundDurationVisibility);
 		assertTrue("Sound size " + getAssertMessageAffix(soundSizeVisibility), solo.getView(R.id.sound_size)
 				.getVisibility() == soundSizeVisibility);
-		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility), solo.getView(R.id.checkbox)
+		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility), solo.getView(R.id.sound_checkbox)
 				.getVisibility() == checkBoxVisibility);
 	}
 
