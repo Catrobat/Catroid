@@ -66,9 +66,14 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.ActionMode;
@@ -83,6 +88,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public static final int REQUEST_TAKE_PICTURE = 2;
 
 	private static final int ID_LOADER_MEDIA_IMAGE = 1;
+
+	private static int selectedLookPosition = Constants.NO_POSITION;
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_LOOK = "selected_look";
 	private static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
@@ -145,6 +152,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		outState.putBoolean(BUNDLE_ARGUMENTS_URI_IS_SET, (lookFromCameraUri != null));
 		outState.putSerializable(BUNDLE_ARGUMENTS_SELECTED_LOOK, selectedLookData);
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		initClickListener();
 	}
 
 	@Override
@@ -227,6 +240,42 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					break;
 			}
 		}
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+
+		selectedLookData = adapter.getItem(selectedLookPosition);
+		menu.setHeaderTitle(selectedLookData.getLookName());
+
+		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.copy:
+				break;
+
+			case R.id.cut:
+				break;
+
+			case R.id.insert_below:
+				break;
+
+			case R.id.move:
+				break;
+
+			case R.id.rename:
+				showRenameDialog();
+				break;
+
+			case R.id.delete:
+				showDeleteDialog();
+				break;
+		}
+		return super.onContextItemSelected(item);
 	}
 
 	@Override
@@ -477,6 +526,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(position);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void initClickListener() {
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				selectedLookPosition = position;
+				return false;
+			}
+		});
 	}
 
 	private void handleCopyLookButton(View v) {
