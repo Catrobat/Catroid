@@ -477,30 +477,40 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
-	public void testLookNames() {
-		String buttonCopyLookText = solo.getString(R.string.copy);
-		solo.clickOnText(buttonCopyLookText);
-		solo.scrollToTop();
+	public void testEqualLookNames() {
+		final String assertMessageText = "Look not renamed correctly";
 
+		String copyText = solo.getString(R.string.copy);
 		String defaultLookName = solo.getString(R.string.default_look_name);
-		String expectedLookName = "";
+		String newLookName = defaultLookName;
+
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copyText);
 
 		renameLook(FIRST_TEST_LOOK_NAME, defaultLookName);
 		renameLook(SECOND_TEST_LOOK_NAME, defaultLookName);
-		expectedLookName = defaultLookName + "1";
-		assertEquals("look not renamed correctly", expectedLookName, lookDataList.get(1).getLookName());
-		renameLook("lookNametest_", defaultLookName);
+
+		String expectedLookName = defaultLookName + "1";
+		assertEquals(assertMessageText, expectedLookName, lookDataList.get(1).getLookName());
+
+		String copiedLookName = FIRST_TEST_LOOK_NAME + "_" + solo.getString(R.string.copy_look_addition);
+		renameLook(copiedLookName, defaultLookName);
+
 		expectedLookName = defaultLookName + "2";
-		assertEquals("look not renamed correctly", expectedLookName, lookDataList.get(2).getLookName());
+		assertEquals(assertMessageText, expectedLookName, lookDataList.get(2).getLookName());
 
-		renameLook(defaultLookName + "1", "a");
-		solo.scrollToTop();
-		solo.clickOnText(solo.getString(R.string.copy));
-		renameLook(defaultLookName + "_", defaultLookName);
 		expectedLookName = defaultLookName + "1";
-		assertEquals("look not renamed correctly", expectedLookName, lookDataList.get(3).getLookName());
+		newLookName = "a";
+		renameLook(expectedLookName, newLookName);
 
-		// test that Image from paintroid is correctly renamed
+		solo.scrollToTop();
+		clickOnContextMenuItem(newLookName, copyText);
+
+		copiedLookName = newLookName + "_" + solo.getString(R.string.copy_look_addition);
+		renameLook(copiedLookName, defaultLookName);
+
+		assertEquals(assertMessageText, expectedLookName, lookDataList.get(3).getLookName());
+
+		// Test that Image from Paintroid is correctly renamed
 		String fileName = defaultLookName;
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
@@ -509,23 +519,25 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 			e.printStackTrace();
 			fail("Image was not created");
 		}
-		String checksumImageFile = Utils.md5Checksum(imageFile);
+		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
+
 		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
-		expectedLookName = defaultLookName + "3";
-		assertEquals("look not renamed correctly", expectedLookName, lookDataList.get(4).getLookName());
-		assertTrue("Checksum not in checksumcontainer",
-				projectManager.getFileChecksumContainer().containsChecksum(checksumImageFile));
 
-		// test that Image from gallery is correctly renamed
+		expectedLookName = defaultLookName + "3";
+		assertEquals(assertMessageText, expectedLookName, lookDataList.get(4).getLookName());
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumImageFile));
+
+		// Test that Image from gallery is correctly renamed
 		fileName = defaultLookName;
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
@@ -534,7 +546,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 			e.printStackTrace();
 			fail("Image was not created");
 		}
-		checksumImageFile = Utils.md5Checksum(imageFile);
+		md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", imageFile.getAbsolutePath());
@@ -546,10 +558,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
+
 		expectedLookName = defaultLookName + "4";
-		assertEquals("look not renamed correctly", expectedLookName, lookDataList.get(5).getLookName());
+		assertEquals(assertMessageText, expectedLookName, lookDataList.get(5).getLookName());
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.getFileChecksumContainer().containsChecksum(checksumImageFile));
+				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumImageFile));
 	}
 
 	public void testResolutionWhenEditedAndCroppedWithPaintroid() {
