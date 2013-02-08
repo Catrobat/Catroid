@@ -594,13 +594,13 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		return resolution;
 	}
 
-	private void renameLook(String currentLookName, String newLookName) {
-		solo.clickOnText(currentLookName);
-		EditText editTextLookName = solo.getEditText(0);
-		solo.clearEditText(editTextLookName);
-		solo.enterText(editTextLookName, newLookName);
-		String buttonOKText = solo.getCurrentActivity().getString(R.string.ok);
-		solo.clickOnButton(buttonOKText);
+	private void renameLook(String lookToRename, String newLookName) {
+		clickOnContextMenuItem(lookToRename, solo.getString(R.string.rename));
+		assertTrue("Wrong title of dialog", solo.searchText(solo.getString(R.string.rename_look_dialog)));
+		assertTrue("No EditText with actual look name", solo.searchEditText(lookToRename));
+
+		UiTestUtils.enterText(solo, 0, newLookName);
+		solo.sendKey(Solo.ENTER);
 	}
 
 	private LookFragment getLookFragment() {
