@@ -225,15 +225,15 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Checksum not in checksumcontainer",
 				projectManager.getFileChecksumContainer().containsChecksum(checksumPaintroidImageFile));
 
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+
 		boolean isInLookDataList = false;
-		for (LookData lookData : projectManager.getCurrentSprite().getLookDataList()) {
+		for (LookData lookData : lookDataList) {
 			if (lookData.getChecksum().equalsIgnoreCase(checksumPaintroidImageFile)) {
 				isInLookDataList = true;
 			}
 		}
-		if (!isInLookDataList) {
-			fail("File not added in LookDataList");
-		}
+		assertTrue("File not added in LookDataList", isInLookDataList);
 	}
 
 	public void testEditImageWithPaintroid() {
