@@ -490,13 +490,13 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		renameLook(SECOND_TEST_LOOK_NAME, defaultLookName);
 
 		String expectedLookName = defaultLookName + "1";
-		assertEquals(assertMessageText, expectedLookName, lookDataList.get(1).getLookName());
+		assertEquals(assertMessageText, expectedLookName, getLookName(1));
 
 		String copiedLookName = FIRST_TEST_LOOK_NAME + "_" + solo.getString(R.string.copy_look_addition);
 		renameLook(copiedLookName, defaultLookName);
 
 		expectedLookName = defaultLookName + "2";
-		assertEquals(assertMessageText, expectedLookName, lookDataList.get(2).getLookName());
+		assertEquals(assertMessageText, expectedLookName, getLookName(2));
 
 		expectedLookName = defaultLookName + "1";
 		newLookName = "a";
@@ -508,7 +508,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		copiedLookName = newLookName + "_" + solo.getString(R.string.copy_look_addition);
 		renameLook(copiedLookName, defaultLookName);
 
-		assertEquals(assertMessageText, expectedLookName, lookDataList.get(3).getLookName());
+		assertEquals(assertMessageText, expectedLookName, getLookName(3));
 
 		// Test that Image from Paintroid is correctly renamed
 		String fileName = defaultLookName;
@@ -533,7 +533,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(5000);
 
 		expectedLookName = defaultLookName + "3";
-		assertEquals(assertMessageText, expectedLookName, lookDataList.get(4).getLookName());
+		assertEquals(assertMessageText, expectedLookName, getLookName(4));
 		assertTrue("Checksum not in checksumcontainer",
 				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumImageFile));
 
@@ -560,7 +560,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(5000);
 
 		expectedLookName = defaultLookName + "4";
-		assertEquals(assertMessageText, expectedLookName, lookDataList.get(5).getLookName());
+		assertEquals(assertMessageText, expectedLookName, getLookName(5));
 		assertTrue("Checksum not in checksumcontainer",
 				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumImageFile));
 	}
