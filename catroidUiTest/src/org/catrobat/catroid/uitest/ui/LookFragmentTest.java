@@ -138,8 +138,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String addLookFromCameraText = solo.getString(R.string.add_look_from_camera);
 		String addLookFromGalleryText = solo.getString(R.string.add_look_from_gallery);
 
-		assertFalse("Menu to add look from camera should not be visible", solo.searchText(addLookFromCameraText));
-		assertFalse("Menu to add look from gallery should not be visible", solo.searchText(addLookFromGalleryText));
+		assertFalse("Entry to add look from camera should not be visible", solo.searchText(addLookFromCameraText));
+		assertFalse("Entry to add look from gallery should not be visible", solo.searchText(addLookFromGalleryText));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
