@@ -109,7 +109,6 @@
     <string name="rename_look_dialog">Redenumirea imaginii</string>
     <string name="edit_look">editare</string>
     <string name="edit_look_paintroid">Paintroid</string>
-    <string name="copy_look">copiere</string>
     <string name="lookname_invalid">Această imagine este nevalidă</string>
     <!-- <string name="edit_in_paintroid">Editare în paintroid</string> -->
     <string name="copy_look_addition">copiere</string>

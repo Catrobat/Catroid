@@ -107,7 +107,6 @@
     <!-- Look fragment -->
     <string name="rename_look_dialog">Rename Look</string>
     <string name="edit_look_paintroid">Paintroid</string>
-    <string name="copy_look">copy</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
     <string name="copy_look_addition">copy</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>

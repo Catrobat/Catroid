@@ -92,7 +92,6 @@
     <!-- Look activity -->
     <string name="rename_look_dialog">"Renomear traje"</string>
     <string name="edit_look_paintroid">"Paintroid"</string>
-    <string name="copy_look">"copiar"</string>
     <string name="lookname_invalid">"Nome do traje inválido"</string>
     <string name="copy_look_addition">"copiar"</string>
     <string name="paintroid_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>

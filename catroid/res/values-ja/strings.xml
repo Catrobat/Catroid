@@ -89,7 +89,6 @@
     <string name="rename_look_dialog">"コスチュームの名前を変更します"</string>
     <string name="edit_look">"編集"</string>
     <string name="edit_look_paintroid">"ペイントロイド"</string>
-    <string name="copy_look">"コピー"</string>
     <string name="lookname_invalid">"コスチュームの名前は無効です"</string>
     <string name="copy_look_addition">"コピー"</string>
     <string name="select_image">"画像を選択"</string>

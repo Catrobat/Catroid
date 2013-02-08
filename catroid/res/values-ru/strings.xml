@@ -109,7 +109,6 @@
     <string name="rename_look_dialog">Переименовать изображение</string>
     <string name="edit_look">редактировать</string>
     <string name="edit_look_paintroid">Paintroid</string>
-    <string name="copy_look">скопировать</string>
     <string name="lookname_invalid">Это название изображение является недействительным</string>
     <!-- <string name="edit_in_paintroid">Редактировать в paintroid</string> -->
     <string name="copy_look_addition">скопировать</string>
