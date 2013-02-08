@@ -600,21 +600,22 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	private SoundFragment getSoundFragment() {
-		return (SoundFragment) ((ScriptActivity) solo.getCurrentActivity()).getFragment(ScriptActivity.FRAGMENT_SOUNDS);
+		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+		return (SoundFragment) activity.getFragment(ScriptActivity.FRAGMENT_SOUNDS);
 	}
 
 	private SoundAdapter getSoundAdapter() {
 		return (SoundAdapter) getSoundFragment().getListAdapter();
 	}
 
-	private void checkVisibilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int SoundNameVisibility,
+	private void checkVisibilityOfViews(int playButtonVisibility, int pauseButtonVisibility, int soundNameVisibility,
 			int timePlayedVisibility, int soundDurationVisibility, int soundSizeVisibility, int checkBoxVisibility) {
 		assertTrue("Play button " + getAssertMessageAffix(playButtonVisibility), solo.getView(R.id.btn_sound_play)
 				.getVisibility() == playButtonVisibility);
 		assertTrue("Pause button " + getAssertMessageAffix(pauseButtonVisibility), solo.getView(R.id.btn_sound_pause)
 				.getVisibility() == pauseButtonVisibility);
-		assertTrue("Sound name " + getAssertMessageAffix(SoundNameVisibility), solo.getView(R.id.sound_title)
-				.getVisibility() == SoundNameVisibility);
+		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility), solo.getView(R.id.sound_title)
+				.getVisibility() == soundNameVisibility);
 		assertTrue("Chronometer " + getAssertMessageAffix(timePlayedVisibility),
 				solo.getView(R.id.sound_chronometer_time_played).getVisibility() == timePlayedVisibility);
 		assertTrue("Sound duration " + getAssertMessageAffix(soundDurationVisibility), solo
