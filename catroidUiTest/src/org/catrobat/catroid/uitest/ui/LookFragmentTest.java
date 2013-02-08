@@ -58,7 +58,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private static final int TIME_TO_WAIT = 50;
 
-	private String lookName = "lookNametest";
+	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
+	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
 
 	private File imageFile;
 	private File imageFile2;
@@ -95,14 +96,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
-		lookData.setLookName(lookName);
+		lookData.setLookName(FIRST_TEST_LOOK_NAME);
 		lookDataList.add(lookData);
 
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
 		lookData = new LookData();
 		lookData.setLookFilename(imageFile2.getName());
-		lookData.setLookName("lookNameTest2");
+		lookData.setLookName(SECOND_TEST_LOOK_NAME);
 		lookDataList.add(lookData);
 
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
@@ -147,12 +148,25 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Entry to add look from gallery not visible", solo.searchText(addLookFromGalleryText));
 	}
 
-	public void testCopyLook() {
-		solo.clickOnText(solo.getString(R.string.copy_look), 1);
-		if (solo.searchText(lookName + "_" + solo.getString(R.string.copy_look_addition), 1, true)) {
-			assertEquals("the copy of the look wasn't added to the lookDataList in the sprite", 3, lookDataList.size());
+	public void testCopyLookContextMenu() {
+		String testLookName = SECOND_TEST_LOOK_NAME;
+
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+
+		int oldCount = adapter.getCount();
+
+		clickOnContextMenuItem(testLookName, solo.getString(R.string.copy));
+		solo.sleep(50);
+
+		int newCount = adapter.getCount();
+
+		if (solo.searchText(testLookName + "_" + solo.getString(R.string.copy_look_addition), 1, true)) {
+			assertEquals("Old count is not correct", 2, oldCount);
+			assertEquals("New count is not correct (copy should be added)", 3, newCount);
+			assertEquals("Count of the soundList is not right", newCount, lookDataList.size());
 		} else {
-			fail("copy look didn't work");
+			fail("Copy look didn't work");
 		}
 	}
 
@@ -454,15 +468,15 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testLookNames() {
-		String buttonCopyLookText = solo.getString(R.string.copy_look);
+		String buttonCopyLookText = solo.getString(R.string.copy);
 		solo.clickOnText(buttonCopyLookText);
 		solo.scrollToTop();
 
 		String defaultLookName = solo.getString(R.string.default_look_name);
 		String expectedLookName = "";
 
-		renameLook(lookName, defaultLookName);
-		renameLook("lookNameTest2", defaultLookName);
+		renameLook(FIRST_TEST_LOOK_NAME, defaultLookName);
+		renameLook(SECOND_TEST_LOOK_NAME, defaultLookName);
 		expectedLookName = defaultLookName + "1";
 		assertEquals("look not renamed correctly", expectedLookName, lookDataList.get(1).getLookName());
 		renameLook("lookNametest_", defaultLookName);
@@ -471,7 +485,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		renameLook(defaultLookName + "1", "a");
 		solo.scrollToTop();
-		solo.clickOnText(solo.getString(R.string.copy_look));
+		solo.clickOnText(solo.getString(R.string.copy));
 		renameLook(defaultLookName + "_", defaultLookName);
 		expectedLookName = defaultLookName + "1";
 		assertEquals("look not renamed correctly", expectedLookName, lookDataList.get(3).getLookName());
@@ -620,5 +634,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				break;
 		}
 		return assertMessageAffix;
+	}
+
+	private void clickOnContextMenuItem(String lookName, String menuItemName) {
+		solo.clickLongOnText(lookName);
+		solo.waitForText(menuItemName);
+		solo.clickOnText(menuItemName);
 	}
 }
