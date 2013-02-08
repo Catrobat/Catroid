@@ -32,6 +32,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
@@ -45,6 +46,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -59,6 +61,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
+
+	private String rename;
+	private String renameDialogTitle;
+	private String delete;
+	private String deleteDialogTitle;
 
 	private File imageFile;
 	private File imageFile2;
@@ -113,6 +120,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
+
+		rename = solo.getString(R.string.rename);
+		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
+		delete = solo.getString(R.string.delete);
+		deleteDialogTitle = solo.getString(R.string.delete_look_dialog);
 
 		if (getLookAdapter().getShowDetails()) {
 			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
@@ -184,7 +196,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int oldCount = adapter.getCount();
 
 		clickOnContextMenuItem(testLookName, solo.getString(R.string.delete));
-		solo.waitForText(solo.getString(R.string.delete_look_dialog));
+		solo.waitForText(deleteDialogTitle);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(50);
 
@@ -565,6 +577,65 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumImageFile));
 	}
 
+	public void testBottomBarAndContextMenuOnActionModes() {
+		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
+		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
+		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
+
+		int timeToWait = 300;
+		String addDialogTitle = solo.getString(R.string.new_look_dialog_title);
+
+		assertTrue("Add button not clickable", addButton.isClickable());
+		assertTrue("Play button not clickable", playButton.isClickable());
+
+		checkIfContextMenuAppears(true, false);
+
+		// Test on rename ActionMode
+		UiTestUtils.openActionMode(solo, rename, 0);
+		solo.waitForText(rename, 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(false, false);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(true, false);
+
+		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
+		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
+
+		// Test on delete ActionMode
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		solo.waitForText(delete, 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(false, true);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(true, true);
+	}
+
 	public void testResolutionWhenCroppedWithPaintroid() {
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(200);
@@ -626,7 +697,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	private void renameLook(String lookToRename, String newLookName) {
 		clickOnContextMenuItem(lookToRename, solo.getString(R.string.rename));
-		assertTrue("Wrong title of dialog", solo.searchText(solo.getString(R.string.rename_look_dialog)));
+		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));
 		assertTrue("No EditText with actual look name", solo.searchEditText(lookToRename));
 
 		UiTestUtils.enterText(solo, 0, newLookName);
@@ -678,5 +749,42 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private String getLookName(int lookIndex) {
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		return lookDataList.get(lookIndex).getLookName();
+	}
+
+	private void checkIfContextMenuAppears(boolean contextMenuShouldAppear, boolean isDeleteActionMode) {
+		solo.clickLongOnText(FIRST_TEST_LOOK_NAME);
+
+		int timeToWait = 200;
+		String assertMessageAffix = "";
+
+		if (contextMenuShouldAppear) {
+			assertMessageAffix = "should appear";
+
+			assertTrue("Context menu with title '" + FIRST_TEST_LOOK_NAME + "' " + assertMessageAffix,
+					solo.waitForText(FIRST_TEST_LOOK_NAME, 1, timeToWait, false, true));
+			assertTrue("Context menu item '" + delete + "' " + assertMessageAffix,
+					solo.waitForText(delete, 1, timeToWait, false, true));
+			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
+					solo.waitForText(rename, 1, timeToWait, false, true));
+
+			solo.goBack();
+		} else {
+			assertMessageAffix = "should not appear";
+
+			int minimumMatchesDelete = 1;
+			int minimumMatchesRename = 1;
+
+			if (isDeleteActionMode) {
+				minimumMatchesDelete = 2;
+			} else {
+				minimumMatchesRename = 2;
+			}
+			assertFalse("Context menu with title '" + FIRST_TEST_LOOK_NAME + "' " + assertMessageAffix,
+					solo.waitForText(FIRST_TEST_LOOK_NAME, 3, timeToWait, false, true));
+			assertFalse("Context menu item '" + delete + "' " + assertMessageAffix,
+					solo.waitForText(delete, minimumMatchesDelete, timeToWait, false, true));
+			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
+					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
+		}
 	}
 }

@@ -152,7 +152,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		int oldCount = adapter.getCount();
 
 		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.delete));
-		solo.waitForText(solo.getString(R.string.delete_sound_dialog));
+		solo.waitForText(deleteDialogTitle);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(50);
 
@@ -612,7 +612,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	private void renameSound(String soundToRename, String newSoundName) {
 		clickOnContextMenuItem(soundToRename, solo.getString(R.string.rename));
-		assertTrue("Wrong title of dialog", solo.searchText(solo.getString(R.string.rename_sound_dialog)));
+		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));
 		assertTrue("No EditText with actual sound name", solo.searchEditText(soundToRename));
 
 		UiTestUtils.enterText(solo, 0, newSoundName);
