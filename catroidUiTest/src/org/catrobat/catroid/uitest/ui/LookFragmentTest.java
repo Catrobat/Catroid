@@ -405,13 +405,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				projectManager.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
+	public void testEditImageWithPaintroidToSomethingAlreadyUsed() throws IOException {
+		int oldNumberOfLookDatas = lookDataList.size();
 
-	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
-		int numberOfLookDatas = lookDataList.size();
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
-		String md5ImageFile = Utils.md5Checksum(imageFile);
-		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+
+		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
+		String md5ChecksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
@@ -420,19 +421,24 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		solo.sleep(500);
+
 		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		assertNotSame("Picture did not change", Utils.md5Checksum(new File(lookData.getAbsolutePath())), md5ImageFile);
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		lookData = lookDataList.get(0);
+
 		int newNumberOfLookDatas = lookDataList.size();
-		assertEquals("LookData was added", numberOfLookDatas, newNumberOfLookDatas);
-		assertEquals("too many references for checksum", 0,
-				projectManager.getFileChecksumContainer().getUsage(md5ImageFile));
-		assertEquals("not the right number of checksum references", 2, projectManager.getFileChecksumContainer()
-				.getUsage(md5PaintroidImageFile));
+
+		assertNotSame("Picture did not change", Utils.md5Checksum(new File(lookData.getAbsolutePath())),
+				md5ChecksumImageFile);
+		assertEquals("LookData was added, although this shouldn't be possible", oldNumberOfLookDatas,
+				newNumberOfLookDatas);
+		assertEquals("Too many references for checksum", 0,
+				projectManager.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
+		assertEquals("Incorrect number of checksum references", 2,
+				projectManager.getFileChecksumContainer().getUsage(md5ChecksumPaintroidImageFile));
 	}
 
 	public void testEditImageWhichIsAlreadyUsed() {
