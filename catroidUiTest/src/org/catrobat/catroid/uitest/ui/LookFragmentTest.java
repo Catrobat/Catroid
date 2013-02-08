@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -42,6 +43,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -49,16 +51,24 @@ import android.widget.TextView;
 import com.jayway.android.robotium.solo.Solo;
 
 public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
-	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
+	private static final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
+	private static final int VISIBLE = View.VISIBLE;
+	private static final int GONE = View.GONE;
 
-	private ProjectManager projectManager = ProjectManager.getInstance();
-	private Solo solo;
+	private static final int TIME_TO_WAIT = 50;
+
 	private String lookName = "lookNametest";
+
 	private File imageFile;
 	private File imageFile2;
 	private File paintroidImageFile;
+
 	private ArrayList<LookData> lookDataList;
+
+	private ProjectManager projectManager;
+
+	private Solo solo;
 
 	public LookFragmentTest() {
 		super(MainMenuActivity.class);
@@ -72,6 +82,9 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
 
+		projectManager = ProjectManager.getInstance();
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
 		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
@@ -80,7 +93,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
 				R.drawable.catroid_banzai, getActivity());
 
-		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName(lookName);
@@ -101,6 +113,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
+
+		if (getLookAdapter().getShowDetails()) {
+			solo.clickOnMenuItem(solo.getString(R.string.hide_details), true);
+			solo.sleep(TIME_TO_WAIT);
+		}
 	}
 
 	@Override
@@ -110,6 +127,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		paintroidImageFile.delete();
 		super.tearDown();
 		solo = null;
+	}
+
+	public void testInitialLayout() {
+		assertFalse("Initially showing details", getLookAdapter().getShowDetails());
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
 	public void testAddNewLookDialog() {
@@ -574,5 +596,36 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private LookFragment getLookFragment() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 		return (LookFragment) activity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
+	}
+
+	private LookAdapter getLookAdapter() {
+		return (LookAdapter) getLookFragment().getListAdapter();
+	}
+
+	private void checkVisibilityOfViews(int imageVisibility, int lookNameVisibility, int lookDetailsVisibility,
+			int checkBoxVisibility) {
+		assertTrue("Look image " + getAssertMessageAffix(imageVisibility), solo.getView(R.id.look_image)
+				.getVisibility() == imageVisibility);
+		assertTrue("Look name " + getAssertMessageAffix(lookNameVisibility), solo.getView(R.id.look_name)
+				.getVisibility() == lookNameVisibility);
+		assertTrue("Look details " + getAssertMessageAffix(lookDetailsVisibility), solo.getView(R.id.look_details)
+				.getVisibility() == lookDetailsVisibility);
+		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility), solo.getView(R.id.look_checkbox)
+				.getVisibility() == checkBoxVisibility);
+	}
+
+	private String getAssertMessageAffix(int visibility) {
+		String assertMessageAffix = "";
+		switch (visibility) {
+			case View.VISIBLE:
+				assertMessageAffix = "not visible";
+				break;
+			case View.GONE:
+				assertMessageAffix = "not gone";
+				break;
+			default:
+				break;
+		}
+		return assertMessageAffix;
 	}
 }
