@@ -276,7 +276,7 @@ public class StageListener implements ApplicationListener {
 			texturesRendered = true;
 		}
 
-		stage.getRoot().sortChildren(costumeComparator);
+		//stage.getRoot().sortChildren(costumeComparator);
 
 		switch (screenMode) {
 			case MAXIMIZE:

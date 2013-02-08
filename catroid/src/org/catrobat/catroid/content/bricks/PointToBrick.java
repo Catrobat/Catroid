@@ -124,7 +124,7 @@ public class PointToBrick implements Brick {
 				}
 			}
 		}
-		sprite.costume.rotation = (-(float) rotationDegrees) + 90f;
+		sprite.costume.setRotation((-(float) rotationDegrees) + 90f);
 	}
 
 	@Override

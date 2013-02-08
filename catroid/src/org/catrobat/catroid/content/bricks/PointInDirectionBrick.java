@@ -101,7 +101,7 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	@Override
 	public void execute() {
 		double degreeOffset = 90.0;
-		sprite.costume.rotation = (float) (-degrees + degreeOffset);
+		sprite.costume.setRotation((float) (-degrees + degreeOffset));
 	}
 
 	@Override

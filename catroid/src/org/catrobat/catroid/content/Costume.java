@@ -29,7 +29,11 @@ import org.catrobat.catroid.common.CostumeData;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Costume extends Image {
 	protected Semaphore xYWidthHeightLock = new Semaphore(1);
@@ -49,24 +53,34 @@ public class Costume extends Image {
 
 	public Costume(Sprite sprite) {
 		this.sprite = sprite;
-		this.x = 0f;
-		this.y = 0f;
-		this.originX = 0f;
-		this.originY = 0f;
+		setBounds(0f, 0f, 0f, 0f);
+		setOrigin(0f, 0f);
+		setScale(1f, 1f);
+		setRotation(0f);
+		setTouchable(Touchable.enabled);
+		//		this.x = 0f;
+		//		this.y = 0f;
+		//		this.originX = 0f;	
+		//		this.originY = 0f;
 		this.alphaValue = 1f;
 		this.brightnessValue = 1f;
-		this.scaleX = 1f;
-		this.scaleY = 1f;
-		this.rotation = 0f;
-		this.width = 0f;
-		this.height = 0f;
-		this.touchable = true;
+		//		this.scaleX = 1f;
+		//		this.scaleY = 1f;
+		//		this.rotation = 0f;
+		//		this.width = 0f;
+		//		this.height = 0f;
+		//		this.touchable = true;
 		this.show = true;
 		this.zPosition = 0;
+		this.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return doTouchDown(x, y, pointer);
+			}
+		});
 	}
 
-	@Override
-	public boolean touchDown(float x, float y, int pointer) {
+	public boolean doTouchDown(float x, float y, int pointer) {
 		if (sprite.isPaused) {
 			return true;
 		}
@@ -74,8 +88,8 @@ public class Costume extends Image {
 			return false;
 		}
 		xYWidthHeightLock.acquireUninterruptibly();
-		float width = this.width;
-		float height = this.height;
+		float width = getWidth();
+		float height = getHeight();
 		xYWidthHeightLock.release();
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
@@ -91,19 +105,9 @@ public class Costume extends Image {
 	}
 
 	@Override
-	public void touchUp(float x, float y, int pointer) {
-
-	}
-
-	@Override
-	public void touchDragged(float x, float y, int pointer) {
-
-	}
-
-	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
-		if (this.show && this.getRegion() != null) {
+		if (this.show && this.getDrawable() != null) {
 			super.draw(batch, this.alphaValue);
 		}
 	}
@@ -113,12 +117,12 @@ public class Costume extends Image {
 		if (imageChanged) {
 			if (costumeData == null) {
 				xYWidthHeightLock.acquireUninterruptibly();
-				this.x += this.width / 2f;
-				this.y += this.height / 2f;
-				this.width = 0f;
-				this.height = 0f;
+				setX(getX() + getWidth() / 2f);
+				setY(getY() + getHeight() / 2f);
+				setWidth(0f);
+				setHeight(0f);
 				xYWidthHeightLock.release();
-				this.setRegion(null);
+				setDrawable(null);
 				imageChanged = false;
 				imageLock.release();
 				return;
@@ -127,14 +131,13 @@ public class Costume extends Image {
 			pixmap = costumeData.getPixmap();
 
 			xYWidthHeightLock.acquireUninterruptibly();
-			this.x += this.width / 2f;
-			this.y += this.height / 2f;
-			this.width = pixmap.getWidth();
-			this.height = pixmap.getHeight();
-			this.x -= this.width / 2f;
-			this.y -= this.height / 2f;
-			this.originX = this.width / 2f;
-			this.originY = this.height / 2f;
+			setX(getX() + getWidth() / 2f);
+			setY(getY() + getHeight() / 2f);
+			setWidth(pixmap.getWidth());
+			setHeight(pixmap.getHeight());
+			setX(getX() - getWidth() / 2f);
+			setY(getY() - getHeight() / 2f);
+			setOrigin(getWidth() / 2f, getHeight() / 2f);
 			xYWidthHeightLock.release();
 
 			brightnessLock.acquireUninterruptibly();
@@ -146,7 +149,8 @@ public class Costume extends Image {
 			brightnessLock.release();
 
 			TextureRegion region = costumeData.getTextureRegion();
-			setRegion(region);
+			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
+			setDrawable(drawable);
 
 			imageChanged = false;
 		}
@@ -198,37 +202,38 @@ public class Costume extends Image {
 	}
 
 	public void setXPosition(float x) {
-		this.x = x - (this.width / 2f);
+		setX(x - getWidth() / 2f);
 	}
 
 	public void setYPosition(float y) {
-		this.y = y - (this.height / 2f);
+		setY(y - getHeight() / 2f);
 	}
 
 	public void setXYPosition(float x, float y) {
-		this.x = x - (this.width / 2f);
-		this.y = y - (this.height / 2f);
+		setX(x - getWidth() / 2f);
+		setY(y - getHeight() / 2f);
 	}
 
 	public float getXPosition() {
-		float xPosition = this.x;
-		xPosition += this.width / 2f;
+		float xPosition = getX();
+		xPosition += getWidth() / 2f;
 		return xPosition;
 	}
 
 	public float getYPosition() {
-		float yPosition = this.y;
-		yPosition += this.height / 2f;
+		float yPosition = getY();
+		yPosition += getHeight() / 2f;
 		return yPosition;
 	}
 
-	public float getWidth() {
-		return this.width;
-	}
-
-	public float getHeight() {
-		return this.height;
-	}
+	//	public float getWidth() {
+	//		return getWidth();
+	//	}
+	//
+	//	@Override
+	//	public float getHeight() {
+	//		return this.height;
+	//	}
 
 	public void releaseXYWidthHeightLock() {
 		xYWidthHeightLock.release();
@@ -255,14 +260,13 @@ public class Costume extends Image {
 
 	public void setSize(float size) {
 		scaleLock.acquireUninterruptibly();
-		this.scaleX = size;
-		this.scaleY = size;
+		setScale(size, size);
 		scaleLock.release();
 	}
 
 	public float getSize() {
 		scaleLock.acquireUninterruptibly();
-		float size = (this.scaleX + this.scaleY) / 2f;
+		float size = (getScaleX() + getScaleY()) / 2f;
 		scaleLock.release();
 		return size;
 	}

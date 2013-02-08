@@ -23,12 +23,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class IfOnEdgeBounceBrick implements Brick {
 
@@ -63,7 +63,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().virtualScreenWidth / 2;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().virtualScreenHeight / 2;
-		float rotationResult = -sprite.costume.rotation + 90f;
+		float rotationResult = -sprite.costume.getRotation() + 90f;
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
 
@@ -102,7 +102,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 			yPosition = -virtualScreenHeight + (int) (height / 2);
 		}
 
-		sprite.costume.rotation = -rotationResult + 90f;
+		sprite.costume.setRotation(-rotationResult + 90f);
 
 		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setXYPosition(xPosition, yPosition);
