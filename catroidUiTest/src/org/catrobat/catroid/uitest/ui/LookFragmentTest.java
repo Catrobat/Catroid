@@ -212,13 +212,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 	}
 
-	public void testMainMenuButton() {
-		UiTestUtils.clickOnHomeActionBarButton(solo);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-				MainMenuActivity.class);
-	}
-
 	public void testGetImageFromPaintroid() {
 		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
