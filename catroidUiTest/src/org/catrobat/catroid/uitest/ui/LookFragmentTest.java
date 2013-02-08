@@ -164,7 +164,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		if (solo.searchText(testLookName + "_" + solo.getString(R.string.copy_look_addition), 1, true)) {
 			assertEquals("Old count is not correct", 2, oldCount);
 			assertEquals("New count is not correct (copy should be added)", 3, newCount);
-			assertEquals("Count of the soundList is not right", newCount, lookDataList.size());
+			assertEquals("Count of the lookDataList is not right", newCount, lookDataList.size());
 		} else {
 			fail("Copy look didn't work");
 		}
