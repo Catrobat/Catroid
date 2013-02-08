@@ -45,7 +45,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -170,18 +169,24 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 	}
 
-	public void testDeleteLook() {
-		ListAdapter adapter = getLookFragment().getListAdapter();
+	public void testDeleteLookContextMenu() {
+		String testLookName = SECOND_TEST_LOOK_NAME;
+
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
 
 		int oldCount = adapter.getCount();
-		solo.clickOnButton(solo.getString(R.string.delete_lowercase));
-		solo.sleep(200);
+
+		clickOnContextMenuItem(testLookName, solo.getString(R.string.delete));
+		solo.waitForText(solo.getString(R.string.delete_look_dialog));
 		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(300);
+		solo.sleep(50);
+
 		int newCount = adapter.getCount();
-		assertEquals("the old count was not right", 2, oldCount);
-		assertEquals("the new count is not right - all looks should be deleted", 1, newCount);
-		assertEquals("the count of the lookDataList is not right", 1, lookDataList.size());
+
+		assertEquals("Old count was not correct", 2, oldCount);
+		assertEquals("New count is not correct - one look should be deleted", 1, newCount);
+		assertEquals("Count of the lookDataList is not correct", newCount, lookDataList.size());
 	}
 
 	public void testDeleteLookFile() {
