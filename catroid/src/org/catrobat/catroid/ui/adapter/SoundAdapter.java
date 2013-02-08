@@ -221,16 +221,16 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 			holder.playButton.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View v) {
+				public void onClick(View view) {
 					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPlay(v);
+						onSoundEditListener.onSoundPlay(view);
 					}
 				}
 			});
 
 			holder.pauseButton.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View v) {
+				public void onClick(View view) {
 					if (onSoundEditListener != null) {
 						onSoundEditListener.onSoundPause();
 					}

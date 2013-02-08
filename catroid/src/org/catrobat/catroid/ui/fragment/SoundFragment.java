@@ -98,10 +98,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private ListView listView;
 
+	private View currentPlayingView = null;
+
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
-
-	private View currentPlayingView = null;
 
 	private ActionMode actionMode;
 
@@ -221,6 +221,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
+			stopSoundAndUpdateList();
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			Utils.setBottomBarActivated(getActivity(), false);
@@ -231,6 +232,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
+			stopSoundAndUpdateList();
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			Utils.setBottomBarActivated(getActivity(), false);
@@ -256,8 +258,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	@Override
-	public void onSoundPlay(View v) {
-		handlePlaySoundButton(v);
+	public void onSoundPlay(View view) {
+		handlePlaySoundButton(view);
 	}
 
 	@Override
@@ -334,36 +336,38 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
-	public void handlePlaySoundButton(View v) {
-		final int position = (Integer) v.getTag();
+	public void handlePlaySoundButton(View view) {
+		final int position = (Integer) view.getTag();
 		final SoundInfo soundInfo = soundInfoList.get(position);
 
 		stopSound();
 		if (!soundInfo.isPlaying) {
 			startSound(soundInfo);
-			currentPlayingView = v;
 			adapter.notifyDataSetChanged();
 		}
+		currentPlayingView = view;
 
 		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
 				soundInfo.isPlaying = false;
 				adapter.notifyDataSetChanged();
+
 				currentPlayingView = null;
 			}
 		});
 	}
 
 	public boolean isSoundPlaying() {
-		return currentPlayingView != null;
+		return mediaPlayer.isPlaying();
 	}
 
 	public void handlePauseSoundButton() {
-		final int position = (Integer) currentPlayingView.getTag();
-		pauseSound(soundInfoList.get(position));
-		adapter.notifyDataSetChanged();
-		currentPlayingView = null;
+		if (currentPlayingView != null) {
+			final int position = (Integer) currentPlayingView.getTag();
+			pauseSound(soundInfoList.get(position));
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	public void pauseSound(SoundInfo soundInfo) {
@@ -372,13 +376,21 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	public void stopSound() {
-		if (mediaPlayer.isPlaying()) {
+		if (isSoundPlaying()) {
 			mediaPlayer.stop();
 		}
 
 		for (int i = 0; i < soundInfoList.size(); i++) {
 			soundInfoList.get(i).isPlaying = false;
 		}
+	}
+
+	public void stopSoundAndUpdateList() {
+		if (!isSoundPlaying()) {
+			return;
+		}
+		stopSound();
+		adapter.notifyDataSetChanged();
 	}
 
 	public void startSound(SoundInfo soundInfo) {
@@ -401,7 +413,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		super.onCreateContextMenu(menu, v, menuInfo);
 
 		if (isSoundPlaying()) {
-			handlePauseSoundButton();
+			stopSoundAndUpdateList();
 		}
 		selectedSoundInfo = adapter.getItem(selectedSoundPosition);
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
@@ -619,6 +631,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		public void onDestroyActionMode(ActionMode mode) {
 			Set<Integer> checkedSounds = adapter.getCheckedItems();
 			Iterator<Integer> iterator = checkedSounds.iterator();
+
+			stopSoundAndUpdateList();
 
 			int numberDeleted = 0;
 
