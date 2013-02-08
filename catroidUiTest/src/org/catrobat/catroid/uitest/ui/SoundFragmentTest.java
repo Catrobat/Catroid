@@ -160,7 +160,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		assertEquals("Old count is not correct", 2, oldCount);
 		assertEquals("New count is not correct - one sound should be deleted", 1, newCount);
-		assertEquals("Count of the soundList is not right", 1, getCurrentNumberOfSounds());
+		assertEquals("Count of the soundList is not right", newCount, getCurrentNumberOfSounds());
 	}
 
 	public void testRenameSoundContextMenu() {
@@ -641,10 +641,10 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		return assertMessageAffix;
 	}
 
-	private void clickOnContextMenuItem(String soundName, String itemName) {
+	private void clickOnContextMenuItem(String soundName, String menuItemName) {
 		solo.clickLongOnText(soundName);
-		solo.waitForText(itemName);
-		solo.clickOnText(itemName);
+		solo.waitForText(menuItemName);
+		solo.clickOnText(menuItemName);
 	}
 
 	private void goToProgramMenuActivity() {
