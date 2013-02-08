@@ -209,7 +209,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testGetImageFromPaintroid() {
-		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+		String md5ChecksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, paintroidImageFile.getAbsolutePath());
@@ -223,13 +223,13 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 		assertTrue("Checksum not in checksumcontainer",
-				projectManager.getFileChecksumContainer().containsChecksum(checksumPaintroidImageFile));
+				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumPaintroidImageFile));
 
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
 		boolean isInLookDataList = false;
 		for (LookData lookData : lookDataList) {
-			if (lookData.getChecksum().equalsIgnoreCase(checksumPaintroidImageFile)) {
+			if (lookData.getChecksum().equalsIgnoreCase(md5ChecksumPaintroidImageFile)) {
 				isInLookDataList = true;
 			}
 		}
@@ -237,7 +237,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testGetImageFromPaintroidNoPath() {
-		String checksumImageFileBeforeIntent = Utils.md5Checksum(imageFile);
+		String md5ChecksumImageFileBeforeIntent = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString("thirdExtra", "doesn't matter");
@@ -251,18 +251,18 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		LookData lookData = lookDataList.get(0);
-		String checksumImageFileAfterIntent = Utils.md5Checksum(new File(lookData.getAbsolutePath()));
+		String md5ChecksumImageFileAfterIntent = Utils.md5Checksum(new File(lookData.getAbsolutePath()));
 
 		assertEquals("Wrong size of lookDataList", 2, lookDataList.size());
-		assertEquals("Picture changed", checksumImageFileBeforeIntent, checksumImageFileAfterIntent);
+		assertEquals("Picture changed", md5ChecksumImageFileBeforeIntent, md5ChecksumImageFileAfterIntent);
 	}
 
 	public void testEditImageWithPaintroid() {
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
 
-		String md5PaintroidImage = Utils.md5Checksum(paintroidImageFile);
-		String md5ImageFile = Utils.md5Checksum(imageFile);
+		String md5ChecksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
@@ -276,16 +276,18 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(5000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(lookData.getAbsolutePath())),
-				md5PaintroidImage);
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+
+		assertNotSame("Picture did not change", Utils.md5Checksum(new File(lookData.getAbsolutePath())),
+				md5ChecksumPaintroidImageFile);
 
 		boolean isInLookDataListPaintroidImage = false;
 		boolean isInLookDataListSunnglasses = false;
-		for (LookData lookDatas : projectManager.getCurrentSprite().getLookDataList()) {
-			if (lookDatas.getChecksum().equalsIgnoreCase(md5PaintroidImage)) {
+		for (LookData lookDatas : lookDataList) {
+			if (lookDatas.getChecksum().equalsIgnoreCase(md5ChecksumPaintroidImageFile)) {
 				isInLookDataListPaintroidImage = true;
 			}
-			if (lookDatas.getChecksum().equalsIgnoreCase(md5ImageFile)) {
+			if (lookDatas.getChecksum().equalsIgnoreCase(md5ChecksumImageFile)) {
 				isInLookDataListSunnglasses = true;
 			}
 		}
