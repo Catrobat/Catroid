@@ -199,27 +199,13 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testRenameLookContextMenu() {
-		String newLookName = "TeStLooK1";
+		String newLookName = "coSTuMeNamEtESt1";
 
 		renameLook(FIRST_TEST_LOOK_NAME, newLookName);
 		solo.sleep(50);
 
 		assertEquals("Look not renamed in LookDataList", newLookName, getLookName(0));
 		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
-	}
-
-	public void testRenameLookMixedCase() {
-		solo.clickOnView(solo.getView(R.id.look_name));
-		solo.sleep(300);
-		solo.clearEditText(0);
-		String newNameMixedCase = "coSTuMeNamEtESt";
-		solo.enterText(0, newNameMixedCase);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(100);
-		assertEquals("Look is not renamed to Mixed Case", newNameMixedCase, lookDataList.get(0).getLookName());
-		if (!solo.searchText(newNameMixedCase)) {
-			fail("look not renamed in actual view");
-		}
 	}
 
 	public void testGetImageFromPaintroid() {
