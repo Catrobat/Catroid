@@ -322,31 +322,38 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		int newNumberOfLookDatas = lookDataList.size();
 		assertEquals("Size of lookDataList has changed", oldNumberOfLookDatas, newNumberOfLookDatas);
-		assertEquals("too many references for checksum", 1,
+		assertEquals("Too many references for checksum", 1,
 				projectManager.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
 	public void testEditImageWithPaintroidNoPath() {
-		int numberOfLookDatas = lookDataList.size();
+		int oldNumberOfLookDatas = lookDataList.size();
+
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
-		String md5ImageFile = Utils.md5Checksum(imageFile);
+		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString("thirdExtra", "doesn't matter");
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
+
 		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
+
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		assertEquals("Picture changed", Utils.md5Checksum(new File(lookData.getAbsolutePath())), md5ImageFile);
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		lookData = lookDataList.get(0);
+
+		assertEquals("Picture changed, although it shouldn't change",
+				Utils.md5Checksum(new File(lookData.getAbsolutePath())), md5ChecksumImageFile);
+
 		int newNumberOfLookDatas = lookDataList.size();
-		assertEquals("LookData was added", numberOfLookDatas, newNumberOfLookDatas);
-		assertEquals("too many references for checksum", 1,
-				projectManager.getFileChecksumContainer().getUsage(md5ImageFile));
+		assertEquals("LookData was added", oldNumberOfLookDatas, newNumberOfLookDatas);
+		assertEquals("Too many references for checksum", 1,
+				projectManager.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
 	public void testGetImageFromGallery() {
