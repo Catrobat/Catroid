@@ -42,6 +42,7 @@ import org.catrobat.catroid.utils.Utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
@@ -170,7 +171,13 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testDeleteLookContextMenu() {
+		Sprite firstSprite = projectManager.getCurrentProject().getSpriteList().get(0);
+		LookData lookToDelete = firstSprite.getLookDataList().get(1);
+
+		Log.d("TEST", "Look to delete: " + lookToDelete.getLookName());
+
 		String testLookName = SECOND_TEST_LOOK_NAME;
+		assertEquals(testLookName, lookToDelete.getLookName());
 
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
@@ -187,15 +194,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Old count was not correct", 2, oldCount);
 		assertEquals("New count is not correct - one look should be deleted", 1, newCount);
 		assertEquals("Count of the lookDataList is not correct", newCount, lookDataList.size());
-	}
-
-	public void testDeleteLookFile() {
-		Sprite firstSprite = ProjectManager.INSTANCE.getCurrentProject().getSpriteList().get(0);
-		LookData lookToDelete = firstSprite.getLookDataList().get(1);
-
-		solo.clickOnText(solo.getString(R.string.delete_lowercase), 2);
-		String buttonPositive = solo.getString(R.string.ok);
-		solo.clickOnText(buttonPositive);
 
 		File deletedFile = new File(lookToDelete.getAbsolutePath());
 		assertFalse("File should be deleted", deletedFile.exists());
