@@ -165,10 +165,11 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	public void testRenameSoundContextMenu() {
 		String newSoundName = "TeStSoUNd1";
+
 		renameSound(FIRST_TEST_SOUND_NAME, newSoundName);
 		solo.sleep(50);
 
-		assertEquals("Sound is not renamed in SoundList", newSoundName, getSoundTitle(0));
+		assertEquals("Sound not renamed in SoundList", newSoundName, getSoundTitle(0));
 		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
 	}
 

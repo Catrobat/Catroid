@@ -45,7 +45,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -199,20 +198,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertFalse("File should be deleted", deletedFile.exists());
 	}
 
-	public void testRenameLook() {
-		String newName = "newName";
-		solo.clickOnView(solo.getView(R.id.look_name));
-		solo.sleep(200);
-		solo.clearEditText(0);
-		solo.enterText(0, newName);
-		solo.sleep(200);
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
-		lookDataList = projectManager.getCurrentSprite().getLookDataList();
-		assertEquals("look is not renamed in LookList", newName, lookDataList.get(0).getLookName());
-		if (!solo.searchText(newName)) {
-			fail("look not renamed in actual view");
-		}
+	public void testRenameLookContextMenu() {
+		String newLookName = "TeStLooK1";
+
+		renameLook(FIRST_TEST_LOOK_NAME, newLookName);
+		solo.sleep(50);
+
+		assertEquals("Look not renamed in LookDataList", newLookName, getLookName(0));
+		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
 	}
 
 	public void testRenameLookMixedCase() {
@@ -643,5 +636,10 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickLongOnText(lookName);
 		solo.waitForText(menuItemName);
 		solo.clickOnText(menuItemName);
+	}
+
+	private String getLookName(int lookIndex) {
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		return lookDataList.get(lookIndex).getLookName();
 	}
 }
