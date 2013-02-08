@@ -174,12 +174,31 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testEqualSoundNames() {
-		renameSound(SECOND_TEST_SOUND_NAME, FIRST_TEST_SOUND_NAME);
-		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+		final String assertMessageText = "Sound not renamed correctly";
 
-		String expectedSoundName = FIRST_TEST_SOUND_NAME + "1";
-		String actualSoundName = getSoundTitle(1);
-		assertEquals("Sound not renamed correctly", expectedSoundName, actualSoundName);
+		String defaultSoundName = "renamedSound";
+		String newSoundName = "newTestSound";
+		addNewSound(newSoundName);
+
+		renameSound(FIRST_TEST_SOUND_NAME, defaultSoundName);
+		renameSound(SECOND_TEST_SOUND_NAME, defaultSoundName);
+		renameSound(newSoundName, defaultSoundName);
+
+		String expectedSoundName = defaultSoundName + "1";
+		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(1));
+
+		expectedSoundName = defaultSoundName + "2";
+		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(2));
+
+		newSoundName = "x";
+
+		expectedSoundName = defaultSoundName + "1";
+		renameSound(expectedSoundName, newSoundName);
+
+		assertNotSame("Sound not renamed", expectedSoundName, getSoundTitle(1));
+		renameSound(newSoundName, defaultSoundName);
+
+		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(1));
 	}
 
 	public void testShowAndHideDetails() {

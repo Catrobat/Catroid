@@ -499,7 +499,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals(assertMessageText, expectedLookName, getLookName(2));
 
 		expectedLookName = defaultLookName + "1";
-		newLookName = "a";
+		newLookName = "x";
 		renameLook(expectedLookName, newLookName);
 
 		solo.scrollToTop();
