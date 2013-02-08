@@ -444,9 +444,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testEditImageWhichIsAlreadyUsed() {
 		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 				"catroid_sunglasses2.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
+
 		LookData lookDataToAdd = new LookData();
 		lookDataToAdd.setLookFilename(tempImageFile.getName());
 		lookDataToAdd.setLookName("justforthistest");
+
 		lookDataList.add(lookDataToAdd);
 		projectManager.getFileChecksumContainer().addChecksum(lookDataToAdd.getChecksum(),
 				lookDataToAdd.getAbsolutePath());
@@ -455,8 +457,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
-		String md5ImageFile = Utils.md5Checksum(imageFile);
-		//		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString(Constants.EXTRA_PICTURE_PATH_PAINTROID, imageFile.getAbsolutePath());
@@ -465,15 +466,15 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		solo.sleep(500);
+
 		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		assertEquals("wrong number of lookdatas", 3, lookDataList.size());
-		assertTrue("new added image has been deleted", tempImageFile.exists());
-		assertEquals("wrong number of checksum references of sunnglasses picture", 1, projectManager
-				.getFileChecksumContainer().getUsage(md5ImageFile));
+		assertEquals("Wrong number of lookDatas", 3, lookDataList.size());
+		assertTrue("New added image has been deleted", tempImageFile.exists());
+		assertEquals("Wrong number of checksum references of sunnglasses picture", 1, projectManager
+				.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
 	public void testLookNames() {
