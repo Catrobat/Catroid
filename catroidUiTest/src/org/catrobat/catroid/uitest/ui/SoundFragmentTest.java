@@ -158,9 +158,9 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		int newCount = adapter.getCount();
 
-		assertEquals("Old count is not correct", 2, oldCount);
+		assertEquals("Old count was not correct", 2, oldCount);
 		assertEquals("New count is not correct - one sound should be deleted", 1, newCount);
-		assertEquals("Count of the soundList is not right", newCount, getCurrentNumberOfSounds());
+		assertEquals("Count of the soundList is not correct", newCount, getCurrentNumberOfSounds());
 	}
 
 	public void testRenameSoundContextMenu() {
