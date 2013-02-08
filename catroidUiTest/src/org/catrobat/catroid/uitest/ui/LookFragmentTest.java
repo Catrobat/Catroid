@@ -56,12 +56,16 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private static final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
+	private static final int ACTION_MODE_COPY = 0;
+	private static final int ACTION_MODE_DELETE = 1;
+	private static final int ACTION_MODE_RENAME = 2;
 
 	private static final int TIME_TO_WAIT = 50;
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
 
+	private String copy;
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
@@ -121,6 +125,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 
+		copy = solo.getString(R.string.copy);
 		rename = solo.getString(R.string.rename);
 		renameDialogTitle = solo.getString(R.string.rename_look_dialog);
 		delete = solo.getString(R.string.delete);
@@ -167,7 +172,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		int oldCount = adapter.getCount();
 
-		clickOnContextMenuItem(testLookName, solo.getString(R.string.copy));
+		clickOnContextMenuItem(testLookName, copy);
 		solo.sleep(50);
 
 		int newCount = adapter.getCount();
@@ -492,11 +497,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testEqualLookNames() {
 		final String assertMessageText = "Look not renamed correctly";
 
-		String copyText = solo.getString(R.string.copy);
 		String defaultLookName = solo.getString(R.string.default_look_name);
 		String newLookName = defaultLookName;
+		String copyAdditionString = solo.getString(R.string.copy_look_addition);
 
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copyText);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copy);
 
 		renameLook(FIRST_TEST_LOOK_NAME, defaultLookName);
 		renameLook(SECOND_TEST_LOOK_NAME, defaultLookName);
@@ -504,7 +509,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String expectedLookName = defaultLookName + "1";
 		assertEquals(assertMessageText, expectedLookName, getLookName(1));
 
-		String copiedLookName = FIRST_TEST_LOOK_NAME + "_" + solo.getString(R.string.copy_look_addition);
+		String copiedLookName = FIRST_TEST_LOOK_NAME + "_" + copyAdditionString;
 		renameLook(copiedLookName, defaultLookName);
 
 		expectedLookName = defaultLookName + "2";
@@ -515,9 +520,9 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		renameLook(expectedLookName, newLookName);
 
 		solo.scrollToTop();
-		clickOnContextMenuItem(newLookName, copyText);
+		clickOnContextMenuItem(newLookName, copy);
 
-		copiedLookName = newLookName + "_" + solo.getString(R.string.copy_look_addition);
+		copiedLookName = newLookName + "_" + copyAdditionString;
 		renameLook(copiedLookName, defaultLookName);
 
 		assertEquals(assertMessageText, expectedLookName, getLookName(3));
@@ -584,17 +589,18 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.new_look_dialog_title);
+		String lookSpinnerItemText = solo.getString(R.string.looks);
 
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
 
-		checkIfContextMenuAppears(true, false);
+		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
 
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0);
 		solo.waitForText(rename, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(false, false);
+		checkIfContextMenuAppears(false, ACTION_MODE_RENAME);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -607,9 +613,9 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+		solo.waitForText(lookSpinnerItemText, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(true, false);
+		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
 
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
@@ -618,7 +624,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(false, true);
+		checkIfContextMenuAppears(false, ACTION_MODE_DELETE);
 
 		assertFalse("Add button clickable", addButton.isClickable());
 		assertFalse("Play button clickable", playButton.isClickable());
@@ -631,9 +637,33 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
 
 		solo.goBack();
-		solo.waitForText(solo.getString(R.string.sounds), 1, timeToWait, false, true);
+		solo.waitForText(lookSpinnerItemText, 1, timeToWait, false, true);
 
-		checkIfContextMenuAppears(true, true);
+		checkIfContextMenuAppears(true, ACTION_MODE_DELETE);
+
+		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
+		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
+
+		// Test on copy ActionMode
+		UiTestUtils.openActionMode(solo, null, R.id.copy);
+		solo.waitForText(copy, 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(false, ACTION_MODE_COPY);
+
+		assertFalse("Add button clickable", addButton.isClickable());
+		assertFalse("Play button clickable", playButton.isClickable());
+
+		solo.clickOnView(addButton);
+		assertFalse("Add dialog should not appear", solo.waitForText(addDialogTitle, 0, timeToWait, false, true));
+
+		solo.clickOnView(playButton);
+		assertFalse("Should not start playing program",
+				solo.waitForActivity(StageActivity.class.getSimpleName(), timeToWait));
+
+		solo.goBack();
+		solo.waitForText(lookSpinnerItemText, 1, timeToWait, false, true);
+
+		checkIfContextMenuAppears(true, ACTION_MODE_COPY);
 	}
 
 	public void testResolutionWhenCroppedWithPaintroid() {
@@ -751,7 +781,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		return lookDataList.get(lookIndex).getLookName();
 	}
 
-	private void checkIfContextMenuAppears(boolean contextMenuShouldAppear, boolean isDeleteActionMode) {
+	private void checkIfContextMenuAppears(boolean contextMenuShouldAppear, int actionModeType) {
 		solo.clickLongOnText(FIRST_TEST_LOOK_NAME);
 
 		int timeToWait = 200;
@@ -762,6 +792,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 			assertTrue("Context menu with title '" + FIRST_TEST_LOOK_NAME + "' " + assertMessageAffix,
 					solo.waitForText(FIRST_TEST_LOOK_NAME, 1, timeToWait, false, true));
+			assertTrue("Context menu item '" + copy + "' " + assertMessageAffix,
+					solo.waitForText(copy, 1, timeToWait, false, true));
 			assertTrue("Context menu item '" + delete + "' " + assertMessageAffix,
 					solo.waitForText(delete, 1, timeToWait, false, true));
 			assertTrue("Context menu item '" + rename + "' " + assertMessageAffix,
@@ -771,16 +803,25 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		} else {
 			assertMessageAffix = "should not appear";
 
+			int minimumMatchesCopy = 1;
 			int minimumMatchesDelete = 1;
 			int minimumMatchesRename = 1;
 
-			if (isDeleteActionMode) {
-				minimumMatchesDelete = 2;
-			} else {
-				minimumMatchesRename = 2;
+			switch (actionModeType) {
+				case ACTION_MODE_COPY:
+					minimumMatchesCopy = 2;
+					break;
+				case ACTION_MODE_DELETE:
+					minimumMatchesDelete = 2;
+					break;
+				case ACTION_MODE_RENAME:
+					minimumMatchesRename = 2;
+					break;
 			}
 			assertFalse("Context menu with title '" + FIRST_TEST_LOOK_NAME + "' " + assertMessageAffix,
 					solo.waitForText(FIRST_TEST_LOOK_NAME, 3, timeToWait, false, true));
+			assertFalse("Context menu item '" + copy + "' " + assertMessageAffix,
+					solo.waitForText(copy, minimumMatchesCopy, timeToWait, false, true));
 			assertFalse("Context menu item '" + delete + "' " + assertMessageAffix,
 					solo.waitForText(delete, minimumMatchesDelete, timeToWait, false, true));
 			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
