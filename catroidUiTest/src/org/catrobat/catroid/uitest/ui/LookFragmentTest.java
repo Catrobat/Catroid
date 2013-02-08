@@ -208,6 +208,55 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
 	}
 
+	public void testGetImageFromGallery() {
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+
+		solo.sleep(200);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
+
+		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.getFileChecksumContainer().containsChecksum(checksumPaintroidImageFile));
+
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+
+		boolean isInLookDataList = false;
+		for (LookData lookData : lookDataList) {
+			if (lookData.getChecksum().equalsIgnoreCase(checksumPaintroidImageFile)) {
+				isInLookDataList = true;
+			}
+		}
+		assertTrue("File not added in LookDataList", isInLookDataList);
+	}
+
+	public void testGetImageFromGalleryNullData() {
+		int numberOfLookDatasBeforeIntent = lookDataList.size();
+
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
+		bundleForGallery.putBoolean("returnNullData", true);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+
+		solo.sleep(2000);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName(), 2000);
+		solo.assertCurrentActivity("Should be in ScriptActivity", ScriptActivity.class.getSimpleName());
+
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		int numberOfLookDatasAfterReturning = lookDataList.size();
+		assertEquals("Wrong size of lookDataList", numberOfLookDatasBeforeIntent, numberOfLookDatasAfterReturning);
+	}
+
 	public void testGetImageFromPaintroid() {
 		String md5ChecksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
 
@@ -356,52 +405,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				projectManager.getFileChecksumContainer().getUsage(md5ChecksumImageFile));
 	}
 
-	public void testGetImageFromGallery() {
-		Bundle bundleForGallery = new Bundle();
-		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
-		Intent intent = new Intent(getInstrumentation().getContext(),
-				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
-		intent.putExtras(bundleForGallery);
-
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
-		solo.sleep(200);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
-
-		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
-		assertTrue("Checksum not in checksumcontainer",
-				projectManager.getFileChecksumContainer().containsChecksum(checksumPaintroidImageFile));
-
-		boolean isInLookDataList = false;
-		for (LookData lookData : projectManager.getCurrentSprite().getLookDataList()) {
-			if (lookData.getChecksum().equalsIgnoreCase(checksumPaintroidImageFile)) {
-				isInLookDataList = true;
-			}
-		}
-		if (!isInLookDataList) {
-			fail("File not added in LookDataList");
-		}
-	}
-
-	public void testGetImageFromGalleryNullData() {
-		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
-		int numberOfLookDatasBeforeIntent = lookDataList.size();
-		Bundle bundleForGallery = new Bundle();
-		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
-		bundleForGallery.putBoolean("returnNullData", true);
-		Intent intent = new Intent(getInstrumentation().getContext(),
-				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
-		intent.putExtras(bundleForGallery);
-
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
-		solo.sleep(2000);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName(), 2000);
-		solo.assertCurrentActivity("Test should not fail - should be in ScriptActivity",
-				ScriptActivity.class.getSimpleName());
-		lookDataList = ProjectManager.INSTANCE.getCurrentSprite().getLookDataList();
-		int numberOfLookDatasAfterReturning = lookDataList.size();
-		assertEquals("wrong size of lookdatalist", numberOfLookDatasBeforeIntent, numberOfLookDatasAfterReturning);
-	}
 
 	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
 		int numberOfLookDatas = lookDataList.size();
