@@ -236,6 +236,27 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("File not added in LookDataList", isInLookDataList);
 	}
 
+	public void testGetImageFromPaintroidNoPath() {
+		String checksumImageFileBeforeIntent = Utils.md5Checksum(imageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString("thirdExtra", "doesn't matter");
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
+		intent.putExtras(bundleForPaintroid);
+
+		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
+		solo.sleep(200);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		LookData lookData = lookDataList.get(0);
+		String checksumImageFileAfterIntent = Utils.md5Checksum(new File(lookData.getAbsolutePath()));
+
+		assertEquals("Wrong size of lookDataList", 2, lookDataList.size());
+		assertEquals("Picture changed", checksumImageFileBeforeIntent, checksumImageFileAfterIntent);
+	}
+
 	public void testEditImageWithPaintroid() {
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
@@ -317,25 +338,6 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("LookData was added", numberOfLookDatas, newNumberOfLookDatas);
 		assertEquals("too many references for checksum", 1,
 				projectManager.getFileChecksumContainer().getUsage(md5ImageFile));
-	}
-
-	public void testGetImageFromPaintroidNoPath() {
-		LookData lookData = lookDataList.get(0);
-		String md5ImageFile = Utils.md5Checksum(imageFile);
-
-		Bundle bundleForPaintroid = new Bundle();
-		bundleForPaintroid.putString("thirdExtra", "doesn't matter");
-		Intent intent = new Intent(getInstrumentation().getContext(),
-				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
-		intent.putExtras(bundleForPaintroid);
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_IMAGE);
-		solo.sleep(200);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-
-		lookDataList = projectManager.getCurrentSprite().getLookDataList();
-		int numberOfLookDatas = lookDataList.size();
-		assertEquals("wrong size of lookdatalist", 2, numberOfLookDatas);
-		assertEquals("Picture changed", Utils.md5Checksum(new File(lookData.getAbsolutePath())), md5ImageFile);
 	}
 
 	public void testGetImageFromGallery() {
