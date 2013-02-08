@@ -565,7 +565,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				projectManager.getFileChecksumContainer().containsChecksum(md5ChecksumImageFile));
 	}
 
-	public void testResolutionWhenEditedAndCroppedWithPaintroid() {
+	public void testResolutionWhenCroppedWithPaintroid() {
+		solo.clickOnMenuItem(solo.getString(R.string.show_details));
+		solo.sleep(200);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
+
 		LookData lookData = lookDataList.get(0);
 		getLookFragment().setSelectedLookData(lookData);
 
@@ -585,7 +589,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		//		goToLooksTab();
+		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 
 		int[] fileResolutionAfterCrop = lookData.getResolution();
 		int[] displayedResolutionAfterCrop = getDisplayedResolution(lookData);
@@ -601,16 +605,22 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private int[] getDisplayedResolution(LookData look) {
 		TextView resolutionTextView = (TextView) solo.getView(R.id.look_resolution);
 		String resolutionString = resolutionTextView.getText().toString();
-		//resolution string has form "width x height"
-		int dividingPosition = resolutionString.indexOf(' ');
-		String widthString = resolutionString.substring(0, dividingPosition);
+
+		int startIndex = "Resolution: ".length();
+
+		// Resolution string has form "Resolution: width x height"
+		int dividingPosition = resolutionString.indexOf(' ', startIndex);
+
+		String widthString = resolutionString.substring(startIndex, dividingPosition);
 		String heightString = resolutionString.substring(dividingPosition + 3, resolutionString.length());
+
 		int width = Integer.parseInt(widthString);
 		int heigth = Integer.parseInt(heightString);
 
 		int[] resolution = new int[2];
 		resolution[0] = width;
 		resolution[1] = heigth;
+
 		return resolution;
 	}
 
