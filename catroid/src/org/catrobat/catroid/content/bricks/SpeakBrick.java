@@ -78,7 +78,6 @@ public class SpeakBrick implements Brick {
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
 				String.valueOf(utteranceIdPool.getAndIncrement()));
-		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_VOLUME, "0");
 
 		synchronized (listener) {
 			PreStageActivity.textToSpeech(getText(), listener, speakParameter);

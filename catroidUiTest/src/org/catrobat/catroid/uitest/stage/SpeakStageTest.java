@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.OnUtteranceCompletedListenerContainer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -46,6 +47,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageActivity> {
 	private Solo solo;
 	private TextToSpeechMock textToSpeechMock;
+	private Object textToSpeechInitLock = new Object();
 
 	public SpeakStageTest() {
 		super(PreStageActivity.class);
@@ -56,12 +58,17 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 		createProjectToInitializeTextToSpeech();
 		solo = new Solo(getInstrumentation(), getActivity());
 
-		textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
-		synchronized (textToSpeechMock) {
-			textToSpeechMock.wait();
+		synchronized (textToSpeechInitLock) {
+			textToSpeechMock = new TextToSpeechMock(getActivity().getApplicationContext());
+			textToSpeechInitLock.wait(2000);
 		}
 
+		OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
+		textToSpeechMock.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
+
 		Reflection.setPrivateField(PreStageActivity.class, "textToSpeech", textToSpeechMock);
+		Reflection.setPrivateField(PreStageActivity.class, "onUtteranceCompletedListenerContainer",
+				onUtteranceCompletedListenerContainer);
 		Reflection.setPrivateField(SpeakBrick.class, "utteranceIdPool", new AtomicInteger());
 	}
 
@@ -107,7 +114,7 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "0");
-		//		assertEquals("TextToSpeech executed with wrong parameter", speakParameter, textToSpeechMock.parameters); XXX
+		assertEquals("TextToSpeech executed with wrong parameter", speakParameter, textToSpeechMock.parameters);
 
 		assertTrue("SpeakBrick not finished yet", speakBrickThread.isFinished());
 		assertEquals("TextToSpeech executed with wrong text", text, textToSpeechMock.text);
@@ -224,7 +231,6 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			long start = System.currentTimeMillis();
 			speakBrick.execute();
 			elapsedTime = System.currentTimeMillis() - start;
-			System.out.println("LOG: " + speakBrick.getText() + " @ " + getElapsedTime());
 			finished = true;
 		}
 	}
@@ -240,25 +246,10 @@ public class SpeakStageTest extends ActivityInstrumentationTestCase2<PreStageAct
 			super(context, new OnInitListener() {
 				public void onInit(int status) {
 					if (status == SUCCESS) {
-						TextToSpeech textToSpeech = null;
-						for (int round = 0; round < 8; round++) {
-							textToSpeech = (TextToSpeech) Reflection.getPrivateField(PreStageActivity.class,
-									"textToSpeech");
-							if (textToSpeech != null && textToSpeechMock != null) {
-								break;
-							}
-
-							synchronized (this) {
-								try {
-									wait(500);
-								} catch (InterruptedException interruptedException) {
-								}
-							}
-						}
-
-						synchronized (textToSpeechMock) {
-							textToSpeechMock.textToSpeech = textToSpeech;
-							textToSpeechMock.notifyAll();
+						synchronized (textToSpeechInitLock) {
+							textToSpeechMock.textToSpeech = (TextToSpeech) Reflection.getPrivateField(
+									PreStageActivity.class, "textToSpeech");
+							textToSpeechInitLock.notifyAll();
 						}
 					} else {
 						fail("TextToSpeech couldn't be initialized");
