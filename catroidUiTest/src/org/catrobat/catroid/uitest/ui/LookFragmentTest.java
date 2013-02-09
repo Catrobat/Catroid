@@ -823,6 +823,20 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 	}
 
+	public void testDeleteActionModeIfNothingSelected() {
+		int expectedNumberOfSounds = lookDataList.size();
+
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+
+		// Check if rename ActionMode disappears if nothing was selected
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfLooksIsEqual(expectedNumberOfSounds);
+	}
+
 	public void testResolutionWhenCroppedWithPaintroid() {
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(200);
@@ -993,5 +1007,9 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
 		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
+	}
+
+	private void checkIfNumberOfLooksIsEqual(int expectedNumber) {
+		assertEquals("Number of looks is not as expected", expectedNumber, lookDataList.size());
 	}
 }
