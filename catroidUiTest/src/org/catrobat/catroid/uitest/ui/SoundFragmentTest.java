@@ -39,7 +39,6 @@ import org.catrobat.catroid.uitest.mockups.MockSoundActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -210,7 +209,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
 
 		// Test if showDetails is remembered after pressing back
-		goToProgramMenuActivity();
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(timeToWait);
@@ -666,13 +666,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.clickLongOnText(soundName);
 		solo.waitForText(menuItemName);
 		solo.clickOnText(menuItemName);
-	}
-
-	private void goToProgramMenuActivity() {
-		Activity activity = getActivity();
-		Intent intent = new Intent(activity, ProgramMenuActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		activity.startActivity(intent);
 	}
 
 	private void checkIfNumberOfSoundsIsEqual(int expectedNumber) {
