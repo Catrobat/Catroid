@@ -520,8 +520,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
 		solo.goBack();
 
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
-
 		// Check if rename ActionMode disappears if back was pressed
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));

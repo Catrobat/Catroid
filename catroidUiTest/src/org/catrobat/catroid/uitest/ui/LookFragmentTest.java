@@ -824,7 +824,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testDeleteActionModeIfNothingSelected() {
-		int expectedNumberOfSounds = lookDataList.size();
+		int expectedNumberOfLooks = lookDataList.size();
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 
@@ -834,7 +834,23 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
-		checkIfNumberOfLooksIsEqual(expectedNumberOfSounds);
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+	}
+
+	public void testDeleteActionModeIfSomethingSelectedAndPressingBack() {
+		int expectedNumberOfLooks = lookDataList.size();
+
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.goBack();
+
+		// Check if rename ActionMode disappears if back was pressed
+		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
 	public void testResolutionWhenCroppedWithPaintroid() {
