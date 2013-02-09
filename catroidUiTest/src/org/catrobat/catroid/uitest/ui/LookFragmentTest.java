@@ -47,6 +47,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -77,6 +78,9 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private File paintroidImageFile;
 
 	private ArrayList<LookData> lookDataList;
+
+	private CheckBox firstCheckBox;
+	private CheckBox secondCheckBox;
 
 	private ProjectManager projectManager;
 
@@ -706,7 +710,25 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
+	}
 
+	public void testRenameActionModeChecking() {
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
+		UiTestUtils.openActionMode(solo, rename, 0);
+
+		// Check if checkboxes are visible
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+
+		// Check if only single-selection is possible
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
 	}
 
 	public void testResolutionWhenCroppedWithPaintroid() {
@@ -870,5 +892,14 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 			assertFalse("Context menu item '" + rename + "' " + assertMessageAffix,
 					solo.waitForText(rename, minimumMatchesRename, timeToWait, false, true));
 		}
+	}
+
+	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
+			boolean secondCheckboxExpectedChecked) {
+		solo.sleep(300);
+		firstCheckBox = solo.getCurrentCheckBoxes().get(0);
+		secondCheckBox = solo.getCurrentCheckBoxes().get(1);
+		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());
+		assertEquals("Second checkbox not correctly checked", secondCheckboxExpectedChecked, secondCheckBox.isChecked());
 	}
 }

@@ -330,15 +330,17 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 		UiTestUtils.openActionMode(solo, rename, 0);
 
-		// CHeck if checkboxes are visible
+		// Check if checkboxes are visible
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
 
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		solo.clickOnCheckBox(0);
 		checkIfCheckboxesAreCorrectlyChecked(true, false);
-		solo.clickOnCheckBox(1);
+
 		// Check if only single-selection is possible
+		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 	}
