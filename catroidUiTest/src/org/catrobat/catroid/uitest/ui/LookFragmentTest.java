@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.fragment.LookFragment;
@@ -223,6 +224,28 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertEquals("Look not renamed in LookDataList", newLookName, getLookName(0));
 		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
+	}
+
+	public void testShowAndHideDetails() {
+		int timeToWait = 300;
+
+		solo.sleep(timeToWait);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
+		solo.clickOnMenuItem(solo.getString(R.string.show_details));
+		solo.sleep(timeToWait);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
+
+		// Test if showDetails is remembered after pressing back
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		solo.sleep(timeToWait);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
+
+		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
+		solo.sleep(timeToWait);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 	}
 
 	public void testGetImageFromGallery() {
