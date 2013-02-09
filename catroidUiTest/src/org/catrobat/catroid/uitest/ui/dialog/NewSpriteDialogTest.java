@@ -95,7 +95,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(buttonCloseText);
 		solo.sleep(200);
 
-		//Check if button deactivated when adding sprite without name ""
+		//Check if button is deactivated when adding a sprite without a name
 		UiTestUtils.enterText(solo, 0, "");
 		solo.sleep(200);
 		String okButtonText = solo.getString(R.string.ok);
