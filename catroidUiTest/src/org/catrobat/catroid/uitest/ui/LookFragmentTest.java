@@ -73,6 +73,9 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private String delete;
 	private String deleteDialogTitle;
 
+	private LookData lookData;
+	private LookData lookData2;
+
 	private File imageFile;
 	private File imageFile2;
 	private File paintroidImageFile;
@@ -109,16 +112,16 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
 				R.drawable.catroid_banzai, getActivity());
 
-		LookData lookData = new LookData();
+		lookData = new LookData();
 		lookData.setLookFilename(imageFile.getName());
 		lookData.setLookName(FIRST_TEST_LOOK_NAME);
 		lookDataList.add(lookData);
 
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
-		lookData = new LookData();
-		lookData.setLookFilename(imageFile2.getName());
-		lookData.setLookName(SECOND_TEST_LOOK_NAME);
+		lookData2 = new LookData();
+		lookData2.setLookFilename(imageFile2.getName());
+		lookData2.setLookName(SECOND_TEST_LOOK_NAME);
 		lookDataList.add(lookData);
 
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
@@ -853,6 +856,27 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
+	public void testDeleteActionMode() {
+		int currentNumberOfLooks = lookDataList.size();
+		int expectedNumberOfLooks = currentNumberOfLooks - 1;
+
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+
+		assertTrue("Unselected look '" + FIRST_TEST_LOOK_NAME + "' has been deleted!", lookDataList.contains(lookData));
+
+		assertFalse("Selected look '" + SECOND_TEST_LOOK_NAME + "' was not deleted!", lookDataList.contains(lookData2));
+
+		assertFalse("Look '" + SECOND_TEST_LOOK_NAME + "' has been deleted but is still showing!",
+				solo.waitForText(SECOND_TEST_LOOK_NAME, 0, 200, false, false));
+	}
+
 	public void testResolutionWhenCroppedWithPaintroid() {
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(200);
@@ -1026,6 +1050,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	private void checkIfNumberOfLooksIsEqual(int expectedNumber) {
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 		assertEquals("Number of looks is not as expected", expectedNumber, lookDataList.size());
 	}
 }
