@@ -79,8 +79,29 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
+		String spriteName = "spriteError";
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForView(EditText.class);
+		enterTextAndCloseDialog(spriteName);
+		assertTrue("Sprite not successfully added", ProjectManager.INSTANCE.spriteExists(spriteName));
+
+		//Add sprite which already exists
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		enterTextAndCloseDialog(spriteName);
+		String errorMessageText = solo.getString(R.string.spritename_already_exists);
+		String buttonCloseText = solo.getString(R.string.close);
+		solo.sleep(200);
+		assertTrue("ErrorMessage not visible", solo.searchText(errorMessageText));
+		solo.clickOnButton(buttonCloseText);
+		solo.sleep(200);
+
+		//Check if button deactivated when adding sprite without name ""
+		UiTestUtils.enterText(solo, 0, "");
+		solo.sleep(200);
+		String okButtonText = solo.getString(R.string.ok);
+		boolean okButtonEnabled = solo.getButton(okButtonText).isEnabled();
+		assertFalse("'" + okButtonText + "' button not deactivated", okButtonEnabled);
+
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, " ");
 		solo.sendKey(Solo.ENTER);
@@ -89,6 +110,15 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
 		solo.clickOnButton(solo.getString(R.string.close));
 		solo.sleep(200);
+
+		//Test to add sprite without name ("") with ENTER key
+		solo.clickOnEditText(0);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		assertTrue("ErrorMessage not visible", solo.searchText(solo.getString(R.string.spritename_invalid)));
+		solo.clickOnButton(buttonCloseText);
+		solo.sleep(200);
+		assertTrue("Not in NewSpriteDialog", solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));
 
 		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
 		solo.clickOnButton(solo.getString(R.string.ok));
@@ -106,5 +136,12 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite firstSprite = new Sprite("cat");
 		project.addSprite(firstSprite);
 		storageHandler.saveProject(project);
+	}
+
+	private void enterTextAndCloseDialog(String text) {
+		solo.clearEditText(0);
+		solo.enterText(0, text);
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.sleep(200);
 	}
 }
