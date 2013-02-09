@@ -63,7 +63,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	protected void tearDown() throws Exception {
 		UiTestUtils.goBackToHome(getInstrumentation());
 		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.INSTANCE.deleteCurrentProject();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		solo = null;
@@ -82,34 +82,22 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.waitForView(EditText.class);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
+		UiTestUtils.enterText(solo, spriteEditTextId, " ");
 		solo.sendKey(Solo.ENTER);
+		solo.sleep(200);
+		String errorMessageInvalidInput = solo.getString(R.string.spritename_invalid);
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
+		solo.clickOnButton(solo.getString(R.string.close));
+		solo.sleep(200);
+
+		UiTestUtils.enterText(solo, spriteEditTextId, testingsprite);
+		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(300);
 		solo.clickOnText(testingsprite);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptActivity.class);
-	}
-
-	public void testAddSpriteDialogNoName() {
-		createTestProject(testingproject);
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnTextInList(solo, testingproject);
-		solo.sleep(500);
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.waitForView(EditText.class);
-		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, " ");
-		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
-		String errorMessageInvalidInput = solo.getString(R.string.spritename_invalid);
-		assertTrue("No or wrong error message shown", solo.searchText(errorMessageInvalidInput));
-		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
 	public void createTestProject(String projectName) {
