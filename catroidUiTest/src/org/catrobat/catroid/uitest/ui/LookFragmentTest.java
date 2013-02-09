@@ -583,6 +583,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testBottomBarAndContextMenuOnActionModes() {
+		if (!getLookAdapter().getShowDetails()) {
+			solo.clickOnMenuItem(solo.getString(R.string.show_details), true);
+			solo.sleep(TIME_TO_WAIT);
+		}
+
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
 		LinearLayout addButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_add);
 		LinearLayout playButton = (LinearLayout) bottomBarLayout.findViewById(R.id.button_play);
@@ -590,15 +595,19 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int timeToWait = 300;
 		String addDialogTitle = solo.getString(R.string.new_look_dialog_title);
 		String lookSpinnerItemText = solo.getString(R.string.looks);
+		String lookResoltionPrefixText = solo.getString(R.string.look_resolution);
 
 		assertTrue("Add button not clickable", addButton.isClickable());
 		assertTrue("Play button not clickable", playButton.isClickable());
+		assertTrue("Resolution prefix not visible", solo.searchText(lookResoltionPrefixText, true));
 
 		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
 
 		// Test on rename ActionMode
 		UiTestUtils.openActionMode(solo, rename, 0);
 		solo.waitForText(rename, 1, timeToWait, false, true);
+
+		assertFalse("Resolution prefix not gone on active ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		checkIfContextMenuAppears(false, ACTION_MODE_RENAME);
 
@@ -619,10 +628,13 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
+		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on delete ActionMode
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 		solo.waitForText(delete, 1, timeToWait, false, true);
+
+		assertFalse("Resolution prefix not gone on active ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		checkIfContextMenuAppears(false, ACTION_MODE_DELETE);
 
@@ -643,10 +655,13 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
+		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on copy ActionMode
 		UiTestUtils.openActionMode(solo, null, R.id.copy);
 		solo.waitForText(copy, 1, timeToWait, false, true);
+
+		assertFalse("Resolution prefix not gone on active ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		checkIfContextMenuAppears(false, ACTION_MODE_COPY);
 
@@ -664,6 +679,11 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.waitForText(lookSpinnerItemText, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(true, ACTION_MODE_COPY);
+
+		assertTrue("Add button not clickable after ActionMode", addButton.isClickable());
+		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
+		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
+
 	}
 
 	public void testResolutionWhenCroppedWithPaintroid() {
