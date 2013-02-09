@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -86,7 +87,7 @@ public class ChangeXByNBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		UiTestUtils.clickEnterClose(solo, 0, X_TO_CHANGE + "");
 
-		int xMovementValue = (Integer) UiTestUtils.getPrivateField("xMovement", changeXByNBrick);
+		int xMovementValue = (Integer) Reflection.getPrivateField(changeXByNBrick, "xMovement");
 		assertEquals("Wrong text in field.", X_TO_CHANGE, xMovementValue);
 		assertEquals("Value in Brick is not updated.", X_TO_CHANGE + "", solo.getEditText(0).getText().toString());
 	}

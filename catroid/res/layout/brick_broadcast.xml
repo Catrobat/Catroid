@@ -20,44 +20,35 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    style="@style/BrickContainer.Control.Medium"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_broadcast" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/brick_yellow"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
-        <TextView
-            style="@style/BrickText"
-            android:text="@string/brick_broadcast" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Spinner
+            android:id="@+id/brick_broadcast_spinner"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_weight="5"
+            android:clickable="false"
+            android:focusable="false" />
 
-            <Spinner
-                android:id="@+id/broadcast_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:clickable="false"
-                android:focusable="false" />
-
-            <Button
-                android:id="@+id/broadcast_new_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:focusable="false"
-                android:text="@string/new_broadcast_message" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/brick_broadcast_button_new_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="@string/new_broadcast_message" />
     </LinearLayout>
 
 </LinearLayout>
