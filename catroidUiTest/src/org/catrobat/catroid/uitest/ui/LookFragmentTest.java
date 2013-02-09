@@ -779,6 +779,50 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Look not renamed in actual view", solo.searchText(expectedNewLookName, true));
 	}
 
+	public void testDeleteActionModeCheckingAndTitle() {
+		UiTestUtils.openActionMode(solo, null, R.id.delete);
+
+		int timeToWaitForTitle = 300;
+
+		String look = solo.getString(R.string.look);
+		String looks = solo.getString(R.string.looks);
+
+		assertFalse("Look should not be displayed in title", solo.waitForText(look, 3, 300, false, true));
+
+		// Check if checkboxes are visible
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+
+		int expectedNumberOfSelectedLooks = 1;
+		String expectedTitle = delete + " " + expectedNumberOfSelectedLooks + " " + look;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedLooks = 2;
+		expectedTitle = delete + " " + expectedNumberOfSelectedLooks + " " + looks;
+
+		// Check if multiple-selection is possible
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedLooks = 1;
+		expectedTitle = delete + " " + expectedNumberOfSelectedLooks + " " + look;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedTitle = delete;
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+	}
+
 	public void testResolutionWhenCroppedWithPaintroid() {
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(200);

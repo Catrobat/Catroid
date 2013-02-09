@@ -460,7 +460,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		String sound = solo.getString(R.string.category_sound);
 		String sounds = solo.getString(R.string.sounds);
-		String delete = solo.getString(R.string.delete);
 
 		assertFalse("Sound should not be displayed in title", solo.waitForText(sound, 3, 300, false, true));
 
@@ -479,8 +478,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		expectedNumberOfSelectedSounds = 2;
 		expectedTitle = delete + " " + expectedNumberOfSelectedSounds + " " + sounds;
 
-		solo.clickOnCheckBox(1);
 		// Check if multiple-selection is possible
+		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
 		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
 
