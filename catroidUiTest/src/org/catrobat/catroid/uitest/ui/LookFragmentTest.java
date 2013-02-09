@@ -753,6 +753,32 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertFalse("ActionMode didn't disappear", solo.waitForText(rename, 0, TIME_TO_WAIT));
 	}
 
+	public void testRenameActionModeEqualLookNames() {
+		UiTestUtils.openActionMode(solo, rename, 0);
+
+		int checkboxIndex = 1;
+
+		// Rename second look to the name of the first
+		String newLookName = FIRST_TEST_LOOK_NAME;
+
+		solo.clickOnCheckBox(checkboxIndex);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		assertTrue("Rename dialog didn't show up", solo.searchText(renameDialogTitle, true));
+		assertTrue("No EditText with actual look name", solo.searchEditText(SECOND_TEST_LOOK_NAME));
+
+		UiTestUtils.enterText(solo, 0, newLookName);
+		solo.sendKey(Solo.ENTER);
+
+		// If an already existing name was entered a counter should be appended
+		String expectedNewLookName = newLookName + "1";
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		assertEquals("Look is not correctly renamed in lookDataList (1 should be appended)", expectedNewLookName,
+				lookDataList.get(checkboxIndex).getLookName());
+		assertTrue("Look not renamed in actual view", solo.searchText(expectedNewLookName, true));
+	}
+
 	public void testResolutionWhenCroppedWithPaintroid() {
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(200);

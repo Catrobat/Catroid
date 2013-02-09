@@ -385,8 +385,6 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		UiTestUtils.enterText(solo, 0, newSoundName);
 		solo.sendKey(Solo.ENTER);
 
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
-
 		// If an already existing name was entered a counter should be appended
 		String expectedNewSoundName = newSoundName + "1";
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
