@@ -175,7 +175,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		List<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 1);
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		solo.clickOnScreen(20, yPositionList.get(1));
+		solo.clickOnScreen(20, yPositionList.get(0) + 20);
 		solo.sleep(200);
 
 		assertEquals("Two control bricks should be added.", 2, sprite.getNumberOfScripts());
