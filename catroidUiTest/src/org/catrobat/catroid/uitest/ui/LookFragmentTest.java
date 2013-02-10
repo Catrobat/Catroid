@@ -949,6 +949,33 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
+	public void testCopyActionMode() {
+		int currentNumberOfLooks = lookDataList.size();
+		int expectedNumberOfLooks = currentNumberOfLooks + 2;
+
+		String copiedLookAddition = "_" + solo.getString(R.string.copy_look_addition);
+
+		UiTestUtils.openActionMode(solo, null, R.id.copy);
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(copy, 0, TIME_TO_WAIT));
+
+		solo.sleep(TIME_TO_WAIT);
+
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+
+		assertTrue("Selected look '" + FIRST_TEST_LOOK_NAME + "' was not copied!",
+				solo.searchText(FIRST_TEST_LOOK_NAME, 4) && solo.searchText(FIRST_TEST_LOOK_NAME + copiedLookAddition));
+
+		assertTrue(
+				"Selected look '" + SECOND_TEST_LOOK_NAME + "' was not copied!",
+				solo.searchText(SECOND_TEST_LOOK_NAME, 2)
+						&& solo.searchText(SECOND_TEST_LOOK_NAME + copiedLookAddition));
+	}
+
 	public void testResolutionWhenCroppedWithPaintroid() {
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(200);
