@@ -29,10 +29,22 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class ExtendedActions extends Actions {
 
+	public static HideAction hide(Sprite sprite) {
+		HideAction action = action(HideAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public static SetCostumeAction setCostume(Sprite sprite, CostumeData costume) {
 		SetCostumeAction action = action(SetCostumeAction.class);
 		action.setSprite(sprite);
 		action.setCostumeData(costume);
+		return action;
+	}
+
+	public static ShowAction show(Sprite sprite) {
+		ShowAction action = action(ShowAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 

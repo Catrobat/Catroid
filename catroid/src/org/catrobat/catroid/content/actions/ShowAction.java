@@ -20,68 +20,27 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+public class ShowAction extends TemporalAction {
 
-public class ShowBrick implements Brick {
-	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
-	private transient View view;
-
-	public ShowBrick(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public ShowBrick() {
-
-	}
-
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
+	protected void update(float delta) {
 		sprite.costume.show = true;
 	}
 
-	@Override
 	public Sprite getSprite() {
-		return this.sprite;
+		return sprite;
 	}
 
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_show, null);
-		}
-		return view;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_show, null);
-	}
-
-	@Override
-	public Brick clone() {
-		return new ShowBrick(getSprite());
-	}
-
-	@Override
-	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.show(sprite));
-		return null;
-	}
 }

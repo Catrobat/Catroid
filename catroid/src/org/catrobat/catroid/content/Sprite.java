@@ -52,8 +52,8 @@ public class Sprite implements Serializable {
 	public transient boolean isPaused;
 	public transient boolean isFinished;
 
-	private transient Map<Thread, Boolean> activeThreads;
-	private transient Map<Script, List<Thread>> activeScripts;
+	private Map<Thread, Boolean> activeThreads;
+	private Map<Script, List<Thread>> activeScripts;
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:

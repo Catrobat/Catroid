@@ -42,10 +42,9 @@ public abstract class Script implements Serializable {
 	private transient volatile boolean finish;
 	private transient int executingBrickIndex;
 	protected Sprite sprite;
-	private ArrayList<SequenceAction> sequenceList;
+	private transient ArrayList<SequenceAction> sequenceList;
 
 	public Script() {
-
 	}
 
 	protected Object readResolve() {
@@ -68,8 +67,16 @@ public abstract class Script implements Serializable {
 	}
 
 	public void run(SequenceAction sequence) {
+		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
-			brickList.get(i).addActionToSequence(sequence);
+			SequenceAction action = brickList.get(i).addActionToSequence(sequenceList.get(sequenceList.size() - 1));
+			if (action != null) {
+				if (sequenceList.contains(action)) {
+					sequenceList.remove(action);
+				} else {
+					sequenceList.add(action);
+				}
+			}
 		}
 	}
 

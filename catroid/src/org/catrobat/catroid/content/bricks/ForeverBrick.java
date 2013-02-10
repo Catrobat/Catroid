@@ -24,11 +24,13 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ForeverBrick extends LoopBeginBrick {
@@ -78,16 +80,11 @@ public class ForeverBrick extends LoopBeginBrick {
 		loopEndBrick = new LoopEndlessBrick(sprite, this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
-		return null;
+		SequenceAction foreverSequence = ExtendedActions.sequence();
+		Action action = ExtendedActions.forever(foreverSequence);
+		sequence.addAction(action);
+		return foreverSequence;
 	}
 }

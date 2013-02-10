@@ -164,17 +164,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
-		return null;
+		return sequence;
 	}
 
 }

@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -37,6 +38,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
@@ -122,16 +124,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_repeat_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
-		return null;
+		SequenceAction repeatSequence = ExtendedActions.sequence();
+		Action action = ExtendedActions.repeat(timesToRepeat, repeatSequence);
+		sequence.addAction(action);
+		return repeatSequence;
 	}
 }

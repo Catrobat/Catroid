@@ -33,7 +33,7 @@ public class SetCostumeAction extends TemporalAction {
 	private Sprite sprite;
 
 	@Override
-	protected void update(float arg0) {
+	protected void update(float percent) {
 		if (costume != null && sprite != null && sprite.getCostumeDataList().contains(costume)) {
 			sprite.costume.setCostumeData(costume);
 		}
@@ -42,6 +42,7 @@ public class SetCostumeAction extends TemporalAction {
 	@Override
 	public void reset() {
 		super.reset();
+		sprite = null;
 		costume = null;
 	}
 
