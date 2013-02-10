@@ -122,7 +122,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		lookData2 = new LookData();
 		lookData2.setLookFilename(imageFile2.getName());
 		lookData2.setLookName(SECOND_TEST_LOOK_NAME);
-		lookDataList.add(lookData);
+		lookDataList.add(lookData2);
 
 		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 
