@@ -831,7 +831,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		UiTestUtils.openActionMode(solo, null, R.id.delete);
 
-		// Check if rename ActionMode disappears if nothing was selected
+		// Check if delete ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
@@ -849,7 +849,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
 		solo.goBack();
 
-		// Check if rename ActionMode disappears if back was pressed
+		// Check if delete ActionMode disappears if back was pressed
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
@@ -875,6 +875,78 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		assertFalse("Look '" + SECOND_TEST_LOOK_NAME + "' has been deleted but is still showing!",
 				solo.waitForText(SECOND_TEST_LOOK_NAME, 0, 200, false, false));
+	}
+
+	public void testCopyActionModeCheckingAndTitle() {
+		UiTestUtils.openActionMode(solo, null, R.id.copy);
+
+		int timeToWaitForTitle = 300;
+
+		String look = solo.getString(R.string.look);
+		String looks = solo.getString(R.string.looks);
+
+		assertFalse("Look should not be displayed in title", solo.waitForText(look, 3, 300, false, true));
+
+		// Check if checkboxes are visible
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
+
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+
+		int expectedNumberOfSelectedLooks = 1;
+		String expectedTitle = copy + " " + expectedNumberOfSelectedLooks + " " + look;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedLooks = 2;
+		expectedTitle = copy + " " + expectedNumberOfSelectedLooks + " " + looks;
+
+		// Check if multiple-selection is possible
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		assertTrue("Title not as aspected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedNumberOfSelectedLooks = 1;
+		expectedTitle = copy + " " + expectedNumberOfSelectedLooks + " " + look;
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+
+		expectedTitle = copy;
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, timeToWaitForTitle, false, true));
+	}
+
+	public void testCopyActionModeIfNothingSelected() {
+		int expectedNumberOfLooks = lookDataList.size();
+
+		UiTestUtils.openActionMode(solo, null, R.id.copy);
+
+		// Check if copy ActionMode disappears if nothing was selected
+		checkIfCheckboxesAreCorrectlyChecked(false, false);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(copy, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+	}
+
+	public void testCopyActionModeIfSomethingSelectedAndPressingBack() {
+		int expectedNumberOfLooks = lookDataList.size();
+
+		UiTestUtils.openActionMode(solo, null, R.id.copy);
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		solo.goBack();
+
+		// Check if copy ActionMode disappears if back was pressed
+		assertFalse("ActionMode didn't disappear", solo.waitForText(copy, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
 	public void testResolutionWhenCroppedWithPaintroid() {
