@@ -43,14 +43,14 @@
         android:visible="false"
         android:title="@string/insert_below" />
     <item
-        android:id="@+id/rename"
-        android:showAsAction="never"
-        android:title="@string/rename" />
-    <item
         android:id="@+id/move"
         android:showAsAction="never"
         android:visible="false"
         android:title="@string/move" />
+    <item
+        android:id="@+id/rename"
+        android:showAsAction="never"
+        android:title="@string/rename" />
     <item
         android:id="@+id/show_details"
         android:showAsAction="never"
