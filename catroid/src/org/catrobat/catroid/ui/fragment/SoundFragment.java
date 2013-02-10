@@ -108,6 +108,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	private boolean isRenameActionMode;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_sound, null);
 		return rootView;
@@ -135,6 +141,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		} catch (ClassCastException exception) {
 			Log.e("CATROID", scriptActivity.toString() + " does not implement ErrorListenerInterface", exception);
 		}
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.copy).setVisible(false);
+		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
