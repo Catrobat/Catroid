@@ -37,6 +37,8 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class PointToBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
@@ -199,5 +201,18 @@ public class PointToBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new PointToBrick(sprite, pointedSprite);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

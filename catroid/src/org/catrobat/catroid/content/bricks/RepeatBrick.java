@@ -37,6 +37,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
@@ -118,5 +120,18 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		};
 
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_repeat_brick");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

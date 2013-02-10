@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -45,7 +46,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class LegoNxtMotorTurnAngleBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -254,5 +256,18 @@ public class LegoNxtMotorTurnAngleBrick implements Brick {
 
 			return dialog;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -30,6 +30,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class IfOnEdgeBounceBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
@@ -131,6 +133,19 @@ public class IfOnEdgeBounceBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new IfOnEdgeBounceBrick(sprite);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

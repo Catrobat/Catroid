@@ -32,6 +32,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
@@ -93,5 +95,18 @@ public class ComeToFrontBrick implements Brick {
 	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.brick_go_to_front, null);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

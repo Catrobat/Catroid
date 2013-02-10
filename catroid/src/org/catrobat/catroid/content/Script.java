@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public abstract class Script implements Serializable {
 
@@ -41,6 +42,7 @@ public abstract class Script implements Serializable {
 	private transient volatile boolean finish;
 	private transient int executingBrickIndex;
 	protected Sprite sprite;
+	private ArrayList<SequenceAction> sequenceList;
 
 	public Script() {
 
@@ -55,6 +57,7 @@ public abstract class Script implements Serializable {
 
 	public Script(Sprite sprite) {
 		brickList = new ArrayList<Brick>();
+		sequenceList = new ArrayList<SequenceAction>();
 		this.sprite = sprite;
 		init();
 	}
@@ -62,6 +65,12 @@ public abstract class Script implements Serializable {
 	private void init() {
 		paused = false;
 		finish = false;
+	}
+
+	public void run(SequenceAction sequence) {
+		for (int i = 0; i < brickList.size(); i++) {
+			brickList.get(i).addActionToSequence(sequence);
+		}
 	}
 
 	public void run() {

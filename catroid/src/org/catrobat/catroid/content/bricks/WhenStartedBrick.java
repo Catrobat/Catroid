@@ -31,6 +31,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
@@ -88,5 +90,18 @@ public class WhenStartedBrick extends ScriptBrick {
 		}
 
 		return script;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

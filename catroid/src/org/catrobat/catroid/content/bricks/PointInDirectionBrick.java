@@ -49,6 +49,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class PointInDirectionBrick implements Brick, View.OnClickListener {
 
 	private static final long serialVersionUID = 1L;
@@ -291,5 +293,18 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 			final Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 			input.addTextChangedListener(getInputTextChangedListener(buttonPositive));
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

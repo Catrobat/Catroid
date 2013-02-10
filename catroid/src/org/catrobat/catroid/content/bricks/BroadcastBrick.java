@@ -41,6 +41,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class BroadcastBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
@@ -189,5 +191,18 @@ public class BroadcastBrick implements Brick {
 
 	public BroadcastBrick() {
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

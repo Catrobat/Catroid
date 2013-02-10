@@ -35,7 +35,10 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class Sprite implements Serializable {
 
@@ -96,7 +99,7 @@ public class Sprite implements Serializable {
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					startScript(s);
+					startScript(s, true);
 				}
 			}
 		}
@@ -106,7 +109,7 @@ public class Sprite implements Serializable {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
 				if (!s.isFinished()) {
-					startScript(s);
+					startScript(s, true);
 				}
 			}
 		}
@@ -114,6 +117,12 @@ public class Sprite implements Serializable {
 
 	public Sprite() {
 
+	}
+
+	private void startScript(Script s, boolean overload) {
+		SequenceAction sequence = ExtendedActions.sequence();
+		s.run(sequence);
+		costume.addAction(sequence);
 	}
 
 	private synchronized void startScript(Script s) {

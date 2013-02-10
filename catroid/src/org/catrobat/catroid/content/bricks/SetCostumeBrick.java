@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
@@ -34,6 +35,8 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -60,9 +63,9 @@ public class SetCostumeBrick implements Brick {
 
 	@Override
 	public void execute() {
-		if (costume != null && sprite != null && sprite.getCostumeDataList().contains(costume)) {
-			sprite.costume.setCostumeData(costume);
-		}
+		//		if (costume != null && sprite != null && sprite.getCostumeDataList().contains(costume)) {
+		//			sprite.costume.setCostumeData(costume);
+		//		}
 	}
 
 	@Override
@@ -144,5 +147,18 @@ public class SetCostumeBrick implements Brick {
 		}
 
 		return clonedBrick;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setCostume(sprite, costume));
+		return null;
 	}
 }

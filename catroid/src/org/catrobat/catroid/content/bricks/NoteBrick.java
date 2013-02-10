@@ -37,6 +37,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class NoteBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
@@ -144,5 +146,18 @@ public class NoteBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new NoteBrick(this.sprite, this.note);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

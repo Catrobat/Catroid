@@ -40,6 +40,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 public class SpeakBrick implements Brick {
 	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
@@ -151,5 +153,18 @@ public class SpeakBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new SpeakBrick(this.sprite, this.text);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+	 * )
+	 */
+	@Override
+	public SequenceAction addActionToSequence(SequenceAction sequence) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
