@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import java.io.Serializable;
 
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -43,6 +44,9 @@ public interface Brick extends Serializable {
 	public void execute();
 
 	public Sprite getSprite();
+
+	//needed for the Sprite#clone()-Method
+	public Brick copyBrickForSprite(Sprite sprite, Script script);
 
 	public View getView(Context context, int brickId, BaseAdapter adapter);
 

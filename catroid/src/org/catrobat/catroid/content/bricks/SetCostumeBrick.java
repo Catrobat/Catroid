@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -68,6 +69,19 @@ public class SetCostumeBrick implements Brick {
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SetCostumeBrick copyBrick = (SetCostumeBrick) clone();
+		copyBrick.sprite = sprite;
+
+		for (CostumeData data : sprite.getCostumeDataList()) {
+			if (data.getAbsolutePath().equals(costume.getAbsolutePath())) {
+				copyBrick.costume = data;
+			}
+		}
+		return copyBrick;
 	}
 
 	public String getImagePath() {

@@ -65,12 +65,15 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteCheckedListener {
+
+	//TODO: ActionMode zum Kopieren, Kopierdialog über CustomIconContextMenu
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
@@ -216,13 +219,14 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		menu.setHeaderTitle(spriteToEdit.getName());
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		getSherlockActivity().getMenuInflater().inflate(R.menu.menu_sprite, menu);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.copy:
+				copySprite();
 				break;
 
 			case R.id.cut:
@@ -300,6 +304,25 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void handleCheckBoxClick(View view) {
 		int position = getListView().getPositionForView(view);
 		getListView().setItemChecked(position, ((CheckBox) view.findViewById(R.id.checkbox)).isChecked());
+	}
+
+	public void copySprite() {
+		Sprite addSprite = spriteToEdit.clone();
+		addSprite.setName(spriteToEdit.getName().concat(" ").concat(getString(R.string.copy_sprite_name_suffix)));
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.addSprite(addSprite);
+		projectManager.setCurrentSprite(addSprite);
+
+		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
+
+		Toast.makeText(
+				getActivity(),
+				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
+						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
+
+		Log.d("", addSprite.toString());
+
 	}
 
 	public void showRenameDialog() {

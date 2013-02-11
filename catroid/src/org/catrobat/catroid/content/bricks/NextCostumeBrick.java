@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -83,6 +84,13 @@ public class NextCostumeBrick implements Brick {
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		NextCostumeBrick copyBrick = (NextCostumeBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override

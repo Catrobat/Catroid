@@ -22,9 +22,12 @@
  */
 package org.catrobat.catroid.common;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -36,7 +39,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class CostumeData implements Serializable {
+public class CostumeData implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,6 +53,31 @@ public class CostumeData implements Serializable {
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
+
+	@Override
+	public CostumeData clone() {
+		CostumeData cloneCostumeData = new CostumeData();
+
+		cloneCostumeData.name = this.name;
+		cloneCostumeData.fileName = this.fileName;
+
+		return cloneCostumeData;
+	}
+
+	public CostumeData copyCostumeDataForSprite(Sprite sprite) {
+		CostumeData cloneCostumeData = new CostumeData();
+
+		cloneCostumeData.name = this.name;
+
+		try {
+			cloneCostumeData.fileName = StorageHandler.getInstance()
+					.duplicateImage(ProjectManager.INSTANCE.getCurrentProject().getName(), fileName).getName();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return cloneCostumeData;
+	}
 
 	public TextureRegion getTextureRegion() {
 		if (region == null) {

@@ -25,9 +25,9 @@ package org.catrobat.catroid.content;
 import java.util.concurrent.CountDownLatch;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-
 
 public class BroadcastScript extends Script {
 
@@ -79,5 +79,18 @@ public class BroadcastScript extends Script {
 
 	public void executeBroadcastWait(CountDownLatch simultaneousStart, CountDownLatch wait) {
 		sprite.startScriptBroadcastWait(this, simultaneousStart, wait);
+	}
+
+	@Override
+	public Script copyScriptForSprite(Sprite copySprite) {
+		BroadcastScript cloneScript = new BroadcastScript(copySprite);
+		cloneScript.receivedMessage = receivedMessage;
+
+		for (Brick b : getBrickList()) {
+			cloneScript.getBrickList().add(b.copyBrickForSprite(copySprite, this));
+		}
+
+		return cloneScript;
+
 	}
 }

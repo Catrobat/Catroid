@@ -37,7 +37,7 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 
-public class Sprite implements Serializable {
+public class Sprite implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -113,6 +113,41 @@ public class Sprite implements Serializable {
 	}
 
 	public Sprite() {
+
+	}
+
+	@Override
+	public Sprite clone() {
+		Sprite cloneSprite = new Sprite();
+		cloneSprite.setName(this.getName());
+
+		ArrayList<CostumeData> cloneCostumeList = new ArrayList<CostumeData>();
+		for (CostumeData element : this.costumeList) {
+			cloneCostumeList.add(element.copyCostumeDataForSprite(cloneSprite));
+		}
+		cloneSprite.costumeList = cloneCostumeList;
+
+		ArrayList<SoundInfo> cloneSoundList = new ArrayList<SoundInfo>();
+		for (SoundInfo element : this.soundList) {
+			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
+		}
+		cloneSprite.soundList = cloneSoundList;
+
+		//The scripts have to be the last copied items
+		List<Script> cloneScriptList = new ArrayList<Script>();
+		for (Script element : this.scriptList) {
+			Script addElement = element.copyScriptForSprite(cloneSprite);
+			cloneScriptList.add(addElement);
+		}
+		cloneSprite.scriptList = cloneScriptList;
+
+		cloneSprite.init();
+
+		cloneSprite.costume = this.costume.clone();
+		cloneSprite.costume.setCostumeData(cloneSprite.getCostumeDataList().get(0));
+		cloneSprite.costume.sprite = cloneSprite;
+
+		return cloneSprite;
 
 	}
 

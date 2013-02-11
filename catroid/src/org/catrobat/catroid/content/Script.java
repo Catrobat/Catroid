@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
-
 public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -45,6 +44,8 @@ public abstract class Script implements Serializable {
 	public Script() {
 
 	}
+
+	public abstract Script copyScriptForSprite(Sprite copySprite);
 
 	protected Object readResolve() {
 		init();

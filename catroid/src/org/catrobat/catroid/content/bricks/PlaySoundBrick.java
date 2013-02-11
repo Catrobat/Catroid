@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
 
@@ -64,6 +65,18 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		PlaySoundBrick copyBrick = (PlaySoundBrick) clone();
+		copyBrick.sprite = sprite;
+		for (SoundInfo soundInfo : sprite.getSoundList()) {
+			if (soundInfo.getAbsolutePath().equals(sound.getAbsolutePath())) {
+				copyBrick.sound = soundInfo;
+			}
+		}
+		return copyBrick;
 	}
 
 	@Override

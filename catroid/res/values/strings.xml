@@ -89,11 +89,18 @@
     <string name="show_details">Show Details</string>
     <string name="hide_details">Hide Details</string>
     <string name="insert_below">Insert Below</string>
+
     <string name="sprite">Sprite</string>
     <string name="sprites">Sprites</string>
     <!--  -->
 
 
+
+    <string name="copy_sprite_finished">copied.</string>
+    <string name="copy_sprite_prefix">Sprite:</string>
+    <string name="copy_sprite_name_suffix"> - Copy</string>
+    <!--  -->
+    
     <!-- Script activity -->
     <string name="scripts">Scripts</string>
     <string name="costumes">Costumes</string>

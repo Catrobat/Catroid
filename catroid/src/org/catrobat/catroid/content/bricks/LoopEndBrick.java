@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
@@ -33,7 +34,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
@@ -97,6 +97,33 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		LoopEndBrick copyBrick = new LoopEndBrick();
+		copyBrick.sprite = sprite;
+
+		//Sets loopBeginBrick in LoopEndBrick and loopEndBrick in LoopBeginBrick
+		ArrayList<Brick> currentBrickList = script.getBrickList();
+		int loopEnds = 0;
+		for (int i = currentBrickList.size() - 1; i >= 0; i--) {
+			Brick b = currentBrickList.get(i);
+			if (b instanceof LoopBeginBrick) {
+				if (loopEnds > 0) {
+					loopEnds--;
+				} else {
+					copyBrick.loopBeginBrick = (LoopBeginBrick) b;
+					LoopBeginBrick lbb = (LoopBeginBrick) b;
+					lbb.setLoopEndBrick(copyBrick);
+					break;
+				}
+			} else if (b instanceof LoopEndBrick) {
+				loopEnds++;
+			}
+		}
+
+		return copyBrick;
 	}
 
 	public void setTimesToRepeat(int timesToRepeat) {

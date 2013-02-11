@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
@@ -30,7 +31,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import org.catrobat.catroid.R;
 
 public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
@@ -60,6 +60,14 @@ public class WhenBrick extends ScriptBrick {
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		WhenBrick copyBrick = (WhenBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.whenScript = (WhenScript) script;
+		return copyBrick;
 	}
 
 	@Override

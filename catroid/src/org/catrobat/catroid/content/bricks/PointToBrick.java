@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -60,6 +61,13 @@ public class PointToBrick implements Brick {
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		PointToBrick copyBrick = (PointToBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override

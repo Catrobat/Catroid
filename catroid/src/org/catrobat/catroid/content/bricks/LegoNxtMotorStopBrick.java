@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.LegoNXT.LegoNXT;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
@@ -32,7 +34,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import org.catrobat.catroid.R;
 
 public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -87,6 +88,13 @@ public class LegoNxtMotorStopBrick implements Brick, OnItemSelectedListener {
 	@Override
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		LegoNxtMotorStopBrick copyBrick = (LegoNxtMotorStopBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -29,17 +30,16 @@ import org.catrobat.catroid.content.StartScript;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class WhenStartedBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
-	private Script script;
+	private StartScript script;
 	private Sprite sprite;
 
 	private transient View view;
 
-	public WhenStartedBrick(Sprite sprite, Script script) {
+	public WhenStartedBrick(Sprite sprite, StartScript script) {
 		this.script = script;
 		this.sprite = sprite;
 	}
@@ -60,6 +60,14 @@ public class WhenStartedBrick extends ScriptBrick {
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		WhenStartedBrick copyBrick = (WhenStartedBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.script = (StartScript) script;
+		return copyBrick;
 	}
 
 	@Override

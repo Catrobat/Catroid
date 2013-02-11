@@ -31,7 +31,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Costume extends Image {
+public class Costume extends Image implements Cloneable {
 	protected Semaphore xYWidthHeightLock = new Semaphore(1);
 	protected Semaphore imageLock = new Semaphore(1);
 	protected Semaphore scaleLock = new Semaphore(1);
@@ -63,6 +63,28 @@ public class Costume extends Image {
 		this.touchable = true;
 		this.show = true;
 		this.zPosition = 0;
+	}
+
+	@Override
+	public Costume clone() {
+		Costume cloneCostume = new Costume(null);
+
+		cloneCostume.x = this.x;
+		cloneCostume.y = this.y;
+		cloneCostume.originX = this.originX;
+		cloneCostume.originY = this.originY;
+		cloneCostume.alphaValue = this.alphaValue;
+		cloneCostume.brightnessValue = this.brightnessValue;
+		cloneCostume.scaleX = this.scaleX;
+		cloneCostume.scaleY = this.scaleY;
+		cloneCostume.rotation = this.rotation;
+		cloneCostume.width = this.width;
+		cloneCostume.height = this.height;
+		cloneCostume.touchable = this.touchable;
+		cloneCostume.show = this.show;
+		cloneCostume.zPosition = this.zPosition;
+
+		return cloneCostume;
 	}
 
 	@Override

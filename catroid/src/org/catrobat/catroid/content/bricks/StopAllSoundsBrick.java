@@ -22,13 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class StopAllSoundsBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -58,6 +59,13 @@ public class StopAllSoundsBrick implements Brick {
 	@Override
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		StopAllSoundsBrick copyBrick = (StopAllSoundsBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override

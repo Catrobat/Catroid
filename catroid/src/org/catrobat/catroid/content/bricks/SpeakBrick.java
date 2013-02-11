@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import java.util.HashMap;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -100,6 +101,13 @@ public class SpeakBrick implements Brick {
 	@Override
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SpeakBrick copyBrick = (SpeakBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	public String getText() {

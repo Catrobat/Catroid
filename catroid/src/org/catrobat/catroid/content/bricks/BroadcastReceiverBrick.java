@@ -69,6 +69,14 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		BroadcastReceiverBrick copyBrick = (BroadcastReceiverBrick) clone();
+		copyBrick.sprite = sprite;
+		copyBrick.receiveScript = (BroadcastScript) script;
+		return copyBrick;
+	}
+
+	@Override
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(sprite);

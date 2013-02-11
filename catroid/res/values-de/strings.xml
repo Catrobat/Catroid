@@ -93,6 +93,9 @@
     <!--  -->
 
 
+    <!-- Sprite activity -->
+    <string name="copy_sprite_finished"> kopiert.</string>
+    <string name="copy_sprite_name_suffix"> - Kopie</string>
     <!-- ScriptTab activity -->
     <string name="scripts">Skripte</string>
     <string name="costumes">Kostüme</string>

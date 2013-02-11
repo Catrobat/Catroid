@@ -22,13 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import org.catrobat.catroid.R;
 
 public class ClearGraphicEffectBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -58,6 +59,13 @@ public class ClearGraphicEffectBrick implements Brick {
 	@Override
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		ClearGraphicEffectBrick copyBrick = (ClearGraphicEffectBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	@Override

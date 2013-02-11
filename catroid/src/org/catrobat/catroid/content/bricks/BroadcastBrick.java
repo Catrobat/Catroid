@@ -28,6 +28,7 @@ import java.util.concurrent.CountDownLatch;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -86,6 +87,13 @@ public class BroadcastBrick implements Brick {
 	@Override
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		BroadcastBrick copyBrick = (BroadcastBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 
 	public void setSelectedMessage(String message) {
@@ -184,7 +192,9 @@ public class BroadcastBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new BroadcastBrick(sprite);
+		BroadcastBrick cloneBrick = new BroadcastBrick(sprite);
+		cloneBrick.broadcastMessage = broadcastMessage;
+		return cloneBrick;
 	}
 
 	public BroadcastBrick() {
