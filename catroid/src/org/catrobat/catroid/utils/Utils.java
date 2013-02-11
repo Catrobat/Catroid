@@ -72,6 +72,7 @@ import android.widget.LinearLayout;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Utils {
@@ -358,6 +359,7 @@ public class Utils {
 	public static Pixmap getPixmapFromFile(File imageFile) {
 		Pixmap pixmap = null;
 		try {
+			GdxNativesLoader.load();
 			pixmap = new Pixmap(new FileHandle(imageFile));
 		} catch (GdxRuntimeException e) {
 			return null;
