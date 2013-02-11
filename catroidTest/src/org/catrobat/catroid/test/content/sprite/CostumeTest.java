@@ -31,6 +31,8 @@ import org.catrobat.catroid.content.Sprite;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+
 public class CostumeTest extends InstrumentationTestCase {
 	private Costume costume;
 	private Sprite sprite;
@@ -43,21 +45,21 @@ public class CostumeTest extends InstrumentationTestCase {
 	}
 
 	public void testConstructor() {
-		assertEquals("Wrong initialization!", 0f, costume.x);
-		assertEquals("Wrong initialization!", 0f, costume.y);
-		assertEquals("Wrong initialization!", 0f, costume.height);
-		assertEquals("Wrong initialization!", 0f, costume.width);
-		assertEquals("Wrong initialization!", 0f, costume.originX);
-		assertEquals("Wrong initialization!", 0f, costume.originY);
-		assertEquals("Wrong initialization!", 0f, costume.rotation);
-		assertEquals("Wrong initialization!", 1f, costume.scaleX);
-		assertEquals("Wrong initialization!", 1f, costume.scaleY);
+		assertEquals("Wrong initialization!", 0f, costume.getX());
+		assertEquals("Wrong initialization!", 0f, costume.getY());
+		assertEquals("Wrong initialization!", 0f, costume.getHeight());
+		assertEquals("Wrong initialization!", 0f, costume.getWidth());
+		assertEquals("Wrong initialization!", 0f, costume.getOriginX());
+		assertEquals("Wrong initialization!", 0f, costume.getOriginY());
+		assertEquals("Wrong initialization!", 0f, costume.getRotation());
+		assertEquals("Wrong initialization!", 1f, costume.getScaleX());
+		assertEquals("Wrong initialization!", 1f, costume.getScaleY());
 		assertEquals("Wrong initialization!", 1f, costume.getAlphaValue());
 		assertEquals("Wrong initialization!", 1f, costume.getBrightnessValue());
 		assertEquals("Wrong initialization!", 1f, costume.getSize());
 		assertEquals("Wrong initialization!", 0, costume.zPosition);
 		assertEquals("Wrong initialization!", true, costume.show);
-		assertEquals("Wrong initialization!", true, costume.touchable);
+		assertEquals("Wrong initialization!", Touchable.enabled, costume.getTouchable());
 		assertEquals("Wrong initialization!", "", costume.getImagePath());
 
 	}
@@ -67,8 +69,8 @@ public class CostumeTest extends InstrumentationTestCase {
 		assertEquals("Wrong x position!", 50f, costume.getXPosition());
 		costume.setYPosition(120f);
 		assertEquals("Wrong y position!", 120f, costume.getYPosition());
-		costume.width = 120f;
-		costume.height = 200f;
+		costume.setWidth(120f);
+		costume.setHeight(200f);
 		costume.setXPosition(66f);
 		assertEquals("Wrong x position!", 66f, costume.getXPosition());
 		costume.setYPosition(42f);
@@ -87,8 +89,8 @@ public class CostumeTest extends InstrumentationTestCase {
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(fileName);
 		costume.setCostumeData(costumeData);
-		assertEquals("Wrong image path!", Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY + "/"
-				+ fileName, costume.getImagePath());
+		assertEquals("Wrong image path!", Constants.DEFAULT_ROOT + "/" + projectName + "/" + Constants.IMAGE_DIRECTORY
+				+ "/" + fileName, costume.getImagePath());
 	}
 
 	public void testSize() {

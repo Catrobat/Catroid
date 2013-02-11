@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
+import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
 import org.catrobat.catroid.common.CostumeData;
@@ -32,6 +33,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -50,6 +52,7 @@ public class Costume extends Image {
 	public boolean show;
 	public int zPosition;
 	protected Pixmap pixmap;
+	protected HashMap<String, SequenceAction> broadcastSequenceMap;
 
 	public Costume(Sprite sprite) {
 		this.sprite = sprite;
@@ -58,25 +61,23 @@ public class Costume extends Image {
 		setScale(1f, 1f);
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
-		//		this.x = 0f;
-		//		this.y = 0f;
-		//		this.originX = 0f;	
-		//		this.originY = 0f;
 		this.alphaValue = 1f;
 		this.brightnessValue = 1f;
-		//		this.scaleX = 1f;
-		//		this.scaleY = 1f;
-		//		this.rotation = 0f;
-		//		this.width = 0f;
-		//		this.height = 0f;
-		//		this.touchable = true;
 		this.show = true;
 		this.zPosition = 0;
+		this.broadcastSequenceMap = new HashMap<String, SequenceAction>();
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				return doTouchDown(x, y, pointer);
 			}
+		});
+		this.addListener(new BroadcastListener() {
+			@Override
+			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
+				doHandleBroadcastEvent(broadcastMessage);
+			}
+
 		});
 	}
 
@@ -102,6 +103,12 @@ public class Costume extends Image {
 			}
 		}
 		return false;
+	}
+
+	public void doHandleBroadcastEvent(String broadcastMessage) {
+		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
+			//this.addAction(action)
+		}
 	}
 
 	@Override
@@ -226,15 +233,6 @@ public class Costume extends Image {
 		return yPosition;
 	}
 
-	//	public float getWidth() {
-	//		return getWidth();
-	//	}
-	//
-	//	@Override
-	//	public float getHeight() {
-	//		return this.height;
-	//	}
-
 	public void releaseXYWidthHeightLock() {
 		xYWidthHeightLock.release();
 	}
@@ -337,6 +335,14 @@ public class Costume extends Image {
 
 	public CostumeData getCostumeData() {
 		return costumeData;
+	}
+
+	public void setBroadcastSequenceAction(String broadcastMessage, SequenceAction broadcastAction) {
+		broadcastSequenceMap.put(broadcastMessage, broadcastAction);
+	}
+
+	public void removeBroadcastSequenceAction(String broadcastMessage) {
+		broadcastSequenceMap.remove(broadcastMessage);
 	}
 
 }

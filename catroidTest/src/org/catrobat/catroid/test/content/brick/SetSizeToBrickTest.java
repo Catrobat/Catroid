@@ -30,11 +30,11 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.test.InstrumentationTestCase;
-import org.catrobat.catroid.test.R;
 
 public class SetSizeToBrickTest extends InstrumentationTestCase {
 
@@ -77,15 +77,15 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 
 	public void testSize() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.scaleX);
-		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.scaleY);
+		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.getScaleX());
+		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.getScaleY());
 
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, size);
 		setSizeToBrick.execute();
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", (float) size / 100,
-				sprite.costume.scaleX);
+				sprite.costume.getScaleX());
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", (float) size / 100,
-				sprite.costume.scaleY);
+				sprite.costume.getScaleY());
 	}
 
 	public void testNullSprite() {

@@ -44,7 +44,7 @@ public class WhenBrickTest extends AndroidTestCase {
 
 		Thread.sleep(1000);
 
-		assertEquals("Simple broadcast failed", (float) testPosition, sprite.costume.x);
+		assertEquals("Simple broadcast failed", (float) testPosition, sprite.costume.getX());
 	}
 
 }

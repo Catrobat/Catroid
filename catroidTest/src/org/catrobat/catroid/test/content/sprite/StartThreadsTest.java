@@ -50,8 +50,8 @@ public class StartThreadsTest extends AndroidTestCase {
 		Thread.sleep(200);
 
 		assertFalse("Sprite is not hidden", testSprite.costume.show);
-		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.scaleX);
-		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.scaleY);
+		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.getScaleX());
+		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.getScaleY());
 	}
 
 	public void testResumeThreads() throws InterruptedException {
