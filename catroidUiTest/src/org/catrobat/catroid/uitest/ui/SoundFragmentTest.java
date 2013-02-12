@@ -432,7 +432,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, true);
@@ -454,7 +454,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		int timeToWaitForTitle = 300;
 
@@ -500,7 +500,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		// Check if rename ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -514,7 +514,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionModeIfSelectedAndPressingBack() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds();
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -530,7 +530,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 	public void testDeleteActionMode() {
 		int expectedNumberOfSounds = getCurrentNumberOfSounds() - 1;
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
@@ -578,13 +578,13 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.clickOnView(playImageButton);
 		solo.sleep(timeToWait);
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if delete action has been opened", soundInfo.isPlaying);
 		solo.goBack();
 		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnView(playImageButton);
 		solo.clickOnCheckBox(0);
 		solo.sleep(timeToWait);

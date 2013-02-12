@@ -470,8 +470,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		int brickCountExpected = scriptCount + brickCount;
 		assertEquals("Displayed the wrong number of bricks", brickCountExpected, brickCountActual);
 
-		int lookCountActual = Integer
-				.parseInt(lookCountString.substring(lookCountString.lastIndexOf(' ') + 1));
+		int lookCountActual = Integer.parseInt(lookCountString.substring(lookCountString.lastIndexOf(' ') + 1));
 		assertEquals("Displayed wrong number of looks", lookCount, lookCountActual);
 
 		int soundCountActual = Integer.parseInt(soundCountString.substring(soundCountString.lastIndexOf(' ') + 1));
@@ -518,7 +517,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Play button not clickable after ActionMode", playButton.isClickable());
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		checkIfContextMenuAppears(false, true);
@@ -542,7 +541,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		int timeToWaitForTitle = 300;
 
@@ -588,7 +587,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		int expectedNumberOfSprites = getCurrentNumberOfSprites();
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		int timeToWait = 300;
 
@@ -608,7 +607,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		int timeToWait = 300;
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -628,7 +627,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		int expectedNumberOfSprites = getCurrentNumberOfSprites() - 1;
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
