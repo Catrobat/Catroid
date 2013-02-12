@@ -321,7 +321,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
 						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
 
-		Log.d("", addSprite.toString());
+		Log.d("sprite copied", addSprite.toString());
 
 	}
 
