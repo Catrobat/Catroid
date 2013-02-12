@@ -77,6 +77,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -478,7 +479,7 @@ public class UiTestUtils {
 	/**
 	 * This method can be used in 2 ways. Either to click on an action item
 	 * (icon), or to click on an item in the overflow menu. So either pass a
-	 * String (and any ID) OR null and a valid ID.
+	 * String + ID --OR-- a String + null.
 	 * 
 	 * @param solo
 	 *            Use Robotium functionality
@@ -487,9 +488,14 @@ public class UiTestUtils {
 	 * @param overflowMenuItemId
 	 *            ID of an action item (icon)
 	 */
-	public static void openActionMode(Solo solo, String overflowMenuItemName, int overflowMenuItemId) {
-		if (overflowMenuItemName == null) { // Action item
-			UiTestUtils.clickOnActionBar(solo, overflowMenuItemId);
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId) {
+		if (overflowMenuItemName != null && menuItemId != 0) {
+
+			if (solo.getView(menuItemId) == null) {
+				solo.clickOnMenuItem(overflowMenuItemName, true);
+			} else {
+				UiTestUtils.clickOnActionBar(solo, menuItemId);
+			}
 		} else { // From overflow menu
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
