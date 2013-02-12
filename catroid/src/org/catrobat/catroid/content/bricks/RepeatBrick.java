@@ -76,7 +76,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 		View view = View.inflate(context, R.layout.brick_repeat, null);
 
-		TextView text = (TextView) view.findViewById(R.id.brick_repeat_text_view);
+		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");
 

@@ -53,10 +53,8 @@ public class StorageHandler {
 	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static StorageHandler instance;
-	private XmlSerializer serializer;
 
 	private StorageHandler() throws IOException {
-		serializer = new XmlSerializer();
 		if (!Utils.externalStorageAvailable()) {
 			throw new IOException("Could not read external storage");
 		}
@@ -130,7 +128,7 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

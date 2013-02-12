@@ -119,7 +119,7 @@ public class BroadcastWaitBrick implements Brick {
 
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 
-		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
+		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
 		broadcastSpinner.setAdapter(projectManager.getMessageContainer().getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);
 		broadcastSpinner.setFocusable(true);
@@ -149,7 +149,7 @@ public class BroadcastWaitBrick implements Brick {
 			broadcastSpinner.setSelection(position);
 		}
 
-		Button newBroadcastMessage = (Button) view.findViewById(R.id.broadcast_new_message);
+		Button newBroadcastMessage = (Button) view.findViewById(R.id.brick_broadcast_wait_button_new_message);
 		newBroadcastMessage.setClickable(true);
 		newBroadcastMessage.setFocusable(true);
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {

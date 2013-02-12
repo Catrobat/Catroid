@@ -20,27 +20,28 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/brick_blue"
-    android:orientation="horizontal" >
+    style="@style/BrickContainer.Motion.Small" >
 
     <TextView
-        android:id="@+id/ValueTextView"
-        style="@style/BrickText"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="10dip"
+        style="@style/BrickText.SingleLine"
         android:text="@string/brick_point_in_direction" >
     </TextView>
 
-    <Spinner
-        android:id="@+id/point_in_direction_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:focusable="false" />
+    <TextView
+        android:id="@+id/brick_point_in_direction_prototype_text_view"
+        style="@style/BrickPrototypeTextView" />
+
+    <EditText
+        android:id="@+id/brick_point_in_direction_edit_text"
+        style="@style/BrickEditText"
+        android:inputType="number|numberDecimal|numberSigned" >
+    </EditText>
+
+    <TextView
+        style="@style/BrickText.SingleLine"
+        android:text="@string/degree_symbol" >
+    </TextView>
 
 </LinearLayout>
