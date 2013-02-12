@@ -661,7 +661,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.waitForText(delete, 1, timeToWait, false, true);
 
 		assertFalse("Resolution prefix not gone on active ActionMode", solo.searchText(lookResoltionPrefixText, true));
@@ -688,7 +688,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on copy ActionMode
-		UiTestUtils.openActionMode(solo, null, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+
 		solo.waitForText(copy, 1, timeToWait, false, true);
 
 		assertFalse("Resolution prefix not gone on active ActionMode", solo.searchText(lookResoltionPrefixText, true));
@@ -783,7 +784,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		int timeToWaitForTitle = 300;
 
@@ -829,7 +830,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		// Check if delete ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -843,7 +844,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -860,7 +861,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int currentNumberOfLooks = lookDataList.size();
 		int expectedNumberOfLooks = currentNumberOfLooks - 1;
 
-		UiTestUtils.openActionMode(solo, null, R.id.delete);
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 
@@ -878,7 +879,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testCopyActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, null, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		int timeToWaitForTitle = 300;
 
@@ -924,7 +925,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testCopyActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, null, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		// Check if copy ActionMode disappears if nothing was selected
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -937,7 +938,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testCopyActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, null, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
@@ -955,7 +956,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		String copiedLookAddition = "_" + solo.getString(R.string.copy_look_addition);
 
-		UiTestUtils.openActionMode(solo, null, R.id.copy);
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
