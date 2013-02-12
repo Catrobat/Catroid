@@ -181,7 +181,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int oldCount = adapter.getCount();
 
 		clickOnContextMenuItem(testLookName, copy);
-		solo.sleep(50);
+		solo.sleep(300);
 
 		int newCount = adapter.getCount();
 
