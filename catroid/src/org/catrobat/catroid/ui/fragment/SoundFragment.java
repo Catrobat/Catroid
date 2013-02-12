@@ -98,8 +98,6 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 
 	private ListView listView;
 
-	private View currentPlayingView = null;
-
 	private SoundDeletedReceiver soundDeletedReceiver;
 	private SoundRenamedReceiver soundRenamedReceiver;
 
@@ -275,8 +273,8 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	}
 
 	@Override
-	public void onSoundPause() {
-		handlePauseSoundButton();
+	public void onSoundPause(View view) {
+		handlePauseSoundButton(view);
 	}
 
 	@Override
@@ -357,15 +355,12 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			startSound(soundInfo);
 			adapter.notifyDataSetChanged();
 		}
-		currentPlayingView = view;
 
 		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
 				soundInfo.isPlaying = false;
 				adapter.notifyDataSetChanged();
-
-				currentPlayingView = null;
 			}
 		});
 	}
@@ -374,12 +369,10 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		return mediaPlayer.isPlaying();
 	}
 
-	public void handlePauseSoundButton() {
-		if (currentPlayingView != null) {
-			final int position = (Integer) currentPlayingView.getTag();
-			pauseSound(soundInfoList.get(position));
-			adapter.notifyDataSetChanged();
-		}
+	public void handlePauseSoundButton(View view) {
+		final int position = (Integer) view.getTag();
+		pauseSound(soundInfoList.get(position));
+		adapter.notifyDataSetChanged();
 	}
 
 	public void pauseSound(SoundInfo soundInfo) {

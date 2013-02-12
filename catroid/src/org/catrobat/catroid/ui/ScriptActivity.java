@@ -120,7 +120,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				if (itemPosition != currentFragmentPosition) {
 
 					if (currentFragmentPosition == FRAGMENT_SOUNDS && soundFragment.isSoundPlaying()) {
-						soundFragment.handlePauseSoundButton();
+						soundFragment.stopSoundAndUpdateList();
 					}
 
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
