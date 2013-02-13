@@ -424,6 +424,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		menu.findItem(R.id.context_menu_copy).setVisible(false);
 	}
 
 	@Override
