@@ -201,7 +201,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		Log.d("TEST", "Look to delete: " + lookToDelete.getLookName());
 
 		String testLookName = SECOND_TEST_LOOK_NAME;
-		assertEquals(testLookName, lookToDelete.getLookName());
+		assertEquals("The two names should be equal", testLookName, lookToDelete.getLookName());
 
 		LookAdapter adapter = getLookAdapter();
 		assertNotNull("Could not get Adapter", adapter);
