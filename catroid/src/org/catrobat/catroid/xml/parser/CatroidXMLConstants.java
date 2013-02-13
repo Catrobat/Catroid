@@ -58,16 +58,16 @@ public class CatroidXMLConstants {
 	public static final String SOUND_INFO_CLASS_NAME = "SoundInfo";
 	public static final String SOUND_INFO_FIELD_NAME = "sound";
 
-	public static final String COSTUME_DATA_ELEMENT_NAME = "Costume";
-	public static final String COSTUME_LIST_ELEMENT_NAME = "CostumeList";
-	public static final String COSTUME_LIST_FIELD_NAME = "costumeList";
-	public static final String COSTUME_DATA_FIELD_NAME = "costume";
-	public static final String COSTUME_DATA_CLASS_NAME = "CostumeData";
+	public static final String LOOK_DATA_ELEMENT_NAME = "Look";
+	public static final String LOOK_LIST_ELEMENT_NAME = "LookList";
+	public static final String LOOK_LIST_FIELD_NAME = "lookList";
+	public static final String LOOK_DATA_FIELD_NAME = "look";
+	public static final String LOOK_DATA_CLASS_NAME = "LookData";
 
 	public static final String FILE_NAME = "FileName";
 	public static final String NAME = "Name";
 
-	public static final String COSTUMEREFERENCE_FROM_BRICK = "../../../../../CostumeList/Costume";
+	public static final String LOOKREFERENCE_FROM_BRICK = "../../../../../LookList/Look";
 	public static final String SPRITEREFERENCE_FROM_BRICK = "../../../../../../Sprite";
 	public static final String SOUNDREFERENCE_FROM_BRICK = "../../../../../SoundList/Sound";
 }

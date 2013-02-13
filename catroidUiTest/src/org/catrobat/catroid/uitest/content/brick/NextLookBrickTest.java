@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.NextCostumeBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -42,12 +42,12 @@ import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NextCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class NextLookBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 
 	private Solo solo;
 	private Project project;
 
-	public NextCostumeBrickTest() {
+	public NextLookBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -66,7 +66,7 @@ public class NextCostumeBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	@Smoke
-	public void testNextCostumeBrick() {
+	public void testNextLookBrick() {
 		ListView view = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) view.getAdapter();
 
@@ -80,7 +80,7 @@ public class NextCostumeBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_next_costume)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_next_look)));
 	}
 
 	private void createProject() {
@@ -88,7 +88,7 @@ public class NextCostumeBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 		ProjectManager.getInstance().setProject(project);
-		script.addBrick(new NextCostumeBrick(sprite));
+		script.addBrick(new NextLookBrick(sprite));
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

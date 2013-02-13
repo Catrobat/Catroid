@@ -22,49 +22,49 @@
  */
 package org.catrobat.catroid.xml.serializer;
 
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_LIST_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.LOOK_DATA_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.LOOK_LIST_ELEMENT_NAME;
 import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.FILE_NAME;
 import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.NAME;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 
-public class CostumeSerializer extends Serializer {
+public class LookSerializer extends Serializer {
 
-	private final String costumeTabs = TAB + TAB + TAB;
+	private final String lookTabs = TAB + TAB + TAB;
 
 	@Override
 	public List<String> serialize(Object object) throws IllegalArgumentException, IllegalAccessException,
 			SecurityException, NoSuchFieldException {
-		CostumeData costumedata = (CostumeData) object;
-		String costumeFileName = costumedata.getCostumeFileName();
-		String costumeName = costumedata.getCostumeName();
-		List<String> costumeStringList = new ArrayList<String>();
+		LookData lookdata = (LookData) object;
+		String lookFileName = lookdata.getLookFileName();
+		String lookName = lookdata.getLookName();
+		List<String> lookStringList = new ArrayList<String>();
 		String xmlElementString = "";
-		xmlElementString = costumeTabs + TAB + getStartTag(COSTUME_DATA_ELEMENT_NAME);
-		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + TAB + TAB + getElementString(FILE_NAME, costumeFileName);
-		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + TAB + TAB + getElementString(NAME, costumeName);
-		costumeStringList.add(xmlElementString);
-		xmlElementString = costumeTabs + TAB + getEndTag(COSTUME_DATA_ELEMENT_NAME);
-		costumeStringList.add(xmlElementString);
+		xmlElementString = lookTabs + TAB + getStartTag(LOOK_DATA_ELEMENT_NAME);
+		lookStringList.add(xmlElementString);
+		xmlElementString = lookTabs + TAB + TAB + getElementString(FILE_NAME, lookFileName);
+		lookStringList.add(xmlElementString);
+		xmlElementString = lookTabs + TAB + TAB + getElementString(NAME, lookName);
+		lookStringList.add(xmlElementString);
+		xmlElementString = lookTabs + TAB + getEndTag(LOOK_DATA_ELEMENT_NAME);
+		lookStringList.add(xmlElementString);
 
-		return costumeStringList;
+		return lookStringList;
 	}
 
-	public List<String> serializeCostumeList(List<CostumeData> costumeList) throws IllegalArgumentException,
+	public List<String> serializeLookList(List<LookData> lookList) throws IllegalArgumentException,
 			SecurityException, IllegalAccessException, NoSuchFieldException {
-		List<String> costumeStrings = new ArrayList<String>();
-		costumeStrings.add(costumeTabs + getStartTag(COSTUME_LIST_ELEMENT_NAME));
-		for (CostumeData costumeData : costumeList) {
-			costumeStrings.addAll(this.serialize(costumeData));
+		List<String> lookStrings = new ArrayList<String>();
+		lookStrings.add(lookTabs + getStartTag(LOOK_LIST_ELEMENT_NAME));
+		for (LookData lookData : lookList) {
+			lookStrings.addAll(this.serialize(lookData));
 		}
-		costumeStrings.add(costumeTabs + getEndTag(COSTUME_LIST_ELEMENT_NAME));
-		return costumeStrings;
+		lookStrings.add(lookTabs + getEndTag(LOOK_LIST_ELEMENT_NAME));
+		return lookStrings;
 	}
 
 }

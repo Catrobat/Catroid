@@ -77,15 +77,15 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 
 	public void testSize() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.scaleX);
-		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.scaleY);
+		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.scaleX);
+		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.scaleY);
 
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, size);
 		setSizeToBrick.execute();
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", (float) size / 100,
-				sprite.costume.scaleX);
+				sprite.look.scaleX);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", (float) size / 100,
-				sprite.costume.scaleY);
+				sprite.look.scaleY);
 	}
 
 	public void testNullSprite() {

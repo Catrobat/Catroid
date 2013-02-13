@@ -131,7 +131,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		// Test if the correct category opens when clicked
 		String brickPlaceAtText = solo.getString(R.string.brick_place_at_x);
-		String brickSetCostume = solo.getString(R.string.brick_set_costume);
+		String brickSetLook = solo.getString(R.string.brick_set_look);
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
 		String brickLegoStopMotor = solo.getString(R.string.motor_stop);
@@ -143,7 +143,7 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 
 		solo.clickOnText(categoryLooksLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
-				solo.waitForText(brickSetCostume, 0, 2000));
+				solo.waitForText(brickSetLook, 0, 2000));
 		solo.goBack();
 
 		solo.clickOnText(categorySoundLabel);
@@ -255,16 +255,16 @@ public class ScriptFragmentTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooks);
-		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
+		assertTrue("SetLookBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
-		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
+		assertTrue("SetLookBrick was not renamed for background sprite", solo.searchText(setBackground));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryLooks);
-		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
+		assertTrue("NextLookBrick was not renamed for background sprite", solo.searchText(nextBackground));
 		solo.clickOnText(nextBackground);
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
-		assertTrue("NextCostumeBrick was not renamed for background sprite", solo.searchText(nextBackground));
+		assertTrue("NextLookBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryMotion);
