@@ -117,7 +117,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.goBack();
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.clickOnButton(solo.getString(R.string.delete_lowercase));
+		solo.clickOnButton(solo.getString(R.string.delete));
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
@@ -157,10 +157,8 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		String lookPath = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(0)
-				.getAbsolutePath();
-		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", look1ImagePath,
-				lookPath);
+		String lookPath = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(0).getAbsolutePath();
+		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", look1ImagePath, lookPath);
 		solo.goBack();
 		solo.goBack();
 
@@ -178,8 +176,7 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		String lookPath = ProjectManager.getInstance().getCurrentSprite().look.getImagePath();
-		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", lookImagePath,
-				lookPath);
+		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", lookImagePath, lookPath);
 		solo.goBack();
 		solo.goBack();
 	}
@@ -206,14 +203,14 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		projectManager.setCurrentScript(testScript);
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
-		lookFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image.png",
-				RESOURCE_LOOK, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
+		lookFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image.png", RESOURCE_LOOK,
+				getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(lookFile.getName());
 		lookData.setLookName(lookName);
 
-		lookFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image2.png",
-				RESOURCE_LOOK2, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
+		lookFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "image2.png", RESOURCE_LOOK2,
+				getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 		LookData lookData2 = new LookData();
 		lookData2.setLookFilename(lookFile2.getName());
 		lookData2.setLookName(lookName2);

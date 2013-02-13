@@ -87,7 +87,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		addLooksToProject();
 		String buttonOkText = solo.getString(R.string.ok);
 		String buttonCancelText = solo.getString(R.string.cancel_button);
-		String deleteLookText = solo.getString(R.string.delete_lowercase);
+		String deleteLookText = solo.getString(R.string.delete);
 		String scriptsSpinnerText = solo.getString(R.string.scripts);
 		String looksSpinnerText = solo.getString(R.string.category_looks);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
