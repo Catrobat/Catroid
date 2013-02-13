@@ -22,13 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -64,25 +61,25 @@ public class BroadcastBrick implements Brick {
 
 	@Override
 	public void execute() {
-		final Vector<BroadcastScript> receiver = projectManager.getMessageContainer().getReceiverOfMessage(
-				broadcastMessage);
-		if (receiver == null) {
-			return;
-		}
-		if (receiver.size() == 0) {
-			return;
-		}
-		Thread startThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				CountDownLatch simultaneousStart = new CountDownLatch(1);
-				for (BroadcastScript receiverScript : receiver) {
-					receiverScript.executeBroadcast(simultaneousStart);
-				}
-				simultaneousStart.countDown();
-			}
-		});
-		startThread.start();
+		//		final Vector<BroadcastScript> receiver = projectManager.getMessageContainer().getReceiverOfMessage(
+		//				broadcastMessage);
+		//		if (receiver == null) {
+		//			return;
+		//		}
+		//		if (receiver.size() == 0) {
+		//			return;
+		//		}
+		//		Thread startThread = new Thread(new Runnable() {
+		//			@Override
+		//			public void run() {
+		//				CountDownLatch simultaneousStart = new CountDownLatch(1);
+		//				for (BroadcastScript receiverScript : receiver) {
+		//					receiverScript.executeBroadcast(simultaneousStart);
+		//				}
+		//				simultaneousStart.countDown();
+		//			}
+		//		});
+		//		startThread.start();
 	}
 
 	@Override
@@ -193,16 +190,9 @@ public class BroadcastBrick implements Brick {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
 		return null;
 	}
 }

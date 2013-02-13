@@ -25,9 +25,26 @@ package org.catrobat.catroid.content.actions;
 import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.Array;
 
 public class ExtendedActions extends Actions {
+
+	public static BroadcastAction broadcast(Sprite sprite, String broadcastMessage) {
+		BroadcastAction action = action(BroadcastAction.class);
+		action.setSprite(sprite);
+		action.setBroadcastMessage(broadcastMessage);
+		return action;
+	}
+
+	public static GlideToAction glideTo(Sprite sprite, float x, float y) {
+		GlideToAction action = action(GlideToAction.class);
+		action.setSprite(sprite);
+		action.setPosition(x, y);
+		return action;
+	}
 
 	public static HideAction hide(Sprite sprite) {
 		HideAction action = action(HideAction.class);
@@ -46,6 +63,18 @@ public class ExtendedActions extends Actions {
 		ShowAction action = action(ShowAction.class);
 		action.setSprite(sprite);
 		return action;
+	}
+
+	public static SequenceAction copySequenceAction(SequenceAction source) {
+		SequenceAction destination = ExtendedActions.sequence();
+		Array<Action> sourceActions = source.getActions();
+		Array<Action> destActions = new Array<Action>(sourceActions);
+		for (Action action : destActions) {
+			action.restart();
+			destination.addAction(action);
+		}
+		destination.restart();
+		return destination;
 	}
 
 }

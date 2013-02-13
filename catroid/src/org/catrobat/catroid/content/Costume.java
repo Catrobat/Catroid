@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.content;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
 import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -52,7 +54,8 @@ public class Costume extends Image {
 	public boolean show;
 	public int zPosition;
 	protected Pixmap pixmap;
-	protected HashMap<String, SequenceAction> broadcastSequenceMap;
+	private HashMap<String, SequenceAction> broadcastSequenceMap;
+	private ArrayList<SequenceAction> touchDownSequenceList;
 
 	public Costume(Sprite sprite) {
 		this.sprite = sprite;
@@ -65,6 +68,7 @@ public class Costume extends Image {
 		this.brightnessValue = 1f;
 		this.show = true;
 		this.zPosition = 0;
+		this.touchDownSequenceList = new ArrayList<SequenceAction>();
 		this.broadcastSequenceMap = new HashMap<String, SequenceAction>();
 		this.addListener(new InputListener() {
 			@Override
@@ -98,7 +102,10 @@ public class Costume extends Image {
 
 		if (x >= 0 && x <= width && y >= 0 && y <= height) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				sprite.startWhenScripts("Tapped");
+				for (SequenceAction action : touchDownSequenceList) {
+					SequenceAction copyAction = ExtendedActions.copySequenceAction(action);
+					addAction(copyAction);
+				}
 				return true;
 			}
 		}
@@ -106,8 +113,12 @@ public class Costume extends Image {
 	}
 
 	public void doHandleBroadcastEvent(String broadcastMessage) {
+		//if (broadcastScriptMap.containsKey(broadcastMessage)) {
+		//sprite.startScriptBroadcast(broadcastScriptMap.get(broadcastMessage), true);
 		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
-			//this.addAction(action)
+			SequenceAction action = broadcastSequenceMap.get(broadcastMessage);
+			SequenceAction copyAction = ExtendedActions.copySequenceAction(action);
+			addAction(copyAction);
 		}
 	}
 
@@ -337,12 +348,20 @@ public class Costume extends Image {
 		return costumeData;
 	}
 
-	public void setBroadcastSequenceAction(String broadcastMessage, SequenceAction broadcastAction) {
-		broadcastSequenceMap.put(broadcastMessage, broadcastAction);
+	public void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
+		broadcastSequenceMap.put(broadcastMessage, action);
 	}
 
 	public void removeBroadcastSequenceAction(String broadcastMessage) {
 		broadcastSequenceMap.remove(broadcastMessage);
+	}
+
+	public void addTouchDownSequenceAction(SequenceAction action) {
+		touchDownSequenceList.add(action);
+	}
+
+	public void removeTouchDownSequenceAction(SequenceAction action) {
+		touchDownSequenceList.remove(action);
 	}
 
 }

@@ -175,13 +175,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		// TODO Auto-generated method stub

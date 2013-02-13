@@ -32,7 +32,6 @@ public class BroadcastListener implements EventListener {
 		if (e instanceof BroadcastEvent) {
 			BroadcastEvent event = (BroadcastEvent) e;
 			handleBroadcastEvent(event, event.getBroadcastMessage());
-			return true;
 		}
 		return false;
 	}

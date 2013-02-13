@@ -79,44 +79,44 @@ public class GlideToBrick implements Brick, OnClickListener {
 		//			latch.await();
 		//		} catch (InterruptedException e) {
 		//		}
-		long startTime = System.currentTimeMillis();
-		int duration = durationInMilliSeconds;
-		while (duration > 0) {
-			if (!sprite.isAlive(Thread.currentThread())) {
-				break;
-			}
-			long timeBeforeSleep = System.currentTimeMillis();
-			int sleep = 33;
-			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
-
-				if (sprite.isPaused) {
-					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
-					long milliSecondsBeforePause = System.currentTimeMillis();
-					while (sprite.isPaused) {
-						if (sprite.isFinished) {
-							return;
-						}
-						Thread.yield();
-					}
-					timeBeforeSleep = System.currentTimeMillis();
-					startTime += System.currentTimeMillis() - milliSecondsBeforePause;
-				}
-
-				Thread.yield();
-			}
-			long currentTime = System.currentTimeMillis();
-			duration -= (int) (currentTime - startTime);
-			updatePositions((int) (currentTime - startTime), duration);
-			startTime = currentTime;
-		}
-
-		if (!sprite.isAlive(Thread.currentThread())) {
-			// -stay at last position
-		} else {
-			sprite.costume.aquireXYWidthHeightLock();
-			sprite.costume.setXYPosition(xDestination, yDestination);
-			sprite.costume.releaseXYWidthHeightLock();
-		}
+		//		long startTime = System.currentTimeMillis();
+		//		int duration = durationInMilliSeconds;
+		//		while (duration > 0) {
+		//			if (!sprite.isAlive(Thread.currentThread())) {
+		//				break;
+		//			}
+		//			long timeBeforeSleep = System.currentTimeMillis();
+		//			int sleep = 33;
+		//			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
+		//
+		//				if (sprite.isPaused) {
+		//					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
+		//					long milliSecondsBeforePause = System.currentTimeMillis();
+		//					while (sprite.isPaused) {
+		//						if (sprite.isFinished) {
+		//							return;
+		//						}
+		//						Thread.yield();
+		//					}
+		//					timeBeforeSleep = System.currentTimeMillis();
+		//					startTime += System.currentTimeMillis() - milliSecondsBeforePause;
+		//				}
+		//
+		//				Thread.yield();
+		//			}
+		//			long currentTime = System.currentTimeMillis();
+		//			duration -= (int) (currentTime - startTime);
+		//			updatePositions((int) (currentTime - startTime), duration);
+		//			startTime = currentTime;
+		//		}
+		//
+		//		if (!sprite.isAlive(Thread.currentThread())) {
+		//			// -stay at last position
+		//		} else {
+		//			sprite.costume.aquireXYWidthHeightLock();
+		//			sprite.costume.setXYPosition(xDestination, yDestination);
+		//			sprite.costume.releaseXYWidthHeightLock();
+		//		}
 	}
 
 	private void updatePositions(int timePassed, int duration) {
@@ -225,17 +225,13 @@ public class GlideToBrick implements Brick, OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_glide_to_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		float durationInSeconds = durationInMilliSeconds / 1000f;
-		sequence.addAction(ExtendedActions.moveTo(xDestination, yDestination, durationInSeconds));
+		float xFloat = Float.valueOf(xDestination - sprite.costume.getWidth() / 2f);
+		float yFloat = Float.valueOf(yDestination - sprite.costume.getHeight() / 2f);
+		sequence.addAction(ExtendedActions.moveTo(xFloat, yFloat, durationInSeconds));
+		//		sequence.addAction(ExtendedActions.glideTo(sprite, xFloat, yFloat));
 		return null;
 	}
 }

@@ -112,6 +112,19 @@ public class Sprite implements Serializable {
 					startScript(s, true);
 				}
 			}
+			if (s instanceof BroadcastScript) {
+				SequenceAction sequence = ExtendedActions.sequence();
+				BroadcastScript script = (BroadcastScript) s;
+				script.run(sequence);
+				costume.putBroadcastSequenceAction(script.getBroadcastMessage(), sequence);
+				//				costume.putBroadcastScript(script.getBroadcastMessage(), script);
+			}
+			if (s instanceof WhenScript) {
+				SequenceAction sequence = ExtendedActions.sequence();
+				s.run(sequence);
+				//sequence.addAction(ExtendedActions.sequenceEnd(sequence));
+				costume.addTouchDownSequenceAction(sequence);
+			}
 		}
 	}
 
@@ -150,6 +163,12 @@ public class Sprite implements Serializable {
 			}
 		}
 		t.start();
+	}
+
+	public void startScriptBroadcast(Script s, boolean overload) {
+		SequenceAction sequence = ExtendedActions.sequence();
+		s.run(sequence);
+		costume.addAction(sequence);
 	}
 
 	public synchronized void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {

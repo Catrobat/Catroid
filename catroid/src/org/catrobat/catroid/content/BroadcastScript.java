@@ -28,7 +28,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
-
 public class BroadcastScript extends Script {
 
 	private static final long serialVersionUID = 1L;
