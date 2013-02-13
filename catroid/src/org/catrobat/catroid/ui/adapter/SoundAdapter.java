@@ -25,8 +25,8 @@ package org.catrobat.catroid.ui.adapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -60,7 +60,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	private static long elapsedMilliSeconds;
 	private static long currentPlayingBase;
 	private boolean showDetails;
-	private Set<Integer> checkedSounds = new HashSet<Integer>();
+	private SortedSet<Integer> checkedSounds = new TreeSet<Integer>();
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
 
@@ -267,7 +267,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	}
 
 	@Override
-	public Set<Integer> getCheckedItems() {
+	public SortedSet<Integer> getCheckedItems() {
 		return checkedSounds;
 	}
 

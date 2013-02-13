@@ -24,8 +24,8 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -53,7 +53,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 
 	private int selectMode;
 	private boolean showDetails;
-	private Set<Integer> checkedLooks = new HashSet<Integer>();
+	private SortedSet<Integer> checkedLooks = new TreeSet<Integer>();
 
 	public LookAdapter(final Context context, int textViewResourceId, ArrayList<LookData> items, boolean showDetails) {
 		super(context, textViewResourceId, items);
@@ -207,7 +207,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 	}
 
 	@Override
-	public Set<Integer> getCheckedItems() {
+	public SortedSet<Integer> getCheckedItems() {
 		return checkedLooks;
 	}
 
