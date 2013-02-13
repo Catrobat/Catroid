@@ -563,7 +563,8 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 		int currentNumberOfSounds = soundInfoList.size();
 		assertEquals("Wrong number of sounds", 5, currentNumberOfSounds);
 
-		int[] checkboxIndicesToCheck = { 0, 2, 4 };
+		// Unsorted (not ascending)
+		int[] checkboxIndicesToCheck = { 4, 0, 2 };
 
 		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
 

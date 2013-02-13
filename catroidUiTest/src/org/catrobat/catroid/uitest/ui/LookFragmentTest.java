@@ -898,7 +898,8 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int currentNumberOfLooks = lookDataList.size();
 		assertEquals("Wrong number of looks", 5, currentNumberOfLooks);
 
-		int[] checkboxIndicesToCheck = { 0, 2, 4 };
+		// Unsorted (not ascending)
+		int[] checkboxIndicesToCheck = { 4, 0, 2 };
 
 		int expectedNumberOfLooks = currentNumberOfLooks - checkboxIndicesToCheck.length;
 
