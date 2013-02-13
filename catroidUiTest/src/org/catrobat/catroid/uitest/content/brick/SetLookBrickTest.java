@@ -109,20 +109,25 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("look not set", look.getImagePath(), lookDataList.get(1).getAbsolutePath());
 	}
 
-	public void testSpinnerUpdates() {
+	public void testSpinnerUpdatesDelete() {
 		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
+
 		solo.clickOnText(spinnerNothingText);
+
 		assertTrue(lookName + " is not in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
+
 		solo.goBack();
 		solo.goBack();
 		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.clickOnButton(solo.getString(R.string.delete));
+
+		clickOnContextMenuItem(lookName, solo.getString(R.string.delete));
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
 
 		solo.clickOnText(spinnerNothingText);
+
 		assertFalse(lookName + " is still in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
 	}
@@ -132,19 +137,23 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		String spinnerNothingText = solo.getString(R.string.broadcast_nothing_selected);
 
 		solo.clickOnText(spinnerNothingText);
+
 		assertTrue(lookName + " is not in Spinner", solo.searchText(lookName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
+
 		solo.goBack();
 		solo.goBack();
 
 		solo.clickOnText(solo.getString(R.string.backgrounds));
-		solo.clickOnView(solo.getView(R.id.look_name));
-		solo.clearEditText(0);
-		solo.enterText(0, newName);
-		solo.clickOnButton(solo.getString(R.string.ok));
+
+		clickOnContextMenuItem(lookName, solo.getString(R.string.rename));
+
+		UiTestUtils.clickEnterClose(solo, 0, newName);
 
 		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
+
 		solo.clickOnText(spinnerNothingText);
+
 		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
 		assertTrue(lookName2 + " is not in Spinner", solo.searchText(lookName2));
 	}
@@ -221,5 +230,11 @@ public class SetLookBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 				.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(lookData2.getChecksum(), lookData2.getAbsolutePath());
+	}
+
+	private void clickOnContextMenuItem(String lookName, String menuItemName) {
+		solo.clickLongOnText(lookName);
+		solo.waitForText(menuItemName);
+		solo.clickOnText(menuItemName);
 	}
 }
