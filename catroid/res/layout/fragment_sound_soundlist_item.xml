@@ -31,7 +31,7 @@
     android:paddingRight="6dp" >
 
     <CheckBox
-        android:id="@+id/checkbox"
+        android:id="@+id/sound_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -41,7 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="2dp" >
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp" >
 
         <ImageButton
             android:id="@+id/btn_sound_play"
@@ -65,32 +66,27 @@
         android:layout_weight="1"
         android:gravity="center_vertical" >
 
-        <TextView style="@style/sound_text"
+        <TextView style="@style/fragment_text"
             android:id="@+id/sound_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/solid_black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content" />
 
-        <TextView style="@style/sound_text"
+        <TextView style="@style/fragment_detail"
             android:id="@+id/sound_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/backbrown"
-            android:textSize="14sp"
+            android:layout_marginLeft="8dp"
             android:visibility="gone" />
     </LinearLayout>
 
-    <Chronometer style="@style/sound_time"
+    <Chronometer style="@style/fragment_detail"
         android:id="@+id/sound_chronometer_time_played"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
-        android:textColor="@color/backbrown"
         android:visibility="gone" />
 
-    <TextView style="@style/sound_time"
+    <TextView style="@style/fragment_detail"
         android:id="@+id/sound_time_seperator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,11 +94,12 @@
         android:text="@string/sound_time_seperator"
         android:visibility="gone" />
 
-    <TextView style="@style/sound_time"
+    <TextView style="@style/fragment_detail"
         android:id="@+id/sound_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="6dp"
-        android:gravity="right|center_vertical" />
+        android:gravity="right|center_vertical"
+        android:textColor="@color/solid_black" />
 
 </LinearLayout>

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -45,7 +45,7 @@ public abstract class Serializer {
 	Script serializedScript;
 	List<Brick> brickList;
 	List<String> referenceStrings;
-	List<CostumeData> costumeList;
+	List<LookData> lookList;
 	List<Sprite> spriteList;
 	List<SoundInfo> soundList;
 
@@ -80,8 +80,8 @@ public abstract class Serializer {
 					} else {
 						reference = "TODO for bricks of other scripts";
 					}
-				} else if (referencedObjectName.equals(COSTUME_DATA_CLASS_NAME)) {
-					reference = getReferenceIndexSuffix(COSTUMEREFERENCE_FROM_BRICK, referencedObject, costumeList);
+				} else if (referencedObjectName.equals(LOOK_DATA_CLASS_NAME)) {
+					reference = getReferenceIndexSuffix(LOOKREFERENCE_FROM_BRICK, referencedObject, lookList);
 				} else if (referencedObjectName.equals(SPRITE_ELEMENT_NAME)) {
 					reference = getReferenceIndexSuffix(SPRITEREFERENCE_FROM_BRICK, referencedObject, spriteList);
 				} else if (referencedObjectName.equals(SOUND_INFO_CLASS_NAME)) {

@@ -40,7 +40,7 @@ import java.util.concurrent.Semaphore;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
@@ -72,6 +72,7 @@ import android.widget.LinearLayout;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Utils {
@@ -293,21 +294,21 @@ public class Utils {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
 	}
 
-	public static String getUniqueCostumeName(String name) {
-		return searchForNonExistingCostumeName(name, 0);
+	public static String getUniqueLookName(String name) {
+		return searchForNonExistingLookName(name, 0);
 	}
 
-	private static String searchForNonExistingCostumeName(String name, int nextNumber) {
+	private static String searchForNonExistingLookName(String name, int nextNumber) {
 		String newName;
-		ArrayList<CostumeData> costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 		if (nextNumber == 0) {
 			newName = name;
 		} else {
 			newName = name + nextNumber;
 		}
-		for (CostumeData costumeData : costumeDataList) {
-			if (costumeData.getCostumeName().equals(newName)) {
-				return searchForNonExistingCostumeName(name, ++nextNumber);
+		for (LookData lookData : lookDataList) {
+			if (lookData.getLookName().equals(newName)) {
+				return searchForNonExistingLookName(name, ++nextNumber);
 			}
 		}
 		return newName;
@@ -358,6 +359,7 @@ public class Utils {
 	public static Pixmap getPixmapFromFile(File imageFile) {
 		Pixmap pixmap = null;
 		try {
+			GdxNativesLoader.load();
 			pixmap = new Pixmap(new FileHandle(imageFile));
 		} catch (GdxRuntimeException e) {
 			return null;

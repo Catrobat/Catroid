@@ -21,18 +21,21 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_costume_relative_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BrickContainer.Look.Medium"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
 
-    <!-- Costume list -->
+    <TextView
+        android:id="@+id/brick_set_look_prototype_text_view"
+        style="@style/BrickText.SingleLine"
+        android:text="@string/brick_set_look" />
 
-    <ListView
-        android:id="@android:id/list"
+    <Spinner
+        android:id="@+id/setlook_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:cacheColorHint="#00000000" />
+        android:clickable="false"
+        android:focusable="false" />
 
-</RelativeLayout>
+</LinearLayout>
