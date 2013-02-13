@@ -33,7 +33,6 @@
     <string name="cancel_button">Anulare</string>
     <string name="rename">Redenumire</string>
     <string name="delete">Ștergere</string>
-    <string name="delete_lowercase">ștergere</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <!-- User interface -->
@@ -108,7 +107,6 @@
     <!-- <string name="look_list">Imagine:</string> -->
     <string name="rename_look_dialog">Redenumirea imaginii</string>
     <string name="edit_look">editare</string>
-    <string name="edit_look_paintroid">Paintroid</string>
     <string name="lookname_invalid">Această imagine este nevalidă</string>
     <!-- <string name="edit_in_paintroid">Editare în paintroid</string> -->
     <string name="copy_look_addition">copiere</string>

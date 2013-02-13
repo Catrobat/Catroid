@@ -33,7 +33,6 @@
     <string name="cancel_button">Отмена</string>
     <string name="rename">Переименовать</string>
     <string name="delete">Удалить</string>
-    <string name="delete_lowercase">удалить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <!-- User interface -->
@@ -108,7 +107,6 @@
     <!-- <string name="look_list">Изображение:</string> -->
     <string name="rename_look_dialog">Переименовать изображение</string>
     <string name="edit_look">редактировать</string>
-    <string name="edit_look_paintroid">Paintroid</string>
     <string name="lookname_invalid">Это название изображение является недействительным</string>
     <!-- <string name="edit_in_paintroid">Редактировать в paintroid</string> -->
     <string name="copy_look_addition">скопировать</string>

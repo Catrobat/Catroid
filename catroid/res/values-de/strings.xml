@@ -28,7 +28,6 @@
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
-    <string name="delete_lowercase">löschen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="copy">Kopieren</string>
@@ -105,7 +104,6 @@
 
     <!-- Look fragment -->
     <string name="rename_look_dialog">Kostüm umbenennen</string>
-    <string name="edit_look_paintroid">Paintroid</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="copy_look_addition">Kopie</string>
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>

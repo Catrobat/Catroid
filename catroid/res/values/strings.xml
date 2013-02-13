@@ -28,7 +28,6 @@
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
-    <string name="delete_lowercase">delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="copy">Copy</string>
@@ -106,7 +105,6 @@
 
     <!-- Look fragment -->
     <string name="rename_look_dialog">Rename Look</string>
-    <string name="edit_look_paintroid">Paintroid</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
     <string name="copy_look_addition">copy</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
