@@ -549,7 +549,7 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
-	public void testDeleteAndCopyActionMode() {
+	public void testAddLookAndDeleteActionMode() {
 		String testSoundName = "testSound";
 
 		addNewSound(testSoundName);
