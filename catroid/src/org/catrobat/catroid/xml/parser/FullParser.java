@@ -55,7 +55,7 @@ public class FullParser {
 	public static Project parseSpritesWithProject(InputStream xmlInputStream) throws ParseException {
 		Map<String, Object> referencedObjects = new HashMap<String, Object>();
 		List<ForwardReference> forwardReferences = new ArrayList<ForwardReference>();
-		CostumeParser costumeParser = new CostumeParser();
+		LookParser lookParser = new LookParser();
 		SoundInfoParser soundParser = new SoundInfoParser();
 		ScriptParser scriptParser = new ScriptParser();
 
@@ -74,10 +74,10 @@ public class FullParser {
 				String spriteName = getSpriteName(spriteElement);
 				Sprite foundSprite = new Sprite(spriteName);
 
-				Node costumeListItem = spriteElement.getElementsByTagName(COSTUME_LIST_ELEMENT_NAME).item(0);
-				if (costumeListItem != null) {
-					NodeList costumeNodes = costumeListItem.getChildNodes();
-					costumeParser.parseCostumeList(costumeNodes, foundSprite, referencedObjects);
+				Node lookListItem = spriteElement.getElementsByTagName(LOOK_LIST_ELEMENT_NAME).item(0);
+				if (lookListItem != null) {
+					NodeList lookNodes = lookListItem.getChildNodes();
+					lookParser.parseLookList(lookNodes, foundSprite, referencedObjects);
 				}
 
 				Node scriptListItem = spriteElement.getElementsByTagName(SCRIPT_LIST_ELEMENT_NAME).item(0);

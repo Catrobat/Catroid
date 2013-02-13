@@ -32,7 +32,6 @@
     <string name="cancel_button">"キャンセル"</string>
     <string name="rename">"名前の変更"</string>
     <string name="delete">"削除"</string>
-    <string name="delete_lowercase">"消す"</string>
     <string name="yes">"はい"</string>
     <string name="no">"いいえ"</string>
     <!-- General -->
@@ -78,23 +77,21 @@
     <string name="project_name">"プロジェクト："</string>
     <string name="number_of_scripts">"スクリプト："</string>
     <string name="number_of_bricks">"ブロック："</string>
-    <string name="number_of_costumes">"コスチューム："</string>
+    <string name="number_of_looks">"コスチューム："</string>
     <string name="number_of_sounds">"サウンド："</string>
     <!-- ScriptTab activity -->
     <string name="scripts">"スクリプト"</string>
-    <string name="costumes">"コスチューム"</string>
+    <string name="looks">"コスチューム"</string>
     <string name="sounds">"サウンド"</string>
     <string name="backgrounds">"背景"</string>
-    <!-- Costume activity -->
-    <string name="rename_costume_dialog">"コスチュームの名前を変更します"</string>
-    <string name="edit_costume">"編集"</string>
-    <string name="edit_costume_paintroid">"ペイントロイド"</string>
-    <string name="copy_costume">"コピー"</string>
-    <string name="costumename_invalid">"コスチュームの名前は無効です"</string>
-    <string name="copy_costume_addition">"コピー"</string>
+    <!-- Look activity -->
+    <string name="rename_look_dialog">"コスチュームの名前を変更します"</string>
+    <string name="edit_look">"編集"</string>
+    <string name="lookname_invalid">"コスチュームの名前は無効です"</string>
+    <string name="copy_look_addition">"コピー"</string>
     <string name="select_image">"画像を選択"</string>
     <string name="paintroid_not_installed">"ペイントロイドがインストールされていません！\n今、ペイントロイドをインストールしたいですか？"</string>
-    <string name="default_costume_name">"コスチューム"</string>
+    <string name="default_look_name">"コスチューム"</string>
     <!-- Sound activity -->
     <string name="rename_sound_dialog">"音の名前を変更します"</string>
     <string name="soundname_invalid">"この音の名前は無効です"</string>
@@ -180,7 +177,7 @@
     <string name="brick_point_to">"方向（スプライト）："</string>
     <string name="brick_glide">"滑る："</string>
     <!-- Looks bricks -->
-    <string name="brick_set_costume">"コスチュームに切り替える："</string>
+    <string name="brick_set_look">"コスチュームに切り替える："</string>
     <string name="brick_set_background">"背景を設定する"</string>
     <string name="brick_set_size_to">"サイズ："</string>
     <string name="brick_change_size_by">"サイズを変更："</string>
@@ -193,7 +190,7 @@
     <string name="by_label">""</string>
     <string name="to_label">""</string>
     <string name="brick_clear_graphic_effect">"画像効果をなくす"</string>
-    <string name="brick_next_costume">"次のコスチューム"</string>
+    <string name="brick_next_look">"次のコスチューム"</string>
     <string name="brick_next_background">"次の背景"</string>
     <!-- Sound bricks -->
     <string name="brick_play_sound">"サウンドの再生"</string>

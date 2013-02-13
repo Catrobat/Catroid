@@ -33,21 +33,21 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 
 	public void testSteps() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite Z position", 0, sprite.costume.zPosition);
+		assertEquals("Unexpected initial sprite Z position", 0, sprite.look.zPosition);
 
-		int oldPosition = sprite.costume.zPosition;
+		int oldPosition = sprite.look.zPosition;
 
 		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, steps);
 		goNStepsBackBrick.execute();
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps),
-				sprite.costume.zPosition);
+				sprite.look.zPosition);
 
-		oldPosition = sprite.costume.zPosition;
+		oldPosition = sprite.look.zPosition;
 
 		goNStepsBackBrick = new GoNStepsBackBrick(sprite, -steps);
 		goNStepsBackBrick.execute();
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition + steps),
-				sprite.costume.zPosition);
+				sprite.look.zPosition);
 	}
 
 	public void testNullSprite() {
@@ -64,24 +64,24 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 	public void testBoundarySteps() {
 		Sprite sprite = new Sprite("testSprite");
 
-		int oldPosition = sprite.costume.zPosition;
+		int oldPosition = sprite.look.zPosition;
 
 		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
 		goNStepsBackBrick.execute();
 		assertEquals("GoNStepsBackBrick execution failed. Wrong Z position.", (oldPosition - Integer.MAX_VALUE),
-				sprite.costume.zPosition);
+				sprite.look.zPosition);
 
 		goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
 		goNStepsBackBrick.execute();
 		goNStepsBackBrick.execute();
 		assertEquals("An unwanted Integer underflow occured during GoNStepsBackBrick execution.", Integer.MIN_VALUE,
-				sprite.costume.zPosition);
+				sprite.look.zPosition);
 
 		goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MIN_VALUE);
 		goNStepsBackBrick.execute();
 		goNStepsBackBrick.execute();
 		assertEquals("An unwanted Integer overflow occured during GoNStepsBackBrick execution.", Integer.MAX_VALUE,
-				sprite.costume.zPosition);
+				sprite.look.zPosition);
 	}
 
 }

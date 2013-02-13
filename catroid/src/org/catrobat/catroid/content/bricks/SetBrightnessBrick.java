@@ -60,7 +60,7 @@ public class SetBrightnessBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.costume.setBrightnessValue((float) this.brightness / 100);
+		sprite.look.setBrightnessValue((float) this.brightness / 100);
 	}
 
 	@Override

@@ -26,11 +26,11 @@ import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -39,7 +39,7 @@ import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import org.catrobat.catroid.test.R;
 
-public class SetCostumeBrickTest extends InstrumentationTestCase {
+public class SetLookBrickTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private File testImage;
@@ -85,21 +85,21 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
-	public void testSetCostume() {
+	public void testSetLook() {
 
 		Values.SCREEN_HEIGHT = 200;
 		Values.SCREEN_WIDTH = 200;
 
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(testImage.getName());
-		costumeData.setCostumeName("testImage");
-		sprite.getCostumeDataList().add(costumeData);
-		setCostumeBrick.setCostume(costumeData);
-		setCostumeBrick.execute();
-		assertNotNull("current Costume is null", sprite.costume);
+		SetLookBrick setLookBrick = new SetLookBrick(sprite);
+		LookData lookData = new LookData();
+		lookData.setLookFilename(testImage.getName());
+		lookData.setLookName("testImage");
+		sprite.getLookDataList().add(lookData);
+		setLookBrick.setLook(lookData);
+		setLookBrick.execute();
+		assertNotNull("current Look is null", sprite.look);
 	}
 
 }

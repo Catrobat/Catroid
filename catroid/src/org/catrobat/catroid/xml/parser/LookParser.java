@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.xml.parser;
 
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_DATA_ELEMENT_NAME;
-import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.COSTUME_LIST_FIELD_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.LOOK_DATA_ELEMENT_NAME;
+import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.LOOK_LIST_FIELD_NAME;
 import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.FILE_NAME;
 import static org.catrobat.catroid.xml.parser.CatroidXMLConstants.NAME;
 
@@ -32,65 +32,65 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class CostumeParser {
+public class LookParser {
 	ObjectCreator objectGetter = new ObjectCreator();
-	List<CostumeData> costumeList;
+	List<LookData> lookList;
 	References reference = new References();
 
-	public void parseCostumeList(NodeList costumeNodes, Sprite sprite, Map<String, Object> referencedObjects)
+	public void parseLookList(NodeList lookNodes, Sprite sprite, Map<String, Object> referencedObjects)
 			throws NoSuchFieldException, IllegalAccessException {
 
-		costumeList = new ArrayList<CostumeData>();
-		int costumeIndex = 1;
-		for (int m = 0; m < costumeNodes.getLength(); m++) {
-			CostumeData foundCostumeData = null;
-			if (costumeNodes.item(m).getNodeType() != Node.TEXT_NODE) {
+		lookList = new ArrayList<LookData>();
+		int lookIndex = 1;
+		for (int m = 0; m < lookNodes.getLength(); m++) {
+			LookData foundLookData = null;
+			if (lookNodes.item(m).getNodeType() != Node.TEXT_NODE) {
 
-				Element costumeElement = (Element) costumeNodes.item(m);
-				String costumeFileName = null;
-				Node costumeFileNameNode = costumeElement.getElementsByTagName(FILE_NAME).item(0);
-				if (costumeFileNameNode != null) {
-					costumeFileName = costumeFileNameNode.getChildNodes().item(0).getNodeValue();
+				Element lookElement = (Element) lookNodes.item(m);
+				String lookFileName = null;
+				Node lookFileNameNode = lookElement.getElementsByTagName(FILE_NAME).item(0);
+				if (lookFileNameNode != null) {
+					lookFileName = lookFileNameNode.getChildNodes().item(0).getNodeValue();
 				}
-				String costumeName = costumeElement.getElementsByTagName(NAME).item(0).getChildNodes().item(0)
+				String lookName = lookElement.getElementsByTagName(NAME).item(0).getChildNodes().item(0)
 						.getNodeValue();
-				foundCostumeData = new CostumeData();
-				foundCostumeData.setCostumeFilename(costumeFileName);
-				foundCostumeData.setCostumeName(costumeName);
-				costumeList.add(foundCostumeData);
-				String costumeIndexString = "";
-				if (costumeIndex > 1) {
-					costumeIndexString = "[" + costumeIndex + "]";
+				foundLookData = new LookData();
+				foundLookData.setLookFilename(lookFileName);
+				foundLookData.setLookName(lookName);
+				lookList.add(foundLookData);
+				String lookIndexString = "";
+				if (lookIndex > 1) {
+					lookIndexString = "[" + lookIndex + "]";
 				}
-				referencedObjects.put(COSTUME_DATA_ELEMENT_NAME + costumeIndexString, foundCostumeData);
-				costumeIndex++;
+				referencedObjects.put(LOOK_DATA_ELEMENT_NAME + lookIndexString, foundLookData);
+				lookIndex++;
 			}
 		}
-		Field costumeListField = sprite.getClass().getDeclaredField(COSTUME_LIST_FIELD_NAME);
-		objectGetter.setFieldOfObject(costumeListField, sprite, costumeList);
+		Field lookListField = sprite.getClass().getDeclaredField(LOOK_LIST_FIELD_NAME);
+		objectGetter.setFieldOfObject(lookListField, sprite, lookList);
 	}
 
-	public Boolean setCostumeDataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
+	public Boolean setLookDataOfBrick(Brick brickObject, Field valueField, String referenceAttribute,
 			Map<String, Object> referencedObjects) throws IllegalAccessException {
 		int lastIndex = referenceAttribute.lastIndexOf('[');
-		String query = COSTUME_DATA_ELEMENT_NAME;
+		String query = LOOK_DATA_ELEMENT_NAME;
 		String suffix = "";
 		if (lastIndex != -1) {
 			char referenceIndex = referenceAttribute.charAt(referenceAttribute.lastIndexOf('[') + 1);
 			suffix = "[" + referenceIndex + "]";
 		}
-		CostumeData referencedCostume = (CostumeData) referencedObjects.get(query + suffix);
-		if (referencedCostume == null) {
+		LookData referencedLook = (LookData) referencedObjects.get(query + suffix);
+		if (referencedLook == null) {
 			return false;
 		} else {
-			valueField.set(brickObject, referencedCostume);
+			valueField.set(brickObject, referencedLook);
 		}
 		return true;
 	}

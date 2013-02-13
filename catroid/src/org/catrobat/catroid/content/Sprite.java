@@ -32,8 +32,8 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 
@@ -42,9 +42,9 @@ public class Sprite implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
-	private ArrayList<CostumeData> costumeList;
+	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
-	public transient Costume costume;
+	public transient Look look;
 
 	public transient boolean isPaused;
 	public transient boolean isFinished;
@@ -54,7 +54,7 @@ public class Sprite implements Serializable {
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
-		if (soundList != null && costumeList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+		if (soundList != null && lookList != null && ProjectManager.getInstance().getCurrentProject() != null) {
 			FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 			if (container == null) {
 				ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
@@ -62,8 +62,8 @@ public class Sprite implements Serializable {
 			for (SoundInfo soundInfo : soundList) {
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 			}
-			for (CostumeData costumeData : costumeList) {
-				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			for (LookData lookData : lookList) {
+				container.addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
 			}
 		}
 		init();
@@ -71,14 +71,14 @@ public class Sprite implements Serializable {
 	}
 
 	private void init() {
-		costume = new Costume(this);
+		look = new Look(this);
 		isPaused = false;
 		isFinished = false;
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
 		}
-		if (costumeList == null) {
-			costumeList = new ArrayList<CostumeData>();
+		if (lookList == null) {
+			lookList = new ArrayList<LookData>();
 		}
 		activeThreads = new HashMap<Thread, Boolean>();
 		activeScripts = new HashMap<Script, List<Thread>>();
@@ -87,7 +87,7 @@ public class Sprite implements Serializable {
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
-		costumeList = new ArrayList<CostumeData>();
+		lookList = new ArrayList<LookData>();
 		soundList = new ArrayList<SoundInfo>();
 		init();
 	}
@@ -281,8 +281,12 @@ public class Sprite implements Serializable {
 		return scriptList.remove(script);
 	}
 
-	public ArrayList<CostumeData> getCostumeDataList() {
-		return costumeList;
+	public ArrayList<LookData> getLookDataList() {
+		return lookList;
+	}
+
+	public void setLookDataList(ArrayList<LookData> list) {
+		lookList = list;
 	}
 
 	public ArrayList<SoundInfo> getSoundList() {

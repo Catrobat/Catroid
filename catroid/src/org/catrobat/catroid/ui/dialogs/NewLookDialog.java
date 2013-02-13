@@ -23,7 +23,7 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.fragment.CostumeFragment;
+import org.catrobat.catroid.ui.fragment.LookFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -32,18 +32,18 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
-public class NewCostumeDialog extends DialogFragment {
+public class NewLookDialog extends DialogFragment {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_costume";
-	public static final String COSTUME_FRAGMENT_KEY = "dialog_new_costume_costume_fragment";
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_look";
+	public static final String LOOK_FRAGMENT_KEY = "dialog_new_look_look_fragment";
 
 	public static final int FROM_CAMERA_INDEX = 0;
 	public static final int FROM_GALLERY_INDEX = 1;
 
-	private CostumeFragment costumeFragment = null;
+	private LookFragment lookFragment = null;
 
-	public void showDialog(FragmentManager fragmentManager, CostumeFragment fragment) {
-		costumeFragment = fragment;
+	public void showDialog(FragmentManager fragmentManager, LookFragment fragment) {
+		lookFragment = fragment;
 		show(fragmentManager, DIALOG_FRAGMENT_TAG);
 	}
 
@@ -51,20 +51,20 @@ public class NewCostumeDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		builder.setTitle(R.string.new_costume_dialog_title).setItems(R.array.new_costume_chooser,
+		builder.setTitle(R.string.new_look_dialog_title).setItems(R.array.new_look_chooser,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int index) {
-						if (costumeFragment == null) {
+						if (lookFragment == null) {
 							return;
 						}
 						switch (index) {
 							case FROM_CAMERA_INDEX:
-								costumeFragment.selectImageFromCamera();
+								lookFragment.selectImageFromCamera();
 								break;
 
 							case FROM_GALLERY_INDEX:
-								costumeFragment.selectImageFromGallery();
+								lookFragment.selectImageFromGallery();
 								break;
 							default:
 								break;

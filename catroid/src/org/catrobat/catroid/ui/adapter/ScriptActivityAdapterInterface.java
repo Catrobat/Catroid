@@ -37,6 +37,8 @@ public interface ScriptActivityAdapterInterface {
 
 	public boolean getShowDetails();
 
+	public int getAmountOfCheckedItems();
+
 	public Set<Integer> getCheckedItems();
 
 	public void clearCheckedItems();
