@@ -217,6 +217,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		menu.setHeaderTitle(spriteToEdit.getName());
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		menu.findItem(R.id.context_menu_copy).setVisible(false);
 	}
 
 	@Override
