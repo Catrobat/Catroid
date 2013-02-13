@@ -94,7 +94,8 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
 		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
-		solo.clickOnButton(deleteLookText);
+
+		clickOnContextMenuItem(soundName, deleteLookText);
 
 		assertTrue("No ok button found", solo.searchButton(buttonOkText));
 		assertTrue("No cancel button found", solo.searchButton(buttonCancelText));
@@ -108,7 +109,7 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		int newCount = adapter.getCount();
 		assertEquals("The look number not ok after canceling the deletion", newCount, oldCount);
 
-		solo.clickOnButton(deleteLookText);
+		clickOnContextMenuItem(soundName, deleteLookText);
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(500);
@@ -198,5 +199,11 @@ public class DeleteDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 				soundInfo.getAbsolutePath());
 		ProjectManager.INSTANCE.getFileChecksumContainer().addChecksum(soundInfo2.getChecksum(),
 				soundInfo2.getAbsolutePath());
+	}
+
+	private void clickOnContextMenuItem(String lookName, String menuItemName) {
+		solo.clickLongOnText(lookName);
+		solo.waitForText(menuItemName);
+		solo.clickOnText(menuItemName);
 	}
 }
