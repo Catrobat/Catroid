@@ -77,7 +77,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
