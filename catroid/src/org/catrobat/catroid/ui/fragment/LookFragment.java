@@ -250,8 +250,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
 
 		selectedLookData = adapter.getItem(selectedLookPosition);
 		menu.setHeaderTitle(selectedLookData.getLookName());
@@ -419,8 +419,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
-	public void onLookEdit(View v) {
-		handleEditLookButton(v);
+	public void onLookEdit(View view) {
+		handleEditLook(view);
 	}
 
 	@Override
@@ -611,7 +611,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		});
 	}
 
-	private void handleEditLookButton(View v) {
+	private void handleEditLook(View view) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName("org.catrobat.paintroid", "org.catrobat.paintroid.MainActivity"));
 
@@ -640,7 +640,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 		//-------------------------------------------------------------------------------
-		int position = (Integer) v.getTag();
+		int position = (Integer) view.getTag();
 		selectedLookData = lookDataList.get(position);
 
 		Bundle bundleForPaintroid = new Bundle();
