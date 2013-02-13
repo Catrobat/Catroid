@@ -429,23 +429,20 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.copy:
+			case R.id.context_menu_cut:
 				break;
 
-			case R.id.cut:
+			case R.id.context_menu_insert_below:
 				break;
 
-			case R.id.insert_below:
+			case R.id.context_menu_move:
 				break;
 
-			case R.id.move:
-				break;
-
-			case R.id.rename:
+			case R.id.context_menu_rename:
 				showRenameDialog();
 				break;
 
-			case R.id.delete:
+			case R.id.context_menu_delete:
 				showDeleteDialog();
 				break;
 		}
