@@ -224,7 +224,7 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testRenameLookContextMenu() {
-		String newLookName = "coSTuMeNamEtESt1";
+		String newLookName = "loOKNamEtESt1";
 
 		renameLook(FIRST_TEST_LOOK_NAME, newLookName);
 		solo.sleep(50);
