@@ -24,23 +24,8 @@
 <!-- Strings that need no translation -->
 <resources>
 
-    <!-- Language independent -->
-    <string name="catroid_extension_pathPattern" translatable="false">.*\\.catrobat</string>
-
-    <!-- Symbols -->
-    <string name="degree_symbol" translatable="false">°</string>
-    <string name="minus_symbol" translatable="false">-</string>
-    <string name="percent_symbol" translatable="false">%</string>
-    <string name="plus_symbol" translatable="false">+</string>
-
-    <!-- Website URLs -->
-    <string name="catroid_website" translatable="false">http://www.catroid.org</string>
-    <string name="about_catroid_license_url" translatable="false">http://developer.catrobat.org/licenses</string>
-    <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
-    <string name="catrobat_forum" translatable="false">https://groups.google.com/group/catrobat</string>
-
-    <!-- Settings, some overridden in values-v14 -->
-    <string name="scrolling_cache_enabled">false</string>
-    <string name="animation_cache_enabled">false</string>
+    <!-- Settings -->
+    <string name="scrolling_cache_enabled">true</string>
+    <string name="animation_cache_enabled">true</string>
 
 </resources>

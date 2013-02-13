@@ -42,17 +42,19 @@
         android:layout_weight="1"
         android:orientation="vertical" >
 
-            <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
-                android:id="@+id/brick_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:cacheColorHint="#00000000"
-                android:clickable="false"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="-5dip"
-                android:drawSelectorOnTop="false"
-                android:drawingCacheQuality="high"
-                android:fastScrollEnabled="true" />
+        <org.catrobat.catroid.ui.dragndrop.DragAndDropListView
+            android:id="@+id/brick_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animationCache="@string/animation_cache_enabled"
+            android:cacheColorHint="#00000000"
+            android:clickable="false"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="-5dip"
+            android:drawSelectorOnTop="false"
+            android:drawingCacheQuality="high"
+            android:fastScrollEnabled="true"
+            android:scrollingCache="@string/scrolling_cache_enabled" />
     </LinearLayout>
 
 </LinearLayout>
