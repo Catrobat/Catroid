@@ -478,7 +478,7 @@ public class UiTestUtils {
 	/**
 	 * This method can be used in 2 ways. Either to click on an action item
 	 * (icon), or to click on an item in the overflow menu. So either pass a
-	 * String + ID --OR-- a String + null.
+	 * String + ID --OR-- a String + 0.
 	 * 
 	 * @param solo
 	 *            Use Robotium functionality
