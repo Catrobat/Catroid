@@ -139,6 +139,7 @@ public class SetLookBrick implements Brick {
 		}
 
 		return clonedBrick;
+		//test
 	}
 
 	@Override
