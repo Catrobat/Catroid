@@ -549,6 +549,35 @@ public class SoundFragmentTest extends ActivityInstrumentationTestCase2<MainMenu
 				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
+	public void testDeleteAndCopyActionMode() {
+		String testSoundName = "testSound";
+
+		addNewSound(testSoundName);
+		addNewSound(testSoundName);
+		addNewSound(testSoundName);
+
+		solo.sleep(300);
+
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+
+		int currentNumberOfSounds = soundInfoList.size();
+		assertEquals("Wrong number of sounds", 5, currentNumberOfSounds);
+
+		int[] checkboxIndicesToCheck = { 0, 2, 4 };
+
+		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
+		solo.clickOnCheckBox(checkboxIndicesToCheck[1]);
+		solo.clickOnCheckBox(checkboxIndicesToCheck[2]);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
+	}
+
 	public void testStopSoundOnContextAndActionMenu() {
 		// Mute before playing sound
 		AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);

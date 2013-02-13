@@ -878,6 +878,41 @@ public class LookFragmentTest extends ActivityInstrumentationTestCase2<MainMenuA
 				solo.waitForText(SECOND_TEST_LOOK_NAME, 0, 200, false, false));
 	}
 
+	public void testDeleteAndCopyActionMode() {
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
+
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(copy, 0, TIME_TO_WAIT));
+
+		solo.sleep(300);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, copy);
+		solo.sleep(300);
+
+		lookDataList = projectManager.getCurrentSprite().getLookDataList();
+
+		int currentNumberOfLooks = lookDataList.size();
+		assertEquals("Wrong number of looks", 5, currentNumberOfLooks);
+
+		int[] checkboxIndicesToCheck = { 0, 2, 4 };
+
+		int expectedNumberOfLooks = currentNumberOfLooks - checkboxIndicesToCheck.length;
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
+		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
+		solo.clickOnCheckBox(checkboxIndicesToCheck[1]);
+		solo.clickOnCheckBox(checkboxIndicesToCheck[2]);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+	}
+
 	public void testCopyActionModeCheckingAndTitle() {
 		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
