@@ -27,7 +27,7 @@ import java.io.IOException;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -38,7 +38,7 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -53,7 +53,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private final static String TEST_PROJECT_NAME = UiTestUtils.PROJECTNAME1;
-	private final static String COSTUME_DATA_NAME = "costumeData";
+	private final static String LOOK_DATA_NAME = "lookData";
 	private final static String POINT_TO_PRITE_NAME = "pointSprite";
 	private final static String TEST_SOUND_TITLE = "soundTitle";
 	private final static String TEST_BROADCAST_MESSAGE = "broadcastMessage";
@@ -83,8 +83,9 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	public void testBricksWithEmptySpinner() throws IOException, JSONException {
 		final String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
 
-		assertTrue("costume " + COSTUME_DATA_NAME + " is not selected", solo.searchText(COSTUME_DATA_NAME));
-		solo.clickOnText(COSTUME_DATA_NAME);
+		assertTrue("costume " + LOOK_DATA_NAME + " is not selected", solo.searchText(LOOK_DATA_NAME));
+		solo.clickOnText(LOOK_DATA_NAME);
+
 		solo.clickOnText(spinnerNothingSelectedText);
 
 		assertTrue(POINT_TO_PRITE_NAME + " Sprite is not selected", solo.searchText(POINT_TO_PRITE_NAME));
@@ -122,7 +123,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		Script startScript = new StartScript(sprite);
 		sprite.addScript(startScript);
 
-		addSetCostumeBrick(sprite, startScript);
+		addSetLookBrick(sprite, startScript);
 		addPointToBrick(sprite, pointToSprite, startScript);
 		addPlaySoundBrick(sprite, startScript);
 		addBroadcastWaitBrick(sprite, startScript);
@@ -162,13 +163,13 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 		startScript.addBrick(pointToBrick);
 	}
 
-	private void addSetCostumeBrick(Sprite sprite, Script startScript) {
-		CostumeData dummyCostumeData = new CostumeData();
-		dummyCostumeData.setCostumeName(COSTUME_DATA_NAME);
-		sprite.getCostumeDataList().add(dummyCostumeData);
+	private void addSetLookBrick(Sprite sprite, Script startScript) {
+		LookData dummyLookData = new LookData();
+		dummyLookData.setLookName(LOOK_DATA_NAME);
+		sprite.getLookDataList().add(dummyLookData);
 
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(dummyCostumeData);
-		startScript.addBrick(setCostumeBrick);
+		SetLookBrick setLookBrick = new SetLookBrick(sprite);
+		setLookBrick.setLook(dummyLookData);
+		startScript.addBrick(setLookBrick);
 	}
 }

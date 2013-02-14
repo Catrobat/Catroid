@@ -44,83 +44,83 @@
 </Header>
 	<SpriteList>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>C7781E3CB311DE7578C6EE03E88929A6_background</FileName>
 					<Name>background</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>Background</Name>
 			<ScriptList>
 				<StartScript>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</StartScript>
 			</ScriptList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>CFD7234CABB050900E7098F070077A1A_normalCat</FileName>
 					<Name>normalCat</Name>
-				</Costume>
-				<Costume>
+				</Look>
+				<Look>
 					<FileName>8380419464693D8BF38323918FD9AE23_banzaiCat</FileName>
 					<Name>banzaiCat</Name>
-				</Costume>
-				<Costume>
+				</Look>
+				<Look>
 					<FileName>A680E9D62D48B0EC6A092D7A1E35769E_cheshireCat</FileName>
 					<Name>cheshireCat</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>Catroid</Name>
 			<ScriptList>
 				<StartScript>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</StartScript>
 				<WhenScript>
 					<Action>Tapped</Action>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume[2]"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look[2]"/>
+						</SetLookBrick>
 						<WaitBrick>
 							<TimeToWaitInMilliSeconds>500</TimeToWaitInMilliSeconds>
 						</WaitBrick>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume[3]"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look[3]"/>
+						</SetLookBrick>
 						<WaitBrick>
 							<TimeToWaitInMilliSeconds>500</TimeToWaitInMilliSeconds>
 						</WaitBrick>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</WhenScript>
 			</ScriptList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>F17876215FBEA078B0FF267C9A1C9964_catroid_banzai.png</FileName>
 					<Name>catroid_banzai</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>MotionBricks</Name>
 			<ScriptList>
 				<StartScript>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 						<PlaceAtBrick>
 							<XPosition>56</XPosition>
 							<YPosition>36</YPosition>
@@ -176,20 +176,20 @@
 			</SoundList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>1B679CDFA23C5F6B662B7EEDEBD3533E_catroid_cheshire.png</FileName>
 					<Name>catroid_cheshire</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>LooksBricks</Name>
 			<ScriptList>
 				<StartScript>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
-						<NextCostumeBrick/>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
+						<NextLookBrick/>
 						<SetSizeToBrick>
 							<Size>51.0</Size>
 						</SetSizeToBrick>
@@ -222,12 +222,12 @@
 			</ScriptList>
 		</Sprite>
 		<Sprite>
-			<CostumeList>
-				<Costume>
+			<LookList>
+				<Look>
 					<FileName>5989D67218B2E067C982324E8FA1CB30_catroid.png</FileName>
 					<Name>catroid</Name>
-				</Costume>
-			</CostumeList>
+				</Look>
+			</LookList>
 			<Name>SoundBricks</Name>
 			<ScriptList>
 				<StartScript>
@@ -250,9 +250,9 @@
 				<WhenScript>
 					<Action>Tapped</Action>
 					<BrickList>
-						<SetCostumeBrick>
-							<Costume reference="../../../../../CostumeList/Costume"/>
-						</SetCostumeBrick>
+						<SetLookBrick>
+							<Look reference="../../../../../LookList/Look"/>
+						</SetLookBrick>
 					</BrickList>
 				</WhenScript>
 				<BroadcastScript>

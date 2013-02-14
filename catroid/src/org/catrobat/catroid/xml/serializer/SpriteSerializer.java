@@ -48,9 +48,9 @@ public class SpriteSerializer extends Serializer {
 		xmlElementString = TAB + TAB + getStartTag(SPRITE_ELEMENT_NAME);
 		spriteStrings.add(xmlElementString);
 
-		if (sprite.getCostumeDataList().size() > 0) {
-			CostumeSerializer costumeStrings = new CostumeSerializer();
-			spriteStrings.addAll(costumeStrings.serializeCostumeList(sprite.getCostumeDataList()));
+		if (sprite.getLookDataList().size() > 0) {
+			LookSerializer lookStrings = new LookSerializer();
+			spriteStrings.addAll(lookStrings.serializeLookList(sprite.getLookDataList()));
 		}
 		spriteStrings.add(TAB + TAB + TAB + getSpriteNameElement(sprite));
 

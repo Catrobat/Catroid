@@ -69,15 +69,15 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testAddLooksCategoryBrick() {
-		String brickSetCostumeText = solo.getString(R.string.brick_set_costume);
-		UiTestUtils.addNewBrick(solo, R.string.brick_set_costume);
+		String brickSetLookText = solo.getString(R.string.brick_set_look);
+		UiTestUtils.addNewBrick(solo, R.string.brick_set_look);
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
 
 		solo.clickOnScreen(200, 200);
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}
-		assertTrue("Set costume brick was not added", solo.searchText(brickSetCostumeText));
+		assertTrue("Set look brick was not added", solo.searchText(brickSetLookText));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_size_to);
 		assertTrue("Set size to brick was not added", solo.searchText(solo.getString(R.string.brick_set_size_to)));

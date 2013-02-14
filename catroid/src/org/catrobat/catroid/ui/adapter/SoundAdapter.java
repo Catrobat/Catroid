@@ -25,8 +25,8 @@ package org.catrobat.catroid.ui.adapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -60,7 +60,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 	private static long elapsedMilliSeconds;
 	private static long currentPlayingBase;
 	private boolean showDetails;
-	private Set<Integer> checkedSounds = new HashSet<Integer>();
+	private SortedSet<Integer> checkedSounds = new TreeSet<Integer>();
 
 	private int currentPlayingPosition = Constants.NO_POSITION;
 
@@ -68,8 +68,8 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		super(context, textViewResourceId, items);
 		this.context = context;
 		this.showDetails = showDetails;
-		soundInfoItems = items;
-		selectMode = Constants.SELECT_NONE;
+		this.soundInfoItems = items;
+		this.selectMode = Constants.SELECT_NONE;
 	}
 
 	public void setOnSoundEditListener(OnSoundEditListener listener) {
@@ -103,7 +103,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 			holder.playButton.setVisibility(Button.VISIBLE);
 			holder.pauseButton.setVisibility(Button.GONE);
 
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
+			holder.checkbox = (CheckBox) convertView.findViewById(R.id.sound_checkbox);
 
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.sound_title);
 			holder.timeSeperatorTextView = (TextView) convertView.findViewById(R.id.sound_time_seperator);
@@ -122,7 +122,6 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		if (soundInfo != null) {
 			holder.playButton.setTag(position);
 			holder.pauseButton.setTag(position);
-			holder.titleTextView.setTag(position);
 			holder.titleTextView.setText(soundInfo.getTitle());
 
 			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -207,7 +206,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 				}
 
 				if (showDetails) {
-					holder.soundFileSizeTextView.setText(getContext().getString(R.string.sound_size) + " "
+					holder.soundFileSizeTextView.setText(getContext().getString(R.string.size) + " "
 							+ UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
 					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
 				} else {
@@ -222,18 +221,18 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 			holder.playButton.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View v) {
+				public void onClick(View view) {
 					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPlay(v);
+						onSoundEditListener.onSoundPlay(view);
 					}
 				}
 			});
 
 			holder.pauseButton.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View v) {
+				public void onClick(View view) {
 					if (onSoundEditListener != null) {
-						onSoundEditListener.onSoundPause(v);
+						onSoundEditListener.onSoundPause(view);
 					}
 				}
 			});
@@ -262,12 +261,13 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 		soundInfo.isPlaying = false;
 	}
 
+	@Override
 	public int getAmountOfCheckedItems() {
 		return checkedSounds.size();
 	}
 
 	@Override
-	public Set<Integer> getCheckedItems() {
+	public SortedSet<Integer> getCheckedItems() {
 		return checkedSounds;
 	}
 
@@ -298,9 +298,9 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> implements ScriptActiv
 
 	public interface OnSoundEditListener {
 
-		public void onSoundPlay(View v);
+		public void onSoundPlay(View view);
 
-		public void onSoundPause(View v);
+		public void onSoundPause(View view);
 
 		public void onSoundChecked();
 	}

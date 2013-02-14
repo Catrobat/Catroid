@@ -39,15 +39,15 @@ public class SoundSerializer extends Serializer {
 	@Override
 	public List<String> serialize(Object object) {
 		SoundInfo soundInfo = (SoundInfo) object;
-		String costumeFileName = soundInfo.getSoundFileName();
-		String costumeName = soundInfo.getTitle();
+		String lookFileName = soundInfo.getSoundFileName();
+		String lookName = soundInfo.getTitle();
 		List<String> soundStringList = new ArrayList<String>();
 		String xmlElementString = "";
 		xmlElementString = soundTabs + TAB + getStartTag(SOUND_INFO_ELEMENT_NAME);
 		soundStringList.add(xmlElementString);
-		xmlElementString = soundTabs + TAB + TAB + getElementString(FILE_NAME, costumeFileName);
+		xmlElementString = soundTabs + TAB + TAB + getElementString(FILE_NAME, lookFileName);
 		soundStringList.add(xmlElementString);
-		xmlElementString = soundTabs + TAB + TAB + getElementString(NAME, costumeName);
+		xmlElementString = soundTabs + TAB + TAB + getElementString(NAME, lookName);
 		soundStringList.add(xmlElementString);
 		xmlElementString = soundTabs + TAB + getEndTag(SOUND_INFO_ELEMENT_NAME);
 		soundStringList.add(xmlElementString);
