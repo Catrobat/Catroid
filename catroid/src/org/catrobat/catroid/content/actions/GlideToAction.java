@@ -22,54 +22,46 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.BroadcastEvent;
-import org.catrobat.catroid.content.Sprite;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class BroadcastAction extends TemporalAction {
+public class GlideToAction extends TemporalAction {
 
-	private Sprite receiverSprite;
-	private String broadcastMessage;
-	private BroadcastEvent event;
+	private float startX, startY;
+	private float endX, endY;
 
 	@Override
-	protected void update(float delta) {
-		if (receiverSprite == null) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-			for (Sprite spriteOfList : sprites) {
-				spriteOfList.costume.fire(event);
-			}
-		} else {
-			receiverSprite.costume.fire(event);
+	protected void begin() {
+		startX = actor.getX() + actor.getWidth() / 2f;
+		startY = actor.getY() + actor.getHeight() / 2f;
+		if (Float.compare(startX, endX) == 0 && Float.compare(startY, endY) == 0) {
+			super.finish();
 		}
 	}
 
-	public BroadcastEvent getBroadcastEvent() {
-		return event;
+	@Override
+	protected void update(float percent) {
+		actor.setPosition(startX + (endX - startX) * percent - actor.getWidth() / 2f, startY + (endY - startY)
+				* percent - actor.getHeight() / 2f);
 	}
 
-	public void setBroadcastEvent(BroadcastEvent event) {
-		this.event = event;
+	public void setPosition(float x, float y) {
+		endX = x;
+		endY = y;
 	}
 
-	public Sprite getReceiverSprite() {
-		return receiverSprite;
+	public float getX() {
+		return endX;
 	}
 
-	public void setReceiverSprite(Sprite sprite) {
-		this.receiverSprite = sprite;
+	public void setX(float x) {
+		endX = x;
 	}
 
-	public String getBroadcastMessage() {
-		return broadcastMessage;
+	public float getY() {
+		return endY;
 	}
 
-	public void setBroadcastMessage(String broadcastMessage) {
-		this.broadcastMessage = broadcastMessage;
+	public void setY(float y) {
+		endY = y;
 	}
-
 }

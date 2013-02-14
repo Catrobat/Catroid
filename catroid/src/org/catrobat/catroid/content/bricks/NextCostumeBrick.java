@@ -22,11 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.ArrayList;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -53,33 +51,33 @@ public class NextCostumeBrick implements Brick {
 	@Override
 	public void execute() {
 
-		final ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
-		int costumeDataListSize = costumeDataList.size();
-
-		if (costumeDataListSize > 0 && sprite.costume.getCostumeData() != null) {
-			CostumeData currentCostumeData = sprite.costume.getCostumeData();
-			CostumeData finalCostumeData = costumeDataList.get(costumeDataListSize - 1);
-			boolean executeOnce = true;
-
-			for (CostumeData costumeData : costumeDataList) {
-				int currentIndex = costumeDataList.indexOf(costumeData);
-				int newIndex = currentIndex + 1;
-
-				if (currentCostumeData.equals(finalCostumeData) && executeOnce) {
-					executeOnce = false;
-					currentCostumeData = costumeDataList.get(0);
-				}
-
-				else if (currentCostumeData.equals(costumeData) && executeOnce) {
-					executeOnce = false;
-					currentCostumeData = costumeDataList.get(newIndex);
-				}
-
-				sprite.costume.setCostumeData(currentCostumeData);
-			}
-		} else {
-			// If there are no costumes do nothing
-		}
+		//		final ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
+		//		int costumeDataListSize = costumeDataList.size();
+		//
+		//		if (costumeDataListSize > 0 && sprite.costume.getCostumeData() != null) {
+		//			CostumeData currentCostumeData = sprite.costume.getCostumeData();
+		//			CostumeData finalCostumeData = costumeDataList.get(costumeDataListSize - 1);
+		//			boolean executeOnce = true;
+		//
+		//			for (CostumeData costumeData : costumeDataList) {
+		//				int currentIndex = costumeDataList.indexOf(costumeData);
+		//				int newIndex = currentIndex + 1;
+		//
+		//				if (currentCostumeData.equals(finalCostumeData) && executeOnce) {
+		//					executeOnce = false;
+		//					currentCostumeData = costumeDataList.get(0);
+		//				}
+		//
+		//				else if (currentCostumeData.equals(costumeData) && executeOnce) {
+		//					executeOnce = false;
+		//					currentCostumeData = costumeDataList.get(newIndex);
+		//				}
+		//
+		//				sprite.costume.setCostumeData(currentCostumeData);
+		//			}
+		//		} else {
+		//			// If there are no costumes do nothing
+		//		}
 	}
 
 	@Override
@@ -123,16 +121,9 @@ public class NextCostumeBrick implements Brick {
 		return view;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.nextCostume(sprite));
 		return null;
 	}
 }

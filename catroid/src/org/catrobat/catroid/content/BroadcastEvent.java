@@ -26,7 +26,17 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 
 public class BroadcastEvent extends Event {
 
+	private BroadcastType type;
 	private String broadcastMessage;
+	private Sprite senderSprite;
+
+	public Sprite getSenderSprite() {
+		return senderSprite;
+	}
+
+	public void setSenderSprite(Sprite senderSprite) {
+		this.senderSprite = senderSprite;
+	}
 
 	public String getBroadcastMessage() {
 		return broadcastMessage;
@@ -34,5 +44,17 @@ public class BroadcastEvent extends Event {
 
 	public void setBroadcastMessage(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
+	}
+
+	public BroadcastType getType() {
+		return type;
+	}
+
+	public void setType(BroadcastType type) {
+		this.type = type;
+	}
+
+	static public enum BroadcastType {
+		broadcast, broadcastFromWaiter, broadcastToWaiter
 	}
 }

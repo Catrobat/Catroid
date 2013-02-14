@@ -22,54 +22,34 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.Sprite;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class BroadcastAction extends TemporalAction {
+public class SetXAction extends TemporalAction {
 
-	private Sprite receiverSprite;
-	private String broadcastMessage;
-	private BroadcastEvent event;
+	private Sprite sprite;
+	private int x;
 
 	@Override
 	protected void update(float delta) {
-		if (receiverSprite == null) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-			for (Sprite spriteOfList : sprites) {
-				spriteOfList.costume.fire(event);
-			}
-		} else {
-			receiverSprite.costume.fire(event);
-		}
+		sprite.costume.setXPosition(x);
 	}
 
-	public BroadcastEvent getBroadcastEvent() {
-		return event;
+	public Sprite getSprite() {
+		return sprite;
 	}
 
-	public void setBroadcastEvent(BroadcastEvent event) {
-		this.event = event;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
-	public Sprite getReceiverSprite() {
-		return receiverSprite;
+	public int getX() {
+		return x;
 	}
 
-	public void setReceiverSprite(Sprite sprite) {
-		this.receiverSprite = sprite;
-	}
-
-	public String getBroadcastMessage() {
-		return broadcastMessage;
-	}
-
-	public void setBroadcastMessage(String broadcastMessage) {
-		this.broadcastMessage = broadcastMessage;
+	public void setX(int x) {
+		this.x = x;
 	}
 
 }

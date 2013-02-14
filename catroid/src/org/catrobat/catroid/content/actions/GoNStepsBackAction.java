@@ -22,54 +22,42 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.Sprite;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class BroadcastAction extends TemporalAction {
+public class GoNStepsBackAction extends TemporalAction {
 
-	private Sprite receiverSprite;
-	private String broadcastMessage;
-	private BroadcastEvent event;
+	private Sprite sprite;
+	private int steps;
 
 	@Override
 	protected void update(float delta) {
-		if (receiverSprite == null) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-			for (Sprite spriteOfList : sprites) {
-				spriteOfList.costume.fire(event);
-			}
+		int zPosition = sprite.costume.zPosition;
+		if (steps > 0 && (zPosition - steps) > zPosition) {
+			sprite.costume.zPosition = Integer.MIN_VALUE;
+		} else if (steps < 0 && (zPosition - steps) < zPosition) {
+			sprite.costume.zPosition = Integer.MAX_VALUE;
 		} else {
-			receiverSprite.costume.fire(event);
+			sprite.costume.zPosition -= steps;
 		}
+
 	}
 
-	public BroadcastEvent getBroadcastEvent() {
-		return event;
+	public Sprite getSprite() {
+		return sprite;
 	}
 
-	public void setBroadcastEvent(BroadcastEvent event) {
-		this.event = event;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
-	public Sprite getReceiverSprite() {
-		return receiverSprite;
+	public int getSteps() {
+		return steps;
 	}
 
-	public void setReceiverSprite(Sprite sprite) {
-		this.receiverSprite = sprite;
-	}
-
-	public String getBroadcastMessage() {
-		return broadcastMessage;
-	}
-
-	public void setBroadcastMessage(String broadcastMessage) {
-		this.broadcastMessage = broadcastMessage;
+	public void setSteps(int steps) {
+		this.steps = steps;
 	}
 
 }

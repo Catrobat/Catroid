@@ -22,54 +22,54 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.BroadcastEvent;
+import org.catrobat.catroid.common.CostumeData;
 import org.catrobat.catroid.content.Sprite;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class BroadcastAction extends TemporalAction {
+public class NextCostumeAction extends TemporalAction {
 
-	private Sprite receiverSprite;
-	private String broadcastMessage;
-	private BroadcastEvent event;
+	private Sprite sprite;
 
 	@Override
 	protected void update(float delta) {
-		if (receiverSprite == null) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-			for (Sprite spriteOfList : sprites) {
-				spriteOfList.costume.fire(event);
+		final ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
+		int costumeDataListSize = costumeDataList.size();
+
+		if (costumeDataListSize > 0 && sprite.costume.getCostumeData() != null) {
+			CostumeData currentCostumeData = sprite.costume.getCostumeData();
+			CostumeData finalCostumeData = costumeDataList.get(costumeDataListSize - 1);
+			boolean executeOnce = true;
+
+			for (CostumeData costumeData : costumeDataList) {
+				int currentIndex = costumeDataList.indexOf(costumeData);
+				int newIndex = currentIndex + 1;
+
+				if (currentCostumeData.equals(finalCostumeData) && executeOnce) {
+					executeOnce = false;
+					currentCostumeData = costumeDataList.get(0);
+				}
+
+				else if (currentCostumeData.equals(costumeData) && executeOnce) {
+					executeOnce = false;
+					currentCostumeData = costumeDataList.get(newIndex);
+				}
+
+				sprite.costume.setCostumeData(currentCostumeData);
 			}
 		} else {
-			receiverSprite.costume.fire(event);
+			// If there are no costumes do nothing
 		}
 	}
 
-	public BroadcastEvent getBroadcastEvent() {
-		return event;
+	public Sprite getSprite() {
+		return sprite;
 	}
 
-	public void setBroadcastEvent(BroadcastEvent event) {
-		this.event = event;
-	}
-
-	public Sprite getReceiverSprite() {
-		return receiverSprite;
-	}
-
-	public void setReceiverSprite(Sprite sprite) {
-		this.receiverSprite = sprite;
-	}
-
-	public String getBroadcastMessage() {
-		return broadcastMessage;
-	}
-
-	public void setBroadcastMessage(String broadcastMessage) {
-		this.broadcastMessage = broadcastMessage;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 }

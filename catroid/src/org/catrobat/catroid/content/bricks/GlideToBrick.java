@@ -228,10 +228,8 @@ public class GlideToBrick implements Brick, OnClickListener {
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		float durationInSeconds = durationInMilliSeconds / 1000f;
-		float xFloat = Float.valueOf(xDestination - sprite.costume.getWidth() / 2f);
-		float yFloat = Float.valueOf(yDestination - sprite.costume.getHeight() / 2f);
-		sequence.addAction(ExtendedActions.moveTo(xFloat, yFloat, durationInSeconds));
-		//		sequence.addAction(ExtendedActions.glideTo(sprite, xFloat, yFloat));
+		sequence.addAction(ExtendedActions.glideTo(Float.valueOf(xDestination), Float.valueOf(yDestination),
+				durationInSeconds));
 		return null;
 	}
 }

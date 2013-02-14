@@ -25,11 +25,8 @@ package org.catrobat.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.CostumeData;
@@ -38,6 +35,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class Sprite implements Serializable {
@@ -95,11 +93,15 @@ public class Sprite implements Serializable {
 		init();
 	}
 
+	public Sprite() {
+
+	}
+
 	public void startWhenScripts(String action) {
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					startScript(s, true);
+					createActionSequence(s);
 				}
 			}
 		}
@@ -109,131 +111,51 @@ public class Sprite implements Serializable {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
 				if (!s.isFinished()) {
-					startScript(s, true);
+					createActionSequence(s);
 				}
 			}
 			if (s instanceof BroadcastScript) {
-				SequenceAction sequence = ExtendedActions.sequence();
 				BroadcastScript script = (BroadcastScript) s;
-				script.run(sequence);
-				costume.putBroadcastSequenceAction(script.getBroadcastMessage(), sequence);
-				//				costume.putBroadcastScript(script.getBroadcastMessage(), script);
-			}
-			if (s instanceof WhenScript) {
-				SequenceAction sequence = ExtendedActions.sequence();
-				s.run(sequence);
-				//sequence.addAction(ExtendedActions.sequenceEnd(sequence));
-				costume.addTouchDownSequenceAction(sequence);
+				costume.putBroadcast(script.getBroadcastMessage(), script);
 			}
 		}
 	}
 
-	public Sprite() {
-
+	public void createWhenScriptActionSequence(String action) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
+					createActionSequence(s);
+				}
+			}
+		}
 	}
 
-	private void startScript(Script s, boolean overload) {
+	public void createBroadcastScriptActionSequence(BroadcastScript script) {
+		createActionSequence(script);
+	}
+
+	public void createBroadcastScriptActionSequence(BroadcastScript script, Action afterAction) {
+		createActionSequence(script, afterAction);
+	}
+
+	private void createActionSequence(Script s) {
 		SequenceAction sequence = ExtendedActions.sequence();
 		s.run(sequence);
 		costume.addAction(sequence);
 	}
 
-	private synchronized void startScript(Script s) {
-		final Script script = s;
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				script.run();
-			}
-		});
-		if (script instanceof WhenScript) {
-			if (!activeScripts.containsKey(script)) {
-				activeScripts.put(script, new LinkedList<Thread>());
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			} else {
-				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
-				while (currentScriptThreads.hasNext()) {
-					Thread currentThread = currentScriptThreads.next();
-					activeThreads.put(currentThread, false);
-				}
-				activeScripts.get(script).clear();
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			}
-		}
-		t.start();
+	private void createActionSequence(Script s, Action afterAction) {
+		SequenceAction sequence = ExtendedActions.sequence();
+		s.run(sequence);
+		sequence.addAction(afterAction);
+		costume.addAction(sequence);
 	}
 
 	public void startScriptBroadcast(Script s, boolean overload) {
 		SequenceAction sequence = ExtendedActions.sequence();
 		s.run(sequence);
 		costume.addAction(sequence);
-	}
-
-	public synchronized void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
-		final Script script = s;
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					simultaneousStart.await();
-				} catch (InterruptedException e) {
-				}
-				script.run();
-			}
-		});
-		if (script instanceof BroadcastScript) {
-			if (!activeScripts.containsKey(script)) {
-				activeScripts.put(script, new LinkedList<Thread>());
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			} else {
-				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
-				while (currentScriptThreads.hasNext()) {
-					Thread currentThread = currentScriptThreads.next();
-					activeThreads.put(currentThread, false);
-				}
-				activeScripts.get(script).clear();
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			}
-		}
-		t.start();
-	}
-
-	public synchronized void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart,
-			final CountDownLatch wait) {
-		final Script script = s;
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					simultaneousStart.await();
-				} catch (InterruptedException e) {
-				}
-				script.run();
-				wait.countDown();
-			}
-		});
-		if (script instanceof BroadcastScript) {
-
-			if (!activeScripts.containsKey(script)) {
-				activeScripts.put(script, new LinkedList<Thread>());
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			} else {
-				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
-				while (currentScriptThreads.hasNext()) {
-					Thread currentThread = currentScriptThreads.next();
-					activeThreads.put(currentThread, false);
-				}
-				activeScripts.get(script).clear();
-				activeScripts.get(script).add(t);
-				activeThreads.put(t, true);
-			}
-		}
-		t.start();
 	}
 
 	public void pause() {

@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -63,9 +64,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.costume.aquireXYWidthHeightLock();
-		sprite.costume.setXYPosition(xPosition, yPosition);
-		sprite.costume.releaseXYWidthHeightLock();
+		//		sprite.costume.aquireXYWidthHeightLock();
+		//		sprite.costume.setXYPosition(xPosition, yPosition);
+		//		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	@Override
@@ -150,7 +151,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.placeAt(sprite, Float.valueOf(xPosition), Float.valueOf(yPosition)));
 		return null;
 	}
 }

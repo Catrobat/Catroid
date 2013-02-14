@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -54,8 +55,9 @@ public class Costume extends Image {
 	public boolean show;
 	public int zPosition;
 	protected Pixmap pixmap;
-	private HashMap<String, SequenceAction> broadcastSequenceMap;
 	private ArrayList<SequenceAction> touchDownSequenceList;
+	private HashMap<String, BroadcastScript> broadcastMap;
+	private HashMap<String, BroadcastScript> broadcastWaitMap;
 
 	public Costume(Sprite sprite) {
 		this.sprite = sprite;
@@ -69,7 +71,8 @@ public class Costume extends Image {
 		this.show = true;
 		this.zPosition = 0;
 		this.touchDownSequenceList = new ArrayList<SequenceAction>();
-		this.broadcastSequenceMap = new HashMap<String, SequenceAction>();
+		this.broadcastMap = new HashMap<String, BroadcastScript>();
+		this.broadcastWaitMap = new HashMap<String, BroadcastScript>();
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -80,6 +83,16 @@ public class Costume extends Image {
 			@Override
 			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
 				doHandleBroadcastEvent(broadcastMessage);
+			}
+
+			@Override
+			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+				doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
+			}
+
+			@Override
+			public void handleBroadcastToWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+				doHandleBroadcastToWaiterEvent(broadcastMessage);
 			}
 
 		});
@@ -102,10 +115,7 @@ public class Costume extends Image {
 
 		if (x >= 0 && x <= width && y >= 0 && y <= height) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				for (SequenceAction action : touchDownSequenceList) {
-					SequenceAction copyAction = ExtendedActions.copySequenceAction(action);
-					addAction(copyAction);
-				}
+				sprite.createWhenScriptActionSequence("Tapped");
 				return true;
 			}
 		}
@@ -113,12 +123,21 @@ public class Costume extends Image {
 	}
 
 	public void doHandleBroadcastEvent(String broadcastMessage) {
-		//if (broadcastScriptMap.containsKey(broadcastMessage)) {
-		//sprite.startScriptBroadcast(broadcastScriptMap.get(broadcastMessage), true);
-		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
-			SequenceAction action = broadcastSequenceMap.get(broadcastMessage);
-			SequenceAction copyAction = ExtendedActions.copySequenceAction(action);
-			addAction(copyAction);
+		if (broadcastMap.containsKey(broadcastMessage)) {
+			sprite.createBroadcastScriptActionSequence(broadcastMap.get(broadcastMessage));
+		}
+	}
+
+	public void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+		if (broadcastMap.containsKey(broadcastMessage)) {
+			Action action = ExtendedActions.broadcastToWaiter(event.getSenderSprite(), broadcastMessage);
+			sprite.createBroadcastScriptActionSequence(broadcastMap.get(broadcastMessage), action);
+		}
+	}
+
+	public void doHandleBroadcastToWaiterEvent(String broadcastMessage) {
+		if (broadcastWaitMap.containsKey(broadcastMessage)) {
+			sprite.createBroadcastScriptActionSequence(broadcastWaitMap.get(broadcastMessage));
 		}
 	}
 
@@ -348,12 +367,12 @@ public class Costume extends Image {
 		return costumeData;
 	}
 
-	public void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
-		broadcastSequenceMap.put(broadcastMessage, action);
+	public void putBroadcast(String broadcastMessage, BroadcastScript script) {
+		broadcastMap.put(broadcastMessage, script);
 	}
 
-	public void removeBroadcastSequenceAction(String broadcastMessage) {
-		broadcastSequenceMap.remove(broadcastMessage);
+	public void removeBroadcast(String broadcastMessage) {
+		broadcastMap.remove(broadcastMessage);
 	}
 
 	public void addTouchDownSequenceAction(SequenceAction action) {
@@ -362,6 +381,14 @@ public class Costume extends Image {
 
 	public void removeTouchDownSequenceAction(SequenceAction action) {
 		touchDownSequenceList.remove(action);
+	}
+
+	public void putBroadcastWait(String broadcastMessage, BroadcastScript script) {
+		broadcastWaitMap.put(broadcastMessage, script);
+	}
+
+	public void removeBroadcastWait(String broadcastMessage) {
+		broadcastWaitMap.remove(broadcastMessage);
 	}
 
 }
