@@ -83,7 +83,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	public void testBricksWithEmptySpinner() throws IOException, JSONException {
 		final String spinnerNothingSelectedText = solo.getString(R.string.broadcast_nothing_selected);
 
-		assertTrue("costume " + LOOK_DATA_NAME + " is not selected", solo.searchText(LOOK_DATA_NAME));
+		assertTrue("look " + LOOK_DATA_NAME + " is not selected", solo.searchText(LOOK_DATA_NAME));
 		solo.clickOnText(LOOK_DATA_NAME);
 
 		solo.clickOnText(spinnerNothingSelectedText);
