@@ -27,20 +27,24 @@ import java.util.List;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class TestMichael extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
+	private static final TextView TextView = null;
 	List<Brick> motionBrickList = new ArrayList<Brick>();
-	private String setYBrick;
+	private SetYBrick setYBrick;
 
 	public TestMichael() {
 		super(MainMenuActivity.class);
@@ -73,23 +77,27 @@ public class TestMichael extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
 		String categoryMotionText = solo.getString(R.string.category_motion);
-		String brickSetY = (solo.getCurrentActivity().getString(R.string.brick_set_y));
-
-		int categoryStringId = 0;
-		float screenWidth = 0;
-		float getTextViewXPosition = 0;
+		String brickSetY = (solo.getCurrentActivity().getString(R.layout.brick_set_y));
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_y);
 		solo.clickOnText(categoryMotionText);
-		UiTestUtils.addNewBrick(solo, R.string.brick_set_y);
-		//solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_set_y));
 
-		//int Position = (Integer) Reflection.getPrivateField(brickSetY, "yPosition");
+		TextView resolutionTextView = (TextView) solo.getView(R.id.brick_set_y_prototype_text_view);
+		String resolutionString = resolutionTextView.getText().toString();
+
+		solo.scrollDown();
+		TextView resolutionTextView1 = (TextView) solo.getView(R.id.brick_turn_right_prototype_text_view);
+		String resolutionString1 = resolutionTextView1.getText().toString();
+
+		//solo.getView(R.id.brick_set_y_prototype_text_view);
+		//prototypeView.getText().toString();
+		//
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_set_y));
+		Reflection.getPrivateField(setYBrick, "brick_set_y_prototype_text_view");
 
-		ArrayList<Integer> listOfYPosition = UiTestUtils.getListItemYPositions(solo);
-		screenWidth = solo.getCurrentActivity().getResources().getDisplayMetrics().widthPixels;
+		//int yPosition = (Integer) Reflection.getPrivateField(solo, "brick_set_y_edit_text");
+		//Reflection.getPrivateField(brickSetY, "brick_set_y_prototype_text_view");
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_set_y));
 
 		//getTextViewXPosition = (float) ((screenWidth / 2.0) * 0.75);
 		//solo.clickOnScreen(getTextViewXPosition, listOfYPosition.get(1));

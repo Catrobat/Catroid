@@ -87,11 +87,6 @@ public class SetXBrick implements Brick, OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		
-		//return setDefaultValues()
-		//prototype = View.inflate(context, R.layout.brick_set_x, null);
-		//TextView TextxPosition = (TextView) prototype.findViewById(R.id.brick_set_x_prototype_text_view);
-		//TextxPosition.setText(xPosition + "");
 		return setDefaultValues(context);
 	}
 
