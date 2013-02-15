@@ -1156,7 +1156,7 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(1000);
+		solo.sleep(2000);
 
 		if (makeScreenshot) {
 			solo.goBack();

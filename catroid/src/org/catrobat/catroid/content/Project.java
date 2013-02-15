@@ -112,7 +112,6 @@ public class Project implements Serializable {
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.costume.zPosition = Integer.MIN_VALUE;
 		addSprite(background);
-		Log.d("org.catrobat.catroid", "Project: Special - Project Constructor Called " + programName);
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
