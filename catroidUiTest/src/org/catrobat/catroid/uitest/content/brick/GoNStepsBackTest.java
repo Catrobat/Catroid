@@ -40,6 +40,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -94,6 +95,15 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, Reflection.getPrivateField(goNStepsBackBrick, "steps"));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_GO_BACK + "", solo.getEditText(0).getText().toString());
+
+		UiTestUtils.clickEnterClose(solo, 0, "1");
+		TextView secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
+		assertTrue("Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(solo.getString(R.string.brick_go_back_layers_singular)));
+		UiTestUtils.clickEnterClose(solo, 0, "2");
+		secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
+		assertTrue("Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(solo.getString(R.string.brick_go_back_layers)));
 	}
 
 	private void createProject() {

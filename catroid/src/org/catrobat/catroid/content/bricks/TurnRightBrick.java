@@ -78,6 +78,10 @@ public class TurnRightBrick implements Brick, OnClickListener {
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
 		EditText editDegrees = (EditText) view.findViewById(R.id.brick_turn_right_edit_text);
 		editDegrees.setText(String.valueOf(degrees));
+		if (degrees == 1.0) {
+			TextView times = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
+			times.setText(R.string.brick_turn_right_degrees_singular);
+		}
 
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);

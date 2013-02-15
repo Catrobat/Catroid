@@ -155,7 +155,10 @@ public class GlideToBrick implements Brick, OnClickListener {
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
-
+		if (durationInMilliSeconds == 1000) {
+			TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
+			times.setText(R.string.second);
+		}
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
 		textX.setVisibility(View.GONE);

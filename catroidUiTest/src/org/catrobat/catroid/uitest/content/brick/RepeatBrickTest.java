@@ -39,6 +39,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -80,6 +81,15 @@ public class RepeatBrickTest extends ActivityInstrumentationTestCase2<ScriptActi
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_repeat)));
+
+		UiTestUtils.clickEnterClose(solo, 0, "1");
+		TextView timesTextView = (TextView) solo.getView(R.id.brick_repeat_time_text_view);
+		assertTrue("Specifier hasn't changed from plural to singular",
+				timesTextView.getText().equals(solo.getString(R.string.times_label_singular)));
+		UiTestUtils.clickEnterClose(solo, 0, "5");
+		timesTextView = (TextView) solo.getView(R.id.brick_repeat_time_text_view);
+		assertTrue("Specifier hasn't changed from singular to plural",
+				timesTextView.getText().equals(solo.getString(R.string.times_label)));
 	}
 
 	private void createProject() {

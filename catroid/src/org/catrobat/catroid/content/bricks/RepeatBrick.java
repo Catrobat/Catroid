@@ -79,6 +79,10 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");
+		if (timesToRepeat == 1) {
+			TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
+			times.setText(R.string.times_label_singular);
+		}
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -109,6 +113,9 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 			protected boolean handleOkButton() {
 				try {
 					timesToRepeat = Integer.parseInt(input.getText().toString());
+					if (timesToRepeat == 1) {
+
+					}
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}

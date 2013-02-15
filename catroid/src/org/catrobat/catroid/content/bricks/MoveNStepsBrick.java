@@ -87,6 +87,10 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
+		if (steps == 1.0) {
+			TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
+			times.setText(R.string.brick_move_n_steps_singular);
+		}
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);

@@ -32,7 +32,9 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -73,7 +75,11 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		// This is a hack. On my device and on Jenkins, the click on the first EditText could not be completed.
 		// Doing it manually here
-		solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
+		// #2 Improved hack to have it working on newer devices too, still no solution or anything
+		if (Build.VERSION.SDK_INT < 15) {
+			solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
+		}
+
 		UiTestUtils.clickEnterClose(solo, 0, String.valueOf(duration));
 		UiTestUtils.clickEnterClose(solo, 1, String.valueOf(xPosition));
 		UiTestUtils.clickEnterClose(solo, 2, String.valueOf(yPosition));
@@ -88,5 +94,14 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 				Reflection.getPrivateField(glideToBrick, "xDestination"));
 		assertEquals("Wrong y input in Glide to brick", yPosition,
 				Reflection.getPrivateField(glideToBrick, "yDestination"));
+
+		UiTestUtils.clickEnterClose(solo, 0, "1");
+		TextView secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
+		assertTrue("Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(solo.getString(R.string.second)));
+		UiTestUtils.clickEnterClose(solo, 0, "5.0");
+		secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
+		assertTrue("Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(solo.getString(R.string.seconds)));
 	}
 }

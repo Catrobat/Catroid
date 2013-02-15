@@ -40,6 +40,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -81,6 +82,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
+
 	}
 
 	@Smoke
@@ -105,6 +107,15 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE, Reflection.getPrivateField(moveNStepsBrick, "steps"));
 		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE + "", solo.getEditText(0).getText().toString());
+
+		UiTestUtils.clickEnterClose(solo, 0, "1.0");
+		TextView stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
+		assertTrue("Specifier hasn't changed from plural to singular",
+				stepTextView.getText().equals(solo.getString(R.string.brick_move_n_steps_singular)));
+		UiTestUtils.clickEnterClose(solo, 0, "1.4");
+		stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
+		assertTrue("Specifier hasn't changed from singular to plural",
+				stepTextView.getText().equals(solo.getString(R.string.brick_move_n_steps)));
 	}
 
 }

@@ -40,6 +40,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -91,6 +92,15 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees);
 		assertEquals("Text not updated", TURN_DEGREES, Double.parseDouble(solo.getEditText(0).getText().toString()));
+
+		UiTestUtils.clickEnterClose(solo, 0, "1");
+		TextView secondsTextView = (TextView) solo.getView(R.id.brick_turn_right_degree_text_view);
+		assertTrue("Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(solo.getString(R.string.brick_turn_right_degrees_singular)));
+		UiTestUtils.clickEnterClose(solo, 0, "1.4");
+		secondsTextView = (TextView) solo.getView(R.id.brick_turn_right_degree_text_view);
+		assertTrue("Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(solo.getString(R.string.brick_turn_right_degrees)));
 	}
 
 	private void createProject() {

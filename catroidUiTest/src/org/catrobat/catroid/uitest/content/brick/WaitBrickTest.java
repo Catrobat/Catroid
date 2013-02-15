@@ -40,6 +40,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -89,6 +90,15 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		int actualWaitTime = (Integer) Reflection.getPrivateField(waitBrick, "timeToWaitInMilliSeconds");
 		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
+
+		UiTestUtils.clickEnterClose(solo, 0, "1");
+		TextView secondsTextView = (TextView) solo.getView(R.id.brick_wait_second_text_view);
+		assertTrue("Specifier hasn't changed from plural to singular",
+				secondsTextView.getText().equals(solo.getString(R.string.second)));
+		UiTestUtils.clickEnterClose(solo, 0, "1.4");
+		secondsTextView = (TextView) solo.getView(R.id.brick_wait_second_text_view);
+		assertTrue("Specifier hasn't changed from singular to plural",
+				secondsTextView.getText().equals(solo.getString(R.string.seconds)));
 	}
 
 	private void createProject() {

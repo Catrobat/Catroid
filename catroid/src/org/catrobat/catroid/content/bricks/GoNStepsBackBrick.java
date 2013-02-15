@@ -80,6 +80,10 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 		EditText edit = (EditText) view.findViewById(R.id.brick_go_back_edit_text);
 
 		edit.setText(String.valueOf(steps));
+		if (steps == 1) {
+			TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+			times.setText(R.string.brick_go_back_layers_singular);
+		}
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
