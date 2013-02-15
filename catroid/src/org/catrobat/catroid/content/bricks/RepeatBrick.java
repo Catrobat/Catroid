@@ -113,9 +113,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 			protected boolean handleOkButton() {
 				try {
 					timesToRepeat = Integer.parseInt(input.getText().toString());
-					if (timesToRepeat == 1) {
-
-					}
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
