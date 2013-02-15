@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Project;
 public class XmlSerializer {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>";
 
-	public void toXml(Project projectToSerialize, String pathToXML) throws SerializeException {
+	public static void toXml(Project projectToSerialize, String pathToXML) throws SerializeException {
 		ProjectSerializer projectSerializer = new ProjectSerializer();
 
 		PrintWriter xmlWriter;

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -44,7 +44,7 @@ import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
@@ -231,14 +231,14 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 	}
 
-	public void testCostumeDataListAndSoundInfoListInProjectFile() throws IOException {
+	public void testLookDataListAndSoundInfoListInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
-		assertTrue("CostumeDataList not in project", projectString.contains("CostumeList"));
+		assertTrue("LookDataList not in project", projectString.contains("LookList"));
 		assertTrue("SoundList not in project", projectString.contains("SoundList"));
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), null, false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
-		assertTrue("CostumeDataList not in project", projectString.contains("CostumeList"));
+		assertTrue("LookDataList not in project", projectString.contains("LookList"));
 		assertTrue("SoundList not in project", projectString.contains("SoundList"));
 	}
 
@@ -250,12 +250,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 		sprite.addScript(whenScript);
 		project.addSprite(sprite);
 
-		SetCostumeBrick costumeBrick2 = new SetCostumeBrick(sprite);
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(testImageCopy2.getName());
-		costumeData.setCostumeName("testImageCopy2");
-		costumeBrick2.setCostume(costumeData);
-		sprite.getCostumeDataList().add(costumeData);
+		SetLookBrick lookBrick2 = new SetLookBrick(sprite);
+		LookData lookData = new LookData();
+		lookData.setLookFilename(testImageCopy2.getName());
+		lookData.setLookName("testImageCopy2");
+		lookBrick2.setLook(lookData);
+		sprite.getLookDataList().add(lookData);
 
 		ArrayList<Brick> brickList1 = new ArrayList<Brick>();
 		ArrayList<Brick> brickList2 = new ArrayList<Brick>();
@@ -265,14 +265,14 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(new GoNStepsBackBrick(sprite, 5));
 		brickList1.add(new HideBrick(sprite));
 		brickList1.add(new WhenStartedBrick(sprite, script));
-		brickList1.add(costumeBrick2);
+		brickList1.add(lookBrick2);
 
-		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-		costumeData = new CostumeData();
-		costumeData.setCostumeFilename(testImageCopy.getName());
-		costumeData.setCostumeName("testImageCopy");
-		costumeBrick.setCostume(costumeData);
-		sprite.getCostumeDataList().add(costumeData);
+		SetLookBrick lookBrick = new SetLookBrick(sprite);
+		lookData = new LookData();
+		lookData.setLookFilename(testImageCopy.getName());
+		lookData.setLookName("testImageCopy");
+		lookBrick.setLook(lookData);
+		sprite.getLookDataList().add(lookData);
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
 		SoundInfo soundInfo = new SoundInfo();
@@ -284,7 +284,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
 		brickList2.add(soundBrick);
 		brickList2.add(new SetSizeToBrick(sprite, 50));
-		brickList2.add(costumeBrick);
+		brickList2.add(lookBrick);
 		brickList2.add(new SetXBrick(sprite, 50));
 		brickList2.add(new SetYBrick(sprite, 50));
 		brickList2.add(new ShowBrick(sprite));

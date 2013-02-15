@@ -36,13 +36,14 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -262,7 +263,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		// Prevent Utils from returning true in isApplicationDebuggable
-		UiTestUtils.setPrivateField2(Utils.class, null, "isUnderTest", true);
+		Reflection.setPrivateField(Utils.class, "isUnderTest", true);
 
 		boolean result = UiTestUtils
 				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
@@ -347,9 +348,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
 		assertEquals("Number of bricks in background sprite was wrong", 1, backgroundSprite.getNumberOfBricks());
-		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
-		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
-		startingScript.addBrick(new SetCostumeBrick(backgroundSprite));
+		startingScript.addBrick(new SetLookBrick(backgroundSprite));
+		startingScript.addBrick(new SetLookBrick(backgroundSprite));
+		startingScript.addBrick(new SetLookBrick(backgroundSprite));
 		assertEquals("Number of bricks in background sprite was wrong", 4, backgroundSprite.getNumberOfBricks());
 		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
 		ProjectManager.INSTANCE.setCurrentScript(startingScript);

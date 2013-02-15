@@ -107,7 +107,7 @@ public class ProjectManager {
 			// Set generic localized name on background sprite and move it to the back.
 			if (project.getSpriteList().size() > 0) {
 				project.getSpriteList().get(0).setName(context.getString(R.string.background));
-				project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+				project.getSpriteList().get(0).look.zPosition = Integer.MIN_VALUE;
 			}
 			currentSprite = null;
 			currentScript = null;

@@ -30,7 +30,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -90,7 +90,7 @@ public class StageListener implements ApplicationListener {
 	private BitmapFont font;
 
 	private List<Sprite> sprites;
-	private Comparator<Actor> costumeComparator;
+	private Comparator<Actor> lookComparator;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -134,7 +134,7 @@ public class StageListener implements ApplicationListener {
 
 		pathForScreenshot = Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()) + "/";
 
-		costumeComparator = new CostumeComparator();
+		lookComparator = new LookComparator();
 
 		project = ProjectManager.getInstance().getCurrentProject();
 
@@ -154,7 +154,7 @@ public class StageListener implements ApplicationListener {
 
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
-			stage.addActor(sprite.costume);
+			stage.addActor(sprite.look);
 		}
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -218,7 +218,7 @@ public class StageListener implements ApplicationListener {
 		}
 		renderTextures();
 		for (Sprite sprite : sprites) {
-			sprite.costume.refreshTextures();
+			sprite.look.refreshTextures();
 		}
 
 	}
@@ -265,7 +265,7 @@ public class StageListener implements ApplicationListener {
 			sprites = project.getSpriteList();
 			for (int i = 0; i < spriteSize; i++) {
 				Sprite sprite = sprites.get(i);
-				stage.addActor(sprite.costume);
+				stage.addActor(sprite.look);
 				sprite.pause();
 			}
 
@@ -282,7 +282,7 @@ public class StageListener implements ApplicationListener {
 			texturesRendered = true;
 		}
 
-		stage.getRoot().sortChildren(costumeComparator);
+		stage.getRoot().sortChildren(lookComparator);
 
 		switch (screenMode) {
 			case MAXIMIZE:
@@ -485,11 +485,11 @@ public class StageListener implements ApplicationListener {
 		List<Sprite> sprites = project.getSpriteList();
 		int spriteSize = sprites.size();
 		for (int i = 0; i > spriteSize; i++) {
-			List<CostumeData> data = sprites.get(i).getCostumeDataList();
+			List<LookData> data = sprites.get(i).getLookDataList();
 			int dataSize = data.size();
 			for (int j = 0; j < dataSize; j++) {
-				CostumeData costumeData = data.get(j);
-				costumeData.setTextureRegion();
+				LookData lookData = data.get(j);
+				lookData.setTextureRegion();
 			}
 		}
 	}
@@ -498,12 +498,12 @@ public class StageListener implements ApplicationListener {
 		List<Sprite> sprites = project.getSpriteList();
 		int spriteSize = sprites.size();
 		for (int i = 0; i > spriteSize; i++) {
-			List<CostumeData> data = sprites.get(i).getCostumeDataList();
+			List<LookData> data = sprites.get(i).getLookDataList();
 			int dataSize = data.size();
 			for (int j = 0; j < dataSize; j++) {
-				CostumeData costumeData = data.get(j);
-				costumeData.getPixmap().dispose();
-				costumeData.getTextureRegion().getTexture().dispose();
+				LookData lookData = data.get(j);
+				lookData.getPixmap().dispose();
+				lookData.getTextureRegion().getTexture().dispose();
 			}
 		}
 	}

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,22 +19,32 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Look.Medium"
-    android:gravity="center_vertical"
-    android:orientation="vertical" >
+ */
+package org.catrobat.catroid.stage;
 
-    <TextView
-        android:id="@+id/brick_set_costume_prototype_text_view"
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_set_costume" />
+import java.util.Comparator;
 
-    <Spinner
-        android:id="@+id/setcostume_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:focusable="false" />
+import org.catrobat.catroid.content.Look;
 
-</LinearLayout>
+
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+/**
+ * @author Johannes Iber
+ * 
+ */
+public class LookComparator implements Comparator<Actor> {
+
+	public int compare(Actor object1, Actor object2) {
+		Look look1 = (Look) object1;
+		Look look2 = (Look) object2;
+		if (look1.zPosition < look2.zPosition) {
+			return -1;
+		} else if (look1.zPosition == look2.zPosition) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+}

@@ -29,7 +29,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.CostumeFragment;
+import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
@@ -56,7 +56,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class ScriptActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
 	public static final int FRAGMENT_SCRIPTS = 0;
-	public static final int FRAGMENT_COSTUMES = 1;
+	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
@@ -66,8 +66,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
 	public static final String ACTION_NEW_BRICK_ADDED = "org.catrobat.catroid.NEW_BRICK_ADDED";
 	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
-	public static final String ACTION_COSTUME_DELETED = "org.catrobat.catroid.COSTUME_DELETED";
-	public static final String ACTION_COSTUME_RENAMED = "org.catrobat.catroid.COSTUME_RENAMED";
+	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
+	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
 	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 
@@ -75,7 +75,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	private FragmentManager fragmentManager = getSupportFragmentManager();
 
 	private ScriptFragment scriptFragment = null;
-	private CostumeFragment costumeFragment = null;
+	private LookFragment lookFragment = null;
 	private SoundFragment soundFragment = null;
 
 	private ScriptActivityFragment currentFragment = null;
@@ -118,6 +118,11 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 				if (itemPosition != currentFragmentPosition) {
+
+					if (currentFragmentPosition == FRAGMENT_SOUNDS && soundFragment.isSoundPlaying()) {
+						soundFragment.stopSoundAndUpdateList();
+					}
+
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 					hideFragment(currentFragmentPosition, fragmentTransaction);
@@ -136,8 +141,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			case FRAGMENT_SCRIPTS:
 				fragmentTransaction.hide(scriptFragment);
 				break;
-			case FRAGMENT_COSTUMES:
-				fragmentTransaction.hide(costumeFragment);
+			case FRAGMENT_LOOKS:
+				fragmentTransaction.hide(lookFragment);
 				break;
 			case FRAGMENT_SOUNDS:
 				fragmentTransaction.hide(soundFragment);
@@ -157,12 +162,12 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				}
 				currentFragment = scriptFragment;
 				break;
-			case FRAGMENT_COSTUMES:
-				if (costumeFragment == null) {
-					costumeFragment = new CostumeFragment();
+			case FRAGMENT_LOOKS:
+				if (lookFragment == null) {
+					lookFragment = new LookFragment();
 					fragmentDoesNotExist = true;
 				}
-				currentFragment = costumeFragment;
+				currentFragment = lookFragment;
 				break;
 			case FRAGMENT_SOUNDS:
 				if (soundFragment == null) {
@@ -232,6 +237,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 
 			case R.id.copy:
+				currentFragment.startCopyActionMode();
 				break;
 
 			case R.id.cut:
@@ -353,8 +359,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 			case FRAGMENT_SCRIPTS:
 				fragment = scriptFragment;
 				break;
-			case FRAGMENT_COSTUMES:
-				fragment = costumeFragment;
+			case FRAGMENT_LOOKS:
+				fragment = lookFragment;
 				break;
 			case FRAGMENT_SOUNDS:
 				fragment = soundFragment;

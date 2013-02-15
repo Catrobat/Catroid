@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -46,10 +46,11 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -65,7 +66,6 @@ import android.util.Log;
 public class SerializerTest extends InstrumentationTestCase {
 
 	public void testSerializingToXml() {
-		XmlSerializer serializer = new XmlSerializer();
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
@@ -110,7 +110,7 @@ public class SerializerTest extends InstrumentationTestCase {
 				projectDirectory.mkdir();
 
 			}
-			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (IllegalArgumentException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -158,13 +158,13 @@ public class SerializerTest extends InstrumentationTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		int actualXPosition = (Integer) TestUtils.getPrivateField("xPosition", (postSpriteList.get(1).getScript(0)
-				.getBrickList().get(0)), false);
-		int actualYPosition = (Integer) TestUtils.getPrivateField("yPosition", (postSpriteList.get(1).getScript(0)
-				.getBrickList().get(0)), false);
+		int actualXPosition = (Integer) Reflection.getPrivateField(
+				(postSpriteList.get(1).getScript(0).getBrickList().get(0)), "xPosition");
+		int actualYPosition = (Integer) Reflection.getPrivateField(
+				(postSpriteList.get(1).getScript(0).getBrickList().get(0)), "yPosition");
 
-		double actualSize = (Double) TestUtils.getPrivateField("size", (postSpriteList.get(0).getScript(0)
-				.getBrickList().get(2)), false);
+		double actualSize = (Double) Reflection.getPrivateField(
+				(postSpriteList.get(0).getScript(0).getBrickList().get(2)), "size");
 
 		assertEquals("Size was not deserialized right", size, actualSize);
 		assertEquals("XPosition was not deserialized right", xPosition, actualXPosition);
@@ -179,9 +179,9 @@ public class SerializerTest extends InstrumentationTestCase {
 		Sprite testSprite = new Sprite("test");
 		Sprite pointedSprite = new Sprite("pointed");
 
-		CostumeData referenceCostume = new CostumeData();
-		referenceCostume.setCostumeFilename("testfileName");
-		referenceCostume.setCostumeName("testName");
+		LookData referenceLook = new LookData();
+		referenceLook.setLookFilename("testfileName");
+		referenceLook.setLookName("testName");
 
 		SoundInfo referencedSound = new SoundInfo();
 		referencedSound.setSoundFileName("soundFile");
@@ -191,8 +191,8 @@ public class SerializerTest extends InstrumentationTestCase {
 		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
-		SetCostumeBrick costumeBrick = new SetCostumeBrick(testSprite);
-		costumeBrick.setCostume(referenceCostume);
+		SetLookBrick lookBrick = new SetLookBrick(testSprite);
+		lookBrick.setLook(referenceLook);
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(testSprite);
 		soundBrick.setSoundInfo(referencedSound);
@@ -210,7 +210,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		HideBrick hideBrick = new HideBrick(pointedSprite);
 		ShowBrick showBrick = new ShowBrick(pointedSprite);
 		testScript.addBrick(repeatBrick);
-		testScript.addBrick(costumeBrick);
+		testScript.addBrick(lookBrick);
 		testScript.addBrick(soundBrick);
 		testScript.addBrick(loopEndBrick);
 		testScript.addBrick(pointBrick);
@@ -219,13 +219,13 @@ public class SerializerTest extends InstrumentationTestCase {
 		testSprite.addScript(testScript);
 		testSprite.addScript(testScriptReferenced);
 		try {
-			Field costumeField = Sprite.class.getDeclaredField(CatroidXMLConstants.COSTUME_LIST_FIELD_NAME);
+			Field lookField = Sprite.class.getDeclaredField(CatroidXMLConstants.LOOK_LIST_FIELD_NAME);
 			Field soundField = Sprite.class.getDeclaredField(CatroidXMLConstants.SOUND_LIST_FIELD_NAME);
-			List<CostumeData> costumeList = new ArrayList<CostumeData>();
+			List<LookData> lookList = new ArrayList<LookData>();
 			List<SoundInfo> soundList = new ArrayList<SoundInfo>();
-			costumeList.add(referenceCostume);
-			costumeField.setAccessible(true);
-			costumeField.set(testSprite, costumeList);
+			lookList.add(referenceLook);
+			lookField.setAccessible(true);
+			lookField.set(testSprite, lookList);
 			soundList.add(referencedSound);
 			soundField.setAccessible(true);
 			soundField.set(testSprite, soundList);
@@ -251,8 +251,6 @@ public class SerializerTest extends InstrumentationTestCase {
 		testProject.addSprite(testSprite);
 		testProject.addSprite(pointedSprite);
 
-		XmlSerializer serializer = new XmlSerializer();
-
 		String projectDirectoryName = Utils.buildProjectPath("test__" + testProject.getName());
 		File projectDirectory = new File(projectDirectoryName);
 
@@ -261,7 +259,7 @@ public class SerializerTest extends InstrumentationTestCase {
 
 		}
 		try {
-			serializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (SerializeException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -292,27 +290,27 @@ public class SerializerTest extends InstrumentationTestCase {
 		LoopEndBrick loadedLoopEndBrick = (LoopEndBrick) loadedFirstSprite.getScript(0).getBrick(3);
 		assertEquals("LoopEndBrick not referenced right", loadedLoopEndBrick, referenceLoopEndBrick);
 
-		CostumeData loadedCostume = loadedFirstSprite.getCostumeDataList().get(0);
-		assertNotNull("Costume not in sprite costumeList", loadedCostume);
-		SetCostumeBrick loadedCostumeBrick = (SetCostumeBrick) loadedFirstSprite.getScript(0).getBrick(1);
-		CostumeData brickReferencedCostumeData = (CostumeData) TestUtils.getPrivateField(
-				CatroidXMLConstants.COSTUME_DATA_FIELD_NAME, loadedCostumeBrick, false);
-		assertEquals("Costume data referencing wrong", loadedCostume, brickReferencedCostumeData);
+		LookData loadedLook = loadedFirstSprite.getLookDataList().get(0);
+		assertNotNull("Look not in sprite lookList", loadedLook);
+		SetLookBrick loadedLookBrick = (SetLookBrick) loadedFirstSprite.getScript(0).getBrick(1);
+		LookData brickReferencedLookData = (LookData) Reflection.getPrivateField(loadedLookBrick,
+				CatroidXMLConstants.LOOK_DATA_FIELD_NAME);
+		assertEquals("Look data referencing wrong", loadedLook, brickReferencedLookData);
 
 		SoundInfo loadedSound = loadedFirstSprite.getSoundList().get(0);
 		PlaySoundBrick loadedPlaySoundBrick = (PlaySoundBrick) loadedFirstSprite.getScript(0).getBrick(2);
-		SoundInfo brickReferenceSoundInfo = (SoundInfo) TestUtils.getPrivateField(
-				CatroidXMLConstants.SOUND_INFO_FIELD_NAME, loadedPlaySoundBrick, false);
+		SoundInfo brickReferenceSoundInfo = (SoundInfo) Reflection.getPrivateField(loadedPlaySoundBrick,
+				CatroidXMLConstants.SOUND_INFO_FIELD_NAME);
 		assertEquals("Sound Info referencing wrong", loadedSound, brickReferenceSoundInfo);
 		assertTrue("PlaySoundBrick sprite soundInfo doesnt have referenced SoundInfo", loadedPlaySoundBrick.getSprite()
 				.getSoundList().contains(brickReferenceSoundInfo));
 		assertEquals("Sprites are different", loadedPlaySoundBrick.getSprite(), loadedFirstSprite);
 		PointToBrick loadedPointBrick = (PointToBrick) loadedFirstSprite.getScript(0).getBrick(4);
-		Sprite referencedSprite = (Sprite) TestUtils.getPrivateField("pointedSprite", loadedPointBrick, false);
+		Sprite referencedSprite = (Sprite) Reflection.getPrivateField(loadedPointBrick, "pointedSprite");
 		assertEquals("SpriteReferencing wrong", loadedProject.getSpriteList().get(1), referencedSprite);
 
 		WhenStartedBrick loadedScriptBrick = (WhenStartedBrick) loadedFirstSprite.getScript(1).getBrick(0);
-		StartScript referencedScript = (StartScript) TestUtils.getPrivateField("script", loadedScriptBrick, false);
+		StartScript referencedScript = (StartScript) Reflection.getPrivateField(loadedScriptBrick, "script");
 		assertEquals("Script referencing of bricks wrong", loadedFirstSprite.getScript(0), referencedScript);
 		UtilFile.deleteDirectory(projectDirectory);
 	}
@@ -326,8 +324,6 @@ public class SerializerTest extends InstrumentationTestCase {
 			e.printStackTrace();
 		}
 
-		XmlSerializer serializer = new XmlSerializer();
-
 		String bigProjectDirectoryName = Utils.buildProjectPath("test_1_" + bigProject.getName());
 		File bigProjectDirectory = new File(bigProjectDirectoryName);
 
@@ -337,7 +333,7 @@ public class SerializerTest extends InstrumentationTestCase {
 		}
 		try {
 			long starTime = System.currentTimeMillis();
-			serializer.toXml(bigProject, Utils.buildPath(bigProjectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(bigProject, Utils.buildPath(bigProjectDirectoryName, Constants.PROJECTCODE_NAME));
 			long endTime = System.currentTimeMillis();
 			long duration = endTime - starTime;
 			Log.i("SerializerTest", "Big project duration is " + duration + " ms");
@@ -393,7 +389,6 @@ public class SerializerTest extends InstrumentationTestCase {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
-		XmlSerializer serializer = new XmlSerializer();
 		String projectDirectoryName = Utils.buildProjectPath("test_" + project.getName());
 		File projectDirectory = new File(projectDirectoryName);
 
@@ -402,7 +397,7 @@ public class SerializerTest extends InstrumentationTestCase {
 
 		}
 		try {
-			serializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(project, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (SerializeException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -430,34 +425,34 @@ public class SerializerTest extends InstrumentationTestCase {
 	public void testSavingWithNothingSelected() {
 		Sprite testSprite = new Sprite("test");
 
-		CostumeData referenceCostume = new CostumeData();
-		referenceCostume.setCostumeFilename("testfileName");
-		referenceCostume.setCostumeName("testName");
+		LookData referenceLook = new LookData();
+		referenceLook.setLookFilename("testfileName");
+		referenceLook.setLookName("testName");
 
 		SoundInfo referencedSound = new SoundInfo();
 		referencedSound.setSoundFileName("soundFile");
 		referencedSound.setTitle("SongTitle");
 
-		SetCostumeBrick costumeBrick = new SetCostumeBrick(testSprite);
-		costumeBrick.setCostume(null);
+		SetLookBrick lookBrick = new SetLookBrick(testSprite);
+		lookBrick.setLook(null);
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(testSprite);
 		soundBrick.setSoundInfo(null);
 
 		Script testScript = new StartScript(testSprite);
 
-		testScript.addBrick(costumeBrick);
+		testScript.addBrick(lookBrick);
 		testScript.addBrick(soundBrick);
 		testSprite.addScript(testScript);
 
 		try {
-			Field costumeField = Sprite.class.getDeclaredField(CatroidXMLConstants.COSTUME_LIST_FIELD_NAME);
+			Field lookField = Sprite.class.getDeclaredField(CatroidXMLConstants.LOOK_LIST_FIELD_NAME);
 			Field soundField = Sprite.class.getDeclaredField(CatroidXMLConstants.SOUND_LIST_FIELD_NAME);
-			List<CostumeData> costumeList = new ArrayList<CostumeData>();
+			List<LookData> lookList = new ArrayList<LookData>();
 			List<SoundInfo> soundList = new ArrayList<SoundInfo>();
-			costumeList.add(referenceCostume);
-			costumeField.setAccessible(true);
-			costumeField.set(testSprite, costumeList);
+			lookList.add(referenceLook);
+			lookField.setAccessible(true);
+			lookField.set(testSprite, lookList);
 			soundList.add(referencedSound);
 			soundField.setAccessible(true);
 			soundField.set(testSprite, soundList);
@@ -479,8 +474,6 @@ public class SerializerTest extends InstrumentationTestCase {
 		testProject.setName("testReferenceSerializerProject");
 		testProject.addSprite(testSprite);
 
-		XmlSerializer serializer = new XmlSerializer();
-
 		String projectDirectoryName = Utils.buildProjectPath("test__" + testProject.getName());
 		File projectDirectory = new File(projectDirectoryName);
 
@@ -489,7 +482,7 @@ public class SerializerTest extends InstrumentationTestCase {
 
 		}
 		try {
-			serializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
+			XmlSerializer.toXml(testProject, Utils.buildPath(projectDirectoryName, Constants.PROJECTCODE_NAME));
 		} catch (SerializeException e) {
 			fail("unexpected SerilizeException");
 			e.printStackTrace();
@@ -516,16 +509,16 @@ public class SerializerTest extends InstrumentationTestCase {
 		assertNotNull("loaded project is null", loadedProject);
 		Sprite loadedFirstSprite = loadedProject.getSpriteList().get(0);
 
-		CostumeData loadedCostume = loadedFirstSprite.getCostumeDataList().get(0);
-		assertNotNull("Costume not in sprite costumeList", loadedCostume);
-		SetCostumeBrick loadedCostumeBrick = (SetCostumeBrick) loadedFirstSprite.getScript(0).getBrick(0);
-		CostumeData brickReferencedCostumeData = (CostumeData) TestUtils.getPrivateField(
-				CatroidXMLConstants.COSTUME_DATA_FIELD_NAME, loadedCostumeBrick, false);
-		assertNull("Costume data referencing wrong", brickReferencedCostumeData);
+		LookData loadedLook = loadedFirstSprite.getLookDataList().get(0);
+		assertNotNull("Look not in sprite lookList", loadedLook);
+		SetLookBrick loadedLookBrick = (SetLookBrick) loadedFirstSprite.getScript(0).getBrick(0);
+		LookData brickReferencedLookData = (LookData) Reflection.getPrivateField(loadedLookBrick,
+				CatroidXMLConstants.LOOK_DATA_FIELD_NAME);
+		assertNull("Look data referencing wrong", brickReferencedLookData);
 
 		PlaySoundBrick loadedPlaySoundBrick = (PlaySoundBrick) loadedFirstSprite.getScript(0).getBrick(1);
-		SoundInfo brickReferenceSoundInfo = (SoundInfo) TestUtils.getPrivateField(
-				CatroidXMLConstants.SOUND_INFO_FIELD_NAME, loadedPlaySoundBrick, false);
+		SoundInfo brickReferenceSoundInfo = (SoundInfo) Reflection.getPrivateField(loadedPlaySoundBrick,
+				CatroidXMLConstants.SOUND_INFO_FIELD_NAME);
 		assertNull("Sound Info referencing wrong", brickReferenceSoundInfo);
 
 		UtilFile.deleteDirectory(projectDirectory);

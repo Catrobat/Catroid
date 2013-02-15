@@ -25,7 +25,7 @@ package org.catrobat.catroid.uitest.stage;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Values;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
@@ -84,15 +84,15 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(100);
 			assertEquals("Wrong executionBrickIndex.", 0, yellowWhenScript.getExecutingBrickIndex());
-			assertEquals("Costume has wrong AlphaValue.", (float) 1.0, yellowSprite.costume.getAlphaValue());
+			assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlphaValue());
 			solo.clickOnScreen((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2));
 		}
 
 		solo.sleep(100);
-		assertEquals("Costume has wrong AlphaValue.", (float) 1.0, yellowSprite.costume.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", (float) 1.0, yellowSprite.look.getAlphaValue());
 		assertEquals("Wrong executionBrickIndex.", 0, yellowWhenScript.getExecutingBrickIndex());
 		solo.sleep(2000);
-		assertEquals("Costume has wrong AlphaValue.", (float) 0.5, yellowSprite.costume.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", (float) 0.5, yellowSprite.look.getAlphaValue());
 		assertEquals("Wrong executionBrickIndex.", 1, yellowWhenScript.getExecutingBrickIndex());
 	}
 
@@ -102,14 +102,14 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		for (int i = 1; i <= 10; ++i) {
 			solo.sleep(1000);
 			assertEquals("Wrong executionBrickIndex.", 0, greenBroadcastScript.getExecutingBrickIndex());
-			assertEquals("Costume has wrong AlphaValue.", (float) 1.0, greenSprite.costume.getAlphaValue());
+			assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlphaValue());
 			solo.clickOnScreen((SCREEN_WIDTH / 2) + 100, (SCREEN_HEIGHT / 2));
 		}
 		solo.sleep(1000);
-		assertEquals("Costume has wrong AlphaValue.", (float) 1.0, greenSprite.costume.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", (float) 1.0, greenSprite.look.getAlphaValue());
 		assertEquals("Wrong executionBrickIndex.", 0, greenBroadcastScript.getExecutingBrickIndex());
 		solo.sleep(2000);
-		assertEquals("Costume has wrong AlphaValue.", (float) 0, greenSprite.costume.getAlphaValue());
+		assertEquals("Look has wrong AlphaValue.", (float) 0, greenSprite.look.getAlphaValue());
 		assertEquals("Wrong executionBrickIndex.", 1, greenBroadcastScript.getExecutingBrickIndex());
 	}
 
@@ -123,14 +123,14 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		yellowSprite = new Sprite("yellowSprite");
 
 		StartScript yellowStartScript = new StartScript(yellowSprite);
-		SetCostumeBrick yellowCostumeBrick = new SetCostumeBrick(yellowSprite);
+		SetLookBrick yellowLookBrick = new SetLookBrick(yellowSprite);
 		SetSizeToBrick yellowSetSizeToBrick = new SetSizeToBrick(yellowSprite, 200d);
-		CostumeData yellowCostumeData = new CostumeData();
+		LookData yellowLookData = new LookData();
 		String yellowImageName = "yellow_image.bmp";
-		yellowCostumeData.setCostumeName(yellowImageName);
-		yellowSprite.getCostumeDataList().add(yellowCostumeData);
-		yellowCostumeBrick.setCostume(yellowCostumeData);
-		yellowStartScript.addBrick(yellowCostumeBrick);
+		yellowLookData.setLookName(yellowImageName);
+		yellowSprite.getLookDataList().add(yellowLookData);
+		yellowLookBrick.setLook(yellowLookData);
+		yellowStartScript.addBrick(yellowLookBrick);
 		yellowStartScript.addBrick(yellowSetSizeToBrick);
 		yellowSprite.addScript(yellowStartScript);
 
@@ -144,19 +144,19 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		// blue Sprite
 		Sprite blueSprite = new Sprite("blueSprite");
 		StartScript blueStartScript = new StartScript(blueSprite);
-		SetCostumeBrick blueCostumeBrick = new SetCostumeBrick(blueSprite);
+		SetLookBrick blueLookBrick = new SetLookBrick(blueSprite);
 		SetSizeToBrick blueSetSizeToBrick = new SetSizeToBrick(blueSprite, 200d);
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(blueSprite);
 		broadcastWaitBrick.setSelectedMessage(broadcastMessage);
-		CostumeData blueCostumeData = new CostumeData();
+		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
-		blueCostumeData.setCostumeName(blueImageName);
+		blueLookData.setLookName(blueImageName);
 
-		blueSprite.getCostumeDataList().add(blueCostumeData);
+		blueSprite.getLookDataList().add(blueLookData);
 
-		blueCostumeBrick.setCostume(blueCostumeData);
-		blueStartScript.addBrick(blueCostumeBrick);
+		blueLookBrick.setLook(blueLookData);
+		blueStartScript.addBrick(blueLookBrick);
 		blueStartScript.addBrick(blueSetSizeToBrick);
 		blueStartScript.addBrick(new PlaceAtBrick(blueSprite, 100, 0));
 
@@ -169,17 +169,17 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 		// green Sprite
 		greenSprite = new Sprite("greenSprite");
 		StartScript greenStartScript = new StartScript(greenSprite);
-		SetCostumeBrick greenCostumeBrick = new SetCostumeBrick(greenSprite);
+		SetLookBrick greenLookBrick = new SetLookBrick(greenSprite);
 		SetSizeToBrick greenSetSizeToBrick = new SetSizeToBrick(greenSprite, 200d);
-		CostumeData greenCostumeData = new CostumeData();
+		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
 
-		greenCostumeData.setCostumeName(greenImageName);
+		greenLookData.setLookName(greenImageName);
 
-		greenSprite.getCostumeDataList().add(greenCostumeData);
+		greenSprite.getLookDataList().add(greenLookData);
 
-		greenCostumeBrick.setCostume(greenCostumeData);
-		greenStartScript.addBrick(greenCostumeBrick);
+		greenLookBrick.setLook(greenLookData);
+		greenStartScript.addBrick(greenLookBrick);
 		greenStartScript.addBrick(greenSetSizeToBrick);
 		greenStartScript.addBrick(new PlaceAtBrick(greenSprite, -100, 0));
 
@@ -214,11 +214,11 @@ public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationT
 				org.catrobat.catroid.uitest.R.raw.green_image, getInstrumentation().getContext(),
 				UiTestUtils.FileTypes.IMAGE);
 
-		yellowCostumeData.setCostumeFilename(yellowImageFile.getName());
+		yellowLookData.setLookFilename(yellowImageFile.getName());
 
-		blueCostumeData.setCostumeFilename(blueImageFile.getName());
+		blueLookData.setLookFilename(blueImageFile.getName());
 
-		greenCostumeData.setCostumeFilename(greenImageFile.getName());
+		greenLookData.setLookFilename(greenImageFile.getName());
 		StorageHandler.getInstance().saveProject(projectWhenBrick);
 		ProjectManager.getInstance().setProject(projectWhenBrick);
 	}

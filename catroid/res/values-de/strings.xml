@@ -28,7 +28,6 @@
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
-    <string name="delete_lowercase">löschen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="copy">Kopieren</string>
@@ -83,7 +82,7 @@
     <string name="project_name">Projekt:</string>
     <string name="number_of_scripts">Skripte:</string>
     <string name="number_of_bricks">Bausteine:</string>
-    <string name="number_of_costumes">Kostüme:</string>
+    <string name="number_of_looks">Aussehen:</string>
     <string name="number_of_sounds">Klänge:</string>
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
@@ -93,39 +92,39 @@
     <!--  -->
 
 
-    <!-- ScriptTab activity -->
+    <!-- Script activity -->
     <string name="scripts">Skripte</string>
-    <string name="costumes">Kostüme</string>
+    <string name="look">Aussehen</string>
+    <string name="looks">Aussehen</string>
     <string name="sounds">Klänge</string>
     <string name="backgrounds">Hintergründe</string>
+    <string name="size">Größe:</string>
     <!--  -->
 
 
-    <!-- Costume activity -->
-    <string name="rename_costume_dialog">Kostüm umbenennen</string>
-    <string name="edit_costume_paintroid">Paintroid</string>
-    <string name="copy_costume">kopieren</string>
-    <string name="costumename_invalid">Dieser Name ist nicht zulässig</string>
-    <string name="copy_costume_addition">Kopie</string>
+    <!-- Look fragment -->
+    <string name="rename_look_dialog">Aussehen umbenennen</string>
+    <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
+    <string name="copy_look_addition">Kopie</string>
     <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
-    <string name="default_costume_name">Kostüm</string>
-    <string name="delete_costume_dialog">Kostüm löschen?</string>
-    <string name="new_costume_dialog_title">Kostüm hinzufügen</string>
-    <string name="add_costume_from_gallery">Von Galerie</string>
-    <string name="add_costume_from_camera">Von Kamera</string>
-    <string name="select_costume_from_gallery">Bild auswählen</string>
-    <string name="select_costume_from_camera">Photo auswählen</string>
+    <string name="default_look_name">Aussehen</string>
+    <string name="delete_look_dialog">Aussehen löschen?</string>
+    <string name="new_look_dialog_title">Aussehen hinzufügen</string>
+    <string name="add_look_from_gallery">Von Galerie</string>
+    <string name="add_look_from_camera">Von Kamera</string>
+    <string name="select_look_from_gallery">Bild auswählen</string>
+    <string name="select_look_from_camera">Photo auswählen</string>
+    <string name="look_resolution">Auflösung:</string>
     <!--  -->
 
 
-    <!-- Sound activity -->
+    <!-- Sound fragment -->
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
-    <string name="sound_size">Größe:</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
     <!--  -->
 
@@ -249,6 +248,7 @@
     <string name="brick_turn_right">Drehe rechts</string>
     <string name="brick_turn_right_degrees">Grad</string>
     <string name="brick_point_in_direction">Zeige in Richtung</string>
+    <string name="brick_point_in_direction_choose_direction">Wähle Richtung</string>
     <string name="brick_point_to">Zeige auf</string>
     <string name="brick_glide">Gleite</string>
     <string name="brick_glide_to_x">zu X:</string>
@@ -256,7 +256,7 @@
 
 
     <!-- Looks bricks -->
-    <string name="brick_set_costume">Setze Kostüm</string>
+    <string name="brick_set_look">Setze Aussehen</string>
     <string name="brick_set_background">Setze Hintergrund</string>
     <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_change_size_by">Ändere Größe um</string>
@@ -269,7 +269,7 @@
     <string name="by_label">um</string>
     <string name="to_label">auf</string>
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
-    <string name="brick_next_costume">Nächstes Kostüm</string>
+    <string name="brick_next_look">Nächstes Aussehen</string>
     <string name="brick_next_background">Nächster Hintergrund</string>
     <!--  -->
 
