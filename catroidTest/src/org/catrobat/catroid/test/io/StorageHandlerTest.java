@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -44,7 +44,7 @@ import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
@@ -183,26 +183,26 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		//test if images are existing:
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<CostumeData> backgroundCostumeList = currentProject.getSpriteList().get(0).getCostumeDataList();
-		ArrayList<CostumeData> catroidCostumeList = currentProject.getSpriteList().get(1).getCostumeDataList();
-		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundCostumeList.size());
-		assertEquals("wrong number of pictures in catroid sprite", 3, catroidCostumeList.size());
+		ArrayList<LookData> backgroundLookList = currentProject.getSpriteList().get(0).getLookDataList();
+		ArrayList<LookData> catroidLookList = currentProject.getSpriteList().get(1).getLookDataList();
+		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundLookList.size());
+		assertEquals("wrong number of pictures in catroid sprite", 3, catroidLookList.size());
 
-		String imagePath = backgroundCostumeList.get(0).getAbsolutePath();
+		String imagePath = backgroundLookList.get(0).getAbsolutePath();
 		File testFile = new File(imagePath);
-		assertTrue("Image " + backgroundCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
+		assertTrue("Image " + backgroundLookList.get(0).getLookFileName() + " does not exist", testFile.exists());
 
-		imagePath = catroidCostumeList.get(0).getAbsolutePath();
+		imagePath = catroidLookList.get(0).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + catroidCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidLookList.get(0).getLookFileName() + " does not exist", testFile.exists());
 
-		imagePath = catroidCostumeList.get(1).getAbsolutePath();
+		imagePath = catroidLookList.get(1).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + catroidCostumeList.get(1).getCostumeFileName() + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidLookList.get(1).getLookFileName() + " does not exist", testFile.exists());
 
-		imagePath = catroidCostumeList.get(2).getAbsolutePath();
+		imagePath = catroidLookList.get(2).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + catroidCostumeList.get(2).getCostumeFileName() + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidLookList.get(2).getLookFileName() + " does not exist", testFile.exists());
 	}
 
 	public void testAliasesAndXmlHeader() {
@@ -233,7 +233,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		whenScriptBrickList.add(new PlaySoundBrick(sprite));
 		whenScriptBrickList.add(new SetSizeToBrick(sprite, 50));
-		whenScriptBrickList.add(new SetCostumeBrick(sprite));
+		whenScriptBrickList.add(new SetLookBrick(sprite));
 		whenScriptBrickList.add(new SetXBrick(sprite, 50));
 		whenScriptBrickList.add(new SetYBrick(sprite, 50));
 		whenScriptBrickList.add(new ShowBrick(sprite));

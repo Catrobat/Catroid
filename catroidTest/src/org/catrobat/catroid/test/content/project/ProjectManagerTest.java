@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
@@ -120,10 +120,10 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		// addBrick
 		projectManager.setCurrentScript(script2);
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite2);
-		projectManager.getCurrentScript().addBrick(setCostumeBrick);
+		SetLookBrick setLookBrick = new SetLookBrick(sprite2);
+		projectManager.getCurrentScript().addBrick(setLookBrick);
 		assertTrue("Brick not in current Script",
-				projectManager.getCurrentScript().getBrickList().contains(setCostumeBrick));
+				projectManager.getCurrentScript().getBrickList().contains(setLookBrick));
 	}
 
 	public void testRenameProject() throws IOException {
@@ -173,13 +173,13 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		otherScript = new StartScript(secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
-		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
+		SetLookBrick lookBrick = new SetLookBrick(firstSprite);
 		File image = TestUtils.saveFileToProject(projectName, "image.png", org.catrobat.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
-		CostumeData costumeData = new CostumeData();
-		costumeData.setCostumeFilename(image.getName());
-		costumeData.setCostumeName("name");
-		costumeBrick.setCostume(costumeData);
+		LookData lookData = new LookData();
+		lookData.setLookFilename(image.getName());
+		lookData.setLookName("name");
+		lookBrick.setLook(lookData);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);

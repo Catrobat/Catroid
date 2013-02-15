@@ -38,17 +38,17 @@ public class ComeToFrontAction extends TemporalAction {
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		int highestPosition = 0;
 		for (Sprite sprite : spriteList) {
-			if (highestPosition < sprite.costume.zPosition) {
-				highestPosition = sprite.costume.zPosition;
+			if (highestPosition < sprite.look.zPosition) {
+				highestPosition = sprite.look.zPosition;
 				if (sprite == this.sprite) {
 					highestPosition--;
 				}
 			}
 		}
 		if (highestPosition > highestPosition + 1) {
-			sprite.costume.zPosition = Integer.MAX_VALUE;
+			sprite.look.zPosition = Integer.MAX_VALUE;
 		} else {
-			sprite.costume.zPosition = highestPosition + 1;
+			sprite.look.zPosition = highestPosition + 1;
 		}
 	}
 

@@ -33,7 +33,7 @@ public class SetXAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		sprite.costume.setXPosition(x);
+		sprite.look.setXPosition(x);
 	}
 
 	public Sprite getSprite() {

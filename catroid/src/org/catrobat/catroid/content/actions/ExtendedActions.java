@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
@@ -117,16 +117,16 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static NextCostumeAction nextCostume(Sprite sprite) {
-		NextCostumeAction action = action(NextCostumeAction.class);
+	public static NextLookAction nextCostume(Sprite sprite) {
+		NextLookAction action = action(NextLookAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
 
-	public static SetCostumeAction setCostume(Sprite sprite, CostumeData costume) {
-		SetCostumeAction action = action(SetCostumeAction.class);
+	public static SetLookAction setCostume(Sprite sprite, LookData costume) {
+		SetLookAction action = action(SetLookAction.class);
 		action.setSprite(sprite);
-		action.setCostumeData(costume);
+		action.setLookData(costume);
 		return action;
 	}
 

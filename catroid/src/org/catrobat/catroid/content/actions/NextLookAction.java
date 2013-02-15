@@ -24,43 +24,43 @@ package org.catrobat.catroid.content.actions;
 
 import java.util.ArrayList;
 
-import org.catrobat.catroid.common.CostumeData;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class NextCostumeAction extends TemporalAction {
+public class NextLookAction extends TemporalAction {
 
 	private Sprite sprite;
 
 	@Override
 	protected void update(float delta) {
-		final ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
-		int costumeDataListSize = costumeDataList.size();
+		final ArrayList<LookData> lookDataList = sprite.getLookDataList();
+		int lookDataListSize = lookDataList.size();
 
-		if (costumeDataListSize > 0 && sprite.costume.getCostumeData() != null) {
-			CostumeData currentCostumeData = sprite.costume.getCostumeData();
-			CostumeData finalCostumeData = costumeDataList.get(costumeDataListSize - 1);
+		if (lookDataListSize > 0 && sprite.look.getLookData() != null) {
+			LookData currentLookData = sprite.look.getLookData();
+			LookData finalLookData = lookDataList.get(lookDataListSize - 1);
 			boolean executeOnce = true;
 
-			for (CostumeData costumeData : costumeDataList) {
-				int currentIndex = costumeDataList.indexOf(costumeData);
+			for (LookData lookData : lookDataList) {
+				int currentIndex = lookDataList.indexOf(lookData);
 				int newIndex = currentIndex + 1;
 
-				if (currentCostumeData.equals(finalCostumeData) && executeOnce) {
+				if (currentLookData.equals(finalLookData) && executeOnce) {
 					executeOnce = false;
-					currentCostumeData = costumeDataList.get(0);
+					currentLookData = lookDataList.get(0);
 				}
 
-				else if (currentCostumeData.equals(costumeData) && executeOnce) {
+				else if (currentLookData.equals(lookData) && executeOnce) {
 					executeOnce = false;
-					currentCostumeData = costumeDataList.get(newIndex);
+					currentLookData = lookDataList.get(newIndex);
 				}
 
-				sprite.costume.setCostumeData(currentCostumeData);
+				sprite.look.setLookData(currentLookData);
 			}
 		} else {
-			// If there are no costumes do nothing
+			// If there are no looks do nothing
 		}
 	}
 

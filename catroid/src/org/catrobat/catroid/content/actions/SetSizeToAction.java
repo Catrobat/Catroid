@@ -33,7 +33,7 @@ public class SetSizeToAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		sprite.costume.setSize(size / 100f);
+		sprite.look.setSize(size / 100f);
 	}
 
 	public Sprite getSprite() {

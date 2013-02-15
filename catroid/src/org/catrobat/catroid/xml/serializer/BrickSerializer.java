@@ -47,7 +47,7 @@ public class BrickSerializer extends Serializer {
 		super.serializedScript = serializedScript;
 		super.brickList = serializedScript.getBrickList();
 		super.referenceStrings = new ArrayList<String>();
-		super.costumeList = serializedSprite.getCostumeDataList();
+		super.lookList = serializedSprite.getLookDataList();
 		super.spriteList = serializedProject.getSpriteList();
 		super.soundList = serializedSprite.getSoundList();
 	}

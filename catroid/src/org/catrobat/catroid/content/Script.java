@@ -84,7 +84,7 @@ public abstract class Script implements Serializable {
 				for (int j = i + 1; j < brickList.size(); j++) {
 					script.addBrick(brickList.get(j));
 				}
-				sprite.costume.putBroadcastWait(waitBrick.getBroadcastMessage(), script);
+				sprite.look.putBroadcastWait(waitBrick.getBroadcastMessage(), script);
 				return;
 			}
 		}

@@ -72,7 +72,7 @@ public class PointToBrickTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 		}
 
-		assertEquals("Wrong direction", -135.0, sprite1.costume.getRotation(), 1e-3);
+		assertEquals("Wrong direction", -135.0, sprite1.look.getRotation(), 1e-3);
 	}
 
 }

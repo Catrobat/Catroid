@@ -53,7 +53,7 @@ public class ShowBrick implements Brick {
 
 	@Override
 	public void execute() {
-		sprite.costume.show = true;
+		sprite.look.show = true;
 	}
 
 	@Override

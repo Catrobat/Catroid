@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,13 +19,47 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickContainer.Look.Small" >
+ */
+package org.catrobat.catroid.content.actions;
 
-    <TextView
-        android:id="@+id/brick_next_costume_text_view"
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_next_costume" />
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Sprite;
 
-</LinearLayout>
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
+public class SetLookAction extends TemporalAction {
+
+	private LookData look;
+	private Sprite sprite;
+
+	@Override
+	protected void update(float percent) {
+		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
+			sprite.look.setLookData(look);
+		}
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		sprite = null;
+		look = null;
+	}
+
+	public LookData getlookData() {
+		return look;
+	}
+
+	public void setLookData(LookData look) {
+		this.look = look;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+}

@@ -62,9 +62,9 @@ public class SetXBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		//		sprite.costume.aquireXYWidthHeightLock();
-		//		sprite.costume.setXPosition(xPosition);
-		//		sprite.costume.releaseXYWidthHeightLock();
+		//		sprite.look.aquireXYWidthHeightLock();
+		//		sprite.look.setXPosition(xPosition);
+		//		sprite.look.releaseXYWidthHeightLock();
 	}
 
 	@Override

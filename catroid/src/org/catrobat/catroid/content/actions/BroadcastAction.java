@@ -41,10 +41,10 @@ public class BroadcastAction extends TemporalAction {
 		if (receiverSprite == null) {
 			List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 			for (Sprite spriteOfList : sprites) {
-				spriteOfList.costume.fire(event);
+				spriteOfList.look.fire(event);
 			}
 		} else {
-			receiverSprite.costume.fire(event);
+			receiverSprite.look.fire(event);
 		}
 	}
 

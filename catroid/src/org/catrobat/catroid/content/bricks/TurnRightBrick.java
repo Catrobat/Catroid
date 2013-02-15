@@ -64,7 +64,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.costume.setRotation((sprite.costume.getRotation() % 360) - (float) degrees);
+		//		sprite.look.setRotation((sprite.look.getRotation() % 360) - (float) degrees);
 	}
 
 	@Override

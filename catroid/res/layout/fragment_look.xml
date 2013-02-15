@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -19,47 +20,20 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.catrobat.catroid.content.actions;
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_look_relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
 
-import org.catrobat.catroid.common.CostumeData;
-import org.catrobat.catroid.content.Sprite;
+    <!-- Look list -->
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/divider"
+        android:dividerHeight="1dp" />
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-public class SetCostumeAction extends TemporalAction {
-
-	private CostumeData costume;
-	private Sprite sprite;
-
-	@Override
-	protected void update(float percent) {
-		if (costume != null && sprite != null && sprite.getCostumeDataList().contains(costume)) {
-			sprite.costume.setCostumeData(costume);
-		}
-	}
-
-	@Override
-	public void reset() {
-		super.reset();
-		sprite = null;
-		costume = null;
-	}
-
-	public CostumeData getCostumeData() {
-		return costume;
-	}
-
-	public void setCostumeData(CostumeData costume) {
-		this.costume = costume;
-	}
-
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-}
+</RelativeLayout>

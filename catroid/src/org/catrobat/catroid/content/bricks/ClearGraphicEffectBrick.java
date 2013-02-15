@@ -53,8 +53,8 @@ public class ClearGraphicEffectBrick implements Brick {
 
 	@Override
 	public void execute() {
-		sprite.costume.setBrightnessValue(1f);
-		sprite.costume.setAlphaValue(1f);
+		sprite.look.setBrightnessValue(1f);
+		sprite.look.setAlphaValue(1f);
 	}
 
 	@Override

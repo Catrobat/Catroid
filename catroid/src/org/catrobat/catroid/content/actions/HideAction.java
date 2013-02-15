@@ -32,7 +32,7 @@ public class HideAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		sprite.costume.show = false;
+		sprite.look.show = false;
 	}
 
 	public Sprite getSprite() {

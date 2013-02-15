@@ -61,8 +61,8 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.costume.aquireXYWidthHeightLock();
-		int xPosition = (int) sprite.costume.getXPosition();
+		sprite.look.aquireXYWidthHeightLock();
+		int xPosition = (int) sprite.look.getXPosition();
 
 		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
 			xPosition = Integer.MAX_VALUE;
@@ -72,8 +72,8 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 			xPosition += xMovement;
 		}
 
-		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
-		sprite.costume.releaseXYWidthHeightLock();
+		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
+		sprite.look.releaseXYWidthHeightLock();
 	}
 
 	@Override

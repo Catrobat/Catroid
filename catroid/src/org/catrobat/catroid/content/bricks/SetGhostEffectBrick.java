@@ -61,7 +61,7 @@ public class SetGhostEffectBrick implements Brick, OnClickListener {
 
 	@Override
 	public void execute() {
-		sprite.costume.setAlphaValue((100f - (float) transparency) / 100);
+		sprite.look.setAlphaValue((100f - (float) transparency) / 100);
 	}
 
 	@Override

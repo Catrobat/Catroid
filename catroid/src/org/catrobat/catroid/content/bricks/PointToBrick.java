@@ -80,14 +80,14 @@ public class PointToBrick implements Brick {
 		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
 		double base = 0.0, height = 0.0, value = 0.0;
 
-		sprite.costume.aquireXYWidthHeightLock();
-		spriteXPosition = (int) sprite.costume.getXPosition();
-		spriteYPosition = (int) sprite.costume.getYPosition();
-		sprite.costume.releaseXYWidthHeightLock();
-		pointedSprite.costume.aquireXYWidthHeightLock();
-		pointedSpriteXPosition = (int) pointedSprite.costume.getXPosition();
-		pointedSpriteYPosition = (int) pointedSprite.costume.getYPosition();
-		pointedSprite.costume.releaseXYWidthHeightLock();
+		sprite.look.aquireXYWidthHeightLock();
+		spriteXPosition = (int) sprite.look.getXPosition();
+		spriteYPosition = (int) sprite.look.getYPosition();
+		sprite.look.releaseXYWidthHeightLock();
+		pointedSprite.look.aquireXYWidthHeightLock();
+		pointedSpriteXPosition = (int) pointedSprite.look.getXPosition();
+		pointedSpriteYPosition = (int) pointedSprite.look.getYPosition();
+		pointedSprite.look.releaseXYWidthHeightLock();
 
 		double rotationDegrees;
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
@@ -126,7 +126,7 @@ public class PointToBrick implements Brick {
 				}
 			}
 		}
-		sprite.costume.setRotation((-(float) rotationDegrees) + 90f);
+		sprite.look.setRotation((-(float) rotationDegrees) + 90f);
 	}
 
 	@Override
