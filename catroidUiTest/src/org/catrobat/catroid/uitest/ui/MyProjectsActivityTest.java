@@ -36,7 +36,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SetCostumeBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -1142,6 +1142,8 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 	@SuppressWarnings("deprecation")
 	private void createProjectWithBackgrounds() {
 
+		LookData backgroundGreen;
+		LookData backgroundRed;
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		UiTestUtils.clearAllUtilTestProjects();
@@ -1152,31 +1154,33 @@ public class MyProjectsActivityTest extends ActivityInstrumentationTestCase2<Mai
 		File imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "screenshot.png",
 				IMAGE_RESOURCE_5, getInstrumentation().getContext(), UiTestUtils.FileTypes.IMAGE);
 
-		ArrayList<CostumeData> backgroundsList = projectManager.getCurrentSprite().getCostumeDataList();
-		CostumeData backgroundGreen = new CostumeData();
-		backgroundGreen.setCostumeFilename(imageFile1.getName());
-		backgroundGreen.setCostumeName("backgroundGreen");
-		backgroundsList.add(backgroundGreen);
+		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+
+		backgroundGreen = new LookData();
+		backgroundGreen.setLookFilename(imageFile1.getName());
+		backgroundGreen.setLookName("backgroundGreen");
+		lookDataList.add(backgroundGreen);
+
 		projectManager.getFileChecksumContainer().addChecksum(backgroundGreen.getChecksum(),
 				backgroundGreen.getAbsolutePath());
 
-		CostumeData backgroundRed = new CostumeData();
-		backgroundRed.setCostumeFilename(imageFile2.getName());
-		backgroundRed.setCostumeName("backgroundRed");
-		backgroundsList.add(backgroundRed);
+		backgroundRed = new LookData();
+		backgroundRed.setLookFilename(imageFile2.getName());
+		backgroundRed.setLookName("backgroundRed");
+		lookDataList.add(backgroundRed);
+
 		projectManager.getFileChecksumContainer().addChecksum(backgroundRed.getChecksum(),
 				backgroundRed.getAbsolutePath());
 
-		SetCostumeBrick setBackgroundBrick = new SetCostumeBrick(projectManager.getCurrentSprite());
+		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
 		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
-		setBackgroundBrick.setCostume(backgroundGreen);
+		setBackgroundBrick.setLook(backgroundGreen);
 
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 
 		// "new" .getSize requires API 13, so supress for current build configuration	
 		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
 		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
-
 	}
 
 	private void corruptProjectXML(String projectName) {
