@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.LegoNXT.LegoNXT;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -88,17 +87,17 @@ public class LegoNxtMotorActionBrick implements Brick, OnSeekBarChangeListener, 
 		return BLUETOOTH_LEGO_NXT;
 	}
 
-	@Override
-	public void execute() {
-
-		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speed, 0);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speed, 0);
-		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speed, 0);
-		}
-		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
-	}
+	//	@Override
+	//	public void execute() {
+	//
+	//		if (motorEnum.equals(Motor.MOTOR_A_C)) {
+	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speed, 0);
+	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), speed, 0);
+	//		} else {
+	//			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), speed, 0);
+	//		}
+	//		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
+	//	}
 
 	@Override
 	public Sprite getSprite() {

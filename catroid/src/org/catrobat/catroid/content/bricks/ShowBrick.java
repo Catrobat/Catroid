@@ -52,11 +52,6 @@ public class ShowBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.show = true;
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}

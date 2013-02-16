@@ -23,9 +23,11 @@
 package org.catrobat.catroid.content.actions;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -34,8 +36,6 @@ public class ExtendedActions extends Actions {
 
 	public static BroadcastAction broadcast(Sprite sprite, String broadcastMessage) {
 		BroadcastAction action = action(BroadcastAction.class);
-		action.setReceiverSprite(null);
-		action.setBroadcastMessage(broadcastMessage);
 		BroadcastEvent event = new BroadcastEvent();
 		event.setSenderSprite(sprite);
 		event.setBroadcastMessage(broadcastMessage);
@@ -46,25 +46,25 @@ public class ExtendedActions extends Actions {
 
 	public static BroadcastAction broadcastFromWaiter(Sprite sprite, String broadcastMessage) {
 		BroadcastAction action = action(BroadcastAction.class);
-		action.setReceiverSprite(null);
-		action.setBroadcastMessage(broadcastMessage);
 		BroadcastEvent event = new BroadcastEvent();
 		event.setSenderSprite(sprite);
 		event.setBroadcastMessage(broadcastMessage);
-		event.setType(BroadcastType.broadcastFromWaiter);
+		event.setRun(false);
+		event.setType(BroadcastType.broadcastWait);
 		action.setBroadcastEvent(event);
 		return action;
 	}
 
-	public static BroadcastAction broadcastToWaiter(Sprite sprite, String broadcastMessage) {
-		BroadcastAction action = action(BroadcastAction.class);
-		action.setReceiverSprite(sprite);
-		action.setBroadcastMessage(broadcastMessage);
-		BroadcastEvent event = new BroadcastEvent();
-		event.setSenderSprite(null);
-		event.setBroadcastMessage(broadcastMessage);
-		event.setType(BroadcastType.broadcastToWaiter);
-		action.setBroadcastEvent(event);
+	public static BroadcastNotifyAction broadcastNotify(BroadcastEvent event) {
+		BroadcastNotifyAction action = action(BroadcastNotifyAction.class);
+		action.setEvent(event);
+		return action;
+	}
+
+	public static ChangeBrightnessByNAction changeBrightnessByN(Sprite sprite, float brightnessValue) {
+		ChangeBrightnessByNAction action = action(ChangeBrightnessByNAction.class);
+		action.setSprite(sprite);
+		action.setBrightnessValue(brightnessValue);
 		return action;
 	}
 
@@ -72,6 +72,39 @@ public class ExtendedActions extends Actions {
 		ChangeGhostEffectByNAction action = action(ChangeGhostEffectByNAction.class);
 		action.setSprite(sprite);
 		action.setGhostEffectValue(ghostEffectValue);
+		return action;
+	}
+
+	public static ChangeSizeByNAction changeSizeByN(Sprite sprite, float size) {
+		ChangeSizeByNAction action = action(ChangeSizeByNAction.class);
+		action.setSprite(sprite);
+		action.setSize(size);
+		return action;
+	}
+
+	public static ChangeVolumeByNAction changeVolumeByN(float volume) {
+		ChangeVolumeByNAction action = action(ChangeVolumeByNAction.class);
+		action.setVolume(volume);
+		return action;
+	}
+
+	public static ChangeXByNAction changeXByN(Sprite sprite, int xMovement) {
+		ChangeXByNAction action = action(ChangeXByNAction.class);
+		action.setSprite(sprite);
+		action.setxMovement(xMovement);
+		return action;
+	}
+
+	public static ChangeYByNAction changeYByN(Sprite sprite, int yMovement) {
+		ChangeYByNAction action = action(ChangeYByNAction.class);
+		action.setSprite(sprite);
+		action.setyMovement(yMovement);
+		return action;
+	}
+
+	public static ClearGraphicEffectAction clearGraphicEffect(Sprite sprite) {
+		ClearGraphicEffectAction action = action(ClearGraphicEffectAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -117,9 +150,57 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static IfOnEdgeBounceAction ifOnEdgeBounce(Sprite sprite) {
+		IfOnEdgeBounceAction action = action(IfOnEdgeBounceAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public static MoveNStepsAction moveNSteps(Sprite sprite, float steps) {
+		MoveNStepsAction action = action(MoveNStepsAction.class);
+		action.setSprite(sprite);
+		action.setSteps(steps);
+		return action;
+	}
+
 	public static NextLookAction nextCostume(Sprite sprite) {
 		NextLookAction action = action(NextLookAction.class);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public static PlaySoundAction playSound(Sprite sprite, SoundInfo sound) {
+		PlaySoundAction action = action(PlaySoundAction.class);
+		action.setSprite(sprite);
+		action.setSound(sound);
+		return action;
+	}
+
+	public static PointInDirectionAction pointInDirection(Sprite sprite, float degrees) {
+		PointInDirectionAction action = action(PointInDirectionAction.class);
+		action.setSprite(sprite);
+		action.setDegrees(degrees);
+		return action;
+	}
+
+	public static PointToAction pointTo(Sprite sprite, Sprite pointedSprite) {
+		PointToAction action = action(PointToAction.class);
+		action.setSprite(sprite);
+		action.setPointedSprite(pointedSprite);
+		return action;
+	}
+
+	public static SetBrightnessAction setBrightness(Sprite sprite, float brightness) {
+		SetBrightnessAction action = action(SetBrightnessAction.class);
+		action.setSprite(sprite);
+		action.setBrightness(brightness);
+		return action;
+	}
+
+	public static SetGhostEffectAction setGhostEffect(Sprite sprite, float transparency) {
+		SetGhostEffectAction action = action(SetGhostEffectAction.class);
+		action.setSprite(sprite);
+		action.setTransparency(transparency);
 		return action;
 	}
 
@@ -134,6 +215,12 @@ public class ExtendedActions extends Actions {
 		SetSizeToAction action = action(SetSizeToAction.class);
 		action.setSprite(sprite);
 		action.setSize(size);
+		return action;
+	}
+
+	public static SetVolumeToAction setVolumeTo(float volume) {
+		SetVolumeToAction action = action(SetVolumeToAction.class);
+		action.setVolume(volume);
 		return action;
 	}
 
@@ -154,6 +241,31 @@ public class ExtendedActions extends Actions {
 	public static ShowAction show(Sprite sprite) {
 		ShowAction action = action(ShowAction.class);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public static SpeakAction speak(String text, SpeakBrick speakBrick) {
+		SpeakAction action = action(SpeakAction.class);
+		action.setText(text);
+		action.setSpeakBrick(speakBrick);
+		return action;
+	}
+
+	public static StopAllSoundsAction stopAllSounds() {
+		return action(StopAllSoundsAction.class);
+	}
+
+	public static TurnLeftAction turnLeft(Sprite sprite, float degrees) {
+		TurnLeftAction action = action(TurnLeftAction.class);
+		action.setSprite(sprite);
+		action.setDegrees(degrees);
+		return action;
+	}
+
+	public static TurnRightAction turnRight(Sprite sprite, float degrees) {
+		TurnRightAction action = action(TurnRightAction.class);
+		action.setSprite(sprite);
+		action.setDegrees(degrees);
 		return action;
 	}
 

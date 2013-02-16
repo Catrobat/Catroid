@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -57,23 +58,6 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.aquireXYWidthHeightLock();
-		int xPosition = (int) sprite.look.getXPosition();
-
-		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
-			xPosition = Integer.MAX_VALUE;
-		} else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
-			xPosition = Integer.MIN_VALUE;
-		} else {
-			xPosition += xMovement;
-		}
-
-		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
-		sprite.look.releaseXYWidthHeightLock();
 	}
 
 	@Override
@@ -134,16 +118,9 @@ public class ChangeXByNBrick implements Brick, OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_x_by_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.changeXByN(sprite, xMovement));
 		return null;
 	}
 }

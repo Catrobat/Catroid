@@ -60,29 +60,6 @@ public class BroadcastBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		//		final Vector<BroadcastScript> receiver = projectManager.getMessageContainer().getReceiverOfMessage(
-		//				broadcastMessage);
-		//		if (receiver == null) {
-		//			return;
-		//		}
-		//		if (receiver.size() == 0) {
-		//			return;
-		//		}
-		//		Thread startThread = new Thread(new Runnable() {
-		//			@Override
-		//			public void run() {
-		//				CountDownLatch simultaneousStart = new CountDownLatch(1);
-		//				for (BroadcastScript receiverScript : receiver) {
-		//					receiverScript.executeBroadcast(simultaneousStart);
-		//				}
-		//				simultaneousStart.countDown();
-		//			}
-		//		});
-		//		startThread.start();
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}

@@ -52,11 +52,6 @@ public class HideBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.show = false;
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}

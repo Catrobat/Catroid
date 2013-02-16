@@ -35,7 +35,6 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class Sprite implements Serializable {
@@ -51,7 +50,8 @@ public class Sprite implements Serializable {
 	public transient boolean isFinished;
 
 	private Map<Thread, Boolean> activeThreads;
-	private Map<Script, List<Thread>> activeScripts;
+
+	//private Map<Script, List<Thread>> activeScripts;
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
@@ -82,7 +82,7 @@ public class Sprite implements Serializable {
 			lookList = new ArrayList<LookData>();
 		}
 		activeThreads = new HashMap<Thread, Boolean>();
-		activeScripts = new HashMap<Script, List<Thread>>();
+		//activeScripts = new HashMap<Script, List<Thread>>();
 	}
 
 	public Sprite(String name) {
@@ -111,7 +111,7 @@ public class Sprite implements Serializable {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
 				if (!s.isFinished()) {
-					createActionSequence(s);
+					look.addAction(createActionSequence(s));
 				}
 			}
 			if (s instanceof BroadcastScript) {
@@ -121,35 +121,25 @@ public class Sprite implements Serializable {
 		}
 	}
 
-	public void createWhenScriptActionSequence(String action) {
+	public SequenceAction createWhenScriptActionSequence(String action) {
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					createActionSequence(s);
+					return createActionSequence(s);
 				}
 			}
 		}
+		return null;
 	}
 
-	public void createBroadcastScriptActionSequence(BroadcastScript script) {
-		createActionSequence(script);
+	public SequenceAction createBroadcastScriptActionSequence(BroadcastScript script) {
+		return createActionSequence(script);
 	}
 
-	public void createBroadcastScriptActionSequence(BroadcastScript script, Action afterAction) {
-		createActionSequence(script, afterAction);
-	}
-
-	private void createActionSequence(Script s) {
+	private SequenceAction createActionSequence(Script s) {
 		SequenceAction sequence = ExtendedActions.sequence();
 		s.run(sequence);
-		look.addAction(sequence);
-	}
-
-	private void createActionSequence(Script s, Action afterAction) {
-		SequenceAction sequence = ExtendedActions.sequence();
-		s.run(sequence);
-		sequence.addAction(afterAction);
-		look.addAction(sequence);
+		return sequence;
 	}
 
 	public void startScriptBroadcast(Script s, boolean overload) {

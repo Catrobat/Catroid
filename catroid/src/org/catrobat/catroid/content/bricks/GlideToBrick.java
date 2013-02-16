@@ -65,60 +65,6 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		//		long startTime = System.currentTimeMillis();
-		//		int duration = durationInMilliSeconds;
-		//		while (duration > 0) {
-		//			if (!sprite.isAlive(Thread.currentThread())) {
-		//				break;
-		//			}
-		//			long timeBeforeSleep = System.currentTimeMillis();
-		//			int sleep = 33;
-		//			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
-		//
-		//				if (sprite.isPaused) {
-		//					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
-		//					long milliSecondsBeforePause = System.currentTimeMillis();
-		//					while (sprite.isPaused) {
-		//						if (sprite.isFinished) {
-		//							return;
-		//						}
-		//						Thread.yield();
-		//					}
-		//					timeBeforeSleep = System.currentTimeMillis();
-		//					startTime += System.currentTimeMillis() - milliSecondsBeforePause;
-		//				}
-		//
-		//				Thread.yield();
-		//			}
-		//			long currentTime = System.currentTimeMillis();
-		//			duration -= (int) (currentTime - startTime);
-		//			updatePositions((int) (currentTime - startTime), duration);
-		//			startTime = currentTime;
-		//		}
-		//
-		//		if (!sprite.isAlive(Thread.currentThread())) {
-		//			// -stay at last position
-		//		} else {
-		//			sprite.look.aquireXYWidthHeightLock();
-		//			sprite.look.setXYPosition(xDestination, yDestination);
-		//			sprite.look.releaseXYWidthHeightLock();
-		//		}
-	}
-
-	private void updatePositions(int timePassed, int duration) {
-		sprite.look.aquireXYWidthHeightLock();
-		float xPosition = sprite.look.getXPosition();
-		float yPosition = sprite.look.getYPosition();
-
-		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
-		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
-
-		sprite.look.setXYPosition(xPosition, yPosition);
-		sprite.look.releaseXYWidthHeightLock();
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}

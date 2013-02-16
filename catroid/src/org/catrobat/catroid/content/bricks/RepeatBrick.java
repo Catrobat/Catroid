@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -57,17 +56,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public RepeatBrick() {
 
-	}
-
-	@Override
-	public void execute() {
-		if (timesToRepeat <= 0) {
-			Script script = loopEndBrick.getScript();
-			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopEndBrick));
-			return;
-		}
-		loopEndBrick.setTimesToRepeat(timesToRepeat);
-		super.setFirstStartTime();
 	}
 
 	@Override

@@ -62,13 +62,6 @@ public class SetLookBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		//		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
-		//			sprite.look.setLookData(look);
-		//		}
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}

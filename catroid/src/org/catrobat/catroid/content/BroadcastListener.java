@@ -37,12 +37,8 @@ public class BroadcastListener implements EventListener {
 				handleBroadcastEvent(event, event.getBroadcastMessage());
 				return true;
 			}
-			if (event.getType().equals(BroadcastType.broadcastFromWaiter)) {
+			if (event.getType().equals(BroadcastType.broadcastWait)) {
 				handleBroadcastFromWaiterEvent(event, event.getBroadcastMessage());
-				return true;
-			}
-			if (event.getType().equals(BroadcastType.broadcastToWaiter)) {
-				handleBroadcastToWaiterEvent(event, event.getBroadcastMessage());
 				return true;
 			}
 		}
@@ -54,8 +50,4 @@ public class BroadcastListener implements EventListener {
 
 	public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
 	}
-
-	public void handleBroadcastToWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-	}
-
 }

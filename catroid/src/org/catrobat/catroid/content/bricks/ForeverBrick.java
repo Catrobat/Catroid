@@ -51,12 +51,6 @@ public class ForeverBrick extends LoopBeginBrick {
 	}
 
 	@Override
-	public void execute() {
-		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
-		super.setFirstStartTime();
-	}
-
-	@Override
 	public Brick clone() {
 		return new ForeverBrick(getSprite());
 	}

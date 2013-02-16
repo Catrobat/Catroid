@@ -56,10 +56,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void execute() {
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -92,16 +88,8 @@ public class WhenStartedBrick extends ScriptBrick {
 		return script;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

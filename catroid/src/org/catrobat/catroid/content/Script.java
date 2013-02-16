@@ -26,7 +26,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -68,6 +67,7 @@ public abstract class Script implements Serializable {
 	}
 
 	public void run(SequenceAction sequence) {
+		sequenceList.clear();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
 			SequenceAction action = brickList.get(i).addActionToSequence(sequenceList.get(sequenceList.size() - 1));
@@ -77,15 +77,6 @@ public abstract class Script implements Serializable {
 				} else {
 					sequenceList.add(action);
 				}
-			}
-			if (brickList.get(i) instanceof BroadcastWaitBrick) {
-				BroadcastWaitBrick waitBrick = (BroadcastWaitBrick) brickList.get(i);
-				BroadcastScript script = new BroadcastScript(sprite);
-				for (int j = i + 1; j < brickList.size(); j++) {
-					script.addBrick(brickList.get(j));
-				}
-				sprite.look.putBroadcastWait(waitBrick.getBroadcastMessage(), script);
-				return;
 			}
 		}
 	}
@@ -104,7 +95,7 @@ public abstract class Script implements Serializable {
 				Thread.yield();
 			}
 			executingBrickIndex = i;
-			brickList.get(i).execute();
+			//brickList.get(i).execute();
 			i = executingBrickIndex;
 		}
 		isFinished = true;

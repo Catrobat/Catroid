@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 
 import android.app.AlertDialog;
@@ -98,12 +99,6 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		double degreeOffset = 90.0;
-		sprite.look.setRotation((float) (-degrees + degreeOffset));
 	}
 
 	@Override
@@ -295,16 +290,9 @@ public class PointInDirectionBrick implements Brick, View.OnClickListener {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.pointInDirection(sprite, (float) degrees));
 		return null;
 	}
 }

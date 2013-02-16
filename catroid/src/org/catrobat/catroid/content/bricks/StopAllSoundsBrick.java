@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
@@ -53,11 +53,6 @@ public class StopAllSoundsBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		SoundManager.getInstance().stopAllSounds();
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -80,16 +75,9 @@ public class StopAllSoundsBrick implements Brick {
 		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.stopAllSounds());
 		return null;
 	}
 }

@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -52,12 +53,6 @@ public class ClearGraphicEffectBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		sprite.look.setBrightnessValue(1f);
-		sprite.look.setAlphaValue(1f);
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -82,16 +77,9 @@ public class ClearGraphicEffectBrick implements Brick {
 		return new ClearGraphicEffectBrick(getSprite());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.clearGraphicEffect(sprite));
 		return null;
 	}
 }

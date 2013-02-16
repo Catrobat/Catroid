@@ -65,10 +65,6 @@ public class NoteBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -148,16 +144,8 @@ public class NoteBrick implements Brick {
 		return new NoteBrick(this.sprite, this.note);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

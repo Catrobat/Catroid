@@ -62,10 +62,6 @@ public class BroadcastReceiverBrick extends ScriptBrick {
 	}
 
 	@Override
-	public void execute() {
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}

@@ -72,11 +72,11 @@ public class LegoNxtPlayToneBrick implements Brick, OnClickListener, OnSeekBarCh
 		return BLUETOOTH_LEGO_NXT;
 	}
 
-	@Override
-	public void execute() {
-		LegoNXT.sendBTCPlayToneMessage(hertz, durationInMilliSeconds);
-
-	}
+	//	@Override
+	//	public void execute() {
+	//		LegoNXT.sendBTCPlayToneMessage(hertz, durationInMilliSeconds);
+	//
+	//	}
 
 	@Override
 	public Sprite getSprite() {

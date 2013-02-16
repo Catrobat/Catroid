@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -57,15 +58,6 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		float newSize = sprite.look.getSize() + ((float) size / 100f);
-		if (newSize < 0f) {
-			newSize = 0f;
-		}
-		sprite.look.setSize(newSize);
 	}
 
 	@Override
@@ -128,16 +120,9 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_size_by_n_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.changeSizeByN(sprite, (float) size));
 		return null;
 	}
 }

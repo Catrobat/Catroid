@@ -29,6 +29,8 @@ public class BroadcastEvent extends Event {
 	private BroadcastType type;
 	private String broadcastMessage;
 	private Sprite senderSprite;
+	private BroadcastScript waitScript;
+	private boolean run = true;
 
 	public Sprite getSenderSprite() {
 		return senderSprite;
@@ -46,6 +48,14 @@ public class BroadcastEvent extends Event {
 		this.broadcastMessage = broadcastMessage;
 	}
 
+	public BroadcastScript getWaitScript() {
+		return waitScript;
+	}
+
+	public void setWaitScript(BroadcastScript waitScript) {
+		this.waitScript = waitScript;
+	}
+
 	public BroadcastType getType() {
 		return type;
 	}
@@ -54,7 +64,15 @@ public class BroadcastEvent extends Event {
 		this.type = type;
 	}
 
+	public boolean getRun() {
+		return run;
+	}
+
+	public void setRun(boolean run) {
+		this.run = run;
+	}
+
 	static public enum BroadcastType {
-		broadcast, broadcastFromWaiter, broadcastToWaiter
+		broadcast, broadcastWait
 	}
 }

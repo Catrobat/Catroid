@@ -25,7 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import android.content.Context;
 import android.view.View;
@@ -54,13 +54,6 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		if (sound != null && sprite.getSoundList().contains(sound) && sound.getAbsolutePath() != null) {
-			SoundManager.getInstance().playSoundFile(sound.getAbsolutePath());
-		}
 	}
 
 	@Override
@@ -128,16 +121,9 @@ public class PlaySoundBrick implements Brick, OnItemSelectedListener {
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.playSound(sprite, sound));
 		return null;
 	}
 }

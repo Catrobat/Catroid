@@ -61,28 +61,6 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		//		long startTime = System.currentTimeMillis();
-		//		int timeToWait = timeToWaitInMilliSeconds;
-		//		while (System.currentTimeMillis() <= (startTime + timeToWait)) {
-		//			if (!sprite.isAlive(Thread.currentThread())) {
-		//				break;
-		//			}
-		//			if (sprite.isPaused) {
-		//				timeToWait = timeToWait - (int) (System.currentTimeMillis() - startTime);
-		//				while (sprite.isPaused) {
-		//					if (sprite.isFinished) {
-		//						return;
-		//					}
-		//					Thread.yield();
-		//				}
-		//				startTime = System.currentTimeMillis();
-		//			}
-		//			Thread.yield();
-		//		}
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -139,13 +117,6 @@ public class WaitBrick implements Brick, OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_wait_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
 		float timeToWaitInSeconds = timeToWaitInMilliSeconds / 1000f;

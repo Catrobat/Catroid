@@ -42,8 +42,6 @@ public interface Brick extends Serializable {
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 
-	public void execute();
-
 	public SequenceAction addActionToSequence(SequenceAction sequence);
 
 	public Sprite getSprite();

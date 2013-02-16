@@ -61,11 +61,6 @@ public class SetSizeToBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		//		sprite.look.setSize((float) size / 100);
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}

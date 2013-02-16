@@ -41,7 +41,6 @@ public class GoNStepsBackAction extends TemporalAction {
 		} else {
 			sprite.look.zPosition -= steps;
 		}
-
 	}
 
 	public Sprite getSprite() {

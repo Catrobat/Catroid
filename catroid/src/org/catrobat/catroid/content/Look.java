@@ -24,7 +24,6 @@ package org.catrobat.catroid.content;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.Semaphore;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -36,16 +35,12 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Look extends Image {
-	protected Semaphore xYWidthHeightLock = new Semaphore(1);
-	protected Semaphore imageLock = new Semaphore(1);
-	protected Semaphore scaleLock = new Semaphore(1);
-	protected Semaphore alphaValueLock = new Semaphore(1);
-	protected Semaphore brightnessLock = new Semaphore(1);
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -55,9 +50,7 @@ public class Look extends Image {
 	public boolean show;
 	public int zPosition;
 	protected Pixmap pixmap;
-	private ArrayList<SequenceAction> touchDownSequenceList;
-	private HashMap<String, BroadcastScript> broadcastMap;
-	private HashMap<String, BroadcastScript> broadcastWaitMap;
+	private HashMap<String, ArrayList<BroadcastScript>> broadcastMap;
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -70,9 +63,7 @@ public class Look extends Image {
 		this.brightnessValue = 1f;
 		this.show = true;
 		this.zPosition = 0;
-		this.touchDownSequenceList = new ArrayList<SequenceAction>();
-		this.broadcastMap = new HashMap<String, BroadcastScript>();
-		this.broadcastWaitMap = new HashMap<String, BroadcastScript>();
+		this.broadcastMap = new HashMap<String, ArrayList<BroadcastScript>>();
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -89,12 +80,6 @@ public class Look extends Image {
 			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
 				doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
 			}
-
-			@Override
-			public void handleBroadcastToWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastToWaiterEvent(broadcastMessage);
-			}
-
 		});
 	}
 
@@ -105,17 +90,16 @@ public class Look extends Image {
 		if (!show) {
 			return false;
 		}
-		xYWidthHeightLock.acquireUninterruptibly();
-		float width = getWidth();
-		float height = getHeight();
-		xYWidthHeightLock.release();
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
-		y = height - y;
+		y = getHeight() - y;
 
-		if (x >= 0 && x <= width && y >= 0 && y <= height) {
+		if (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()) {
 			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				sprite.createWhenScriptActionSequence("Tapped");
+				SequenceAction action = sprite.createWhenScriptActionSequence("Tapped");
+				if (action != null) {
+					addAction(action);
+				}
 				return true;
 			}
 		}
@@ -124,20 +108,24 @@ public class Look extends Image {
 
 	public void doHandleBroadcastEvent(String broadcastMessage) {
 		if (broadcastMap.containsKey(broadcastMessage)) {
-			sprite.createBroadcastScriptActionSequence(broadcastMap.get(broadcastMessage));
+			ArrayList<BroadcastScript> broadcastList = broadcastMap.get(broadcastMessage);
+			ParallelAction parallelAction = ExtendedActions.parallel();
+			for (BroadcastScript script : broadcastList) {
+				parallelAction.addAction(sprite.createBroadcastScriptActionSequence(script));
+			}
+			addAction(parallelAction);
 		}
 	}
 
 	public void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
 		if (broadcastMap.containsKey(broadcastMessage)) {
-			Action action = ExtendedActions.broadcastToWaiter(event.getSenderSprite(), broadcastMessage);
-			sprite.createBroadcastScriptActionSequence(broadcastMap.get(broadcastMessage), action);
-		}
-	}
-
-	public void doHandleBroadcastToWaiterEvent(String broadcastMessage) {
-		if (broadcastWaitMap.containsKey(broadcastMessage)) {
-			sprite.createBroadcastScriptActionSequence(broadcastWaitMap.get(broadcastMessage));
+			Action broadcastNotifyAction = ExtendedActions.broadcastNotify(event);
+			ArrayList<BroadcastScript> broadcastList = broadcastMap.get(broadcastMessage);
+			ParallelAction parallelAction = ExtendedActions.parallel();
+			for (BroadcastScript script : broadcastList) {
+				parallelAction.addAction(sprite.createBroadcastScriptActionSequence(script));
+			}
+			addAction(ExtendedActions.sequence(parallelAction, broadcastNotifyAction));
 		}
 	}
 
@@ -150,24 +138,15 @@ public class Look extends Image {
 	}
 
 	protected void checkImageChanged() {
-		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
 			if (lookData == null) {
-				xYWidthHeightLock.acquireUninterruptibly();
-				setX(getX() + getWidth() / 2f);
-				setY(getY() + getHeight() / 2f);
-				setWidth(0f);
-				setHeight(0f);
-				xYWidthHeightLock.release();
+				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
 				setDrawable(null);
 				imageChanged = false;
-				imageLock.release();
 				return;
 			}
 
 			pixmap = lookData.getPixmap();
-
-			xYWidthHeightLock.acquireUninterruptibly();
 			setX(getX() + getWidth() / 2f);
 			setY(getY() + getHeight() / 2f);
 			setWidth(pixmap.getWidth());
@@ -175,15 +154,12 @@ public class Look extends Image {
 			setX(getX() - getWidth() / 2f);
 			setY(getY() - getHeight() / 2f);
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
-			xYWidthHeightLock.release();
 
-			brightnessLock.acquireUninterruptibly();
 			if (brightnessChanged) {
 				lookData.setPixmap(adjustBrightness(lookData.getOriginalPixmap()));
 				lookData.setTextureRegion();
 				brightnessChanged = false;
 			}
-			brightnessLock.release();
 
 			TextureRegion region = lookData.getTextureRegion();
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
@@ -191,7 +167,6 @@ public class Look extends Image {
 
 			imageChanged = false;
 		}
-		imageLock.release();
 	}
 
 	protected Pixmap adjustBrightness(Pixmap currentPixmap) {
@@ -228,14 +203,7 @@ public class Look extends Image {
 	}
 
 	public void refreshTextures() {
-		imageLock.acquireUninterruptibly();
 		this.imageChanged = true;
-		imageLock.release();
-	}
-
-	// Always use this method for the following methods
-	public void aquireXYWidthHeightLock() {
-		xYWidthHeightLock.acquireUninterruptibly();
 	}
 
 	public void setXPosition(float x) {
@@ -263,39 +231,27 @@ public class Look extends Image {
 		return yPosition;
 	}
 
-	public void releaseXYWidthHeightLock() {
-		xYWidthHeightLock.release();
-	}
-
 	public void setLookData(LookData lookData) {
-		imageLock.acquireUninterruptibly();
 		this.lookData = lookData;
 		imageChanged = true;
-		imageLock.release();
 	}
 
 	public String getImagePath() {
-		imageLock.acquireUninterruptibly();
 		String path;
 		if (this.lookData == null) {
 			path = "";
 		} else {
 			path = this.lookData.getAbsolutePath();
 		}
-		imageLock.release();
 		return path;
 	}
 
 	public void setSize(float size) {
-		scaleLock.acquireUninterruptibly();
 		setScale(size, size);
-		scaleLock.release();
 	}
 
 	public float getSize() {
-		scaleLock.acquireUninterruptibly();
 		float size = (getScaleX() + getScaleY()) / 2f;
-		scaleLock.release();
 		return size;
 	}
 
@@ -305,13 +261,10 @@ public class Look extends Image {
 		} else if (alphaValue > 1f) {
 			alphaValue = 1f;
 		}
-		alphaValueLock.acquireUninterruptibly();
 		this.alphaValue = alphaValue;
-		alphaValueLock.release();
 	}
 
 	public void changeAlphaValueBy(float value) {
-		alphaValueLock.acquireUninterruptibly();
 		float newAlphaValue = this.alphaValue + value;
 		if (newAlphaValue < 0f) {
 			this.alphaValue = 0f;
@@ -320,13 +273,9 @@ public class Look extends Image {
 		} else {
 			this.alphaValue = newAlphaValue;
 		}
-		alphaValueLock.release();
 	}
 
 	public float getAlphaValue() {
-		alphaValueLock.acquireUninterruptibly();
-		float alphaValue = this.alphaValue;
-		alphaValueLock.release();
 		return alphaValue;
 	}
 
@@ -334,33 +283,22 @@ public class Look extends Image {
 		if (percent < 0f) {
 			percent = 0f;
 		}
-		brightnessLock.acquireUninterruptibly();
 		brightnessValue = percent;
-		brightnessLock.release();
-		imageLock.acquireUninterruptibly();
 		brightnessChanged = true;
 		imageChanged = true;
-		imageLock.release();
 	}
 
 	public void changeBrightnessValueBy(float percent) {
-		brightnessLock.acquireUninterruptibly();
 		brightnessValue += percent;
 		if (brightnessValue < 0f) {
 			brightnessValue = 0f;
 		}
-		brightnessLock.release();
-		imageLock.acquireUninterruptibly();
 		brightnessChanged = true;
 		imageChanged = true;
-		imageLock.release();
 	}
 
 	public float getBrightnessValue() {
-		brightnessLock.acquireUninterruptibly();
-		float brightness = brightnessValue;
-		brightnessLock.release();
-		return brightness;
+		return brightnessValue;
 	}
 
 	public LookData getLookData() {
@@ -368,27 +306,18 @@ public class Look extends Image {
 	}
 
 	public void putBroadcast(String broadcastMessage, BroadcastScript script) {
-		broadcastMap.put(broadcastMessage, script);
+		ArrayList<BroadcastScript> broadcastList;
+		if (broadcastMap.containsKey(broadcastMessage)) {
+			broadcastList = broadcastMap.get(broadcastMessage);
+			broadcastList.add(script);
+		} else {
+			broadcastList = new ArrayList<BroadcastScript>();
+			broadcastList.add(script);
+			broadcastMap.put(broadcastMessage, broadcastList);
+		}
 	}
 
 	public void removeBroadcast(String broadcastMessage) {
 		broadcastMap.remove(broadcastMessage);
 	}
-
-	public void addTouchDownSequenceAction(SequenceAction action) {
-		touchDownSequenceList.add(action);
-	}
-
-	public void removeTouchDownSequenceAction(SequenceAction action) {
-		touchDownSequenceList.remove(action);
-	}
-
-	public void putBroadcastWait(String broadcastMessage, BroadcastScript script) {
-		broadcastWaitMap.put(broadcastMessage, script);
-	}
-
-	public void removeBroadcastWait(String broadcastMessage) {
-		broadcastWaitMap.remove(broadcastMessage);
-	}
-
 }

@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -59,18 +59,6 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		float currentVolume = SoundManager.getInstance().getVolume();
-		currentVolume += volume;
-		if (currentVolume < 0.0f) {
-			currentVolume = 0.0f;
-		} else if (currentVolume > 100.0f) {
-			currentVolume = 100.0f;
-		}
-		SoundManager.getInstance().setVolume(currentVolume);
 	}
 
 	@Override
@@ -137,16 +125,9 @@ public class ChangeVolumeByNBrick implements Brick, OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_change_volume_by_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.changeVolumeByN((float) volume));
 		return null;
 	}
 }

@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
@@ -59,20 +60,6 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public void execute() {
-		sprite.look.aquireXYWidthHeightLock();
-
-		double radians = Math.toRadians(sprite.look.getRotation());
-
-		int newXPosition = (int) Math.round(sprite.look.getXPosition() + steps * Math.cos(radians));
-		int newYPosition = (int) Math.round(sprite.look.getYPosition() + steps * Math.sin(radians));
-
-		sprite.look.setXYPosition(newXPosition, newYPosition);
-		sprite.look.releaseXYWidthHeightLock();
-
 	}
 
 	@Override
@@ -136,16 +123,9 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_move_n_steps_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		// TODO Auto-generated method stub
+		sequence.addAction(ExtendedActions.moveNSteps(sprite, (float) steps));
 		return null;
 	}
 }

@@ -52,25 +52,6 @@ public class ComeToFrontBrick implements Brick {
 	}
 
 	@Override
-	public void execute() {
-		//		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		//		int highestPosition = 0;
-		//		for (Sprite sprite : spriteList) {
-		//			if (highestPosition < sprite.look.zPosition) {
-		//				highestPosition = sprite.look.zPosition;
-		//				if (sprite == this.sprite) {
-		//					highestPosition--;
-		//				}
-		//			}
-		//		}
-		//		if (highestPosition > highestPosition + 1) {
-		//			sprite.look.zPosition = Integer.MAX_VALUE;
-		//		} else {
-		//			sprite.look.zPosition = highestPosition + 1;
-		//		}
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}

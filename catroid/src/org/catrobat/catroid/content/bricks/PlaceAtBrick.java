@@ -63,13 +63,6 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 	}
 
 	@Override
-	public void execute() {
-		//		sprite.look.aquireXYWidthHeightLock();
-		//		sprite.look.setXYPosition(xPosition, yPosition);
-		//		sprite.look.releaseXYWidthHeightLock();
-	}
-
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
