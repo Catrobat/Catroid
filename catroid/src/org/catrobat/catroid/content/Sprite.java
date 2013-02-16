@@ -144,7 +144,10 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.init();
 
 		cloneSprite.costume = this.costume.clone();
-		cloneSprite.costume.setCostumeData(cloneSprite.getCostumeDataList().get(0));
+		try {
+			cloneSprite.costume.setCostumeData(cloneSprite.getCostumeDataList().get(0));
+		} catch (IndexOutOfBoundsException e) {
+		}
 		cloneSprite.costume.sprite = cloneSprite;
 
 		return cloneSprite;
