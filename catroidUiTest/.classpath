@@ -4,11 +4,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/catroid"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="libs/robotium-solo-3.6.1-SNAPSHOT.jar" sourcepath="libs-dev/robotium-solo-3.6.1-SNAPSHOT-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/catroidUiTest/libs-dev/robotium-solo-3.6.1-SNAPSHOT-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
