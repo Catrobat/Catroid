@@ -95,13 +95,7 @@ public class StageListener implements ApplicationListener {
 		STRETCH, MAXIMIZE
 	};
 
-	public ScreenModes screenMode;
-	public int maximizeViewPortX = 0;
-	public int maximizeViewPortY = 0;
-	public int maximizeViewPortHeight = 0;
-	public int maximizeViewPortWidth = 0;
-
-	public boolean axesOn = false;
+	private ScreenModes screenMode;
 
 	private Texture background;
 	private Texture axes;
@@ -117,7 +111,14 @@ public class StageListener implements ApplicationListener {
 
 	private boolean texturesRendered = false;
 
-	public StageListener() {
+	public int maximizeViewPortX = 0;
+	public int maximizeViewPortY = 0;
+	public int maximizeViewPortHeight = 0;
+	public int maximizeViewPortWidth = 0;
+
+	public boolean axesOn = false;
+
+	StageListener() {
 	}
 
 	@Override
@@ -166,7 +167,7 @@ public class StageListener implements ApplicationListener {
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 	}
 
-	public void menuResume() {
+	void menuResume() {
 		if (reloadProject) {
 			return;
 		}
@@ -177,7 +178,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	public void menuPause() {
+	void menuPause() {
 		if (finished || reloadProject || (sprites == null)) {
 			return;
 		}

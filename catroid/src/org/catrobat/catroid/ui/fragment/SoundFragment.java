@@ -34,6 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundAdapter.OnSoundEditListener;
@@ -235,7 +236,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			stopSoundAndUpdateList();
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -246,7 +247,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			stopSoundAndUpdateList();
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -601,7 +602,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -652,7 +653,7 @@ public class SoundFragment extends ScriptActivityFragment implements OnSoundEdit
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
