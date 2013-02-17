@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import java.io.File;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.utils.ErrorListenerInterface;
@@ -57,7 +58,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.catrobat.catroid.R;
 
 public class UploadProjectDialog extends DialogFragment {
 
@@ -220,6 +220,13 @@ public class UploadProjectDialog extends DialogFragment {
 			Utils.displayErrorMessageFragment(getFragmentManager(), getString(R.string.error_no_name_entered));
 			return;
 		}
+
+		if (uploadName.equals(getString(R.string.default_project_name))) {
+			Utils.displayErrorMessageFragment(getFragmentManager(),
+					getString(R.string.error_upload_project_with_default_name));
+			return;
+		}
+
 		if (!uploadName.equals(currentProjectName)) {
 			try {
 				projectRename.setVisibility(View.VISIBLE);

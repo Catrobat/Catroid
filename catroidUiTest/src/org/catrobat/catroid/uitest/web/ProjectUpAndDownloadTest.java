@@ -23,12 +23,14 @@
 package org.catrobat.catroid.uitest.web;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -61,6 +63,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private String newTestDescription = UiTestUtils.PROJECTDESCRIPTION2;
 	private String saveToken;
 	private int serverProjectId;
+
+	private Project standardProject;
 
 	public ProjectUpAndDownloadTest() {
 		super(MainMenuActivity.class);
@@ -267,6 +271,42 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
 		String serverProjectName = downloadedProject.getName();
 		assertTrue("Project was successfully downloaded", serverProjectName.equalsIgnoreCase(projectName));
+	}
+
+	public void testUploadProjectWithDefaultName() throws Throwable {
+		if (!createAndSaveStandardProject() || this.standardProject == null) {
+			fail("Standard project not created");
+		}
+
+		setServerURLToTestUrl();
+		UiTestUtils.createValidUser(getActivity());
+
+		String uploadButtonText = solo.getString(R.string.upload_button);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+		solo.waitForText(uploadButtonText);
+		//when the keyboard is shown the button cannot be clicked. The goBack() method closes the keyboeard.
+		// Problem: what if the keyboeard is not being shown on all devices? 
+		solo.goBack();
+		solo.clickOnButton(uploadButtonText);
+
+		solo.sleep(200);
+		assertTrue("When uploading a project with the standard project name,  the error message should be shown",
+				solo.searchText(solo.getString(R.string.error_upload_project_with_default_name)));
+
+	}
+
+	private boolean createAndSaveStandardProject() {
+		try {
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(
+					solo.getString(R.string.default_project_name), getInstrumentation().getTargetContext());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		ProjectManager.INSTANCE.setProject(standardProject);
+		StorageHandler.getInstance().saveProject(standardProject);
+		return true;
 	}
 
 	private void createTestProject(String projectToCreate) {
