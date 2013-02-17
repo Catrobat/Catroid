@@ -285,12 +285,9 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadButtonText);
-		//when the keyboard is shown the button cannot be clicked. The goBack() method closes the keyboeard.
-		// Problem: what if the keyboeard is not being shown on all devices? 
 		solo.goBack();
 		solo.clickOnButton(uploadButtonText);
 
-		solo.sleep(200);
 		assertTrue("When uploading a project with the standard project name,  the error message should be shown",
 				solo.searchText(solo.getString(R.string.error_upload_project_with_default_name)));
 
