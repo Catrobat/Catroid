@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,11 +19,30 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+ */
+package org.catrobat.catroid.ui;
 
-    <style name="TabText">
-        <item name="android:textSize">@dimen/text_size_large</item>
-    </style>
+import org.catrobat.catroid.R;
 
-</resources>
+import android.app.Activity;
+import android.widget.LinearLayout;
+
+public class BottomBar {
+
+	public static void disableButtons(Activity activity) {
+		setButtonClickable(activity, false);
+	}
+
+	public static void enableButtons(Activity activity) {
+		setButtonClickable(activity, true);
+	}
+
+	private static void setButtonClickable(Activity activity, boolean clickable) {
+		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
+
+		if (bottomBarLayout != null) {
+			bottomBarLayout.findViewById(R.id.button_add).setClickable(clickable);
+			bottomBarLayout.findViewById(R.id.button_play).setClickable(clickable);
+		}
+	}
+}

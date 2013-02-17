@@ -46,7 +46,6 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class ProjectActivity extends SherlockFragmentActivity implements ErrorListenerInterface {
 
-	private ActionBar actionBar;
 	private SpritesListFragment spritesListFragment;
 
 	@Override
@@ -58,8 +57,8 @@ public class ProjectActivity extends SherlockFragmentActivity implements ErrorLi
 	@Override
 	protected void onStart() {
 		super.onStart();
-		actionBar = getSupportActionBar();
 
+		final ActionBar actionBar = getSupportActionBar();
 		String title = ProjectManager.getInstance().getCurrentProject().getName();
 		actionBar.setTitle(title);
 		actionBar.setHomeButtonEnabled(true);

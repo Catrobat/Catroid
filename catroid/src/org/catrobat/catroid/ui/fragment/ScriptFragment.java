@@ -65,7 +65,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private Sprite sprite;
 	private Script scriptToEdit;
-	public String selectedCategory;
+	private String selectedCategory;
 
 	private boolean addNewScript;
 	private boolean createNewBrick;
@@ -343,26 +343,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void startCopyActionMode() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void startRenameActionMode() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void startDeleteActionMode() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void handleAddButton() {
-		if (!listView.setHoveringBrick()) {
-			showCategoryDialog();
+		if (listView.isCurrentlyDragging()) {
+			listView.animateHoveringBrick();
+			return;
 		}
+		showCategoryDialog();
 	}
 
 	@Override
@@ -374,7 +363,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void setSelectMode(int selectMode) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -384,14 +372,23 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
+	public void startRenameActionMode() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	protected void showRenameDialog() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void showDeleteDialog() {
 		// TODO Auto-generated method stub
-
 	}
+
 }
