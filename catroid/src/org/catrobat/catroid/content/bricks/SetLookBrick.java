@@ -143,7 +143,7 @@ public class SetLookBrick implements Brick {
 
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setCostume(sprite, look));
+		sequence.addAction(ExtendedActions.setLook(sprite, look));
 		return null;
 	}
 }

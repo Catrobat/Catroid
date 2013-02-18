@@ -91,7 +91,7 @@ public class NextLookBrick implements Brick {
 
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.nextCostume(sprite));
+		sequence.addAction(ExtendedActions.nextLook(sprite));
 		return null;
 	}
 }

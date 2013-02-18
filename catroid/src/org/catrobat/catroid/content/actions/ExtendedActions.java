@@ -163,7 +163,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static NextLookAction nextCostume(Sprite sprite) {
+	public static NextLookAction nextLook(Sprite sprite) {
 		NextLookAction action = action(NextLookAction.class);
 		action.setSprite(sprite);
 		return action;
@@ -204,10 +204,10 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SetLookAction setCostume(Sprite sprite, LookData costume) {
+	public static SetLookAction setLook(Sprite sprite, LookData lookData) {
 		SetLookAction action = action(SetLookAction.class);
 		action.setSprite(sprite);
-		action.setLookData(costume);
+		action.setLookData(lookData);
 		return action;
 	}
 

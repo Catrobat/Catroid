@@ -46,7 +46,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
-		this.timesToRepeat = timesToRepeat;
+		if (timesToRepeat >= 0) {
+			this.timesToRepeat = timesToRepeat;
+		} else {
+			this.timesToRepeat = 0;
+		}
 	}
 
 	@Override
@@ -100,7 +104,12 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 			@Override
 			protected boolean handleOkButton() {
 				try {
-					timesToRepeat = Integer.parseInt(input.getText().toString());
+					int repeat = Integer.parseInt(input.getText().toString());
+					if (repeat >= 0) {
+						timesToRepeat = repeat;
+					} else {
+						timesToRepeat = 0;
+					}
 				} catch (NumberFormatException exception) {
 					Toast.makeText(getActivity(), R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 				}
