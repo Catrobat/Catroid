@@ -306,6 +306,64 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	}
 
+	public void testUploadModifiedStandardProject() throws Throwable {
+		if (!createAndSaveStandardProject() || this.standardProject == null) {
+			fail("Standard project not created");
+		}
+
+		setServerURLToTestUrl();
+		UiTestUtils.createValidUser(getActivity());
+
+		goToCatroidSpriteFromMainMenu();
+
+		solo.waitForText(solo.getString(R.string.default_project_sprites_catroid_normalcat));
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_normalcat));
+		solo.waitForText(solo.getString(R.string.default_project_sprites_catroid_cheshirecat));
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_cheshirecat));
+
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+		renameAndUpload();
+
+		assertTrue("Upload of the modified standard project should be possible, but did not succeed",
+				solo.searchText(solo.getString(R.string.success_project_upload)));
+		//
+		//		goToCatroidSpriteFromMainMenu();
+		//		solo.goBack();
+		//		solo.goBack();
+		//		solo.goBack();
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
+		renameAndUpload();
+
+		assertTrue("Upload of unmodified standard project should not be possible, but succeeded",
+				solo.searchText(solo.getString(R.string.error_upload_default_project)));
+
+	}
+
+	private void renameAndUpload() {
+		String uploadButtonText = solo.getString(R.string.upload_button);
+		solo.waitForText(uploadButtonText);
+		solo.goBack();
+		solo.clearEditText(0);
+		solo.enterText(0, testProject);
+		solo.clickOnButton(uploadButtonText);
+	}
+
+	private void goToCatroidSpriteFromMainMenu() {
+		solo.waitForText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+
+		solo.waitForText(solo.getString(R.string.default_project_sprites_catroid_name));
+		solo.clickOnText(solo.getString(R.string.default_project_sprites_catroid_name));
+
+		solo.waitForText(solo.getString(R.string.scripts));
+		solo.clickOnButton(solo.getString(R.string.scripts));
+	}
+
 	private boolean createAndSaveStandardProject() {
 		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(
