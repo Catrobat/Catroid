@@ -41,7 +41,7 @@ public class ChangeGhostEffectByNBrickTest extends AndroidTestCase {
 
 		ChangeGhostEffectByNBrick changeGhostEffectByNBrick1 = new ChangeGhostEffectByNBrick(sprite,
 				increaseGhostEffect * 100);
-		changeGhostEffectByNBrick1.execute();
+		//		changeGhostEffectByNBrick1.execute();
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
 				sprite.look.getAlphaValue());
 
@@ -49,7 +49,7 @@ public class ChangeGhostEffectByNBrickTest extends AndroidTestCase {
 		ghostEffect -= decreaseGhostEffect;
 		ChangeGhostEffectByNBrick changeGhostEffectByNBrick2 = new ChangeGhostEffectByNBrick(sprite,
 				decreaseGhostEffect * 100);
-		changeGhostEffectByNBrick2.execute();
+		//		changeGhostEffectByNBrick2.execute();
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", ghostEffect,
 				sprite.look.getAlphaValue());
 	}
@@ -57,7 +57,7 @@ public class ChangeGhostEffectByNBrickTest extends AndroidTestCase {
 	public void testNullSprite() {
 		ChangeGhostEffectByNBrick brick = new ChangeGhostEffectByNBrick(null, increaseGhostEffect);
 		try {
-			brick.execute();
+			//			brick.execute();
 			fail("Execution of ChangeGhostEffectByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior

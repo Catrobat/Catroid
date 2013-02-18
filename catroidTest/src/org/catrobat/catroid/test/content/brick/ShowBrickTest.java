@@ -35,14 +35,14 @@ public class ShowBrickTest extends AndroidTestCase {
 		assertFalse("Sprite is still visible after calling hide", sprite.look.show);
 
 		ShowBrick showBrick = new ShowBrick(sprite);
-		showBrick.execute();
+		//		showBrick.execute();
 		assertTrue("Sprite is not visible after ShowBrick executed", sprite.look.show);
 	}
 
 	public void testNullSprite() {
 		ShowBrick showBrick = new ShowBrick(null);
 		try {
-			showBrick.execute();
+			//			showBrick.execute();
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior

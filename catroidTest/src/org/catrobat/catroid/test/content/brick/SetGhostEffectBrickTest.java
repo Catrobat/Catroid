@@ -36,7 +36,7 @@ public class SetGhostEffectBrickTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial sprite scale value", 1f, sprite.look.getAlphaValue());
 
 		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(sprite, effectValue);
-		setGhostEffectBrick.execute();
+		//		setGhostEffectBrick.execute();
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
 				(100 - (float) effectValue) / 100, sprite.look.getAlphaValue());
 	}
@@ -45,7 +45,7 @@ public class SetGhostEffectBrickTest extends InstrumentationTestCase {
 		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(null, effectValue);
 
 		try {
-			setGhostEffectBrick.execute();
+			//			setGhostEffectBrick.execute();
 			fail("Execution of SetGhostEffectBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior

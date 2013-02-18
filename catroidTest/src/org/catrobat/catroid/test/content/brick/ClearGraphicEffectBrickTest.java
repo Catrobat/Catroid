@@ -38,7 +38,7 @@ public class ClearGraphicEffectBrickTest extends AndroidTestCase {
 		assertEquals("Look hasn't brightness effect.", value, sprite.look.getBrightnessValue());
 
 		ClearGraphicEffectBrick clearGraphicEffectBrick = new ClearGraphicEffectBrick(sprite);
-		clearGraphicEffectBrick.execute();
+		//		clearGraphicEffectBrick.execute();
 		assertEquals("Look's ghost effect is removed.", 1f, sprite.look.getAlphaValue());
 		assertEquals("Look's brightness effect is removed.", 1f, sprite.look.getBrightnessValue());
 	}
@@ -46,7 +46,7 @@ public class ClearGraphicEffectBrickTest extends AndroidTestCase {
 	public void testNullSprite() {
 		ClearGraphicEffectBrick clearGraphicEffectBrick = new ClearGraphicEffectBrick(null);
 		try {
-			clearGraphicEffectBrick.execute();
+			//			clearGraphicEffectBrick.execute();
 			fail("Execution of ClearGraphicEffectBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior

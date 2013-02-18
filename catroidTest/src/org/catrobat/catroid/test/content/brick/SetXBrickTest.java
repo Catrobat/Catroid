@@ -37,7 +37,7 @@ public class SetXBrickTest extends AndroidTestCase {
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYPosition());
 
 		SetXBrick setXBrick = new SetXBrick(sprite, xPosition);
-		setXBrick.execute();
+		//		setXBrick.execute();
 
 		assertEquals("Incorrect sprite x position after SetXBrick executed", (float) xPosition,
 				sprite.look.getXPosition());
@@ -47,7 +47,7 @@ public class SetXBrickTest extends AndroidTestCase {
 		SetXBrick setXBrick = new SetXBrick(null, xPosition);
 
 		try {
-			setXBrick.execute();
+			//			setXBrick.execute();
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
@@ -58,13 +58,13 @@ public class SetXBrickTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 
 		SetXBrick setXBrick = new SetXBrick(sprite, Integer.MAX_VALUE);
-		setXBrick.execute();
+		//		setXBrick.execute();
 
 		assertEquals("SetXBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getXPosition());
 
 		setXBrick = new SetXBrick(sprite, Integer.MIN_VALUE);
-		setXBrick.execute();
+		//		setXBrick.execute();
 
 		assertEquals("SetXBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getXPosition());

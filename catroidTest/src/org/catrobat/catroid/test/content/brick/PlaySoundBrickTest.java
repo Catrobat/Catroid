@@ -33,12 +33,12 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
-import org.catrobat.catroid.test.R;
 
 public class PlaySoundBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
@@ -75,7 +75,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		tempSoundInfo = getSoundInfo();
 		playSoundBrick.setSoundInfo(tempSoundInfo);
 		testSprite.getSoundList().add(tempSoundInfo);
-		playSoundBrick.execute();
+		//		playSoundBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 	}
 
@@ -87,7 +87,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		playSoundBrick.setSoundInfo(soundInfo);
 		testSprite.getSoundList().add(soundInfo);
 		try {
-			playSoundBrick.execute();
+			//			playSoundBrick.execute();
 			fail("Execution of PlaySoundBrick with illegal file path did not cause an IllegalArgumentException to be thrown");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
@@ -100,7 +100,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 			public void run() {
 				playSoundBrick.setSoundInfo(getSoundInfo());
-				playSoundBrick.execute();
+				//				playSoundBrick.execute();
 			}
 		});
 
@@ -109,7 +109,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 			public void run() {
 				playSoundBrick2.setSoundInfo(getSoundInfo());
-				playSoundBrick2.execute();
+				//				playSoundBrick2.execute();
 			}
 		});
 
@@ -131,7 +131,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		tempSoundInfo = getSoundInfo();
 		playSoundBrick.setSoundInfo(tempSoundInfo);
 		testSprite.getSoundList().add(tempSoundInfo);
-		playSoundBrick.execute();
+		//		playSoundBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
 		mediaPlayer.pause();

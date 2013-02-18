@@ -30,11 +30,11 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import android.test.InstrumentationTestCase;
-import org.catrobat.catroid.test.R;
 
 public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
@@ -83,7 +83,7 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 		float initialSize = sprite.look.getSize();
 
 		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, positiveSize);
-		brick.execute();
+		//		brick.execute();
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize
 				+ (positiveSize / 100), sprite.look.getSize());
 
@@ -93,7 +93,7 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(null, positiveSize);
 
 		try {
-			brick.execute();
+			//			brick.execute();
 			fail("Execution of ChangeSizeByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior

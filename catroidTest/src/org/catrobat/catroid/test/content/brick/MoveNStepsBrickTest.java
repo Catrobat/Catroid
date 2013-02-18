@@ -33,11 +33,11 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("test");
 		MoveNStepsBrick moveNStepsBrick = new MoveNStepsBrick(sprite, 10);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 10f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 0f, sprite.look.getYPosition());
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 20f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 0f, sprite.look.getYPosition());
 	}
@@ -46,11 +46,11 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("test");
 		MoveNStepsBrick moveNStepsBrick = new MoveNStepsBrick(sprite, -10);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", -10f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 0f, sprite.look.getYPosition());
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", -20f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 0f, sprite.look.getYPosition());
 	}
@@ -61,11 +61,11 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 
 		sprite.look.setRotation(90);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 10f, sprite.look.getYPosition());
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 20f, sprite.look.getYPosition());
 	}
@@ -76,11 +76,11 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 
 		sprite.look.setRotation(-90);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", -10f, sprite.look.getYPosition());
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 0f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", -20f, sprite.look.getYPosition());
 	}
@@ -91,11 +91,11 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 
 		sprite.look.setRotation(45);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 7f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 7f, sprite.look.getYPosition());
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 14f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 14f, sprite.look.getYPosition());
 	}
@@ -106,11 +106,11 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 
 		sprite.look.setRotation(135);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", -7f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 7f, sprite.look.getYPosition());
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", -14f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 14f, sprite.look.getYPosition());
 	}
@@ -121,11 +121,11 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 
 		sprite.look.setRotation(-45);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 7f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", -7f, sprite.look.getYPosition());
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 14f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", -14f, sprite.look.getYPosition());
 	}
@@ -136,11 +136,11 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 
 		sprite.look.setRotation(-135);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", -7f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", -7f, sprite.look.getYPosition());
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", -14f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", -14f, sprite.look.getYPosition());
 	}
@@ -151,13 +151,13 @@ public class MoveNStepsBrickTest extends AndroidTestCase {
 
 		sprite.look.setRotation(10);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 10f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 2f, sprite.look.getYPosition());
 
 		sprite.look.setRotation(50);
 
-		moveNStepsBrick.execute();
+		//		moveNStepsBrick.execute();
 		assertEquals("Wrong x-position", 16f, sprite.look.getXPosition());
 		assertEquals("Wrong y-position", 10f, sprite.look.getYPosition());
 

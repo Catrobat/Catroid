@@ -135,16 +135,9 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 		editDialog.show(activity.getSupportFragmentManager(), "dialog_place_at_brick");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.catrobat.catroid.content.bricks.Brick#addActionToSequence(com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-	 * )
-	 */
 	@Override
 	public SequenceAction addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.placeAt(sprite, Float.valueOf(xPosition), Float.valueOf(yPosition)));
+		sequence.addAction(ExtendedActions.placeAt(Float.valueOf(xPosition), Float.valueOf(yPosition)));
 		return null;
 	}
 }

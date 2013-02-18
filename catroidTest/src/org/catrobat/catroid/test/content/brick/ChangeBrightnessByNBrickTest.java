@@ -41,7 +41,7 @@ public class ChangeBrightnessByNBrickTest extends AndroidTestCase {
 		brightness += brighter / 100f;
 
 		ChangeBrightnessByNBrick brick1 = new ChangeBrightnessByNBrick(sprite, brighter);
-		brick1.execute();
+		//		brick1.execute();
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
 				sprite.look.getBrightnessValue());
 
@@ -49,7 +49,7 @@ public class ChangeBrightnessByNBrickTest extends AndroidTestCase {
 		brightness += dimmer / 100f;
 
 		ChangeBrightnessByNBrick brick2 = new ChangeBrightnessByNBrick(sprite, dimmer);
-		brick2.execute();
+		//		brick2.execute();
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
 				sprite.look.getBrightnessValue());
 	}
@@ -57,7 +57,7 @@ public class ChangeBrightnessByNBrickTest extends AndroidTestCase {
 	public void testNullSprite() {
 		ChangeGhostEffectByNBrick brick = new ChangeGhostEffectByNBrick(null, brighter);
 		try {
-			brick.execute();
+			//			brick.execute();
 			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior

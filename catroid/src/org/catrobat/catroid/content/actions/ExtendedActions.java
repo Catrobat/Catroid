@@ -121,7 +121,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static GlideToAction glideTo(Sprite sprite, float x, float y, float duration, Interpolation interpolation) {
+	public static GlideToAction glideTo(float x, float y, float duration, Interpolation interpolation) {
 		GlideToAction action = action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(duration);
@@ -129,7 +129,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static GlideToAction placeAt(Sprite sprite, float x, float y) {
+	public static GlideToAction placeAt(float x, float y) {
 		GlideToAction action = action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(0);

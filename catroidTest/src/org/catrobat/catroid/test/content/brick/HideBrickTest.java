@@ -33,7 +33,7 @@ public class HideBrickTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("new sprite");
 		assertTrue("Unexpected default visibility", sprite.look.show);
 		HideBrick hideBrick = new HideBrick(sprite);
-		hideBrick.execute();
+		//		hideBrick.execute();
 		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.show);
 	}
 
@@ -41,7 +41,7 @@ public class HideBrickTest extends AndroidTestCase {
 		HideBrick hideBrick = new HideBrick(null);
 
 		try {
-			hideBrick.execute();
+			//			hideBrick.execute();
 			fail("Execution of HideBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior

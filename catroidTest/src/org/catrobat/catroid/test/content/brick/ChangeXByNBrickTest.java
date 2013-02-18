@@ -39,7 +39,7 @@ public class ChangeXByNBrickTest extends AndroidTestCase {
 		int xPosition = (int) sprite.look.getXPosition();
 
 		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, xMovement);
-		changeXByNBrick.execute();
+		//		changeXByNBrick.execute();
 
 		xPosition += xMovement;
 		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", (float) xPosition,
@@ -49,7 +49,7 @@ public class ChangeXByNBrickTest extends AndroidTestCase {
 	public void testNullSprite() {
 		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(null, xMovement);
 		try {
-			changeXByNBrick.execute();
+			//			changeXByNBrick.execute();
 			fail("Execution of ChangeXByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
@@ -62,7 +62,7 @@ public class ChangeXByNBrickTest extends AndroidTestCase {
 		int xPosition = 10;
 		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
 		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, Integer.MAX_VALUE);
-		changeXByNBrick.execute();
+		//		changeXByNBrick.execute();
 
 		assertEquals("ChangeXByNBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getXPosition());
@@ -70,7 +70,7 @@ public class ChangeXByNBrickTest extends AndroidTestCase {
 		xPosition = -10;
 		sprite.look.setXYPosition(xPosition, sprite.look.getYPosition());
 		changeXByNBrick = new ChangeXByNBrick(sprite, Integer.MIN_VALUE);
-		changeXByNBrick.execute();
+		//		changeXByNBrick.execute();
 
 		assertEquals("ChangeXByNBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getXPosition());

@@ -43,7 +43,7 @@ public class SpeakBrickTest extends AndroidTestCase {
 	public void testNullSprite() {
 		SpeakBrick speakBrick = new SpeakBrick(null, text);
 		try {
-			speakBrick.execute();
+			//			speakBrick.execute();
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			// expected behavior
