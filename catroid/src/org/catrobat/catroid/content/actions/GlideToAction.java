@@ -27,12 +27,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 public class GlideToAction extends TemporalAction {
 
 	private float startX, startY;
+	private float currentX, currentY;
 	private float endX, endY;
 
 	@Override
 	protected void begin() {
 		startX = actor.getX() + actor.getWidth() / 2f;
 		startY = actor.getY() + actor.getHeight() / 2f;
+		currentX = startX;
+		currentY = startY;
 		if (Float.compare(startX, endX) == 0 && Float.compare(startY, endY) == 0) {
 			super.finish();
 		}
@@ -40,8 +43,17 @@ public class GlideToAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		actor.setPosition(startX + (endX - startX) * percent - actor.getWidth() / 2f, startY + (endY - startY)
-				* percent - actor.getHeight() / 2f);
+		float deltaX = actor.getX() + actor.getWidth() / 2f - currentX;
+		float deltaY = actor.getY() + actor.getHeight() / 2f - currentY;
+		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
+			float currentDuration = getDuration() - getTime();
+			restart();
+			setDuration(currentDuration);
+		} else {
+			currentX = startX + (endX - startX) * percent;
+			currentY = startY + (endY - startY) * percent;
+			actor.setPosition(currentX - actor.getWidth() / 2f, currentY - actor.getHeight() / 2f);
+		}
 	}
 
 	public void setPosition(float x, float y) {
