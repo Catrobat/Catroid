@@ -71,7 +71,6 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 
-	private ActionBar actionBar;
 	private FragmentManager fragmentManager = getSupportFragmentManager();
 
 	private ScriptFragment scriptFragment = null;
@@ -103,11 +102,9 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
 
-		actionBar = getSupportActionBar();
-
+		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
-
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
@@ -117,6 +114,10 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		actionBar.setListNavigationCallbacks(spinnerAdapter, new OnNavigationListener() {
 			@Override
 			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+				if (isHoveringActive()) {
+					scriptFragment.getListView().animateHoveringBrick();
+					return true;
+				}
 				if (itemPosition != currentFragmentPosition) {
 
 					if (currentFragmentPosition == FRAGMENT_SOUNDS && soundFragment.isSoundPlaying()) {
@@ -125,7 +126,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-					hideFragment(currentFragmentPosition, fragmentTransaction);
+					fragmentTransaction.hide(getFragment(currentFragmentPosition));
 					updateCurrentFragment(itemPosition, fragmentTransaction);
 
 					fragmentTransaction.commit();
@@ -136,51 +137,38 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		actionBar.setSelectedNavigationItem(currentFragmentPosition);
 	}
 
-	private void hideFragment(int fragment, FragmentTransaction fragmentTransaction) {
-		switch (fragment) {
-			case FRAGMENT_SCRIPTS:
-				fragmentTransaction.hide(scriptFragment);
-				break;
-			case FRAGMENT_LOOKS:
-				fragmentTransaction.hide(lookFragment);
-				break;
-			case FRAGMENT_SOUNDS:
-				fragmentTransaction.hide(soundFragment);
-				break;
-		}
-	}
-
 	private void updateCurrentFragment(int fragmentPosition, FragmentTransaction fragmentTransaction) {
-		boolean fragmentDoesNotExist = false;
+		boolean fragmentExists = true;
 		currentFragmentPosition = fragmentPosition;
 
 		switch (currentFragmentPosition) {
 			case FRAGMENT_SCRIPTS:
 				if (scriptFragment == null) {
 					scriptFragment = new ScriptFragment();
-					fragmentDoesNotExist = true;
+					fragmentExists = false;
 				}
 				currentFragment = scriptFragment;
 				break;
 			case FRAGMENT_LOOKS:
 				if (lookFragment == null) {
 					lookFragment = new LookFragment();
-					fragmentDoesNotExist = true;
+					fragmentExists = false;
 				}
 				currentFragment = lookFragment;
 				break;
 			case FRAGMENT_SOUNDS:
 				if (soundFragment == null) {
 					soundFragment = new SoundFragment();
-					fragmentDoesNotExist = true;
+					fragmentExists = false;
 				}
 				currentFragment = soundFragment;
 				break;
 		}
-		if (fragmentDoesNotExist) {
-			fragmentTransaction.add(R.id.script_fragment_container, currentFragment);
-		} else {
+
+		if (fragmentExists) {
 			fragmentTransaction.show(currentFragment);
+		} else {
+			fragmentTransaction.add(R.id.script_fragment_container, currentFragment);
 		}
 	}
 
@@ -223,13 +211,16 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if (isHoveringActive()) {
+			scriptFragment.getListView().animateHoveringBrick();
+			return super.onOptionsItemSelected(item);
+		}
+
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				if (!isHoveringActive()) {
-					Intent intent = new Intent(this, MainMenuActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-				}
+				Intent mainMenuIntent = new Intent(this, MainMenuActivity.class);
+				mainMenuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(mainMenuIntent);
 				break;
 
 			case R.id.show_details:
@@ -260,8 +251,8 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 				break;
 
 			case R.id.settings:
-				Intent intent = new Intent(ScriptActivity.this, SettingsActivity.class);
-				startActivity(intent);
+				Intent settingsIntent = new Intent(ScriptActivity.this, SettingsActivity.class);
+				startActivity(settingsIntent);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -277,11 +268,11 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			ProjectManager projectManager = ProjectManager.getInstance();
-			int currentSpritePos = projectManager.getCurrentSpritePosition();
-			int currentScriptPos = projectManager.getCurrentScriptPosition();
+			int currentSpritePosition = projectManager.getCurrentSpritePosition();
+			int currentScriptPosition = projectManager.getCurrentScriptPosition();
 			projectManager.loadProject(projectManager.getCurrentProject().getName(), this, this, false);
-			projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-			projectManager.setCurrentScriptWithPosition(currentScriptPos);
+			projectManager.setCurrentSpriteWithPosition(currentSpritePosition);
+			projectManager.setCurrentScriptWithPosition(currentScriptPosition);
 		}
 	}
 
@@ -289,7 +280,7 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (currentFragmentPosition == FRAGMENT_SCRIPTS) {
-				DragAndDropListView listView = ((ScriptFragment) currentFragment).getListView();
+				DragAndDropListView listView = scriptFragment.getListView();
 				if (listView.isCurrentlyDragging()) {
 					listView.resetDraggingScreen();
 
@@ -308,7 +299,9 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	public void handlePlayButton(View view) {
-		if (!isHoveringActive()) {
+		if (isHoveringActive()) {
+			scriptFragment.getListView().animateHoveringBrick();
+		} else {
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
@@ -332,12 +325,10 @@ public class ScriptActivity extends SherlockFragmentActivity implements ErrorLis
 	}
 
 	public boolean isHoveringActive() {
-		if (currentFragmentPosition == FRAGMENT_SCRIPTS
-				&& ((ScriptFragment) currentFragment).getListView().setHoveringBrick()) {
+		if (currentFragmentPosition == FRAGMENT_SCRIPTS && scriptFragment.getListView().isCurrentlyDragging()) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public void handleShowDetails(boolean showDetails, MenuItem item) {

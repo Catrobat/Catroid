@@ -35,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.adapter.LookAdapter.OnLookEditListener;
@@ -376,7 +377,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -386,7 +387,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -396,7 +397,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), false);
+			BottomBar.disableButtons(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -720,7 +721,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -763,7 +764,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
@@ -812,7 +813,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			setActionModeActive(false);
 
 			registerForContextMenu(listView);
-			Utils.setBottomBarActivated(getActivity(), true);
+			BottomBar.enableButtons(getActivity());
 		}
 	};
 
