@@ -34,8 +34,8 @@ import java.util.List;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -65,9 +65,6 @@ public class StorageHandler {
 
 		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
-		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
-		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
-		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 
 		if (!Utils.externalStorageAvailable()) {
 			throw new IOException("Could not read external storage");
